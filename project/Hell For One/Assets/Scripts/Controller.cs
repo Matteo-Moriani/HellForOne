@@ -10,9 +10,10 @@ public class Controller : MonoBehaviour
     public float rotationSpeed = 100.0f;
     public Rigidbody rb;
     public float zMovement, xMovement, resultingMovement;
-    public Vector3 newPosition;
+    public Vector3 newZPosition, newXPosition, resultingNewPosition;
     public Camera camera;
     public GameObject mainCamera;
+    public cameraManager cameraManager;
 
     public float yRotation;
     public float xRotation;
@@ -23,6 +24,9 @@ public class Controller : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCamera = GameObject.FindGameObjectWithTag( "MainCamera" );
         camera = mainCamera.GetComponent<Camera>();
+        cameraManager = mainCamera.GetComponent<cameraManager>();
+        newZPosition = new Vector3();
+        newXPosition = new Vector3();
     }
 
     // Update is called once per frame
@@ -45,29 +49,21 @@ public class Controller : MonoBehaviour
             zMovement *= Time.deltaTime;
             xMovement *= Time.deltaTime;
 
-            Vector3 newZPosition = new Vector3( 0, 0, zMovement );
-            Vector3 newXPosition = new Vector3( xMovement, 0, 0 );
+            // These 2 Vectors can be comprimed in 1 with the 2 components
+            newZPosition.Set( 0, 0, zMovement );
+            newXPosition.Set( xMovement, 0, 0 );
 
-            Vector3 resultingNewPosition = newZPosition + newXPosition;
-            resultingNewPosition *= 10;
+            resultingNewPosition = (newZPosition + newXPosition) * 10;
 
-            //Quaternion orientation = new Quaternion( 0, xMovement, 0, 0 );
-            //transform.rotation = orientation;
-
-            //newPosition = new Vector3(  - transform.position.x, 0, zMovement - transform.position.z );
+            // TransformDirection transform the vector using local space into a vector using world's space
+            resultingNewPosition = Camera.main.transform.TransformDirection( resultingNewPosition );
+            resultingNewPosition.y = 0.0f;
 
             transform.rotation = Quaternion.LookRotation( resultingNewPosition );
-            transform.position += new Vector3( newXPosition.x, 0, newZPosition.z ).normalized * 10 * Time.deltaTime;
+
+            transform.position += resultingNewPosition.normalized * 10 * Time.deltaTime;
 
             mainCamera.transform.position += new Vector3( newXPosition.x, 0, newZPosition.z ).normalized * 10 * Time.deltaTime;
-
-            // Move translation along the object's z-axis
-            //transform.Translate( 0, 0, zMovement );
-
-
-            // Rotate around our y-axis
-            //We don't want to rotate, we want a sharp turn and then he goes that way
-            //transform.Rotate( 0, xMovement, 0 );
         }
 
 
@@ -75,8 +71,5 @@ public class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //transform.SetPositionAndRotation( newPosition, Quaternion.identity );
-        //transform.Translate( 0, 0, resultingMovement );
-        //rb.AddForce(0, 0, translation);
     }
 }
