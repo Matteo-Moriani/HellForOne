@@ -276,8 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ed58e0d1802a640ba3d120c3ea4756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yRotation: 0
-  rotation: {x: 0, y: 0, z: 0}
+  turnSpeed: 4
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1195146361
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +385,7 @@ PrefabInstance:
     - target: {fileID: 339956591795193809, guid: 22bd37402f4284b47a0e34bdce475dca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 339956591795193809, guid: 22bd37402f4284b47a0e34bdce475dca,
         type: 3}
