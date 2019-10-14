@@ -1,14 +1,28 @@
-1 gestine controller
-2 gestione del gruppo, flocking, divisione in sottogruppi, movimento
-3 strategie (Attacco, tank, ranged atk, support)
-4 reincarnazione (switch camera)
-5 entrata/uscita dal minigruppo
-6 sistema calcolo danni
-7 player movement, dash (schivata)
-8 lancio proiettile per attaco a distanza
-9 knockback
-10 orda segue il player
-11 lock camera
-12 HUD
-13 indicatori target nemico e player
-14 gestione della probabilità di parata dei minion
+ANDREA + MATTEO
+gestione controller, player movement
+lock camera
+reincarnazione (switch camera)
+
+ALESSANDRO
+dash e frame di invincibilità
+
+
+FEDERICO
+
+
+
+
+
+TO DO
+gestione gruppi e demoni dentro i gruppi, flocking, selezione gruppo
+gestione stati gruppi (strategie)
+movimento gruppi in base a stato fsm
+entrata/uscita demone da un gruppo (regen / reincarnation)
+collisioni/riconoscere attacco e parata
+movimento knockback
+sistema calcolo danni
+gestione parametri demoni: probabilità parata, valore attacco
+lancio proiettile per attaco a distanza
+HUD: barra vita, doppia ruota, strategie attuali, indicatori target, minimappa (?)
+fsm e movimento boss (scheletro)
+eventi scriptati (inizio combattimento, fiamme - muri invisibili attorno all'arena)
