@@ -24,7 +24,6 @@ public class TargetScript : MonoBehaviour
 
     public float GetAggro() {
         return aggro;
-
     }
 
     private void NewRandomAggro() {
