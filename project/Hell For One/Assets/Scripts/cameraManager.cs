@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class cameraManager : MonoBehaviour
 {
-
     GameObject player;
-    public float turnSpeed = 4.0f;
-    public Vector3 offset;
+    [SerializeField]
+    private float turnSpeed = 4.0f;
+    private Vector3 offset;
 
     void Start()
     {

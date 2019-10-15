@@ -4,15 +4,143 @@ using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // This script is attached to invisible gameobjacts that manage the single group
+
+    #region FSM
+
+    private FSM groupFSM;
+
+    // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)
+    public enum State
     {
-        
+        MeleeAttack,
+        Tank,
+        RangeAttack,
+        Support
     }
 
-    // Update is called once per frame
+    // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
+    private bool inCombat = false;
+    private State currentState, newState;
+    private bool orderConfirmed;
+    FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
+
+    // The time after the next update of the FSM
+    [SerializeField]
+    private float reactionTime = 1f;
+
+    public bool MeleeOrderGiven()
+    {
+        if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
+            return true;
+        return false;
+    }
+
+    public bool TankOrderGiven()
+    {
+        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Tank) )
+            return true;
+        return false;
+    }
+
+    public bool RangeAttackOrderGiven()
+    {
+        if ( (newState != currentState) && (orderConfirmed) && (newState == State.RangeAttack) )
+            return true;
+        return false;
+    }
+
+    public bool SupportOrderGiven()
+    {
+        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
+            return true;
+        return false;
+    }
+
+    public bool Idle()
+    {
+        if ( !inCombat )
+            return true;
+        return false;
+    }
+
+    public bool EnterCombat()
+    {
+        if ( !Idle() )
+            return true;
+        return false;
+    }
+
+    #endregion
+
+    public FSMState getCurrentFSMState( State state )
+    {
+        switch ( state )
+        {
+            case State.MeleeAttack:
+                return meleeState;
+            case State.Tank:
+                return tankState;
+            case State.RangeAttack:
+                return rangeAttackState;
+            case State.Support:
+                return supportState;
+        }
+        return null;
+    }
+
+    // The coroutine that cycles through the FSM
+    public IEnumerator MoveThroughFSM()
+    {
+        while ( true )
+        {
+            groupFSM.Update();
+            yield return new WaitForSeconds( reactionTime );
+        }
+    }
+
+    void Start()
+    {
+        FSMTransition t1 = new FSMTransition( MeleeOrderGiven );
+        FSMTransition t2 = new FSMTransition( TankOrderGiven );
+        FSMTransition t3 = new FSMTransition( RangeAttackOrderGiven );
+        FSMTransition t4 = new FSMTransition( SupportOrderGiven );
+        FSMTransition t5 = new FSMTransition( Idle );
+        FSMTransition t6 = new FSMTransition( EnterCombat );
+
+        meleeState = new FSMState();
+        tankState = new FSMState();
+        rangeAttackState = new FSMState();
+        supportState = new FSMState();
+        idleState = new FSMState();
+
+        meleeState.AddTransition( t2, tankState );
+        meleeState.AddTransition( t3, rangeAttackState );
+        meleeState.AddTransition( t4, supportState );
+        meleeState.AddTransition( t5, idleState );
+
+        tankState.AddTransition( t1, meleeState );
+        tankState.AddTransition( t3, rangeAttackState );
+        tankState.AddTransition( t4, supportState );
+        tankState.AddTransition( t5, idleState );
+
+        rangeAttackState.AddTransition( t1, meleeState );
+        rangeAttackState.AddTransition( t2, tankState );
+        rangeAttackState.AddTransition( t4, supportState );
+        rangeAttackState.AddTransition( t5, idleState );
+
+        supportState.AddTransition( t1, meleeState );
+        supportState.AddTransition( t2, tankState );
+        supportState.AddTransition( t3, rangeAttackState );
+        supportState.AddTransition( t5, idleState );
+
+        idleState.AddTransition( t6, getCurrentFSMState( currentState ) );
+
+        groupFSM = new FSM( idleState );
+    }
+
     void Update()
     {
-        
+
     }
 }

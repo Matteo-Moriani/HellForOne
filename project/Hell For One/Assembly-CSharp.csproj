@@ -57,6 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AI\CRBehaviuorTree.cs" />
+    <Compile Include="Assets\Scripts\AI\FSM.cs" />
     <Compile Include="Assets\Scripts\Alessandro\Attack.cs" />
     <Compile Include="Assets\Scripts\Alessandro\Dash.cs" />
     <Compile Include="Assets\Scripts\Alessandro\Weapon.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Assets\Scripts\GroupBehaviour.cs" />
     <Compile Include="Assets\Scripts\Matteo\BossBehavior.cs" />
     <Compile Include="Assets\Scripts\Matteo\TargetScript.cs" />
+    <Compile Include="Assets\Scripts\TacticsManager.cs" />
     <Reference Include="Unity.InputSystem">
       <HintPath>C:/Users/drugh/Documents/Unity Projects/HellForOne/project/Hell For One/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>

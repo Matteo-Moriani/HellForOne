@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour
     [Header("Stats")]
     [SerializeField]
     private float rotateSpeed = 5f;
+    [SerializeField]
     private float runSpeed = 10f;
 
     void Update()
