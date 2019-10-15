@@ -6,17 +6,13 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     [Header("Input")]
-    public float zMovement, xMovement;
-    public float moveAmount, moveDir;
-    public bool run;
+    private float zMovement, xMovement;
+    private float moveAmount, moveDir;
 
     [Header("Stats")]
-    public float rotateSpeed = 5f;
-    public float runSpeed = 10f;
-
-    void Start()
-    {
-    }
+    [SerializeField]
+    private float rotateSpeed = 5f;
+    private float runSpeed = 10f;
 
     void Update()
     {
