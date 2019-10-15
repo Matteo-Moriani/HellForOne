@@ -1,16 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectTactics : MonoBehaviour
+public class TacticsManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public enum Group
     {
-        
+        GroupA,
+        GroupB,
+        GroupC,
+        GroupD
     }
 
-    // Update is called once per frame
+    private GroupBehaviour.State[] tacticArray;
+    private Group[] groupsArray;
+
+    private int tacticsIndex, groupsIndex = 0;
+
+    void Start()
+    {
+        tacticArray = new GroupBehaviour.State[ 4 ];
+        foreach(GroupBehaviour.State s in (GroupBehaviour.State[]) Enum.GetValues( typeof( GroupBehaviour.State ) ) )
+        {
+            tacticArray[ tacticsIndex ] = s;
+            tacticsIndex ++;
+        }
+
+        groupsArray
+    }
+
     void Update()
     {
         
