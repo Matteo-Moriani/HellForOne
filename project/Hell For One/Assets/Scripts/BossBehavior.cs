@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+//[RequireComponent(typeof(NavMeshAgent))]
 
 public class BossBehavior : MonoBehaviour
 {
+    public float speed = 8f;
+    [Range(0f,1f)]
+    public float rotSpeed = 0.1f;
+    public float stopDist = 4f;
+    public float pause = 3f;
+
     private GameObject[] demonGroups;
     private GameObject currentTarget;
     private float[] aggroValues;
@@ -39,6 +45,24 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
+    void FixedUpdate() {
+        Vector3 targetPosition = currentTarget.transform.position;
+
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        vectorToTarget.y = 0f;
+        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        transform.rotation = newRotation;
+
+
+        //in case for some reason I don't have a current target
+        if(currentTarget.transform) {
+            if(HorizDistFromTarget(currentTarget) > stopDist) {
+                transform.position += transform.forward * speed * Time.deltaTime;
+            }
+        }
+    }
+
     private void ChooseTarget() {
         float totalAggro = 0f;
         for(int i = 0; i < demonGroups.Length; i++) {
@@ -63,17 +87,17 @@ public class BossBehavior : MonoBehaviour
 
     private IEnumerator MainRoutine() {
         while(true) {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(pause);
 
             ChooseTarget();
             attacked = false;
-            MoveToTarget();
+            //MoveToTarget();
         }
     }
 
-    private void MoveToTarget() {
-        GetComponent<NavMeshAgent>().destination = currentTarget.GetComponent<Transform>().position;
-    }
+    //private void MoveToTarget() {
+    //    GetComponent<NavMeshAgent>().destination = currentTarget.GetComponent<Transform>().position;
+    //}
 
     private void RandomAttack(GameObject targetGroup) {
         float random = Random.Range(0f, singleAttackProb+groupAttackProb+globalAttackProb);
