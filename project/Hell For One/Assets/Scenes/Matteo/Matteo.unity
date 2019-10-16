@@ -122,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 5970374124213441921, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
       propertyPath: m_Name
-      value: Target D
+      value: Target Green
       objectReference: {fileID: 0}
     - target: {fileID: 5341266141774183678, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
@@ -179,6 +179,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5868696812664125684, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e5d92e572689a694a8b14e217ff5ae00, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec85ed2b198fa2444ad7ab4a039e8f69, type: 3}
 --- !u!1001 &374992283
@@ -191,7 +196,7 @@ PrefabInstance:
     - target: {fileID: 5970374124213441921, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
       propertyPath: m_Name
-      value: Target C
+      value: Target Purple
       objectReference: {fileID: 0}
     - target: {fileID: 5341266141774183678, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
@@ -248,6 +253,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5868696812664125684, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d3f4cb5607313b34cb2e24b596697a10, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec85ed2b198fa2444ad7ab4a039e8f69, type: 3}
 --- !u!1001 &483537741
@@ -260,7 +270,7 @@ PrefabInstance:
     - target: {fileID: 5970374124213441921, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
       propertyPath: m_Name
-      value: Target B
+      value: Target Yellow
       objectReference: {fileID: 0}
     - target: {fileID: 5341266141774183678, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
@@ -317,6 +327,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5868696812664125684, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cd01d5364614bd94992e33519cc65005, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec85ed2b198fa2444ad7ab4a039e8f69, type: 3}
 --- !u!1 &696375136
@@ -639,6 +654,36 @@ PrefabInstance:
       propertyPath: rotSpeed
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 2636384295940822958, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: pause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636384295940822958, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: fsmReactionTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636384295940822958, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: btReactionTime
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636384295940822958, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: wait
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636384295940822958, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: stare
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2636384297324229278, guid: 9a76a342a3953aa40968aebf625b0584,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a76a342a3953aa40968aebf625b0584, type: 3}
 --- !u!1001 &8573357045844024114
@@ -651,7 +696,7 @@ PrefabInstance:
     - target: {fileID: 5970374124213441921, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}
       propertyPath: m_Name
-      value: Target A
+      value: Target Red
       objectReference: {fileID: 0}
     - target: {fileID: 5341266141774183678, guid: ec85ed2b198fa2444ad7ab4a039e8f69,
         type: 3}

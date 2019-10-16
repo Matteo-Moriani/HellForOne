@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
+
 public class BossBehavior : MonoBehaviour
 {
     public float speed = 8f;
     [Range(0f,1f)]
     public float rotSpeed = 0.1f;
-    public float stopDist = 4f;
-    public float pause = 3f;
+    public float stopDist = 4.5f;
+    public float stare = 2f;
+    public float timeout = 5f;
     public float initialHP = 100f;
 
     private GameObject[] demonGroups;
@@ -23,17 +26,20 @@ public class BossBehavior : MonoBehaviour
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;
-    private bool timerRunning = false;
+    private bool timerStarted = false;
+    private bool timerStillGoing = false;
     private bool resetFightingBT = false;
     private CRBT.BehaviorTree FightingBT;
     private Coroutine fightingCR;
+    private Coroutine timer;
     private bool canWalk = false;
 
 
     FSMState waitingState, fightingState, stunnedState;
 
     [SerializeField]
-    private float fsmReactionTime = 1f;
+    private float fsmReactionTime = 0.5f;
+    [SerializeField]
     private float btReactionTime = 0.05f;
 
     public bool PlayerApproaching() {
@@ -55,7 +61,7 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool RecoverFromStun() {
-        StartCoroutine(WaitSeconds(5));
+        //StartCoroutine(WaitSeconds(5));
         return true;
     }
 
@@ -127,14 +133,11 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitSeconds(int s) {
+    private IEnumerator Timer(float s) {
+        timerStarted = true;
+        timerStillGoing = true;
         yield return new WaitForSeconds(s);
-    }
-
-    private IEnumerator Timer(int s) {
-        timerRunning = true;
-        yield return new WaitForSeconds(s);
-        timerRunning = false;
+        timerStillGoing = false;
     }
 
     private void SingleAttack() {
@@ -154,15 +157,26 @@ public class BossBehavior : MonoBehaviour
         return (targetPosition - transform.position).magnitude;
     }
 
-    public bool TimeoutStarted() {
-        return timerRunning;
+    public bool TimerStarted() {
+        return timerStarted;
     }
 
-    public bool TimeoutEnded() {
-        return !timerRunning;
+    public bool TimerStillGoing() {
+        if(!timerStillGoing) {
+            ResetTimer();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void ResetTimer() {
+        timerStarted = false;
+        timerStillGoing = false;
     }
 
     public bool ChooseTarget() {
+        ResetTimer();
 
         if(GameObject.FindGameObjectsWithTag("Demon").Length == 0)
             return false;
@@ -180,12 +194,15 @@ public class BossBehavior : MonoBehaviour
             if(random > probability[i - 1] && random <= probability[i])
                 currentTarget = demonGroups[i - 1];
         }
+        Debug.Log("target: " + currentTarget.name);
 
         return true;
     }
 
-    public bool WaitABit() {
-        StartCoroutine(WaitSeconds(2));
+    public bool StareAtTarget() {
+        if(timer != null)
+            StopCoroutine(timer);
+        timer = StartCoroutine(Timer(stare));
         return true;
     }
 
@@ -199,8 +216,9 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    public bool StartTimer() {
-        StartCoroutine(Timer(5));
+    public bool TimeoutAttack() {
+        StopCoroutine(timer);
+        timer = StartCoroutine(Timer(timeout));
         return true;
     }
 
@@ -218,28 +236,30 @@ public class BossBehavior : MonoBehaviour
 
     public CRBT.BehaviorTree FightingBTBuilder() {
 
-        CRBT.BTCondition c1 = new CRBT.BTCondition(TimeoutStarted);
-        CRBT.BTCondition c2 = new CRBT.BTCondition(TimeoutEnded);
+        CRBT.BTCondition started = new CRBT.BTCondition(TimerStarted);
+        CRBT.BTCondition going = new CRBT.BTCondition(TimerStillGoing);
 
-        CRBT.BTAction a1 = new CRBT.BTAction(ChooseTarget);
-        CRBT.BTAction a2 = new CRBT.BTAction(WaitABit);
-        CRBT.BTAction a3 = new CRBT.BTAction(StartTimer);
-        CRBT.BTAction a4 = new CRBT.BTAction(WalkToTarget);
-        CRBT.BTAction a5 = new CRBT.BTAction(RandomAttack);
+        CRBT.BTAction target = new CRBT.BTAction(ChooseTarget);
+        CRBT.BTAction stare = new CRBT.BTAction(StareAtTarget);
+        CRBT.BTAction timeout = new CRBT.BTAction(TimeoutAttack);
+        CRBT.BTAction walk = new CRBT.BTAction(WalkToTarget);
+        CRBT.BTAction attack = new CRBT.BTAction(RandomAttack);
 
-        CRBT.BTSelector sel1 = new CRBT.BTSelector(new CRBT.IBTTask[] { c1, a3 });
+        CRBT.BTSelector sel1 = new CRBT.BTSelector(new CRBT.IBTTask[] { started, timeout });
+        CRBT.BTSelector sel3 = new CRBT.BTSelector(new CRBT.IBTTask[] { started, stare });
+        CRBT.BTSequence seq4 = new CRBT.BTSequence(new CRBT.IBTTask[] { going, walk });
 
-        CRBT.BTSelector sel2 = new CRBT.BTSelector(new CRBT.IBTTask[] { c2, a4 });
-
-        CRBT.BTSequence seq1 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel1, sel2 });
-
+        CRBT.BTSequence seq1 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel1, seq4 });
         CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail(seq1);
 
-        CRBT.BTSequence seq2 = new CRBT.BTSequence(new CRBT.IBTTask[] { a1, a2, uf1, a5 });
+        CRBT.BTSequence seq3 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel3, going });
+        CRBT.BTDecoratorUntilFail uf2 = new CRBT.BTDecoratorUntilFail(seq3);
 
-        CRBT.BTDecoratorUntilFail utf2 = new CRBT.BTDecoratorUntilFail(seq2);
+        CRBT.BTSequence seq2 = new CRBT.BTSequence(new CRBT.IBTTask[] { target, uf2, uf1, attack });
 
-        return new CRBT.BehaviorTree(utf2);
+        CRBT.BTDecoratorUntilFail root = new CRBT.BTDecoratorUntilFail(seq2);
+
+        return new CRBT.BehaviorTree(root);
     }
 
     public IEnumerator FightingLauncherCR() {
