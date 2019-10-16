@@ -4,7 +4,6 @@ using UnityEngine;
 
 // -TODO- No Damage Frames
 // -TODO- Cash position
-
 public class Dash : MonoBehaviour
 {
     [SerializeField]
@@ -18,7 +17,7 @@ public class Dash : MonoBehaviour
     private float dashCooldown = 1.0f;
     [SerializeField]
     [Tooltip("How close we have to get to target position before we can start moving again")]
-    private float tollerance = 0.5f;
+    private float tollerance = 0.1f;
     
     private float cooldownCounter;
     private float lerpTimer;
@@ -44,7 +43,7 @@ public class Dash : MonoBehaviour
     {
         DashCycle();
     }
-
+    
     /// <summary>
     /// Method that manages the dash cycle
     /// </summary>
@@ -60,7 +59,6 @@ public class Dash : MonoBehaviour
         {
             // Move the player of dashSize units into our input axis direction.
             targetPosition = this.transform.position + (new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")) * dashSize);
-
             isDashing = true;
             controller.enabled = false;
             cooldownCounter = 0.0f;
@@ -75,12 +73,8 @@ public class Dash : MonoBehaviour
             // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
             this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, lerpTimer * dashSpeed);
             
-            // If we reach our destination we stop lerping
-            if  (    Mathf.Abs(this.transform.position.x ) >= 
-                    ( Mathf.Abs(targetPosition.x) - Mathf.Abs(tollerance) ) && 
-                    Mathf.Abs(this.transform.position.z) >= 
-                    (Mathf.Abs(targetPosition.z) - Mathf.Abs(tollerance))
-                )
+            // If we reach our destination (with some tollerance) we stop lerping
+            if(Vector3.Distance(this.transform.position,targetPosition)<tollerance)
             {
                 isDashing = false;
                 controller.enabled = true;
