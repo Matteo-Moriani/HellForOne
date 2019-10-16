@@ -277,7 +277,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 4
-  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1195146361
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,5 +441,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 97ff3d0a7c7e28546b075e668e67aa64, type: 2}
+    - target: {fileID: 114499028434102556, guid: 22bd37402f4284b47a0e34bdce475dca,
+        type: 3}
+      propertyPath: movement.m_Name
+      value: Movement
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22bd37402f4284b47a0e34bdce475dca, type: 3}

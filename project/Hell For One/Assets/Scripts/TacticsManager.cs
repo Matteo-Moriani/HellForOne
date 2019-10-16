@@ -23,7 +23,7 @@ public class TacticsManager : MonoBehaviour
 
     private int tacticsIndex, groupsIndex = 0;
 
-    PS4Controller PS4Controller;
+    Controls controls;
 
     public void FillArrays()
     {
@@ -49,10 +49,20 @@ public class TacticsManager : MonoBehaviour
 
     void Awake()
     {
-        PS4Controller = new PS4Controller();
+        controls = new Controls();
 
         // I don't care about the Context
-        PS4Controller.Gamplay.ConfirmOrder.performed += ctx => ConfirmOrder();
+        controls.Gameplay.ConfirmOrder.performed += ctx => ConfirmOrder();
+    }
+
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 
     void Start()

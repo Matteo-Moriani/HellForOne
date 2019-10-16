@@ -2,18 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 
 public class Controller : MonoBehaviour
 {
     [Header("Input")]
     private float zMovement, xMovement;
     private float moveAmount, moveDir;
+    [SerializeField] private InputAction movement;
+    [SerializeField] private InputActionAsset playerControls;
 
     [Header("Stats")]
     [SerializeField]
     private float rotateSpeed = 5f;
     [SerializeField]
     private float runSpeed = 10f;
+
+    private void Awake()
+    {
+        var gameplayActionMap = playerControls.GetActionMap( "Gameplay" );
+
+        movement = gameplayActionMap.GetAction( "Movement" );
+    }
 
     void Update()
     {
