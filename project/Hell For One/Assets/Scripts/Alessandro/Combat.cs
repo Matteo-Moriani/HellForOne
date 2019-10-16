@@ -10,13 +10,13 @@ public class Combat : MonoBehaviour
     [SerializeField]
     private float colliderDuration=0.1f;
 
-    private PlayerCombatCollisions playerCombatCollisions;
+    private CombatCollisions CombatCollisions;
 
     private bool isBlockCRoutineRunning = false;
 
     private void Start()
     {
-        playerCombatCollisions = weaponCollider.GetComponent<PlayerCombatCollisions>();    
+        CombatCollisions = weaponCollider.GetComponent<CombatCollisions>();    
     }
 
     void Update()
@@ -41,25 +41,25 @@ public class Combat : MonoBehaviour
     }
 
     IEnumerator AttackCoroutine() { 
-        playerCombatCollisions.SetMode(PlayerCombatCollisions.Mode.Attack);
+        CombatCollisions.SetMode(CombatCollisions.Mode.Attack);
         weaponCollider.SetActive(true);
         yield return new WaitForSeconds(colliderDuration);
         weaponCollider.SetActive(false);
-        playerCombatCollisions.SetMode(PlayerCombatCollisions.Mode.Idle);
+        CombatCollisions.SetMode(CombatCollisions.Mode.Idle);
         yield return null;
     }
 
     IEnumerator BlockCoroutine() { 
         isBlockCRoutineRunning = true;
         weaponCollider.SetActive(true);
-        playerCombatCollisions.SetMode(PlayerCombatCollisions.Mode.Block);
+        CombatCollisions.SetMode(CombatCollisions.Mode.Block);
 
         while (Input.GetMouseButton(1)) { 
             yield return null;
         }
 
         weaponCollider.SetActive(false);
-        playerCombatCollisions.SetMode(PlayerCombatCollisions.Mode.Idle);
+        CombatCollisions.SetMode(CombatCollisions.Mode.Idle);
         isBlockCRoutineRunning = false;
 
         yield return null;
