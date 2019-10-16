@@ -18,19 +18,21 @@ public class TacticsManager : MonoBehaviour
     [SerializeField]
     private bool cross, square, triangle, circle, L1, R1, L2, R2, R3 = false;
 
-    private GroupBehaviour.State[] tacticArray;
+    [SerializeField]
+    private GroupBehaviour.State currentShowedState;
+    private GroupBehaviour.State[] tacticsArray;
     private Group[] groupsArray;
+    [SerializeField]
+    private Group currentShowedGroup;
 
     private int tacticsIndex, groupsIndex = 0;
 
-    Controls controls;
-
     public void FillArrays()
     {
-        tacticArray = new GroupBehaviour.State[ 4 ];
+        tacticsArray = new GroupBehaviour.State[ 4 ];
         foreach ( GroupBehaviour.State s in ( GroupBehaviour.State[] ) Enum.GetValues( typeof( GroupBehaviour.State ) ) )
         {
-            tacticArray[ tacticsIndex ] = s;
+            tacticsArray[ tacticsIndex ] = s;
             tacticsIndex++;
         }
 
@@ -42,46 +44,59 @@ public class TacticsManager : MonoBehaviour
         }
     }
 
+    public int IncrementCircularArrayIndex(int index, int arrayLength)
+    {
+        return (index + 1) % arrayLength;
+    }
+
     public void ConfirmOrder()
     {
         cross = true;
     }
 
-    void Awake()
+    public void AssignOrderToGroup(GroupBehaviour.State state, Group group)
     {
-        controls = new Controls();
-
-        // I don't care about the Context
-        controls.Gameplay.ConfirmOrder.performed += ctx => ConfirmOrder();
-    }
-
-    private void OnEnable()
-    {
-        controls.Gameplay.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Gameplay.Disable();
+        GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>().newState = state;
     }
 
     void Start()
     {
         FillArrays();
+        groupsIndex = 0;
+        tacticsIndex = 0;
+        currentShowedState = tacticsArray[ tacticsIndex ];
+        currentShowedGroup = groupsArray[ groupsIndex ];
     }
 
     void Update()
     {
-        //cross = Input.GetButton( "cross" );
-        //square = Input.GetButton( "square" );
-        //triangle = Input.GetButtonDown( "triangle" );
-        //circle = Input.GetButtonDown( "circle" );
-        //L1 = Input.GetButtonDown( "L1" );
-        //R1 = Input.GetButtonDown( "R1" );
-        //L2 = Input.GetButtonDown( "L2" );
-        //R2 = Input.GetButtonDown( "R2" );
-        //R3 = Input.GetButtonDown( "R3" );
+        cross = Input.GetButtonDown( "cross" );
+        square = Input.GetButtonDown( "square" );
+        triangle = Input.GetButtonDown( "triangle" );
+        circle = Input.GetButtonDown( "circle" );
+        L1 = Input.GetButtonDown( "L1" );
+        R1 = Input.GetButtonDown( "R1" );
+        L2 = Input.GetButtonDown( "L2" );
+        R2 = Input.GetButtonDown( "R2" );
+        R3 = Input.GetButtonDown( "R3" );
 
+        if ( cross )
+        {
+            //TODO confirm order
+        }
 
+        if ( R2 )
+        {
+            groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
+            currentShowedGroup = groupsArray[ groupsIndex ];
+            Debug.Log( currentShowedGroup );
+        }
+
+        if ( L2 )
+        {
+            tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
+            currentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
+            Debug.Log( currentShowedState );
+        }
     }
 }

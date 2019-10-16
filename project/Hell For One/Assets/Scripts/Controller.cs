@@ -6,31 +6,22 @@ using UnityEngine.Experimental.Input;
 
 public class Controller : MonoBehaviour
 {
-    [Header("Input")]
+    [Header( "Input" )]
     private float zMovement, xMovement;
     private float moveAmount, moveDir;
-    [SerializeField] private InputAction movement;
-    [SerializeField] private InputActionAsset playerControls;
 
-    [Header("Stats")]
+    [Header( "Stats" )]
     [SerializeField]
     private float rotateSpeed = 5f;
     [SerializeField]
     private float runSpeed = 10f;
-
-    private void Awake()
-    {
-        var gameplayActionMap = playerControls.GetActionMap( "Gameplay" );
-
-        movement = gameplayActionMap.GetAction( "Movement" );
-    }
 
     void Update()
     {
         zMovement = Input.GetAxis( "Vertical" );
         xMovement = Input.GetAxis( "Horizontal" );
 
-        if ( (zMovement != 0f || xMovement != 0f) )
+        if ( zMovement != 0 || xMovement != 0 )
         {
             Vector3 vertical = zMovement * Camera.main.transform.forward;
             Vector3 horizontal = xMovement * Camera.main.transform.right;
