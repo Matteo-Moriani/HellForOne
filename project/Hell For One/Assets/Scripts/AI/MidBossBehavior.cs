@@ -5,27 +5,25 @@ using UnityEngine.AI;
 
 // ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
 
-public class BossBehavior : MonoBehaviour
-{
-    public float speed = 8f;
-    [Range(0f,1f)]
-    public float rotSpeed = 0.1f;
-    public float stopDist = 4.5f;
-    public float stare = 2f;
-    public float timeout = 5f;
-    public float initialHP = 100f;
+public class MidBossBehavior : MonoBehaviour {
+    public float speed = 5f;
     [Range(0f, 1f)]
-    public float changeTargetProb = 0.3f;
+    public float rotSpeed = 0.1f;
+    public float stopDist = 4f;
+    public float stare = 5f;
+    public float timeout = 7f;
+    public float initialHP = 70f;
+    [Range(0f, 1f)]
+    public float changeTargetProb = 0.1f;
 
     private GameObject[] demonGroups;
     private GameObject currentTarget;
     private float[] aggroValues;
     private float[] probability;
-    private readonly float singleAttackProb = 0.6f;
-    private readonly float groupAttackProb = 0.3f;
-    private readonly float globalAttackProb = 0.1f;
+    private readonly float singleAttackProb = 0.7f;
+    private readonly float globalAttackProb = 0.3f;
     private float crisis = 0f;
-    private float crisisMax = 50f;
+    private float crisisMax = 40f;
     private float hp;
     private FSM bossFSM;
     private bool timerStarted = false;
@@ -57,7 +55,7 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool LifeIsHalven() {
-        if(hp <= initialHP/2)
+        if(hp <= initialHP / 2)
             return true;
         return false;
     }
@@ -152,11 +150,9 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool RandomAttack() {
-        float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
+        float random = Random.Range(0f, singleAttackProb + globalAttackProb);
         if(random < singleAttackProb)
             SingleAttack();
-        else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb)
-            GroupAttack();
         else
             GlobalAttack();
 
@@ -213,8 +209,7 @@ public class BossBehavior : MonoBehaviour
 
     #endregion
 
-    void Start()
-    {
+    void Start() {
         FSMTransition t0 = new FSMTransition(PlayerApproaching);
         FSMTransition t1 = new FSMTransition(CrisisFull);
         FSMTransition t2 = new FSMTransition(LifeIsHalven);
@@ -229,7 +224,7 @@ public class BossBehavior : MonoBehaviour
         fightingState.exitActions.Add(StopFightingBT);
 
         stunnedState = new FSMState();
-        
+
 
         waitingState.AddTransition(t0, fightingState);
         fightingState.AddTransition(t1, stunnedState);
@@ -248,10 +243,9 @@ public class BossBehavior : MonoBehaviour
 
         StartCoroutine(MoveThroughFSM());
     }
-    
-    void Update()
-    {
-       
+
+    void Update() {
+
     }
 
     void FixedUpdate() {
@@ -282,10 +276,6 @@ public class BossBehavior : MonoBehaviour
 
     private void SingleAttack() {
         Debug.Log("single attack!");
-    }
-
-    private void GroupAttack() {
-        Debug.Log("group attack!");
     }
 
     private void GlobalAttack() {

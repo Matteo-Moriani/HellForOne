@@ -21,8 +21,9 @@ public class GroupBehaviour : MonoBehaviour
 
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
     private bool inCombat = false;
-    private State currentState, newState;
-    private bool orderConfirmed;
+    private State currentState;
+    public State newState;
+    private bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
 
     // The time after the next update of the FSM
@@ -32,28 +33,40 @@ public class GroupBehaviour : MonoBehaviour
     public bool MeleeOrderGiven()
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
+        {
+            orderConfirmed = false;
             return true;
+        }
         return false;
     }
 
     public bool TankOrderGiven()
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Tank) )
+        {
+            orderConfirmed = false;
             return true;
+        }
         return false;
     }
 
     public bool RangeAttackOrderGiven()
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.RangeAttack) )
+        {
+            orderConfirmed = false;
             return true;
+        }
         return false;
     }
 
     public bool SupportOrderGiven()
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
+        {
+            orderConfirmed = false;
             return true;
+        }
         return false;
     }
 
@@ -101,6 +114,8 @@ public class GroupBehaviour : MonoBehaviour
 
     void Start()
     {
+        #region FSM
+
         FSMTransition t1 = new FSMTransition( MeleeOrderGiven );
         FSMTransition t2 = new FSMTransition( TankOrderGiven );
         FSMTransition t3 = new FSMTransition( RangeAttackOrderGiven );
@@ -137,6 +152,11 @@ public class GroupBehaviour : MonoBehaviour
         idleState.AddTransition( t6, getCurrentFSMState( currentState ) );
 
         groupFSM = new FSM( idleState );
+
+        #endregion
+
+        currentState = State.MeleeAttack;
+
     }
 
     void Update()
