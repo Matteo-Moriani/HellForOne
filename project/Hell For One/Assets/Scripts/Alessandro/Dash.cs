@@ -58,7 +58,11 @@ public class Dash : MonoBehaviour
         if ((Input.GetKeyDown("space") || Input.GetButton("Fire3")) && cooldownCounter >= dashCooldown)
         {
             // Move the player of dashSize units into our input axis direction.
-            targetPosition = this.transform.position + (new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")) * dashSize);
+            Vector3 moveDirection = ( Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal" ) * Camera.main.transform.right).normalized;
+            moveDirection.y = 0f;
+            
+            targetPosition = this.transform.position + ( moveDirection * dashSize );
+            
             isDashing = true;
             controller.enabled = false;
             cooldownCounter = 0.0f;
