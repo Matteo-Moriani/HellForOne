@@ -5,63 +5,48 @@ using UnityEngine;
 public class Combat : MonoBehaviour
 {
     [SerializeField]
-    private GameObject weaponCollider;
+    private GameObject combatManagerParent;
 
-    [SerializeField]
-    private float colliderDuration=0.1f;
+    private CombatManager combatManager;
 
-    private CombatCollisions CombatCollisions;
-
-    private bool isBlockCRoutineRunning = false;
+    // Used for testing - Put attack button in player controller
+    private string parentTag;
 
     private void Start()
     {
-        CombatCollisions = weaponCollider.GetComponent<CombatCollisions>();    
+        combatManager = combatManagerParent.GetComponent<CombatManager>();
+
+        // Used for testing - Put attack button in player controller
+        parentTag = this.gameObject.tag;
     }
 
     void Update()
     {
         // left click
         // -TODO- add controller button
-        if (Input.GetMouseButtonDown(0)) { 
-            Attack();
-        }
-        if (Input.GetMouseButton(1)) { 
-            if(!isBlockCRoutineRunning)
-                Block();       
+        // Used for testing - Put attack button in player controller
+        if (parentTag == "Player") { 
+            if (Input.GetMouseButtonDown(0)) { 
+                Attack();
+            }
+            if (Input.GetMouseButtonDown(1)) { 
+                StartBlock();       
+            }
+            if (Input.GetMouseButtonUp(1)) { 
+                StopBlock();    
+            }
         }
     }
 
     void Attack() { 
-        StartCoroutine(AttackCoroutine());    
+        combatManager.Attack();     
     }
 
-    void Block() { 
-        StartCoroutine(BlockCoroutine());    
+    void StartBlock() { 
+        combatManager.StartBlock();
     }
 
-    IEnumerator AttackCoroutine() { 
-        CombatCollisions.SetMode(CombatCollisions.Mode.Attack);
-        weaponCollider.SetActive(true);
-        yield return new WaitForSeconds(colliderDuration);
-        weaponCollider.SetActive(false);
-        CombatCollisions.SetMode(CombatCollisions.Mode.Idle);
-        yield return null;
-    }
-
-    IEnumerator BlockCoroutine() { 
-        isBlockCRoutineRunning = true;
-        weaponCollider.SetActive(true);
-        CombatCollisions.SetMode(CombatCollisions.Mode.Block);
-
-        while (Input.GetMouseButton(1)) { 
-            yield return null;
-        }
-
-        weaponCollider.SetActive(false);
-        CombatCollisions.SetMode(CombatCollisions.Mode.Idle);
-        isBlockCRoutineRunning = false;
-
-        yield return null;
+    void StopBlock() { 
+        combatManager.StopBlock();    
     }
 }
