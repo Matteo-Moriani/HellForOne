@@ -56,7 +56,10 @@ public class TacticsManager : MonoBehaviour
 
     public void AssignOrderToGroup(GroupBehaviour.State state, Group group)
     {
-        GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>().newState = state;
+        GroupBehaviour groupBehaviour = GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
+        groupBehaviour.newState = state;
+        groupBehaviour.orderConfirmed = true;
+
     }
 
     void Start()
@@ -70,7 +73,7 @@ public class TacticsManager : MonoBehaviour
 
     void Update()
     {
-        cross = Input.GetButtonDown( "cross" );
+        cross = Input.GetButton( "cross" );
         square = Input.GetButtonDown( "square" );
         triangle = Input.GetButtonDown( "triangle" );
         circle = Input.GetButtonDown( "circle" );
@@ -82,7 +85,7 @@ public class TacticsManager : MonoBehaviour
 
         if ( cross )
         {
-            //TODO confirm order
+            AssignOrderToGroup( currentShowedState, currentShowedGroup );
         }
 
         if ( R2 )
