@@ -23,7 +23,7 @@ public class GroupBehaviour : MonoBehaviour
     private bool inCombat = false;
     private State currentState;
     public State newState;
-    private bool orderConfirmed = false;
+    public bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
 
     // The time after the next update of the FSM
@@ -102,6 +102,26 @@ public class GroupBehaviour : MonoBehaviour
         return null;
     }
 
+    public void IamMelee()
+    {
+        Debug.Log( "Melee state" );
+    }
+
+    public void IamTank()
+    {
+        Debug.Log( "Tank state" );
+    }
+
+    public void IamRange()
+    {
+        Debug.Log( "Range state" );
+    }
+
+    public void IamSupport()
+    {
+        Debug.Log( "Support state" );
+    }
+
     // The coroutine that cycles through the FSM
     public IEnumerator MoveThroughFSM()
     {
@@ -114,6 +134,10 @@ public class GroupBehaviour : MonoBehaviour
 
     void Start()
     {
+        currentState = State.MeleeAttack;
+        // Just to test
+        inCombat = true;
+
         #region FSM
 
         FSMTransition t1 = new FSMTransition( MeleeOrderGiven );
@@ -128,6 +152,11 @@ public class GroupBehaviour : MonoBehaviour
         rangeAttackState = new FSMState();
         supportState = new FSMState();
         idleState = new FSMState();
+
+        meleeState.enterActions.Add( IamMelee );
+        tankState.enterActions.Add( IamTank );
+        rangeAttackState.enterActions.Add( IamRange );
+        supportState.enterActions.Add( IamSupport );
 
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );
@@ -151,15 +180,10 @@ public class GroupBehaviour : MonoBehaviour
 
         idleState.AddTransition( t6, getCurrentFSMState( currentState ) );
 
-        groupFSM = new FSM( idleState );
+        //groupFSM = new FSM( idleState );
+        groupFSM = new FSM( meleeState );
+        StartCoroutine( MoveThroughFSM() );
 
         #endregion
-
-        currentState = State.MeleeAttack;
-
-    }
-
-    void Update()
-    {
     }
 }
