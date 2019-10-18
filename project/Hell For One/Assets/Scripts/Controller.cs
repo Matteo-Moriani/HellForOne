@@ -27,6 +27,8 @@ public class Controller : MonoBehaviour
             Vector3 horizontal = xMovement * Camera.main.transform.right;
 
             Vector3 moveDir = (vertical + horizontal).normalized;
+
+            // Problem of inabyssing
             moveDir.y = 0f;
 
             float m = Mathf.Abs( zMovement ) + Mathf.Abs( xMovement );

@@ -26,9 +26,13 @@ public class GroupBehaviour : MonoBehaviour
     public bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
 
+    public GameObject[] demons;
+
     // The time after the next update of the FSM
     [SerializeField]
     private float reactionTime = 1f;
+
+    #region Conditions
 
     public bool MeleeOrderGiven()
     {
@@ -86,6 +90,40 @@ public class GroupBehaviour : MonoBehaviour
 
     #endregion
 
+    #region Actions
+
+    public void MeleeAttack()
+    {
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.Attack();
+        }
+    }
+
+    public void Tank()
+    {
+
+    }
+
+    public void RangeAttack()
+    {
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.Attack();
+        }
+    }
+
+    public void Support()
+    {
+
+    }
+
+    #endregion
+
+    #endregion
+
     public FSMState getCurrentFSMState( State state )
     {
         switch ( state )
@@ -102,33 +140,13 @@ public class GroupBehaviour : MonoBehaviour
         return null;
     }
 
-    public void IamMelee()
-    {
-        Debug.Log( "Melee state" );
-    }
-
-    public void IamTank()
-    {
-        Debug.Log( "Tank state" );
-    }
-
-    public void IamRange()
-    {
-        Debug.Log( "Range state" );
-    }
-
-    public void IamSupport()
-    {
-        Debug.Log( "Support state" );
-    }
-
     // The coroutine that cycles through the FSM
     public IEnumerator MoveThroughFSM()
     {
         while ( true )
         {
-            groupFSM.Update();
             yield return new WaitForSeconds( reactionTime );
+            groupFSM.Update();
         }
     }
 
@@ -137,6 +155,8 @@ public class GroupBehaviour : MonoBehaviour
         currentState = State.MeleeAttack;
         // Just to test
         inCombat = true;
+
+        demons = new GameObject[ 4 ];
 
         #region FSM
 
@@ -153,10 +173,10 @@ public class GroupBehaviour : MonoBehaviour
         supportState = new FSMState();
         idleState = new FSMState();
 
-        meleeState.enterActions.Add( IamMelee );
-        tankState.enterActions.Add( IamTank );
-        rangeAttackState.enterActions.Add( IamRange );
-        supportState.enterActions.Add( IamSupport );
+        meleeState.stayActions.Add( MeleeAttack );
+        //tankState.enterActions.Add( IamTank );
+        rangeAttackState.stayActions.Add( MeleeAttack );
+        //supportState.enterActions.Add( IamSupport );
 
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );

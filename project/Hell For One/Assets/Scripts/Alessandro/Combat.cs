@@ -38,15 +38,15 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void Attack() { 
+    public void Attack() { 
         combatManager.Attack();     
     }
 
-    void StartBlock() { 
+    public void StartBlock() { 
         combatManager.StartBlock();
     }
 
-    void StopBlock() { 
+    public void StopBlock() { 
         combatManager.StopBlock();    
     }
 }

@@ -15,7 +15,6 @@ public class TacticsManager : MonoBehaviour
     }
 
     [Header( "Input" )]
-    [SerializeField]
     private bool cross, square, triangle, circle, L1, R1, L2, R2, R3 = false;
 
     [SerializeField]
@@ -73,7 +72,7 @@ public class TacticsManager : MonoBehaviour
 
     void Update()
     {
-        cross = Input.GetButton( "cross" );
+        cross = Input.GetButtonDown( "cross" );
         square = Input.GetButtonDown( "square" );
         triangle = Input.GetButtonDown( "triangle" );
         circle = Input.GetButtonDown( "circle" );
