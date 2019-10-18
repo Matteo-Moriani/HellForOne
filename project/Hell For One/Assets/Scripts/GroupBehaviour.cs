@@ -101,6 +101,15 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
+    public void StopAttack()
+    {
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.StopAttack();
+        }
+    }
+
     public void Tank()
     {
 
@@ -174,8 +183,10 @@ public class GroupBehaviour : MonoBehaviour
         idleState = new FSMState();
 
         meleeState.stayActions.Add( MeleeAttack );
+        meleeState.exitActions.Add( StopAttack );
         //tankState.enterActions.Add( IamTank );
         rangeAttackState.stayActions.Add( MeleeAttack );
+        rangeAttackState.exitActions.Add( StopAttack );
         //supportState.enterActions.Add( IamSupport );
 
         meleeState.AddTransition( t2, tankState );
