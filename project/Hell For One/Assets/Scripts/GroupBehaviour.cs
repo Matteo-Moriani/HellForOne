@@ -145,8 +145,8 @@ public class GroupBehaviour : MonoBehaviour
     {
         while ( true )
         {
-            groupFSM.Update();
             yield return new WaitForSeconds( reactionTime );
+            groupFSM.Update();
         }
     }
 
