@@ -148,6 +148,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   health: 2
+  damage: 1
+  attackRange: 1
+  attackDurationMultiplier: 1
 --- !u!54 &270478933
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -762,8 +765,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3877476071115819053, guid: 8491c55866eecf242a7e67f945923965, type: 3}
-    - {fileID: 3877476070767075790, guid: 8491c55866eecf242a7e67f945923965, type: 3}
-    - {fileID: 3877476070210071451, guid: 8491c55866eecf242a7e67f945923965, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8491c55866eecf242a7e67f945923965, type: 3}
