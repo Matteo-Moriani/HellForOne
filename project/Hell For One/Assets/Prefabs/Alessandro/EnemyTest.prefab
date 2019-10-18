@@ -19,8 +19,8 @@ GameObject:
   - component: {fileID: 4070461641757290161}
   - component: {fileID: 1660597164522611610}
   m_Layer: 0
-  m_Name: PlayerTest
-  m_TagString: Player
+  m_Name: EnemyTest
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 97ff3d0a7c7e28546b075e668e67aa64, type: 2}
+  - {fileID: 2100000, guid: 972d1d469266a064892846098870350f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -197,8 +197,8 @@ MonoBehaviour:
   health: 20
   damage: 2
   attackRange: 2
-  attackChance: 100
-  blockChanceBonus: 100
+  attackChance: 50
+  blockChanceBonus: 25
   aggro: 0
   attackDurationMultiplier: 5
 --- !u!1 &2825315591348517779
