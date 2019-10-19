@@ -24,9 +24,7 @@ public class CombatManager : MonoBehaviour
         // -TODO- add if null coditions.
         // and if true init GO.
 
-        if(stats == null) { 
-            this.transform.root.gameObject.GetComponent<Stats>();   
-        }
+        this.transform.root.gameObject.GetComponent<Stats>();   
 
         startPosition = attackCollider.transform.localPosition;
 
