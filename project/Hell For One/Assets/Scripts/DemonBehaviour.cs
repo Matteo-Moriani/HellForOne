@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class DemonBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private GameObject groupBelongingTo;
+    public GameObject groupBelongingTo;
     public bool groupFound = false;
 
     private void Start()
