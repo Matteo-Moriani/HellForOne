@@ -71,7 +71,7 @@ public class CombatManager : MonoBehaviour
             StopCoroutine(attackCR);
             attackCR = null;
 
-            attackCollider.transform.position = startPosition;
+            attackCollider.transform.localPosition = startPosition;
             attackCollider.SetActive( false );
             
             isIdle = true;
