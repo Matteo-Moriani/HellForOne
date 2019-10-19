@@ -100,10 +100,8 @@ public class CombatManager : MonoBehaviour
             yield return null;
         }
 
-        //yield return new WaitForSeconds(0.1f);
         attackCollider.transform.localPosition = startPosition;
         attackCollider.SetActive(false);
-        yield return null;
 
         isIdle = true;
     }
