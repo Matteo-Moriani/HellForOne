@@ -59,6 +59,6 @@ public class Combat : MonoBehaviour
 
     public void StopAttack()
     {
-        combatManager.StopAllCoroutines();
+        combatManager.StopAttack();
     }
 }
