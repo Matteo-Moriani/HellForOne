@@ -98,6 +98,8 @@ public class GroupBehaviour : MonoBehaviour
 
     public void MeleeAttack()
     {
+        if ( !checkDemons() )
+            return;
         foreach ( GameObject demon in demons )
         {
             Combat combat = demon.GetComponent<Combat>();
@@ -107,6 +109,8 @@ public class GroupBehaviour : MonoBehaviour
 
     public void StopAttack()
     {
+        if ( !checkDemons() )
+            return;
         foreach ( GameObject demon in demons )
         {
             Combat combat = demon.GetComponent<Combat>();
@@ -117,11 +121,32 @@ public class GroupBehaviour : MonoBehaviour
 
     public void Tank()
     {
+        if ( !checkDemons() )
+            return;
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.StartBlock();
+            //combat.combatManager.isIdle = true;
+        }
+    }
 
+    public void StopTank()
+    {
+        if ( !checkDemons() )
+            return;
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.StopBlock();
+            //combat.combatManager.isIdle = true;
+        }
     }
 
     public void RangeAttack()
     {
+        if ( !checkDemons() )
+            return;
         foreach ( GameObject demon in demons )
         {
             Combat combat = demon.GetComponent<Combat>();
@@ -142,6 +167,17 @@ public class GroupBehaviour : MonoBehaviour
     #endregion
 
     #endregion
+
+    public bool checkDemons()
+    {
+        GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
+        foreach ( GameObject go in allDemons )
+        {
+            if ( !go.GetComponent<DemonBehaviour>().groupFound )
+                return false;
+        }
+        return true;
+    }
 
     public FSMState getCurrentFSMState( State state )
     {
@@ -192,13 +228,14 @@ public class GroupBehaviour : MonoBehaviour
         supportState = new FSMState();
         idleState = new FSMState();
 
-        meleeState.enterActions.Add( IamMelee );
         meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
 
-        //rangeAttackState.enterActions.Add( MeleeAttack );
         rangeAttackState.stayActions.Add( MeleeAttack );
         rangeAttackState.exitActions.Add( StopAttack );
+
+        tankState.enterActions.Add( Tank );
+        tankState.exitActions.Add( StopTank );
 
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );
