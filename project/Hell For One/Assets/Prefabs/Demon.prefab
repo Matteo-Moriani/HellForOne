@@ -193,9 +193,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5237516427599709283}
   - component: {fileID: 344390129984435715}
-  - component: {fileID: 7191668590331740277}
   - component: {fileID: 54379842625611536}
   - component: {fileID: 1870320975741102378}
+  - component: {fileID: 5144178132538563668}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Demon
@@ -241,21 +241,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7191668590331740277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7392315926837050435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86dbf5ca7a6b6e42b8b0f6fdfe4e208, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  group: {fileID: 4629970651864741731, guid: 288deddec59cf06488e8ba9eb6d95804, type: 3}
-  leader: {fileID: 1766880358324400600, guid: 7601873ee82c7a8428b0aaf44d6d91af, type: 3}
-  speed: 8
 --- !u!54 &54379842625611536
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -286,3 +271,17 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5144178132538563668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392315926837050435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b587f5cfad8ae4697b9fdd10db32e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 8
