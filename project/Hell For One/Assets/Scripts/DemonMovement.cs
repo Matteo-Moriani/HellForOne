@@ -5,29 +5,24 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
-
-
-    // togliere il layer group come ostacolo della navmesh
-
-
-
-
     //[RequireComponent(EnemyPositions)]
     public GameObject enemy;
     public float speed = 8f;
+    public float meleeDist = 1.5f;
+    public float rangedDist = 5f;
 
     private GameObject currentTarget;
     private GameObject group;
     private Collider targetCollider;
-    private int groupSize;
-    private float repulsionDist = 0.7f;
-    private float meleeDist = 1.5f;
-    private float cohesionDist;
-    private Collider[] members = new Collider[17];
-    private bool canMove = true;
+    private bool farFromEnemy = true;
+    private bool farFromGroup = true;
 
-    // repulsion su tutti i demonietti e sui boss
-    // cohesion sul suo gruppetto
+    // definire bene a che distanza puntare cosa
+
+
+
+
+
     // face nemico target o align demone del giocatore fuori dal combattimento
 
     // Start is called before the first frame update
@@ -45,41 +40,52 @@ public class DemonMovement : MonoBehaviour
 
     void FixedUpdate() {
 
-
+        farFromEnemy = false;
+        farFromGroup = false;
 
         Vector3 enemyComponent = transform.position;
         Vector3 groupComponent = transform.position;
 
-        if(HorizDistFromTargetBorders(currentTarget) < repulsionDist)
-            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -1);
+        //if(HorizDistFromTargetBorders(currentTarget) < repulsionDist)
+        //    gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -1);
         //else if(HorizDistFromTargetBorders(currentTarget) > repulsionDist && HorizDistFromTargetBorders(currentTarget) < meleeDist)
         //    enemyComponent = transform.position;
-        else if(HorizDistFromTargetBorders(currentTarget) > meleeDist)
+        if(HorizDistFromTargetBorders(currentTarget) < rangedDist && HorizDistFromTargetBorders(currentTarget) > meleeDist && group != null) {
             enemyComponent = targetCollider.ClosestPoint(transform.position);
+            farFromEnemy = true;
+        }
+        //else if(HorizDistFromTargetBorders(currentTarget) > rangedDist && group != null){
+        //    enemyComponent = targetCollider.ClosestPoint(group.transform.position);
+        //    farFromEnemy = true;
+        //}
 
         if(group == null) {
             if(GetComponent<DemonBehaviour>().groupFound){
                 group = GetComponent<DemonBehaviour>().groupBelongingTo;
             }
         } else {
-            if(HorizDistFromTarget(group) > 1) {
+            if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().cohesion && HorizDistFromTargetBorders(currentTarget) > meleeDist) {
                 groupComponent = group.transform.position;
+                farFromGroup = true;
             }
         }
 
-        GetComponent<NavMeshAgent>().destination = enemyComponent + groupComponent;
+        if(farFromEnemy && farFromGroup)
+            GetComponent<NavMeshAgent>().destination = enemyComponent + groupComponent;
+        else if(farFromEnemy && !farFromGroup)
+            GetComponent<NavMeshAgent>().destination = enemyComponent;
+        else if(!farFromEnemy && farFromGroup)
+            GetComponent<NavMeshAgent>().destination = groupComponent;
 
     }
 
     private float HorizDistFromTargetBorders(GameObject target) {
         Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
-        //Vector3 closestPoint = target.transform.position;
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;
     }
 
     private float HorizDistFromTarget(GameObject target) {
-        //Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
         Vector3 closestPoint = target.transform.position;
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;

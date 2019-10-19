@@ -103,7 +103,7 @@ public class GroupBehaviour : MonoBehaviour
         foreach ( GameObject demon in demons )
         {
             Combat combat = demon.GetComponent<Combat>();
-            combat.Attack();
+            //combat.Attack();
         }
     }
 
