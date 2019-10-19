@@ -14,8 +14,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     Stats stats;
 
-    private Vector3 startPosition;
-
     private bool isIdle = true;
     private bool isBlocking = false;
     private Coroutine attackCR;
@@ -24,8 +22,6 @@ public class CombatManager : MonoBehaviour
     {
         // -TODO- add if null coditions.
         // and if true init GO.
-
-        startPosition = attackCollider.transform.localPosition;
 
         attackCollider.SetActive(false);
         blockCollider.SetActive(false);
@@ -64,14 +60,9 @@ public class CombatManager : MonoBehaviour
         if ( isIdle )
             attackCR = StartCoroutine( AttackCoroutine() );
     }
-    
-    public void StopAttack() { 
-        StopAllCoroutines();
-        
-        attackCollider.transform.localPosition = startPosition;
-        attackCollider.SetActive(false);
 
-        isIdle = true;
+    public void StopAttack() { 
+        StopAllCoroutines();    
     }
 
     // -TODO- Lerp collider.
@@ -81,6 +72,7 @@ public class CombatManager : MonoBehaviour
 
         attackCollider.SetActive(true);
         
+        Vector3 startPosition = attackCollider.transform.localPosition;
         Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3(0.0f,0.0f, stats.AttackRange);
 
         float timeAcc = 0f;
@@ -95,8 +87,10 @@ public class CombatManager : MonoBehaviour
             yield return null;
         }
 
+        //yield return new WaitForSeconds(0.1f);
         attackCollider.transform.localPosition = startPosition;
         attackCollider.SetActive(false);
+        yield return null;
 
         isIdle = true;
     }
