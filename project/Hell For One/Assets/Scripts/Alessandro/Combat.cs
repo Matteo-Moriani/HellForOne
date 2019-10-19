@@ -49,4 +49,8 @@ public class Combat : MonoBehaviour
     public void StopBlock() { 
         combatManager.StopBlock();    
     }
+
+    public void StopAttack() { 
+        combatManager.StopAttack();    
+    }
 }
