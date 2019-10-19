@@ -98,7 +98,7 @@ public class GroupBehaviour : MonoBehaviour
 
     public void MeleeAttack()
     {
-        if ( !checkDemons() )
+        if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
@@ -109,7 +109,7 @@ public class GroupBehaviour : MonoBehaviour
 
     public void StopAttack()
     {
-        if ( !checkDemons() )
+        if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
@@ -121,7 +121,7 @@ public class GroupBehaviour : MonoBehaviour
 
     public void Tank()
     {
-        if ( !checkDemons() )
+        if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
@@ -133,7 +133,7 @@ public class GroupBehaviour : MonoBehaviour
 
     public void StopTank()
     {
-        if ( !checkDemons() )
+        if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
@@ -145,7 +145,7 @@ public class GroupBehaviour : MonoBehaviour
 
     public void RangeAttack()
     {
-        if ( !checkDemons() )
+        if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
@@ -159,16 +159,12 @@ public class GroupBehaviour : MonoBehaviour
 
     }
 
-    public void IamMelee()
-    {
-        Debug.Log( "I am Melee" );
-    }
-
     #endregion
 
     #endregion
 
-    public bool checkDemons()
+    // To know if all demons found their group
+    public bool CheckDemons()
     {
         GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
         foreach ( GameObject go in allDemons )

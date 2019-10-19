@@ -17,7 +17,7 @@ public class Stats : MonoBehaviour
     private Type type = Type.None;
 
     [SerializeField]
-    private int health = 2;
+    public int health = 2;
 
     [SerializeField]
     private int damage = 1;
