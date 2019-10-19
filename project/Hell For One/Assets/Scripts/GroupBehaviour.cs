@@ -38,6 +38,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
         {
+            currentState = newState;
             orderConfirmed = false;
             return true;
         }
@@ -48,6 +49,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Tank) )
         {
+            currentState = newState;
             orderConfirmed = false;
             return true;
         }
@@ -58,6 +60,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.RangeAttack) )
         {
+            currentState = newState;
             orderConfirmed = false;
             return true;
         }
@@ -68,6 +71,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
         {
+            currentState = newState;
             orderConfirmed = false;
             return true;
         }
@@ -107,6 +111,7 @@ public class GroupBehaviour : MonoBehaviour
         {
             Combat combat = demon.GetComponent<Combat>();
             combat.StopAttack();
+            combat.combatManager.isIdle = true;
         }
     }
 
@@ -127,6 +132,11 @@ public class GroupBehaviour : MonoBehaviour
     public void Support()
     {
 
+    }
+
+    public void IamMelee()
+    {
+        Debug.Log( "I am Melee" );
     }
 
     #endregion
@@ -182,12 +192,13 @@ public class GroupBehaviour : MonoBehaviour
         supportState = new FSMState();
         idleState = new FSMState();
 
+        meleeState.enterActions.Add( IamMelee );
         meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
-        //tankState.enterActions.Add( IamTank );
+
+        //rangeAttackState.enterActions.Add( MeleeAttack );
         rangeAttackState.stayActions.Add( MeleeAttack );
         rangeAttackState.exitActions.Add( StopAttack );
-        //supportState.enterActions.Add( IamSupport );
 
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );

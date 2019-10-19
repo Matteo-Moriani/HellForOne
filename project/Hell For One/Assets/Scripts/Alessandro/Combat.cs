@@ -7,7 +7,7 @@ public class Combat : MonoBehaviour
     [SerializeField]
     private GameObject combatManagerParent;
 
-    private CombatManager combatManager;
+    public CombatManager combatManager;
 
     // Used for testing - Put attack button in player controller
     private string parentTag;
