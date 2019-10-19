@@ -7,7 +7,7 @@ public class Combat : MonoBehaviour
     [SerializeField]
     private GameObject combatManagerParent;
 
-    private CombatManager combatManager;
+    public CombatManager combatManager;
 
     // Used for testing - Put attack button in player controller
     private string parentTag;
@@ -25,29 +25,41 @@ public class Combat : MonoBehaviour
         // left click
         // -TODO- add controller button
         // Used for testing - Put attack button in player controller
-        if (parentTag == "Player") { 
-            if (Input.GetMouseButtonDown(0)) { 
+        if ( parentTag == "Player" )
+        {
+            if ( Input.GetMouseButtonDown( 0 ) )
+            {
                 Attack();
             }
-            if (Input.GetMouseButtonDown(1)) { 
-                StartBlock();       
+            if ( Input.GetMouseButtonDown( 1 ) )
+            {
+                StartBlock();
             }
-            if (Input.GetMouseButtonUp(1)) { 
-                StopBlock();    
+            if ( Input.GetMouseButtonUp( 1 ) )
+            {
+                StopBlock();
             }
         }
     }
 
-    public void Attack() { 
-        combatManager.Attack();     
+    public void Attack()
+    {
+        combatManager.Attack();
     }
 
-    public void StartBlock() { 
+    public void StartBlock()
+    {
         combatManager.StartBlock();
     }
 
-    public void StopBlock() { 
-        combatManager.StopBlock();    
+    public void StopBlock()
+    {
+        combatManager.StopBlock();
+    }
+
+    public void StopAttack()
+    {
+        combatManager.StopAllCoroutines();
     }
 
     public void StopAttack() { 

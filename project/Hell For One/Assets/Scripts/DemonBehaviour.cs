@@ -1,12 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DemonBehaviour : MonoBehaviour
 {
     [SerializeField]
     private GameObject groupBelongingTo;
-    private bool groupFound = false;
+    public bool groupFound = false;
+
+    private void Start()
+    {
+        FindGroup();
+    }
+
+    private void Update()
+    {
+        if ( !groupFound )
+            FindGroup();
+    }
 
     public void FindGroup()
     {
@@ -29,17 +41,6 @@ public class DemonBehaviour : MonoBehaviour
                 break;
             }
         }
-    }
-
-    private void Start()
-    {
-        FindGroup();
-    }
-
-    private void Update()
-    {
-        if ( !groupFound )
-            FindGroup();
     }
 
 }
