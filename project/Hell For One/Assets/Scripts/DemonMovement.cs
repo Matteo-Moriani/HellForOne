@@ -5,9 +5,8 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
-
-    public GameObject target;
-    //public GameObject leader;
+    //[RequireComponent(EnemyPositions)]
+    public GameObject enemy;
     public float speed = 8f;
 
     private GameObject currentTarget;
@@ -26,8 +25,14 @@ public class DemonMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentTarget = target;
-        targetCollider = currentTarget.GetComponent<Collider>();
+        foreach(Transform position in enemy.GetComponent<EnemyPositions>().GetPositions()) {
+            if(enemy.GetComponent<EnemyPositions>().GetAvailability(position)){
+                currentTarget = position.gameObject;
+                enemy.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                break;
+            }
+        }
+        //targetCollider = currentTarget.GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -38,18 +43,21 @@ public class DemonMovement : MonoBehaviour
 
     void FixedUpdate() {
 
-        if(HorizDistFromTargetBorders(currentTarget) < repulsionDist)
-            gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -1);
-        else if(HorizDistFromTargetBorders(currentTarget) > repulsionDist && HorizDistFromTargetBorders(currentTarget) < meleeDist)
-            GetComponent<NavMeshAgent>().destination = transform.position;
-        else
-            GetComponent<NavMeshAgent>().destination = targetCollider.ClosestPoint(transform.position);
+        //if(HorizDistFromTargetBorders(currentTarget) < repulsionDist)
+        //    gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * -1);
+        //else 
+        //if(HorizDistFromTargetBorders(currentTarget) > repulsionDist && HorizDistFromTargetBorders(currentTarget) < meleeDist)
+        //    GetComponent<NavMeshAgent>().destination = transform.position;
+        //else
+            //GetComponent<NavMeshAgent>().destination = targetCollider.ClosestPoint(transform.position);
+            GetComponent<NavMeshAgent>().destination = currentTarget.transform.position;
 
 
     }
 
     private float HorizDistFromTargetBorders(GameObject target) {
-        Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
+        //Vector3 closestPoint = targetCollider.ClosestPoint(transform.position);
+        Vector3 closestPoint = target.transform.position;
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;
     }
