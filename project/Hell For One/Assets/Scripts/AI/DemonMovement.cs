@@ -5,16 +5,16 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
-    //[RequireComponent(EnemyPositions)]
-    public GameObject enemy;
     public float speed = 8f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
     public float minMeleeDist = 1f;
     public float extraCohesion = 1.75f;
+    public float rangedDist = 5f;
 
+    [SerializeField]
+    private GameObject targetEnemy;
     private float maxMeleeDist;
-    private GameObject currentTarget;
     private GameObject group;
     private Collider targetCollider;
     private bool farFromEnemy = true;
@@ -23,19 +23,16 @@ public class DemonMovement : MonoBehaviour
     private GroupBehaviour gb;
     private bool inPosition = false;
     private float distanceInPosition;
-
-    // face nemico target o align demone del giocatore fuori dal combattimento
-
-    // Start is called before the first frame update
+    //private Vector3 destination;
+    
     void Start()
     {
         maxMeleeDist = minMeleeDist + 1f;
         myCollider = GetComponent<Collider>();
-        currentTarget = enemy;
-        targetCollider = currentTarget.GetComponent<Collider>();
+        targetEnemy = gameObject;
+        //destination = GetComponent<NavMeshAgent>().destination;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
 
@@ -49,19 +46,36 @@ public class DemonMovement : MonoBehaviour
             }
         }
         else {
-            if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
-                CloseRangeMovement();
-            else
-                HighRangeMovement();
-        }
+            if(targetEnemy.CompareTag("Enemy")) {
+                if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
+                    CloseRangeMovement();
+                else
+                    HighRangeMovement();
 
-        if(distanceInPosition < (transform.position - currentTarget.transform.position).magnitude)
-            inPosition = false;
+                if(distanceInPosition < (transform.position - targetEnemy.transform.position).magnitude)
+                    inPosition = false;
+            }
+            else if(targetEnemy.CompareTag("Little Enemy")) {
+                if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
+                    if((HorizDistFromTargetBorders() > minMeleeDist)) {
+                        GetComponent<NavMeshAgent>().destination = targetEnemy.transform.position;
+                    }
+                    else
+                        GetComponent<NavMeshAgent>().destination = transform.position;
+                } else {
+                    if((HorizDistFromTargetBorders() > rangedDist))
+                        GetComponent<NavMeshAgent>().destination = targetEnemy.transform.position;
+                    else
+                        GetComponent<NavMeshAgent>().destination = transform.position;
+                }
+
+            }
+        }
 
     }
 
     private float HorizDistFromTargetBorders() {
-        Vector3 closestPoint = targetCollider.ClosestPoint(myCollider.ClosestPoint(currentTarget.transform.position));
+        Vector3 closestPoint = targetCollider.ClosestPoint(myCollider.ClosestPoint(targetEnemy.transform.position));
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;
     }
@@ -73,7 +87,7 @@ public class DemonMovement : MonoBehaviour
     }
 
     private void FaceTarget() {
-        Vector3 targetPosition = currentTarget.transform.position;
+        Vector3 targetPosition = targetEnemy.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
@@ -90,7 +104,7 @@ public class DemonMovement : MonoBehaviour
 
         
         // I move to the enemy only if I'm far from melee distance and close enough to my group
-        if(HorizDistFromTarget(group) <= group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion && group != null) {
+        if(HorizDistFromTarget(group) <= group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(targetEnemy) + extraCohesion && group != null) {
 
             FaceTarget();
 
@@ -108,7 +122,7 @@ public class DemonMovement : MonoBehaviour
         }
 
         // I move to the group only when I'm far from it as the group is far from the target borders
-        if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion) {
+        if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(targetEnemy) + extraCohesion) {
             groupComponent = group.transform.position;
             farFromGroup = true;
         }
@@ -131,8 +145,13 @@ public class DemonMovement : MonoBehaviour
             GetComponent<NavMeshAgent>().destination = transform.position;
             if(!inPosition) {
                 inPosition = true;
-                distanceInPosition = (transform.position - currentTarget.transform.position).magnitude;
+                distanceInPosition = (transform.position - targetEnemy.transform.position).magnitude;
             }
         }
+    }
+
+    public void SetTargetEnemy(GameObject enemy) {
+        targetEnemy = enemy;
+        targetCollider = enemy.GetComponent<Collider>();
     }
 }
