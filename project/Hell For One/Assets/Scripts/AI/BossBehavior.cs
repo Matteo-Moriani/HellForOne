@@ -260,12 +260,7 @@ public class BossBehavior : MonoBehaviour
         if(currentTarget.transform) {
 
             // I'm always facing my last target
-            Vector3 targetPosition = currentTarget.transform.position;
-            Vector3 vectorToTarget = targetPosition - transform.position;
-            vectorToTarget.y = 0f;
-            Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
-            Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
-            transform.rotation = newRotation;
+            FaceTarget();
 
             if(canWalk) {
                 transform.position += transform.forward * speed * Time.deltaTime;
@@ -295,6 +290,15 @@ public class BossBehavior : MonoBehaviour
     private float HorizDistFromTarget(GameObject target) {
         Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
         return (targetPosition - transform.position).magnitude;
+    }
+
+    private void FaceTarget() {
+        Vector3 targetPosition = currentTarget.transform.position;
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        vectorToTarget.y = 0f;
+        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        transform.rotation = newRotation;
     }
 
 }

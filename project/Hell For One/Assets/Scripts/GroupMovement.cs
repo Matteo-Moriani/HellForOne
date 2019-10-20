@@ -8,7 +8,6 @@ public class GroupMovement : MonoBehaviour
 
     //[RequireComponent(EnemyPositions)]
     public GameObject enemy;
-    public float cohesion = 2f;
 
     private Transform target;
     private bool targetAquired = false;
@@ -38,5 +37,11 @@ public class GroupMovement : MonoBehaviour
 
         transform.position = target.position;
 
+    }
+
+    public float HorizDistFromTargetBorders(GameObject target) {
+        Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
+        return (targetPosition - transform.position).magnitude;
     }
 }
