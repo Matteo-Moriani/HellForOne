@@ -21,7 +21,7 @@ public class GroupBehaviour : MonoBehaviour
 
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
     private bool inCombat = false;
-    private State currentState;
+    public State currentState;
     public State newState;
     public bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
@@ -261,4 +261,5 @@ public class GroupBehaviour : MonoBehaviour
 
         #endregion
     }
+
 }

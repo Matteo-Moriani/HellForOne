@@ -20,8 +20,9 @@ public class DemonMovement : MonoBehaviour
     private bool farFromEnemy = true;
     private bool farFromGroup = true;
     private Collider myCollider;
-
-
+    private GroupBehaviour gb;
+    private bool inPosition = false;
+    private float distanceInPosition;
 
     // face nemico target o align demone del giocatore fuori dal combattimento
 
@@ -41,9 +42,21 @@ public class DemonMovement : MonoBehaviour
     }
 
     void FixedUpdate() {
+        if(group == null) {
+            if(GetComponent<DemonBehaviour>().groupFound) {
+                group = GetComponent<DemonBehaviour>().groupBelongingTo;
+                gb = group.GetComponent<GroupBehaviour>();
+            }
+        }
+        else {
+            if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
+                CloseRangeMovement();
+            else
+                HighRangeMovement();
+        }
 
-        // switch del tipo di movimento in base allo stato
-        CloseRangeMovement();
+        if(distanceInPosition < (transform.position - currentTarget.transform.position).magnitude)
+            inPosition = false;
 
     }
 
@@ -75,37 +88,31 @@ public class DemonMovement : MonoBehaviour
         Vector3 enemyComponent = transform.position;
         Vector3 groupComponent = transform.position;
 
-        if(group == null) {
-            if(GetComponent<DemonBehaviour>().groupFound) {
-                group = GetComponent<DemonBehaviour>().groupBelongingTo;
+        
+        // I move to the enemy only if I'm far from melee distance and close enough to my group
+        if(HorizDistFromTarget(group) <= group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion && group != null) {
+
+            FaceTarget();
+
+            if(HorizDistFromTargetBorders() > maxMeleeDist) {
+                enemyComponent = targetCollider.ClosestPoint(transform.position);
+                farFromEnemy = true;
             }
+
+            if(HorizDistFromTargetBorders() < minMeleeDist) {
+                //GetComponent<Rigidbody>().AddForce(transform.position - targetCollider.ClosestPoint(transform.position));
+                enemyComponent = transform.position;
+                farFromEnemy = true;
+            }            
+
         }
-        else {
-            // I move to the enemy only if I'm far from melee distance and close enough to my group
-            if(HorizDistFromTarget(group) <= group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion && group != null) {
 
-                FaceTarget();
-
-                if(HorizDistFromTargetBorders() > maxMeleeDist) {
-                    enemyComponent = targetCollider.ClosestPoint(transform.position);
-                    farFromEnemy = true;
-                }
-
-                if(HorizDistFromTargetBorders() < minMeleeDist) {
-                    //GetComponent<Rigidbody>().AddForce(transform.position - targetCollider.ClosestPoint(transform.position));
-                    enemyComponent = transform.position;
-                    farFromEnemy = true;
-                }
-
-
-            }
-
-            // I move to the group only when I'm far from it as the group is far from the target borders
-            if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion) {
-                groupComponent = group.transform.position;
-                farFromGroup = true;
-            }
+        // I move to the group only when I'm far from it as the group is far from the target borders
+        if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(currentTarget) + extraCohesion) {
+            groupComponent = group.transform.position;
+            farFromGroup = true;
         }
+        
 
         if(farFromEnemy && farFromGroup)
             GetComponent<NavMeshAgent>().destination = enemyComponent + groupComponent;
@@ -113,5 +120,19 @@ public class DemonMovement : MonoBehaviour
             GetComponent<NavMeshAgent>().destination = enemyComponent;
         else if(!farFromEnemy && farFromGroup)
             GetComponent<NavMeshAgent>().destination = groupComponent;
+    }
+
+    private void HighRangeMovement() {
+        if(HorizDistFromTarget(group) > transform.localScale.x * 2.5f && !inPosition) {
+            GetComponent<NavMeshAgent>().destination = group.transform.position;
+        }
+        else {
+            FaceTarget();
+            GetComponent<NavMeshAgent>().destination = transform.position;
+            if(!inPosition) {
+                inPosition = true;
+                distanceInPosition = (transform.position - currentTarget.transform.position).magnitude;
+            }
+        }
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemyPositions : MonoBehaviour
 {
 
-    private Transform[] positions;
-    private Dictionary<Transform, bool> available = new Dictionary<Transform, bool>();
+    private Transform[] meleePositions;
+    private Transform[] rangedPositions;
+    private Dictionary<Transform, bool> meleeAvailable = new Dictionary<Transform, bool>();
+    private Dictionary<Transform, Transform> closestRanged = new Dictionary<Transform, Transform>();
 
     // Start is called before the first frame update
     void Start()
@@ -16,15 +18,25 @@ public class EnemyPositions : MonoBehaviour
 
     void Awake() {
         Transform[] tempPositions = gameObject.GetComponentsInChildren<Transform>();
-        positions = new Transform[tempPositions.Length - 1];
+        meleePositions = new Transform[tempPositions.Length - 5];
+        rangedPositions = new Transform[tempPositions.Length - 5];
 
-        for(int i = 1; i<tempPositions.Length; i++) {
-            positions[i - 1] = tempPositions[i];
+        int j = 0;
+        int k = 0;
+
+        for(int i = 0; i<tempPositions.Length; i++) {
+            if(tempPositions[i].CompareTag("MeleePosition")) {
+                meleePositions[j] = tempPositions[i];
+                j++;
+            } else if(tempPositions[i].CompareTag("RangedPosition")) {
+                rangedPositions[k] = tempPositions[i];
+                k++;
+            }
         }
 
-        foreach(Transform position in positions) {
-            available.Add(position, true);
-            Debug.Log(position.position);
+        foreach(Transform position in meleePositions) {
+            meleeAvailable.Add(position, true);
+            closestRanged.Add(position, FindClosest(position));
         }
     }
 
@@ -35,16 +47,40 @@ public class EnemyPositions : MonoBehaviour
     }
 
     public void SetAvailability(Transform t, bool b) {
-        available[t] = b;
+        meleeAvailable[t] = b;
     }
 
     public bool GetAvailability(Transform t) {
         bool b;
-        available.TryGetValue(t, out b);
+        meleeAvailable.TryGetValue(t, out b);
         return b;
     }
 
-    public Transform[] GetPositions() {
-        return positions;
+    public Transform GetClosestRanged(Transform melee) {
+        Transform ranged;
+        closestRanged.TryGetValue(melee, out ranged);
+        return ranged;
+    }
+
+    public Transform[] GetMeleePositions() {
+        return meleePositions;
+    }
+
+    public Transform[] GetRangedPositions() {
+        return rangedPositions;
+    }
+
+    public Transform FindClosest(Transform melee) {
+        Transform closest = null;
+        float minDist = float.MaxValue;
+
+        foreach (Transform ranged in rangedPositions) {
+            if((melee.position - ranged.position).magnitude < minDist) {
+                minDist = (melee.position - ranged.position).magnitude;
+                closest = ranged;
+            }
+        }
+
+        return closest;
     }
 }
