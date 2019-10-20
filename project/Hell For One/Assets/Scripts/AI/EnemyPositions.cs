@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyPositions : MonoBehaviour
 {
+    public GameObject boss;
 
     private Transform[] meleePositions;
     private Transform[] rangedPositions;
@@ -18,6 +19,8 @@ public class EnemyPositions : MonoBehaviour
 
     void Awake() {
         Transform[] tempPositions = gameObject.GetComponentsInChildren<Transform>();
+
+        // 5 = the opposite 4 + myself
         meleePositions = new Transform[tempPositions.Length - 5];
         rangedPositions = new Transform[tempPositions.Length - 5];
 
@@ -39,11 +42,14 @@ public class EnemyPositions : MonoBehaviour
             closestRanged.Add(position, FindClosest(position));
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         
+    }
+
+    void FixedUpdate() {
+        transform.position = boss.transform.position;
     }
 
     public void SetAvailability(Transform t, bool b) {

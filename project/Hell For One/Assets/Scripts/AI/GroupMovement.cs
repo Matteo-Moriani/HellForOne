@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour
 {
+    public GameObject positions;
+
     private GameObject targetEnemy;
     private Transform targetPosition;
     private Transform meleePosition;
@@ -42,11 +44,11 @@ public class GroupMovement : MonoBehaviour
             }
 
             if(!vsLittleEnemies) {
-                foreach(Transform position in targetEnemy.GetComponent<EnemyPositions>().GetMeleePositions()) {
-                    if(targetEnemy.GetComponent<EnemyPositions>().GetAvailability(position)) {
+                foreach(Transform position in positions.GetComponent<EnemyPositions>().GetMeleePositions()) {
+                    if(positions.GetComponent<EnemyPositions>().GetAvailability(position)) {
                         meleePosition = position;
-                        rangedPosition = targetEnemy.GetComponent<EnemyPositions>().GetClosestRanged(position);
-                        targetEnemy.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                        rangedPosition = positions.GetComponent<EnemyPositions>().GetClosestRanged(position);
+                        positions.GetComponent<EnemyPositions>().SetAvailability(position, false);
                         haveTarget = true;
                         break;
                     }
@@ -68,7 +70,8 @@ public class GroupMovement : MonoBehaviour
 
     void FixedUpdate() {
 
-        transform.position = targetPosition.position;
+        if(targetPosition)
+            transform.position = targetPosition.position;
         
     }
 

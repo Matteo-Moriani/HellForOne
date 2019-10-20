@@ -14,7 +14,6 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private GameObject[] demonGroups;
     private float[] aggroValues;
     private float[] probability;
-    private bool haveTarget = false;
 
     
     void Start()
@@ -32,9 +31,9 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     void FixedUpdate() {
 
-        if(haveTarget) {
+        if(targetDemon) {
 
-            FaceTarget();
+            FaceTarget(targetDemon);
 
             if((targetDemon.transform.position - transform.position).magnitude > stopDist) {
                 GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
@@ -47,8 +46,8 @@ public class LittleEnemyBehaviour : MonoBehaviour
             ChooseTarget();
     }
 
-    private void FaceTarget() {
-        Vector3 targetPosition = targetDemon.transform.position;
+    private void FaceTarget(GameObject target) {
+        Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
@@ -82,7 +81,6 @@ public class LittleEnemyBehaviour : MonoBehaviour
                 GroupBehaviour gb = targetGroup.GetComponent<GroupBehaviour>();
                 int index = Random.Range(0, gb.demons.Length);
                 targetDemon = gb.demons[index];
-                haveTarget = true;
                 return;
             }
         }
