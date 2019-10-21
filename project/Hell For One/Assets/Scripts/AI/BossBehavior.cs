@@ -19,6 +19,7 @@ public class BossBehavior : MonoBehaviour
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
+    private GameObject targetDemon;
     private float[] aggroValues;
     private float[] probability;
     private readonly float singleAttackProb = 0.6f;
@@ -104,7 +105,7 @@ public class BossBehavior : MonoBehaviour
         if(GameObject.FindGameObjectsWithTag("group").Length == 0)
             return false;
 
-        if(Random.Range(0f, 1f) < changeTargetProb || targetGroup == gameObject) {
+        if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
             float totalAggro = 0f;
             for(int i = 0; i < demonGroups.Length; i++) {
                 //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
@@ -117,8 +118,12 @@ public class BossBehavior : MonoBehaviour
             float random = Random.Range(0.001f, totalAggro);
 
             for(int i = 1; i < probability.Length; i++) {
-                if(random > probability[i - 1] && random <= probability[i])
+                if(random > probability[i - 1] && random <= probability[i]) {
                     targetGroup = demonGroups[i - 1];
+                    int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
+                    targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+                }
+
             }
             //Debug.Log("target: " + currentTarget.name);
         }
@@ -137,7 +142,7 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool WalkToTarget() {
-        if(HorizDistFromTarget(targetGroup) > stopDist) {
+        if(HorizDistFromTarget(targetDemon) > stopDist) {
             canWalk = true;
             return true;
         }
@@ -242,7 +247,7 @@ public class BossBehavior : MonoBehaviour
 
         // the initial target is himself to stay on his place for the first seconds
         hp = initialHP;
-        targetGroup = gameObject;
+        targetDemon = gameObject;
         demonGroups = GameObject.FindGameObjectsWithTag("group");
         aggroValues = new float[demonGroups.Length];
         probability = new float[demonGroups.Length + 1];
@@ -259,7 +264,7 @@ public class BossBehavior : MonoBehaviour
     void FixedUpdate() {
 
         // in case I don't have a target anymore for some reason
-        if(targetGroup.transform) {
+        if(targetDemon.transform) {
 
             // I'm always facing my last target
             FaceTarget();
@@ -295,7 +300,7 @@ public class BossBehavior : MonoBehaviour
     }
 
     private void FaceTarget() {
-        Vector3 targetPosition = targetGroup.transform.position;
+        Vector3 targetPosition = targetDemon.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);

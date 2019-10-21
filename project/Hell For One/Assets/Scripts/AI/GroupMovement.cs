@@ -5,7 +5,15 @@ using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour
 {
+
+
+    // riconoscere quando un gruppo è in posizione così che poi non si sposta più di lì anche se il nemico si avvicina
+
+
+
+
     public GameObject positions;
+    public float rangedDist = 6f;
 
     private GameObject targetEnemy;
     private Transform targetPosition;
@@ -14,14 +22,13 @@ public class GroupMovement : MonoBehaviour
     private bool haveTarget = false;
     private GroupBehaviour gb;
     private bool vsLittleEnemies;
-
-    // Start is called before the first frame update
+    private bool inPosition = false;
+    
     void Start()
     {
         targetPosition = gameObject.transform;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if(!haveTarget) {
@@ -57,14 +64,48 @@ public class GroupMovement : MonoBehaviour
             
         }
 
+        // i update the target position only if the group is too far to do its things
         if(!vsLittleEnemies) {
-            if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
-                targetPosition = meleePosition;
-            else
-                targetPosition = rangedPosition;
+            switch(gb.currentState) {
+                case GroupBehaviour.State.MeleeAttack:
+                    targetPosition = meleePosition;
+                    break;
+                case GroupBehaviour.State.Tank:
+                    targetPosition = meleePosition;
+                    break;
+                case GroupBehaviour.State.RangeAttack:
+                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
+                        targetPosition = rangedPosition;
+                    break;
+                case GroupBehaviour.State.Support:
+                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
+                        targetPosition = rangedPosition;
+                    break;
+                default:
+                    break;
+            }
         }
-        else
-            targetPosition = targetEnemy.transform;
+        else {
+            switch(gb.currentState) {
+                case GroupBehaviour.State.MeleeAttack:
+                    targetPosition = targetEnemy.transform;
+                    break;
+                case GroupBehaviour.State.Tank:
+                    targetPosition = targetEnemy.transform;
+                    break;
+                case GroupBehaviour.State.RangeAttack:
+                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
+                        targetPosition = targetEnemy.transform;
+                    break;
+                case GroupBehaviour.State.Support:
+                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
+                        targetPosition = targetEnemy.transform;
+                    break;
+                default:
+                    break;
+            }
+        }
+            
         
     }
 
