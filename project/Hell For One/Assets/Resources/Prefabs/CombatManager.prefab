@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1948504900828473187}
   - component: {fileID: 1948504900828473196}
   - component: {fileID: 1948504900828473197}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: IdleCollider
   m_TagString: IdleCollider
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1948504901385055544}
   - component: {fileID: 1948504901385055545}
   - component: {fileID: 1948504901385055546}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: BlockCollider
   m_TagString: BlockCollider
   m_Icon: {fileID: 0}
@@ -291,7 +291,8 @@ GameObject:
   - component: {fileID: 1948504901866767581}
   - component: {fileID: 1948504901866767582}
   - component: {fileID: 1948504901866767583}
-  m_Layer: 9
+  - component: {fileID: 559601048356761775}
+  m_Layer: 8
   m_Name: AttackCollider
   m_TagString: AttackCollider
   m_Icon: {fileID: 0}
@@ -391,6 +392,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &559601048356761775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948504901866767578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004054d596f13bb45ba6e23718c18f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatManager: {fileID: 1948504901118015852}
 --- !u!1001 &1948504900106496662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,21 +412,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: IdleCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: IdleCollider
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -483,6 +482,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: IdleCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: IdleCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e75bbd6de8a36c148ab6e512a3b58150, type: 3}
@@ -493,21 +512,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: BlockCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: BlockCollider
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -578,6 +582,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: BlockCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: BlockCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -593,21 +617,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: AttackCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: AttackCollider
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -677,6 +686,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: AttackCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: AttackCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}

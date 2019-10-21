@@ -18,11 +18,14 @@ public class Dash : MonoBehaviour
     [SerializeField]
     [Tooltip("How close we have to get to target position before we can start moving again")]
     private float tollerance = 0.1f;
+    [SerializeField]
+    private GameObject idleCollider;
     
     private float cooldownCounter;
     private float lerpTimer;
     private bool isDashing;
     private Vector3 targetPosition;
+    private Vector3 startPosition;
 
     private Controller controller;
 
@@ -37,6 +40,10 @@ public class Dash : MonoBehaviour
     private void Start()
     {
         controller = this.GetComponent<Controller>();
+        
+        if(idleCollider == null) {
+            Debug.Log("Dash.cs - Set idleCollider");   
+        }
     }
 
     private void Update()
@@ -61,12 +68,15 @@ public class Dash : MonoBehaviour
             Vector3 moveDirection = ( Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal" ) * Camera.main.transform.right).normalized;
             moveDirection.y = 0f;
             
+            startPosition = this.transform.position;
             targetPosition = this.transform.position + ( moveDirection * dashSize );
             
             isDashing = true;
             controller.enabled = false;
             cooldownCounter = 0.0f;
             lerpTimer = 0.0f;
+
+            idleCollider.SetActive(false);
         }
 
         if (isDashing)
@@ -75,13 +85,15 @@ public class Dash : MonoBehaviour
             lerpTimer += Time.deltaTime;
             
             // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
-            this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, lerpTimer * dashSpeed);
+            this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
             
             // If we reach our destination (with some tollerance) we stop lerping
-            if(Vector3.Distance(this.transform.position,targetPosition)<tollerance)
+            if(Vector3.Distance(this.transform.position,targetPosition) == 0f)
             {
                 isDashing = false;
                 controller.enabled = true;
+
+                idleCollider.SetActive(true);
             }
         }
     }

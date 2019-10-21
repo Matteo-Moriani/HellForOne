@@ -163,6 +163,7 @@ MonoBehaviour:
   dashSpeed: 5
   dashCooldown: 1
   tollerance: 0.1
+  idleCollider: {fileID: 3877476070210071450}
 --- !u!114 &4070461641757290161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,7 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004054d596f13bb45ba6e23718c18f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
   combatManager: {fileID: 3877476071036220825}
 --- !u!1001 &3370369358463225077
 PrefabInstance:

@@ -14,7 +14,8 @@ public class Combat : MonoBehaviour
 
     private void Start()
     {
-        combatManager = combatManagerParent.GetComponent<CombatManager>();
+        if(combatManager == null)
+            combatManager = combatManagerParent.GetComponent<CombatManager>();
 
         // Used for testing - Put attack button in player controller
         parentTag = this.gameObject.tag;

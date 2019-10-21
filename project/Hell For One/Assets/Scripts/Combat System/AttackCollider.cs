@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class AttackCollider : MonoBehaviour
 {
-    [SerializeField]
     private Stats stats;
 
     [SerializeField]
     private CombatManager combatManager;
+
+    private void Start()
+    {
+        stats = this.transform.root.gameObject.GetComponent<Stats>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
