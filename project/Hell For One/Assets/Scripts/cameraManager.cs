@@ -9,6 +9,10 @@ public class cameraManager : MonoBehaviour
     private float turnSpeed = 4.0f;
     private Vector3 offset;
 
+    // For testing sake
+    [SerializeField]
+    private float distance;
+
     private void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
@@ -29,5 +33,8 @@ public class cameraManager : MonoBehaviour
         offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
         transform.position = player.transform.position + offset;
         transform.LookAt( player.transform.position );
+
+        // Testing if the distance remains the same during reincarnations
+        distance = (player.transform.position - transform.position).magnitude;
     }
 }
