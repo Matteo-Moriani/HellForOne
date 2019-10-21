@@ -25,7 +25,6 @@ public class GroupBehaviour : MonoBehaviour
     public State newState;
     public bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
-    public bool reincarnationHappened = false;
 
     public GameObject[] demons;
 
@@ -181,15 +180,6 @@ public class GroupBehaviour : MonoBehaviour
         return true;
     }
 
-    public void UpdateGroups()
-    {
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon != null && demon.GetComponent<Controller>().enabled )
-                demons[ System.Array.IndexOf( demons, demon ) ] = null;
-        }
-    }
-
     public FSMState getCurrentFSMState( State state )
     {
         switch ( state )
@@ -211,11 +201,6 @@ public class GroupBehaviour : MonoBehaviour
     {
         while ( true )
         {
-            if ( reincarnationHappened )
-            {
-                UpdateGroups();
-                reincarnationHappened = false;
-            }
             yield return new WaitForSeconds( reactionTime );
             groupFSM.Update();
         }

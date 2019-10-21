@@ -5,26 +5,30 @@ using UnityEngine;
 public class AllyDemonSpawnerTest : MonoBehaviour
 {
 
-    public void SpawnAlly()
+    public IEnumerator SpawnAlly()
     {
         while ( true )
         {
+            yield return new WaitForSeconds( 2f );
+
             if ( GameObject.FindGameObjectsWithTag( "Demon" ).Length < 16 )
             {
-                //GameObject demonToSpawn = Resources.Load("")
+                GameObject demonToSpawn = Resources.Load( "Prefabs/PlayerEvolved" ) as GameObject;
+                Instantiate( demonToSpawn, SpawnPosition(), Quaternion.identity );
             }
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public Vector3 SpawnPosition()
     {
-        
+        Vector3 spawnPosition = new Vector3( 0, 1, 0 );
+        spawnPosition.x = Random.Range( -10f, 10f );
+        spawnPosition.z = Random.Range( -10f, 10f );
+        return spawnPosition;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        StartCoroutine( SpawnAlly() );
     }
 }

@@ -25,7 +25,8 @@ public class Reincarnation : MonoBehaviour
         player.GetComponent<Reincarnation>().enabled = true;
 
         // Removing the new player from the group belonging to
-        player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().reincarnationHappened = true;
+        int playerIndex = System.Array.IndexOf( player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player);
+        player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons[ playerIndex ] = null;
 
         Destroy( gameObject );
     }
