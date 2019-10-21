@@ -11,7 +11,7 @@ public class TimePlayerKillerTest : MonoBehaviour
     {
         while ( true )
         {
-            if ( !allDemonsKilled )
+            if ( allDemonsKilled )
                 yield break;
             yield return new WaitForSeconds( 2f );
             GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().health = 0;
