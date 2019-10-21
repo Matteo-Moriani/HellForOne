@@ -18,10 +18,14 @@ public class Reincarnation : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag( "Demon" );
         player.tag = "Player";
+        player.GetComponent<DemonBehaviour>().enabled = false;
         player.GetComponent<Controller>().enabled = true;
         player.GetComponent<TacticsManager>().enabled = true;
         player.GetComponent<Dash>().enabled = true;
         player.GetComponent<Reincarnation>().enabled = true;
+
+        // Removing the new player from the group belonging to
+        player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().reincarnationHappened = true;
 
         Destroy( gameObject );
     }

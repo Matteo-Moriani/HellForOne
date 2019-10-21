@@ -25,6 +25,7 @@ public class GroupBehaviour : MonoBehaviour
     public State newState;
     public bool orderConfirmed = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
+    public bool reincarnationHappened = false;
 
     public GameObject[] demons;
 
@@ -96,14 +97,19 @@ public class GroupBehaviour : MonoBehaviour
 
     #region Actions
 
+    // Maybe all the CheckDemons() can be avoided by putting only 1 CheckDemons() inside the FSMUpdate()
     public void MeleeAttack()
     {
         if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            //combat.Attack();
+            // This check must be done in every tactic
+            if ( demon != null )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.Attack();
+            }
         }
     }
 
@@ -175,6 +181,15 @@ public class GroupBehaviour : MonoBehaviour
         return true;
     }
 
+    public void UpdateGroups()
+    {
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon != null && demon.GetComponent<Controller>().enabled )
+                demons[ System.Array.IndexOf( demons, demon ) ] = null;
+        }
+    }
+
     public FSMState getCurrentFSMState( State state )
     {
         switch ( state )
@@ -196,6 +211,11 @@ public class GroupBehaviour : MonoBehaviour
     {
         while ( true )
         {
+            if ( reincarnationHappened )
+            {
+                UpdateGroups();
+                reincarnationHappened = false;
+            }
             yield return new WaitForSeconds( reactionTime );
             groupFSM.Update();
         }
