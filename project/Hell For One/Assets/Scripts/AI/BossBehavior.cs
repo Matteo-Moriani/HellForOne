@@ -18,7 +18,7 @@ public class BossBehavior : MonoBehaviour
     public float changeTargetProb = 0.3f;
 
     private GameObject[] demonGroups;
-    private GameObject currentTarget;
+    private GameObject targetGroup;
     private float[] aggroValues;
     private float[] probability;
     private readonly float singleAttackProb = 0.6f;
@@ -101,14 +101,16 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget() {
         ResetTimer();
 
-        if(GameObject.FindGameObjectsWithTag("Demon").Length == 0)
+        if(GameObject.FindGameObjectsWithTag("group").Length == 0)
             return false;
 
-        if(Random.Range(0f, 1f) < changeTargetProb || currentTarget == gameObject) {
+        if(Random.Range(0f, 1f) < changeTargetProb || targetGroup == gameObject) {
             float totalAggro = 0f;
             for(int i = 0; i < demonGroups.Length; i++) {
-                aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                aggroValues[i] = 3;
+                //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                totalAggro = totalAggro + 3;
                 probability[i + 1] = totalAggro;
             }
 
@@ -116,7 +118,7 @@ public class BossBehavior : MonoBehaviour
 
             for(int i = 1; i < probability.Length; i++) {
                 if(random > probability[i - 1] && random <= probability[i])
-                    currentTarget = demonGroups[i - 1];
+                    targetGroup = demonGroups[i - 1];
             }
             //Debug.Log("target: " + currentTarget.name);
         }
@@ -135,7 +137,7 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool WalkToTarget() {
-        if(HorizDistFromTarget(currentTarget) > stopDist) {
+        if(HorizDistFromTarget(targetGroup) > stopDist) {
             canWalk = true;
             return true;
         }
@@ -240,8 +242,8 @@ public class BossBehavior : MonoBehaviour
 
         // the initial target is himself to stay on his place for the first seconds
         hp = initialHP;
-        currentTarget = gameObject;
-        demonGroups = GameObject.FindGameObjectsWithTag("Demon");
+        targetGroup = gameObject;
+        demonGroups = GameObject.FindGameObjectsWithTag("group");
         aggroValues = new float[demonGroups.Length];
         probability = new float[demonGroups.Length + 1];
         probability[0] = 0f;
@@ -257,15 +259,10 @@ public class BossBehavior : MonoBehaviour
     void FixedUpdate() {
 
         // in case I don't have a target anymore for some reason
-        if(currentTarget.transform) {
+        if(targetGroup.transform) {
 
             // I'm always facing my last target
-            Vector3 targetPosition = currentTarget.transform.position;
-            Vector3 vectorToTarget = targetPosition - transform.position;
-            vectorToTarget.y = 0f;
-            Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
-            Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
-            transform.rotation = newRotation;
+            FaceTarget();
 
             if(canWalk) {
                 transform.position += transform.forward * speed * Time.deltaTime;
@@ -295,6 +292,15 @@ public class BossBehavior : MonoBehaviour
     private float HorizDistFromTarget(GameObject target) {
         Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
         return (targetPosition - transform.position).magnitude;
+    }
+
+    private void FaceTarget() {
+        Vector3 targetPosition = targetGroup.transform.position;
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        vectorToTarget.y = 0f;
+        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        transform.rotation = newRotation;
     }
 
 }

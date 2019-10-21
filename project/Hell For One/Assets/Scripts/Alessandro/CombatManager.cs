@@ -11,8 +11,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     private GameObject idleCollider;
 
-    [SerializeField]
-    Stats stats;
+    private Stats stats;
 
     public bool isIdle { get; set; } = true;
     private bool isBlocking = false;
@@ -24,6 +23,8 @@ public class CombatManager : MonoBehaviour
     {
         // -TODO- add if null coditions.
         // and if true init GO.
+
+        stats = this.transform.root.gameObject.GetComponent<Stats>();   
 
         startPosition = attackCollider.transform.localPosition;
 

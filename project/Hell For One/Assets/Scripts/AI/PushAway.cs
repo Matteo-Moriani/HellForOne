@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PushAway : MonoBehaviour
 {
-    public float repulsion = 1f;
+    public float repulsionDist = 0.3f;
+    public float pushIntensity = 0.75f;
     private GameObject[] demons;
-    // Start is called before the first frame update
+    
     void Start()
     {
         demons = GameObject.FindGameObjectsWithTag("Demon");
@@ -29,8 +30,9 @@ public class PushAway : MonoBehaviour
 
     private void PushEnemies() {
         foreach(GameObject demon in demons) {
-            if(HorizDistFromTarget(demon.GetComponent<Collider>().ClosestPoint(transform.position)) < 0.5f) {
-                demon.GetComponent<Rigidbody>().AddForce((demon.transform.position - transform.position), ForceMode.Impulse);
+            // closest point of demon's collider to the closest point of my collider to the demon center
+            if(HorizDistFromTarget(demon.GetComponent<Collider>().ClosestPoint(GetComponent<Collider>().ClosestPoint(demon.transform.position))) < repulsionDist) {
+                demon.GetComponent<Rigidbody>().AddForce((demon.transform.position - transform.position)*pushIntensity, ForceMode.Impulse);
             }
         }
     }
