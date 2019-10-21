@@ -169,7 +169,7 @@ public class GroupBehaviour : MonoBehaviour
 
     #endregion
 
-    // To know if all demons found their group
+    //TODO To know if all demons found their group (can be improved by just setting a single boolean in a single gameobjact, without checking for all demons)
     public bool CheckDemons()
     {
         GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
