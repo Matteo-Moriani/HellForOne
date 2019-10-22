@@ -6,21 +6,27 @@ public class Lancer : MonoBehaviour
 {
     [Tooltip("The target of the ranged unit.")]
     public GameObject target;
+    [Tooltip("Indicates if the unit can launch to the target or not.")]
+    public bool canLaunch;
+    [Space]
+    [Min(0), Tooltip("The number of lances per second.")]
+    public float ratio;
+    [Min(0), Tooltip("The initial speed of the lance.")]
+    public float speed;
+    [Space]
+    [Min(0), Tooltip("The mininum distance of attack of the ranged unit.")]
+    public float minDistance;
+    [Min(0), Tooltip("The maximum distance of attack of the ranged unit.")]
+    public float maxDistance;
+    [Space]
     [Tooltip("The spawn position of the lance.")]
     public Vector3 lancePosition;
-
-    [Tooltip("The initial speed of the lance.")]
-    public float speed;
-    [Tooltip("If the lance follow a direct tragectory or not.")]
+    [Tooltip("If the lance follow a direct tragectory or not (false is recommended).")]
     public bool direct;
-
+    [Tooltip("The angle on the right or left to adjust the trajectory of the lance.")]
     public float angleCorrection;
-    [Tooltip("The maximum distance of attack of the ranged unit.")]
-    public float maxDistance;
-    [Tooltip("The mininum distance of attack of the ranged unit.")]
-    public float minDistance;
-    [Tooltip("The number of lances per second.")]
-    public float ratio;
+    
+    
     
 
     GameObject lance;
@@ -39,8 +45,7 @@ public class Lancer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (Time.time - lastShot > timespanShots)
+        if (Time.time - lastShot > timespanShots && target != null && canLaunch)
         {
             if (Launch(target))
             {
@@ -49,7 +54,12 @@ public class Lancer : MonoBehaviour
         }   
     }
 
-    public bool Launch(GameObject target)
+    /// <summary>
+    /// It launches a lance to the target if the target is at a distance between minDistance and maxDistance.
+    /// </summary>
+    /// <param name="target">The object target.</param>
+    /// <returns>Returns true if the launch was successful, otherwise returns false.</returns>
+    private bool Launch(GameObject target)
     {
         float distance;
         float alpha;
@@ -83,7 +93,14 @@ public class Lancer : MonoBehaviour
         return true;
     }
 
-    bool calculateAngle(Vector3 from, Vector3 to, out float angle)
+    /// <summary>
+    /// Returns the angle range (with 0° corresponding to the ground) to launch an object from a position to another with a velocity that is "speed".
+    /// </summary>
+    /// <param name="from">The start position of the launch.</param>
+    /// <param name="to">The final position of the launch.</param>
+    /// <param name="angle">The varible that will contain the angle in degree.</param>
+    /// <returns>Returns true if it is mathematically possible to have a trajectory, otherwise returns false.</returns>
+    private bool calculateAngle(Vector3 from, Vector3 to, out float angle)
     {
         float x, y, g, v;
         float tempResult;

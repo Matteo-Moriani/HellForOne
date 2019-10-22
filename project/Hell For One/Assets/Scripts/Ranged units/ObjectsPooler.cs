@@ -9,11 +9,11 @@ public class ObjectsPooler : MonoBehaviour
     public GameObject originalObject;
 
     [Tooltip("The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.")]
-    [Range(1, 100)]
+    [Min(1)]
     public int amountInPooler;
 
     [Tooltip("The number of objects added to the pooler if there is no objects available.")]
-    [Range(1, 100)]
+    [Min(1)]
     public int incrementAmount;
 
     private List<GameObject> pooler;
