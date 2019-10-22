@@ -197,6 +197,8 @@ GameObject:
   - component: {fileID: 5144178132538563668}
   - component: {fileID: 2856477944942965544}
   - component: {fileID: 6302516251480815045}
+  - component: {fileID: 6752825232190307699}
+  - component: {fileID: 3483760286213229095}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Demon
@@ -270,10 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b587f5cfad8ae4697b9fdd10db32e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
   speed: 8
+  rotSpeed: 0.1
   minMeleeDist: 1
   extraCohesion: 1.5
+  rangedDist: 5
+  targetEnemy: {fileID: 0}
 --- !u!114 &2856477944942965544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,3 +306,32 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6752825232190307699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392315926837050435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94527331855c9fe468edb28b3ff61677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatManagerParent: {fileID: 0}
+  combatManager: {fileID: 0}
+--- !u!114 &3483760286213229095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392315926837050435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCollider: {fileID: 0}
+  blockCollider: {fileID: 0}
+  idleCollider: {fileID: 0}

@@ -10,8 +10,7 @@ public class EnemyPositions : MonoBehaviour
     private Transform[] rangedPositions;
     private Dictionary<Transform, bool> meleeAvailable = new Dictionary<Transform, bool>();
     private Dictionary<Transform, Transform> closestRanged = new Dictionary<Transform, Transform>();
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         

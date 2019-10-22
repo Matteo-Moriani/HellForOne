@@ -105,27 +105,22 @@ public class BossBehavior : MonoBehaviour
 
         if(GameObject.FindGameObjectsWithTag("group").Length == 0)
             return false;
-
-        if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
+        
+        if((transform.position - Vector3.zero).magnitude > maxDistFromCenter) {
+            targetGroup = ClosestGroupTo(Vector3.zero);
+            int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
+            targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+            Debug.Log("target is the most centered one");
+        }
+        else if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
             float totalAggro = 0f;
-            if((transform.position - Vector3.zero).magnitude < maxDistFromCenter) {
-                for(int i = 0; i < demonGroups.Length; i++) {
-                    //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                    aggroValues[i] = 3;
-                    //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                    totalAggro = totalAggro + 3;
-                    probability[i + 1] = totalAggro;
-                }
-            } else {
-                for(int i = 0; i < demonGroups.Length; i++) {
-                    float aggro = 0f;
-                    if(demonGroups[i] == ClosestGroupTo(Vector3.zero))
-                        aggro = 100f;
-                    totalAggro = totalAggro + aggro;
-                    probability[i + 1] = totalAggro;
-                }
+            for(int i = 0; i < demonGroups.Length; i++) {
+                //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                aggroValues[i] = 3;
+                //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                totalAggro = totalAggro + 3;
+                probability[i + 1] = totalAggro;
             }
-            
 
             float random = Random.Range(0.001f, totalAggro);
 
@@ -137,7 +132,6 @@ public class BossBehavior : MonoBehaviour
                 }
 
             }
-            //Debug.Log("target: " + currentTarget.name);
         }
         else {
             Debug.Log("target won't change this time");
@@ -275,7 +269,7 @@ public class BossBehavior : MonoBehaviour
     void FixedUpdate() {
 
         // in case I don't have a target anymore for some reason
-        if(targetDemon.transform) {
+        if(targetDemon) {
 
             // I'm always facing my last target
             FaceTarget();
@@ -283,6 +277,8 @@ public class BossBehavior : MonoBehaviour
             if(canWalk) {
                 transform.position += transform.forward * speed * Time.deltaTime;
             }
+        } else {
+            ChooseTarget();
         }
     }
 
