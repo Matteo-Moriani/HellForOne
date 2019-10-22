@@ -5,15 +5,9 @@ using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour
 {
-
-
-    // riconoscere quando un gruppo è in posizione così che poi non si sposta più di lì anche se il nemico si avvicina
-
-
-
-
     public GameObject positions;
     public float rangedDist = 6f;
+    public float cohesionMultiplier = 1.5f;
 
     private GameObject targetEnemy;
     private Transform targetPosition;
@@ -22,7 +16,8 @@ public class GroupMovement : MonoBehaviour
     private bool haveTarget = false;
     private GroupBehaviour gb;
     private bool vsLittleEnemies;
-    private bool inPosition = false;
+    private bool inRangedPosition = false;
+    private float distanceInPosition = float.MaxValue;
     
     void Start()
     {
@@ -68,18 +63,17 @@ public class GroupMovement : MonoBehaviour
         if(!vsLittleEnemies) {
             switch(gb.currentState) {
                 case GroupBehaviour.State.MeleeAttack:
-                    targetPosition = meleePosition;
-                    break;
                 case GroupBehaviour.State.Tank:
                     targetPosition = meleePosition;
+                    inRangedPosition = false;
                     break;
                 case GroupBehaviour.State.RangeAttack:
-                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
-                        targetPosition = rangedPosition;
-                    break;
                 case GroupBehaviour.State.Support:
-                    if(HorizDistFromTargetBorders(targetEnemy) > rangedDist)
+                    if(!inRangedPosition) {
                         targetPosition = rangedPosition;
+                        inRangedPosition = true;
+                        distanceInPosition = (transform.position - targetEnemy.transform.position).magnitude;
+                    }
                     break;
                 default:
                     break;
@@ -105,7 +99,12 @@ public class GroupMovement : MonoBehaviour
                     break;
             }
         }
-            
+          
+        // if the boss is escaped since I positioned
+        if(distanceInPosition < (transform.position - targetEnemy.transform.position).magnitude) {
+            inRangedPosition = false;
+            distanceInPosition = float.MaxValue;
+        }
         
     }
 

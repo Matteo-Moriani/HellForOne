@@ -10,6 +10,7 @@ public class DemonMovement : MonoBehaviour
     public float rotSpeed = 0.1f;
     public float minMeleeDist = 1f;
     public float extraCohesion = 1.75f;
+    // only vs mobs
     public float rangedDist = 5f;
 
     [SerializeField]
@@ -23,14 +24,12 @@ public class DemonMovement : MonoBehaviour
     private GroupBehaviour gb;
     private bool inPosition = false;
     private float distanceInPosition;
-    //private Vector3 destination;
     
     void Start()
     {
         maxMeleeDist = minMeleeDist + 1f;
         myCollider = GetComponent<Collider>();
         targetEnemy = gameObject;
-        //destination = GetComponent<NavMeshAgent>().destination;
     }
     
     void Update()
@@ -137,7 +136,7 @@ public class DemonMovement : MonoBehaviour
     }
 
     private void HighRangeMovement() {
-        if(HorizDistFromTarget(group) > transform.localScale.x * 2.5f && !inPosition) {
+        if(HorizDistFromTarget(group) > transform.localScale.x * group.GetComponent<GroupMovement>().cohesionMultiplier && !inPosition) {
             GetComponent<NavMeshAgent>().destination = group.transform.position;
         }
         else {

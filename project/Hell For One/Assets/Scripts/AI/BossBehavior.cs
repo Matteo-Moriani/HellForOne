@@ -16,6 +16,7 @@ public class BossBehavior : MonoBehaviour
     public float initialHP = 100f;
     [Range(0f, 1f)]
     public float changeTargetProb = 0.3f;
+    public float maxDistFromCenter = 20f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -107,13 +108,24 @@ public class BossBehavior : MonoBehaviour
 
         if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
             float totalAggro = 0f;
-            for(int i = 0; i < demonGroups.Length; i++) {
-                //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                aggroValues[i] = 3;
-                //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                totalAggro = totalAggro + 3;
-                probability[i + 1] = totalAggro;
+            if((transform.position - Vector3.zero).magnitude < maxDistFromCenter) {
+                for(int i = 0; i < demonGroups.Length; i++) {
+                    //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                    aggroValues[i] = 3;
+                    //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
+                    totalAggro = totalAggro + 3;
+                    probability[i + 1] = totalAggro;
+                }
+            } else {
+                for(int i = 0; i < demonGroups.Length; i++) {
+                    float aggro = 0f;
+                    if(demonGroups[i] == ClosestGroupTo(Vector3.zero))
+                        aggro = 100f;
+                    totalAggro = totalAggro + aggro;
+                    probability[i + 1] = totalAggro;
+                }
             }
+            
 
             float random = Random.Range(0.001f, totalAggro);
 
@@ -220,8 +232,15 @@ public class BossBehavior : MonoBehaviour
 
     #endregion
 
-    void Start()
-    {
+    void Start() {
+        // the initial target is himself to stay on his place for the first seconds
+        hp = initialHP;
+        targetDemon = gameObject;
+        demonGroups = GameObject.FindGameObjectsWithTag("group");
+        aggroValues = new float[demonGroups.Length];
+        probability = new float[demonGroups.Length + 1];
+        probability[0] = 0f;
+
         FSMTransition t0 = new FSMTransition(PlayerApproaching);
         FSMTransition t1 = new FSMTransition(CrisisFull);
         FSMTransition t2 = new FSMTransition(LifeIsHalven);
@@ -245,20 +264,12 @@ public class BossBehavior : MonoBehaviour
 
         bossFSM = new FSM(waitingState);
 
-        // the initial target is himself to stay on his place for the first seconds
-        hp = initialHP;
-        targetDemon = gameObject;
-        demonGroups = GameObject.FindGameObjectsWithTag("group");
-        aggroValues = new float[demonGroups.Length];
-        probability = new float[demonGroups.Length + 1];
-        probability[0] = 0f;
-
         StartCoroutine(MoveThroughFSM());
     }
     
     void Update()
     {
-       
+
     }
 
     void FixedUpdate() {
@@ -306,6 +317,21 @@ public class BossBehavior : MonoBehaviour
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
         Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
         transform.rotation = newRotation;
+    }
+
+    private GameObject ClosestGroupTo(Vector3 position) {
+
+        GameObject closest = demonGroups[0];
+        float minDist = float.MaxValue;
+
+        foreach(GameObject group in demonGroups) {
+            if((group.transform.position - position).magnitude < minDist) {
+                minDist = (group.transform.position - position).magnitude;
+                closest = group;
+            }
+        }
+
+        return closest;
     }
 
 }
