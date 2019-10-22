@@ -4,7 +4,17 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Little Enemy
+  - group
   - Enemy
+  - Demon
+  - RangedPosition
+  - MeleePosition
+  - IdleCollider
+  - BlockCollider
+  - AttackCollider
+  - DeadPlayer
+  - Ally
   layers:
   - Default
   - TransparentFX
@@ -14,7 +24,7 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
+  - CombatSystem
   - 
   - 
   - 

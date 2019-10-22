@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Input;
 
 public class Controller : MonoBehaviour
 {
-    [Header("Input")]
+    [Header( "Input" )]
     private float zMovement, xMovement;
     private float moveAmount, moveDir;
 
-    [Header("Stats")]
+    [Header( "Stats" )]
     [SerializeField]
     private float rotateSpeed = 5f;
+    [SerializeField]
     private float runSpeed = 10f;
 
     void Update()
@@ -19,12 +21,14 @@ public class Controller : MonoBehaviour
         zMovement = Input.GetAxis( "Vertical" );
         xMovement = Input.GetAxis( "Horizontal" );
 
-        if ( (zMovement != 0f || xMovement != 0f) )
+        if ( zMovement != 0 || xMovement != 0 )
         {
             Vector3 vertical = zMovement * Camera.main.transform.forward;
             Vector3 horizontal = xMovement * Camera.main.transform.right;
 
             Vector3 moveDir = (vertical + horizontal).normalized;
+
+            // Problem of inabyssing
             moveDir.y = 0f;
 
             float m = Mathf.Abs( zMovement ) + Mathf.Abs( xMovement );
