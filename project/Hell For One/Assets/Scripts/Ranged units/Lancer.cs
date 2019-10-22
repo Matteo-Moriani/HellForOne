@@ -4,30 +4,27 @@ using UnityEngine;
 
 public class Lancer : MonoBehaviour
 {
-    [Tooltip("The target of the ranged unit.")]
-    public GameObject target;
+    [SerializeField, Tooltip("The target of the ranged unit.")]
+    private GameObject target;
     [Tooltip("Indicates if the unit can launch to the target or not.")]
-    public bool canLaunch;
+    private bool canLaunch;
     [Space]
-    [Min(0), Tooltip("The number of lances per second.")]
-    public float ratio;
-    [Min(0), Tooltip("The initial speed of the lance.")]
-    public float speed;
+    [SerializeField, Min(0), Tooltip("The number of lances per second.")]
+    private float ratio;
+    [SerializeField ,Min(0), Tooltip("The initial speed of the lance.")]
+    private float speed;
     [Space]
-    [Min(0), Tooltip("The mininum distance of attack of the ranged unit.")]
-    public float minDistance;
-    [Min(0), Tooltip("The maximum distance of attack of the ranged unit.")]
-    public float maxDistance;
+    [SerializeField, Min(0), Tooltip("The mininum distance of attack of the ranged unit.")]
+    private float minDistance;
+    [SerializeField, Min(0), Tooltip("The maximum distance of attack of the ranged unit.")]
+    private float maxDistance;
     [Space]
-    [Tooltip("The spawn position of the lance.")]
-    public Vector3 lancePosition;
-    [Tooltip("If the lance follow a direct tragectory or not (false is recommended).")]
-    public bool direct;
-    [Tooltip("The angle on the right or left to adjust the trajectory of the lance.")]
-    public float angleCorrection;
-    
-    
-    
+    [SerializeField, Tooltip("The spawn position of the lance.")]
+    private Vector3 lancePosition;
+    [SerializeField, Tooltip("If the lance follow a direct tragectory or not (false is recommended).")]
+    private bool direct;
+    [SerializeField, Tooltip("The angle on the right or left to adjust the trajectory of the lance.")]
+    private float angleCorrection;
 
     GameObject lance;
     ObjectsPooler lances;
@@ -139,4 +136,158 @@ public class Lancer : MonoBehaviour
         Debug.Log("x: " + x.ToString() + " alpha:" + angle.ToString());
         return true;
     }
+
+    #region "Properties"
+    /// <summary>
+    /// "The target of the ranged unit."
+    /// </summary>
+    public GameObject Target
+    {
+        get
+        {
+            return target;
+        }
+        set
+        {
+            if (value != null && value.GetComponent<Transform>() != null)
+            {
+                target = value;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Indicates if the unit can launch to the target or not."
+    /// </summary>
+    public bool CanLaunch
+    {
+        get
+        {
+            return canLaunch;
+        }
+        set
+        {
+            canLaunch = value;
+        }
+    }
+
+    /// <summary>
+    /// "The number of lances per second."
+    /// </summary>
+    public float Ratio
+    {
+        get
+        {
+            return ratio;
+        }
+        set
+        {
+            if (value > 0)
+            {
+                ratio = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// "The initial speed of the lance."
+    /// </summary>
+    public float Speed
+    {
+        get
+        {
+            return speed;
+        }
+        set
+        {
+            if (value > 0)
+            {
+                speed = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// "The mininum distance of attack of the ranged unit."
+    /// </summary>
+    public float MinDistance
+    {
+        get
+        {
+            return MinDistance;
+        }
+        set
+        {
+            if (value >= 0 && value < MaxDistance)
+            {
+                minDistance = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// "The maximum distance of attack of the ranged unit."
+    /// </summary>
+    public float MaxDistance
+    {
+        get
+        {
+            return maxDistance;
+        }
+        set
+        {
+            if (value >= 0 && value > MinDistance)
+            {
+                maxDistance = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// "The spawn position of the lance."
+    /// </summary>
+    public Vector3 StartLancePosition
+    {
+        get
+        {
+            return lancePosition;
+        }
+        set
+        {
+            lancePosition = value;
+        }
+    }
+
+    /// <summary>
+    /// If the lance follow a direct tragectory or not (false is recommended).
+    /// </summary>
+    public bool DirectTrajectory
+    {
+        get
+        {
+            return direct;
+        }
+        set
+        {
+            direct = value;
+        }
+    }
+
+    /// <summary>
+    /// The angle on the right or left to adjust the trajectory of the lance.
+    /// </summary>
+    public float AngleCorrection
+    {
+        get
+        {
+            return angleCorrection;
+        }
+        set
+        {
+            angleCorrection = value;
+        }
+    }
+    #endregion
+
 }

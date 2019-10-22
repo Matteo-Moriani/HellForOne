@@ -5,16 +5,14 @@ using UnityEngine;
 public class ObjectsPooler : MonoBehaviour
 {
 
-    [Tooltip("The object to duplicate in the pooler")]
-    public GameObject originalObject;
+    [SerializeField, Tooltip("The object to duplicate in the pooler. It must be a MonoBehaviour object with a Transform and a Rigidbody.")]
+    private GameObject originalObject;
 
-    [Tooltip("The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.")]
-    [Min(1)]
-    public int amountInPooler;
+    [SerializeField, Min(1), Tooltip("The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.")]
+    private int amountInPooler;
 
-    [Tooltip("The number of objects added to the pooler if there is no objects available.")]
-    [Min(1)]
-    public int incrementAmount;
+    [SerializeField, Min(1), Tooltip("The number of objects added to the pooler if there is no objects available.")]
+    private int incrementAmount;
 
     private List<GameObject> pooler;
 
@@ -24,6 +22,14 @@ public class ObjectsPooler : MonoBehaviour
         pooler = new List<GameObject>();
 
         for (int i = 0; i < amountInPooler; i++)
+        {
+            addNewObject();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        while (pooler.Count < amountInPooler)
         {
             addNewObject();
         }
@@ -162,7 +168,7 @@ public class ObjectsPooler : MonoBehaviour
         return newObject;
     }
 
-    public GameObject addNewObject()
+    private GameObject addNewObject()
     {
         GameObject newObject;
 
@@ -173,11 +179,73 @@ public class ObjectsPooler : MonoBehaviour
         return newObject;
     }
 
-    public void activeObject(GameObject obj, Vector3 position, Quaternion quaternion)
+    /// <summary>
+    /// Activates an object and set its position and rotation and it sets to 0 the velocity.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="position"></param>
+    /// <param name="quaternion"></param>
+    private void activeObject(GameObject obj, Vector3 position, Quaternion quaternion)
     {
         obj.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         obj.transform.position = position;
         obj.transform.rotation = quaternion;
         obj.SetActive(true);
     }
+
+    #region "Properties"
+    /// <summary>
+    /// The object to duplicate in the pooler. It must be a MonoBehaviour object with a Transform and a Rigidbody.
+    /// </summary>
+    public GameObject ObjectInPooler
+    {
+        get
+        {
+            return originalObject;
+        }
+        set
+        {
+            if (value != null && value.GetComponent<Transform>() != null && value.GetComponent<Rigidbody>() != null)
+            {
+                originalObject = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.
+    /// </summary>
+    public int AmountInPooler
+    {
+        get
+        {
+            return amountInPooler;
+        }
+        set
+        {
+            if (value > 0 && value >= pooler.Count)
+            {
+                amountInPooler = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// The number of objects added to the pooler if there is no objects available.
+    /// </summary>
+    public int IncrementAmount
+    {
+        get
+        {
+            return incrementAmount;
+        }
+        set
+        {
+            if (value > 0)
+            {
+                incrementAmount = value;
+            }
+        }
+    }
+    #endregion
 }

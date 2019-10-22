@@ -403,13 +403,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1814103756}
-  lancePosition: {x: 1, y: 2.5, z: 0}
+  ratio: 1
   speed: 30
+  minDistance: 5
+  maxDistance: 10
+  lancePosition: {x: 1, y: 2.5, z: 0}
   direct: 1
   angleCorrection: -1
-  maxDistance: 40
-  minDistance: 10
-  ratio: 1
 --- !u!114 &1362926479
 MonoBehaviour:
   m_ObjectHideFlags: 0
