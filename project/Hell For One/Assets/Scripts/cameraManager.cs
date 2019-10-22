@@ -16,7 +16,8 @@ public class cameraManager : MonoBehaviour
     private void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
-        offset = new Vector3( player.transform.position.x, player.transform.position.y + 20.0f, player.transform.position.z - 30.0f );
+        //offset = new Vector3( player.transform.position.x, player.transform.position.y + 20.0f, player.transform.position.z - 30.0f );
+        offset = new Vector3( 0.0f, 20.0f, - 30.0f );
     }
 
     void Start()

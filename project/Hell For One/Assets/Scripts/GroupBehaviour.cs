@@ -180,7 +180,7 @@ public class GroupBehaviour : MonoBehaviour
         return true;
     }
 
-    public FSMState getCurrentFSMState( State state )
+    public FSMState GetCurrentFSMState( State state )
     {
         switch ( state )
         {
@@ -258,7 +258,7 @@ public class GroupBehaviour : MonoBehaviour
         supportState.AddTransition( t3, rangeAttackState );
         supportState.AddTransition( t5, idleState );
 
-        idleState.AddTransition( t6, getCurrentFSMState( currentState ) );
+        idleState.AddTransition( t6, GetCurrentFSMState( currentState ) );
 
         //groupFSM = new FSM( idleState );
         groupFSM = new FSM( meleeState );
