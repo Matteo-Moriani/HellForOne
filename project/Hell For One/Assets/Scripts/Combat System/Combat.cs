@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Stats))]
 public class Combat : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject combatManagerParent;
-
     public CombatManager combatManager;
 
     // Used for testing - Put attack button in player controller
@@ -14,9 +12,6 @@ public class Combat : MonoBehaviour
 
     private void Start()
     {
-        if(combatManager == null)
-            combatManager = combatManagerParent.GetComponent<CombatManager>();
-
         // Used for testing - Put attack button in player controller
         parentTag = this.gameObject.tag;
     }
