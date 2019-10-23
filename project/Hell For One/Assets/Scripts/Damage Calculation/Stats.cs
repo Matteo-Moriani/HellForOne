@@ -15,16 +15,20 @@ public class Stats : MonoBehaviour
 
     // -TODO- set property?
     [SerializeField]
+    [Tooltip("The type of this demon")]
     public Type type = Type.None;
 
     // -TODO- set property?
     [SerializeField]
+    [Tooltip("Starting health of this demon")]
     public int health = 2;
 
     [SerializeField]
+    [Tooltip("How much damage this demon can deal")]
     private int damage = 1;
 
     [SerializeField]
+    [Tooltip("How far the attack collider will go")]
     private float attackRange = 1.0f;
 
     //[SerializeField]
@@ -35,29 +39,37 @@ public class Stats : MonoBehaviour
 
     [SerializeField]
     [Range(0f,100f)]
+    [Tooltip("The probability for this demon to dodge an attack. to stick to GDD it should be 75.0")]
     private float blockChance = 0f;
 
     [SerializeField]
     [Range(0f,100f)]
-    private float shieldBonus = 0f;
+    [Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
+    private float shieldBonusProbability = 0f;
 
     [SerializeField]
     [Range(0f,100f)]
+    [Tooltip("For Boss only")]
     private float knockBackChance = 0f;
 
     [SerializeField]
+    [Tooltip("For Boss only")]
     private float knockBackUnits = 0f;
 
     [SerializeField]
+    [Tooltip("For boss only")]
     private float knockBackSpeed = 5.0f;
 
+    // -TODO- Manage aggro 
     [SerializeField]
     private int aggro = 0;
 
+    // -TODO- Manage Crisis
     [SerializeField]
     private int crisis = 0;
 
     [SerializeField]
+    [Tooltip("How fast will be the attackCollider movement")]
     private float attackDurationMultiplier = 1.0f;
 
     public float AttackDurationMultiplier { get => attackDurationMultiplier; private set => attackDurationMultiplier = value; }
@@ -66,7 +78,7 @@ public class Stats : MonoBehaviour
     //public int AttackChance { get => attackChance; private set => attackChance = value; }
     //public int BlockChanceBonus { get => blockChanceBonus; private set => blockChanceBonus = value; }
     public float BlockChance { get => blockChance; set => blockChance = value; }
-    public float ShieldBonus { get => shieldBonus; set => shieldBonus = value; }
+    public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
     public int Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
     public float KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
@@ -111,7 +123,7 @@ public class Stats : MonoBehaviour
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range(1f,101f) <= (100 - (blockChance + shieldBonus)) * Mathf.Pow(0.9f, 4);
+                    return Random.Range(1f,101f) <= (100 - (blockChance + shieldBonusProbability)) * Mathf.Pow(0.9f, 4);
                 }
                 else 
                 {
@@ -134,7 +146,7 @@ public class Stats : MonoBehaviour
                 if (isBlocking) 
                 {
                     // TODO - Enemies will have support units?
-                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonus);
+                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonusProbability);
                 }
                 else 
                 {
@@ -145,7 +157,7 @@ public class Stats : MonoBehaviour
                 if (isBlocking) 
                 { 
                     // TODO - Boss will have support units?
-                    return Random.Range(1f,101f) <= (100 - blockChance + shieldBonus);    
+                    return Random.Range(1f,101f) <= (100 - blockChance + shieldBonusProbability);    
                 }
                 else 
                 { 
