@@ -13,7 +13,6 @@ public class BossBehavior : MonoBehaviour
     public float stopDist = 4.5f;
     public float stare = 2f;
     public float timeout = 5f;
-    //public float initialHP = 100f;
     [Range(0f, 1f)]
     public float changeTargetProb = 0.3f;
     public float maxDistFromCenter = 20f;
@@ -27,7 +26,6 @@ public class BossBehavior : MonoBehaviour
     private readonly float singleAttackProb = 0.6f;
     private readonly float groupAttackProb = 0.3f;
     private readonly float globalAttackProb = 0.1f;
-    //private float crisis = 0f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;
