@@ -7,13 +7,11 @@ public class Combat : MonoBehaviour
 {
     public CombatManager combatManager;
 
-    // Used for testing - Put attack button in player controller
-    private string parentTag;
+    private Stats stats;
 
     private void Start()
     {
-        // Used for testing - Put attack button in player controller
-        parentTag = this.gameObject.tag;
+        stats = GetComponent<Stats>();
     }
 
     void Update()
@@ -21,7 +19,7 @@ public class Combat : MonoBehaviour
         // left click
         // -TODO- add controller button
         // Used for testing - Put attack button in player controller
-        if ( parentTag == "Player" )
+        if ( stats.type == Stats.Type.Player )
         {
             if ( Input.GetMouseButtonDown( 0 ) )
             {

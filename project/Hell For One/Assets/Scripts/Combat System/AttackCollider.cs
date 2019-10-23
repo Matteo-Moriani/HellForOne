@@ -6,13 +6,24 @@ public class AttackCollider : MonoBehaviour
 {
     private Stats stats;
 
-    [SerializeField]
-    private CombatManager combatManager;
+    private Combat combat;
 
     private void Start()
     {
         stats = this.transform.root.gameObject.GetComponent<Stats>();
+        combat = this.transform.root.gameObject.GetComponent<Combat>();
     }
+    
+    private void OnEnable()
+    {
+        if(stats == null) { 
+            stats = this.transform.root.gameObject.GetComponent<Stats>();    
+        }
+        if(combat == null) {
+            combat = this.transform.root.gameObject.GetComponent<Combat>();
+        }
+    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,7 +41,7 @@ public class AttackCollider : MonoBehaviour
                 {
                     if (other.tag == "BlockCollider")
                     {
-                        combatManager.StopAttack();
+                        combat.StopAttack();
                     }
                     if (other.tag == "IdleCollider")
                     {
@@ -42,7 +53,7 @@ public class AttackCollider : MonoBehaviour
                         {
                             Debug.Log("Target does not have Stats attached");
                         }
-                        combatManager.StopAttack();
+                        combat.StopAttack();
                     }
                 }
                 break;
@@ -58,7 +69,7 @@ public class AttackCollider : MonoBehaviour
                                 targetRootStats.TakeHit(stats.Damage);
                             }
 
-                            combatManager.StopAttack();
+                            combat.StopAttack();
                         }
                     }
                     if (other.tag == "IdleCollider")
@@ -70,7 +81,7 @@ public class AttackCollider : MonoBehaviour
                                 targetRootStats.TakeHit(stats.Damage);
                             }
                         }
-                        combatManager.StopAttack();
+                        combat.StopAttack();
                     }
                 }
                 break;
@@ -85,7 +96,7 @@ public class AttackCollider : MonoBehaviour
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
-                            combatManager.StopAttack();
+                            combat.StopAttack();
                         }
                     }
                     if (other.tag == "IdleCollider")
@@ -96,100 +107,46 @@ public class AttackCollider : MonoBehaviour
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
-                            combatManager.StopAttack();
+                            combat.StopAttack();
                         }
                     }
                 }
                 break;
             case Stats.Type.Boss:
-                Debug.Log("AttackCollider - TODO Implement boss attack");
+                if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally) 
+                {
+                    if(other.tag == "BlockCollider") 
+                    { 
+                        if(targetRootStats != null) 
+                        {
+                            if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
+                            {
+                                targetRootStats.TakeHit(stats.Damage);
+                                if(Random.Range(1,101) <= stats.KnockBackChance) 
+                                {
+                                    targetRootStats.KnockBack( stats.KnockBackUnits, this.transform.root );
+                                }
+                            }
+                            combat.StopAttack();
+                        }   
+                    }
+                    if(other.tag == "IdleCollider") 
+                    {
+                        if (targetRootStats != null)
+                        {
+                            if (Random.Range(1, 101) <= stats.AttackChance)
+                            {
+                                targetRootStats.TakeHit(stats.Damage);
+                                if (Random.Range(1, 101) <= stats.KnockBackChance)
+                                {
+                                    targetRootStats.KnockBack( stats.KnockBackUnits, this.transform.root );
+                                }
+                            }
+                            combat.StopAttack();
+                        }
+                    }
+                }
                 break;
-        }
-    }
-
-    private void ManageCollisionUsingTag(Collider other) {
-        GameObject targetRootGo = other.transform.root.gameObject;
-        GameObject attackerRootGo = this.transform.root.gameObject;
-        Stats targetRootStats = targetRootGo.GetComponent<Stats>();
-
-        if (attackerRootGo.tag == "Player")
-        {
-            if (targetRootGo.tag != "Player" && targetRootGo.tag != "Ally")
-            {
-                if (other.tag == "BlockCollider")
-                {
-                    combatManager.StopAttack();
-                }
-                if (other.tag == "IdleCollider")
-                {
-                    if (targetRootStats != null)
-                    {
-                        targetRootStats.TakeHit(stats.Damage);
-                    }
-                    else
-                    {
-                        Debug.Log("Target does not have Stats attached");
-                    }
-                    combatManager.StopAttack();
-                }
-            }
-        }
-        if (attackerRootGo.tag == "Ally")
-        {
-            if (targetRootGo.tag != "Player" && targetRootGo.tag != "Ally")
-            {
-                if (other.tag == "BlockCollider")
-                {
-                    if (targetRootStats != null)
-                    {
-                        if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
-                        {
-                            targetRootStats.TakeHit(stats.Damage);
-                        }
-
-                        combatManager.StopAttack();
-                    }
-                }
-                if (other.tag == "IdleCollider")
-                {
-                    if (targetRootStats != null)
-                    {
-                        if (Random.Range(1, 101) <= stats.AttackChance)
-                        {
-                            targetRootStats.TakeHit(stats.Damage);
-                        }
-                    }
-                    combatManager.StopAttack();
-                }
-            }
-        }
-        if (attackerRootGo.tag == "Enemy")
-        {
-            if (targetRootGo.tag != "Enemy")
-            {
-                if (other.tag == "BlockCollider")
-                {
-                    if (targetRootStats != null)
-                    {
-                        if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
-                        {
-                            targetRootStats.TakeHit(stats.Damage);
-                        }
-                        combatManager.StopAttack();
-                    }
-                }
-                if (other.tag == "IdleCollider")
-                {
-                    if (targetRootStats != null)
-                    {
-                        if (Random.Range(1, 101) <= stats.AttackChance)
-                        {
-                            targetRootStats.TakeHit(stats.Damage);
-                        }
-                        combatManager.StopAttack();
-                    }
-                }
-            }
         }
     }
 }
