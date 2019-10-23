@@ -21,6 +21,7 @@ public class BossBehavior : MonoBehaviour
     private GameObject[] demonGroups;
     private GameObject targetGroup;
     private GameObject targetDemon;
+    private GameObject player;
     private float[] aggroValues;
     private float[] probability;
     private readonly float singleAttackProb = 0.6f;
@@ -104,7 +105,7 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget() {
         ResetTimer();
 
-        if(GameObject.FindGameObjectsWithTag("group").Length == 0)
+        if(GameObject.FindGameObjectsWithTag("group").Length == 0 && !player)
             return false;
         
         if((transform.position - Vector3.zero).magnitude > maxDistFromCenter) {
@@ -122,14 +123,22 @@ public class BossBehavior : MonoBehaviour
                 totalAggro = totalAggro + 3;
                 probability[i + 1] = totalAggro;
             }
+            // Get player aggro
+            aggroValues[demonGroups.Length] = 3;
+            totalAggro = totalAggro + 3;
+            probability[demonGroups.Length + 1] = totalAggro;
 
             float random = Random.Range(0.001f, totalAggro);
 
             for(int i = 1; i < probability.Length; i++) {
                 if(random > probability[i - 1] && random <= probability[i]) {
-                    targetGroup = demonGroups[i - 1];
-                    int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
-                    targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+                    if(i < probability.Length - 1) {
+                        targetGroup = demonGroups[i - 1];
+                        int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
+                        targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+                    }
+                    else
+                        targetDemon = player;
                 }
 
             }
@@ -233,8 +242,9 @@ public class BossBehavior : MonoBehaviour
         hp = stats.health;
         targetDemon = gameObject;
         demonGroups = GameObject.FindGameObjectsWithTag("group");
-        aggroValues = new float[demonGroups.Length];
-        probability = new float[demonGroups.Length + 1];
+        player = GameObject.FindGameObjectWithTag("Player");
+        aggroValues = new float[demonGroups.Length + 1];
+        probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
 
         FSMTransition t0 = new FSMTransition(PlayerApproaching);
@@ -269,6 +279,9 @@ public class BossBehavior : MonoBehaviour
     }
 
     void FixedUpdate() {
+
+        if(!player)
+            player = GameObject.FindGameObjectWithTag("Player");
 
         // in case I don't have a target anymore for some reason
         if(targetDemon) {

@@ -12,6 +12,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     private GameObject targetDemon;
     private GameObject[] demonGroups;
+    private GameObject player;
     private float[] aggroValues;
     private float[] probability;
 
@@ -19,8 +20,9 @@ public class LittleEnemyBehaviour : MonoBehaviour
     void Start()
     {
         demonGroups = GameObject.FindGameObjectsWithTag("group");
-        aggroValues = new float[demonGroups.Length];
-        probability = new float[demonGroups.Length + 1];
+        player = GameObject.FindGameObjectWithTag("Player");
+        aggroValues = new float[demonGroups.Length + 1];
+        probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
     }
     
@@ -30,6 +32,9 @@ public class LittleEnemyBehaviour : MonoBehaviour
     }
 
     void FixedUpdate() {
+
+        if(!player)
+            player = GameObject.FindGameObjectWithTag("Player");
 
         if(targetDemon) {
 
@@ -57,9 +62,10 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     public void ChooseTarget() {
 
-        if(GameObject.FindGameObjectsWithTag("group").Length == 0)
+        if(GameObject.FindGameObjectsWithTag("group").Length == 0 && !player)
             return;
 
+        // this includes the player
         GameObject targetGroup;
 
         float totalAggro = 0f;
@@ -72,15 +78,24 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
             probability[i + 1] = totalAggro;
         }
+        // Get player aggro
+        aggroValues[demonGroups.Length] = 3;
+        totalAggro = totalAggro + 3;
+        probability[demonGroups.Length + 1] = totalAggro;
 
         float random = Random.Range(0.001f, totalAggro);
 
         for(int i = 1; i < probability.Length; i++) {
             if(random > probability[i - 1] && random <= probability[i]) {
-                targetGroup = demonGroups[i - 1];
-                GroupBehaviour gb = targetGroup.GetComponent<GroupBehaviour>();
-                int index = Random.Range(0, gb.demons.Length);
-                targetDemon = gb.demons[index];
+                if(i < probability.Length - 1) {
+                    targetGroup = demonGroups[i - 1];
+                    GroupBehaviour gb = targetGroup.GetComponent<GroupBehaviour>();
+                    int index = Random.Range(0, gb.demons.Length);
+                    targetDemon = gb.demons[index];
+                }
+                else
+                    targetDemon = player;
+                
                 return;
             }
         }
