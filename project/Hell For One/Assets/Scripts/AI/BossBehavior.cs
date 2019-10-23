@@ -13,7 +13,7 @@ public class BossBehavior : MonoBehaviour
     public float stopDist = 4.5f;
     public float stare = 2f;
     public float timeout = 5f;
-    public float initialHP = 100f;
+    //public float initialHP = 100f;
     [Range(0f, 1f)]
     public float changeTargetProb = 0.3f;
     public float maxDistFromCenter = 20f;
@@ -26,7 +26,7 @@ public class BossBehavior : MonoBehaviour
     private readonly float singleAttackProb = 0.6f;
     private readonly float groupAttackProb = 0.3f;
     private readonly float globalAttackProb = 0.1f;
-    private float crisis = 0f;
+    //private float crisis = 0f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;
@@ -41,6 +41,7 @@ public class BossBehavior : MonoBehaviour
     private float fsmReactionTime = 0.5f;
     [SerializeField]
     private float btReactionTime = 0.05f;
+    private Stats stats;
 
     #region Finite State Machine
 
@@ -53,13 +54,13 @@ public class BossBehavior : MonoBehaviour
     }
 
     public bool CrisisFull() {
-        if(crisis >= crisisMax)
+        if(stats.Crisis >= crisisMax)
             return true;
         return false;
     }
 
     public bool LifeIsHalven() {
-        if(hp <= initialHP/2)
+        if(hp <= stats.health/2)
             return true;
         return false;
     }
@@ -228,7 +229,8 @@ public class BossBehavior : MonoBehaviour
 
     void Start() {
         // the initial target is himself to stay on his place for the first seconds
-        hp = initialHP;
+        stats = GetComponent<Stats>();
+        hp = stats.health;
         targetDemon = gameObject;
         demonGroups = GameObject.FindGameObjectsWithTag("group");
         aggroValues = new float[demonGroups.Length];
