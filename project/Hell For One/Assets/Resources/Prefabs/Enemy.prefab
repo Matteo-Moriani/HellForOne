@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1550504782205595610}
   - component: {fileID: 4336737656561943043}
   - component: {fileID: 8296109491207150701}
+  - component: {fileID: 23256968453531594}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -219,3 +220,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &23256968453531594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6401165200499556085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e2f47d32945dd43808dc81880d700e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  health: 100
+  damage: 1
+  attackRange: 2
+  attackChance: 0
+  blockChanceBonus: 0
+  knockBackChance: 0
+  knockBackUnits: 0
+  knockBackSpeed: 5
+  aggro: 0
+  crisis: 0
+  attackDurationMultiplier: 1
