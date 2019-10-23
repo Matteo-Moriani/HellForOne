@@ -27,14 +27,23 @@ public class Stats : MonoBehaviour
     [SerializeField]
     private float attackRange = 1.0f;
 
-    [SerializeField]
-    private int attackChance = 0;
+    //[SerializeField]
+    //private int attackChance = 0;
+
+    //[SerializeField]
+    //private int blockChanceBonus = 0;
 
     [SerializeField]
-    private int blockChanceBonus = 0;
+    [Range(0f,100f)]
+    private float blockChance = 0f;
 
     [SerializeField]
-    private int knockBackChance = 0;
+    [Range(0f,100f)]
+    private float shieldBonus = 0f;
+
+    [SerializeField]
+    [Range(0f,100f)]
+    private float knockBackChance = 0f;
 
     [SerializeField]
     private float knockBackUnits = 0f;
@@ -54,12 +63,15 @@ public class Stats : MonoBehaviour
     public float AttackDurationMultiplier { get => attackDurationMultiplier; private set => attackDurationMultiplier = value; }
     public float AttackRange { get => attackRange; private set => attackRange = value; }
     public int Damage { get => damage; private set => damage = value; }
-    public int AttackChance { get => attackChance; private set => attackChance = value; }
-    public int BlockChanceBonus { get => blockChanceBonus; private set => blockChanceBonus = value; }
+    //public int AttackChance { get => attackChance; private set => attackChance = value; }
+    //public int BlockChanceBonus { get => blockChanceBonus; private set => blockChanceBonus = value; }
+    public float BlockChance { get => blockChance; set => blockChance = value; }
+    public float ShieldBonus { get => shieldBonus; set => shieldBonus = value; }
     public int Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
-    public int KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
+    public float KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
     public float KnockBackUnits { get => knockBackUnits; set => knockBackUnits = value; }
+    
 
     private bool isProcessingKnockBack = false;
 
@@ -67,12 +79,12 @@ public class Stats : MonoBehaviour
         health -= damage;    
     }
 
-    public void KnockBack(float units, Transform attackerTransform) { 
+    public void TakeKnockBack(float units, Transform attackerTransform) { 
         if(!isProcessingKnockBack)
-            StartCoroutine(KnockBackCR(units,attackerTransform));
+            StartCoroutine(TakeKnockBackCR(units,attackerTransform));
     }
 
-    private IEnumerator KnockBackCR(float units, Transform attackerTransform) {
+    private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform) {
         isProcessingKnockBack = true;
 
         float lerpTimer = 0f;
@@ -89,5 +101,60 @@ public class Stats : MonoBehaviour
         }
       
         isProcessingKnockBack = false;
+    }
+
+    public bool CalculateBeenHitChance(bool isBlocking) {
+        switch (type)
+        {
+            case Stats.Type.Ally:
+                if (isBlocking) 
+                {
+                    // 0.9: hardcoded value for support units bonus
+                    // 4:   hardcoded value for number of support units
+                    return Random.Range(1f,101f) <= (100 - (blockChance + shieldBonus)) * Mathf.Pow(0.9f, 4);
+                }
+                else 
+                {
+                    // 0.9: hardcoded value for support units bonus
+                    // 4:   hardcoded value for number of support units
+                    return Random.Range(1f, 101f) <=  (100 - blockChance) * Mathf.Pow(0.9f,4);    
+                }
+            case Stats.Type.Player:
+                if (isBlocking) 
+                {   
+                    // When Player is blocking will allways avoid damage
+                    return false;
+                }
+                else 
+                { 
+                    // When Playes is not blocking will allways take damage
+                    return true; 
+                }
+            case Stats.Type.Enemy:
+                if (isBlocking) 
+                {
+                    // TODO - Enemies will have support units?
+                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonus);
+                }
+                else 
+                {
+                    // TODO - Enemies will have support units?
+                    return Random.Range(1f,101f) <= (100 - blockChance);
+                }
+            case Stats.Type.Boss:
+                if (isBlocking) 
+                { 
+                    // TODO - Boss will have support units?
+                    return Random.Range(1f,101f) <= (100 - blockChance + shieldBonus);    
+                }
+                else 
+                { 
+                    // TODO - Boss will have support units?
+                    return Random.Range(1,101f) <= (100 - blockChance);    
+                }
+            default:
+                Debug.Log(this.transform.root.name + " Stats error, did you set type?");
+                return false;
+        }
     }
 }
