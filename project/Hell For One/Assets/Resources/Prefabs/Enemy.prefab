@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 23256968453531594}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
   health: 100
   damage: 1
   attackRange: 2
-  attackChance: 0
-  blockChanceBonus: 0
+  blockChance: 0
+  shieldBonusProbability: 0
   knockBackChance: 0
   knockBackUnits: 0
   knockBackSpeed: 5

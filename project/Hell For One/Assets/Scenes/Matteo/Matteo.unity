@@ -1269,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 415832991084274865, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8435978056055178386, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
         type: 3}
@@ -1330,6 +1330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114660412348658804, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
+        type: 3}
+      propertyPath: currentState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7278565163453889771, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
         type: 3}
@@ -1625,7 +1630,7 @@ PrefabInstance:
     - target: {fileID: 415832991084274865, guid: 7a1fafda812482f45ac1cb0a43d989b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8435978056055178386, guid: 7a1fafda812482f45ac1cb0a43d989b0,
         type: 3}
@@ -1686,6 +1691,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114825707946308418, guid: 7a1fafda812482f45ac1cb0a43d989b0,
+        type: 3}
+      propertyPath: currentState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5830274381028926096, guid: 7a1fafda812482f45ac1cb0a43d989b0,
         type: 3}
@@ -2265,7 +2275,7 @@ PrefabInstance:
     - target: {fileID: 415832991084274865, guid: 478b9bf37234ea94b842ce825b73762a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8435978056055178386, guid: 478b9bf37234ea94b842ce825b73762a,
         type: 3}
@@ -2463,7 +2473,7 @@ PrefabInstance:
     - target: {fileID: 415832991084274865, guid: b5cd994fb3434f149ace26e835a2366a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8435978056055178386, guid: b5cd994fb3434f149ace26e835a2366a,
         type: 3}
@@ -2524,6 +2534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618281047304172, guid: b5cd994fb3434f149ace26e835a2366a,
+        type: 3}
+      propertyPath: currentState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4912697917947030343, guid: b5cd994fb3434f149ace26e835a2366a,
         type: 3}
@@ -2759,7 +2774,7 @@ MonoBehaviour:
   stare: 2
   timeout: 5
   changeTargetProb: 0.3
-  maxDistFromCenter: 10
+  maxDistFromCenter: 20
   fsmReactionTime: 0.5
   btReactionTime: 0.05
 --- !u!1 &1864719241 stripped
@@ -3368,12 +3383,12 @@ PrefabInstance:
     - target: {fileID: 6401165200499556085, guid: 62dd158c6c3b9a14ab54166ef03f4147,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6401165200499556085, guid: 62dd158c6c3b9a14ab54166ef03f4147,
         type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 6401165200499556081, guid: 62dd158c6c3b9a14ab54166ef03f4147,
         type: 3}
