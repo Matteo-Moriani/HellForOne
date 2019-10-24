@@ -12,6 +12,7 @@ public class DemonMovement : MonoBehaviour
     public float extraCohesion = 1.75f;
     // only vs mobs
     public float rangedDist = 5f;
+    public float repulsionWithGroup = 1f;
 
     [SerializeField]
     private GameObject target;
@@ -78,8 +79,10 @@ public class DemonMovement : MonoBehaviour
             }
             // out of combat
             else
-                if(HorizDistFromTarget(group) > group.GetComponent<GroupMovement>().cohesionMultiplier * transform.localScale.x)
+                if(HorizDistFromTarget(group) > repulsionWithGroup)
                     GetComponent<NavMeshAgent>().destination = group.transform.position;
+                else
+                    GetComponent<NavMeshAgent>().destination = transform.position;
         }
 
     }
