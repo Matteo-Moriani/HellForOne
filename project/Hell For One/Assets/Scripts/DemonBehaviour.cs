@@ -24,7 +24,7 @@ public class DemonBehaviour : MonoBehaviour
     // Balances group entering too
     public void FindGroup()
     {
-        GameObject[] go = GameObject.FindGameObjectsWithTag( "group" );
+        GameObject[] go = GameObject.FindGameObjectsWithTag( "Group" );
         GameObject bestGroup = null;
         int maxFreeSlots = 0;
 

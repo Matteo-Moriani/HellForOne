@@ -56,8 +56,8 @@ public class cameraManager : MonoBehaviour
         }
         else if ( Input.GetButtonDown( "R3" ) && !isLocked )
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag( "Little Enemy" );
-            GameObject boss = GameObject.FindGameObjectWithTag( "Enemy" );
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+            GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
 
             if ( boss == null && enemies != null )
             {
