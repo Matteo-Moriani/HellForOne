@@ -31,18 +31,18 @@ public class AttackCollider : MonoBehaviour
     }
 
     private void ManageCollisionUsingType(Collider other) {
-        GameObject targetRootGo = other.transform.root.gameObject;
-        GameObject attackerRootGo = this.transform.root.gameObject;
-        Stats targetRootStats = targetRootGo.GetComponent<Stats>();
+        Stats targetRootStats = other.transform.root.gameObject.GetComponent<Stats>();
 
-        switch (stats.type) { 
+        switch (stats.type) {
             case Stats.Type.Player:
                 if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
                 {
+                    // If target is blocking player will never hit
                     if (other.tag == "BlockCollider")
                     {
                         combat.StopAttack();
                     }
+                    // If target is not blocking player will allways hit
                     if (other.tag == "IdleCollider")
                     {
                         if (targetRootStats != null)
@@ -64,7 +64,7 @@ public class AttackCollider : MonoBehaviour
                     {
                         if (targetRootStats != null)
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
+                            if (targetRootStats.CalculateBeenHitChance(true))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
@@ -76,7 +76,7 @@ public class AttackCollider : MonoBehaviour
                     {
                         if (targetRootStats != null)
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance)
+                            if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
@@ -92,7 +92,7 @@ public class AttackCollider : MonoBehaviour
                     {
                         if (targetRootStats != null)
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
+                            if (targetRootStats.CalculateBeenHitChance(true))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
@@ -103,7 +103,7 @@ public class AttackCollider : MonoBehaviour
                     {
                         if (targetRootStats != null)
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance)
+                            if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
@@ -119,12 +119,13 @@ public class AttackCollider : MonoBehaviour
                     { 
                         if(targetRootStats != null) 
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance - targetRootStats.BlockChanceBonus)
+                            if (targetRootStats.CalculateBeenHitChance(true))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
-                                if(Random.Range(1,101) <= stats.KnockBackChance) 
+                                // TODO - Manage knockBack chance calculation in Stas?
+                                if(Random.Range(1f,101f) <= stats.KnockBackChance) 
                                 {
-                                    targetRootStats.KnockBack( stats.KnockBackUnits, this.transform.root );
+                                    targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
                                 }
                             }
                             combat.StopAttack();
@@ -134,12 +135,13 @@ public class AttackCollider : MonoBehaviour
                     {
                         if (targetRootStats != null)
                         {
-                            if (Random.Range(1, 101) <= stats.AttackChance)
+                            if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
-                                if (Random.Range(1, 101) <= stats.KnockBackChance)
+                                // TODO - Manage knockBack chance calculation in Stas?
+                                if (Random.Range(1f, 101f) <= stats.KnockBackChance)
                                 {
-                                    targetRootStats.KnockBack( stats.KnockBackUnits, this.transform.root );
+                                    targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
                                 }
                             }
                             combat.StopAttack();

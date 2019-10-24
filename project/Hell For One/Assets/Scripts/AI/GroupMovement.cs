@@ -5,7 +5,8 @@ using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour
 {
-    public GameObject positions;
+    public GameObject enemyPositions;
+    public GameObject groupsFormation;
     public float rangedDist = 6f;
     public float cohesionMultiplier = 2f;
 
@@ -13,10 +14,12 @@ public class GroupMovement : MonoBehaviour
     private Transform targetPosition;
     private Transform meleePosition;
     private Transform rangedPosition;
+    private Transform outOfCombatPosition;
     private bool haveTarget = false;
     private GroupBehaviour gb;
     private bool vsLittleEnemies = false;
     private bool vsBoss = false;
+    private bool outOfCombat = false;
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
     private float distanceFromPlayer;
@@ -35,36 +38,63 @@ public class GroupMovement : MonoBehaviour
 
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Little Enemy");
             if(enemies.Length != 0) {
-                vsLittleEnemies = true;
+                SetVsLittleEnemies();
                 target = enemies[Random.Range(0, enemies.Length)];
                 SetDemonsTarget(target);
                 haveTarget = true;
             } else {
                 GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
                 if(enemy) {
-                    vsBoss = true;
+                    SetVsBoss();
                     target = enemy;
                     SetDemonsTarget(target);
-                    haveTarget = true;
                 } else {
+                    SetOutOfCombat();
                     target = player;
                     SetDemonsTarget(target);
-                    haveTarget = true;
                 }
             }
 
+            // mi sa che non serve più
             if(vsBoss) {
-                foreach(Transform position in positions.GetComponent<EnemyPositions>().GetMeleePositions()) {
-                    if(positions.GetComponent<EnemyPositions>().GetAvailability(position)) {
+                foreach(Transform position in enemyPositions.GetComponent<EnemyPositions>().GetMeleePositions()) {
+                    if(enemyPositions.GetComponent<EnemyPositions>().GetAvailability(position)) {
                         meleePosition = position;
-                        rangedPosition = positions.GetComponent<EnemyPositions>().GetClosestRanged(position);
-                        positions.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                        rangedPosition = enemyPositions.GetComponent<EnemyPositions>().GetClosestRanged(position);
+                        enemyPositions.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                        haveTarget = true;
+
+                        // sostituire con questo
+
+                        //switch(outOfCombatPosition.name) {
+                        //    case "right":
+                        //        break;
+                        //    case "left":
+                        //        break;
+                        //    case "front":
+                        //        break;
+                        //    case "behind":
+                        //        break;
+                        //    default:
+                        //        break;
+                        //}
+
+                        break;
+                    }
+                }
+            }
+            if(outOfCombat) {
+                foreach(Transform position in groupsFormation.GetComponent<GroupsFormation>().GetPositions()) {
+                    if(groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position)) {
+                        outOfCombatPosition = position;
+                        Debug.Log(position.transform.position);
+                        groupsFormation.GetComponent<GroupsFormation>().SetAvailability(position, false);
                         haveTarget = true;
                         break;
                     }
                 }
             }
-            
+
         }
 
         // i update the target position only if the group is too far to do its things
@@ -113,10 +143,8 @@ public class GroupMovement : MonoBehaviour
             }
         } else {
             FacePlayer();
-            if(HorizDistFromTargetBorders(player) > distanceFromPlayer) {
-                // must change 8f with the player speed
-                transform.position += transform.forward * 8f * Time.deltaTime;
-            }
+            targetPosition = outOfCombatPosition;
+            
         }
         
     }
@@ -151,5 +179,23 @@ public class GroupMovement : MonoBehaviour
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
         Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, 0.1f);
         transform.rotation = newRotation;
+    }
+
+    private void SetVsLittleEnemies() {
+        vsLittleEnemies = true;
+        vsBoss = false;
+        outOfCombat = false;
+    }
+
+    private void SetVsBoss() {
+        vsLittleEnemies = false;
+        vsBoss = true;
+        outOfCombat = false;
+    }
+
+    private void SetOutOfCombat() {
+        vsLittleEnemies = false;
+        vsBoss = false;
+        outOfCombat = true;
     }
 }
