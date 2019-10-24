@@ -21,7 +21,6 @@ public class cameraManager : MonoBehaviour
     private void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
-        //offset = new Vector3( player.transform.position.x, player.transform.position.y + 20.0f, player.transform.position.z - 30.0f );
         offset = new Vector3( 0.0f, 20.0f, -30.0f );
     }
 
@@ -82,22 +81,22 @@ public class cameraManager : MonoBehaviour
 
         // If target enemy dies
         if ( target != player && target.GetComponent<Stats>().health <= 0 )
+        {
             target = player;
+            isLocked = false;
+        }
 
         offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
 
         if ( isLocked )
         {
             Vector3 cameraPos = player.transform.position - target.transform.position;
-            cameraPos.y += 20.0f;
-            // Error is here, Can't just subtract 30.0f on z axis, it works like that only if it's local (and I'm looking in enemy direction) not world
-            //cameraPos.z += -30.0f;
-            //TODO find the error here
-            float alfa = Vector3.Angle( new Vector3( 0f, 0f, 1f ), target.transform.position - player.transform.position );
-            cameraPos.x += -30 * Mathf.Sin( alfa );
-            cameraPos.z += -30 * Mathf.Cos( alfa );
 
-            transform.position = cameraPos;
+            Ray ray = new Ray( target.transform.position, cameraPos );
+            Vector3 rayOffset = ray.GetPoint( cameraPos.magnitude + 30.0f );
+            rayOffset.y += 20.0f;
+
+            transform.position = rayOffset;
         }
         else
         {
