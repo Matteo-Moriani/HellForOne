@@ -52,7 +52,7 @@ public class DemonMovement : MonoBehaviour
             }
         }
         else if (target){
-            if(target.CompareTag("Enemy")) {
+            if(target.CompareTag("Boss")) {
                 if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
                     CloseRangeMovement();
                 else
@@ -61,7 +61,7 @@ public class DemonMovement : MonoBehaviour
                 if(distanceInPosition < (transform.position - target.transform.position).magnitude)
                     inPosition = false;
             }
-            else if(target.CompareTag("Little Enemy")) {
+            else if(target.CompareTag("LittleEnemy")) {
                 if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
                     if((HorizDistFromTargetBorders() > minMeleeDist)) {
                         GetComponent<NavMeshAgent>().destination = target.transform.position;
@@ -81,8 +81,11 @@ public class DemonMovement : MonoBehaviour
             else
                 if(HorizDistFromTarget(group) > repulsionWithGroup)
                     GetComponent<NavMeshAgent>().destination = group.transform.position;
-                else
+                else {
                     GetComponent<NavMeshAgent>().destination = transform.position;
+                    FaceTarget();
+                }
+                    
         }
 
     }

@@ -9,9 +9,10 @@ public class LittleEnemyBehaviour : MonoBehaviour
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
     public float stopDist = 1.5f;
-
+    
     private GameObject targetDemon;
     private GameObject[] demonGroups;
+    private GameObject[] allies;
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
@@ -19,8 +20,9 @@ public class LittleEnemyBehaviour : MonoBehaviour
     
     void Start()
     {
-        demonGroups = GameObject.FindGameObjectsWithTag("group");
+        demonGroups = GameObject.FindGameObjectsWithTag("Group");
         player = GameObject.FindGameObjectWithTag("Player");
+        allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
         aggroValues = new float[demonGroups.Length + 1];
         probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
@@ -49,6 +51,18 @@ public class LittleEnemyBehaviour : MonoBehaviour
         }
         else
             ChooseTarget();
+
+        if(GetComponent<Stats>().health <= 0) {
+            allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
+            // if before i destroy myself i'm the last one...
+            if(allies.Length == 1) {
+                foreach(GameObject group in demonGroups) {
+                    group.GetComponent<GroupMovement>().SetOutOfCombat();
+                }
+            }
+
+            Destroy(gameObject);
+        }
     }
 
     private void FaceTarget(GameObject target) {
@@ -62,7 +76,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     public void ChooseTarget() {
 
-        if(GameObject.FindGameObjectsWithTag("group").Length == 0 && !player)
+        if(GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
             return;
 
         // this includes the player
@@ -101,4 +115,5 @@ public class LittleEnemyBehaviour : MonoBehaviour
         }
         
     }
+    
 }

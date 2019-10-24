@@ -17,7 +17,7 @@ public class MatteoSceneCamera : MonoBehaviour
     void Update()
     {
         if(!boss)
-            boss = GameObject.FindGameObjectWithTag("Enemy");
+            boss = GameObject.FindGameObjectWithTag("Boss");
 
         gameObject.transform.position = new Vector3(boss.transform.position.x, height, boss.transform.position.z);
     }

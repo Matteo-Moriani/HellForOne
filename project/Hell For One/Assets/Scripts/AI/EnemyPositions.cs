@@ -48,6 +48,8 @@ public class EnemyPositions : MonoBehaviour
     }
 
     void FixedUpdate() {
+        if(!boss)
+            Destroy(gameObject);
         transform.position = boss.transform.position;
     }
 

@@ -103,7 +103,7 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget() {
         ResetTimer();
 
-        if(GameObject.FindGameObjectsWithTag("group").Length == 0 && !player)
+        if(GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
             return false;
         
         if((transform.position - Vector3.zero).magnitude > maxDistFromCenter) {
@@ -239,7 +239,7 @@ public class BossBehavior : MonoBehaviour
         stats = GetComponent<Stats>();
         hp = stats.health;
         targetDemon = gameObject;
-        demonGroups = GameObject.FindGameObjectsWithTag("group");
+        demonGroups = GameObject.FindGameObjectsWithTag("Group");
         player = GameObject.FindGameObjectWithTag("Player");
         aggroValues = new float[demonGroups.Length + 1];
         probability = new float[demonGroups.Length + 2];
@@ -292,6 +292,14 @@ public class BossBehavior : MonoBehaviour
             }
         } else {
             ChooseTarget();
+        }
+
+        if(stats.health <= 0) {
+            foreach(GameObject group in demonGroups) {
+                group.GetComponent<GroupMovement>().SetOutOfCombat();
+            }
+
+            Destroy(gameObject);
         }
     }
 

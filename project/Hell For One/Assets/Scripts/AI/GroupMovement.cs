@@ -22,13 +22,11 @@ public class GroupMovement : MonoBehaviour
     private bool outOfCombat = false;
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
-    private float distanceFromPlayer;
     private GameObject player;
     
     void Start()
     {
         targetPosition = gameObject.transform;
-        distanceFromPlayer = Random.Range(2f, 5f);
         player = GameObject.FindGameObjectWithTag("Player");
     }
     
@@ -36,63 +34,13 @@ public class GroupMovement : MonoBehaviour
     {
         if(!haveTarget) {
 
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Little Enemy");
-            if(enemies.Length != 0) {
-                SetVsLittleEnemies();
-                target = enemies[Random.Range(0, enemies.Length)];
-                SetDemonsTarget(target);
-                haveTarget = true;
-            } else {
-                GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-                if(enemy) {
-                    SetVsBoss();
-                    target = enemy;
-                    SetDemonsTarget(target);
-                } else {
-                    SetOutOfCombat();
-                    target = player;
-                    SetDemonsTarget(target);
-                }
-            }
-
-            // mi sa che non serve più
+            FindTarget();
+            
             if(vsBoss) {
-                foreach(Transform position in enemyPositions.GetComponent<EnemyPositions>().GetMeleePositions()) {
-                    if(enemyPositions.GetComponent<EnemyPositions>().GetAvailability(position)) {
-                        meleePosition = position;
-                        rangedPosition = enemyPositions.GetComponent<EnemyPositions>().GetClosestRanged(position);
-                        enemyPositions.GetComponent<EnemyPositions>().SetAvailability(position, false);
-                        haveTarget = true;
-
-                        // sostituire con questo
-
-                        //switch(outOfCombatPosition.name) {
-                        //    case "right":
-                        //        break;
-                        //    case "left":
-                        //        break;
-                        //    case "front":
-                        //        break;
-                        //    case "behind":
-                        //        break;
-                        //    default:
-                        //        break;
-                        //}
-
-                        break;
-                    }
-                }
+                ChooseBossPositions();
             }
             if(outOfCombat) {
-                foreach(Transform position in groupsFormation.GetComponent<GroupsFormation>().GetPositions()) {
-                    if(groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position)) {
-                        outOfCombatPosition = position;
-                        Debug.Log(position.transform.position);
-                        groupsFormation.GetComponent<GroupsFormation>().SetAvailability(position, false);
-                        haveTarget = true;
-                        break;
-                    }
-                }
+                ChooseOutOfCombatPosition();
             }
 
         }
@@ -123,6 +71,9 @@ public class GroupMovement : MonoBehaviour
             }
         }
         else if (vsLittleEnemies){
+            if(!target)
+                FindTarget();
+
             switch(gb.currentState) {
                 case GroupBehaviour.State.MeleeAttack:
                     targetPosition = target.transform;
@@ -144,7 +95,6 @@ public class GroupMovement : MonoBehaviour
         } else {
             FacePlayer();
             targetPosition = outOfCombatPosition;
-            
         }
         
     }
@@ -153,6 +103,8 @@ public class GroupMovement : MonoBehaviour
 
         if(targetPosition)
             transform.position = targetPosition.position;
+
+
         
     }
 
@@ -181,21 +133,87 @@ public class GroupMovement : MonoBehaviour
         transform.rotation = newRotation;
     }
 
-    private void SetVsLittleEnemies() {
+    public void SetVsLittleEnemies() {
         vsLittleEnemies = true;
         vsBoss = false;
         outOfCombat = false;
+        haveTarget = false;
     }
 
-    private void SetVsBoss() {
+    public void SetVsBoss() {
         vsLittleEnemies = false;
         vsBoss = true;
         outOfCombat = false;
+        haveTarget = false;
     }
 
-    private void SetOutOfCombat() {
+    public void SetOutOfCombat() {
         vsLittleEnemies = false;
         vsBoss = false;
         outOfCombat = true;
+        haveTarget = false;
+    }
+
+    private void FindTarget() {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("LittleEnemy");
+        if(enemies.Length != 0) {
+            SetVsLittleEnemies();
+            target = enemies[Random.Range(0, enemies.Length)];
+            SetDemonsTarget(target);
+            haveTarget = true;
+        }
+        else {
+            GameObject enemy = GameObject.FindGameObjectWithTag("Boss");
+            if(enemy) {
+                SetVsBoss();
+                target = enemy;
+                SetDemonsTarget(target);
+            }
+            else {
+                SetOutOfCombat();
+                target = player;
+                SetDemonsTarget(target);
+            }
+        }
+    }
+
+    private void ChooseOutOfCombatPosition() {
+        foreach(Transform position in groupsFormation.GetComponent<GroupsFormation>().GetPositions()) {
+            if(groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position)) {
+                outOfCombatPosition = position;
+                Debug.Log(position.transform.position);
+                groupsFormation.GetComponent<GroupsFormation>().SetAvailability(position, false);
+                haveTarget = true;
+                break;
+            }
+        }
+    }
+
+    private void ChooseBossPositions() {
+        foreach(Transform position in enemyPositions.GetComponent<EnemyPositions>().GetMeleePositions()) {
+            if(enemyPositions.GetComponent<EnemyPositions>().GetAvailability(position)) {
+                meleePosition = position;
+                rangedPosition = enemyPositions.GetComponent<EnemyPositions>().GetClosestRanged(position);
+                enemyPositions.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                haveTarget = true;
+
+                // sostituire poi con questo
+
+                //switch(outOfCombatPosition.name) {
+                //    case "right":
+                //        break;
+                //    case "left":
+                //        break;
+                //    case "front":
+                //        break;
+                //    case "behind":
+                //        break;
+                //    default:
+                //        break;
+                //}
+
+                break;
+            }
+        }
     }
 }
