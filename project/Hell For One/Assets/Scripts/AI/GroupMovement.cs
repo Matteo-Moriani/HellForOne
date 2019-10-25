@@ -10,6 +10,7 @@ public class GroupMovement : MonoBehaviour
     public float rangedDist = 6f;
     public float cohesionMultiplier = 2f;
 
+    [SerializeField]
     private GameObject target;
     private Transform targetPosition;
     private Transform meleePosition;
@@ -190,11 +191,11 @@ public class GroupMovement : MonoBehaviour
     }
 
     private void ChooseBossPositions() {
-        foreach(Transform position in enemyPositions.GetComponent<EnemyPositions>().GetMeleePositions()) {
-            if(enemyPositions.GetComponent<EnemyPositions>().GetAvailability(position)) {
+        foreach(Transform position in enemyPositions.GetComponent<BossPositions>().GetMeleePositions()) {
+            if(enemyPositions.GetComponent<BossPositions>().GetAvailability(position)) {
                 meleePosition = position;
-                rangedPosition = enemyPositions.GetComponent<EnemyPositions>().GetClosestRanged(position);
-                enemyPositions.GetComponent<EnemyPositions>().SetAvailability(position, false);
+                rangedPosition = enemyPositions.GetComponent<BossPositions>().GetClosestRanged(position);
+                enemyPositions.GetComponent<BossPositions>().SetAvailability(position, false);
                 haveTarget = true;
 
                 // sostituire poi con questo

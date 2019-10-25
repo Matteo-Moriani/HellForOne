@@ -13,7 +13,7 @@ public class Reincarnation : MonoBehaviour
         player.GetComponent<TacticsManager>().enabled = false;
         player.GetComponent<Dash>().enabled = false;
         player.GetComponent<Combat>().enabled = false;
-        player.GetComponent<CombatManager>().enabled = false;
+        //player.GetComponent<CombatManager>().enabled = false;
         player.tag = "DeadPlayer";
 
         player = GameObject.FindGameObjectWithTag( "Demon" );
