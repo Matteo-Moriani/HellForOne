@@ -6,7 +6,7 @@ public class Lancer : MonoBehaviour
 {
     [SerializeField, Tooltip("The target of the ranged unit.")]
     private GameObject target;
-    [Tooltip("Indicates if the unit can launch to the target or not.")]
+    [SerializeField, Tooltip("Indicates if the unit can launch to the target or not.")]
     private bool canLaunch;
     [Space]
     [SerializeField, Min(0), Tooltip("The number of lances per second.")]
@@ -30,7 +30,7 @@ public class Lancer : MonoBehaviour
     ObjectsPooler lances;
     private float lastShot;
     private float timespanShots;
-
+    private int n_frames = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +49,11 @@ public class Lancer : MonoBehaviour
                 lastShot = Time.time;
             }
         }   
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     /// <summary>
@@ -73,7 +78,7 @@ public class Lancer : MonoBehaviour
 
         alpha = 0;
 
-        if (!calculateAngle(transform.position + lancePosition, target.transform.position, out alpha))
+        if (!calculateAngle(transform.position + lancePosition, target.transform.position - Vector3.up*1, out alpha))
         {
             return false;
         }
