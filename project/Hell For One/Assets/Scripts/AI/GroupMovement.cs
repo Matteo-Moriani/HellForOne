@@ -24,31 +24,25 @@ public class GroupMovement : MonoBehaviour
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
     private GameObject player;
-    
+
     void Start()
     {
         targetPosition = gameObject.transform;
         player = GameObject.FindGameObjectWithTag("Player");
     }
-    
+
     void Update()
     {
-        if(!haveTarget) {
-
-            FindTarget();
-            
-            if(vsBoss) {
-                ChooseBossPositions();
-            }
-            if(outOfCombat) {
-                ChooseOutOfCombatPosition();
-            }
-
+        if (!haveTarget)
+        {
+            ChangeTarget();
         }
 
         // i update the target position only if the group is too far to do its things
-        if(vsBoss) {
-            switch(gb.currentState) {
+        if (vsBoss)
+        {
+            switch (gb.currentState)
+            {
                 case GroupBehaviour.State.MeleeAttack:
                 case GroupBehaviour.State.Tank:
                     targetPosition = meleePosition;
@@ -56,7 +50,8 @@ public class GroupMovement : MonoBehaviour
                     break;
                 case GroupBehaviour.State.RangeAttack:
                 case GroupBehaviour.State.Support:
-                    if(!inRangedPosition) {
+                    if (!inRangedPosition)
+                    {
                         targetPosition = rangedPosition;
                         inRangedPosition = true;
                         distanceInPosition = (transform.position - target.transform.position).magnitude;
@@ -66,16 +61,19 @@ public class GroupMovement : MonoBehaviour
                     break;
             }
             // if the boss is escaped since I positioned
-            if(distanceInPosition < (transform.position - target.transform.position).magnitude) {
+            if (distanceInPosition < (transform.position - target.transform.position).magnitude)
+            {
                 inRangedPosition = false;
                 distanceInPosition = float.MaxValue;
             }
         }
-        else if (vsLittleEnemies){
-            if(!target)
+        else if (vsLittleEnemies)
+        {
+            if (!target)
                 FindTarget();
 
-            switch(gb.currentState) {
+            switch (gb.currentState)
+            {
                 case GroupBehaviour.State.MeleeAttack:
                     targetPosition = target.transform;
                     break;
@@ -83,49 +81,71 @@ public class GroupMovement : MonoBehaviour
                     targetPosition = target.transform;
                     break;
                 case GroupBehaviour.State.RangeAttack:
-                    if(HorizDistFromTargetBorders(target) > rangedDist)
+                    if (HorizDistFromTargetBorders(target) > rangedDist)
                         targetPosition = target.transform;
                     break;
                 case GroupBehaviour.State.Support:
-                    if(HorizDistFromTargetBorders(target) > rangedDist)
+                    if (HorizDistFromTargetBorders(target) > rangedDist)
                         targetPosition = target.transform;
                     break;
                 default:
                     break;
             }
-        } else {
+        }
+        else
+        {
             FacePlayer();
             targetPosition = outOfCombatPosition;
         }
-        
+
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
 
-        if(targetPosition)
+        if (targetPosition)
             transform.position = targetPosition.position;
 
 
-        
+
     }
 
-    public float HorizDistFromTargetBorders(GameObject target) {
+    public void ChangeTarget()
+    {
+        FindTarget();
+
+        if (vsBoss)
+        {
+            ChooseBossPositions();
+        }
+        if (outOfCombat)
+        {
+            ChooseOutOfCombatPosition();
+        }
+    }
+
+    public float HorizDistFromTargetBorders(GameObject target)
+    {
         Vector3 closestPoint = target.GetComponent<Collider>().ClosestPoint(transform.position);
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         gb = GetComponent<GroupBehaviour>();
     }
 
-    private void SetDemonsTarget(GameObject target) {
-        foreach(GameObject demon in GetComponent<GroupBehaviour>().demons) {
+    private void SetDemonsTarget(GameObject target)
+    {
+        foreach (GameObject demon in GetComponent<GroupBehaviour>().demons)
+        {
             demon.GetComponent<DemonMovement>().SetTarget(target);
         }
     }
 
-    private void FacePlayer() {
+    private void FacePlayer()
+    {
         Vector3 targetPosition = player.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
@@ -134,43 +154,51 @@ public class GroupMovement : MonoBehaviour
         transform.rotation = newRotation;
     }
 
-    public void SetVsLittleEnemies() {
+    public void SetVsLittleEnemies()
+    {
         vsLittleEnemies = true;
         vsBoss = false;
         outOfCombat = false;
         haveTarget = false;
     }
 
-    public void SetVsBoss() {
+    public void SetVsBoss()
+    {
         vsLittleEnemies = false;
         vsBoss = true;
         outOfCombat = false;
         haveTarget = false;
     }
 
-    public void SetOutOfCombat() {
+    public void SetOutOfCombat()
+    {
         vsLittleEnemies = false;
         vsBoss = false;
         outOfCombat = true;
         haveTarget = false;
     }
 
-    private void FindTarget() {
+    private void FindTarget()
+    {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("LittleEnemy");
-        if(enemies.Length != 0) {
+        if (enemies.Length != 0)
+        {
             SetVsLittleEnemies();
             target = enemies[Random.Range(0, enemies.Length)];
             SetDemonsTarget(target);
             haveTarget = true;
         }
-        else {
+        else
+        {
             GameObject enemy = GameObject.FindGameObjectWithTag("Boss");
-            if(enemy) {
+            if (enemy)
+            {
                 SetVsBoss();
                 target = enemy;
                 SetDemonsTarget(target);
             }
-            else {
+            else
+            {
                 SetOutOfCombat();
                 target = player;
                 SetDemonsTarget(target);
@@ -178,9 +206,12 @@ public class GroupMovement : MonoBehaviour
         }
     }
 
-    private void ChooseOutOfCombatPosition() {
-        foreach(Transform position in groupsFormation.GetComponent<GroupsFormation>().GetPositions()) {
-            if(groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position)) {
+    private void ChooseOutOfCombatPosition()
+    {
+        foreach (Transform position in groupsFormation.GetComponent<GroupsFormation>().GetPositions())
+        {
+            if (groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position))
+            {
                 outOfCombatPosition = position;
                 Debug.Log(position.transform.position);
                 groupsFormation.GetComponent<GroupsFormation>().SetAvailability(position, false);
@@ -190,9 +221,12 @@ public class GroupMovement : MonoBehaviour
         }
     }
 
-    private void ChooseBossPositions() {
-        foreach(Transform position in enemyPositions.GetComponent<BossPositions>().GetMeleePositions()) {
-            if(enemyPositions.GetComponent<BossPositions>().GetAvailability(position)) {
+    private void ChooseBossPositions()
+    {
+        foreach (Transform position in enemyPositions.GetComponent<BossPositions>().GetMeleePositions())
+        {
+            if (enemyPositions.GetComponent<BossPositions>().GetAvailability(position))
+            {
                 meleePosition = position;
                 rangedPosition = enemyPositions.GetComponent<BossPositions>().GetClosestRanged(position);
                 enemyPositions.GetComponent<BossPositions>().SetAvailability(position, false);

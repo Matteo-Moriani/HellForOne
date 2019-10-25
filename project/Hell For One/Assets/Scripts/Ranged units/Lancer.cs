@@ -80,7 +80,7 @@ public class Lancer : MonoBehaviour
             return false;
         }
 
-        transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
+        //transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
         lance = lances.GetNotActiveObject();
         lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
         lance.transform.localPosition = lancePosition;
