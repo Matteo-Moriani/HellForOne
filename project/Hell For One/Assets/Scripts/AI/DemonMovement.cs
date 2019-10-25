@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
+
+
+    // for some reason, if i change the state from melee to ranged when the demon isn't very close to the boss, he stays still until the boss breaks the equilibrium
+
+
     public float speed = 8f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
@@ -25,7 +30,7 @@ public class DemonMovement : MonoBehaviour
     private Collider myCollider;
     private GroupBehaviour gb;
     private bool inPosition = false;
-    private float distanceInPosition;
+    private float distanceInPosition = 0f;
     
     void Start()
     {
@@ -53,13 +58,17 @@ public class DemonMovement : MonoBehaviour
         }
         else if (target){
             if(target.CompareTag("Boss")) {
-                if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank)
-                    CloseRangeMovement();
-                else
-                    HighRangeMovement();
-
+                // if the boss is escaping...
                 if(distanceInPosition < (transform.position - target.transform.position).magnitude)
                     inPosition = false;
+
+                if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
+                    distanceInPosition = 0f;
+                    CloseRangeMovement();
+                }
+                else
+                    HighRangeMovement();
+                
             }
             else if(target.CompareTag("LittleEnemy")) {
                 if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
@@ -169,5 +178,30 @@ public class DemonMovement : MonoBehaviour
     public void SetTarget(GameObject target) {
         this.target = target;
         targetCollider = target.GetComponent<Collider>();
+    }
+
+    public bool CanAct() {
+        switch(gb.currentState) {
+            case GroupBehaviour.State.MeleeAttack:
+                if(HorizDistFromTargetBorders() <= maxMeleeDist)
+                    return true;
+                else
+                    return false;
+            case GroupBehaviour.State.Tank:
+                return true;
+            // deve anche essere ruotato correttamente
+            case GroupBehaviour.State.RangeAttack:
+                if(inPosition)
+                    return true;
+                else
+                    return false;
+            case GroupBehaviour.State.Support:
+                if(inPosition)
+                    return true;
+                else
+                    return false;
+            default:
+                return false;
+        }
     }
 }

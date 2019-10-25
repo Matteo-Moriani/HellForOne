@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 2856477944942965544}
   - component: {fileID: 6302516251480815045}
   - component: {fileID: 6752825232190307699}
-  - component: {fileID: 3483760286213229095}
+  - component: {fileID: 724996841204561880}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Demon
@@ -277,7 +277,8 @@ MonoBehaviour:
   minMeleeDist: 1
   extraCohesion: 1.5
   rangedDist: 5
-  targetEnemy: {fileID: 0}
+  repulsionWithGroup: 1
+  target: {fileID: 0}
 --- !u!114 &2856477944942965544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,9 +319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94527331855c9fe468edb28b3ff61677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatManagerParent: {fileID: 0}
-  combatManager: {fileID: 0}
---- !u!114 &3483760286213229095
+  combatManager: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    type: 3}
+--- !u!114 &724996841204561880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,9 +330,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7392315926837050435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 96e2f47d32945dd43808dc81880d700e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCollider: {fileID: 0}
-  blockCollider: {fileID: 0}
-  idleCollider: {fileID: 0}
+  type: 2
+  health: 2
+  damage: 1
+  attackRange: 1
+  blockChance: 0
+  shieldBonusProbability: 0
+  knockBackChance: 0
+  knockBackUnits: 0
+  knockBackSpeed: 5
+  aggro: 0
+  crisis: 0
+  attackDurationMultiplier: 1
