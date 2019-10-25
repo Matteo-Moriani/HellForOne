@@ -23,14 +23,11 @@ public class Lancer : MonoBehaviour
     private Vector3 lancePosition;
     [SerializeField, Tooltip("If the lance follow a direct tragectory or not (false is recommended).")]
     private bool direct;
-    [SerializeField, Tooltip("The angle on the right or left to adjust the trajectory of the lance.")]
-    private float angleCorrection;
 
     GameObject lance;
     ObjectsPooler lances;
     private float lastShot;
     private float timespanShots;
-    private int n_frames = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,7 +75,7 @@ public class Lancer : MonoBehaviour
 
         alpha = 0;
 
-        if (!calculateAngle(transform.position + lancePosition, target.transform.position - Vector3.up*1, out alpha))
+        if (!calculateAngle(transform.position + lancePosition, target.transform.position, out alpha))
         {
             return false;
         }
@@ -88,7 +85,7 @@ public class Lancer : MonoBehaviour
         lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
         lance.transform.localPosition = lancePosition;
         lance.transform.forward = new Vector3(target.transform.position.x, lance.transform.position.y, target.transform.position.z) - lance.transform.position;
-        lance.transform.localRotation = Quaternion.Euler(90f - alpha, angleCorrection, 0);
+        lance.transform.localRotation = Quaternion.Euler(90f - alpha, lance.transform.localRotation.eulerAngles.y, 0);
         lance.SetActive(true);
         lance.GetComponent<Rigidbody>().AddForce(lance.transform.up * (speed), ForceMode.VelocityChange);
 
@@ -276,21 +273,6 @@ public class Lancer : MonoBehaviour
         set
         {
             direct = value;
-        }
-    }
-
-    /// <summary>
-    /// The angle on the right or left to adjust the trajectory of the lance.
-    /// </summary>
-    public float AngleCorrection
-    {
-        get
-        {
-            return angleCorrection;
-        }
-        set
-        {
-            angleCorrection = value;
         }
     }
     #endregion
