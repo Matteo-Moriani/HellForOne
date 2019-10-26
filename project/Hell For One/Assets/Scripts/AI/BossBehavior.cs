@@ -238,7 +238,6 @@ public class BossBehavior : MonoBehaviour
         // the initial target is himself to stay on his place for the first seconds
         stats = GetComponent<Stats>();
         hp = stats.health;
-        targetDemon = gameObject;
         demonGroups = GameObject.FindGameObjectsWithTag("Group");
         player = GameObject.FindGameObjectWithTag("Player");
         aggroValues = new float[demonGroups.Length + 1];

@@ -50,7 +50,8 @@ public class BossPositions : MonoBehaviour
     void FixedUpdate() {
         if(!boss)
             Destroy(gameObject);
-        transform.position = boss.transform.position;
+        else
+            transform.position = boss.transform.position;
     }
 
     public void SetAvailability(Transform t, bool b) {
