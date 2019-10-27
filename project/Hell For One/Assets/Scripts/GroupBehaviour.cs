@@ -212,6 +212,7 @@ public class GroupBehaviour : MonoBehaviour
         // Just to test
         inCombat = true;
 
+        // 4 is the maximum number of demons in a single group for the whole demo
         demons = new GameObject[ 4 ];
 
         #region FSM

@@ -85,16 +85,16 @@ public class LittleEnemyBehaviour : MonoBehaviour
         float totalAggro = 0f;
         for(int i = 0; i < demonGroups.Length; i++) {
             //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-            aggroValues[i] = 3;
+            aggroValues[i] = 5;
 
             //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-            totalAggro = totalAggro + 3;
+            totalAggro = totalAggro + 5;
 
             probability[i + 1] = totalAggro;
         }
         // Get player aggro
-        aggroValues[demonGroups.Length] = 3;
-        totalAggro = totalAggro + 3;
+        aggroValues[demonGroups.Length] = 5;
+        totalAggro = totalAggro + 5;
         probability[demonGroups.Length + 1] = totalAggro;
 
         float random = Random.Range(0.001f, totalAggro);

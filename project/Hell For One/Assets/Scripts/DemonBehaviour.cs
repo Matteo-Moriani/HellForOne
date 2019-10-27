@@ -10,15 +10,21 @@ public class DemonBehaviour : MonoBehaviour
     public GameObject groupBelongingTo;
     public bool groupFound = false;
 
+    private Stats stats;
+
     private void Start()
     {
         FindGroup();
+        stats = GetComponent<Stats>();
     }
 
     private void Update()
     {
         if ( !groupFound )
             FindGroup();
+
+        if(stats.health <= 0)
+            Destroy(gameObject);
     }
 
     // Balances group entering too

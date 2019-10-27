@@ -20,7 +20,7 @@ public class PushAway : MonoBehaviour
     }
 
     void FixedUpdate() {
-        PushEnemies();
+        PushDemons();
     }
 
     private float HorizDistFromTarget(Vector3 targetPosition) {
@@ -28,12 +28,16 @@ public class PushAway : MonoBehaviour
         return (targetPosition - transform.position).magnitude - transform.localScale.x/2;
     }
 
-    private void PushEnemies() {
+    private void PushDemons() {
         foreach(GameObject demon in demons) {
-            // closest point of demon's collider to the closest point of my collider to the demon center
-            if(HorizDistFromTarget(demon.GetComponent<Collider>().ClosestPoint(GetComponent<Collider>().ClosestPoint(demon.transform.position))) < repulsionDist) {
-                demon.GetComponent<Rigidbody>().AddForce((demon.transform.position - transform.position)*pushIntensity, ForceMode.Impulse);
+
+            if(demon != null) {
+                // closest point of demon's collider to the closest point of my collider to the demon center
+                if(HorizDistFromTarget(demon.GetComponent<Collider>().ClosestPoint(GetComponent<Collider>().ClosestPoint(demon.transform.position))) < repulsionDist) {
+                    demon.GetComponent<Rigidbody>().AddForce((demon.transform.position - transform.position) * pushIntensity, ForceMode.Impulse);
+                }
             }
+            
         }
     }
 }

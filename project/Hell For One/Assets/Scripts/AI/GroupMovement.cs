@@ -142,8 +142,8 @@ public class GroupMovement : MonoBehaviour
     {
         foreach (GameObject demon in GetComponent<GroupBehaviour>().demons)
         {
-            Debug.Log(demon.name);
-            demon.GetComponent<DemonMovement>().SetTarget(target);
+            if(demon != null)
+                demon.GetComponent<DemonMovement>().SetTarget(target);
         }
     }
 

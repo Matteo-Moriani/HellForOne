@@ -117,9 +117,9 @@ public class BossBehavior : MonoBehaviour
             float totalAggro = 0f;
             for(int i = 0; i < demonGroups.Length; i++) {
                 //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                aggroValues[i] = 3;
+                aggroValues[i] = 5;
                 //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                totalAggro = totalAggro + 3;
+                totalAggro = totalAggro + 5;
                 probability[i + 1] = totalAggro;
             }
             // Get player aggro
@@ -371,7 +371,7 @@ public class BossBehavior : MonoBehaviour
         targetGroup = ClosestGroupTo(arenaCenter.transform.position);
         int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
         targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
-        Debug.Log("target is the most centered one");
+        Debug.Log("target is " + targetDemon.name + ", the most centered one");
     }
 
 }
