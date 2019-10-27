@@ -15,6 +15,7 @@ public class BossBehavior : MonoBehaviour
     public float timeout = 5f;
     [Range(0f, 1f)]
     public float changeTargetProb = 0.3f;
+    public GameObject arenaCenter;
     public float maxDistFromCenter = 20f;
 
     private GameObject[] demonGroups;
@@ -41,6 +42,9 @@ public class BossBehavior : MonoBehaviour
     [SerializeField]
     private float btReactionTime = 0.05f;
     private Stats stats;
+    private bool demonsReady = false;
+    private bool needsCentering = false;
+    private float centeringDist;
 
     #region Finite State Machine
 
@@ -105,12 +109,9 @@ public class BossBehavior : MonoBehaviour
 
         if(GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
             return false;
-        
-        if((transform.position - Vector3.zero).magnitude > maxDistFromCenter) {
-            targetGroup = ClosestGroupTo(Vector3.zero);
-            int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
-            targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
-            Debug.Log("target is the most centered one");
+
+        if((transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter) {
+            ChooseCentralTarget();
         }
         else if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
             float totalAggro = 0f;
@@ -122,8 +123,8 @@ public class BossBehavior : MonoBehaviour
                 probability[i + 1] = totalAggro;
             }
             // Get player aggro
-            aggroValues[demonGroups.Length] = 3;
-            totalAggro = totalAggro + 3;
+            aggroValues[demonGroups.Length] = 5;
+            totalAggro = totalAggro + 5;
             probability[demonGroups.Length + 1] = totalAggro;
 
             float random = Random.Range(0.001f, totalAggro);
@@ -140,6 +141,7 @@ public class BossBehavior : MonoBehaviour
                 }
 
             }
+            Debug.Log("new target is " + targetDemon);
         }
         else {
             Debug.Log("target won't change this time");
@@ -243,6 +245,7 @@ public class BossBehavior : MonoBehaviour
         aggroValues = new float[demonGroups.Length + 1];
         probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
+        centeringDist = maxDistFromCenter - 5f;
 
         FSMTransition t0 = new FSMTransition(PlayerApproaching);
         FSMTransition t1 = new FSMTransition(CrisisFull);
@@ -266,8 +269,6 @@ public class BossBehavior : MonoBehaviour
         stunnedState.AddTransition(t3, fightingState);
 
         bossFSM = new FSM(waitingState);
-
-        StartCoroutine(MoveThroughFSM());
     }
     
     void Update()
@@ -280,15 +281,31 @@ public class BossBehavior : MonoBehaviour
         if(!player)
             player = GameObject.FindGameObjectWithTag("Player");
 
+        if(!demonsReady && demonGroups[0].GetComponent<GroupBehaviour>().CheckDemons()) {
+            demonsReady = true;
+            StartCoroutine(MoveThroughFSM());
+        }
+
         // in case I don't have a target anymore for some reason
         if(targetDemon) {
 
-            // I'm always facing my last target
-            FaceTarget();
-
-            if(canWalk) {
-                transform.position += transform.forward * speed * Time.deltaTime;
+            if((transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter) {
+                needsCentering = true;
+                ChooseCentralTarget();
             }
+            else if((transform.position - arenaCenter.transform.position).magnitude <= centeringDist)
+                needsCentering = false;
+        
+
+            // If I'm far from arena borders, I'm always facing my last target
+            if(needsCentering)
+                Face(arenaCenter);
+            else
+                Face(targetDemon);
+
+            if(canWalk) 
+                transform.position += transform.forward * speed * Time.deltaTime;
+            
         } else {
             ChooseTarget();
         }
@@ -326,8 +343,8 @@ public class BossBehavior : MonoBehaviour
         return (targetPosition - transform.position).magnitude;
     }
 
-    private void FaceTarget() {
-        Vector3 targetPosition = targetDemon.transform.position;
+    private void Face(GameObject target) {
+        Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
@@ -348,6 +365,13 @@ public class BossBehavior : MonoBehaviour
         }
 
         return closest;
+    }
+
+    private void ChooseCentralTarget() {
+        targetGroup = ClosestGroupTo(arenaCenter.transform.position);
+        int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
+        targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+        Debug.Log("target is the most centered one");
     }
 
 }

@@ -5,30 +5,31 @@ using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour
 {
-    public GameObject enemyPositions;
-    public GameObject groupsFormation;
     public float rangedDist = 6f;
     public float cohesionMultiplier = 2f;
 
     [SerializeField]
+    private GameObject player;
     private GameObject target;
+    private GameObject bossPositions;
+    private GameObject groupsFormation;
     private Transform targetPosition;
     private Transform meleePosition;
     private Transform rangedPosition;
     private Transform outOfCombatPosition;
-    private bool haveTarget = false;
     private GroupBehaviour gb;
+    private bool haveTarget = false;
     private bool vsLittleEnemies = false;
     private bool vsBoss = false;
     private bool outOfCombat = false;
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
-    private GameObject player;
 
     void Start()
     {
         targetPosition = gameObject.transform;
         player = GameObject.FindGameObjectWithTag("Player");
+        groupsFormation = GameObject.FindGameObjectWithTag("GroupsFormation");
     }
 
     void Update()
@@ -116,6 +117,7 @@ public class GroupMovement : MonoBehaviour
 
         if (vsBoss)
         {
+            bossPositions = GameObject.FindGameObjectWithTag("BossPositions");
             ChooseBossPositions();
         }
         if (outOfCombat)
@@ -190,11 +192,11 @@ public class GroupMovement : MonoBehaviour
         }
         else
         {
-            GameObject enemy = GameObject.FindGameObjectWithTag("Boss");
-            if (enemy)
+            GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+            if (boss)
             {
                 SetVsBoss();
-                target = enemy;
+                target = boss;
                 SetDemonsTarget(target);
             }
             else
@@ -213,7 +215,6 @@ public class GroupMovement : MonoBehaviour
             if (groupsFormation.GetComponent<GroupsFormation>().GetAvailability(position))
             {
                 outOfCombatPosition = position;
-                Debug.Log(position.transform.position);
                 groupsFormation.GetComponent<GroupsFormation>().SetAvailability(position, false);
                 haveTarget = true;
                 break;
@@ -223,13 +224,13 @@ public class GroupMovement : MonoBehaviour
 
     private void ChooseBossPositions()
     {
-        foreach (Transform position in enemyPositions.GetComponent<BossPositions>().GetMeleePositions())
+        foreach (Transform position in bossPositions.GetComponent<BossPositions>().GetMeleePositions())
         {
-            if (enemyPositions.GetComponent<BossPositions>().GetAvailability(position))
+            if (bossPositions.GetComponent<BossPositions>().GetAvailability(position))
             {
                 meleePosition = position;
-                rangedPosition = enemyPositions.GetComponent<BossPositions>().GetClosestRanged(position);
-                enemyPositions.GetComponent<BossPositions>().SetAvailability(position, false);
+                rangedPosition = bossPositions.GetComponent<BossPositions>().GetClosestRanged(position);
+                bossPositions.GetComponent<BossPositions>().SetAvailability(position, false);
                 haveTarget = true;
 
                 // sostituire poi con questo

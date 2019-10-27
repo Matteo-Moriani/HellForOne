@@ -5,11 +5,6 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
-
-
-    // for some reason, if i change the state from melee to ranged when the demon isn't very close to the boss, he stays still until the boss breaks the equilibrium
-
-
     public float speed = 8f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
