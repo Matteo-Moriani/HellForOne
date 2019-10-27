@@ -36,7 +36,7 @@ public class GroupMovement : MonoBehaviour
     {
         if (!haveTarget)
         {
-            ChangeTarget();
+            ChooseTarget();
         }
 
         // i update the target position only if the group is too far to do its things
@@ -71,7 +71,7 @@ public class GroupMovement : MonoBehaviour
         else if (vsLittleEnemies)
         {
             if (!target)
-                FindTarget();
+                SearchTarget();
 
             switch (gb.currentState)
             {
@@ -111,9 +111,9 @@ public class GroupMovement : MonoBehaviour
 
     }
 
-    public void ChangeTarget()
+    public void ChooseTarget()
     {
-        FindTarget();
+        SearchTarget();
 
         if (vsBoss)
         {
@@ -142,6 +142,7 @@ public class GroupMovement : MonoBehaviour
     {
         foreach (GameObject demon in GetComponent<GroupBehaviour>().demons)
         {
+            Debug.Log(demon.name);
             demon.GetComponent<DemonMovement>().SetTarget(target);
         }
     }
@@ -180,7 +181,7 @@ public class GroupMovement : MonoBehaviour
         haveTarget = false;
     }
 
-    private void FindTarget()
+    private void SearchTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("LittleEnemy");
         if (enemies.Length != 0)

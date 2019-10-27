@@ -24,15 +24,15 @@ public class DemonBehaviour : MonoBehaviour
     // Balances group entering too
     public void FindGroup()
     {
-        GameObject[] go = GameObject.FindGameObjectsWithTag( "Group" );
+        GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
         GameObject bestGroup = null;
         int maxFreeSlots = 0;
 
-        foreach ( GameObject g in go )
+        foreach ( GameObject group in groups )
         {
             int freeSlots = 0;
 
-            GameObject[] demonsArray = g.GetComponent<GroupBehaviour>().demons;
+            GameObject[] demonsArray = group.GetComponent<GroupBehaviour>().demons;
             for ( int i = 0; i < demonsArray.Length; i++ )
             {
                 if ( demonsArray[ i ] == null )
@@ -42,7 +42,7 @@ public class DemonBehaviour : MonoBehaviour
             }
 
             if ( freeSlots > 0 && freeSlots > maxFreeSlots )
-                bestGroup = g;
+                bestGroup = group;
         }
 
         if ( bestGroup != null )

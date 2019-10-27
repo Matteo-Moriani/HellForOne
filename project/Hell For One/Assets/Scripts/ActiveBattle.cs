@@ -28,7 +28,7 @@ public class ActiveBattle : MonoBehaviour
 
             foreach(GameObject group in GameObject.FindGameObjectsWithTag("Group"))
             {
-                group.GetComponent<GroupMovement>().ChangeTarget();
+                group.GetComponent<GroupMovement>().ChooseTarget();
             }
 
             foreach(GameObject enemy in enemies)
