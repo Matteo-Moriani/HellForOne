@@ -358,9 +358,11 @@ public class BossBehavior : MonoBehaviour
         float minDist = float.MaxValue;
 
         foreach(GameObject group in demonGroups) {
-            if((group.transform.position - position).magnitude < minDist) {
-                minDist = (group.transform.position - position).magnitude;
-                closest = group;
+            if(group.GetComponent<GroupBehaviour>().IsEmpty() == false) {
+                if((group.transform.position - position).magnitude < minDist) {
+                    minDist = (group.transform.position - position).magnitude;
+                    closest = group;
+                }
             }
         }
 
@@ -369,9 +371,13 @@ public class BossBehavior : MonoBehaviour
 
     private void ChooseCentralTarget() {
         targetGroup = ClosestGroupTo(arenaCenter.transform.position);
-        int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
-        targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
-        Debug.Log("target is " + targetDemon.name + ", the most centered one");
+        foreach(GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons) {
+            if(demon != null) {
+                targetDemon = demon;
+                Debug.Log("target is " + targetDemon.name + ", the most centered one");
+                break;
+            }
+        }
     }
 
 }

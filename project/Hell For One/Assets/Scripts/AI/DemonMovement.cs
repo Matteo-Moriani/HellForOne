@@ -32,7 +32,6 @@ public class DemonMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         maxMeleeDist = minMeleeDist + 1f;
         myCollider = GetComponent<Collider>();
-        target = gameObject;
     }
     
     void Update()
@@ -49,6 +48,7 @@ public class DemonMovement : MonoBehaviour
             if(GetComponent<DemonBehaviour>().groupFound) {
                 group = GetComponent<DemonBehaviour>().groupBelongingTo;
                 gb = group.GetComponent<GroupBehaviour>();
+                target = group.GetComponent<GroupMovement>().GetTarget();
             }
         }
         else if (target){
@@ -87,7 +87,7 @@ public class DemonMovement : MonoBehaviour
                     GetComponent<NavMeshAgent>().destination = group.transform.position;
                 else {
                     GetComponent<NavMeshAgent>().destination = transform.position;
-                    FaceTarget();
+                    Face(target);
                 }
                     
         }
@@ -106,7 +106,7 @@ public class DemonMovement : MonoBehaviour
         return (targetPosition - transform.position).magnitude;
     }
 
-    private void FaceTarget() {
+    private void Face(GameObject target) {
         Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
@@ -126,7 +126,7 @@ public class DemonMovement : MonoBehaviour
         // I move to the enemy only if I'm far from melee distance and close enough to my group
         if(HorizDistFromTarget(group) <= group.GetComponent<GroupMovement>().HorizDistFromTargetBorders(target) + extraCohesion && group != null) {
 
-            FaceTarget();
+            Face(target);
 
             if(HorizDistFromTargetBorders() > maxMeleeDist) {
                 enemyComponent = targetCollider.ClosestPoint(transform.position);
@@ -161,7 +161,7 @@ public class DemonMovement : MonoBehaviour
             GetComponent<NavMeshAgent>().destination = group.transform.position;
         }
         else {
-            FaceTarget();
+            Face(target);
             GetComponent<NavMeshAgent>().destination = transform.position;
             if(!inPosition) {
                 inPosition = true;

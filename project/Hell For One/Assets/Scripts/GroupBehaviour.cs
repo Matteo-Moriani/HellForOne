@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour
 {
+
+    private int maxNumDemons = 4;
     // This script is attached to invisible gameobjacts that manage the single group
 
     #region FSM
@@ -211,9 +213,8 @@ public class GroupBehaviour : MonoBehaviour
         currentState = State.MeleeAttack;
         // Just to test
         inCombat = true;
-
-        // 4 is the maximum number of demons in a single group for the whole demo
-        demons = new GameObject[ 4 ];
+        
+        demons = new GameObject[ maxNumDemons ];
 
         #region FSM
 
@@ -266,6 +267,14 @@ public class GroupBehaviour : MonoBehaviour
         StartCoroutine( MoveThroughFSM() );
 
         #endregion
+    }
+
+    public bool IsEmpty() {
+        foreach (GameObject demon in demons) {
+            if(demon != null)
+                return false;
+        }
+        return true;
     }
 
 }

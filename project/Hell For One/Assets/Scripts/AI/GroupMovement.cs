@@ -253,4 +253,8 @@ public class GroupMovement : MonoBehaviour
             }
         }
     }
+
+    public GameObject GetTarget() {
+        return target;
+    }
 }
