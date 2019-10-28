@@ -19,6 +19,7 @@ public class DemonMovement : MonoBehaviour
     private GameObject player;
     private float maxMeleeDist;
     private GameObject group;
+    [SerializeField]
     private Collider targetCollider;
     private bool farFromEnemy = true;
     private bool farFromGroup = true;
@@ -95,6 +96,8 @@ public class DemonMovement : MonoBehaviour
     }
 
     private float HorizDistFromTargetBorders() {
+        if(!targetCollider)
+            targetCollider = target.GetComponent<Collider>();
         Vector3 closestPoint = targetCollider.ClosestPoint(myCollider.ClosestPoint(target.transform.position));
         Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
         return (targetPosition - transform.position).magnitude;

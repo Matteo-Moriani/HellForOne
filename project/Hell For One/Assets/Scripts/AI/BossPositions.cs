@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BossPositions : MonoBehaviour
 {
-    public GameObject boss;
-
+    [SerializeField]
+    private GameObject boss;
     private Transform[] meleePositions;
     private Transform[] rangedPositions;
     private Dictionary<Transform, bool> meleeAvailable = new Dictionary<Transform, bool>();
@@ -14,7 +14,7 @@ public class BossPositions : MonoBehaviour
     void Start()
     {
         // Cause we don't want to assign it manually
-        boss = gameObject;
+        boss = GameObject.FindGameObjectWithTag("Boss");
     }
 
     void Awake() {

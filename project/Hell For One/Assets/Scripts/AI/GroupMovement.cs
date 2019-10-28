@@ -29,6 +29,7 @@ public class GroupMovement : MonoBehaviour
     {
         targetPosition = gameObject.transform;
         player = GameObject.FindGameObjectWithTag( "Player" );
+        bossPositions = GameObject.FindGameObjectWithTag("BossPositions");
         groupsFormation = GameObject.FindGameObjectWithTag( "GroupsFormation" );
     }
 

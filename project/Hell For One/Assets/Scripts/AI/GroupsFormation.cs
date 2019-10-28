@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GroupsFormation : MonoBehaviour
 {
-    public GameObject player;
-
+    [SerializeField]
+    private GameObject player;
     private Transform[] positions;
     private Dictionary<Transform, bool> available = new Dictionary<Transform, bool>();
 
     void Start() {
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Awake() {
