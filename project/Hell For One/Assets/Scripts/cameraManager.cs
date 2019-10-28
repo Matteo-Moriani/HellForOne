@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cameraManager : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     // Can be an enemy or the player
     public GameObject target;
-    private GameObject player;
+    public GameObject player;
     [SerializeField]
     private float turnSpeed = 4.0f;
     private Vector3 offset;
@@ -22,6 +22,7 @@ public class cameraManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
         offset = new Vector3( 0.0f, 20.0f, -30.0f );
+        target = player;
     }
 
     public GameObject FindNearestEnemy( GameObject[] gameObjects )
@@ -49,6 +50,9 @@ public class cameraManager : MonoBehaviour
 
     private void Update()
     {
+        if ( !player )
+            FindPlayer();
+
         if ( Input.GetButtonDown( "R3" ) && isLocked )
         {
             isLocked = false;

@@ -238,6 +238,7 @@ public class BossBehavior : MonoBehaviour
 
     void Start() {
         // the initial target is himself to stay on his place for the first seconds
+        arenaCenter = GameObject.Find( "ArenaCenter" );
         stats = GetComponent<Stats>();
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag("Group");
