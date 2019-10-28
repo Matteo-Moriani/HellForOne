@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour
 {
+    /// This script is attached to invisible gameobjects that manages the single group
 
-    private int maxNumDemons = 4;
-    // This script is attached to invisible gameobjacts that manage the single group
+    public int maxNumDemons = 4;
+    public int demonsInGroup = 0;
 
     #region FSM
 

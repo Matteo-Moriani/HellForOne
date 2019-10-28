@@ -13,7 +13,8 @@ public class BossPositions : MonoBehaviour
     
     void Start()
     {
-        
+        // Cause we don't want to assign it manually
+        boss = gameObject;
     }
 
     void Awake() {
