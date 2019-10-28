@@ -23,7 +23,10 @@ public class Dash : MonoBehaviour
     
     private float cooldownCounter;
     private float lerpTimer;
+    
     private bool isDashing;
+    private bool canDash;
+    
     private Vector3 targetPosition;
     private Vector3 startPosition;
 
@@ -35,6 +38,7 @@ public class Dash : MonoBehaviour
         lerpTimer = 0.0f;
         
         isDashing = false;
+        canDash = true;
     }
 
     private void Start()
@@ -61,40 +65,64 @@ public class Dash : MonoBehaviour
             cooldownCounter += Time.deltaTime;
         }
 
-        // If we hit Circle or Space and cooldown has expired...
-        if ((Input.GetKeyDown("space") || Input.GetButton("Fire3")) && cooldownCounter >= dashCooldown)
-        {
-            // Move the player of dashSize units into our input axis direction.
-            Vector3 moveDirection = ( Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal" ) * Camera.main.transform.right).normalized;
-            moveDirection.y = 0f;
-            
-            startPosition = this.transform.position;
-            targetPosition = this.transform.position + ( moveDirection * dashSize );
-            
-            isDashing = true;
-            controller.enabled = false;
-            cooldownCounter = 0.0f;
-            lerpTimer = 0.0f;
-
-            idleCollider.SetActive(false);
-        }
-
-        if (isDashing)
-        {
-            // Update lerp timer.
-            lerpTimer += Time.deltaTime;
-            
-            // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
-            this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
-            
-            // If we reach our destination (with some tollerance) we stop lerping
-            if(Vector3.Distance(this.transform.position,targetPosition) == 0f)
+        if (canDash) {
+            // If we hit Circle or Space and cooldown has expired...
+            if ((Input.GetKeyDown("space") || Input.GetButton("Fire3")) && cooldownCounter >= dashCooldown)
             {
+                // Move the player of dashSize units into our input axis direction.
+                Vector3 moveDirection = (Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized;
+                moveDirection.y = 0f;
+
+                startPosition = this.transform.position;
+                targetPosition = this.transform.position + (moveDirection * dashSize);
+
+                isDashing = true;
+                controller.enabled = false;
+                cooldownCounter = 0.0f;
+                lerpTimer = 0.0f;
+
+                idleCollider.SetActive(false);
+            }
+
+            if (isDashing)
+            {
+                // Update lerp timer.
+                lerpTimer += Time.deltaTime;
+
+                // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
+                this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
+
+                // If we reach our destination (with some tollerance) we stop lerping
+                if (Vector3.Distance(this.transform.position, targetPosition) == 0f)
+                {
+                    isDashing = false;
+                    controller.enabled = true;
+
+                    idleCollider.SetActive(true);
+                }
+            }
+        } 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {   
+        if(collision.collider.tag != "Demon") {
+            canDash = false;
+
+            if (isDashing) {
                 isDashing = false;
                 controller.enabled = true;
 
                 idleCollider.SetActive(true);
+
             }
+        }        
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.collider.tag != "Demon") {
+            canDash = true;
         }
     }
 }
