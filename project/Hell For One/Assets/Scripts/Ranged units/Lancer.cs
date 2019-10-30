@@ -134,6 +134,28 @@ public class Lancer : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Sets the target of the unit and starts the unit to launch.
+    /// </summary>
+    /// <param name="targetObject">The gameobject target.</param>
+    public void Start(GameObject targetObject)
+    {
+        Target = targetObject;
+        if (Target != null)
+        {
+            CanLaunch = true;
+        }
+    }
+
+    /// <summary>
+    /// Tells the unit to stop throwing.
+    /// </summary>
+    public void Stop()
+    {
+        CanLaunch = false;
+        target = null;
+    }
+
     #region "Properties"
     /// <summary>
     /// "The target of the ranged unit."
