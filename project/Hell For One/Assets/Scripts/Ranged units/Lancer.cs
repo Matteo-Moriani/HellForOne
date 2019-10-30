@@ -48,17 +48,12 @@ public class Lancer : MonoBehaviour
         }   
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
-
     /// <summary>
     /// It launches a lance to the target if the target is at a distance between minDistance and maxDistance.
     /// </summary>
     /// <param name="target">The object target.</param>
     /// <returns>Returns true if the launch was successful, otherwise returns false.</returns>
-    private bool Launch(GameObject target)
+    public bool Launch(GameObject target)
     {
         float distance;
         float alpha;
