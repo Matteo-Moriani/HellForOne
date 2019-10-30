@@ -285,6 +285,7 @@ MonoBehaviour:
   rangedDist: 5
   repulsionWithGroup: 1
   target: {fileID: 0}
+  targetCollider: {fileID: 0}
 --- !u!195 &6784614489089510746
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -484,6 +485,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: lancer
+      value: 
+      objectReference: {fileID: 700325638455118188}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Mesh

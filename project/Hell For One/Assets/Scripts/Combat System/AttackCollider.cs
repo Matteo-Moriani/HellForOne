@@ -8,6 +8,8 @@ public class AttackCollider : MonoBehaviour
 
     private Combat combat;
 
+    //-TODO-Add isRanged bool?
+
     private void Start()
     {
         stats = this.transform.root.gameObject.GetComponent<Stats>();

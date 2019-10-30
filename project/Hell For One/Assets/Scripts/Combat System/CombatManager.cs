@@ -10,6 +10,8 @@ public class CombatManager : MonoBehaviour
     private GameObject blockCollider;
     [SerializeField]
     private GameObject idleCollider;
+    [SerializeField]
+    private Lancer lancer;
 
     private Stats stats;
 
@@ -25,6 +27,10 @@ public class CombatManager : MonoBehaviour
         // and if true init GO.
 
         stats = this.transform.root.gameObject.GetComponent<Stats>();   
+
+        if(lancer == null) { 
+            lancer = this.transform.root.gameObject.GetComponent<Lancer>();    
+        }
 
         startPosition = attackCollider.transform.localPosition;
 
@@ -81,11 +87,13 @@ public class CombatManager : MonoBehaviour
     }
     
     public void RangedAttack(GameObject target) { 
-        Debug.Log("RangedAttack");   
+        Debug.Log(this.transform.root.name + " RangedAttack " + target.name);
+        lancer.Launch(target);
     }
 
     public void StopRangedAttack() { 
         Debug.Log("Stop RangedAttack");
+        lancer.Stop();
     }
 
     private IEnumerator AttackCoroutine()
