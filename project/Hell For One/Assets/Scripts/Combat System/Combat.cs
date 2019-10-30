@@ -41,8 +41,8 @@ public class Combat : MonoBehaviour
         combatManager.Attack();
     }
 
-    public void RangedAttack() { 
-        combatManager.RangedAttack();   
+    public void RangedAttack(GameObject target) { 
+        combatManager.RangedAttack(target);   
     }
 
     public void StartBlock()

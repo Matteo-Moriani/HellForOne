@@ -80,7 +80,7 @@ public class CombatManager : MonoBehaviour
         return;
     }
     
-    public void RangedAttack() { 
+    public void RangedAttack(GameObject target) { 
         Debug.Log("RangedAttack");   
     }
 
