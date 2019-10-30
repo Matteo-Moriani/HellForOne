@@ -103,7 +103,9 @@ public class Dash : MonoBehaviour
             }
         } 
     }
-
+    //-----------
+    //-TODO- use raycast in dash direction to see if player can dash
+    //-----------
     private void OnCollisionEnter(Collision collision)
     {   
         if(collision.collider.tag != "Demon") {
@@ -125,4 +127,7 @@ public class Dash : MonoBehaviour
             canDash = true;
         }
     }
+    //--------
+    //-ENDTODO-
+    //--------
 }

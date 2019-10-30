@@ -79,8 +79,15 @@ public class CombatManager : MonoBehaviour
         }
         return;
     }
+    
+    public void RangedAttack() { 
+        Debug.Log("RangedAttack");   
+    }
 
-    // -TODO- Lerp collider.
+    public void StopRangedAttack() { 
+        Debug.Log("Stop RangedAttack");
+    }
+
     private IEnumerator AttackCoroutine()
     {
         isIdle = false;

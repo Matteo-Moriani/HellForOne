@@ -41,6 +41,10 @@ public class Combat : MonoBehaviour
         combatManager.Attack();
     }
 
+    public void RangedAttack() { 
+        combatManager.RangedAttack();   
+    }
+
     public void StartBlock()
     {
         combatManager.StartBlock();
@@ -54,5 +58,9 @@ public class Combat : MonoBehaviour
     public void StopAttack()
     {
         combatManager.StopAttack();
+    }
+
+    public void StopRangedAttack() { 
+        combatManager.StopRangedAttack();
     }
 }
