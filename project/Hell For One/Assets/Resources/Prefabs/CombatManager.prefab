@@ -162,6 +162,7 @@ MonoBehaviour:
   attackCollider: {fileID: 1948504901866767578}
   blockCollider: {fileID: 1948504901385055684}
   idleCollider: {fileID: 1948504900828473199}
+  lancer: {fileID: 0}
 --- !u!1 &1948504901385055684
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004054d596f13bb45ba6e23718c18f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
 --- !u!1001 &1948504900106496662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -410,26 +412,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: IdleCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: IdleCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -500,6 +482,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: IdleCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: IdleCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e75bbd6de8a36c148ab6e512a3b58150, type: 3}
@@ -510,26 +512,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: BlockCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: BlockCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -600,6 +582,31 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: BlockCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: BlockCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c887581a8a83154eb521e8a94b92dbd, type: 2}
     - target: {fileID: 4216564665300084148, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_Constraints
@@ -610,11 +617,6 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8c887581a8a83154eb521e8a94b92dbd, type: 2}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e75bbd6de8a36c148ab6e512a3b58150, type: 3}
@@ -625,26 +627,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1948504901118015853}
     m_Modifications:
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Name
-      value: AttackCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_TagString
-      value: AttackCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4216564665300084159, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -715,6 +697,31 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Name
+      value: AttackCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_TagString
+      value: AttackCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084158, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 41baa949d3e73ce408446c64dbcc2482, type: 2}
     - target: {fileID: 4216564665300084148, guid: e75bbd6de8a36c148ab6e512a3b58150,
         type: 3}
       propertyPath: m_Constraints
@@ -725,11 +732,6 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 41baa949d3e73ce408446c64dbcc2482, type: 2}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e75bbd6de8a36c148ab6e512a3b58150, type: 3}

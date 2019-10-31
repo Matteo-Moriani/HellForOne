@@ -21,9 +21,6 @@ public class RangedAttackAutoTest : MonoBehaviour
 
     IEnumerator rangedCR() {
         yield return new WaitForSeconds(2.0f);
-        while (true) {
-            combat.RangedAttack(target);
-            yield return new WaitForSeconds(2.0f);
-        }
+        combat.RangedAttack(target);
     }
 }

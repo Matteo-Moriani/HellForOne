@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class AttackCollider : MonoBehaviour
 {
+    private enum AttackColliderType{ 
+        Ranged,
+        Melee,
+        None
+    }
+
+    [SerializeField]
+    AttackColliderType type = AttackColliderType.None;
+
     private Stats stats;
 
     private Combat combat;
@@ -44,7 +53,7 @@ public class AttackCollider : MonoBehaviour
                     // If target is blocking player will never hit
                     if (other.tag == "BlockCollider")
                     {
-                        combat.StopAttack();
+                        StopAttack();   
                     }
                     // If target is not blocking player will allways hit
                     if (other.tag == "IdleCollider")
@@ -57,7 +66,7 @@ public class AttackCollider : MonoBehaviour
                         {
                             Debug.Log("Target does not have Stats attached");
                         }
-                        combat.StopAttack();
+                        StopAttack();
                     }
                 }
                 break;
@@ -73,7 +82,7 @@ public class AttackCollider : MonoBehaviour
                                 targetRootStats.TakeHit(stats.Damage);
                             }
 
-                            combat.StopAttack();
+                            StopAttack();
                         }
                     }
                     if (other.tag == "IdleCollider")
@@ -85,7 +94,7 @@ public class AttackCollider : MonoBehaviour
                                 targetRootStats.TakeHit(stats.Damage);
                             }
                         }
-                        combat.StopAttack();
+                        StopAttack();
                     }
                 }
                 break;
@@ -100,7 +109,7 @@ public class AttackCollider : MonoBehaviour
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
-                            combat.StopAttack();
+                            StopAttack();
                         }
                     }
                     if (other.tag == "IdleCollider")
@@ -111,7 +120,7 @@ public class AttackCollider : MonoBehaviour
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
-                            combat.StopAttack();
+                            StopAttack();
                         }
                     }
                 }
@@ -132,7 +141,7 @@ public class AttackCollider : MonoBehaviour
                                     targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
                                 }
                             }
-                            combat.StopAttack();
+                            StopAttack();
                         }   
                     }
                     if(other.tag == "IdleCollider") 
@@ -148,10 +157,25 @@ public class AttackCollider : MonoBehaviour
                                     targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
                                 }
                             }
-                            combat.StopAttack();
+                            StopAttack();
                         }
                     }
                 }
+                break;
+        }
+    }
+
+    private void StopAttack() {
+        switch (this.type)
+        {
+            case AttackColliderType.Melee:
+                combat.StopAttack();
+                break;
+            case AttackColliderType.Ranged:
+                this.gameObject.SetActive(false);
+                break;
+            case AttackColliderType.None:
+                Debug.Log(this.name + "AttackCollider.tyoe is set to None");
                 break;
         }
     }
