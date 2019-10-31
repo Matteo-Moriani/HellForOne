@@ -88,7 +88,7 @@ public class Dash : MonoBehaviour
             {
                 // Update lerp timer.
                 lerpTimer += Time.deltaTime;
-
+                
                 // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
                 this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
 
@@ -103,6 +103,7 @@ public class Dash : MonoBehaviour
             }
         } 
     }
+    /*
     //-----------
     //-TODO- use raycast in dash direction to see if player can dash
     //-----------
@@ -130,4 +131,5 @@ public class Dash : MonoBehaviour
     //--------
     //-ENDTODO-
     //--------
+    */
 }
