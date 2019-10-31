@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Lance : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Tooltip("The collisions with objects with a tag in this list don't desable the lance.")]
     private List<string> ignoredTags;
 
-    [SerializeField]
+    [SerializeField, Range(-1,5), Tooltip("The lance remains active after a valid collision for this frame number.")]
     private int numberFrames;
+
+    private int actualFrame;
     private bool deactivates;
+
+    private void OnEnable()
+    {
+        deactivates = false;
+        actualFrame = numberFrames;
+    }
 
     private void Start()
     {
@@ -25,8 +33,8 @@ public class Lance : MonoBehaviour
         transform.up = GetComponent<Rigidbody>().velocity;
         if (deactivates)
         {
-            numberFrames--;
-            if (numberFrames < 0)
+            actualFrame--;
+            if (actualFrame < 0)
             {
                 gameObject.SetActive(false);
             }
