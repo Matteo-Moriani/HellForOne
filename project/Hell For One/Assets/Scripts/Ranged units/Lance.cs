@@ -7,9 +7,30 @@ public class Lance : MonoBehaviour
     [SerializeField]
     private List<string> ignoredTags;
 
+    [SerializeField]
+    private int numberFrames;
+    private bool deactivates;
+
+    private void Start()
+    {
+        deactivates = false;
+        if (ignoredTags == null)
+        {
+            ignoredTags = new List<string>();
+        }
+    }
+
     private void FixedUpdate()
     {
         transform.up = GetComponent<Rigidbody>().velocity;
+        if (deactivates)
+        {
+            numberFrames--;
+            if (numberFrames < 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,12 +42,12 @@ public class Lance : MonoBehaviour
             stats = other.GetComponent<Stats>();
             if (stats != null && (stats.type == Stats.Type.Boss || stats.type == Stats.Type.Enemy))
             {
-                gameObject.SetActive(false);
+                deactivates = true;
             }
         }
         else if (!ignoredTags.Contains(other.tag))
         {
-            gameObject.SetActive(false);
+            deactivates = true;
         }
         
     }
