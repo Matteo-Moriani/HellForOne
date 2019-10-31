@@ -8,7 +8,9 @@ public class AttackCollider : MonoBehaviour
 
     private Combat combat;
 
-    //-TODO-Add isRanged bool?
+    //-TODO----
+    // Add isRanged and isMelee bool
+    // set them from inspector
 
     private void Start()
     {
