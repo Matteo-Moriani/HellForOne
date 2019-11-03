@@ -86,14 +86,24 @@ public class CombatManager : MonoBehaviour
         return;
     }
     
-    public void RangedAttack(GameObject target) { 
-        Debug.Log(this.transform.root.name + " RangedAttack " + target.name);
-        lancer.Launch(target);
+    //-TODO-    Decide if a ranged attack will be continuos (using Start)
+    //          or single (using Launch)
+    public void RangedAttack(GameObject target) {
+        if (isIdle) {
+            isIdle = false;
+            if (target != null)
+                //lancer.Launch(target);
+                lancer.Start(target);
+            else
+                Debug.Log(this.name + "Is trying a ranged attack to a null target");
+        }
     }
 
+    //-TODO--   If we use continuos attack we need a StopRangedAttack method
     public void StopRangedAttack() { 
-        Debug.Log("Stop RangedAttack");
+        //Debug.Log("Stop RangedAttack");
         lancer.Stop();
+        isIdle = true;
     }
 
     private IEnumerator AttackCoroutine()
