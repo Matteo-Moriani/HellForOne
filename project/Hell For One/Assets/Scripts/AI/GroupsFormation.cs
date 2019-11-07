@@ -40,11 +40,9 @@ public class GroupsFormation : MonoBehaviour
     {
         // This check is for reincarnation sake
         if ( !player )
-        {
             player = GameObject.FindGameObjectWithTag( "Player" );
-            FacePlayer();
-            transform.position = player.transform.position - 6f * player.transform.forward;
-        }
+        FacePlayer();
+        transform.position = player.transform.position - 6f * player.transform.forward;
     }
 
     public void SetAvailability( Transform t, bool b )
