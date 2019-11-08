@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    #region fields
+    
     public enum Type
     {
         Player,
@@ -72,6 +74,14 @@ public class Stats : MonoBehaviour
     [Tooltip("How fast will be the attackCollider movement")]
     private float attackDurationMultiplier = 1.0f;
 
+    private bool isProcessingKnockBack = false;
+    private bool isIdle = true;
+    private bool isBlocking = false;
+
+    #endregion
+
+    #region properties
+
     public float AttackDurationMultiplier { get => attackDurationMultiplier; private set => attackDurationMultiplier = value; }
     public float AttackRange { get => attackRange; private set => attackRange = value; }
     public int Damage { get => damage; private set => damage = value; }
@@ -83,14 +93,45 @@ public class Stats : MonoBehaviour
     public int Crisis { get => crisis; set => crisis = value; }
     public float KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
     public float KnockBackUnits { get => knockBackUnits; set => knockBackUnits = value; }
-    
+    public bool IsIdle { get => isIdle; set => isIdle = value; }
+    public bool IsBlocking { get => isBlocking; set => isBlocking = value; }
 
-    private bool isProcessingKnockBack = false;
+    #endregion
 
+    #region methods
+
+    /// <summary>
+    /// Raise this unit aggro points by amount n
+    /// </summary>
+    /// <param name="n">The amount the aggro will be raised</param>
+    public void RaiseAggro(int n) { 
+        this.aggro += n;   
+    }
+
+    /// <summary>
+    /// Lower this unit aggro point by amount n
+    /// </summary>
+    /// <param name="n">The amount the aggro will be lowered</param>
+    public void LowerAggro(int n) { 
+        if(aggro - n >= 0)
+            aggro -= n;
+        else
+            aggro = 0;
+    }
+
+    /// <summary>
+    /// Lower this unit health by amount n
+    /// </summary>
+    /// <param name="damage">The damage that this unit will take</param>
     public void TakeHit(int damage) { 
         health -= damage;    
     }
 
+    /// <summary>
+    /// Knockback this unit
+    /// </summary>
+    /// <param name="units">Knockback meters size</param>
+    /// <param name="attackerTransform">Transform of the unit that is causing the knockback</param>
     public void TakeKnockBack(float units, Transform attackerTransform) { 
         if(!isProcessingKnockBack)
             StartCoroutine(TakeKnockBackCR(units,attackerTransform));
@@ -169,4 +210,6 @@ public class Stats : MonoBehaviour
                 return false;
         }
     }
+
+    #endregion
 }

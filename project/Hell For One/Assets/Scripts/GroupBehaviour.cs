@@ -123,7 +123,7 @@ public class GroupBehaviour : MonoBehaviour
         {
             Combat combat = demon.GetComponent<Combat>();
             combat.StopAttack();
-            combat.combatManager.isIdle = true;
+            //combat.combatManager.isIdle = true;
         }
     }
 

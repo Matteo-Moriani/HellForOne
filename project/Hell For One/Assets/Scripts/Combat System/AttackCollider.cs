@@ -13,6 +13,9 @@ public class AttackCollider : MonoBehaviour
     [SerializeField]
     AttackColliderType type = AttackColliderType.None;
 
+    [SerializeField]
+    private int aggroModifier = 1;
+
     private Stats stats;
 
     private Combat combat;
@@ -37,7 +40,6 @@ public class AttackCollider : MonoBehaviour
         }
     }
     
-
     private void OnTriggerEnter(Collider other)
     {
         ManageCollisionUsingType(other);    
@@ -46,80 +48,116 @@ public class AttackCollider : MonoBehaviour
     private void ManageCollisionUsingType(Collider other) {
         Stats targetRootStats = other.transform.root.gameObject.GetComponent<Stats>();
 
+        //TODO-Insert targetStats !null check
+        //TODO-Insert here idleCollider tag check
+
         switch (stats.type) {
             case Stats.Type.Player:
                 if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
                 {
-                    // If target is blocking player will never hit
-                    if (other.tag == "BlockCollider")
-                    {
-                        StopAttack();   
-                    }
-                    // If target is not blocking player will allways hit
                     if (other.tag == "IdleCollider")
                     {
-                        if (targetRootStats != null)
+                        if (targetRootStats.IsBlocking) 
+                        { 
+                            if(CheckAngle(other.gameObject.transform.root)) { 
+                                targetRootStats.TakeHit(stats.Damage);
+                                
+                                ManageAggro();
+                                
+                                StopAttack();
+                            }
+                            else { 
+                                ManageAggro();
+                                
+                                StopAttack();
+                            }
+                        }
+                        if (!targetRootStats.IsBlocking) 
                         {
                             targetRootStats.TakeHit(stats.Damage);
+
+                            ManageAggro();
+
+                            StopAttack();
                         }
-                        else
-                        {
-                            Debug.Log("Target does not have Stats attached");
-                        }
-                        StopAttack();
                     }
                 }
                 break;
             case Stats.Type.Ally:
                 if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
                 {
-                    if (other.tag == "BlockCollider")
-                    {
-                        if (targetRootStats != null)
-                        {
-                            if (targetRootStats.CalculateBeenHitChance(true))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-                            }
-
-                            StopAttack();
-                        }
-                    }
                     if (other.tag == "IdleCollider")
                     {
-                        if (targetRootStats != null)
-                        {
+                        if (targetRootStats.IsBlocking) {
+
+                            if (CheckAngle(other.gameObject.transform.root)) {
+                                if (targetRootStats.CalculateBeenHitChance(false))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                            else {
+                                if (targetRootStats.CalculateBeenHitChance(true))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                        }
+                        if (!targetRootStats.IsBlocking) {
                             if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
+                            ManageAggro();
+
+                            StopAttack();
                         }
-                        StopAttack();
                     }
                 }
                 break;
             case Stats.Type.Enemy:
                 if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
                 {
-                    if (other.tag == "BlockCollider")
-                    {
-                        if (targetRootStats != null)
-                        {
-                            if (targetRootStats.CalculateBeenHitChance(true))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-                            }
-                            StopAttack();
-                        }
-                    }
                     if (other.tag == "IdleCollider")
                     {
-                        if (targetRootStats != null)
+                        if (targetRootStats.IsBlocking)
+                        {
+
+                            if (CheckAngle(other.gameObject.transform.root))
+                            {
+                                if (targetRootStats.CalculateBeenHitChance(false))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                            else
+                            {
+                                if (targetRootStats.CalculateBeenHitChance(true))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                        }
+                        if (!targetRootStats.IsBlocking)
                         {
                             if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
                             }
+                            ManageAggro();
+
                             StopAttack();
                         }
                     }
@@ -127,36 +165,56 @@ public class AttackCollider : MonoBehaviour
                 break;
             case Stats.Type.Boss:
                 if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally) 
-                {
-                    if(other.tag == "BlockCollider") 
-                    { 
-                        if(targetRootStats != null) 
-                        {
-                            if (targetRootStats.CalculateBeenHitChance(true))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-                                // TODO - Manage knockBack chance calculation in Stas?
-                                if(Random.Range(1f,101f) <= stats.KnockBackChance) 
-                                {
-                                    targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
-                                }
-                            }
-                            StopAttack();
-                        }   
-                    }
-                    if(other.tag == "IdleCollider") 
+                {  
+                    if (other.tag == "IdleCollider")
                     {
-                        if (targetRootStats != null)
+                        if (targetRootStats.IsBlocking)
+                        {
+
+                            if (CheckAngle(other.gameObject.transform.root))
+                            {
+                                if (targetRootStats.CalculateBeenHitChance(false))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+
+                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+                                    {
+                                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+                                    }
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                            else
+                            {
+                                if (targetRootStats.CalculateBeenHitChance(true))
+                                {
+                                    targetRootStats.TakeHit(stats.Damage);
+
+                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+                                    {
+                                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+                                    }
+                                }
+                                ManageAggro();
+
+                                StopAttack();
+                            }
+                        }
+                        if (!targetRootStats.IsBlocking)
                         {
                             if (targetRootStats.CalculateBeenHitChance(false))
                             {
                                 targetRootStats.TakeHit(stats.Damage);
-                                // TODO - Manage knockBack chance calculation in Stas?
+
                                 if (Random.Range(1f, 101f) <= stats.KnockBackChance)
                                 {
-                                    targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root );
+                                    targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
                                 }
                             }
+                            ManageAggro();
+
                             StopAttack();
                         }
                     }
@@ -178,5 +236,23 @@ public class AttackCollider : MonoBehaviour
                 Debug.Log(this.name + "AttackCollider.tyoe is set to None");
                 break;
         }
+    }
+
+    private void ManageAggro() {
+        switch (this.type) { 
+            case AttackColliderType.Melee:
+                stats.RaiseAggro(aggroModifier);
+                break;
+            case AttackColliderType.Ranged:
+                stats.RaiseAggro(aggroModifier);
+                break;
+            case AttackColliderType.None:
+                Debug.Log(this.name + "AttackCollider.tyoe is set to None");
+                break;
+        }    
+    }
+
+    private bool CheckAngle(Transform other) { 
+        return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 90;
     }
 }
