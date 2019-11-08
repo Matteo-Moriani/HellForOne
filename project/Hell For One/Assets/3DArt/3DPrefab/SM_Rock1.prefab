@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 8575727944573700130}
   - component: {fileID: 8575727944570275842}
   - component: {fileID: 8575727944571407042}
+  - component: {fileID: 205579402529430074}
   m_Layer: 0
   m_Name: SM_Rock1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8575727944573700130
 Transform:
@@ -39,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8575727944573604866}
-  m_Mesh: {fileID: 4300000, guid: f705e723431ddf04a93fbc10bad1319d, type: 3}
+  m_Mesh: {fileID: 4300002, guid: f705e723431ddf04a93fbc10bad1319d, type: 3}
 --- !u!23 &8575727944571407042
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -77,3 +78,26 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!205 &205579402529430074
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575727944573604866}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.86210096
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.2676137
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+  m_Enabled: 1
