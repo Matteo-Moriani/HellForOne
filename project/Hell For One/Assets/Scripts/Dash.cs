@@ -109,6 +109,7 @@ public class Dash : MonoBehaviour
     //-----------
     private void OnCollisionEnter(Collision collision)
     {   
+        // Set this to == Boss?
         if(collision.collider.tag != "Demon") {
             canDash = false;
 
@@ -124,6 +125,7 @@ public class Dash : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        // Set this to == Boss?
         if(collision.collider.tag != "Demon") {
             canDash = true;
         }

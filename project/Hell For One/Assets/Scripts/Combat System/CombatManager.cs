@@ -13,10 +13,11 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     private Lancer lancer;
 
+    [SerializeField]
     private Stats stats;
 
-    public bool isIdle { get; set; } = true;
-    private bool isBlocking = false;
+    //public bool isIdle { get; set; } = true;
+    //private bool isBlocking = false;
     private Coroutine attackCR;
 
     private Vector3 startPosition;
@@ -25,8 +26,8 @@ public class CombatManager : MonoBehaviour
     {
         // -TODO- add if null coditions.
         // and if true init GO.
-
-        stats = this.transform.root.gameObject.GetComponent<Stats>();   
+        if(stats == null)
+            stats = this.transform.root.gameObject.GetComponent<Stats>();   
 
         if(lancer == null) { 
             lancer = this.transform.root.gameObject.GetComponent<Lancer>();    
@@ -46,29 +47,32 @@ public class CombatManager : MonoBehaviour
 
     public void StartBlock()
     {
-        if ( isIdle )
+        if ( stats.IsIdle )
         {
-            isIdle = false;
-            isBlocking = true;
+            stats.IsIdle = false;
+            stats.IsBlocking = true;
 
+            //TODO-Remove this
             blockCollider.SetActive( true );
         }
     }
 
     public void StopBlock()
     {
-        if ( isBlocking )
-        {
+        if ( stats.IsBlocking )
+        {   
+            //TODO-Remove this
             blockCollider.SetActive( false );
 
-            isBlocking = false;
-            isIdle = true;
+            stats.IsBlocking = false;
+            stats.IsIdle = true;
         }
     }
 
+    //-TODO- bool isAttacking
     public void Attack()
     {
-        if ( isIdle )
+        if ( stats.IsIdle )
             attackCR = StartCoroutine( AttackCoroutine() );
     }
 
@@ -81,7 +85,7 @@ public class CombatManager : MonoBehaviour
             attackCollider.transform.localPosition = startPosition;
             attackCollider.SetActive( false );
             
-            isIdle = true;
+            stats.IsIdle = true;
         }
         return;
     }
@@ -89,8 +93,8 @@ public class CombatManager : MonoBehaviour
     //-TODO-    Decide if a ranged attack will be continuos (using Start)
     //          or single (using Launch)
     public void RangedAttack(GameObject target) {
-        if (isIdle) {
-            isIdle = false;
+        if (stats.IsIdle) {
+            stats.IsIdle = false;
             if (target != null)
                 //lancer.Launch(target);
                 lancer.Start(target);
@@ -103,12 +107,12 @@ public class CombatManager : MonoBehaviour
     public void StopRangedAttack() { 
         //Debug.Log("Stop RangedAttack");
         lancer.Stop();
-        isIdle = true;
+        stats.IsIdle = true;
     }
 
     private IEnumerator AttackCoroutine()
     {
-        isIdle = false;
+        stats.IsIdle = false;
 
         attackCollider.SetActive(true);
         
@@ -129,6 +133,6 @@ public class CombatManager : MonoBehaviour
         attackCollider.transform.localPosition = startPosition;
         attackCollider.SetActive(false);
 
-        isIdle = true;
+        stats.IsIdle = true;
     }
 }
