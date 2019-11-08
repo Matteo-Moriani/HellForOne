@@ -110,7 +110,7 @@ public class GroupBehaviour : MonoBehaviour
         foreach ( GameObject demon in demons )
         {
             // This check must be done in every tactic
-            if ( demon != null )
+            if ( demon )
             {
                 Combat combat = demon.GetComponent<Combat>();
                 combat.Attack();
@@ -124,9 +124,11 @@ public class GroupBehaviour : MonoBehaviour
             return;
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            combat.StopAttack();
-            //combat.combatManager.isIdle = true;
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StopAttack();
+            }
         }
     }
 
@@ -136,9 +138,11 @@ public class GroupBehaviour : MonoBehaviour
             return;
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            combat.StartBlock();
-            //combat.combatManager.isIdle = true;
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StartBlock();
+            }
         }
     }
 
@@ -148,9 +152,11 @@ public class GroupBehaviour : MonoBehaviour
             return;
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            combat.StopBlock();
-            //combat.combatManager.isIdle = true;
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StopBlock();
+            }
         }
     }
 
@@ -162,7 +168,7 @@ public class GroupBehaviour : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
         GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-        if ( !boss )
+        if ( boss )
             target = boss;
         else if ( enemies != null )
             target = CameraManager.FindNearestEnemy( gameObject, enemies );
@@ -172,8 +178,11 @@ public class GroupBehaviour : MonoBehaviour
 
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            combat.RangedAttack( target );
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.RangedAttack( target );
+            }
         }
     }
 
@@ -184,8 +193,11 @@ public class GroupBehaviour : MonoBehaviour
 
         foreach ( GameObject demon in demons )
         {
-            Combat combat = demon.GetComponent<Combat>();
-            combat.StopRangedAttack();
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StopRangedAttack();
+            }
         }
     }
 
@@ -262,7 +274,7 @@ public class GroupBehaviour : MonoBehaviour
         meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
 
-        rangeAttackState.stayActions.Add( RangeAttack );
+        rangeAttackState.enterActions.Add( RangeAttack );
         rangeAttackState.exitActions.Add( StopRangeAttack );
 
         tankState.enterActions.Add( Tank );
