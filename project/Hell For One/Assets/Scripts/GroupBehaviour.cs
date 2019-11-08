@@ -35,6 +35,9 @@ public class GroupBehaviour : MonoBehaviour
     [SerializeField]
     private float reactionTime = 1f;
 
+    [SerializeField]
+    private GameObject target;
+
     #region Conditions
 
     public bool MeleeOrderGiven()
@@ -155,10 +158,34 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( !CheckDemons() )
             return;
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+        GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+
+        if ( !boss )
+            target = boss;
+        else if ( enemies != null )
+            target = CameraManager.FindNearestEnemy( gameObject, enemies );
+        else
+            return;
+
+
         foreach ( GameObject demon in demons )
         {
             Combat combat = demon.GetComponent<Combat>();
-            combat.Attack();
+            combat.RangedAttack( target );
+        }
+    }
+
+    public void StopRangeAttack()
+    {
+        if ( !CheckDemons() )
+            return;
+
+        foreach ( GameObject demon in demons )
+        {
+            Combat combat = demon.GetComponent<Combat>();
+            combat.StopRangedAttack();
         }
     }
 
@@ -214,7 +241,7 @@ public class GroupBehaviour : MonoBehaviour
         currentState = State.MeleeAttack;
         // Just to test
         inCombat = true;
-        
+
         demons = new GameObject[ maxNumDemons ];
 
         #region FSM
@@ -235,8 +262,8 @@ public class GroupBehaviour : MonoBehaviour
         meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
 
-        rangeAttackState.stayActions.Add( MeleeAttack );
-        rangeAttackState.exitActions.Add( StopAttack );
+        rangeAttackState.stayActions.Add( RangeAttack );
+        rangeAttackState.exitActions.Add( StopRangeAttack );
 
         tankState.enterActions.Add( Tank );
         tankState.exitActions.Add( StopTank );
@@ -270,9 +297,11 @@ public class GroupBehaviour : MonoBehaviour
         #endregion
     }
 
-    public bool IsEmpty() {
-        foreach (GameObject demon in demons) {
-            if(demon != null)
+    public bool IsEmpty()
+    {
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon != null )
                 return false;
         }
         return true;

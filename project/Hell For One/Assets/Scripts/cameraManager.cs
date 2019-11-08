@@ -36,16 +36,16 @@ public class CameraManager : MonoBehaviour
         target = player;
     }
 
-    public GameObject FindNearestEnemy( GameObject[] gameObjects )
+    public static GameObject FindNearestEnemy( GameObject objectFrom, GameObject[] gameObjects )
     {
         float minDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
 
         foreach ( GameObject enemy in gameObjects )
         {
-            if ( (enemy.transform.position - transform.position).magnitude < minDistance )
+            if ( (enemy.transform.position -  objectFrom.transform.position).magnitude < minDistance )
             {
-                minDistance = (enemy.transform.position - transform.position).magnitude;
+                minDistance = (enemy.transform.position - objectFrom.transform.position).magnitude;
                 nearestEnemy = enemy;
             }
         }
@@ -90,7 +90,7 @@ public class CameraManager : MonoBehaviour
             if ( boss == null && enemies != null )
             {
                 isLocked = true;
-                target = FindNearestEnemy( enemies );
+                target = FindNearestEnemy( gameObject, enemies );
             }
             else if ( boss != null )
             {
@@ -162,7 +162,7 @@ public class CameraManager : MonoBehaviour
             isLocked = false;
         }
 
-        offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+        //offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
 
         if ( isLocked )
         {
@@ -176,6 +176,8 @@ public class CameraManager : MonoBehaviour
         }
         else
         {
+            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+
             if ( closedEnvironment )
             {
                 transform.position = player.transform.position + closedEnvironmentOffset;
