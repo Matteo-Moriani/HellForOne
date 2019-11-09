@@ -23,10 +23,6 @@ public class AttackCollider : MonoBehaviour
 
     private Combat combat;
 
-    //-TODO----
-    // Add isRanged and isMelee bool
-    // set them from inspector
-
     private void Start()
     {
         stats = this.transform.root.gameObject.GetComponent<Stats>();
@@ -50,190 +46,40 @@ public class AttackCollider : MonoBehaviour
 
     private void ManageCollisionUsingType(Collider other) {
         Stats targetRootStats = other.transform.root.gameObject.GetComponent<Stats>();
-
-        //TODO-Insert here targetStats !null check
-        //TODO-Insert here idleCollider tag check
-
-        switch (stats.type) {
-            case Stats.Type.Player:
-                if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+        if(targetRootStats != null) {
+            if (other.tag == "IdleCollider")
+            {
+                switch (stats.type)
                 {
-                    if (other.tag == "IdleCollider")
-                    {
-                        if (targetRootStats.IsBlocking) 
-                        { 
-                            if(CheckAngle(other.gameObject.transform.root)) { 
-                                targetRootStats.TakeHit(stats.Damage);
-                                
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                            else { 
-                                ManageAggro();
-                                if(!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                        }
-                        if (!targetRootStats.IsBlocking) 
+                    case Stats.Type.Player:
+                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
                         {
-                            targetRootStats.TakeHit(stats.Damage);
-
-                            ManageAggro();
-
-                            if (!isSweeping && !isGlobalAttacking)
-                                StopAttack();
+                            ManagePlayerCollisions(targetRootStats, other);
                         }
-                    }
+                        break;
+                    case Stats.Type.Ally:
+                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+                        {
+                            ManageSimpleDemonCollisions(targetRootStats, other);
+                        }
+                        break;
+                    case Stats.Type.Enemy:
+                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        {
+                            ManageSimpleDemonCollisions(targetRootStats, other);
+                        }
+                        break;
+                    case Stats.Type.Boss:
+                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        {
+                            ManageBossCollisions(targetRootStats, other);
+                        }
+                        break;
                 }
-                break;
-            case Stats.Type.Ally:
-                if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
-                {
-                    if (other.tag == "IdleCollider")
-                    {
-                        if (targetRootStats.IsBlocking) {
-
-                            if (CheckAngle(other.gameObject.transform.root)) {
-                                if (targetRootStats.CalculateBeenHitChance(false))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                            else {
-                                if (targetRootStats.CalculateBeenHitChance(true))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                        }
-                        if (!targetRootStats.IsBlocking) {
-                            if (targetRootStats.CalculateBeenHitChance(false))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-                            }
-                            ManageAggro();
-
-                            if (!isSweeping && !isGlobalAttacking)
-                                StopAttack();
-                        }
-                    }
-                }
-                break;
-            case Stats.Type.Enemy:
-                if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
-                {
-                    if (other.tag == "IdleCollider")
-                    {
-                        if (targetRootStats.IsBlocking)
-                        {
-
-                            if (CheckAngle(other.gameObject.transform.root))
-                            {
-                                if (targetRootStats.CalculateBeenHitChance(false))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                            else
-                            {
-                                if (targetRootStats.CalculateBeenHitChance(true))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                        }
-                        if (!targetRootStats.IsBlocking)
-                        {
-                            if (targetRootStats.CalculateBeenHitChance(false))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-                            }
-                            ManageAggro();
-
-                            if (!isSweeping && !isGlobalAttacking)
-                                StopAttack();
-                        }
-                    }
-                }
-                break;
-            case Stats.Type.Boss:
-                if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally) 
-                {  
-                    if (other.tag == "IdleCollider")
-                    {
-                        if (targetRootStats.IsBlocking)
-                        {
-
-                            if (CheckAngle(other.gameObject.transform.root))
-                            {
-                                if (targetRootStats.CalculateBeenHitChance(false))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-
-                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                                    {
-                                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                                    }
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                            else
-                            {
-                                if (targetRootStats.CalculateBeenHitChance(true))
-                                {
-                                    targetRootStats.TakeHit(stats.Damage);
-
-                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                                    {
-                                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                                    }
-                                }
-                                ManageAggro();
-
-                                if (!isSweeping && !isGlobalAttacking)
-                                    StopAttack();
-                            }
-                        }
-                        if (!targetRootStats.IsBlocking)
-                        {
-                            if (targetRootStats.CalculateBeenHitChance(false))
-                            {
-                                targetRootStats.TakeHit(stats.Damage);
-
-                                if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                                {
-                                    targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                                }
-                            }
-                            ManageAggro();
-
-                            if (!isSweeping && !isGlobalAttacking)
-                                StopAttack();
-                        }
-                    }
-                }
-                break;
+            }
+        }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " is trying to hit a target without stats. target is: " + other.transform.root.gameObject.name);    
         }
     }
 
@@ -268,5 +114,127 @@ public class AttackCollider : MonoBehaviour
 
     private bool CheckAngle(Transform other) { 
         return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
+    }
+
+    private void ManagePlayerCollisions(Stats targetRootStats, Collider other) {
+        if (targetRootStats.IsBlocking)
+        {
+            if (CheckAngle(other.gameObject.transform.root))
+            {
+                targetRootStats.TakeHit(stats.Damage);
+                ManageAggro();
+
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+            else
+            {
+                ManageAggro();
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+        }
+        if (!targetRootStats.IsBlocking)
+        {
+            targetRootStats.TakeHit(stats.Damage);
+
+            ManageAggro();
+
+            if (!isSweeping && !isGlobalAttacking)
+                StopAttack();
+        }
+    }
+
+    private void ManageSimpleDemonCollisions(Stats targetRootStats, Collider other) {
+        if (targetRootStats.IsBlocking)
+        {
+            if (CheckAngle(other.gameObject.transform.root))
+            {
+                if (targetRootStats.CalculateBeenHitChance(false))
+                {
+                    targetRootStats.TakeHit(stats.Damage);
+                }
+                ManageAggro();
+
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+            else
+            {
+                if (targetRootStats.CalculateBeenHitChance(true))
+                {
+                    targetRootStats.TakeHit(stats.Damage);
+                }
+                ManageAggro();
+
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+        }
+        if (!targetRootStats.IsBlocking)
+        {
+            if (targetRootStats.CalculateBeenHitChance(false))
+            {
+                targetRootStats.TakeHit(stats.Damage);
+            }
+            ManageAggro();
+
+            if (!isSweeping && !isGlobalAttacking)
+                StopAttack();
+        }
+    }
+
+    private void ManageBossCollisions(Stats targetRootStats, Collider other) {
+        if (targetRootStats.IsBlocking)
+        {
+            if (CheckAngle(other.gameObject.transform.root))
+            {
+                if (targetRootStats.CalculateBeenHitChance(false))
+                {
+                    targetRootStats.TakeHit(stats.Damage);
+
+                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
+                    {
+                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+                    }
+                }
+                ManageAggro();
+
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+            else
+            {
+                if (targetRootStats.CalculateBeenHitChance(true))
+                {
+                    targetRootStats.TakeHit(stats.Damage);
+
+                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
+                    {
+                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+                    }
+                }
+                ManageAggro();
+
+                if (!isSweeping && !isGlobalAttacking)
+                    StopAttack();
+            }
+        }
+        if (!targetRootStats.IsBlocking)
+        {
+            if (targetRootStats.CalculateBeenHitChance(false))
+            {
+                targetRootStats.TakeHit(stats.Damage);
+
+                if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
+                {
+                    targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+                }
+            }
+            ManageAggro();
+
+            if (!isSweeping && !isGlobalAttacking)
+                StopAttack();
+        }
     }
 }
