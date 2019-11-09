@@ -21,6 +21,7 @@ public class CombatManager : MonoBehaviour
     private Coroutine attackCR;
 
     private Vector3 startPosition;
+    private Vector3 baseAttackColliderScale;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class CombatManager : MonoBehaviour
         }
 
         startPosition = attackCollider.transform.localPosition;
+        baseAttackColliderScale = attackCollider.transform.localScale;
 
         attackCollider.SetActive(false);
         blockCollider.SetActive(false);
@@ -110,6 +112,38 @@ public class CombatManager : MonoBehaviour
         stats.IsIdle = true;
     }
 
+    public void Sweep() {
+        if (stats.IsIdle)
+        {
+            attackCollider.transform.localScale = new Vector3(stats.SweepSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z);
+            attackCollider.GetComponent<AttackCollider>().isSweeping = true;
+            attackCR = StartCoroutine(AttackCoroutine());
+        }
+    }
+
+    public void StopSweep() {
+        if (attackCR != null)
+        {
+            StopCoroutine(attackCR);
+            attackCR = null;
+
+            attackCollider.transform.localPosition = startPosition;
+            attackCollider.transform.localScale = baseAttackColliderScale;
+            attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+            attackCollider.SetActive(false);
+
+            stats.IsIdle = true;
+        }
+        return;
+    }
+
+    public void GlobalAttack() {
+        StartCoroutine(GlobalAttackCoroutine());
+    }
+
+    // TODO
+    public void StopGlobalAttack() { }
+
     private IEnumerator AttackCoroutine()
     {
         stats.IsIdle = false;
@@ -131,8 +165,28 @@ public class CombatManager : MonoBehaviour
         }
 
         attackCollider.transform.localPosition = startPosition;
+
+        if (attackCollider.GetComponent<AttackCollider>().isSweeping) {
+            attackCollider.transform.localScale = baseAttackColliderScale;
+            attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+        }
+
         attackCollider.SetActive(false);
 
         stats.IsIdle = true;
+    }
+
+    private IEnumerator GlobalAttackCoroutine() {
+        attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = true;
+        attackCollider.transform.localScale = new Vector3(stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize);
+
+        attackCollider.SetActive(true);
+
+        yield return new WaitForSeconds(stats.GlobalAttackDuration);
+
+        attackCollider.transform.localScale = baseAttackColliderScale;
+        attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+        attackCollider.SetActive(false);
+        
     }
 }

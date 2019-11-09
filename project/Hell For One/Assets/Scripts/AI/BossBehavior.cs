@@ -46,6 +46,8 @@ public class BossBehavior : MonoBehaviour
     private bool needsCentering = false;
     private float centeringDist;
 
+    private Combat bossCombat;
+
     #region Finite State Machine
 
     FSMState waitingState, fightingState, stunnedState;
@@ -328,14 +330,37 @@ public class BossBehavior : MonoBehaviour
     }
 
     private void SingleAttack() {
+        if(bossCombat == null) { 
+            bossCombat = GetComponent<Combat>();
+            if(bossCombat == null)
+                Debug.Log("Boss Combat cannot be found");
+        }
+        if(bossCombat != null)
+            bossCombat.Attack();
         Debug.Log("single attack!");
     }
 
     private void GroupAttack() {
+        if (bossCombat == null)
+        {
+            bossCombat = GetComponent<Combat>();
+            if (bossCombat == null)
+                Debug.Log("Boss Combat cannot be found");
+        }
+        if (bossCombat != null)
+            bossCombat.Sweep();
         Debug.Log("group attack!");
     }
 
     private void GlobalAttack() {
+        if (bossCombat == null)
+        {
+            bossCombat = GetComponent<Combat>();
+            if (bossCombat == null)
+                Debug.Log("Boss Combat cannot be found");
+        }
+        if (bossCombat != null)
+            bossCombat.GlobalAttack();
         Debug.Log("global attack!");
     }
 

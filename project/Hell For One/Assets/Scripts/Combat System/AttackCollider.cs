@@ -16,6 +16,9 @@ public class AttackCollider : MonoBehaviour
     [SerializeField]
     private int aggroModifier = 1;
 
+    public bool isSweeping = false;
+    public bool isGlobalAttacking = false;
+
     private Stats stats;
 
     private Combat combat;
@@ -48,7 +51,7 @@ public class AttackCollider : MonoBehaviour
     private void ManageCollisionUsingType(Collider other) {
         Stats targetRootStats = other.transform.root.gameObject.GetComponent<Stats>();
 
-        //TODO-Insert targetStats !null check
+        //TODO-Insert here targetStats !null check
         //TODO-Insert here idleCollider tag check
 
         switch (stats.type) {
@@ -63,13 +66,14 @@ public class AttackCollider : MonoBehaviour
                                 targetRootStats.TakeHit(stats.Damage);
                                 
                                 ManageAggro();
-                                
-                                StopAttack();
+
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                             else { 
                                 ManageAggro();
-                                
-                                StopAttack();
+                                if(!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                         }
                         if (!targetRootStats.IsBlocking) 
@@ -78,7 +82,8 @@ public class AttackCollider : MonoBehaviour
 
                             ManageAggro();
 
-                            StopAttack();
+                            if (!isSweeping && !isGlobalAttacking)
+                                StopAttack();
                         }
                     }
                 }
@@ -97,7 +102,8 @@ public class AttackCollider : MonoBehaviour
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                             else {
                                 if (targetRootStats.CalculateBeenHitChance(true))
@@ -106,7 +112,8 @@ public class AttackCollider : MonoBehaviour
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                         }
                         if (!targetRootStats.IsBlocking) {
@@ -116,7 +123,8 @@ public class AttackCollider : MonoBehaviour
                             }
                             ManageAggro();
 
-                            StopAttack();
+                            if (!isSweeping && !isGlobalAttacking)
+                                StopAttack();
                         }
                     }
                 }
@@ -137,7 +145,8 @@ public class AttackCollider : MonoBehaviour
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                             else
                             {
@@ -147,7 +156,8 @@ public class AttackCollider : MonoBehaviour
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                         }
                         if (!targetRootStats.IsBlocking)
@@ -158,7 +168,8 @@ public class AttackCollider : MonoBehaviour
                             }
                             ManageAggro();
 
-                            StopAttack();
+                            if (!isSweeping && !isGlobalAttacking)
+                                StopAttack();
                         }
                     }
                 }
@@ -177,14 +188,15 @@ public class AttackCollider : MonoBehaviour
                                 {
                                     targetRootStats.TakeHit(stats.Damage);
 
-                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
                                     {
                                         targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
                                     }
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                             else
                             {
@@ -192,14 +204,15 @@ public class AttackCollider : MonoBehaviour
                                 {
                                     targetRootStats.TakeHit(stats.Damage);
 
-                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+                                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
                                     {
                                         targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
                                     }
                                 }
                                 ManageAggro();
 
-                                StopAttack();
+                                if (!isSweeping && !isGlobalAttacking)
+                                    StopAttack();
                             }
                         }
                         if (!targetRootStats.IsBlocking)
@@ -208,14 +221,15 @@ public class AttackCollider : MonoBehaviour
                             {
                                 targetRootStats.TakeHit(stats.Damage);
 
-                                if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+                                if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
                                 {
                                     targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
                                 }
                             }
                             ManageAggro();
 
-                            StopAttack();
+                            if (!isSweeping && !isGlobalAttacking)
+                                StopAttack();
                         }
                     }
                 }
@@ -253,6 +267,6 @@ public class AttackCollider : MonoBehaviour
     }
 
     private bool CheckAngle(Transform other) { 
-        return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 90;
+        return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
     }
 }

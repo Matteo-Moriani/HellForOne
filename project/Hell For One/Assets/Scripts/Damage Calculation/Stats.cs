@@ -33,11 +33,17 @@ public class Stats : MonoBehaviour
     [Tooltip("How far the attack collider will go")]
     private float attackRange = 1.0f;
 
-    //[SerializeField]
-    //private int attackChance = 0;
+    [SerializeField]
+    [Tooltip("How big sweep area will be")]
+    private float sweepSize = 2.0f;
 
-    //[SerializeField]
-    //private int blockChanceBonus = 0;
+    [SerializeField]
+    [Tooltip("How big the global attack will be")]
+    private float globalAttackSize = 10f;
+
+    [SerializeField]
+    [Tooltip("How long the global attack will be (in seconds)")]
+    private float globalAttackDuration = 1.0f;
 
     [SerializeField]
     [Range(0f,100f)]
@@ -85,8 +91,6 @@ public class Stats : MonoBehaviour
     public float AttackDurationMultiplier { get => attackDurationMultiplier; private set => attackDurationMultiplier = value; }
     public float AttackRange { get => attackRange; private set => attackRange = value; }
     public int Damage { get => damage; private set => damage = value; }
-    //public int AttackChance { get => attackChance; private set => attackChance = value; }
-    //public int BlockChanceBonus { get => blockChanceBonus; private set => blockChanceBonus = value; }
     public float BlockChance { get => blockChance; set => blockChance = value; }
     public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
     public int Aggro { get => aggro; set => aggro = value; }
@@ -95,6 +99,9 @@ public class Stats : MonoBehaviour
     public float KnockBackUnits { get => knockBackUnits; set => knockBackUnits = value; }
     public bool IsIdle { get => isIdle; set => isIdle = value; }
     public bool IsBlocking { get => isBlocking; set => isBlocking = value; }
+    public float SweepSize { get => sweepSize; set => sweepSize = value; }
+    public float GlobalAttackSize { get => globalAttackSize; set => globalAttackSize = value; }
+    public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
 
     #endregion
 
@@ -145,7 +152,8 @@ public class Stats : MonoBehaviour
         Vector3 startPosition = this.transform.position;
         Vector3 targetPosition = startPosition + attackerTransform.forward * units; 
            
-        while(Vector3.Distance(this.transform.position,targetPosition) > 0.1f) { 
+        while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) { 
+            //TODO-Fix knockBack speed, now is using target's kS, should use attacker kS
             this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * knockBackSpeed);
             
             lerpTimer += Time.deltaTime;

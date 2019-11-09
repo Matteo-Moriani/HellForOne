@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 8296109491207150701}
   - component: {fileID: 23256968453531594}
   - component: {fileID: 3120653425915882494}
+  - component: {fileID: 7398004870577570609}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -249,17 +250,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 100
-  damage: 1
-  attackRange: 2
+  health: 1000
+  damage: 2
+  attackRange: 1
   blockChance: 0
   shieldBonusProbability: 0
-  knockBackChance: 0
-  knockBackUnits: 0
+  knockBackChance: 100
+  knockBackUnits: 5
   knockBackSpeed: 5
   aggro: 0
   crisis: 0
-  attackDurationMultiplier: 1
+  attackDurationMultiplier: 5
 --- !u!114 &3120653425915882494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,9 +279,23 @@ MonoBehaviour:
   stare: 2
   timeout: 5
   changeTargetProb: 0.3
+  arenaCenter: {fileID: 0}
   maxDistFromCenter: 15
   fsmReactionTime: 0.5
   btReactionTime: 0.05
+--- !u!114 &7398004870577570609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6401165200499556085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94527331855c9fe468edb28b3ff61677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatManager: {fileID: 3221598526240326888}
 --- !u!1001 &4016947157684010372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293,11 +308,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -353,6 +363,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 23256968453531594}
+    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
 --- !u!4 &3221598526240326889 stripped
@@ -361,6 +396,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4016947157684010372}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3221598526240326888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4016947157684010372}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3221598524398901995 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,

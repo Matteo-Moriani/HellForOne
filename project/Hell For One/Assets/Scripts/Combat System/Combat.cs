@@ -41,8 +41,18 @@ public class Combat : MonoBehaviour
         combatManager.Attack();
     }
 
+    public void StopAttack()
+    {
+        combatManager.StopAttack();
+    }
+
     public void RangedAttack(GameObject target) { 
         combatManager.RangedAttack(target);   
+    }
+
+    public void StopRangedAttack()
+    {
+        combatManager.StopRangedAttack();
     }
 
     public void StartBlock()
@@ -55,12 +65,19 @@ public class Combat : MonoBehaviour
         combatManager.StopBlock();
     }
 
-    public void StopAttack()
-    {
-        combatManager.StopAttack();
+    public void Sweep() { 
+        combatManager.Sweep();
     }
 
-    public void StopRangedAttack() { 
-        combatManager.StopRangedAttack();
+    public void StopSweep() { 
+        combatManager.StopSweep();    
     }
+
+    public void GlobalAttack() { 
+        combatManager.GlobalAttack();    
+    }
+
+    public void StopGlobalAttack() { 
+        combatManager.StopGlobalAttack();    
+    } 
 }

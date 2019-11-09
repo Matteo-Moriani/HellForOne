@@ -90,6 +90,7 @@ public class Dash : MonoBehaviour
                 lerpTimer += Time.deltaTime;
                 
                 // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
+                // TODO-subtract lerp delta if player cant move to new position to fix boss bug?
                 this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
 
                 // If we reach our destination (with some tollerance) we stop lerping
