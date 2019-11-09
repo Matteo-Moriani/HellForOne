@@ -116,6 +116,15 @@ public class AttackCollider : MonoBehaviour
         return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
     }
 
+    private void ManageKnockBack(Stats targetRootStats) {
+        // Calculate knockback chance
+        // Global attack will not cause knockback
+        if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
+        {
+            targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+        }
+    }
+
     private void ManagePlayerCollisions(Stats targetRootStats, Collider other) {
         if (targetRootStats.IsBlocking)
         {
@@ -187,33 +196,34 @@ public class AttackCollider : MonoBehaviour
     private void ManageBossCollisions(Stats targetRootStats, Collider other) {
         if (targetRootStats.IsBlocking)
         {
+            // if target is blocking but is not looking towards the boss
             if (CheckAngle(other.gameObject.transform.root))
             {
+                // calculate been hit chance without counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
                     targetRootStats.TakeHit(stats.Damage);
 
-                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                    {
-                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                    }
+                    ManageKnockBack(targetRootStats);
                 }
+
                 ManageAggro();
 
+                // We stop the attack only if is a simple attack
                 if (!isSweeping && !isGlobalAttacking)
                     StopAttack();
             }
+            // if target is blocking and is looking towards the boss
             else
             {
+                // calculate been hit chance counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
                     targetRootStats.TakeHit(stats.Damage);
 
-                    if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                    {
-                        targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                    }
+                    ManageKnockBack(targetRootStats);
                 }
+
                 ManageAggro();
 
                 if (!isSweeping && !isGlobalAttacking)
@@ -221,18 +231,18 @@ public class AttackCollider : MonoBehaviour
             }
         }
         if (!targetRootStats.IsBlocking)
-        {
+        {   
+            // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
             {
                 targetRootStats.TakeHit(stats.Damage);
 
-                if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
-                {
-                    targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
-                }
+                ManageKnockBack(targetRootStats);
             }
+
             ManageAggro();
 
+            // We stop the attack only if is a simple attack
             if (!isSweeping && !isGlobalAttacking)
                 StopAttack();
         }

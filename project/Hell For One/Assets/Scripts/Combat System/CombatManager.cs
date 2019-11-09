@@ -16,9 +16,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     private Stats stats;
 
-    //public bool isIdle { get; set; } = true;
-    //private bool isBlocking = false;
     private Coroutine attackCR;
+    private Coroutine globalAttackCR;
 
     private Vector3 startPosition;
     private Vector3 baseAttackColliderScale;
@@ -74,12 +73,17 @@ public class CombatManager : MonoBehaviour
     //-TODO- bool isAttacking
     public void Attack()
     {
-        if ( stats.IsIdle )
-            attackCR = StartCoroutine( AttackCoroutine() );
+        if (stats.IsIdle) {
+            attackCR = StartCoroutine(AttackCoroutine());
+        }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.Attack is trying to attack but is not idle.");    
+        }
+            
     }
 
     public void StopAttack() {
-        if (attackCR != null)
+        if (attackCR != null && !stats.IsIdle)
         {
             StopCoroutine(attackCR);
             attackCR = null;
@@ -88,6 +92,9 @@ public class CombatManager : MonoBehaviour
             attackCollider.SetActive( false );
             
             stats.IsIdle = true;
+        }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.StopAttack is trying to stop an attack but is not idle or attackCR is null");    
         }
         return;
     }
@@ -103,13 +110,20 @@ public class CombatManager : MonoBehaviour
             else
                 Debug.Log(this.name + "Is trying a ranged attack to a null target");
         }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.RangedAttack is trying a ranged attack but is not idle");    
+        }
     }
 
     //-TODO--   If we use continuos attack we need a StopRangedAttack method
-    public void StopRangedAttack() { 
-        //Debug.Log("Stop RangedAttack");
-        lancer.Stop();
-        stats.IsIdle = true;
+    public void StopRangedAttack() {
+        if (!stats.IsIdle) {
+            lancer.Stop();
+            stats.IsIdle = true;
+        }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.StopRangedAttack is trying to stop a ranged attack but it is idle");    
+        }
     }
 
     public void Sweep() {
@@ -119,10 +133,13 @@ public class CombatManager : MonoBehaviour
             attackCollider.GetComponent<AttackCollider>().isSweeping = true;
             attackCR = StartCoroutine(AttackCoroutine());
         }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.Sweep is trying a sweep attack but it is not idle");    
+        }
     }
 
     public void StopSweep() {
-        if (attackCR != null)
+        if (attackCR != null && !stats.IsIdle)
         {
             StopCoroutine(attackCR);
             attackCR = null;
@@ -134,15 +151,36 @@ public class CombatManager : MonoBehaviour
 
             stats.IsIdle = true;
         }
+        else{
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.StopSweep is trying to stop a sweep attack but it is idle");
+        }
         return;
     }
 
     public void GlobalAttack() {
-        StartCoroutine(GlobalAttackCoroutine());
+        if (stats.IsIdle) { 
+            globalAttackCR = StartCoroutine(GlobalAttackCoroutine());   
+        }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.GlobalAttack is trying a global attack but it is not idle");
+        }
     }
 
-    // TODO
-    public void StopGlobalAttack() { }
+    public void StopGlobalAttack() { 
+        if(globalAttackCR != null && !stats.IsIdle) { 
+            StopCoroutine(globalAttackCR);
+            globalAttackCR = null;
+
+            attackCollider.transform.localScale = baseAttackColliderScale;
+            attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+            attackCollider.SetActive(false);
+
+            stats.IsIdle = true;
+        }
+        else { 
+           Debug.Log(this.transform.root.gameObject.name + " CombatManager.StopGlobalAttack is trying to stop a global attack but it is idle or globalAttackCr is null");
+        }
+    }
 
     private IEnumerator AttackCoroutine()
     {
@@ -177,6 +215,8 @@ public class CombatManager : MonoBehaviour
     }
 
     private IEnumerator GlobalAttackCoroutine() {
+        stats.IsIdle = false;
+        
         attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = true;
         attackCollider.transform.localScale = new Vector3(stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize);
 
@@ -187,6 +227,7 @@ public class CombatManager : MonoBehaviour
         attackCollider.transform.localScale = baseAttackColliderScale;
         attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
         attackCollider.SetActive(false);
-        
+
+        stats.IsIdle = true;
     }
 }
