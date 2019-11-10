@@ -22,9 +22,11 @@ public class DemonBehaviour : MonoBehaviour
     {
         if ( !groupFound )
             FindGroup();
-
-        if ( stats.health <= 0 )
-            Destroy( gameObject );
+        /*
+           Testing death managment in Stats
+        if ( stats.health <= 0) 
+            Destroy(gameObject);
+        */    
     }
 
     // Balances group entering too

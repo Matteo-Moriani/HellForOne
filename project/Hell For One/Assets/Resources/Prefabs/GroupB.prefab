@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8435978056055178386}
   - component: {fileID: 114618281047304172}
   - component: {fileID: 4912697917947030343}
+  - component: {fileID: 114676686485834630}
   m_Layer: 0
   m_Name: GroupB
   m_TagString: Group
@@ -44,11 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd43b97818cfebc4ba442470f6bc7424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxNumDemons: 4
+  demonsInGroup: 0
   currentState: 0
   newState: 0
   orderConfirmed: 0
   demons: []
   reactionTime: 1
+  target: {fileID: 0}
 --- !u!114 &4912697917947030343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +65,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783a93287cddeac43a6b10ee4b051a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPositions: {fileID: 0}
-  groupsFormation: {fileID: 0}
   rangedDist: 6
   cohesionMultiplier: 2
+  player: {fileID: 0}
+--- !u!114 &114676686485834630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc855c1343d36745aed6b974c124396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groupAggro: 0

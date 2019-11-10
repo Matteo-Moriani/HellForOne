@@ -87,7 +87,8 @@ public class AttackCollider : MonoBehaviour
         switch (this.type)
         {
             case AttackColliderType.Melee:
-                combat.StopAttack();
+                if(!isGlobalAttacking && !isSweeping)
+                    combat.StopAttack();
                 break;
             case AttackColliderType.Ranged:
                 this.gameObject.SetActive(false);
@@ -99,6 +100,7 @@ public class AttackCollider : MonoBehaviour
     }
 
     private void ManageAggro() {
+        /*
         switch (this.type) { 
             case AttackColliderType.Melee:
                 stats.RaiseAggro(aggroModifier);
@@ -109,7 +111,18 @@ public class AttackCollider : MonoBehaviour
             case AttackColliderType.None:
                 Debug.Log(this.name + "AttackCollider.tyoe is set to None");
                 break;
-        }    
+        }
+        */
+        if(this.type != AttackColliderType.None) { 
+            stats.RaiseAggro(aggroModifier);
+            
+            // Player doesn't have a group, so we don't have to update gruop aggro if this collider belongs to the player
+            if(stats.type != Stats.Type.Player)
+                this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+        }
+        else {
+            Debug.Log(this.name + "AttackCollider.tyoe is set to None");
+        }
     }
 
     private bool CheckAngle(Transform other) { 
@@ -119,9 +132,12 @@ public class AttackCollider : MonoBehaviour
     private void ManageKnockBack(Stats targetRootStats) {
         // Calculate knockback chance
         // Global attack will not cause knockback
-        if (Random.Range(1f, 101f) <= stats.KnockBackChance && !isGlobalAttacking)
+        if (Random.Range(1f, 101f) <= stats.KnockBackChance && !targetRootStats.IsBlocking)
         {
             targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+        }
+        else { 
+            Debug.Log("No KnockBack, probably the target is blocking");    
         }
     }
 
@@ -133,14 +149,13 @@ public class AttackCollider : MonoBehaviour
                 targetRootStats.TakeHit(stats.Damage);
                 ManageAggro();
 
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                StopAttack();
             }
             else
             {
                 ManageAggro();
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                
+                StopAttack();
             }
         }
         if (!targetRootStats.IsBlocking)
@@ -149,8 +164,7 @@ public class AttackCollider : MonoBehaviour
 
             ManageAggro();
 
-            if (!isSweeping && !isGlobalAttacking)
-                StopAttack();
+            StopAttack();
         }
     }
 
@@ -165,8 +179,7 @@ public class AttackCollider : MonoBehaviour
                 }
                 ManageAggro();
 
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                StopAttack();
             }
             else
             {
@@ -176,8 +189,7 @@ public class AttackCollider : MonoBehaviour
                 }
                 ManageAggro();
 
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                StopAttack();
             }
         }
         if (!targetRootStats.IsBlocking)
@@ -188,8 +200,7 @@ public class AttackCollider : MonoBehaviour
             }
             ManageAggro();
 
-            if (!isSweeping && !isGlobalAttacking)
-                StopAttack();
+            StopAttack();
         }
     }
 
@@ -210,8 +221,7 @@ public class AttackCollider : MonoBehaviour
                 ManageAggro();
 
                 // We stop the attack only if is a simple attack
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                StopAttack();
             }
             // if target is blocking and is looking towards the boss
             else
@@ -226,8 +236,7 @@ public class AttackCollider : MonoBehaviour
 
                 ManageAggro();
 
-                if (!isSweeping && !isGlobalAttacking)
-                    StopAttack();
+                StopAttack();
             }
         }
         if (!targetRootStats.IsBlocking)
@@ -243,8 +252,7 @@ public class AttackCollider : MonoBehaviour
             ManageAggro();
 
             // We stop the attack only if is a simple attack
-            if (!isSweeping && !isGlobalAttacking)
-                StopAttack();
+            StopAttack();
         }
     }
 }

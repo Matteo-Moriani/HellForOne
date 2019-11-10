@@ -119,11 +119,8 @@ public class Stats : MonoBehaviour
     /// Lower this unit aggro point by amount n
     /// </summary>
     /// <param name="n">The amount the aggro will be lowered</param>
-    public void LowerAggro(int n) { 
-        if(aggro - n >= 0)
-            aggro -= n;
-        else
-            aggro = 0;
+    public void ResetAggro(int n) { 
+        aggro = 0;
     }
 
     /// <summary>
@@ -131,7 +128,11 @@ public class Stats : MonoBehaviour
     /// </summary>
     /// <param name="damage">The damage that this unit will take</param>
     public void TakeHit(int damage) { 
-        health -= damage;    
+        health -= damage;
+        
+        if(health <= 0) { 
+            ManageDeath();    
+        }
     }
 
     /// <summary>
@@ -150,11 +151,11 @@ public class Stats : MonoBehaviour
         float lerpTimer = 0f;
 
         Vector3 startPosition = this.transform.position;
-        Vector3 targetPosition = startPosition + attackerTransform.forward * units; 
+        Vector3 targetPosition = startPosition + (attackerTransform.forward + (-this.transform.forward)).normalized * units; 
            
         while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) { 
-            //TODO-Fix knockBack speed, now is using target's kS, should use attacker kS
-            this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * knockBackSpeed);
+            
+            this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * attackerTransform.root.gameObject.GetComponent<Stats>().knockBackSpeed);
             
             lerpTimer += Time.deltaTime;
 
@@ -218,6 +219,16 @@ public class Stats : MonoBehaviour
                 return false;
         }
     }
+
+    private void ManageDeath() {
+        aggro = 0;
+
+        if (type != Stats.Type.Player)
+            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+        
+        Destroy(this.gameObject);
+    }
+
 
     #endregion
 }

@@ -46,9 +46,13 @@ public class CombatManager : MonoBehaviour
 
     }
 
+    /*
+        TODO-Put bool values in logs. 
+    */
+
     public void StartBlock()
     {
-        if ( stats.IsIdle )
+        if ( stats.IsIdle && !stats.IsBlocking )
         {
             stats.IsIdle = false;
             stats.IsBlocking = true;
@@ -56,11 +60,15 @@ public class CombatManager : MonoBehaviour
             //TODO-Remove this
             blockCollider.SetActive( true );
         }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManager.StartBlock is trying to start blocking but is not idle or is already blocking");    
+        }
+
     }
 
     public void StopBlock()
     {
-        if ( stats.IsBlocking )
+        if (!stats.IsIdle && stats.IsBlocking )
         {   
             //TODO-Remove this
             blockCollider.SetActive( false );
@@ -68,9 +76,11 @@ public class CombatManager : MonoBehaviour
             stats.IsBlocking = false;
             stats.IsIdle = true;
         }
+        else { 
+            Debug.Log(this.transform.root.gameObject.name + " CombatManader.StopBlock is trying to stop blocking but is idle or is not blocking");    
+        }
     }
 
-    //-TODO- bool isAttacking
     public void Attack()
     {
         if (stats.IsIdle) {
@@ -99,13 +109,10 @@ public class CombatManager : MonoBehaviour
         return;
     }
     
-    //-TODO-    Decide if a ranged attack will be continuos (using Start)
-    //          or single (using Launch)
     public void RangedAttack(GameObject target) {
         if (stats.IsIdle) {
             stats.IsIdle = false;
             if (target != null)
-                //lancer.Launch(target);
                 lancer.Start(target);
             else
                 Debug.Log(this.name + "Is trying a ranged attack to a null target");
@@ -115,7 +122,6 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    //-TODO--   If we use continuos attack we need a StopRangedAttack method
     public void StopRangedAttack() {
         if (!stats.IsIdle) {
             lancer.Stop();
