@@ -117,7 +117,7 @@ public class AttackCollider : MonoBehaviour
             stats.RaiseAggro(aggroModifier);
             
             // Player doesn't have a group, so we don't have to update gruop aggro if this collider belongs to the player
-            if(stats.type != Stats.Type.Player)
+            if(stats.type == Stats.Type.Ally)
                 this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
         }
         else {
