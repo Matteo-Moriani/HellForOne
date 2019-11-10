@@ -6,7 +6,8 @@ public class GroupAggro : MonoBehaviour
 {
     private GroupBehaviour groupBehaviour;
     
-    public int groupAggro = 0;
+    [SerializeField]
+    private int groupAggro = 0;
 
     private void Start()
     {
@@ -32,13 +33,13 @@ public class GroupAggro : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                    Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name);
                 }
             }
         }
         else
         {
-            Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour");
+            Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour");
         }
     }
 
@@ -63,5 +64,13 @@ public class GroupAggro : MonoBehaviour
         else { 
             Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour");    
         }
+    }
+
+    public void RaiseGroupAggro(int n) { 
+        groupAggro += n;    
+    }
+
+    public void LowerGroupAggro(int n) { 
+        groupAggro -= n;    
     }
 }

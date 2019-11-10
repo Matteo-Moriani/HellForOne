@@ -6,6 +6,9 @@ public class Stats : MonoBehaviour
 {
     #region fields
     
+    /// <summary>
+    /// Useful to indicate the type of this unit
+    /// </summary>
     public enum Type
     {
         Player,
@@ -14,61 +17,96 @@ public class Stats : MonoBehaviour
         Boss,
         None
     }
-
-    // -TODO- set property?
+     
+    /// <summary>
+    /// The type of this unit
+    /// </summary>
     [SerializeField]
     [Tooltip("The type of this demon")]
     public Type type = Type.None;
 
-    // -TODO- set property?
+    /// <summary>
+    /// Health of this unit
+    /// </summary>
     [SerializeField]
     [Tooltip("Starting health of this demon")]
     public int health = 2;
 
+    /// <summary>
+    /// How much damage this unit will deal
+    /// </summary>
     [SerializeField]
     [Tooltip("How much damage this demon can deal")]
     private int damage = 1;
 
+    /// <summary>
+    /// How far will go an attack
+    /// </summary>
     [SerializeField]
     [Tooltip("How far the attack collider will go")]
     private float attackRange = 1.0f;
+    /// <summary>
+    /// How fast will be an attack
+    /// </summary>
+    [SerializeField]
+    [Tooltip("How fast will be the attackCollider movement")]
+    private float attackDurationMultiplier = 1.0f;
 
+    /// <summary>
+    /// How big will be a sweep attack
+    /// </summary>
     [SerializeField]
     [Tooltip("How big sweep area will be")]
     private float sweepSize = 2.0f;
 
+    /// <summary>
+    /// How big will be a global attack
+    /// </summary>
     [SerializeField]
     [Tooltip("How big the global attack will be")]
     private float globalAttackSize = 10f;
-
+    /// <summary>
+    /// How long will last a global attack
+    /// </summary>
     [SerializeField]
     [Tooltip("How long the global attack will be (in seconds)")]
     private float globalAttackDuration = 1.0f;
 
+    /// <summary>
+    /// Probability of this unit to dodge an attack
+    /// </summary>
     [SerializeField]
     [Range(0f,100f)]
     [Tooltip("The probability for this demon to dodge an attack. to stick to GDD it should be 75.0")]
     private float blockChance = 0f;
-
+    /// <summary>
+    /// Probability bonus if this unit is blocking
+    /// </summary>
     [SerializeField]
     [Range(0f,100f)]
     [Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
     private float shieldBonusProbability = 0f;
 
+    /// <summary>
+    /// Probability of this unit to deal a knockBack
+    /// </summary>
     [SerializeField]
     [Range(0f,100f)]
     [Tooltip("For Boss only")]
     private float knockBackChance = 0f;
-
+    /// <summary>
+    /// How far this unit will push a target when dealing a knockBack
+    /// </summary>
     [SerializeField]
     [Tooltip("For Boss only")]
     private float knockBackUnits = 0f;
-
+    /// <summary>
+    /// How far this unit will push a target when dealing a knockBack
+    /// </summary>
     [SerializeField]
     [Tooltip("For boss only")]
     private float knockBackSpeed = 5.0f;
 
-    // -TODO- Manage aggro 
     [SerializeField]
     private int aggro = 0;
 
@@ -76,33 +114,79 @@ public class Stats : MonoBehaviour
     [SerializeField]
     private int crisis = 0;
 
-    [SerializeField]
-    [Tooltip("How fast will be the attackCollider movement")]
-    private float attackDurationMultiplier = 1.0f;
-
+    
+    /// <summary>
+    /// Tells if we are processing a knockBack
+    /// </summary>
     private bool isProcessingKnockBack = false;
+    /// <summary>
+    /// Tells if this unit is Idle (not blocking)
+    /// </summary>
     private bool isIdle = true;
+    /// <summary>
+    /// Tells if this unit is blocking
+    /// </summary>
     private bool isBlocking = false;
 
     #endregion
 
     #region properties
-
+    /// <summary>
+    /// How fast will be an attack
+    /// </summary>
     public float AttackDurationMultiplier { get => attackDurationMultiplier; private set => attackDurationMultiplier = value; }
+    /// <summary>
+    /// How far will go an attack
+    /// </summary>
     public float AttackRange { get => attackRange; private set => attackRange = value; }
+    /// <summary>
+    /// How much damage will deal this unit
+    /// </summary>
     public int Damage { get => damage; private set => damage = value; }
+    /// <summary>
+    /// Probability of this unit to dodge an attack
+    /// </summary>
     public float BlockChance { get => blockChance; set => blockChance = value; }
+    /// <summary>
+    /// Probability bonus if this unit is blocking
+    /// </summary>
     public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
+    
     public int Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
+    
+    /// <summary>
+    /// Probability of this unit to deal a knockBack
+    /// </summary>
     public float KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
+    /// <summary>
+    /// How far this unit will push a target when dealing a knockBack
+    /// </summary>
     public float KnockBackUnits { get => knockBackUnits; set => knockBackUnits = value; }
+    /// <summary>
+    /// how fast this unit will push a target when dealing a knockBack
+    /// </summary>
+    public float KnockBackSpeed { get => knockBackSpeed; set => knockBackSpeed = value; }
+    /// <summary>
+    /// Tells if the unit is Idle (not blocking)
+    /// </summary>
     public bool IsIdle { get => isIdle; set => isIdle = value; }
+    /// <summary>
+    /// Tells is the unit is blocking
+    /// </summary>
     public bool IsBlocking { get => isBlocking; set => isBlocking = value; }
+    /// <summary>
+    /// How big will be a sweep attack
+    /// </summary>
     public float SweepSize { get => sweepSize; set => sweepSize = value; }
+    /// <summary>
+    /// How big will be a global attack
+    /// </summary>
     public float GlobalAttackSize { get => globalAttackSize; set => globalAttackSize = value; }
+    /// <summary>
+    /// How long will last a global attack
+    /// </summary>
     public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
-
     #endregion
 
     #region methods
@@ -122,7 +206,7 @@ public class Stats : MonoBehaviour
     public void ResetAggro(int n) { 
         aggro = 0;
 
-        if (type != Stats.Type.Player)
+        if (type == Stats.Type.Ally)
             this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
     }
 
@@ -143,12 +227,12 @@ public class Stats : MonoBehaviour
     /// </summary>
     /// <param name="units">Knockback meters size</param>
     /// <param name="attackerTransform">Transform of the unit that is causing the knockback</param>
-    public void TakeKnockBack(float units, Transform attackerTransform) { 
+    public void TakeKnockBack(float units, Transform attackerTransform, float knockBackSpeed) { 
         if(!isProcessingKnockBack)
-            StartCoroutine(TakeKnockBackCR(units,attackerTransform));
+            StartCoroutine(TakeKnockBackCR(units,attackerTransform,knockBackSpeed));
     }
 
-    private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform) {
+    private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform, float knockBackSpeed) {
         isProcessingKnockBack = true;
 
         float lerpTimer = 0f;
@@ -158,7 +242,7 @@ public class Stats : MonoBehaviour
            
         while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) { 
             
-            this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * attackerTransform.root.gameObject.GetComponent<Stats>().knockBackSpeed);
+            this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * knockBackSpeed);
             
             lerpTimer += Time.deltaTime;
 
@@ -226,12 +310,11 @@ public class Stats : MonoBehaviour
     private void ManageDeath() {
         aggro = 0;
 
-        if (type != Stats.Type.Player)
+        if (type == Stats.Type.Ally)
             this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
         
         Destroy(this.gameObject);
     }
-
 
     #endregion
 }

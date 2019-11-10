@@ -46,10 +46,6 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    /*
-        TODO-Put bool values in logs. 
-    */
-
     public void StartBlock()
     {
         if ( stats.IsIdle && !stats.IsBlocking )

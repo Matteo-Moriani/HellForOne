@@ -23,6 +23,8 @@ public class AttackCollider : MonoBehaviour
 
     private Combat combat;
 
+    private DemonBehaviour demonBehaviour;
+
     private void Start()
     {
         stats = this.transform.root.gameObject.GetComponent<Stats>();
@@ -100,28 +102,19 @@ public class AttackCollider : MonoBehaviour
     }
 
     private void ManageAggro() {
-        /*
-        switch (this.type) { 
-            case AttackColliderType.Melee:
-                stats.RaiseAggro(aggroModifier);
-                break;
-            case AttackColliderType.Ranged:
-                stats.RaiseAggro(aggroModifier);
-                break;
-            case AttackColliderType.None:
-                Debug.Log(this.name + "AttackCollider.tyoe is set to None");
-                break;
-        }
-        */
         if(this.type != AttackColliderType.None) { 
             stats.RaiseAggro(aggroModifier);
             
-            // Player doesn't have a group, so we don't have to update gruop aggro if this collider belongs to the player
-            if(stats.type == Stats.Type.Ally)
-                this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+            // We update Group aggro only for Ally Imps
+            if(stats.type == Stats.Type.Ally) { 
+                if(demonBehaviour == null ) { 
+                    demonBehaviour = this.transform.root.gameObject.GetComponent<DemonBehaviour>();   
+                }
+                demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro(aggroModifier);
+            }      
         }
         else {
-            Debug.Log(this.name + "AttackCollider.tyoe is set to None");
+            Debug.Log(this.name + "AttackCollider.type is set to None");
         }
     }
 
@@ -134,7 +127,7 @@ public class AttackCollider : MonoBehaviour
         // Global attack will not cause knockback
         if (Random.Range(1f, 101f) <= stats.KnockBackChance && !targetRootStats.IsBlocking)
         {
-            targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root);
+            targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root, stats.KnockBackSpeed);
         }
         else { 
             Debug.Log("No KnockBack, probably the target is blocking");    
