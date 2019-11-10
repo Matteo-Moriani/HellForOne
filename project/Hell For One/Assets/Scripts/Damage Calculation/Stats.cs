@@ -121,6 +121,9 @@ public class Stats : MonoBehaviour
     /// <param name="n">The amount the aggro will be lowered</param>
     public void ResetAggro(int n) { 
         aggro = 0;
+
+        if (type != Stats.Type.Player)
+            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
     }
 
     /// <summary>
