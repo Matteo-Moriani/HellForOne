@@ -4912,6 +4912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatManager: {fileID: 4716762087600085715}
+  playerAttackCooldown: 0.5
 --- !u!114 &114094168484377386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4954,14 +4955,17 @@ MonoBehaviour:
   health: 10
   damage: 2
   attackRange: 2
-  blockChance: 0
+  attackDurationMultiplier: 5
+  sweepSize: 2
+  globalAttackSize: 10
+  globalAttackDuration: 1
+  blockChance: 50
   shieldBonusProbability: 0
   knockBackChance: 0
   knockBackUnits: 0
   knockBackSpeed: 5
   aggro: 0
   crisis: 0
-  attackDurationMultiplier: 5
 --- !u!114 &700325638455118188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5252,11 +5256,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5322,11 +5321,6 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 1139848323108292844}
-    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -5337,11 +5331,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: aggroModifier
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}

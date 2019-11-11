@@ -94,7 +94,8 @@ public class Dash : MonoBehaviour
                 this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
 
                 // If we reach our destination (with some tollerance) we stop lerping
-                if (Vector3.Distance(this.transform.position, targetPosition) == 0f)
+                //if (Vector3.Distance(this.transform.position, targetPosition) == 0f)
+                if(lerpTimer * dashSpeed >= 1)
                 {
                     isDashing = false;
                     controller.enabled = true;
@@ -104,7 +105,7 @@ public class Dash : MonoBehaviour
             }
         } 
     }
-    
+    /*
     //-----------
     //-TODO- use raycast in dash direction to see if player can dash
     //-----------
@@ -134,4 +135,5 @@ public class Dash : MonoBehaviour
     //--------
     //-ENDTODO-
     //--------
+    */
 }

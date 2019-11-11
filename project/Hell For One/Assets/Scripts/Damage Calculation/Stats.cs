@@ -113,7 +113,6 @@ public class Stats : MonoBehaviour
     // -TODO- Manage Crisis
     [SerializeField]
     private int crisis = 0;
-
     
     /// <summary>
     /// Tells if we are processing a knockBack
@@ -200,6 +199,14 @@ public class Stats : MonoBehaviour
     }
 
     /// <summary>
+    /// Lower this unit aggro points by amount n
+    /// </summary>
+    /// <param name="n"></param>
+    public void LowerAggro(int n) { 
+        aggro -= n;    
+    }
+
+    /// <summary>
     /// Lower this unit aggro point by amount n
     /// </summary>
     /// <param name="n">The amount the aggro will be lowered</param>
@@ -234,22 +241,49 @@ public class Stats : MonoBehaviour
 
     private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform, float knockBackSpeed) {
         isProcessingKnockBack = true;
+        
+        ManageMovement();
 
         float lerpTimer = 0f;
-
+        //Vector3 knockBackDirection = (attackerTransform.forward + (-this.transform.forward)).normalized;
+        Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
+        knockBackDirection.y = 0.0f;
+        knockBackDirection = knockBackDirection.normalized;
+        /*
+        if(Vector3.Angle(this.transform.root.transform.forward, attackerTransform.forward) < 90) {
+            knockBackDirection = -(this.transform.forward - attackerTransform.forward).normalized;
+        }
+        else {
+            knockBackDirection = (this.transform.forward - attackerTransform.forward).normalized;
+        }
+        */
         Vector3 startPosition = this.transform.position;
-        Vector3 targetPosition = startPosition + (attackerTransform.forward + (-this.transform.forward)).normalized * units; 
+        Vector3 targetPosition = startPosition + (knockBackDirection * units); 
            
-        while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) { 
-            
+        //while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) 
+        do{ 
             this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * knockBackSpeed);
             
             lerpTimer += Time.deltaTime;
 
             yield return null;
-        }
-      
+        }while (lerpTimer * knockBackSpeed <= 1);
+
+        ManageMovement();
+
         isProcessingKnockBack = false;
+    }
+    
+    // TODO - Optimize this
+    private void ManageMovement() {
+        if (type == Stats.Type.Player)
+        {
+            Controller controller = this.GetComponent<Controller>();
+            Dash dash = this.GetComponent<Dash>();
+
+            controller.enabled = !controller.enabled;
+            dash.enabled = !dash.enabled;
+        }
     }
 
     public bool CalculateBeenHitChance(bool isBlocking) {

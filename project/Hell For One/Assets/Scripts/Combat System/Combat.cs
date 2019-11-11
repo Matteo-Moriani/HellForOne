@@ -8,23 +8,38 @@ public class Combat : MonoBehaviour
     public CombatManager combatManager;
 
     private Stats stats;
+    
+    [SerializeField]
+    private float playerAttackCooldown = 0.5f;
+    
+    private float coolDownCounter = 0.0f;
 
     private void Start()
     {
         stats = GetComponent<Stats>();
+
+        coolDownCounter = playerAttackCooldown;
     }
 
     void Update()
     {
+        if (coolDownCounter <= playerAttackCooldown)
+        {
+            coolDownCounter += Time.deltaTime;
+        }
+
         // left click
         // -TODO- add controller button
         // Used for testing - Put attack button in player controller
         if ( stats.type == Stats.Type.Player )
-        {
-            if ( Input.GetMouseButtonDown( 0 ) )
+        {   
+            if ( Input.GetMouseButtonDown( 0 ) && coolDownCounter >= playerAttackCooldown )
             {
+               coolDownCounter = 0.0f;
+                
                 Attack();
             }
+            
             if ( Input.GetMouseButtonDown( 1 ) )
             {
                 StartBlock();
