@@ -341,13 +341,13 @@ public class Stats : MonoBehaviour
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range(1f,101f) <= (100 - (blockChance + shieldBonusProbability)) * Mathf.Pow(0.9f, 4);
+                    return Random.Range(1f,101f) <= (100 - (blockChance + shieldBonusProbability));// * Mathf.Pow(0.9f, 4);
                 }
                 else 
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range(1f, 101f) <=  (100 - blockChance) * Mathf.Pow(0.9f,4);    
+                    return Random.Range(1f, 101f) <=  (100 - blockChance);// * Mathf.Pow(0.9f,4);    
                 }
             case Stats.Type.Player:
                 if (isBlocking) 
