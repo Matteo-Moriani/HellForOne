@@ -66,16 +66,18 @@ public class GroupAggro : MonoBehaviour
         if (groupBehaviour != null)
         {
             foreach (GameObject demon in groupBehaviour.demons)
-            {
-                Stats stats = demon.GetComponent<Stats>();
+            {   
+                if(demon != null){
+                    Stats stats = demon.GetComponent<Stats>();
 
-                if (stats != null)
-                {
-                    groupAggro += stats.Aggro;    
-                }
-                else
-                {
-                    Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                    if (stats != null)
+                    {
+                        groupAggro += stats.Aggro;
+                    }
+                    else
+                    {
+                        Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                    }
                 }
             }
         }

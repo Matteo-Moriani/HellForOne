@@ -13,9 +13,6 @@ public class AttackCollider : MonoBehaviour
     [SerializeField]
     AttackColliderType type = AttackColliderType.None;
 
-    [SerializeField]
-    private int aggroModifier = 1;
-
     public bool isSweeping = false;
     public bool isGlobalAttacking = false;
 
@@ -103,6 +100,16 @@ public class AttackCollider : MonoBehaviour
 
     private void ManageAggro() {
         if(this.type != AttackColliderType.None) { 
+            
+            int aggroModifier = 0;
+            
+            if(type == AttackColliderType.Melee) { 
+                aggroModifier = stats.MeleeDamage;    
+            }
+            if(type == AttackColliderType.Ranged) { 
+                aggroModifier = stats.RangedDamage;    
+            }
+            
             stats.RaiseAggro(aggroModifier);
             
             // We update Group aggro only for Ally Imps
@@ -110,7 +117,9 @@ public class AttackCollider : MonoBehaviour
                 if(demonBehaviour == null ) { 
                     demonBehaviour = this.transform.root.gameObject.GetComponent<DemonBehaviour>();   
                 }
-                demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro(aggroModifier);
+                if(demonBehaviour != null) {
+                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro(aggroModifier);
+                }
             }      
         }
         else {
@@ -139,7 +148,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (CheckAngle(other.gameObject.transform.root))
             {
-                targetRootStats.TakeHit(stats.Damage);
+                DealDamage(targetRootStats);
                 ManageAggro();
 
                 StopAttack();
@@ -153,7 +162,7 @@ public class AttackCollider : MonoBehaviour
         }
         if (!targetRootStats.IsBlocking)
         {
-            targetRootStats.TakeHit(stats.Damage);
+            DealDamage(targetRootStats);
 
             ManageAggro();
 
@@ -168,7 +177,7 @@ public class AttackCollider : MonoBehaviour
             {
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
-                    targetRootStats.TakeHit(stats.Damage);
+                    DealDamage(targetRootStats);
                 }
                 ManageAggro();
 
@@ -178,7 +187,7 @@ public class AttackCollider : MonoBehaviour
             {
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
-                    targetRootStats.TakeHit(stats.Damage);
+                    DealDamage(targetRootStats);
                 }
                 ManageAggro();
 
@@ -189,7 +198,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (targetRootStats.CalculateBeenHitChance(false))
             {
-                targetRootStats.TakeHit(stats.Damage);
+                DealDamage(targetRootStats);
             }
             ManageAggro();
 
@@ -206,7 +215,7 @@ public class AttackCollider : MonoBehaviour
                 // calculate been hit chance without counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
-                    targetRootStats.TakeHit(stats.Damage);
+                    DealDamage(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
                 }
@@ -222,7 +231,7 @@ public class AttackCollider : MonoBehaviour
                 // calculate been hit chance counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
-                    targetRootStats.TakeHit(stats.Damage);
+                    DealDamage(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
                 }
@@ -237,7 +246,7 @@ public class AttackCollider : MonoBehaviour
             // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
             {
-                targetRootStats.TakeHit(stats.Damage);
+                DealDamage(targetRootStats);
 
                 ManageKnockBack(targetRootStats);
             }
@@ -246,6 +255,18 @@ public class AttackCollider : MonoBehaviour
 
             // We stop the attack only if is a simple attack
             StopAttack();
+        }
+    }
+
+    private void DealDamage(Stats targetRootStats) { 
+        if(type == AttackColliderType.Melee) { 
+            targetRootStats.TakeHit(stats.MeleeDamage);
+        }
+        if(type == AttackColliderType.Ranged) { 
+            targetRootStats.TakeHit(stats.RangedDamage);
+        }
+        if(type == AttackColliderType.None){
+            Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
         }
     }
 }

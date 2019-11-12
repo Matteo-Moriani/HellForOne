@@ -33,11 +33,15 @@ public class Stats : MonoBehaviour
     public int health = 2;
 
     /// <summary>
-    /// How much damage this unit will deal
+    /// How much meleeDamage this unit will deal
     /// </summary>
     [SerializeField]
-    [Tooltip("How much damage this demon can deal")]
-    private int damage = 1;
+    [Tooltip("How much meleeDamage this demon can deal")]
+    private int meleeDamage = 2;
+
+    [SerializeField]
+    [Tooltip("How mush ranged damage this demon can deal")]
+    private int rangedDamage = 1;
 
     /// <summary>
     /// How far will go an attack
@@ -161,9 +165,13 @@ public class Stats : MonoBehaviour
     /// </summary>
     public float AttackRange { get => attackRange; private set => attackRange = value; }
     /// <summary>
-    /// How much damage will deal this unit
+    /// How much meleeDamage will deal this unit
     /// </summary>
-    public int Damage { get => damage; private set => damage = value; }
+    public int MeleeDamage { get => meleeDamage; private set => meleeDamage = value; }
+    /// <summary>
+    /// How much ranged damage will deal this unit
+    /// </summary>
+    public int RangedDamage { get => rangedDamage; set => rangedDamage = value; }
     /// <summary>
     /// Probability of this unit to dodge an attack
     /// </summary>
@@ -208,6 +216,7 @@ public class Stats : MonoBehaviour
     /// How long will last a global attack
     /// </summary>
     public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
+    
     #endregion
 
     #region methods
@@ -302,7 +311,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// Lower this unit health by amount n
     /// </summary>
-    /// <param name="damage">The damage that this unit will take</param>
+    /// <param name="damage">The meleeDamage that this unit will take</param>
     public void TakeHit(int damage) { 
         health -= damage;
         
@@ -392,8 +401,12 @@ public class Stats : MonoBehaviour
         aggro = 0;
 
         // If an ally is dying we need to Update his group aggro.
-        if (type == Stats.Type.Ally)
-            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+        if (type == Stats.Type.Ally) { 
+            GroupAggro ga = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
+            if(ga != null) { 
+                ga.UpdateGruopAggro();   
+            }
+        }
         
         Destroy(this.gameObject);
     }
@@ -445,19 +458,24 @@ public class Stats : MonoBehaviour
     }
 
     private IEnumerator AggroDecreasingCR() {
+        
         while (true) {
             yield return new WaitForSeconds(aggroTime);
+            if(type == Type.Ally) {
+                if (demonBehaviour == null)
+                {
+                    demonBehaviour = GetComponent<DemonBehaviour>();
+                }
 
-            if (demonBehaviour == null)
-            {
-                demonBehaviour = GetComponent<DemonBehaviour>();
+                // Optimize this get component?
+                if (demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>().currentState != GroupBehaviour.State.Tank)
+                {
+                    LowerAggro(aggroDescreasingRateo);
+                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().LowerGroupAggro(aggroDescreasingRateo);
+                }
             }
-
-            // Optimize this get component?
-            if (demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>().currentState != GroupBehaviour.State.Tank)
-            {
-                LowerAggro(aggroDescreasingRateo);
-                demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().LowerGroupAggro(aggroDescreasingRateo);
+            if(type == Type.Player) { 
+                LowerAggro(aggroDescreasingRateo);    
             }
         }
     }
