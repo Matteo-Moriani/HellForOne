@@ -36,13 +36,13 @@ public class GroupAggro : MonoBehaviour
         if (groupBehaviour.TankOrderGiven()) { 
             ManageLockingAggroInDemons(true);
             shouldStayFixed = true;
-            groupAggro = Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier );
+            groupAggro = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier ), groupAggro ); 
             
         }
         if (groupBehaviour.SupportOrderGiven()) {
             ManageLockingAggroInDemons(true);
             shouldStayFixed = true;
-            groupAggro = Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier);
+            groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
         }
         if (groupBehaviour.RangeAttackOrderGiven()) {
             if (shouldStayFixed) { 
