@@ -7,7 +7,8 @@ public class GroupBehaviour : MonoBehaviour
     /// This script is attached to invisible gameobjects that manages the single group
 
     public int maxNumDemons = 4;
-    public int demonsInGroup = 0;
+    [SerializeField]
+    private int demonsInGroup = 0;
 
     #region 
 
@@ -324,6 +325,19 @@ public class GroupBehaviour : MonoBehaviour
                 return false;
         }
         return true;
+    }
+
+    public int GetDemonsNumber() {
+        return demonsInGroup;
+    }
+
+    public void SetDemonsNumber(int i) {
+        demonsInGroup = i;
+    }
+
+    public GameObject GetRandomDemon() {
+        int index = Random.Range(0, demonsInGroup);
+        return demons[index];
     }
 
 }

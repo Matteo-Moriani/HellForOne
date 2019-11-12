@@ -22,11 +22,11 @@ public class DemonBehaviour : MonoBehaviour
     {
         if ( !groupFound )
             FindGroup();
-        /*
-           Testing death managment in Stats
-        if ( stats.health <= 0) 
-            Destroy(gameObject);
-        */    
+        //if(stats.health <= 0) {
+        //    GroupBehaviour gb = groupBelongingTo.GetComponent<GroupBehaviour>();
+        //    gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+        //    Destroy(gameObject);
+        //}
     }
 
     // Balances group entering too
@@ -49,7 +49,7 @@ public class DemonBehaviour : MonoBehaviour
             //        freeSlots++;
             //    }
             //}
-            freeSlots = groupBehaviour.maxNumDemons - groupBehaviour.demonsInGroup;
+            freeSlots = groupBehaviour.maxNumDemons - groupBehaviour.GetDemonsNumber();
 
             if ( freeSlots > maxFreeSlots )
             {
@@ -71,7 +71,7 @@ public class DemonBehaviour : MonoBehaviour
                 groupFound = true;
                 groupBelongingTo = bestGroup;
                 GroupBehaviour groupBehaviour = bestGroup.GetComponent<GroupBehaviour>();
-                groupBehaviour.demonsInGroup++;
+                groupBehaviour.SetDemonsNumber(groupBehaviour.GetDemonsNumber() + 1);
             }
 
             //for ( int i = 0; i < demonsArray.Length; i++ )

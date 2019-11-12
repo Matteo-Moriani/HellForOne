@@ -50,7 +50,7 @@ public class BossBehavior : MonoBehaviour
 
     #region Finite State Machine
 
-    FSMState waitingState, fightingState, stunnedState;
+    FSMState waitingState, fightingState, stunnedState, winState;
 
     public bool PlayerApproaching() {
         //if(playerDistance < tot)
@@ -73,6 +73,22 @@ public class BossBehavior : MonoBehaviour
     public bool RecoverFromStun() {
         //StartCoroutine(WaitSeconds(5));
         return true;
+    }
+
+    public bool EnemiesAreDead() {
+        int enemies = 0;
+        foreach(GameObject demonGroup in demonGroups) {
+            enemies += demonGroup.GetComponent<GroupBehaviour>().GetDemonsNumber();
+        }
+        if(GameObject.FindGameObjectWithTag("Player"))
+            enemies += 1;
+        if(enemies != 0)
+            return false;
+        else {
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            return true;
+        }
+
     }
 
     // The coroutine that cycles through the FSM
@@ -109,7 +125,7 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget() {
         ResetTimer();
 
-        if(GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
+        if(GameObject.FindGameObjectsWithTag("Group").Length != 4 && !player)
             return false;
 
         if((transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter) {
@@ -118,25 +134,29 @@ public class BossBehavior : MonoBehaviour
         else if(Random.Range(0f, 1f) < changeTargetProb || targetDemon == gameObject) {
             float totalAggro = 0f;
             for(int i = 0; i < demonGroups.Length; i++) {
-                //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                aggroValues[i] = 5;
-                //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-                totalAggro = totalAggro + 5;
+                int groupAggro = 0;
+                // if the group isn't empty, I give to it an aggro of at least 1 to win the rulette with the empty groups
+                if(demonGroups[i].GetComponent<GroupBehaviour>().demons[0] != null)
+                    groupAggro = demonGroups[i].GetComponent<GroupAggro>().GetAggro() + 1;
+                aggroValues[i] = groupAggro;
+                totalAggro = totalAggro + groupAggro;
                 probability[i + 1] = totalAggro;
             }
-            // Get player aggro
-            aggroValues[demonGroups.Length] = 5;
-            totalAggro = totalAggro + 5;
-            probability[demonGroups.Length + 1] = totalAggro;
+            // questo controllo va tolto prima o poi
+            if(player) {
+                // player aggro must be at least 1
+                aggroValues[demonGroups.Length] = player.GetComponent<Stats>().GetAggro() + 1;
+                totalAggro = totalAggro + player.GetComponent<Stats>().GetAggro();
+                probability[demonGroups.Length + 1] = totalAggro;
+            }
 
-            float random = Random.Range(0.001f, totalAggro);
+            float random = Random.Range(0.0001f, totalAggro);
 
             for(int i = 1; i < probability.Length; i++) {
                 if(random > probability[i - 1] && random <= probability[i]) {
                     if(i < probability.Length - 1) {
                         targetGroup = demonGroups[i - 1];
-                        int index = Random.Range(0, targetGroup.GetComponent<GroupBehaviour>().demons.Length);
-                        targetDemon = targetGroup.GetComponent<GroupBehaviour>().demons[index];
+                        targetDemon = targetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
                     else
                         targetDemon = player;
@@ -254,6 +274,7 @@ public class BossBehavior : MonoBehaviour
         FSMTransition t1 = new FSMTransition(CrisisFull);
         FSMTransition t2 = new FSMTransition(LifeIsHalven);
         FSMTransition t3 = new FSMTransition(RecoverFromStun);
+        FSMTransition t4 = new FSMTransition(EnemiesAreDead);
 
         FightingBT = FightingBTBuilder();
 
@@ -264,11 +285,14 @@ public class BossBehavior : MonoBehaviour
         fightingState.exitActions.Add(StopFightingBT);
 
         stunnedState = new FSMState();
-        
+
+        winState = new FSMState();
+        //roar animation to celebrate
 
         waitingState.AddTransition(t0, fightingState);
         fightingState.AddTransition(t1, stunnedState);
         fightingState.AddTransition(t2, stunnedState);
+        fightingState.AddTransition(t4, winState);
         stunnedState.AddTransition(t3, fightingState);
 
         bossFSM = new FSM(waitingState);
@@ -337,7 +361,7 @@ public class BossBehavior : MonoBehaviour
         }
         if(bossCombat != null)
             bossCombat.Attack();
-        Debug.Log("single attack!");
+        //Debug.Log("single attack!");
     }
 
     private void GroupAttack() {
@@ -349,7 +373,7 @@ public class BossBehavior : MonoBehaviour
         }
         if (bossCombat != null)
             bossCombat.Sweep();
-        Debug.Log("group attack!");
+        //Debug.Log("group attack!");
     }
 
     private void GlobalAttack() {
@@ -361,7 +385,7 @@ public class BossBehavior : MonoBehaviour
         }
         if (bossCombat != null)
             bossCombat.GlobalAttack();
-        Debug.Log("global attack!");
+        //Debug.Log("global attack!");
     }
 
     private float HorizDistFromTarget(GameObject target) {

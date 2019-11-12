@@ -184,6 +184,10 @@ public class Stats : MonoBehaviour
     public int Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
     
+    public int GetAggro() {
+        return aggro;
+    }
+
     /// <summary>
     /// Probability of this unit to deal a knockBack
     /// </summary>
@@ -407,8 +411,11 @@ public class Stats : MonoBehaviour
                 ga.UpdateGruopAggro();   
             }
         }
-        
-        Destroy(this.gameObject);
+        if(!gameObject.CompareTag("Player")) {
+            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+        }
+        Destroy(gameObject);
     }
 
     #endregion

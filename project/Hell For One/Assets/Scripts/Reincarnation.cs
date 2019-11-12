@@ -33,8 +33,9 @@ public class Reincarnation : MonoBehaviour
 
         // Removing the new player from the group belonging to
         int playerIndex = System.Array.IndexOf( player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player );
-        player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons[ playerIndex ] = null;
-        player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demonsInGroup--;
+        GroupBehaviour gb = player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+        gb.demons[ playerIndex ] = null;
+        gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
 
         //StartCoroutine( Die() );
         Destroy( gameObject );
