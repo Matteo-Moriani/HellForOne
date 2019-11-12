@@ -107,17 +107,39 @@ public class Stats : MonoBehaviour
     [Tooltip("For boss only")]
     private float knockBackSpeed = 5.0f;
 
+    [Tooltip("Do not change, here only for balancing and testing")]
     [SerializeField]
     private int aggro = 0;
+
+    [SerializeField]
+    [Tooltip("How much aggro will be subtracted every aggroTime")]
+    private int aggroDescreasingRateo = 1;
+
+    [SerializeField]
+    [Tooltip("How many seconds will pass before decreasing aggro")]
+    private float aggroTime = 1.0f;
+
+    //Used for aggro decreasing
+    private DemonBehaviour demonBehaviour;
+    Coroutine aggroDecreasingCR = null;
+
+    //Used for aggro in general
+    private bool shouldAggroStayFixed = false;
 
     // -TODO- Manage Crisis
     [SerializeField]
     private int crisis = 0;
     
     /// <summary>
-    /// Tells if we are processing a knockBack
+    /// Tells if we are processing a KnockBack
     /// </summary>
     private bool isProcessingKnockBack = false;
+    /// <summary>
+    /// Tells if this unit can process a KnockBack
+    /// </summary>
+    private bool canProcessKnockBack = true;
+    private Coroutine knockBackCR = null;
+
     /// <summary>
     /// Tells if this unit is Idle (not blocking)
     /// </summary>
@@ -190,20 +212,72 @@ public class Stats : MonoBehaviour
 
     #region methods
 
+    private void Start()
+    {
+        if(aggroDecreasingCR == null) { 
+            aggroDecreasingCR = StartCoroutine(AggroDecreasingCR());    
+        }    
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        canProcessKnockBack = false;
+        if (isProcessingKnockBack)
+        {
+            isProcessingKnockBack = false;
+            //if(type == Stats.Type.Player)
+            ManageMovement(false);
+
+            if(knockBackCR != null) { 
+                StopCoroutine(knockBackCR);
+                knockBackCR = null;    
+            }
+        
+        }        
+    }
+    // TODO controller doesnt renable
+    private void OnCollisionExit(Collision collision)
+    {
+        canProcessKnockBack = true;
+        ManageMovement(true);
+        /*
+        if (isProcessingKnockBack)
+        {
+            isProcessingKnockBack = false;
+            ManageMovement(true);
+       
+        }
+        */
+    }
+
     /// <summary>
     /// Raise this unit aggro points by amount n
     /// </summary>
     /// <param name="n">The amount the aggro will be raised</param>
-    public void RaiseAggro(int n) { 
-        this.aggro += n;   
+    public void RaiseAggro(int n) {
+        if (!shouldAggroStayFixed) {
+            this.aggro += n;
+        }   
     }
 
     /// <summary>
     /// Lower this unit aggro points by amount n
     /// </summary>
     /// <param name="n"></param>
-    public void LowerAggro(int n) { 
-        aggro -= n;    
+    public void LowerAggro(int n) {
+        if (!shouldAggroStayFixed) {
+            if (aggro > 0)
+            {
+                if (aggro - n < 0)
+                {
+                    aggro = 0;
+                }
+                else
+                {
+                    aggro -= n;
+                }
+            }
+        }    
     }
 
     /// <summary>
@@ -215,6 +289,14 @@ public class Stats : MonoBehaviour
 
         if (type == Stats.Type.Ally)
             this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+    }
+
+    public void LockAggro() { 
+        shouldAggroStayFixed = true;    
+    }
+
+    public void UnlockAggro() { 
+        shouldAggroStayFixed = false;
     }
 
     /// <summary>
@@ -235,54 +317,19 @@ public class Stats : MonoBehaviour
     /// <param name="units">Knockback meters size</param>
     /// <param name="attackerTransform">Transform of the unit that is causing the knockback</param>
     public void TakeKnockBack(float units, Transform attackerTransform, float knockBackSpeed) { 
-        if(!isProcessingKnockBack)
-            StartCoroutine(TakeKnockBackCR(units,attackerTransform,knockBackSpeed));
-    }
-
-    private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform, float knockBackSpeed) {
-        isProcessingKnockBack = true;
-        
-        ManageMovement();
-
-        float lerpTimer = 0f;
-        //Vector3 knockBackDirection = (attackerTransform.forward + (-this.transform.forward)).normalized;
-        Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
-        knockBackDirection.y = 0.0f;
-        knockBackDirection = knockBackDirection.normalized;
-        /*
-        if(Vector3.Angle(this.transform.root.transform.forward, attackerTransform.forward) < 90) {
-            knockBackDirection = -(this.transform.forward - attackerTransform.forward).normalized;
-        }
-        else {
-            knockBackDirection = (this.transform.forward - attackerTransform.forward).normalized;
-        }
-        */
-        Vector3 startPosition = this.transform.position;
-        Vector3 targetPosition = startPosition + (knockBackDirection * units); 
-           
-        //while(Vector3.Distance(this.transform.position,targetPosition) > 0.2f) 
-        do{ 
-            this.transform.position = Vector3.Lerp(startPosition,targetPosition,lerpTimer * knockBackSpeed);
-            
-            lerpTimer += Time.deltaTime;
-
-            yield return null;
-        }while (lerpTimer * knockBackSpeed <= 1);
-
-        ManageMovement();
-
-        isProcessingKnockBack = false;
+        if(!isProcessingKnockBack && knockBackCR == null)
+            knockBackCR = StartCoroutine(TakeKnockBackCR(units,attackerTransform,knockBackSpeed));
     }
     
-    // TODO - Optimize this
-    private void ManageMovement() {
+    private void ManageMovement(bool enable) {
+        // If is processing a KnockBack the Player cannot move or dash
         if (type == Stats.Type.Player)
         {
             Controller controller = this.GetComponent<Controller>();
             Dash dash = this.GetComponent<Dash>();
 
-            controller.enabled = !controller.enabled;
-            dash.enabled = !dash.enabled;
+            controller.enabled = enable;
+            dash.enabled = enable;
         }
     }
 
@@ -344,11 +391,76 @@ public class Stats : MonoBehaviour
     private void ManageDeath() {
         aggro = 0;
 
+        // If an ally is dying we need to Update his group aggro.
         if (type == Stats.Type.Ally)
             this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
         
         Destroy(this.gameObject);
     }
 
+    #endregion
+
+    #region Coroutines
+    
+    private IEnumerator TakeKnockBackCR(float units, Transform attackerTransform, float knockBackSpeed)
+    {
+        if (canProcessKnockBack)
+        {
+            // We are processing the KnockBack
+            isProcessingKnockBack = true;
+
+            float lerpTimer = 0f;
+
+            // The Player cannot move or dash if is processig KnockBack
+            ManageMovement(false);
+
+            // Calculate KnocKback direction 
+            Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
+            knockBackDirection.y = 0.0f;
+            knockBackDirection = knockBackDirection.normalized;
+
+            Vector3 startPosition = this.transform.position;
+            Vector3 targetPosition = startPosition + (knockBackDirection * units);
+
+            // KnockBack lerp
+            do
+            {
+                this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * knockBackSpeed);
+
+                //lerpTimer += Time.deltaTime;
+                lerpTimer += 0.03f; //TODO check Speed
+
+                yield return new WaitForSeconds(0.03f);
+            } while (lerpTimer * knockBackSpeed <= 1);
+
+            // Player now can move or dash
+            ManageMovement(true);
+
+            // We are done processing the KnockBack
+            isProcessingKnockBack = false;
+            
+            yield return null;
+            knockBackCR = null;
+        }
+    }
+
+    private IEnumerator AggroDecreasingCR() {
+        while (true) {
+            yield return new WaitForSeconds(aggroTime);
+
+            if (demonBehaviour == null)
+            {
+                demonBehaviour = GetComponent<DemonBehaviour>();
+            }
+
+            // Optimize this get component?
+            if (demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>().currentState != GroupBehaviour.State.Tank)
+            {
+                LowerAggro(aggroDescreasingRateo);
+                demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().LowerGroupAggro(aggroDescreasingRateo);
+            }
+        }
+    }
+    
     #endregion
 }

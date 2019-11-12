@@ -29,6 +29,7 @@ public class Dash : MonoBehaviour
     
     private Vector3 targetPosition;
     private Vector3 startPosition;
+    private Vector3 moveDirection;
 
     private Controller controller;
 
@@ -52,14 +53,43 @@ public class Dash : MonoBehaviour
 
     private void Update()
     {
-        //DashCycle();
+        
     }
 
     private void FixedUpdate()
-    {
+    {   /*
+        if (Input.GetKeyDown("space"))
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            Vector3 moveDirection = (Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized;
+            targetPosition = this.transform.position + (moveDirection * dashSize);
+            rb.MovePosition(targetPosition);
+            //rb.AddForce((Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized*dashSize,ForceMode.VelocityChange); 
+        }
+        //DashCycle();
+        //DashUsingPhysics();
+        */
         DashCycle();
     }
+    /*
+    private void DashUsingPhysics() { 
+        Rigidbody rb = GetComponent<Rigidbody>();
 
+        //get starting velocity
+        //reset after
+        if (Input.GetKeyDown("space")) {
+            Vector3 moveDirection = (Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized;
+            targetPosition = this.transform.position + (moveDirection * dashSize);
+            rb.MovePosition(targetPosition);
+            //rb.AddForce((Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized*dashSize,ForceMode.VelocityChange); 
+        }
+    }
+    */
+    
+    
+
+    
     /// <summary>
     /// Method that manages the dash cycle
     /// </summary>
@@ -71,12 +101,14 @@ public class Dash : MonoBehaviour
         }
 
         if (canDash) {
+            Rigidbody rb = GetComponent<Rigidbody>();
+
             // If we hit Circle or Space and cooldown has expired...
             if ((Input.GetKeyDown("space") || Input.GetButton("Fire3")) && cooldownCounter >= dashCooldown)
             {
                 // Move the player of dashSize units into our input axis direction.
-                Vector3 moveDirection = (Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized;
-                moveDirection.y = 0f;
+                moveDirection = (Input.GetAxis("Vertical") * Camera.main.transform.forward + Input.GetAxis("Horizontal") * Camera.main.transform.right).normalized;
+                //moveDirection.y = 0f;
 
                 startPosition = this.transform.position;
                 targetPosition = this.transform.position + (moveDirection * dashSize);
@@ -96,11 +128,13 @@ public class Dash : MonoBehaviour
                 
                 // Lerp from starting position to target position by the interpolant lerpTimer and by a factor of dashSpeed
                 // TODO-subtract lerp delta if player cant move to new position to fix boss bug?
-                this.transform.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
+                //this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, lerpTimer * dashSpeed);
+                //rb.position = Vector3.Lerp(startPosition, targetPosition, lerpTimer * dashSpeed);
 
+                rb.MovePosition(this.transform.position + moveDirection * dashSize * lerpTimer * dashSpeed);// + moveDirection * dashSize * lerpTimer * dashSpeed);
                 // If we reach our destination (with some tollerance) we stop lerping
                 //if (Vector3.Distance(this.transform.position, targetPosition) == 0f)
-                if(lerpTimer * dashSpeed >= 1)
+                if (lerpTimer * dashSpeed >= 1)
                 {
                     isDashing = false;
                     controller.enabled = true;
@@ -110,34 +144,24 @@ public class Dash : MonoBehaviour
             }
         } 
     }
-    
-    //-----------
-    //-TODO- use raycast in dash direction to see if player can dash
-    //-----------
+    /*
     private void OnCollisionEnter(Collision collision)
-    {   
-        // Set this to == Boss?
-        if(collision.collider.tag == "Boss") {
-            canDash = false;
+    {
+        canDash = false;
 
-            if (isDashing) {
-                isDashing = false;
-                controller.enabled = true;
+        if (isDashing)
+        {
+            isDashing = false;
+            controller.enabled = true;
 
-                idleCollider.SetActive(true);
+            idleCollider.SetActive(true);
 
-            }
-        }        
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        // Set this to == Boss?
-        if(collision.collider.tag == "Boss") {
-            canDash = true;
-        }
+        canDash = true;  
     }
-    //--------
-    //-ENDTODO-
-    //--------
+    */
 }
