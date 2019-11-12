@@ -52,9 +52,14 @@ public class Dash : MonoBehaviour
 
     private void Update()
     {
+        //DashCycle();
+    }
+
+    private void FixedUpdate()
+    {
         DashCycle();
     }
-    
+
     /// <summary>
     /// Method that manages the dash cycle
     /// </summary>
@@ -105,7 +110,7 @@ public class Dash : MonoBehaviour
             }
         } 
     }
-    /*
+    
     //-----------
     //-TODO- use raycast in dash direction to see if player can dash
     //-----------
@@ -135,5 +140,4 @@ public class Dash : MonoBehaviour
     //--------
     //-ENDTODO-
     //--------
-    */
 }
