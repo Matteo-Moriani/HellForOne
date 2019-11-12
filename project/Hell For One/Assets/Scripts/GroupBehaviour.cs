@@ -9,32 +9,27 @@ public class GroupBehaviour : MonoBehaviour
     public int maxNumDemons = 4;
     public int demonsInGroup = 0;
 
-    #region FSM
-
-    private FSM groupFSM;
+    #region 
 
     // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)
-    public enum State
-    {
+    public enum State {
         MeleeAttack,
         Tank,
         RangeAttack,
         Support
     }
-
-    // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
-    private bool inCombat = false;
+    
+    // The time after the next update of the FSM
+    public float fsmReactionTime = 1f;
     public State currentState;
     public State newState;
     public bool orderConfirmed = false;
-    FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
-
     public GameObject[] demons;
 
-    // The time after the next update of the FSM
-    [SerializeField]
-    private float reactionTime = 1f;
-
+    private FSM groupFSM;
+    // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
+    private bool inCombat = false;
+    FSMState meleeState, tankState, rangeAttackState, supportState, idleState;    
     [SerializeField]
     private GameObject target;
 
@@ -255,7 +250,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(reactionTime);
+            yield return new WaitForSeconds(fsmReactionTime);
             groupFSM.Update();
         }
     }
