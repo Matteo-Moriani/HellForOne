@@ -4895,10 +4895,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashSize: 5
-  dashSpeed: 5
   dashCooldown: 1
-  tollerance: 0.1
   idleCollider: {fileID: 4716762086832391376}
+  dashTime: 0.25
 --- !u!114 &4070461641757290161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4963,10 +4962,9 @@ MonoBehaviour:
   blockChance: 50
   shieldBonusProbability: 0
   knockBackChance: 0
-  knockBackUnits: 0
-  knockBackSpeed: 5
+  knockBackSize: 0
+  knockBackTime: 5
   aggro: 0
-  aggroDescreasingRateo: 1
   aggroTime: 1
   crisis: 0
 --- !u!114 &700325638455118188
@@ -5337,7 +5335,7 @@ PrefabInstance:
     - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}

@@ -251,7 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   health: 1000
-  damage: 2
+  meleeDamage: 2
+  rangedDamage: 1
   attackRange: 1
   attackDurationMultiplier: 5
   sweepSize: 3
@@ -259,11 +260,10 @@ MonoBehaviour:
   globalAttackDuration: 1
   blockChance: 0
   shieldBonusProbability: 0
-  knockBackChance: 0
-  knockBackUnits: 5
-  knockBackSpeed: 5
+  knockBackChance: 100
+  knockBackSize: 5
+  knockBackTime: 0.25
   aggro: 0
-  aggroDescreasingRateo: 1
   aggroTime: 1
   crisis: 0
 --- !u!114 &3120653425915882494

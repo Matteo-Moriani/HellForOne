@@ -103,13 +103,13 @@ public class Stats : MonoBehaviour
     /// </summary>
     [SerializeField]
     [Tooltip( "For Boss only" )]
-    private float knockBackUnits = 0f;
+    private float knockBackSize = 0f;
     /// <summary>
-    /// How far this unit will push a target when dealing a knockBack
+    /// How many seconds will take to go through knockBackSize
     /// </summary>
     [SerializeField]
     [Tooltip( "For boss only" )]
-    private float knockBackSpeed = 5.0f;
+    private float knockBackTime = 5.0f;
 
     [Tooltip( "Do not change, here only for balancing and testing" )]
     [SerializeField]
@@ -196,11 +196,11 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// How far this unit will push a target when dealing a knockBack
     /// </summary>
-    public float KnockBackUnits { get => knockBackUnits; set => knockBackUnits = value; }
+    public float KnockBackSize { get => knockBackSize; set => knockBackSize = value; }
     /// <summary>
-    /// how fast this unit will push a target when dealing a knockBack
+    /// How many seconds will take to go through knockBackSize
     /// </summary>
-    public float KnockBackSpeed { get => knockBackSpeed; set => knockBackSpeed = value; }
+    public float KnockBackTime { get => knockBackTime; set => knockBackTime = value; }
     /// <summary>
     /// Tells if the unit is Idle (not blocking)
     /// </summary>
@@ -232,38 +232,6 @@ public class Stats : MonoBehaviour
         {
             aggroDecreasingCR = StartCoroutine( AggroDecreasingCR() );
         }
-    }
-
-    private void OnCollisionEnter( Collision collision )
-    {
-        canProcessKnockBack = false;
-        if ( isProcessingKnockBack )
-        {
-            isProcessingKnockBack = false;
-            //if(type == Stats.Type.Player)
-            ManageMovement( false );
-
-            if ( knockBackCR != null )
-            {
-                StopCoroutine( knockBackCR );
-                knockBackCR = null;
-            }
-
-        }
-    }
-    // TODO controller doesnt renable
-    private void OnCollisionExit( Collision collision )
-    {
-        canProcessKnockBack = true;
-        ManageMovement( true );
-        /*
-        if (isProcessingKnockBack)
-        {
-            isProcessingKnockBack = false;
-            ManageMovement(true);
-       
-        }
-        */
     }
 
     /// <summary>
@@ -444,46 +412,58 @@ public class Stats : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator TakeKnockBackCR( float units, Transform attackerTransform, float knockBackSpeed )
+    private IEnumerator TakeKnockBackCR( float AttackerKnockBackSize, Transform attackerTransform, float attackerKnockBackTime )
     {
-        if ( canProcessKnockBack )
+        // We are processing the KnockBack
+        isProcessingKnockBack = true;
+
+        float knockBackTimeCounter = 0f;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        Vector3 startingVelocity = rb.velocity;
+
+        if (type == Stats.Type.Player)
         {
-            // We are processing the KnockBack
-            isProcessingKnockBack = true;
-
-            float lerpTimer = 0f;
-
-            // The Player cannot move or dash if is processig KnockBack
-            ManageMovement( false );
-
-            // Calculate KnocKback direction 
-            Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
-            knockBackDirection.y = 0.0f;
-            knockBackDirection = knockBackDirection.normalized;
-
-            Vector3 startPosition = this.transform.position;
-            Vector3 targetPosition = startPosition + (knockBackDirection * units);
-
-            // KnockBack lerp
-            do
-            {
-                this.transform.position = Vector3.Lerp( startPosition, targetPosition, lerpTimer * knockBackSpeed );
-
-                //lerpTimer += Time.deltaTime;
-                lerpTimer += 0.03f; //TODO check Speed
-
-                yield return new WaitForSeconds( 0.03f );
-            } while ( lerpTimer * knockBackSpeed <= 1 );
-
-            // Player now can move or dash
-            ManageMovement( true );
-
-            // We are done processing the KnockBack
-            isProcessingKnockBack = false;
-
-            yield return null;
-            knockBackCR = null;
+            rb.interpolation = RigidbodyInterpolation.Extrapolate;
         }
+
+        // The Player cannot move or dash if is processig KnockBack
+        ManageMovement(false);
+
+        // Calculate KnocKback direction 
+        Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
+        knockBackDirection.y = 0.0f;
+        knockBackDirection = knockBackDirection.normalized;
+
+        // KnockBack lerp
+        do
+        {
+            // Use FixedDeltaTimeInstead?
+            knockBackTimeCounter += Time.fixedDeltaTime;
+            
+            rb.velocity = knockBackDirection * (AttackerKnockBackSize / attackerKnockBackTime);
+
+            // We are using physics so we need to wait for FixedUpdate
+            yield return new WaitForFixedUpdate();
+        } while (knockBackTimeCounter <= attackerKnockBackTime);
+
+        // Player now can move or dash
+        ManageMovement(true);
+
+        rb.velocity = startingVelocity;
+
+        if (type == Stats.Type.Player)
+        {
+            rb.interpolation = RigidbodyInterpolation.None;
+        }
+
+        // We are done processing the KnockBack
+        isProcessingKnockBack = false;
+
+        yield return null;
+        knockBackCR = null;
+
     }
 
     private IEnumerator AggroDecreasingCR()

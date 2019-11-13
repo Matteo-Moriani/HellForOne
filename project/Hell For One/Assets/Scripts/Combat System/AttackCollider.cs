@@ -159,7 +159,7 @@ public class AttackCollider : MonoBehaviour
         // Calculate knockback chance
         if ( Random.Range( 1f, 101f ) <= stats.KnockBackChance && !targetRootStats.IsBlocking )
         {
-            targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root, stats.KnockBackSpeed );
+            targetRootStats.TakeKnockBack( stats.KnockBackSize, this.transform.root, stats.KnockBackTime );
         }
         else
         {

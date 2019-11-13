@@ -12,7 +12,6 @@ public class Dash : MonoBehaviour
     [Tooltip("How far the palyer will get")]
     private float dashSize = 5.0f;
     
-    private float dashSpeed = 5.0f;
     [SerializeField]
     [Tooltip("How often we can dash")]
     private float dashCooldown = 1.0f;
@@ -104,6 +103,10 @@ public class Dash : MonoBehaviour
                 startingVelocity = rb.velocity;
             }
 
+            // If we count the time down the if condition we round up dash size
+            // If we put this up the if condition we can round down
+            dashTimeCounter += Time.fixedDeltaTime;
+
             if (isDashing)
             {
                 // TODO - Remove this after testing
@@ -138,10 +141,6 @@ public class Dash : MonoBehaviour
                     Debug.Log("You should have moved: " + dashSize);
                     startPosition = Vector3.zero;
                 }
-
-                // If we count the time here we round up dash size
-                // If we put this bedore the if condition we can round down
-                dashTimeCounter += Time.deltaTime;
             }
         } 
     }
