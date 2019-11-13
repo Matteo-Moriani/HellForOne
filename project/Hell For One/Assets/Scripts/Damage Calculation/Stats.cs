@@ -113,15 +113,15 @@ public class Stats : MonoBehaviour
 
     [Tooltip("Do not change, here only for balancing and testing")]
     [SerializeField]
-    private int aggro = 0;
+    private float aggro = 0f;
 
-    [SerializeField]
-    [Tooltip("How much aggro will be subtracted every aggroTime")]
-    private int aggroDescreasingRateo = 1;
+    //[SerializeField]
+    //[Tooltip("How much aggro will be subtracted every aggroTime")]
+    //private int aggroDescreasingRateo = 1;
 
     [SerializeField]
     [Tooltip("How many seconds will pass before decreasing aggro")]
-    private float aggroTime = 1.0f;
+    private float aggroTime = 60.0f;
 
     //Used for aggro decreasing
     private DemonBehaviour demonBehaviour;
@@ -181,10 +181,10 @@ public class Stats : MonoBehaviour
     /// </summary>
     public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
     
-    public int Aggro { get => aggro; set => aggro = value; }
+    public float Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
     
-    public int GetAggro() {
+    public float GetAggro() {
         return aggro;
     }
 
@@ -277,20 +277,24 @@ public class Stats : MonoBehaviour
     /// Lower this unit aggro points by amount n
     /// </summary>
     /// <param name="n"></param>
-    public void LowerAggro(int n) {
-        if (!shouldAggroStayFixed) {
-            if (aggro > 0)
-            {
-                if (aggro - n < 0)
-                {
-                    aggro = 0;
-                }
-                else
-                {
-                    aggro -= n;
-                }
-            }
-        }    
+    public void LowerAggro(float n) {
+        //if (!shouldAggroStayFixed) {
+        aggro = aggro / n;
+
+        if(aggro < 1f)
+            aggro = 1f;
+            //if (aggro > 0)
+            //{
+            //    if (aggro - n < 0)
+            //    {
+            //        aggro = 0;
+            //    }
+            //    else
+            //    {
+            //        aggro -= n;
+            //    }
+            //}
+        //}    
     }
 
     /// <summary>
@@ -301,7 +305,7 @@ public class Stats : MonoBehaviour
         aggro = 0;
 
         if (type == Stats.Type.Ally)
-            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGruopAggro();
+            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
     }
 
     public void LockAggro() { 
@@ -408,7 +412,7 @@ public class Stats : MonoBehaviour
         if (type == Stats.Type.Ally) { 
             GroupAggro ga = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
             if(ga != null) { 
-                ga.UpdateGruopAggro();   
+                ga.UpdateGroupAggro();   
             }
         }
         if(!gameObject.CompareTag("Player")) {
@@ -465,27 +469,34 @@ public class Stats : MonoBehaviour
     }
 
     private IEnumerator AggroDecreasingCR() {
-        
-        while (true) {
-            yield return new WaitForSeconds(aggroTime);
-            if(type == Type.Ally) {
-                if (demonBehaviour == null)
-                {
-                    demonBehaviour = GetComponent<DemonBehaviour>();
-                }
 
-                // Optimize this get component?
-                if (demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>().currentState != GroupBehaviour.State.Tank)
-                {
-                    LowerAggro(aggroDescreasingRateo);
-                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().LowerGroupAggro(aggroDescreasingRateo);
+        while(true) {
+            yield return new WaitForSeconds(aggroTime);
+            // only the player will reduce the aggro to everyone
+            if(type == Type.Player) {
+                float maxAggro = 0;
+                GameObject[] groups = GameObject.FindGameObjectsWithTag("Group");
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+                foreach(GameObject group in groups) {
+                    if(maxAggro < group.GetComponent<GroupAggro>().GetAggro())
+                        maxAggro = group.GetComponent<GroupAggro>().GetAggro();
                 }
+                if(maxAggro < player.GetComponent<Stats>().GetAggro())
+                    maxAggro = player.GetComponent<Stats>().GetAggro();
+
+                // the max aggro group will have 10 as new value
+                foreach(GameObject group in groups) {
+                    foreach(GameObject demon in group.GetComponent<GroupBehaviour>().demons) {
+                        demon.GetComponent<Stats>().LowerAggro(maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber()*10);
+                    }
+                }
+                // for the player
+                LowerAggro(maxAggro/10);
             }
-            if(type == Type.Player) { 
-                LowerAggro(aggroDescreasingRateo);    
-            }
+            
         }
     }
-    
+
     #endregion
 }

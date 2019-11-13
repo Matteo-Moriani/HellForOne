@@ -13,8 +13,8 @@ public class GroupAggro : MonoBehaviour
     
     [SerializeField]
     private float tankMultiplier = 1.5f;
-    [SerializeField]
-    private float supportMultiplier = 1.0f;
+    //[SerializeField]
+    //private float supportMultiplier = 1.0f;
 
     private void Start()
     {
@@ -29,27 +29,28 @@ public class GroupAggro : MonoBehaviour
         if (groupBehaviour.MeleeOrderGiven()) {
             if (shouldStayFixed) {
                 ManageLockingAggroInDemons(false);
-                UpdateGruopAggro();
-                shouldStayFixed = false;
+                UpdateGroupAggro();
+                //shouldStayFixed = false;
             }   
+        }
+        if(groupBehaviour.RangeAttackOrderGiven()) {
+            if(shouldStayFixed) {
+                ManageLockingAggroInDemons(false);
+                UpdateGroupAggro();
+                //shouldStayFixed = false;
+            }
         }
         if (groupBehaviour.TankOrderGiven()) { 
             ManageLockingAggroInDemons(true);
-            shouldStayFixed = true;
+            //shouldStayFixed = true;
             groupAggro = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier ), groupAggro ); 
             
         }
         if (groupBehaviour.SupportOrderGiven()) {
             ManageLockingAggroInDemons(true);
-            shouldStayFixed = true;
-            groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
-        }
-        if (groupBehaviour.RangeAttackOrderGiven()) {
-            if (shouldStayFixed) { 
-                ManageLockingAggroInDemons(false);
-                UpdateGruopAggro();
-                shouldStayFixed = false;
-            }   
+            UpdateGroupAggro();
+            //shouldStayFixed = true;
+            //groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
         }
     }
 
@@ -57,7 +58,7 @@ public class GroupAggro : MonoBehaviour
         return groupAggro;    
     }
 
-    public void UpdateGruopAggro() {
+    public void UpdateGroupAggro() {
         groupAggro = 0;
         
         if (groupBehaviour == null)
@@ -116,21 +117,21 @@ public class GroupAggro : MonoBehaviour
         }     
     }
 
-    public void LowerGroupAggro(int n) {
-        if (!shouldStayFixed) {
-            if (groupAggro > 0)
-            {
-                if (groupAggro - n < 0)
-                {
-                    groupAggro = 0;
-                }
-                else
-                {
-                    groupAggro -= n;
-                }
-            }
-        }
-    }
+    //public void LowerGroupAggro(int n) {
+    //    if (!shouldStayFixed) {
+    //        if (groupAggro > 0)
+    //        {
+    //            if (groupAggro - n < 0)
+    //            {
+    //                groupAggro = 0;
+    //            }
+    //            else
+    //            {
+    //                groupAggro -= n;
+    //            }
+    //        }
+    //    }
+    //}
 
     private void ManageLockingAggroInDemons(bool lockAggro) {
         if (groupBehaviour == null)
@@ -173,5 +174,10 @@ public class GroupAggro : MonoBehaviour
             Debug.Log(this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups"); 
         }
         return totalAggro;
+    }
+
+    // aggiorna l'aggro dei singoli demoni in support
+    public void UpdateSupportAggro() {
+        // to do
     }
 }

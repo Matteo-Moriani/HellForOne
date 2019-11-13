@@ -84,10 +84,8 @@ public class BossBehavior : MonoBehaviour
             enemies += 1;
         if(enemies != 0)
             return false;
-        else {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        else 
             return true;
-        }
 
     }
 
@@ -333,7 +331,7 @@ public class BossBehavior : MonoBehaviour
             if(canWalk) 
                 transform.position += transform.forward * speed * Time.deltaTime;
             
-        } else {
+        } else if(!EnemiesAreDead()){
             ChooseTarget();
         }
 
