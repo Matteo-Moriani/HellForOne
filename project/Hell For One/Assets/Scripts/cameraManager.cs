@@ -10,7 +10,7 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField]
     private float turnSpeed = 4.0f;
-    
+
     private Vector3 offset;
     private Vector3 closedEnvironmentOffset;
 
@@ -43,7 +43,7 @@ public class CameraManager : MonoBehaviour
 
         foreach ( GameObject enemy in gameObjects )
         {
-            if ( (enemy.transform.position -  objectFrom.transform.position).magnitude < minDistance )
+            if ( (enemy.transform.position - objectFrom.transform.position).magnitude < minDistance )
             {
                 minDistance = (enemy.transform.position - objectFrom.transform.position).magnitude;
                 nearestEnemy = enemy;

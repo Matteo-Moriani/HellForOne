@@ -43,7 +43,7 @@ public class TacticsManager : MonoBehaviour
         }
     }
 
-    public int IncrementCircularArrayIndex(int index, int arrayLength)
+    public int IncrementCircularArrayIndex( int index, int arrayLength )
     {
         return (index + 1) % arrayLength;
     }
@@ -53,7 +53,7 @@ public class TacticsManager : MonoBehaviour
         cross = true;
     }
 
-    public void AssignOrderToGroup(GroupBehaviour.State state, Group group)
+    public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
         GroupBehaviour groupBehaviour = GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
         groupBehaviour.newState = state;

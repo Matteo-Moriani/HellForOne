@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AttackCollider : MonoBehaviour
 {
-    private enum AttackColliderType{ 
+    private enum AttackColliderType
+    {
         Ranged,
         Melee,
         None
@@ -22,133 +23,157 @@ public class AttackCollider : MonoBehaviour
 
     private DemonBehaviour demonBehaviour;
 
+    [SerializeField]
+    private float meleeAggroModifier = 1.1f;
+
+    [SerializeField]
+    private float rangeAggroModifier = 1.05f;
+
     private void Start()
     {
         stats = this.transform.root.gameObject.GetComponent<Stats>();
         combat = this.transform.root.gameObject.GetComponent<Combat>();
     }
-    
+
     private void OnEnable()
     {
-        if(stats == null) { 
-            stats = this.transform.root.gameObject.GetComponent<Stats>();    
+        if ( stats == null )
+        {
+            stats = this.transform.root.gameObject.GetComponent<Stats>();
         }
-        if(combat == null) {
+        if ( combat == null )
+        {
             combat = this.transform.root.gameObject.GetComponent<Combat>();
         }
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter( Collider other )
     {
-        ManageCollisionUsingType(other);    
+        ManageCollisionUsingType( other );
     }
 
-    private void ManageCollisionUsingType(Collider other) {
+    private void ManageCollisionUsingType( Collider other )
+    {
         Stats targetRootStats = other.transform.root.gameObject.GetComponent<Stats>();
-        if(targetRootStats != null) {
-            if (other.tag == "IdleCollider")
+        if ( targetRootStats != null )
+        {
+            if ( other.tag == "IdleCollider" )
             {
-                switch (stats.type)
+                switch ( stats.type )
                 {
                     case Stats.Type.Player:
-                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+                        if ( targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss )
                         {
-                            ManagePlayerCollisions(targetRootStats, other);
+                            ManagePlayerCollisions( targetRootStats, other );
                         }
                         break;
                     case Stats.Type.Ally:
-                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+                        if ( targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss )
                         {
-                            ManageSimpleDemonCollisions(targetRootStats, other);
+                            ManageSimpleDemonCollisions( targetRootStats, other );
                         }
                         break;
                     case Stats.Type.Enemy:
-                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        if ( targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally )
                         {
-                            ManageSimpleDemonCollisions(targetRootStats, other);
+                            ManageSimpleDemonCollisions( targetRootStats, other );
                         }
                         break;
                     case Stats.Type.Boss:
-                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        if ( targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally )
                         {
-                            ManageBossCollisions(targetRootStats, other);
+                            ManageBossCollisions( targetRootStats, other );
                         }
                         break;
                 }
             }
         }
-        else { 
-            Debug.Log(this.transform.root.gameObject.name + " is trying to hit a target without stats. target is: " + other.transform.root.gameObject.name);    
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " is trying to hit a target without stats. target is: " + other.transform.root.gameObject.name );
         }
     }
 
-    private void StopAttack() {
-        switch (this.type)
+    private void StopAttack()
+    {
+        switch ( this.type )
         {
             case AttackColliderType.Melee:
-                if(!isGlobalAttacking && !isSweeping)
+                if ( !isGlobalAttacking && !isSweeping )
                     combat.StopAttack();
                 break;
             case AttackColliderType.Ranged:
-                this.gameObject.SetActive(false);
+                this.gameObject.SetActive( false );
                 break;
             case AttackColliderType.None:
-                Debug.Log(this.name + "AttackCollider.tyoe is set to None");
+                Debug.Log( this.name + "AttackCollider.tyoe is set to None" );
                 break;
         }
     }
 
-    private void ManageAggro() {
-        if(this.type != AttackColliderType.None) { 
-            
-            int aggroModifier = 0;
-            
-            if(type == AttackColliderType.Melee) { 
-                aggroModifier = stats.MeleeDamage;    
+    private void ManageAggro()
+    {
+        if ( this.type != AttackColliderType.None )
+        {
+
+            float aggroModifier = 0;
+
+            if ( type == AttackColliderType.Melee )
+            {
+                aggroModifier = meleeAggroModifier;
             }
-            if(type == AttackColliderType.Ranged) { 
-                aggroModifier = stats.RangedDamage;    
+            if ( type == AttackColliderType.Ranged )
+            {
+                aggroModifier = rangeAggroModifier;
             }
-            
-            stats.RaiseAggro(aggroModifier);
-            
+
             // We update Group aggro only for Ally Imps
-            if(stats.type == Stats.Type.Ally) { 
-                if(demonBehaviour == null ) { 
-                    demonBehaviour = this.transform.root.gameObject.GetComponent<DemonBehaviour>();   
+            if ( stats.type == Stats.Type.Ally )
+            {
+                if ( demonBehaviour == null )
+                {
+                    demonBehaviour = this.transform.root.gameObject.GetComponent<DemonBehaviour>();
                 }
-                if(demonBehaviour != null) {
-                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro(aggroModifier);
+                if ( demonBehaviour != null )
+                {
+                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro( (aggroModifier - 1f) * stats.Aggro );
                 }
-            }      
+            }
+
+            stats.RaiseAggro( aggroModifier );
         }
-        else {
-            Debug.Log(this.name + "AttackCollider.type is set to None");
+        else
+        {
+            Debug.Log( this.name + "AttackCollider.type is set to None" );
         }
     }
 
-    private bool CheckAngle(Transform other) { 
-        return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
+    private bool CheckAngle( Transform other )
+    {
+        return Vector3.Angle( this.transform.root.transform.forward, other.forward ) < 91;
     }
 
     // TODO - Check if it is needed to call CheckAngle when a target is blocking
-    private void ManageKnockBack(Stats targetRootStats) {
+    private void ManageKnockBack( Stats targetRootStats )
+    {
         // Calculate knockback chance
-        if (Random.Range(1f, 101f) <= stats.KnockBackChance && !targetRootStats.IsBlocking)
+        if ( Random.Range( 1f, 101f ) <= stats.KnockBackChance && !targetRootStats.IsBlocking )
         {
-            targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root, stats.KnockBackSpeed);
+            targetRootStats.TakeKnockBack( stats.KnockBackUnits, this.transform.root, stats.KnockBackSpeed );
         }
-        else { 
-            Debug.Log("No KnockBack, probably the target is blocking");    
+        else
+        {
+            Debug.Log( "No KnockBack, probably the target is blocking" );
         }
     }
 
-    private void ManagePlayerCollisions(Stats targetRootStats, Collider other) {
-        if (targetRootStats.IsBlocking)
+    private void ManagePlayerCollisions( Stats targetRootStats, Collider other )
+    {
+        if ( targetRootStats.IsBlocking )
         {
-            if (CheckAngle(other.gameObject.transform.root))
+            if ( CheckAngle( other.gameObject.transform.root ) )
             {
-                DealDamage(targetRootStats);
+                DealDamage( targetRootStats );
                 ManageAggro();
 
                 StopAttack();
@@ -156,13 +181,13 @@ public class AttackCollider : MonoBehaviour
             else
             {
                 ManageAggro();
-                
+
                 StopAttack();
             }
         }
-        if (!targetRootStats.IsBlocking)
+        if ( !targetRootStats.IsBlocking )
         {
-            DealDamage(targetRootStats);
+            DealDamage( targetRootStats );
 
             ManageAggro();
 
@@ -170,14 +195,15 @@ public class AttackCollider : MonoBehaviour
         }
     }
 
-    private void ManageSimpleDemonCollisions(Stats targetRootStats, Collider other) {
-        if (targetRootStats.IsBlocking)
+    private void ManageSimpleDemonCollisions( Stats targetRootStats, Collider other )
+    {
+        if ( targetRootStats.IsBlocking )
         {
-            if (CheckAngle(other.gameObject.transform.root))
+            if ( CheckAngle( other.gameObject.transform.root ) )
             {
-                if (targetRootStats.CalculateBeenHitChance(false))
+                if ( targetRootStats.CalculateBeenHitChance( false ) )
                 {
-                    DealDamage(targetRootStats);
+                    DealDamage( targetRootStats );
                 }
                 ManageAggro();
 
@@ -185,20 +211,20 @@ public class AttackCollider : MonoBehaviour
             }
             else
             {
-                if (targetRootStats.CalculateBeenHitChance(true))
+                if ( targetRootStats.CalculateBeenHitChance( true ) )
                 {
-                    DealDamage(targetRootStats);
+                    DealDamage( targetRootStats );
                 }
                 ManageAggro();
 
                 StopAttack();
             }
         }
-        if (!targetRootStats.IsBlocking)
+        if ( !targetRootStats.IsBlocking )
         {
-            if (targetRootStats.CalculateBeenHitChance(false))
+            if ( targetRootStats.CalculateBeenHitChance( false ) )
             {
-                DealDamage(targetRootStats);
+                DealDamage( targetRootStats );
             }
             ManageAggro();
 
@@ -206,18 +232,19 @@ public class AttackCollider : MonoBehaviour
         }
     }
 
-    private void ManageBossCollisions(Stats targetRootStats, Collider other) {
-        if (targetRootStats.IsBlocking)
+    private void ManageBossCollisions( Stats targetRootStats, Collider other )
+    {
+        if ( targetRootStats.IsBlocking )
         {
             // if target is blocking but is not looking towards the boss
-            if (CheckAngle(other.gameObject.transform.root))
+            if ( CheckAngle( other.gameObject.transform.root ) )
             {
                 // calculate been hit chance without counting block bonus
-                if (targetRootStats.CalculateBeenHitChance(false))
+                if ( targetRootStats.CalculateBeenHitChance( false ) )
                 {
-                    DealDamage(targetRootStats);
+                    DealDamage( targetRootStats );
 
-                    ManageKnockBack(targetRootStats);
+                    ManageKnockBack( targetRootStats );
                 }
 
                 ManageAggro();
@@ -229,11 +256,11 @@ public class AttackCollider : MonoBehaviour
             else
             {
                 // calculate been hit chance counting block bonus
-                if (targetRootStats.CalculateBeenHitChance(true))
+                if ( targetRootStats.CalculateBeenHitChance( true ) )
                 {
-                    DealDamage(targetRootStats);
+                    DealDamage( targetRootStats );
 
-                    ManageKnockBack(targetRootStats);
+                    ManageKnockBack( targetRootStats );
                 }
 
                 ManageAggro();
@@ -241,14 +268,14 @@ public class AttackCollider : MonoBehaviour
                 StopAttack();
             }
         }
-        if (!targetRootStats.IsBlocking)
-        {   
+        if ( !targetRootStats.IsBlocking )
+        {
             // Calculate been hit chance without counting block bonus
-            if (targetRootStats.CalculateBeenHitChance(false))
+            if ( targetRootStats.CalculateBeenHitChance( false ) )
             {
-                DealDamage(targetRootStats);
+                DealDamage( targetRootStats );
 
-                ManageKnockBack(targetRootStats);
+                ManageKnockBack( targetRootStats );
             }
 
             ManageAggro();
@@ -258,15 +285,19 @@ public class AttackCollider : MonoBehaviour
         }
     }
 
-    private void DealDamage(Stats targetRootStats) { 
-        if(type == AttackColliderType.Melee) { 
-            targetRootStats.TakeHit(stats.MeleeDamage);
+    private void DealDamage( Stats targetRootStats )
+    {
+        if ( type == AttackColliderType.Melee )
+        {
+            targetRootStats.TakeHit( stats.MeleeDamage );
         }
-        if(type == AttackColliderType.Ranged) { 
-            targetRootStats.TakeHit(stats.RangedDamage);
+        if ( type == AttackColliderType.Ranged )
+        {
+            targetRootStats.TakeHit( stats.RangedDamage );
         }
-        if(type == AttackColliderType.None){
-            Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
+        if ( type == AttackColliderType.None )
+        {
+            Debug.Log( this.transform.root.gameObject.name + " attack collide type not set" );
         }
     }
 }

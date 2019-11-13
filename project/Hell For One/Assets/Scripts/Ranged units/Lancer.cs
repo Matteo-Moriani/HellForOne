@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class Lancer : MonoBehaviour
 {
-    [SerializeField, Tooltip("The target of the ranged unit.")]
+    [SerializeField, Tooltip( "The target of the ranged unit." )]
     private GameObject target;
-    [SerializeField, Tooltip("Indicates if the unit can launch to the target or not.")]
+    [SerializeField, Tooltip( "Indicates if the unit can launch to the target or not." )]
     private bool canLaunch;
     [Space]
-    [SerializeField, Min(0), Tooltip("The number of lances per second.")]
+    [SerializeField, Min( 0 ), Tooltip( "The number of lances per second." )]
     private float ratio;
-    [SerializeField ,Min(0), Tooltip("The initial speed of the lance.")]
+    [SerializeField, Min( 0 ), Tooltip( "The initial speed of the lance." )]
     private float speed;
     [Space]
-    [SerializeField, Min(0), Tooltip("The mininum distance of attack of the ranged unit.")]
+    [SerializeField, Min( 0 ), Tooltip( "The mininum distance of attack of the ranged unit." )]
     private float minDistance;
-    [SerializeField, Min(0), Tooltip("The maximum distance of attack of the ranged unit.")]
+    [SerializeField, Min( 0 ), Tooltip( "The maximum distance of attack of the ranged unit." )]
     private float maxDistance;
     [Space]
-    [SerializeField, Tooltip("The spawn position of the lance.")]
+    [SerializeField, Tooltip( "The spawn position of the lance." )]
     private Vector3 lancePosition;
-    [SerializeField, Tooltip("If the lance follow a direct tragectory or not (false is recommended).")]
+    [SerializeField, Tooltip( "If the lance follow a direct tragectory or not (false is recommended)." )]
     private bool direct;
 
     GameObject lance;
@@ -39,13 +39,13 @@ public class Lancer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - lastShot > timespanShots && target != null && canLaunch)
+        if ( Time.time - lastShot > timespanShots && target != null && canLaunch )
         {
-            if (Launch(target))
+            if ( Launch( target ) )
             {
                 lastShot = Time.time;
             }
-        }   
+        }
     }
 
     /// <summary>
@@ -53,24 +53,24 @@ public class Lancer : MonoBehaviour
     /// </summary>
     /// <param name="target">The object target.</param>
     /// <returns>Returns true if the launch was successful, otherwise returns false.</returns>
-    public bool Launch(GameObject target)
+    public bool Launch( GameObject target )
     {
         float distance;
         float alpha;
-        if (target == null)
+        if ( target == null )
         {
-            Debug.LogError("Target cannot be null");
+            Debug.LogError( "Target cannot be null" );
         }
 
-        distance = Vector3.Distance(transform.position, target.transform.position);
-        if (distance < minDistance || distance > maxDistance)
+        distance = Vector3.Distance( transform.position, target.transform.position );
+        if ( distance < minDistance || distance > maxDistance )
         {
             return false;
         }
 
         alpha = 0;
 
-        if (!calculateAngle(transform.position + lancePosition, target.transform.position, out alpha))
+        if ( !calculateAngle( transform.position + lancePosition, target.transform.position, out alpha ) )
         {
             return false;
         }
@@ -79,10 +79,10 @@ public class Lancer : MonoBehaviour
         lance = lances.GetNotActiveObject();
         lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
         lance.transform.localPosition = lancePosition;
-        lance.transform.forward = new Vector3(target.transform.position.x, lance.transform.position.y, target.transform.position.z) - lance.transform.position;
-        lance.transform.localRotation = Quaternion.Euler(90f - alpha, lance.transform.localRotation.eulerAngles.y, 0);
-        lance.SetActive(true);
-        lance.GetComponent<Rigidbody>().AddForce(lance.transform.up * (speed), ForceMode.VelocityChange);
+        lance.transform.forward = new Vector3( target.transform.position.x, lance.transform.position.y, target.transform.position.z ) - lance.transform.position;
+        lance.transform.localRotation = Quaternion.Euler( 90f - alpha, lance.transform.localRotation.eulerAngles.y, 0 );
+        lance.SetActive( true );
+        lance.GetComponent<Rigidbody>().AddForce( lance.transform.up * (speed), ForceMode.VelocityChange );
 
         return true;
     }
@@ -94,12 +94,12 @@ public class Lancer : MonoBehaviour
     /// <param name="to">The final position of the launch.</param>
     /// <param name="angle">The varible that will contain the angle in degree.</param>
     /// <returns>Returns true if it is mathematically possible to have a trajectory, otherwise returns false.</returns>
-    private bool calculateAngle(Vector3 from, Vector3 to, out float angle)
+    private bool calculateAngle( Vector3 from, Vector3 to, out float angle )
     {
         float x, y, g, v;
         float tempResult;
 
-        x = Vector3.Distance(new Vector3(from.x, 0, from.z), new Vector3(to.x, 0, to.z));
+        x = Vector3.Distance( new Vector3( from.x, 0, from.z ), new Vector3( to.x, 0, to.z ) );
 
         y = to.y - from.y;
         g = -Physics.gravity.y;
@@ -108,16 +108,16 @@ public class Lancer : MonoBehaviour
         tempResult = g * x * x + 2 * y * v * v;
         tempResult *= g;
         tempResult = v * v * v * v - tempResult;
-        if (tempResult < 0)
+        if ( tempResult < 0 )
         {
             angle = 0;
             return false;
-            
-        }
-        
-        tempResult = Mathf.Sqrt(tempResult);
 
-        if (direct)
+        }
+
+        tempResult = Mathf.Sqrt( tempResult );
+
+        if ( direct )
         {
             tempResult = v * v - tempResult;
         }
@@ -125,12 +125,12 @@ public class Lancer : MonoBehaviour
         {
             tempResult = v * v + tempResult;
         }
-        
-        tempResult = Mathf.Atan2(tempResult, g * x);
+
+        tempResult = Mathf.Atan2( tempResult, g * x );
 
         angle = tempResult * Mathf.Rad2Deg;
 
-        Debug.Log("x: " + x.ToString() + " alpha:" + angle.ToString());
+        Debug.Log( "x: " + x.ToString() + " alpha:" + angle.ToString() );
         return true;
     }
 
@@ -138,10 +138,10 @@ public class Lancer : MonoBehaviour
     /// Sets the target of the unit and starts the unit to launch.
     /// </summary>
     /// <param name="targetObject">The gameobject target.</param>
-    public void Start(GameObject targetObject)
+    public void Start( GameObject targetObject )
     {
         Target = targetObject;
-        if (Target != null)
+        if ( Target != null )
         {
             CanLaunch = true;
         }
@@ -168,7 +168,7 @@ public class Lancer : MonoBehaviour
         }
         set
         {
-            if (value != null && value.GetComponent<Transform>() != null)
+            if ( value != null && value.GetComponent<Transform>() != null )
             {
                 target = value;
             }
@@ -202,7 +202,7 @@ public class Lancer : MonoBehaviour
         }
         set
         {
-            if (value > 0)
+            if ( value > 0 )
             {
                 ratio = value;
             }
@@ -220,7 +220,7 @@ public class Lancer : MonoBehaviour
         }
         set
         {
-            if (value > 0)
+            if ( value > 0 )
             {
                 speed = value;
             }
@@ -238,7 +238,7 @@ public class Lancer : MonoBehaviour
         }
         set
         {
-            if (value >= 0 && value < MaxDistance)
+            if ( value >= 0 && value < MaxDistance )
             {
                 minDistance = value;
             }
@@ -256,7 +256,7 @@ public class Lancer : MonoBehaviour
         }
         set
         {
-            if (value >= 0 && value > MinDistance)
+            if ( value >= 0 && value > MinDistance )
             {
                 maxDistance = value;
             }

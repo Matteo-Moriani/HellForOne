@@ -9,8 +9,8 @@ public class GroupAggro : MonoBehaviour
     private bool shouldStayFixed = false;
 
     [SerializeField]
-    private int groupAggro = 0;
-    
+    private float groupAggro = 0;
+
     [SerializeField]
     private float tankMultiplier = 1.5f;
     //[SerializeField]
@@ -21,100 +21,117 @@ public class GroupAggro : MonoBehaviour
         groupAggro = 0;
         groupBehaviour = GetComponent<GroupBehaviour>();
 
-        groups = GameObject.FindGameObjectsWithTag("Group");
+        groups = GameObject.FindGameObjectsWithTag( "Group" );
     }
 
     private void Update()
     {
-        if (groupBehaviour.MeleeOrderGiven()) {
-            if (shouldStayFixed) {
-                ManageLockingAggroInDemons(false);
-                UpdateGroupAggro();
-                //shouldStayFixed = false;
-            }   
-        }
-        if(groupBehaviour.RangeAttackOrderGiven()) {
-            if(shouldStayFixed) {
-                ManageLockingAggroInDemons(false);
+        if ( groupBehaviour.MeleeOrderGiven() )
+        {
+            if ( shouldStayFixed )
+            {
+                ManageLockingAggroInDemons( false );
                 UpdateGroupAggro();
                 //shouldStayFixed = false;
             }
         }
-        if (groupBehaviour.TankOrderGiven()) { 
-            ManageLockingAggroInDemons(true);
-            //shouldStayFixed = true;
-            groupAggro = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier ), groupAggro ); 
-            
+        if ( groupBehaviour.RangeAttackOrderGiven() )
+        {
+            if ( shouldStayFixed )
+            {
+                ManageLockingAggroInDemons( false );
+                UpdateGroupAggro();
+                //shouldStayFixed = false;
+            }
         }
-        if (groupBehaviour.SupportOrderGiven()) {
-            ManageLockingAggroInDemons(true);
+        if ( groupBehaviour.TankOrderGiven() )
+        {
+            ManageLockingAggroInDemons( true );
+            //shouldStayFixed = true;
+            groupAggro = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier ), groupAggro );
+
+        }
+        if ( groupBehaviour.SupportOrderGiven() )
+        {
+            ManageLockingAggroInDemons( true );
             UpdateGroupAggro();
             //shouldStayFixed = true;
             //groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
         }
     }
 
-    public int GetAggro() { 
-        return groupAggro;    
+    public float GetAggro()
+    {
+        return groupAggro;
     }
 
-    public void UpdateGroupAggro() {
+    public void UpdateGroupAggro()
+    {
         groupAggro = 0;
-        
-        if (groupBehaviour == null)
+
+        if ( groupBehaviour == null )
             groupBehaviour = GetComponent<GroupBehaviour>();
 
-        if (groupBehaviour != null)
+        if ( groupBehaviour != null )
         {
-            foreach (GameObject demon in groupBehaviour.demons)
-            {   
-                if(demon != null){
+            foreach ( GameObject demon in groupBehaviour.demons )
+            {
+                if ( demon != null )
+                {
                     Stats stats = demon.GetComponent<Stats>();
 
-                    if (stats != null)
+                    if ( stats != null )
                     {
                         groupAggro += stats.Aggro;
                     }
                     else
                     {
-                        Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                        Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
                     }
                 }
             }
         }
         else
         {
-            Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour");
+            Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
         }
     }
 
-    public void ResetGroupAggro() { 
+    public void ResetGroupAggro()
+    {
         groupAggro = 0;
-        
-        if(groupBehaviour == null)
+
+        if ( groupBehaviour == null )
             groupBehaviour = GetComponent<GroupBehaviour>();
 
-        if (groupBehaviour != null) { 
-            foreach(GameObject demon in groupBehaviour.demons) { 
+        if ( groupBehaviour != null )
+        {
+            foreach ( GameObject demon in groupBehaviour.demons )
+            {
                 Stats stats = demon.GetComponent<Stats>();
-                
-                if(stats != null) { 
-                    stats.Aggro = 0;   
+
+                if ( stats != null )
+                {
+                    stats.Aggro = 0;
                 }
-                else { 
-                    Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                else
+                {
+                    Debug.Log( this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + demon.name );
                 }
-            }    
+            }
         }
-        else { 
-            Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour");    
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour" );
         }
     }
 
-    public void RaiseGroupAggro(int n) { 
-        if(!shouldStayFixed){
+    public void RaiseGroupAggro( float n )
+    {
+        if ( !shouldStayFixed )
+        {
             groupAggro += n;
-        }     
+        }
     }
 
     //public void LowerGroupAggro(int n) {
@@ -133,51 +150,56 @@ public class GroupAggro : MonoBehaviour
     //    }
     //}
 
-    private void ManageLockingAggroInDemons(bool lockAggro) {
-        if (groupBehaviour == null)
+    private void ManageLockingAggroInDemons( bool lockAggro )
+    {
+        if ( groupBehaviour == null )
             groupBehaviour = GetComponent<GroupBehaviour>();
 
-        if (groupBehaviour != null)
+        if ( groupBehaviour != null )
         {
-            foreach (GameObject demon in groupBehaviour.demons)
+            foreach ( GameObject demon in groupBehaviour.demons )
             {
                 Stats stats = demon.GetComponent<Stats>();
 
-                if (stats != null)
+                if ( stats != null )
                 {
-                    if(lockAggro)
+                    if ( lockAggro )
                         stats.LockAggro();
-                    if(!lockAggro)
+                    if ( !lockAggro )
                         stats.UnlockAggro();
                 }
                 else
                 {
-                    Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name);
+                    Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
                 }
             }
         }
         else
         {
-            Debug.Log(this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour");
+            Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
         }
     }
 
-    private int CalculateAverageAggro() {
-        int totalAggro = 0;
-        
-        if(groups != null) { 
-            foreach(GameObject group in groups) { 
-                totalAggro += group.GetComponent<GroupAggro>().GetAggro();    
+    private float CalculateAverageAggro()
+    {
+        float totalAggro = 0;
+
+        if ( groups != null )
+        {
+            foreach ( GameObject group in groups )
+            {
+                totalAggro += group.GetComponent<GroupAggro>().GetAggro();
             }
         }
-        else { 
-            Debug.Log(this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups"); 
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups" );
         }
         return totalAggro;
     }
 
-    // aggiorna l'aggro dei singoli demoni in support
-    public void UpdateSupportAggro() {
-        // to do
-    }
+    //// aggiorna l'aggro dei singoli demoni in support
+    //public void UpdateSupportAggro() {
+
+    //}
 }
