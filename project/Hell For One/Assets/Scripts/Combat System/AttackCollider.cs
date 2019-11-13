@@ -131,9 +131,9 @@ public class AttackCollider : MonoBehaviour
         return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
     }
 
+    // TODO - Check if it is needed to call CheckAngle when a target is blocking
     private void ManageKnockBack(Stats targetRootStats) {
         // Calculate knockback chance
-        // Global attack will not cause knockback
         if (Random.Range(1f, 101f) <= stats.KnockBackChance && !targetRootStats.IsBlocking)
         {
             targetRootStats.TakeKnockBack(stats.KnockBackUnits, this.transform.root, stats.KnockBackSpeed);

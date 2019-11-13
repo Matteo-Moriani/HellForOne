@@ -4952,8 +4952,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  health: 10
-  damage: 2
+  health: 4
+  meleeDamage: 2
+  rangedDamage: 1
   attackRange: 2
   attackDurationMultiplier: 5
   sweepSize: 2
@@ -4965,6 +4966,8 @@ MonoBehaviour:
   knockBackUnits: 0
   knockBackSpeed: 5
   aggro: 0
+  aggroDescreasingRateo: 1
+  aggroTime: 1
   crisis: 0
 --- !u!114 &700325638455118188
 MonoBehaviour:

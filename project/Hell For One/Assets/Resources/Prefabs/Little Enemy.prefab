@@ -107,6 +107,8 @@ GameObject:
   - component: {fileID: 4152089660661641188}
   - component: {fileID: 5364434250922713964}
   - component: {fileID: 6244317997563319592}
+  - component: {fileID: 2945838567817698618}
+  - component: {fileID: 1481004117720838831}
   m_Layer: 0
   m_Name: Little Enemy
   m_TagString: LittleEnemy
@@ -210,10 +212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  health: 2
-  damage: 1
+  health: 4
+  meleeDamage: 2
+  rangedDamage: 1
   attackRange: 1
-  attackDurationMultiplier: 1
+  attackDurationMultiplier: 5
   sweepSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
@@ -223,6 +226,8 @@ MonoBehaviour:
   knockBackUnits: 0
   knockBackSpeed: 5
   aggro: 0
+  aggroDescreasingRateo: 1
+  aggroTime: 1
   crisis: 0
 --- !u!33 &5364434250922713964
 MeshFilter:
@@ -269,6 +274,34 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2945838567817698618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019981136456503368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94527331855c9fe468edb28b3ff61677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatManager: {fileID: 8574072412587854666}
+  playerAttackCooldown: 0.5
+--- !u!114 &1481004117720838831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019981136456503368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67c005bd0cfac74e9ad78a7b9513ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combat: {fileID: 2945838567817698618}
+  attackRateo: 1
 --- !u!136 &8824111141166020857
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -294,11 +327,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CombatManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -360,11 +388,6 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 4152089660661641188}
-    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -375,6 +398,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
@@ -384,6 +417,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7923876341260857894}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8574072412587854666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7923876341260857894}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8574072414420637001 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
