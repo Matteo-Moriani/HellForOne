@@ -144,7 +144,7 @@ public class BossBehavior : MonoBehaviour
         {
             ChooseCentralTarget();
         }
-        else if ( Random.Range( 0f, 1f ) < changeTargetProb || targetDemon == gameObject )
+        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !targetDemon)
         {
             float totalAggro = 0f;
             for ( int i = 0; i < demonGroups.Length; i++ )
@@ -160,9 +160,8 @@ public class BossBehavior : MonoBehaviour
             // questo controllo va tolto prima o poi
             if ( player )
             {
-                // player aggro must be at least 1
-                aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().GetAggro() + 1;
-                totalAggro = totalAggro + player.GetComponent<Stats>().GetAggro();
+                aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().Aggro;
+                totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
                 probability[ demonGroups.Length + 1 ] = totalAggro;
             }
 

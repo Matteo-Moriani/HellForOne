@@ -184,11 +184,6 @@ public class Stats : MonoBehaviour
     public float Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
 
-    public float GetAggro()
-    {
-        return aggro;
-    }
-
     /// <summary>
     /// Probability of this unit to deal a knockBack
     /// </summary>
@@ -243,7 +238,6 @@ public class Stats : MonoBehaviour
         //if ( !shouldAggroStayFixed )
         //{
             aggro *= n;
-        Debug.Log(gameObject.name + " " + aggro);
         //}
     }
 
