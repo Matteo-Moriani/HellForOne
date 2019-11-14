@@ -47,11 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxNumDemons: 4
   demonsInGroup: 0
+  fsmReactionTime: 1
   currentState: 0
   newState: 0
   orderConfirmed: 0
   demons: []
-  reactionTime: 1
   target: {fileID: 0}
 --- !u!114 &8325787536396914807
 MonoBehaviour:
@@ -80,4 +80,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc855c1343d36745aed6b974c124396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupAggro: 0
+  groupAggro: 1
+  tankMultiplier: 1.5

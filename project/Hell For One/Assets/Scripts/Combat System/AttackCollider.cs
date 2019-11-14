@@ -22,12 +22,9 @@ public class AttackCollider : MonoBehaviour
     private Combat combat;
 
     private DemonBehaviour demonBehaviour;
-
-    [SerializeField]
-    private float meleeAggroModifier = 1.1f;
-
-    [SerializeField]
-    private float rangeAggroModifier = 1.05f;
+    
+    public float meleeAggroModifier = 1.1f;
+    public float rangeAggroModifier = 1.05f;
 
     private void Start()
     {
@@ -116,7 +113,7 @@ public class AttackCollider : MonoBehaviour
         if ( this.type != AttackColliderType.None )
         {
 
-            float aggroModifier = 0;
+            float aggroModifier = 1;
 
             if ( type == AttackColliderType.Melee )
             {
