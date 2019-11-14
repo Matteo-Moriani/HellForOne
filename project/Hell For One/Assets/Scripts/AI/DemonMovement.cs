@@ -5,9 +5,8 @@ using UnityEngine.AI;
 
 public class DemonMovement : MonoBehaviour
 {
-    public float speed = 8f;
     [Range( 0f, 1f )]
-    public float rotSpeed = 0.1f;
+    public float facingSpeed = 0.1f;
     public float minMeleeDist = 1f;
     public float extraCohesion = 1.75f;
     // only vs mobs
@@ -27,6 +26,8 @@ public class DemonMovement : MonoBehaviour
     private GroupBehaviour gb;
     private bool inPosition = false;
     private float distanceInPosition = 0f;
+    private bool canMove = true;
+    public bool CanMove { get => canMove; set => canMove = value; }
 
     void Start()
     {
@@ -42,66 +43,57 @@ public class DemonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(CanMove) {
+            if(!player)
+                player = GameObject.FindGameObjectWithTag("Player");
 
-        if ( !player )
-            player = GameObject.FindGameObjectWithTag( "Player" );
-
-        if ( group == null )
-        {
-            if ( GetComponent<DemonBehaviour>().groupFound )
-            {
-                group = GetComponent<DemonBehaviour>().groupBelongingTo;
-                gb = group.GetComponent<GroupBehaviour>();
-                target = group.GetComponent<GroupMovement>().GetTarget();
-            }
-        }
-        else if ( target )
-        {
-            if ( target.CompareTag( "Boss" ) )
-            {
-                // if the boss is escaping...
-                if ( distanceInPosition < (transform.position - target.transform.position).magnitude )
-                    inPosition = false;
-
-                if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
-                {
-                    distanceInPosition = 0f;
-                    CloseRangeMovement();
+            if(group == null) {
+                if(GetComponent<DemonBehaviour>().groupFound) {
+                    group = GetComponent<DemonBehaviour>().groupBelongingTo;
+                    gb = group.GetComponent<GroupBehaviour>();
+                    target = group.GetComponent<GroupMovement>().GetTarget();
                 }
-                else
-                    HighRangeMovement();
-
             }
-            else if ( target.CompareTag( "LittleEnemy" ) )
-            {
-                if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
-                {
-                    if ( (HorizDistFromTargetBorders() > minMeleeDist) )
-                    {
-                        GetComponent<NavMeshAgent>().destination = target.transform.position;
+            else if(target) {
+                if(target.CompareTag("Boss")) {
+                    // if the boss is escaping...
+                    if(distanceInPosition < (transform.position - target.transform.position).magnitude)
+                        inPosition = false;
+
+                    if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
+                        distanceInPosition = 0f;
+                        CloseRangeMovement();
                     }
                     else
-                        GetComponent<NavMeshAgent>().destination = transform.position;
+                        HighRangeMovement();
+
                 }
+                else if(target.CompareTag("LittleEnemy")) {
+                    if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
+                        if((HorizDistFromTargetBorders() > minMeleeDist)) {
+                            GetComponent<NavMeshAgent>().destination = target.transform.position;
+                        }
+                        else
+                            GetComponent<NavMeshAgent>().destination = transform.position;
+                    }
+                    else {
+                        if((HorizDistFromTargetBorders() > rangedDist))
+                            GetComponent<NavMeshAgent>().destination = target.transform.position;
+                        else
+                            GetComponent<NavMeshAgent>().destination = transform.position;
+                    }
+
+                }
+                // out of combat
                 else
-                {
-                    if ( (HorizDistFromTargetBorders() > rangedDist) )
-                        GetComponent<NavMeshAgent>().destination = target.transform.position;
-                    else
-                        GetComponent<NavMeshAgent>().destination = transform.position;
+                    if(HorizDistFromTarget(group) > repulsionWithGroup)
+                    GetComponent<NavMeshAgent>().destination = group.transform.position;
+                else {
+                    GetComponent<NavMeshAgent>().destination = transform.position;
+                    Face(target);
                 }
 
             }
-            // out of combat
-            else
-                if ( HorizDistFromTarget( group ) > repulsionWithGroup )
-                GetComponent<NavMeshAgent>().destination = group.transform.position;
-            else
-            {
-                GetComponent<NavMeshAgent>().destination = transform.position;
-                Face( target );
-            }
-
         }
 
     }
@@ -128,7 +120,7 @@ public class DemonMovement : MonoBehaviour
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation( vectorToTarget );
-        Quaternion newRotation = Quaternion.Slerp( transform.rotation, facingDir, rotSpeed );
+        Quaternion newRotation = Quaternion.Slerp( transform.rotation, facingDir, facingSpeed );
         transform.rotation = newRotation;
     }
 
@@ -228,4 +220,6 @@ public class DemonMovement : MonoBehaviour
                 return false;
         }
     }
+
+
 }
