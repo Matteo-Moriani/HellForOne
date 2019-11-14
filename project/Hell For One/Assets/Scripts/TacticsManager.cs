@@ -56,9 +56,11 @@ public class TacticsManager : MonoBehaviour
     public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
         GroupBehaviour groupBehaviour = GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
-        groupBehaviour.newState = state;
-        groupBehaviour.orderConfirmed = true;
-
+        if (groupBehaviour.currentState != state)
+        {
+            groupBehaviour.newState = state;
+            groupBehaviour.orderConfirmed = true;
+        }
     }
 
     void Start()
