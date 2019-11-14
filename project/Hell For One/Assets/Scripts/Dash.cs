@@ -103,15 +103,11 @@ public class Dash : MonoBehaviour
                 startingVelocity = rb.velocity;
             }
 
-            // If we count the time down the if condition we round up dash size
-            // If we put this up the if condition we can round down
-            dashTimeCounter += Time.fixedDeltaTime;
-
             if (isDashing)
             {
                 // TODO - Remove this after testing
                 // Used for logging
-                if(startPosition == Vector3.zero) {
+                if (startPosition == Vector3.zero) {
                     startPosition = this.transform.position;
                     Debug.Log("You started dashing at: " + this.transform.position);
                 }
@@ -141,6 +137,10 @@ public class Dash : MonoBehaviour
                     Debug.Log("You should have moved: " + dashSize);
                     startPosition = Vector3.zero;
                 }
+                
+                // If we count the time down the if condition we round up dash size
+                // If we put this up the if condition we can round down
+                dashTimeCounter += Time.fixedDeltaTime;
             }
         } 
     }

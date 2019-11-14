@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackCollider : MonoBehaviour
-{
+{   
+    #region fields
+
     private enum AttackColliderType
     {
         Ranged,
@@ -28,6 +30,10 @@ public class AttackCollider : MonoBehaviour
 
     [SerializeField]
     private float rangeAggroModifier = 1.05f;
+
+    #endregion
+
+    #region methods
 
     private void Start()
     {
@@ -153,13 +159,33 @@ public class AttackCollider : MonoBehaviour
         return Vector3.Angle( this.transform.root.transform.forward, other.forward ) < 91;
     }
 
-    // TODO - Check if it is needed to call CheckAngle when a target is blocking
     private void ManageKnockBack( Stats targetRootStats )
     {
-        // Calculate knockback chance
-        if ( Random.Range( 1f, 101f ) <= stats.KnockBackChance && !targetRootStats.IsBlocking )
+        // If we can deal a knockback
+        if ( Random.Range( 1f, 101f ) <= stats.KnockBackChance )
         {
-            targetRootStats.TakeKnockBack( stats.KnockBackSize, this.transform.root, stats.KnockBackTime );
+            // If we are dealing a sweep attack (heavy attack)
+            if (isSweeping) {
+                // If we are hitting a non player that is not blocking
+                if (!targetRootStats.IsBlocking && targetRootStats.type != Stats.Type.Player)
+                {
+                    targetRootStats.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                }
+                // If target is blocking we have to understand the angle to know if we have to deal a knockback or not
+                if (targetRootStats.IsBlocking) {
+                    if (CheckAngle(targetRootStats.gameObject.transform)) { 
+                        targetRootStats.TakeKnockBack(stats.KnockBackSize,this.transform.root,stats.KnockBackTime);    
+                    }    
+                }
+                // Player cannot block an heavy attack, he/she has to dodge it
+                if(targetRootStats.type == Stats.Type.Player) { 
+                    targetRootStats.TakeKnockBack(stats.KnockBackSize,this.transform.root,stats.KnockBackTime);    
+                }
+            }
+            // for any other attack we knockback only if the target is not blocking
+            if (!targetRootStats.IsBlocking) { 
+                targetRootStats.TakeKnockBack(stats.KnockBackSize,this.transform.root,stats.KnockBackTime);    
+            }
         }
         else
         {
@@ -236,6 +262,14 @@ public class AttackCollider : MonoBehaviour
     {
         if ( targetRootStats.IsBlocking )
         {
+            // Player cannot block sweeping (heavy attack)
+            if(isSweeping && targetRootStats.type == Stats.Type.Player) { 
+                DealDamage(targetRootStats);
+                ManageKnockBack(targetRootStats);
+                ManageAggro();
+                StopAttack();
+            }
+
             // if target is blocking but is not looking towards the boss
             if ( CheckAngle( other.gameObject.transform.root ) )
             {
@@ -300,4 +334,6 @@ public class AttackCollider : MonoBehaviour
             Debug.Log( this.transform.root.gameObject.name + " attack collide type not set" );
         }
     }
+
+    #endregion
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
+    #region fields
+
     [SerializeField]
     private GameObject attackCollider;
     [SerializeField]
@@ -16,11 +18,21 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     private Stats stats;
 
+    [SerializeField]
+    private float attackDelayInSeconds = 0f;
+
+    [SerializeField]
+    private float attackDurationInSeconds = 0.5f;
+
     private Coroutine attackCR;
     private Coroutine globalAttackCR;
 
     private Vector3 startPosition;
     private Vector3 baseAttackColliderScale;
+
+    #endregion
+
+    #region methods
 
     void Start()
     {
@@ -211,10 +223,18 @@ public class CombatManager : MonoBehaviour
     {
         stats.IsIdle = false;
 
-        attackCollider.SetActive( true );
-
         Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
 
+        yield return new WaitForSeconds(attackDelayInSeconds);
+
+        attackCollider.transform.localPosition = targetPosition;
+
+        attackCollider.SetActive(true);
+
+        yield return new WaitForSeconds(attackDurationInSeconds);
+
+        // Testing new attack logic
+        /*
         float timeAcc = 0f;
         // -TODO-   See if can remove tollerance
         //          Accelerate lerp
@@ -226,6 +246,7 @@ public class CombatManager : MonoBehaviour
             timeAcc += Time.deltaTime;
             yield return null;
         }
+        */
 
         attackCollider.transform.localPosition = startPosition;
 
@@ -257,4 +278,6 @@ public class CombatManager : MonoBehaviour
 
         stats.IsIdle = true;
     }
+
+    #endregion
 }
