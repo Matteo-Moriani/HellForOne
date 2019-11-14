@@ -42,7 +42,7 @@ public class GroupBehaviour : MonoBehaviour
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
         {
             currentState = newState;
-            ConfirmEffects();
+            //ConfirmEffects();
             orderConfirmed = false;
             return true;
         }
@@ -54,7 +54,7 @@ public class GroupBehaviour : MonoBehaviour
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Tank) )
         {
             currentState = newState;
-            ConfirmEffects();
+            //ConfirmEffects();
             orderConfirmed = false;
             return true;
         }
@@ -66,7 +66,7 @@ public class GroupBehaviour : MonoBehaviour
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.RangeAttack) )
         {
             currentState = newState;
-            ConfirmEffects();
+            //ConfirmEffects();
             orderConfirmed = false;
             return true;
         }
@@ -78,7 +78,7 @@ public class GroupBehaviour : MonoBehaviour
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
         {
             currentState = newState;
-            ConfirmEffects();
+            //ConfirmEffects();
             orderConfirmed = false;
             return true;
         }
