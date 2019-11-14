@@ -8,7 +8,8 @@ public class Reincarnation : MonoBehaviour
     private GameObject player;
 
     public void Reincarnate()
-    {
+    {   
+        // TODO - do we really need this? we are destroying this GamaObject
         player.GetComponent<Controller>().enabled = false;
         player.GetComponent<TacticsManager>().enabled = false;
         player.GetComponent<Dash>().enabled = false;
@@ -16,7 +17,7 @@ public class Reincarnation : MonoBehaviour
         player.tag = "DeadPlayer";
         CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
         cameraManager.player = null;
-
+        
         player = GameObject.FindGameObjectWithTag( "Demon" );
         player.GetComponent<Reincarnation>().enabled = true;
 
@@ -38,7 +39,9 @@ public class Reincarnation : MonoBehaviour
         gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
 
         //StartCoroutine( Die() );
-        Destroy( gameObject );
+        
+        //this will be done in stats
+        //Destroy( gameObject );
     }
 
     public IEnumerator Die()
@@ -54,10 +57,13 @@ public class Reincarnation : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        // Death is managed is Stats
+        /*
         if ( playerStats.health <= 0 )
         {
             Reincarnate();
         }
+        */
     }
 }

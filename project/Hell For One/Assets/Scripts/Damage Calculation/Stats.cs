@@ -392,20 +392,37 @@ public class Stats : MonoBehaviour
     {
         aggro = 1;
 
-        // If an ally is dying we need to Update his group aggro.
+        // If an ally is dying...
         if ( type == Stats.Type.Ally )
         {
+            // ...we need to update his group aggro
             GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
             if ( ga != null )
             {
                 ga.UpdateGroupAggro();
             }
+            
+            // ...we need to update his group number
+            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
         }
-        if ( !gameObject.CompareTag( "Player" ) )
+        
+        // Moved this under if(type.Ally)
+        /*
+        if ( type != Type.Player )
         {
             GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber( gb.GetDemonsNumber() - 1 );
+            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);    
         }
+        */
+        
+        // if the player is dying...
+        if (type == Type.Player) { 
+            // ... we need to reincarnate him
+            GetComponent<Reincarnation>().Reincarnate();    
+        }
+        
+        // if something is dying we destroy his GameObject
         Destroy( gameObject );
     }
 
