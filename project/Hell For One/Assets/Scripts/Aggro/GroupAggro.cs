@@ -9,16 +9,16 @@ public class GroupAggro : MonoBehaviour
     private bool shouldStayFixed = false;
 
     [SerializeField]
-    private float groupAggro = 0;
-
-    [SerializeField]
-    private float tankMultiplier = 1.5f;
+    private float groupAggro;
+    
+    public float tankMultiplier = 1.5f;
     //[SerializeField]
     //private float supportMultiplier = 1.0f;
 
     private void Start()
     {
-        groupAggro = 0;
+        UpdateGroupAggro();
+        //groupAggro = gameObject.GetComponent<GroupBehaviour>().GetDemonsNumber();
         groupBehaviour = GetComponent<GroupBehaviour>();
 
         groups = GameObject.FindGameObjectsWithTag( "Group" );
@@ -28,32 +28,32 @@ public class GroupAggro : MonoBehaviour
     {
         if ( groupBehaviour.MeleeOrderGiven() )
         {
-            if ( shouldStayFixed )
-            {
-                ManageLockingAggroInDemons( false );
+            //if ( shouldStayFixed )
+            //{
+            //    ManageLockingAggroInDemons( false );
                 UpdateGroupAggro();
                 //shouldStayFixed = false;
-            }
+            //}
         }
         if ( groupBehaviour.RangeAttackOrderGiven() )
         {
-            if ( shouldStayFixed )
-            {
-                ManageLockingAggroInDemons( false );
+            //if ( shouldStayFixed )
+            //{
+            //    ManageLockingAggroInDemons( false );
                 UpdateGroupAggro();
                 //shouldStayFixed = false;
-            }
+            //}
         }
         if ( groupBehaviour.TankOrderGiven() )
         {
-            ManageLockingAggroInDemons( true );
+            //ManageLockingAggroInDemons( true );
             //shouldStayFixed = true;
             groupAggro = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * tankMultiplier ), groupAggro );
 
         }
         if ( groupBehaviour.SupportOrderGiven() )
         {
-            ManageLockingAggroInDemons( true );
+            //ManageLockingAggroInDemons( true );
             UpdateGroupAggro();
             //shouldStayFixed = true;
             //groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
@@ -86,20 +86,20 @@ public class GroupAggro : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
+                        Debug.Log( this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find stats in " + demon.name );
                     }
                 }
             }
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
+            Debug.Log( this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find GroupBehaviour" );
         }
     }
 
     public void ResetGroupAggro()
     {
-        groupAggro = 0;
+        groupAggro = gameObject.GetComponent<GroupBehaviour>().GetDemonsNumber(); ;
 
         if ( groupBehaviour == null )
             groupBehaviour = GetComponent<GroupBehaviour>();
@@ -150,35 +150,35 @@ public class GroupAggro : MonoBehaviour
     //    }
     //}
 
-    private void ManageLockingAggroInDemons( bool lockAggro )
-    {
-        if ( groupBehaviour == null )
-            groupBehaviour = GetComponent<GroupBehaviour>();
+    //private void ManageLockingAggroInDemons( bool lockAggro )
+    //{
+    //    if ( groupBehaviour == null )
+    //        groupBehaviour = GetComponent<GroupBehaviour>();
 
-        if ( groupBehaviour != null )
-        {
-            foreach ( GameObject demon in groupBehaviour.demons )
-            {
-                Stats stats = demon.GetComponent<Stats>();
+    //    if ( groupBehaviour != null )
+    //    {
+    //        foreach ( GameObject demon in groupBehaviour.demons )
+    //        {
+    //            Stats stats = demon.GetComponent<Stats>();
 
-                if ( stats != null )
-                {
-                    if ( lockAggro )
-                        stats.LockAggro();
-                    if ( !lockAggro )
-                        stats.UnlockAggro();
-                }
-                else
-                {
-                    Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
-                }
-            }
-        }
-        else
-        {
-            Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
-        }
-    }
+    //            if ( stats != null )
+    //            {
+    //                if ( lockAggro )
+    //                    stats.LockAggro();
+    //                if ( !lockAggro )
+    //                    stats.UnlockAggro();
+    //            }
+    //            else
+    //            {
+    //                Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
+    //    }
+    //}
 
     private float CalculateAverageAggro()
     {

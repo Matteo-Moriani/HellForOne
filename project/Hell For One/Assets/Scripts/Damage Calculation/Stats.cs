@@ -113,7 +113,7 @@ public class Stats : MonoBehaviour
 
     [Tooltip( "Do not change, here only for balancing and testing" )]
     [SerializeField]
-    private float aggro = 0f;
+    private float aggro = 1f;
 
     //[SerializeField]
     //[Tooltip("How much aggro will be subtracted every aggroTime")]
@@ -128,7 +128,7 @@ public class Stats : MonoBehaviour
     Coroutine aggroDecreasingCR = null;
 
     //Used for aggro in general
-    private bool shouldAggroStayFixed = false;
+    //private bool shouldAggroStayFixed = false;
 
     // -TODO- Manage Crisis
     [SerializeField]
@@ -240,10 +240,10 @@ public class Stats : MonoBehaviour
     /// <param name="n">The amount the aggro will be raised</param>
     public void RaiseAggro( float n )
     {
-        if ( !shouldAggroStayFixed )
-        {
-            this.aggro *= n;
-        }
+        //if ( !shouldAggroStayFixed )
+        //{
+            aggro *= n;
+        //}
     }
 
     /// <summary>
@@ -283,15 +283,15 @@ public class Stats : MonoBehaviour
             this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
     }
 
-    public void LockAggro()
-    {
-        shouldAggroStayFixed = true;
-    }
+    //public void LockAggro()
+    //{
+    //    shouldAggroStayFixed = true;
+    //}
 
-    public void UnlockAggro()
-    {
-        shouldAggroStayFixed = false;
-    }
+    //public void UnlockAggro()
+    //{
+    //    shouldAggroStayFixed = false;
+    //}
 
     /// <summary>
     /// Lower this unit health by amount n
@@ -389,12 +389,12 @@ public class Stats : MonoBehaviour
 
     private void ManageDeath()
     {
-        aggro = 0;
+        aggro = 1;
 
         // If an ally is dying we need to Update his group aggro.
         if ( type == Stats.Type.Ally )
         {
-            GroupAggro ga = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
+            GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
             if ( ga != null )
             {
                 ga.UpdateGroupAggro();
