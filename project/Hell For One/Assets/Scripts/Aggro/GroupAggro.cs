@@ -9,7 +9,7 @@ public class GroupAggro : MonoBehaviour
     private bool shouldStayFixed = false;
 
     [SerializeField]
-    private float groupAggro;
+    private float groupAggro = 1;
     
     public float tankMultiplier = 1.5f;
     //[SerializeField]
@@ -17,8 +17,6 @@ public class GroupAggro : MonoBehaviour
 
     private void Start()
     {
-        UpdateGroupAggro();
-        //groupAggro = gameObject.GetComponent<GroupBehaviour>().GetDemonsNumber();
         groupBehaviour = GetComponent<GroupBehaviour>();
 
         groups = GameObject.FindGameObjectsWithTag( "Group" );
@@ -128,7 +126,7 @@ public class GroupAggro : MonoBehaviour
 
     public void RaiseGroupAggro( float n )
     {
-        if ( !shouldStayFixed )
+        //if ( !shouldStayFixed )
         {
             groupAggro += n;
         }

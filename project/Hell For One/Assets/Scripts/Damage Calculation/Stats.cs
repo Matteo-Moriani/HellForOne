@@ -243,6 +243,7 @@ public class Stats : MonoBehaviour
         //if ( !shouldAggroStayFixed )
         //{
             aggro *= n;
+        Debug.Log(gameObject.name + " " + aggro);
         //}
     }
 
@@ -275,13 +276,13 @@ public class Stats : MonoBehaviour
     /// Lower this unit aggro point by amount n
     /// </summary>
     /// <param name="n">The amount the aggro will be lowered</param>
-    public void ResetAggro( int n )
-    {
-        aggro = 0;
+    //public void ResetAggro( int n )
+    //{
+    //    aggro = 0;
 
-        if ( type == Stats.Type.Ally )
-            this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
-    }
+    //    if ( type == Stats.Type.Ally )
+    //        this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
+    //}
 
     //public void LockAggro()
     //{
@@ -475,17 +476,16 @@ public class Stats : MonoBehaviour
             // only the player will reduce the aggro to everyone
             if ( type == Type.Player )
             {
-                float maxAggro = 0;
+                float maxAggro = 1;
                 GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
-                GameObject player = GameObject.FindGameObjectWithTag( "Player" );
 
                 foreach ( GameObject group in groups )
                 {
                     if ( maxAggro < group.GetComponent<GroupAggro>().GetAggro() )
                         maxAggro = group.GetComponent<GroupAggro>().GetAggro();
                 }
-                if ( maxAggro < player.GetComponent<Stats>().GetAggro() )
-                    maxAggro = player.GetComponent<Stats>().GetAggro();
+                if ( maxAggro < aggro )
+                    maxAggro = aggro;
 
                 // the max aggro group will have 10 as new value
                 foreach ( GameObject group in groups )
@@ -494,6 +494,8 @@ public class Stats : MonoBehaviour
                     {
                         demon.GetComponent<Stats>().LowerAggro( maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10 );
                     }
+
+                    group.GetComponent<GroupAggro>().UpdateGroupAggro();
                 }
                 // for the player
                 LowerAggro( maxAggro / 10 );

@@ -4964,8 +4964,8 @@ MonoBehaviour:
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
-  aggro: 0
-  aggroTime: 1
+  aggro: 1
+  aggroTime: 60
   crisis: 0
 --- !u!114 &700325638455118188
 MonoBehaviour:
@@ -5337,16 +5337,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: aggroModifier
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: aggroModifier
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
