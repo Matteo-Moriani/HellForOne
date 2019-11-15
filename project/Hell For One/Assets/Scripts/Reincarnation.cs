@@ -32,6 +32,13 @@ public class Reincarnation : MonoBehaviour
         player.GetComponent<TacticsManager>().enabled = true;
         player.GetComponent<Dash>().enabled = true;
 
+        /*
+        // Reset Combat
+        Combat playerCombat =  player.GetComponent<Combat>();
+        if(player)
+        */
+        
+
         // Removing the new player from the group belonging to
         int playerIndex = System.Array.IndexOf( player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player );
         GroupBehaviour gb = player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();

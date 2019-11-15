@@ -215,6 +215,7 @@ public class GroupBehaviour : MonoBehaviour
 
     }
 
+    // TODO - Parametrize this
     public void UpdateSupportAggro()
     {
         foreach ( GameObject demon in demons )
