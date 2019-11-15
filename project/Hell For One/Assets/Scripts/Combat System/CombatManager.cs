@@ -54,9 +54,31 @@ public class CombatManager : MonoBehaviour
         idleCollider.SetActive( true );
     }
 
-    void Update()
+    public void StartSupport()
     {
+        if ( stats.IsIdle && !stats.IsSupporting )
+        {
+            stats.IsIdle = false;
+            stats.IsSupporting = true;
 
+        }
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
+        }
+    }
+
+    public void StopSupport()
+    {
+        if ( !stats.IsIdle && stats.IsSupporting )
+        {
+            stats.IsSupporting = false;
+            stats.IsIdle = true;
+        }
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopSupport is trying to stop supporting but is idle or is not supporting" );
+        }
     }
 
     public void StartBlock()
@@ -225,13 +247,13 @@ public class CombatManager : MonoBehaviour
 
         Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
 
-        yield return new WaitForSeconds(attackDelayInSeconds);
+        yield return new WaitForSeconds( attackDelayInSeconds );
 
         attackCollider.transform.localPosition = targetPosition;
 
-        attackCollider.SetActive(true);
+        attackCollider.SetActive( true );
 
-        yield return new WaitForSeconds(attackDurationInSeconds);
+        yield return new WaitForSeconds( attackDurationInSeconds );
 
         // Testing new attack logic
         /*

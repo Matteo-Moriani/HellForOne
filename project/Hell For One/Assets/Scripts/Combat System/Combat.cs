@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Stats))]
+[RequireComponent( typeof( Stats ) )]
 public class Combat : MonoBehaviour
 {
     public CombatManager combatManager;
 
     private Stats stats;
-    
+
     [SerializeField]
     private float playerAttackCooldown = 0.5f;
-    
+
     private float coolDownCounter = 0.0f;
 
     private void Start()
@@ -23,7 +23,7 @@ public class Combat : MonoBehaviour
 
     void Update()
     {
-        if (coolDownCounter <= playerAttackCooldown)
+        if ( coolDownCounter <= playerAttackCooldown )
         {
             coolDownCounter += Time.deltaTime;
         }
@@ -32,14 +32,14 @@ public class Combat : MonoBehaviour
         // -TODO- add controller button
         // Used for testing - Put attack button in player controller
         if ( stats.type == Stats.Type.Player )
-        {   
+        {
             if ( Input.GetMouseButtonDown( 0 ) && coolDownCounter >= playerAttackCooldown )
             {
-               coolDownCounter = 0.0f;
-                
+                coolDownCounter = 0.0f;
+
                 Attack();
             }
-            
+
             if ( Input.GetMouseButtonDown( 1 ) )
             {
                 StartBlock();
@@ -61,8 +61,9 @@ public class Combat : MonoBehaviour
         combatManager.StopAttack();
     }
 
-    public void RangedAttack(GameObject target) { 
-        combatManager.RangedAttack(target);   
+    public void RangedAttack( GameObject target )
+    {
+        combatManager.RangedAttack( target );
     }
 
     public void StopRangedAttack()
@@ -80,19 +81,33 @@ public class Combat : MonoBehaviour
         combatManager.StopBlock();
     }
 
-    public void Sweep() { 
+    public void Sweep()
+    {
         combatManager.Sweep();
     }
 
-    public void StopSweep() { 
-        combatManager.StopSweep();    
+    public void StopSweep()
+    {
+        combatManager.StopSweep();
     }
 
-    public void GlobalAttack() { 
-        combatManager.GlobalAttack();    
+    public void GlobalAttack()
+    {
+        combatManager.GlobalAttack();
     }
 
-    public void StopGlobalAttack() { 
-        combatManager.StopGlobalAttack();    
-    } 
+    public void StopGlobalAttack()
+    {
+        combatManager.StopGlobalAttack();
+    }
+
+    public void StartSupport()
+    {
+        combatManager.StartSupport();
+    }
+
+    public void StopSupport()
+    {
+        combatManager.StopSupport();
+    }
 }

@@ -28,7 +28,7 @@ public class GroupBehaviour : MonoBehaviour
     public bool orderConfirmed = false;
     public GameObject[] demons;
 
-    private FSM groupFSM;
+    public FSM groupFSM;
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
     private bool inCombat = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
@@ -41,9 +41,6 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
         {
-            currentState = newState;
-            //ConfirmEffects();
-            orderConfirmed = false;
             return true;
         }
         return false;
@@ -51,11 +48,8 @@ public class GroupBehaviour : MonoBehaviour
 
     public bool TankOrderGiven()
     {
-        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Tank) )
+        if ( (newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.Tank) )
         {
-            currentState = newState;
-            //ConfirmEffects();
-            orderConfirmed = false;
             return true;
         }
         return false;
@@ -63,11 +57,8 @@ public class GroupBehaviour : MonoBehaviour
 
     public bool RangeAttackOrderGiven()
     {
-        if ( (newState != currentState) && (orderConfirmed) && (newState == State.RangeAttack) )
+        if ( (newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.RangeAttack) )
         {
-            currentState = newState;
-            //ConfirmEffects();
-            orderConfirmed = false;
             return true;
         }
         return false;
@@ -77,9 +68,6 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
         {
-            currentState = newState;
-            //ConfirmEffects();
-            orderConfirmed = false;
             return true;
         }
         return false;
@@ -103,13 +91,21 @@ public class GroupBehaviour : MonoBehaviour
     {
         foreach ( GameObject demon in demons )
         {
-            demon.GetComponent<SelectedUnitEffects>().ConfirmOrder();
+            if ( demon )
+                demon.GetComponent<SelectedUnitEffects>().ConfirmOrder();
         }
     }
 
     #endregion
 
     #region Actions
+
+    public void GeneralEnterAction()
+    {
+        currentState = newState;
+        ConfirmEffects();
+        orderConfirmed = false;
+    }
 
     // Maybe all the CheckDemons() can be avoided by putting only 1 CheckDemons() inside the FSMUpdate()
     public void MeleeAttack()
@@ -210,9 +206,34 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
-    public void Support()
+    // TODO implement support mechanic
+    public void StartSupport()
     {
+        if ( !CheckDemons() )
+            return;
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StartSupport();
+            }
+        }
+    }
 
+    public void StopSupport()
+    {
+        if ( !CheckDemons() )
+            return;
+
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                combat.StopSupport();
+            }
+        }
     }
 
     // TODO - Parametrize this
@@ -220,7 +241,8 @@ public class GroupBehaviour : MonoBehaviour
     {
         foreach ( GameObject demon in demons )
         {
-            demon.GetComponent<Stats>().Aggro *= 1.08f;
+            if ( demon )
+                demon.GetComponent<Stats>().Aggro *= 1.08f;
         }
     }
 
@@ -262,6 +284,7 @@ public class GroupBehaviour : MonoBehaviour
         while ( true )
         {
             yield return new WaitForSeconds( fsmReactionTime );
+            Debug.Log( groupFSM.current.stateName );
             groupFSM.Update();
         }
     }
@@ -269,6 +292,7 @@ public class GroupBehaviour : MonoBehaviour
     void Start()
     {
         currentState = State.MeleeAttack;
+        newState = State.MeleeAttack;
         // Just to test
         inCombat = true;
 
@@ -283,21 +307,25 @@ public class GroupBehaviour : MonoBehaviour
         FSMTransition t5 = new FSMTransition( Idle );
         FSMTransition t6 = new FSMTransition( EnterCombat );
 
-        meleeState = new FSMState();
-        tankState = new FSMState();
-        rangeAttackState = new FSMState();
-        supportState = new FSMState();
+        meleeState = new FSMState( State.MeleeAttack.ToString() );
+        tankState = new FSMState( State.Tank.ToString() );
+        rangeAttackState = new FSMState( State.RangeAttack.ToString() );
+        supportState = new FSMState( State.Support.ToString() );
         idleState = new FSMState();
 
+        meleeState.enterActions.Add( GeneralEnterAction );
         meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
 
+        rangeAttackState.enterActions.Add( GeneralEnterAction );
         rangeAttackState.enterActions.Add( RangeAttack );
         rangeAttackState.exitActions.Add( StopRangeAttack );
 
+        tankState.enterActions.Add( GeneralEnterAction );
         tankState.enterActions.Add( Tank );
         tankState.exitActions.Add( StopTank );
 
+        supportState.enterActions.Add( GeneralEnterAction );
         supportState.stayActions.Add( UpdateSupportAggro );
 
         meleeState.AddTransition( t2, tankState );

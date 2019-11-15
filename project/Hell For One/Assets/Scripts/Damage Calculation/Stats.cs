@@ -152,6 +152,10 @@ public class Stats : MonoBehaviour
     /// Tells if this unit is blocking
     /// </summary>
     private bool isBlocking = false;
+    /// <summary>
+    /// Tells if this unit is blocking
+    /// </summary>
+    private bool isSupporting = false;
 
     #endregion
 
@@ -204,6 +208,10 @@ public class Stats : MonoBehaviour
     /// Tells is the unit is blocking
     /// </summary>
     public bool IsBlocking { get => isBlocking; set => isBlocking = value; }
+    /// <summary>
+    /// Tells is the unit is supporting
+    /// </summary>
+    public bool IsSupporting { get => isSupporting; set => isSupporting = value; }
     /// <summary>
     /// How big will be a sweep attack
     /// </summary>

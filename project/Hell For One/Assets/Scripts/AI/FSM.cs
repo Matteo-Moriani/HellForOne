@@ -40,12 +40,21 @@ public class FSMState
     public List<FSMAction> stayActions = new List<FSMAction>();
     public List<FSMAction> exitActions = new List<FSMAction>();
 
+    // andreacarrarini's add
+    public String stateName;
+
     // A dictionary of transitions and the states they are leading to
     private Dictionary<FSMTransition, FSMState> links;
 
     public FSMState()
     {
         links = new Dictionary<FSMTransition, FSMState>();
+    }
+
+    public FSMState(String name)
+    {
+        links = new Dictionary<FSMTransition, FSMState>();
+        stateName = name;
     }
 
     public void AddTransition( FSMTransition transition, FSMState target )
