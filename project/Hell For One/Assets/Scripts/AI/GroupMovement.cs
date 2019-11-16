@@ -19,11 +19,12 @@ public class GroupMovement : MonoBehaviour
     private Transform outOfCombatPosition;
     private GroupBehaviour gb;
     private bool haveTarget = false;
+    private bool inRangedPosition = false;
+    private float distanceInPosition = float.MaxValue;
+    // da cambiare con fsm
     private bool vsLittleEnemies = false;
     private bool vsBoss = false;
     private bool outOfCombat = false;
-    private bool inRangedPosition = false;
-    private float distanceInPosition = float.MaxValue;
 
     void Start()
     {

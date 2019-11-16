@@ -16,7 +16,7 @@ public class BossBehavior : MonoBehaviour
     [Range( 0f, 1f )]
     public float changeTargetProb = 0.3f;
     public GameObject arenaCenter;
-    public float maxDistFromCenter = 20f;
+    public float maxDistFromCenter = 23f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -45,6 +45,8 @@ public class BossBehavior : MonoBehaviour
     private bool demonsReady = false;
     private bool needsCentering = false;
     private float centeringDist;
+
+    private int debugIndex;
 
     private Combat bossCombat;
 
@@ -136,23 +138,25 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget()
     {
         ResetTimer();
+        debugIndex++;
 
-        if ( GameObject.FindGameObjectsWithTag( "Group" ).Length != 4 && !player )
+        if ( demonGroups.Length != 4 && !player )
             return false;
 
-        if ( (transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
-        {
-            ChooseCentralTarget();
-        }
-        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !targetDemon)
+        //if ( (transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
+        //{
+        //    ChooseCentralTarget();
+        //}
+        //else 
+        if ( Random.Range( 0f, 1f ) < changeTargetProb || !targetDemon)
         {
             float totalAggro = 0f;
             for ( int i = 0; i < demonGroups.Length; i++ )
             {
                 float groupAggro = 0;
-                // if the group isn't empty, I give to it an aggro of at least 1 to win the rulette with the empty groups
-                if ( demonGroups[ i ].GetComponent<GroupBehaviour>().demons[ 0 ] != null )
-                    groupAggro = demonGroups[ i ].GetComponent<GroupAggro>().GetAggro() + 1;
+                // if the group is empty, I give to the group a value of zero
+                if(demonGroups[i].GetComponent<GroupBehaviour>().demons[0] != null)
+                    groupAggro = demonGroups[i].GetComponent<GroupAggro>().GetAggro();
                 aggroValues[ i ] = groupAggro;
                 totalAggro = totalAggro + groupAggro;
                 probability[ i + 1 ] = totalAggro;
@@ -165,7 +169,7 @@ public class BossBehavior : MonoBehaviour
                 probability[ demonGroups.Length + 1 ] = totalAggro;
             }
 
-            float random = Random.Range( 0.0001f, totalAggro );
+            float random = Random.Range( 0f, totalAggro );
 
             for ( int i = 1; i < probability.Length; i++ )
             {
@@ -174,20 +178,25 @@ public class BossBehavior : MonoBehaviour
                     if ( i < probability.Length - 1 )
                     {
                         targetGroup = demonGroups[ i - 1 ];
+                        Debug.Log("target group's first is " + targetGroup.GetComponent<GroupBehaviour>().demons[0] 
+                            + " with aggro values between " + probability[i - 1] + " and " + probability[i] + ", random: " + random);
                         targetDemon = targetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
-                    else
+                    else {
+                        Debug.Log("new target is the player");
                         targetDemon = player;
+                    }
                 }
 
             }
-            Debug.Log( "new target is " + targetDemon );
+            Debug.Log(debugIndex + " - new target is " + targetDemon);
         }
         else
         {
-            Debug.Log( "target won't change this time" );
+            Debug.Log(debugIndex + " - target won't change this time");
         }
 
+        Debug.Log("________________________________________");
         return true;
     }
 
@@ -350,19 +359,19 @@ public class BossBehavior : MonoBehaviour
         if ( targetDemon )
         {
 
-            if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
-            {
-                needsCentering = true;
-                ChooseCentralTarget();
-            }
-            else if ( (transform.position - arenaCenter.transform.position).magnitude <= centeringDist )
-                needsCentering = false;
+            //if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
+            //{
+            //    needsCentering = true;
+            //    ChooseCentralTarget();
+            //}
+            //else if ( (transform.position - arenaCenter.transform.position).magnitude <= centeringDist )
+            //    needsCentering = false;
 
 
             // If I'm far from arena borders, I'm always facing my last target
-            if ( needsCentering )
-                Face( arenaCenter );
-            else
+            //if ( needsCentering )
+            //    Face( arenaCenter );
+            //else
                 Face( targetDemon );
 
             if ( canWalk )
@@ -372,16 +381,6 @@ public class BossBehavior : MonoBehaviour
         else if ( !EnemiesAreDead() )
         {
             ChooseTarget();
-        }
-
-        if ( stats.health <= 0 )
-        {
-            foreach ( GameObject group in demonGroups )
-            {
-                group.GetComponent<GroupMovement>().SetOutOfCombat();
-            }
-
-            Destroy( gameObject );
         }
     }
 
@@ -469,18 +468,21 @@ public class BossBehavior : MonoBehaviour
         return closest;
     }
 
-    private void ChooseCentralTarget()
-    {
-        targetGroup = ClosestGroupTo( arenaCenter.transform.position );
-        foreach ( GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons )
-        {
-            if ( demon != null )
-            {
-                targetDemon = demon;
-                Debug.Log( "target is " + targetDemon.name + ", the most centered one" );
-                break;
-            }
-        }
-    }
+    //private void ChooseCentralTarget()
+    //{
+    //    targetGroup = ClosestGroupTo( arenaCenter.transform.position );
+    //    foreach ( GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons )
+    //    {
+    //        if ( demon != null )
+    //        {
+    //            targetDemon = demon;
+    //            Debug.Log(debugIndex + " - target is " + targetDemon.name + ", the most centered one");
+    //            break;
+    //        }
+    //    }
+    //}
 
+    public GameObject[] GetDemonGroups() {
+        return demonGroups;
+    }
 }

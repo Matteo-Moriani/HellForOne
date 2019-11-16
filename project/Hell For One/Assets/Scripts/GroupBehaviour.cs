@@ -284,7 +284,7 @@ public class GroupBehaviour : MonoBehaviour
         while ( true )
         {
             yield return new WaitForSeconds( fsmReactionTime );
-            Debug.Log( groupFSM.current.stateName );
+            //Debug.Log( groupFSM.current.stateName );
             groupFSM.Update();
         }
     }

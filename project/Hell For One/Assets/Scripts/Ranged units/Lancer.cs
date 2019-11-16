@@ -130,7 +130,7 @@ public class Lancer : MonoBehaviour
 
         angle = tempResult * Mathf.Rad2Deg;
 
-        Debug.Log( "x: " + x.ToString() + " alpha:" + angle.ToString() );
+        //Debug.Log( "x: " + x.ToString() + " alpha:" + angle.ToString() );
         return true;
     }
 

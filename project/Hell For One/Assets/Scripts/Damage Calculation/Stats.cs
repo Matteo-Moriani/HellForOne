@@ -409,21 +409,19 @@ public class Stats : MonoBehaviour
             gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
         }
         
-        // Moved this under if(type.Ally)
-        /*
-        if ( type != Type.Player )
-        {
-            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);    
-        }
-        */
-        
         // if the player is dying...
         if (type == Type.Player) { 
             // ... we need to reincarnate him
             GetComponent<Reincarnation>().Reincarnate();    
         }
-        
+
+        // if the boss is dying...
+        if(type == Type.Boss) {
+            foreach(GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups()) {
+                group.GetComponent<GroupMovement>().SetOutOfCombat();
+            }
+        }
+
         // if something is dying we destroy his GameObject
         Destroy( gameObject );
     }
@@ -511,7 +509,8 @@ public class Stats : MonoBehaviour
                 {
                     foreach ( GameObject demon in group.GetComponent<GroupBehaviour>().demons )
                     {
-                        demon.GetComponent<Stats>().LowerAggro( maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10 );
+                        if (demon)
+                            demon.GetComponent<Stats>().LowerAggro( maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10 );
                     }
 
                     group.GetComponent<GroupAggro>().UpdateGroupAggro();
