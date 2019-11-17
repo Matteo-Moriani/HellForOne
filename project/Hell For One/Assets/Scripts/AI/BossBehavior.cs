@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
+//TODO ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
+//TODO minor error: some times it does only the choosetarget action and than it jumps everything else to choose the target again
 
 public class BossBehavior : MonoBehaviour
 {
@@ -148,18 +149,25 @@ public class BossBehavior : MonoBehaviour
         //    ChooseCentralTarget();
         //}
         //else 
+
         if ( Random.Range( 0f, 1f ) < changeTargetProb || !targetDemon)
         {
             float totalAggro = 0f;
+            string aggroDebug = "aggro values: ";
+            string probDebug = "probabilities: ";
+
             for ( int i = 0; i < demonGroups.Length; i++ )
             {
-                float groupAggro = 0;
+                float groupAggro = 0f;
                 // if the group is empty, I give to the group a value of zero
-                if(demonGroups[i].GetComponent<GroupBehaviour>().demons[0] != null)
+                if(!demonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
                     groupAggro = demonGroups[i].GetComponent<GroupAggro>().GetAggro();
                 aggroValues[ i ] = groupAggro;
                 totalAggro = totalAggro + groupAggro;
                 probability[ i + 1 ] = totalAggro;
+
+                aggroDebug = aggroDebug + groupAggro + " - ";
+                probDebug = probDebug + totalAggro + " - ";
             }
             // questo controllo va tolto prima o poi
             if ( player )
@@ -167,7 +175,13 @@ public class BossBehavior : MonoBehaviour
                 aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().Aggro;
                 totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
                 probability[ demonGroups.Length + 1 ] = totalAggro;
+
+                aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
+                probDebug = probDebug + totalAggro + " - ";
             }
+            
+            //Debug.Log(aggroDebug);
+            //Debug.Log(probDebug);
 
             float random = Random.Range( 0f, totalAggro );
 
@@ -175,21 +189,24 @@ public class BossBehavior : MonoBehaviour
             {
                 if ( random > probability[ i - 1 ] && random <= probability[ i ] )
                 {
+                    // if i'm talking about a group (player probability is in the last slot of the array)
                     if ( i < probability.Length - 1 )
                     {
                         targetGroup = demonGroups[ i - 1 ];
-                        Debug.Log("target group's first is " + targetGroup.GetComponent<GroupBehaviour>().demons[0] 
-                            + " with aggro values between " + probability[i - 1] + " and " + probability[i] + ", random: " + random);
+                        //Debug.Log("target group's emptiness is " + targetGroup.GetComponent<GroupBehaviour>().IsEmpty() 
+                        //    + " with aggro values between " + probability[i - 1] + " and " + probability[i] + ", random: " + random);
                         targetDemon = targetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
                     else {
-                        Debug.Log("new target is the player");
+                        //Debug.Log("new target is the player");
                         targetDemon = player;
                     }
+
+                    break;
                 }
 
             }
-            Debug.Log(debugIndex + " - new target is " + targetDemon);
+            Debug.Log(debugIndex + " - new target is " + targetDemon + " with random " + random + " and total aggro " + totalAggro);
         }
         else
         {

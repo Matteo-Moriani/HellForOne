@@ -377,9 +377,20 @@ public class GroupBehaviour : MonoBehaviour
         demonsInGroup = i;
     }
 
+    //TODO to be improved
     public GameObject GetRandomDemon()
     {
-        int index = Random.Range( 0, demonsInGroup );
-        return demons[ index ];
+        GameObject demon = null;
+
+        bool found = false;
+        while(!found) {
+            int index = Random.Range(0, demons.Length);
+            if(demons[index] != null) {
+                demon = demons[index];
+                found = true;
+            }
+        }
+
+        return demon;
     }
 }
