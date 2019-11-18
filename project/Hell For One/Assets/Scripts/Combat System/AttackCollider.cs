@@ -317,7 +317,7 @@ public class AttackCollider : MonoBehaviour
     }
 
     private void DealDamage( Stats targetRootStats )
-    {
+    {  
         if ( type == AttackColliderType.Melee )
         {
             targetRootStats.TakeHit( stats.MeleeDamage );

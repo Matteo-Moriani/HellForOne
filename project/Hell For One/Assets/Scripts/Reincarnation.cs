@@ -25,7 +25,7 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Reincarnation>().enabled = true;
 
             player.tag = "Player";
-            player.GetComponent<DemonBehaviour>().enabled = false;
+            //player.GetComponent<DemonBehaviour>().enabled = false;
             player.GetComponent<DemonMovement>().enabled = false;
             player.GetComponent<ObjectsPooler>().enabled = false;
             player.GetComponent<Lancer>().enabled = false;
@@ -47,6 +47,13 @@ public class Reincarnation : MonoBehaviour
             GroupBehaviour gb = player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
             gb.demons[playerIndex] = null;
             gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+
+            // Update group aggro and supporting units
+            // What if the unit was tanking?
+            player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
+            player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>().UpdateSupportingUnits();
+
+            player.GetComponent<DemonBehaviour>().enabled = false;
         }
     }
 

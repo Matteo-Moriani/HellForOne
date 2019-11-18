@@ -126,6 +126,14 @@ public class CombatManager : MonoBehaviour
         {
             stats.IsIdle = false;
             stats.IsSupporting = true;
+            GroupSupport gs = GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+
+            if(gs != null) {
+                gs.AddSupportingUnit();
+            }
+            else { 
+                Debug.Log(this.transform.root.name + " cannot find GroupSupport");    
+            }
 
         }
         else
@@ -140,6 +148,17 @@ public class CombatManager : MonoBehaviour
         {
             stats.IsSupporting = false;
             stats.IsIdle = true;
+
+            GroupSupport gs = GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+
+            if (gs != null)
+            {
+                gs.RemoveSupportingUnit();
+            }
+            else
+            {
+                Debug.Log(this.transform.root.name + " cannot find GroupSupport");
+            }
         }
         else
         {

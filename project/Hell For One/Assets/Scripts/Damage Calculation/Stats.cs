@@ -90,6 +90,9 @@ public class Stats : MonoBehaviour
     [Range( 0f, 100f )]
     [Tooltip( "This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0" )]
     private float shieldBonusProbability = 0f;
+    
+    [SerializeField]
+    private float supportingUnitsMultiplier = 0.95f;
 
     /// <summary>
     /// Probability of this unit to deal a knockBack
@@ -158,6 +161,10 @@ public class Stats : MonoBehaviour
     /// Tells if this unit is blocking
     /// </summary>
     private bool isSupporting = false;
+
+    // Used to store all groups reference
+    // Using this we can avoid a lot of FindGameObjectsWithTag
+    private GameObject[] groups;
 
     #endregion
 
@@ -238,6 +245,8 @@ public class Stats : MonoBehaviour
         {
             aggroDecreasingCR = StartCoroutine( AggroDecreasingCR() );
         }
+
+        groups = GameObject.FindGameObjectsWithTag("Group");
     }
 
     /// <summary>
@@ -353,17 +362,29 @@ public class Stats : MonoBehaviour
         switch ( type )
         {
             case Stats.Type.Ally:
+                // Calculate supporting units number
+                int supportingUnits = 0;
+
+                if (groups != null)
+                {
+                    foreach (GameObject group in groups)
+                    {
+                        supportingUnits += group.GetComponent<GroupSupport>().SupportingUnits;
+                    }
+                }
+
                 if ( isBlocking )
                 {
+                    
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - (blockChance + shieldBonusProbability));// * Mathf.Pow(0.9f, 4);
+                    return Random.Range( 1f, 101f ) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits));
                 }
                 else
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance);// * Mathf.Pow(0.9f,4);    
+                    return Random.Range( 1f, 101f ) <= (100 - blockChance) * Mathf.Pow(supportingUnitsMultiplier,supportingUnits);    
                 }
             case Stats.Type.Player:
                 if ( isBlocking )
@@ -411,16 +432,28 @@ public class Stats : MonoBehaviour
         // If an ally is dying...
         if ( type == Stats.Type.Ally )
         {
+            // ...we need to update his group
+            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+            // ...and remove him from his group
+            int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
+            gb.demons[demonIndex] = null;
+
             // ...we need to update his group aggro
             GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
             if ( ga != null )
-            {
+            {   
                 ga.UpdateGroupAggro();
             }
             
-            // ...we need to update his group number
-            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+            // ...if the unit is supporting we have to Update his gruop supporting units number
+            if (IsSupporting) { 
+                GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+
+                if(gs != null) { 
+                    gs.UpdateSupportingUnits();  
+                }
+            }
         }
         
         // if the player is dying...
