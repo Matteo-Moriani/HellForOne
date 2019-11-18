@@ -32,10 +32,6 @@ public class GroupsFormation : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-    }
-
     void FixedUpdate()
     {
         // This check is for reincarnation sake

@@ -31,11 +31,19 @@ public class CombatManager : MonoBehaviour
     private Vector3 baseAttackColliderScale;
 
     // Min distance for tactics
+    [Tooltip("The maximum distance at where they can melee attack")]
     private float closeCombatDistance = 1f;
-    private float rangeCombatDistance = 10f;
+    [Tooltip("The maximum distance at where they can launch")]
+    private float maxRangeCombatDistance = 15f;
+    [Tooltip( "The minimum distance at where they can launch" )]
+    private float minRangeCombatDistance = 10f;
 
     // To check if minDistance is verified
     private bool canAttack = false;
+
+    public float CloseCombatDistance { get => closeCombatDistance; set => closeCombatDistance = value; }
+    public float MaxRangeCombatDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
+    public float MinRangeCombatDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
 
     #endregion
 
@@ -214,7 +222,7 @@ public class CombatManager : MonoBehaviour
 
     public void Attack( GameObject target )
     {
-        StartCoroutine( WaitTillMinDistance( rangeCombatDistance, target ) );
+        StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
 
         if ( !canAttack )
             return;
@@ -252,7 +260,7 @@ public class CombatManager : MonoBehaviour
     // TODO same as MeleeAttack(), they don't have to attack if not in distance
     public void RangedAttack( GameObject target )
     {
-        StartCoroutine( WaitTillMinDistance( rangeCombatDistance, target ) );
+        StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
 
         if ( !canAttack )
             return;

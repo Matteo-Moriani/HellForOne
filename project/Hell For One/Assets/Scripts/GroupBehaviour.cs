@@ -352,6 +352,7 @@ public class GroupBehaviour : MonoBehaviour
         tankState.exitActions.Add( StopTank );
 
         supportState.enterActions.Add( GeneralEnterAction );
+        supportState.stayActions.Add( StartSupport );
         supportState.stayActions.Add( UpdateSupportAggro );
 
         meleeState.AddTransition( t2, tankState );

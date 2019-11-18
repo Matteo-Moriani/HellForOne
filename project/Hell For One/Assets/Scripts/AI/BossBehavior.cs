@@ -355,11 +355,6 @@ public class BossBehavior : MonoBehaviour
         bossFSM = new FSM( waitingState );
     }
 
-    void Update()
-    {
-
-    }
-
     void FixedUpdate()
     {
 

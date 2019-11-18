@@ -15,12 +15,6 @@ public class PushAway : MonoBehaviour
         demons = GameObject.FindGameObjectsWithTag("Demon");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate() {
         PushDemons();
     }

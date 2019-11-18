@@ -26,12 +26,6 @@ public class LittleEnemyAutoAttackTest : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private IEnumerator autoAttackCoroutine() {
         while (true) { 
             yield return new WaitForSeconds(attackRateo);
