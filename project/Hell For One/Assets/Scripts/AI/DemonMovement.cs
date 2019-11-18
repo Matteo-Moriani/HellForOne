@@ -9,16 +9,17 @@ public class DemonMovement : MonoBehaviour
     public float facingSpeed = 0.1f;
 
     // Used to avoid melee atks and tanks if too distant
-    public float minMeleeDist = 1f;
+    private float minMeleeDist;
+    private float maxMeleeDist;
+
     public float extraCohesion = 1.75f;
     // only vs mobs
-    public float rangedDist = 5f;
+    //public float rangedDist = 10f;
     public float repulsionWithGroup = 1f;
 
     [SerializeField]
     private GameObject target;
     private GameObject player;
-    private float maxMeleeDist;
     private GameObject group;
     [SerializeField]
     private Collider targetCollider;
@@ -34,30 +35,37 @@ public class DemonMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
+        minMeleeDist = GetComponentInChildren<CombatManager>().CloseCombatDistance;
         maxMeleeDist = minMeleeDist + 1f;
         myCollider = GetComponent<Collider>();
     }
 
     void FixedUpdate()
     {
-        if(CanMove) {
-            if(!player)
-                player = GameObject.FindGameObjectWithTag("Player");
+        if ( CanMove )
+        {
+            if ( !player )
+                player = GameObject.FindGameObjectWithTag( "Player" );
 
-            if(group == null) {
-                if(GetComponent<DemonBehaviour>().groupFound) {
+            if ( group == null )
+            {
+                if ( GetComponent<DemonBehaviour>().groupFound )
+                {
                     group = GetComponent<DemonBehaviour>().groupBelongingTo;
                     gb = group.GetComponent<GroupBehaviour>();
                     target = group.GetComponent<GroupMovement>().GetTarget();
                 }
             }
-            else if(target) {
-                if(target.CompareTag("Boss")) {
+            else if ( target )
+            {
+                if ( target.CompareTag( "Boss" ) )
+                {
                     // if the boss is escaping...
-                    if(distanceInPosition < (transform.position - target.transform.position).magnitude)
+                    if ( distanceInPosition < (transform.position - target.transform.position).magnitude )
                         inPosition = false;
 
-                    if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
+                    if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
+                    {
                         distanceInPosition = 0f;
                         CloseRangeMovement();
                     }
@@ -65,16 +73,20 @@ public class DemonMovement : MonoBehaviour
                         HighRangeMovement();
 
                 }
-                else if(target.CompareTag("LittleEnemy")) {
-                    if(gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank) {
-                        if((HorizDistFromTargetBorders() > minMeleeDist)) {
+                else if ( target.CompareTag( "LittleEnemy" ) )
+                {
+                    if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
+                    {
+                        if ( (HorizDistFromTargetBorders() > GetComponentInChildren<CombatManager>().CloseCombatDistance) )
+                        {
                             GetComponent<NavMeshAgent>().destination = target.transform.position;
                         }
                         else
                             GetComponent<NavMeshAgent>().destination = transform.position;
                     }
-                    else {
-                        if((HorizDistFromTargetBorders() > rangedDist))
+                    else
+                    {
+                        if ( (HorizDistFromTargetBorders() > GetComponentInChildren<CombatManager>().MinRangeCombatDistance) )
                             GetComponent<NavMeshAgent>().destination = target.transform.position;
                         else
                             GetComponent<NavMeshAgent>().destination = transform.position;
@@ -83,11 +95,12 @@ public class DemonMovement : MonoBehaviour
                 }
                 // out of combat
                 else
-                    if(HorizDistFromTarget(group) > repulsionWithGroup)
+                    if ( HorizDistFromTarget( group ) > repulsionWithGroup )
                     GetComponent<NavMeshAgent>().destination = group.transform.position;
-                else {
+                else
+                {
                     GetComponent<NavMeshAgent>().destination = transform.position;
-                    Face(target);
+                    Face( target );
                 }
 
             }
