@@ -238,11 +238,14 @@ public class CombatManager : MonoBehaviour
         if ( stats.IsIdle )
         {
             stats.IsIdle = false;
+            
             if ( target != null )
                 //lancer.Start( target );
                 lancer.Launch(target);
             else
                 Debug.Log( this.name + "Is trying a ranged attack to a null target" );
+            
+            stats.IsIdle = true;
         }
         else
         {
