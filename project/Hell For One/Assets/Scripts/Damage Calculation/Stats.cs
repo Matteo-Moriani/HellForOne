@@ -335,6 +335,17 @@ public class Stats : MonoBehaviour
             controller.enabled = enable;
             dash.enabled = enable;
         }
+
+        if(type == Stats.Type.Ally) { 
+            DemonMovement dm = GetComponent<DemonMovement>();
+            
+            if(dm != null) {
+                dm.CanMove = enable;
+            }
+            else { 
+                Debug.Log(this.transform.root.name + " ManageMovement cannot fine DemonMovement ");    
+            }
+        }
     }
 
     public bool CalculateBeenHitChance( bool isBlocking )
@@ -464,7 +475,7 @@ public class Stats : MonoBehaviour
             rb.interpolation = RigidbodyInterpolation.Extrapolate;
         }
 
-        // The Player cannot move or dash if is processig KnockBack
+        // The Player or Ally imps cannot move or dash if is processig KnockBack
         ManageMovement(false);
 
         // Calculate KnocKback direction 
@@ -484,7 +495,7 @@ public class Stats : MonoBehaviour
             yield return new WaitForFixedUpdate();
         } while (knockBackTimeCounter <= attackerKnockBackTime);
 
-        // Player now can move or dash
+        // Player or Ally imps now can move or dash
         ManageMovement(true);
 
         rb.velocity = startingVelocity;
