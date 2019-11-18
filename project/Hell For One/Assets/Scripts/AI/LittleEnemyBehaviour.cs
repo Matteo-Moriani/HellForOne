@@ -27,11 +27,6 @@ public class LittleEnemyBehaviour : MonoBehaviour
         probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
     }
-    
-    void Update()
-    {
-        
-    }
 
     void FixedUpdate() {
 

@@ -16,12 +16,6 @@ public class BossAutoAttackTest : MonoBehaviour
         attackTestCR = StartCoroutine(AttackTest());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
     private IEnumerator AttackTest() {
         yield return new WaitForSeconds(2.5f);
         while (true) { 

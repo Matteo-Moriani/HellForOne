@@ -8,12 +8,6 @@ public class MatteoSceneCamera : MonoBehaviour
 
     private GameObject boss;
     
-    void Start()
-    {
-
-    }
-
-    
     void Update()
     {
         if(!boss)

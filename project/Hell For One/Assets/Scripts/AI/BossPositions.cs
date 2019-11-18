@@ -42,11 +42,6 @@ public class BossPositions : MonoBehaviour
             closestRanged.Add(position, FindClosest(position));
         }
     }
-    
-    void Update()
-    {
-        
-    }
 
     void FixedUpdate() {
         if(!boss)

@@ -38,11 +38,6 @@ public class DemonMovement : MonoBehaviour
         myCollider = GetComponent<Collider>();
     }
 
-    void Update()
-    {
-
-    }
-
     void FixedUpdate()
     {
         if(CanMove) {

@@ -55,9 +55,4 @@ public class Reincarnation : MonoBehaviour
         player = gameObject;
         playerStats = gameObject.GetComponent<Stats>();
     }
-
-    void Update()
-    {   
-        
-    }
 }

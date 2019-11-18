@@ -13,12 +13,6 @@ public class RangedAttackAutoTest : MonoBehaviour
         StartCoroutine(rangedCR());    
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     IEnumerator rangedCR() {
         yield return new WaitForSeconds(2.0f);
         combat.RangedAttack(target);
