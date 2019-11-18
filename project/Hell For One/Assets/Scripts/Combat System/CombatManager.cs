@@ -265,6 +265,7 @@ public class CombatManager : MonoBehaviour
     {
         while ( (target.transform.position - gameObject.transform.position).magnitude > distance )
         {
+            canAttack = false;
             yield return new WaitForSeconds( 1f );
         }
 
