@@ -97,8 +97,8 @@ public class PushAway : MonoBehaviour
                 do
                 {
                     pushAwayTimeCounter += Time.fixedDeltaTime;
-
-                    demonRb.velocity = pushAwayDirection * (pushAwaySize / pushAwayTime);
+                    if(demonRb != null)
+                        demonRb.velocity = pushAwayDirection * (pushAwaySize / pushAwayTime);
 
                     // We are using physics so we need to wait for FixedUpdate
                     yield return new WaitForFixedUpdate();
