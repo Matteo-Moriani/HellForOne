@@ -157,7 +157,7 @@ public class CombatManager : MonoBehaviour
             stats.IsSupporting = false;
             stats.IsIdle = true;
 
-            GroupSupport gs = GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+            GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
             if (gs != null)
             {
