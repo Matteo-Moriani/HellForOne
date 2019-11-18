@@ -144,6 +144,8 @@ public class Stats : MonoBehaviour
     private bool canProcessKnockBack = true;
     private Coroutine knockBackCR = null;
 
+    private bool isPushedAway = false;
+
     /// <summary>
     /// Tells if this unit is Idle (not blocking)
     /// </summary>
@@ -224,6 +226,7 @@ public class Stats : MonoBehaviour
     /// How long will last a global attack
     /// </summary>
     public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
+    public bool IsPushedAway { get => isPushedAway; set => isPushedAway = value; }
 
     #endregion
 
@@ -419,6 +422,21 @@ public class Stats : MonoBehaviour
         if(type == Type.Boss) {
             foreach(GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups()) {
                 group.GetComponent<GroupMovement>().SetOutOfCombat();
+            }
+        }
+
+        // if a littleEnemy is dying...
+        if(type == Type.Enemy) {
+            GameObject[] allies;
+
+            allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
+            // ...we need to check if he's the last one
+            if (allies.Length == 1)
+            {
+                foreach (GameObject group in GameObject.FindGameObjectsWithTag("Group"))
+                {
+                    group.GetComponent<GroupMovement>().SetOutOfCombat();
+                }
             }
         }
 

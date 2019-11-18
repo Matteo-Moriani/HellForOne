@@ -51,18 +51,6 @@ public class LittleEnemyBehaviour : MonoBehaviour
         }
         else
             ChooseTarget();
-
-        if(GetComponent<Stats>().health <= 0) {
-            allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
-            // if before i destroy myself i'm the last one...
-            if(allies.Length == 1) {
-                foreach(GameObject group in demonGroups) {
-                    group.GetComponent<GroupMovement>().SetOutOfCombat();
-                }
-            }
-
-            Destroy(gameObject);
-        }
     }
 
     private void FaceTarget(GameObject target) {
