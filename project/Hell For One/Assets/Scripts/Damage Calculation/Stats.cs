@@ -343,7 +343,7 @@ public class Stats : MonoBehaviour
                 dm.CanMove = enable;
             }
             else { 
-                Debug.Log(this.transform.root.name + " ManageMovement cannot fine DemonMovement ");    
+                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");    
             }
         }
     }

@@ -82,8 +82,10 @@ public class CombatManager : MonoBehaviour
                 }
             }
 
+            // If we use Launch in RangedAttack we don't need to stop rangedAttacks
+            // Maybe we need to reset Lancer's target to null?
             // Stop Ranged Attack
-            lancer.Stop();
+            // lancer.Stop();
 
             // Stop Global attack
             if (globalAttackCR != null)
@@ -203,7 +205,8 @@ public class CombatManager : MonoBehaviour
         {
             stats.IsIdle = false;
             if ( target != null )
-                lancer.Start( target );
+                //lancer.Start( target );
+                lancer.Launch(target);
             else
                 Debug.Log( this.name + "Is trying a ranged attack to a null target" );
         }
@@ -217,7 +220,7 @@ public class CombatManager : MonoBehaviour
     {
         if ( !stats.IsIdle )
         {
-            lancer.Stop();
+            //lancer.Stop();
             stats.IsIdle = true;
         }
         else
