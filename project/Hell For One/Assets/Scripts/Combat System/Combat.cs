@@ -110,4 +110,8 @@ public class Combat : MonoBehaviour
     {
         combatManager.StopSupport();
     }
+
+    public void StopAll() { 
+        combatManager.StopAll();    
+    }
 }

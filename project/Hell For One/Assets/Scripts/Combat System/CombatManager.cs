@@ -54,6 +54,57 @@ public class CombatManager : MonoBehaviour
         idleCollider.SetActive( true );
     }
 
+    public void StopAll() {
+        if (!stats.IsIdle) {
+            // Stop supporting
+            if (stats.IsSupporting) {
+                stats.IsSupporting = false;
+            }
+
+            // Stop Blocking
+            if (stats.IsBlocking) {
+                blockCollider.SetActive(false);
+                stats.IsBlocking = false;
+            }
+            
+            // Stop Attacking
+            if(attackCR != null) {
+                StopCoroutine(attackCR);
+                attackCR = null;
+
+                attackCollider.transform.localPosition = startPosition;
+
+                // Stop Sweep
+                if (attackCollider.GetComponent<AttackCollider>().isSweeping)
+                {
+                    attackCollider.transform.localScale = baseAttackColliderScale;
+                    attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+                }
+            }
+
+            // Stop Ranged Attack
+            lancer.Stop();
+
+            // Stop Global attack
+            if (globalAttackCR != null)
+            {
+                StopCoroutine(globalAttackCR);
+                globalAttackCR = null;
+
+                attackCollider.transform.localScale = baseAttackColliderScale;
+                attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+            }
+
+            // If AttackCollider is active we deactivate it
+            if (attackCollider.activeInHierarchy) { 
+                attackCollider.SetActive(false);    
+            }
+            
+            // Now the demon is idle
+            stats.IsIdle = true;
+        }    
+    }
+
     public void StartSupport()
     {
         if ( stats.IsIdle && !stats.IsSupporting )
