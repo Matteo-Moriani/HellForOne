@@ -354,6 +354,7 @@ public class GroupBehaviour : MonoBehaviour
         supportState.enterActions.Add( GeneralEnterAction );
         supportState.stayActions.Add( StartSupport );
         supportState.stayActions.Add( UpdateSupportAggro );
+        supportState.exitActions.Add( StopSupport );
 
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );
