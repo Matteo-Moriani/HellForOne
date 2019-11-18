@@ -99,6 +99,33 @@ public class CameraManager : MonoBehaviour
             }
         }
 
+        if ( isLocked )
+        {
+            //Vector3 cameraPos = player.transform.position - target.transform.position;
+
+            Ray ray = new Ray( target.transform.position, player.transform.position );
+
+            Vector3 rayOffset = ray.GetPoint( (player.transform.position - target.transform.position).magnitude + Mathf.Abs( offset.z ) );
+
+            rayOffset.y = offset.y;
+
+            transform.position = rayOffset;
+        }
+        else
+        {
+            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+
+            if ( closedEnvironment )
+            {
+                transform.position = player.transform.position + closedEnvironmentOffset;
+                transform.LookAt( player.transform.position );
+            }
+            else
+                transform.position = player.transform.position + offset;
+        }
+
+        transform.LookAt( target.transform.position );
+
         // Change lock-on target
         float input = Input.GetAxis( "Vertical2" );
         if ( (!rightAxisInUse && Mathf.Abs( input ) > 0.4f) && isLocked )
@@ -162,34 +189,31 @@ public class CameraManager : MonoBehaviour
             isLocked = false;
         }
 
-        //offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+        //if ( isLocked )
+        //{
+        //    Vector3 cameraPos = player.transform.position - target.transform.position;
 
-        if ( isLocked )
-        {
-            Vector3 cameraPos = player.transform.position - target.transform.position;
+        //    Ray ray = new Ray( target.transform.position, player.transform.position );
+        //    //Vector3 rayOffset = ray.GetPoint( cameraPos.magnitude + offset.z );
+        //    Vector3 rayOffset = ray.GetPoint( (target.transform.position - player.transform.position).magnitude );
+        //    rayOffset.y += offset.y;
+        //    rayOffset.z += offset.z;
 
-            Ray ray = new Ray( target.transform.position, cameraPos );
-            Vector3 rayOffset = ray.GetPoint( cameraPos.magnitude + offset.z );
-            rayOffset.y += offset.y;
+        //    transform.position = rayOffset;
+        //}
+        //else
+        //{
+        //    offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
 
-            transform.position = rayOffset;
-        }
-        else
-        {
-            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+        //    if ( closedEnvironment )
+        //    {
+        //        transform.position = player.transform.position + closedEnvironmentOffset;
+        //        transform.LookAt( player.transform.position );
+        //    }
+        //    else
+        //        transform.position = player.transform.position + offset;
+        //}
 
-            if ( closedEnvironment )
-            {
-                transform.position = player.transform.position + closedEnvironmentOffset;
-                transform.LookAt( player.transform.position );
-            }
-            else
-                transform.position = player.transform.position + offset;
-        }
-
-        transform.LookAt( target.transform.position );
-
-        // Testing if the distance remains the same during reincarnations
-        distance = (player.transform.position - transform.position).magnitude;
+        //transform.LookAt( target.transform.position );
     }
 }
