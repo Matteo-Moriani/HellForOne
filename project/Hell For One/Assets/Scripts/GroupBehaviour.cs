@@ -108,6 +108,21 @@ public class GroupBehaviour : MonoBehaviour
     }
 
     // Maybe all the CheckDemons() can be avoided by putting only 1 CheckDemons() inside the FSMUpdate()
+    //public void MeleeAttack()
+    //{
+    //    if ( !CheckDemons() )
+    //        return;
+    //    foreach ( GameObject demon in demons )
+    //    {
+    //        // This check must be done in every tactic
+    //        if ( demon )
+    //        {
+    //            Combat combat = demon.GetComponent<Combat>();
+    //            combat.Attack();
+    //        }
+    //    }
+    //}
+
     public void MeleeAttack()
     {
         if ( !CheckDemons() )
@@ -118,7 +133,18 @@ public class GroupBehaviour : MonoBehaviour
             if ( demon )
             {
                 Combat combat = demon.GetComponent<Combat>();
-                combat.Attack();
+
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+                GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+
+                if ( boss )
+                    target = boss;
+                else if ( enemies != null )
+                    target = CameraManager.FindNearestEnemy( gameObject, enemies );
+                else
+                    return;
+
+                combat.Attack( target );
             }
         }
     }
@@ -383,10 +409,12 @@ public class GroupBehaviour : MonoBehaviour
         GameObject demon = null;
 
         bool found = false;
-        while(!found) {
-            int index = Random.Range(0, demons.Length);
-            if(demons[index] != null) {
-                demon = demons[index];
+        while ( !found )
+        {
+            int index = Random.Range( 0, demons.Length );
+            if ( demons[ index ] != null )
+            {
+                demon = demons[ index ];
                 found = true;
             }
         }

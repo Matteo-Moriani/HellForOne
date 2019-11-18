@@ -7,6 +7,8 @@ public class DemonMovement : MonoBehaviour
 {
     [Range( 0f, 1f )]
     public float facingSpeed = 0.1f;
+
+    // Used to avoid melee atks and tanks if too distant
     public float minMeleeDist = 1f;
     public float extraCohesion = 1.75f;
     // only vs mobs

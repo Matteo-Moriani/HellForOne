@@ -9,6 +9,9 @@ public class Combat : MonoBehaviour
 
     private Stats stats;
 
+    // This could be a solution
+    public GameObject target;
+
     [SerializeField]
     private float playerAttackCooldown = 0.5f;
 
@@ -54,6 +57,11 @@ public class Combat : MonoBehaviour
     public void Attack()
     {
         combatManager.Attack();
+    }
+
+    public void Attack( GameObject target )
+    {
+        combatManager.Attack( target );
     }
 
     public void StopAttack()
@@ -111,7 +119,8 @@ public class Combat : MonoBehaviour
         combatManager.StopSupport();
     }
 
-    public void StopAll() { 
-        combatManager.StopAll();    
+    public void StopAll()
+    {
+        combatManager.StopAll();
     }
 }

@@ -30,6 +30,13 @@ public class CombatManager : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 baseAttackColliderScale;
 
+    // Min distance for tactics
+    private float closeCombatDistance = 1f;
+    private float rangeCombatDistance = 5f;
+
+    // To check if minDistance is verified
+    private bool canAttack = false;
+
     #endregion
 
     #region methods
@@ -54,28 +61,33 @@ public class CombatManager : MonoBehaviour
         idleCollider.SetActive( true );
     }
 
-    public void StopAll() {
-        if (!stats.IsIdle) {
+    public void StopAll()
+    {
+        if ( !stats.IsIdle )
+        {
             // Stop supporting
-            if (stats.IsSupporting) {
+            if ( stats.IsSupporting )
+            {
                 stats.IsSupporting = false;
             }
 
             // Stop Blocking
-            if (stats.IsBlocking) {
-                blockCollider.SetActive(false);
+            if ( stats.IsBlocking )
+            {
+                blockCollider.SetActive( false );
                 stats.IsBlocking = false;
             }
-            
+
             // Stop Attacking
-            if(attackCR != null) {
-                StopCoroutine(attackCR);
+            if ( attackCR != null )
+            {
+                StopCoroutine( attackCR );
                 attackCR = null;
 
                 attackCollider.transform.localPosition = startPosition;
 
                 // Stop Sweep
-                if (attackCollider.GetComponent<AttackCollider>().isSweeping)
+                if ( attackCollider.GetComponent<AttackCollider>().isSweeping )
                 {
                     attackCollider.transform.localScale = baseAttackColliderScale;
                     attackCollider.GetComponent<AttackCollider>().isSweeping = false;
@@ -86,9 +98,9 @@ public class CombatManager : MonoBehaviour
             lancer.Stop();
 
             // Stop Global attack
-            if (globalAttackCR != null)
+            if ( globalAttackCR != null )
             {
-                StopCoroutine(globalAttackCR);
+                StopCoroutine( globalAttackCR );
                 globalAttackCR = null;
 
                 attackCollider.transform.localScale = baseAttackColliderScale;
@@ -96,13 +108,14 @@ public class CombatManager : MonoBehaviour
             }
 
             // If AttackCollider is active we deactivate it
-            if (attackCollider.activeInHierarchy) { 
-                attackCollider.SetActive(false);    
+            if ( attackCollider.activeInHierarchy )
+            {
+                attackCollider.SetActive( false );
             }
-            
+
             // Now the demon is idle
             stats.IsIdle = true;
-        }    
+        }
     }
 
     public void StartSupport()
@@ -178,6 +191,24 @@ public class CombatManager : MonoBehaviour
 
     }
 
+    public void Attack( GameObject target )
+    {
+        StartCoroutine( WaitTillMinDistance( rangeCombatDistance, target ) );
+
+        if ( !canAttack )
+            return;
+
+        if ( stats.IsIdle )
+        {
+            attackCR = StartCoroutine( AttackCoroutine() );
+        }
+        else
+        {
+            Debug.Log( this.transform.root.gameObject.name + " CombatManager.Attack is trying to attack but is not idle." );
+        }
+
+    }
+
     public void StopAttack()
     {
         if ( attackCR != null && !stats.IsIdle )
@@ -197,8 +228,11 @@ public class CombatManager : MonoBehaviour
         return;
     }
 
+    // TODO same as MeleeAttack(), they don't have to attack if not in distance
     public void RangedAttack( GameObject target )
     {
+        StartCoroutine( WaitTillMinDistance( rangeCombatDistance, target ) );
+
         if ( stats.IsIdle )
         {
             stats.IsIdle = false;
@@ -224,6 +258,17 @@ public class CombatManager : MonoBehaviour
         {
             Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopRangedAttack is trying to stop a ranged attack but it is idle" );
         }
+    }
+
+    // To avoid to perform actions before imps are at minimum distance
+    public IEnumerator WaitTillMinDistance( float distance, GameObject target )
+    {
+        while ( (target.transform.position - gameObject.transform.position).magnitude > distance )
+        {
+            yield return new WaitForSeconds( 1f );
+        }
+
+        canAttack = true;
     }
 
     public void Sweep()
