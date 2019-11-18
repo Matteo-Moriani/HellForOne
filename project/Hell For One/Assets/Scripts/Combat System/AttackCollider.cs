@@ -318,17 +318,65 @@ public class AttackCollider : MonoBehaviour
 
     private void DealDamage( Stats targetRootStats )
     {  
-        if ( type == AttackColliderType.Melee )
-        {
-            targetRootStats.TakeHit( stats.MeleeDamage );
+        // If the player or an Ally has to deal damage
+        if(stats.type == Stats.Type.Player || stats.type == Stats.Type.Ally) {
+
+            float damage = 0f;
+
+            // if attacking demons are 0 we have a divison by 0, BEWARE
+            float attackingDemons = 0;
+            int supportingDemons = 0;
+
+            // Calculate all attacking and supporting demons
+            if(stats.Groups != null) {
+                foreach (GameObject group in stats.Groups){
+                    GroupBehaviour gb = group.GetComponent<GroupBehaviour>();
+                    if(gb != null) {
+                        if (gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.RangeAttack){
+                            attackingDemons += gb.GetDemonsNumber();
+                        }
+                        if(gb.currentState == GroupBehaviour.State.Support) { 
+                            supportingDemons += gb.GetDemonsNumber();    
+                        }
+                    }
+                }
+            }
+
+            // Avoid division by 0
+            if(attackingDemons == 0) { 
+                attackingDemons = stats.SupportDamageBuffMultiplier;   
+            }
+            
+            // Calculate damage
+            if(type == AttackColliderType.Melee) { 
+                damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.MeleeDamage;    
+            }
+            if(type == AttackColliderType.Ranged) { 
+                damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.RangedDamage;    
+            }
+            if (type == AttackColliderType.None)
+            {
+                Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
+            }
+
+            // Deal damage
+            targetRootStats.TakeHit(damage);
         }
-        if ( type == AttackColliderType.Ranged )
-        {
-            targetRootStats.TakeHit( stats.RangedDamage );
-        }
-        if ( type == AttackColliderType.None )
-        {
-            Debug.Log( this.transform.root.gameObject.name + " attack collide type not set" );
+
+        // If an Enemy or a Boss has to deal damage
+        if(stats.type == Stats.Type.Enemy || stats.type == Stats.Type.Boss) {
+            if (type == AttackColliderType.Melee)
+            {
+                targetRootStats.TakeHit(stats.MeleeDamage);
+            }
+            if (type == AttackColliderType.Ranged)
+            {
+                targetRootStats.TakeHit(stats.RangedDamage);
+            }
+            if (type == AttackColliderType.None)
+            {
+                Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
+            }
         }
     }
 

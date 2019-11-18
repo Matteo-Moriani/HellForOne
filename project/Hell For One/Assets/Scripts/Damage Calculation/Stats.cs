@@ -30,18 +30,21 @@ public class Stats : MonoBehaviour
     /// </summary>
     [SerializeField]
     [Tooltip( "Starting health of this demon" )]
-    public int health = 2;
+    public float health = 2f;
 
     /// <summary>
     /// How much meleeDamage this unit will deal
     /// </summary>
     [SerializeField]
     [Tooltip( "How much meleeDamage this demon can deal" )]
-    private int meleeDamage = 2;
+    private float meleeDamage = 2f;
 
     [SerializeField]
     [Tooltip( "How mush ranged damage this demon can deal" )]
-    private int rangedDamage = 1;
+    private float rangedDamage = 1f;
+
+    [SerializeField]
+    private float supportDamageBuffMultiplier = 3.5f;
 
     /// <summary>
     /// How far will go an attack
@@ -180,11 +183,11 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// How much meleeDamage will deal this unit
     /// </summary>
-    public int MeleeDamage { get => meleeDamage; private set => meleeDamage = value; }
+    public float MeleeDamage { get => meleeDamage; private set => meleeDamage = value; }
     /// <summary>
     /// How much ranged damage will deal this unit
     /// </summary>
-    public int RangedDamage { get => rangedDamage; set => rangedDamage = value; }
+    public float RangedDamage { get => rangedDamage; set => rangedDamage = value; }
     /// <summary>
     /// Probability of this unit to dodge an attack
     /// </summary>
@@ -233,7 +236,11 @@ public class Stats : MonoBehaviour
     /// How long will last a global attack
     /// </summary>
     public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
+    
     public bool IsPushedAway { get => isPushedAway; set => isPushedAway = value; }
+   
+    public GameObject[] Groups { get => groups; private set => groups = value; }
+    public float SupportDamageBuffMultiplier { get => supportDamageBuffMultiplier; set => supportDamageBuffMultiplier = value; }
 
     #endregion
 
@@ -246,7 +253,7 @@ public class Stats : MonoBehaviour
             aggroDecreasingCR = StartCoroutine( AggroDecreasingCR() );
         }
 
-        groups = GameObject.FindGameObjectsWithTag("Group");
+        Groups = GameObject.FindGameObjectsWithTag("Group");
     }
 
     /// <summary>
@@ -312,7 +319,7 @@ public class Stats : MonoBehaviour
     /// Lower this unit health by amount n
     /// </summary>
     /// <param name="damage">The meleeDamage that this unit will take</param>
-    public void TakeHit( int damage )
+    public void TakeHit( float damage )
     {
         health -= damage;
 
@@ -365,11 +372,14 @@ public class Stats : MonoBehaviour
                 // Calculate supporting units number
                 int supportingUnits = 0;
 
-                if (groups != null)
+                if (Groups != null)
                 {
-                    foreach (GameObject group in groups)
-                    {
-                        supportingUnits += group.GetComponent<GroupSupport>().SupportingUnits;
+                    foreach (GameObject group in Groups)
+                    {   
+                        if(group != null)
+                            supportingUnits += group.GetComponent<GroupSupport>().SupportingUnits;
+                        else
+                            Debug.Log(this.gameObject.name + " a group in Stats.groups is null");
                     }
                 }
 
