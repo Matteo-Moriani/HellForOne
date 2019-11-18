@@ -344,7 +344,7 @@ public class GroupBehaviour : MonoBehaviour
         meleeState.exitActions.Add( StopAttack );
 
         rangeAttackState.enterActions.Add( GeneralEnterAction );
-        rangeAttackState.enterActions.Add( RangeAttack );
+        rangeAttackState.stayActions.Add( RangeAttack );
         rangeAttackState.exitActions.Add( StopRangeAttack );
 
         tankState.enterActions.Add( GeneralEnterAction );

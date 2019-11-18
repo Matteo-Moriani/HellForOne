@@ -32,7 +32,7 @@ public class CombatManager : MonoBehaviour
 
     // Min distance for tactics
     private float closeCombatDistance = 1f;
-    private float rangeCombatDistance = 5f;
+    private float rangeCombatDistance = 10f;
 
     // To check if minDistance is verified
     private bool canAttack = false;
@@ -235,12 +235,18 @@ public class CombatManager : MonoBehaviour
     {
         StartCoroutine( WaitTillMinDistance( rangeCombatDistance, target ) );
 
+        if ( !canAttack )
+            return;
+
         if ( stats.IsIdle )
         {
             stats.IsIdle = false;
             if ( target != null )
+            {
                 //lancer.Start( target );
-                lancer.Launch(target);
+                lancer.Launch( target );
+                stats.IsIdle = true;
+            }
             else
                 Debug.Log( this.name + "Is trying a ranged attack to a null target" );
         }
