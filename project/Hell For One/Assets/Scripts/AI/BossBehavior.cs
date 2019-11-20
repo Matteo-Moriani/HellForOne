@@ -209,14 +209,14 @@ public class BossBehavior : MonoBehaviour
                 }
 
             }
-            Debug.Log(debugIndex + " - new target is " + TargetDemon + " with random " + random + " and total aggro " + totalAggro);
+            //Debug.Log(debugIndex + " - new target is " + TargetDemon + " with random " + random + " and total aggro " + totalAggro);
         }
         else
         {
-            Debug.Log(debugIndex + " - target won't change this time");
+            //Debug.Log(debugIndex + " - target won't change this time");
         }
 
-        Debug.Log("________________________________________");
+        //Debug.Log("________________________________________");
         return true;
     }
 

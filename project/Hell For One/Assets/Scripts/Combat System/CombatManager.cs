@@ -32,7 +32,7 @@ public class CombatManager : MonoBehaviour
 
     // Min distance for tactics
     [Tooltip("The maximum distance at where they can melee attack")]
-    private float closeCombatDistance = 1f;
+    private float maxMeleeDistance = 2f;
     [Tooltip("The maximum distance at where they can launch")]
     private float maxRangeCombatDistance = 15f;
     [Tooltip( "The minimum distance at where they can launch" )]
@@ -41,9 +41,9 @@ public class CombatManager : MonoBehaviour
     // To check if minDistance is verified
     private bool canAttack = false;
 
-    public float CloseCombatDistance { get => closeCombatDistance; set => closeCombatDistance = value; }
-    public float MaxRangeCombatDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
-    public float MinRangeCombatDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
+    public float MaxMeleeDistance { get => maxMeleeDistance; set => maxMeleeDistance = value; }
+    public float MaxRangedDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
+    public float MinRangedDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
 
     #endregion
 
@@ -207,7 +207,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void MeleeAttack()
     {
         if ( stats.IsIdle )
         {
@@ -220,9 +220,9 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void Attack( GameObject target )
+    public void MeleeAttack( GameObject target )
     {
-        StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
+        StartCoroutine( WaitTillMinDistance( MaxMeleeDistance, target ) );
 
         if ( !canAttack )
             return;
@@ -238,7 +238,7 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void StopAttack()
+    public void StopMeleeAttack()
     {
         if ( attackCR != null && !stats.IsIdle )
         {
@@ -260,7 +260,7 @@ public class CombatManager : MonoBehaviour
     // TODO same as MeleeAttack(), they don't have to attack if not in distance
     public void RangedAttack( GameObject target )
     {
-        StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
+        StartCoroutine( WaitTillMinDistance( MaxRangedDistance, target ) );
 
         if ( !canAttack )
             return;
@@ -302,8 +302,10 @@ public class CombatManager : MonoBehaviour
     // To avoid to perform actions before imps are at minimum distance
     public IEnumerator WaitTillMinDistance( float distance, GameObject target )
     {
-        while ( (target.transform.position - gameObject.transform.position).magnitude > distance )
-        {
+        while
+            // horizontal distance of the parent game object to the target's borders
+            (transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) > distance) {
+            //((target.transform.position - gameObject.transform.position).magnitude > distance) {
             canAttack = false;
             yield return new WaitForSeconds( 1f );
         }

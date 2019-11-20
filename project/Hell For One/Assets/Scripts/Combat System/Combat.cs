@@ -56,17 +56,17 @@ public class Combat : MonoBehaviour
 
     public void Attack()
     {
-        combatManager.Attack();
+        combatManager.MeleeAttack();
     }
 
     public void Attack( GameObject target )
     {
-        combatManager.Attack( target );
+        combatManager.MeleeAttack( target );
     }
 
     public void StopAttack()
     {
-        combatManager.StopAttack();
+        combatManager.StopMeleeAttack();
     }
 
     public void RangedAttack( GameObject target )

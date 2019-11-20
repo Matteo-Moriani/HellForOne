@@ -1004,7 +1004,7 @@ PrefabInstance:
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310603, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -2305,7 +2305,7 @@ PrefabInstance:
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310603, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -2549,14 +2549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ed58e0d1802a640ba3d120c3ea4756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  player: {fileID: 0}
-  turnSpeed: 4
-  distance: 0
-  isLocked: 0
-  enemies: []
-  boss: {fileID: 0}
-  rightAxisInUse: 0
 --- !u!1001 &1413107720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3763,6 +3755,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401165200499556083, guid: 62dd158c6c3b9a14ab54166ef03f4147,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62dd158c6c3b9a14ab54166ef03f4147, type: 3}
