@@ -12,8 +12,10 @@ public class CanvasDebug : MonoBehaviour
     public Text bossTargetGroup;
     public Text currentGroup;
     public Text currentTactic;
+    public Text regenCountdown;
     public BossBehavior bossBehaviour;
     public TacticsManager tacticsManager;
+    public AllyDemonSpawnerTest allyDemonSpawnerTest;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,9 @@ public class CanvasDebug : MonoBehaviour
         tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
         currentGroup = GameObject.Find( "Current Group" ).GetComponent<Text>();
         currentTactic = GameObject.Find( "Current Tactic" ).GetComponent<Text>();
+
+        allyDemonSpawnerTest = GameObject.Find( "AllyDemonSpawner" ).GetComponent<AllyDemonSpawnerTest>();
+        regenCountdown = GameObject.Find( "Regen Countdown" ).GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -61,6 +66,8 @@ public class CanvasDebug : MonoBehaviour
 
         currentGroup.text = tacticsManager.CurrentShowedGroup.ToString();
         currentTactic.text = tacticsManager.CurrentShowedState.ToString();
+
+        regenCountdown.text = "New ally imp in: " + (( int ) (allyDemonSpawnerTest.countdown)).ToString();
 
         if ( bossBehaviour.TargetDemon.tag == "Player" )
             bossTargetGroup.text = "Boss target:    " + "Player";

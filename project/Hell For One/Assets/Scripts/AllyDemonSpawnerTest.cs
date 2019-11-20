@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AllyDemonSpawnerTest : MonoBehaviour
 {
-    public float timer = 3f;
+    private float timer = 30f;
+    public float countdown;
 
     public IEnumerator SpawnAlly()
     {
@@ -31,6 +32,15 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     void Start()
     {
         StartCoroutine( SpawnAlly() );
-        //float countdown = 
+        countdown = timer;
+    }
+
+    private void Update()
+    {
+        countdown -= Time.deltaTime;
+        if (countdown <= 0f)
+        {
+            countdown = timer;
+        }
     }
 }
