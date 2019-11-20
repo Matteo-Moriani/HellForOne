@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GroupsFormation : MonoBehaviour
 {
-    [SerializeField]
     private GameObject player;
     private Transform[] positions;
     private Dictionary<Transform, bool> available = new Dictionary<Transform, bool>();

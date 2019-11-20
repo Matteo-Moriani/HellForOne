@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossPositions : MonoBehaviour
 {
-    [SerializeField]
     private GameObject boss;
     private Transform[] meleePositions;
     private Transform[] rangedPositions;
@@ -13,7 +12,6 @@ public class BossPositions : MonoBehaviour
     
     void Start()
     {
-        // Cause we don't want to assign it manually
         boss = GameObject.FindGameObjectWithTag("Boss");
     }
 
