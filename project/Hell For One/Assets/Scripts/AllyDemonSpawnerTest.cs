@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class AllyDemonSpawnerTest : MonoBehaviour
 {
+    public float timer = 3f;
 
     public IEnumerator SpawnAlly()
     {
         while ( true )
         {
-            yield return new WaitForSeconds( 2f );
+            yield return new WaitForSeconds( timer );
 
             if ( GameObject.FindGameObjectsWithTag( "Demon" ).Length < 16 )
             {
-                GameObject demonToSpawn = Resources.Load( "Prefabs/PlayerEvolved" ) as GameObject;
+                GameObject demonToSpawn = Resources.Load( "Prefabs/Demon" ) as GameObject;
                 Instantiate( demonToSpawn, SpawnPosition(), Quaternion.identity );
             }
         }
@@ -30,5 +31,6 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     void Start()
     {
         StartCoroutine( SpawnAlly() );
+        //float countdown = 
     }
 }

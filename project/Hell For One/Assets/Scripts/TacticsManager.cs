@@ -26,6 +26,9 @@ public class TacticsManager : MonoBehaviour
 
     private int tacticsIndex, groupsIndex = 0;
 
+    public GroupBehaviour.State CurrentShowedState { get => currentShowedState; set => currentShowedState = value; }
+    public Group CurrentShowedGroup { get => currentShowedGroup; set => currentShowedGroup = value; }
+
     public void FillArrays()
     {
         tacticsArray = new GroupBehaviour.State[ 4 ];
@@ -55,7 +58,7 @@ public class TacticsManager : MonoBehaviour
 
     public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
-        GroupBehaviour groupBehaviour = GameObject.Find( currentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
+        GroupBehaviour groupBehaviour = GameObject.Find( CurrentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
         if (groupBehaviour.groupFSM.current.stateName != state.ToString())
         {
             groupBehaviour.newState = state;
@@ -68,8 +71,8 @@ public class TacticsManager : MonoBehaviour
         FillArrays();
         groupsIndex = 0;
         tacticsIndex = 0;
-        currentShowedState = tacticsArray[ tacticsIndex ];
-        currentShowedGroup = groupsArray[ groupsIndex ];
+        CurrentShowedState = tacticsArray[ tacticsIndex ];
+        CurrentShowedGroup = groupsArray[ groupsIndex ];
     }
 
     void Update()
@@ -86,21 +89,21 @@ public class TacticsManager : MonoBehaviour
 
         if ( cross )
         {
-            AssignOrderToGroup( currentShowedState, currentShowedGroup );
+            AssignOrderToGroup( CurrentShowedState, CurrentShowedGroup );
         }
 
         if ( R2 )
         {
             groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
-            currentShowedGroup = groupsArray[ groupsIndex ];
-            Debug.Log( currentShowedGroup );
+            CurrentShowedGroup = groupsArray[ groupsIndex ];
+            Debug.Log( CurrentShowedGroup );
         }
 
         if ( L2 )
         {
             tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
-            currentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
-            Debug.Log( currentShowedState );
+            CurrentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
+            Debug.Log( CurrentShowedState );
         }
     }
 }

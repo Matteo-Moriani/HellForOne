@@ -51,6 +51,9 @@ public class BossBehavior : MonoBehaviour
 
     private Combat bossCombat;
 
+    public GameObject TargetGroup { get => targetGroup; set => targetGroup = value; }
+    public GameObject TargetDemon { get => targetDemon; set => targetDemon = value; }
+
     #region Finite State Machine
 
     FSMState waitingState, fightingState, stunnedState, winState;
@@ -150,7 +153,7 @@ public class BossBehavior : MonoBehaviour
         //}
         //else 
 
-        if ( Random.Range( 0f, 1f ) < changeTargetProb || !targetDemon)
+        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon)
         {
             float totalAggro = 0f;
             string aggroDebug = "aggro values: ";
@@ -192,21 +195,21 @@ public class BossBehavior : MonoBehaviour
                     // if i'm talking about a group (player probability is in the last slot of the array)
                     if ( i < probability.Length - 1 )
                     {
-                        targetGroup = demonGroups[ i - 1 ];
+                        TargetGroup = demonGroups[ i - 1 ];
                         //Debug.Log("target group's emptiness is " + targetGroup.GetComponent<GroupBehaviour>().IsEmpty() 
                         //    + " with aggro values between " + probability[i - 1] + " and " + probability[i] + ", random: " + random);
-                        targetDemon = targetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+                        TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
                     else {
                         //Debug.Log("new target is the player");
-                        targetDemon = player;
+                        TargetDemon = player;
                     }
 
                     break;
                 }
 
             }
-            Debug.Log(debugIndex + " - new target is " + targetDemon + " with random " + random + " and total aggro " + totalAggro);
+            Debug.Log(debugIndex + " - new target is " + TargetDemon + " with random " + random + " and total aggro " + totalAggro);
         }
         else
         {
@@ -227,7 +230,7 @@ public class BossBehavior : MonoBehaviour
 
     public bool WalkToTarget()
     {
-        if ( HorizDistFromTarget( targetDemon ) > stopDist )
+        if ( HorizDistFromTarget( TargetDemon ) > stopDist )
         {
             canWalk = true;
             return true;
@@ -368,7 +371,7 @@ public class BossBehavior : MonoBehaviour
         }
 
         // in case I don't have a target anymore for some reason
-        if ( targetDemon )
+        if ( TargetDemon )
         {
 
             //if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
@@ -384,7 +387,7 @@ public class BossBehavior : MonoBehaviour
             //if ( needsCentering )
             //    Face( arenaCenter );
             //else
-                Face( targetDemon );
+                Face( TargetDemon );
 
             if ( canWalk )
                 transform.position += transform.forward * speed * Time.deltaTime;

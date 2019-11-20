@@ -4889,7 +4889,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2505179672226310615}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 907d4fa682638db4d88bb81c9f7deffb, type: 3}
   m_Name: 
@@ -4911,6 +4911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatManager: {fileID: 4716762087600085715}
+  target: {fileID: 0}
   playerAttackCooldown: 0.5
 --- !u!114 &114094168484377386
 MonoBehaviour:
@@ -4933,7 +4934,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2505179672226310615}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 311817fe437aedb47ac3df7269554676, type: 3}
   m_Name: 
@@ -4954,6 +4955,7 @@ MonoBehaviour:
   health: 4
   meleeDamage: 2
   rangedDamage: 1
+  supportDamageBuffMultiplier: 3.5
   attackRange: 2
   attackDurationMultiplier: 5
   sweepSize: 2
@@ -4961,6 +4963,7 @@ MonoBehaviour:
   globalAttackDuration: 1
   blockChance: 50
   shieldBonusProbability: 0
+  supportingUnitsMultiplier: 0.95
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -5016,9 +5019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   facingSpeed: 0.1
-  minMeleeDist: 1
   extraCohesion: 1.75
-  rangedDist: 5
   repulsionWithGroup: 1
   target: {fileID: 0}
   targetCollider: {fileID: 0}
@@ -5251,6 +5252,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2505179672226310603}
     m_Modifications:
+    - target: {fileID: 1948504901118015854, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Name
+      value: CombatManager
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -5321,11 +5327,11 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 1139848323108292844}
-    - target: {fileID: 1948504901118015854, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: m_Name
-      value: CombatManager
-      objectReference: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -5336,11 +5342,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: aggroModifier

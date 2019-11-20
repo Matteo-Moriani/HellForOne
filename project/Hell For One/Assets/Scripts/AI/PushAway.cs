@@ -106,8 +106,13 @@ public class PushAway : MonoBehaviour
                         Dash dash = demon.GetComponent<Dash>();
                         if (controller != null && dash != null)
                         {
-                            controller.enabled = true;
-                            dash.enabled = true;
+                            if ( demon.tag == "Player" )
+                            {
+                                controller.enabled = true;
+                                dash.enabled = true;
+                            }
+                            else
+                                dash.enabled = true;
                         }
                         else
                         {
