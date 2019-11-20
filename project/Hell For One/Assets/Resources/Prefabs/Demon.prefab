@@ -4750,7 +4750,6 @@ GameObject:
   - component: {fileID: 114506153893971918}
   - component: {fileID: 1139848323108292844}
   - component: {fileID: 700325638455118188}
-  - component: {fileID: 6484214835192745118}
   - component: {fileID: 2962846522363779958}
   - component: {fileID: 6784614489089510746}
   - component: {fileID: 1081041088001149650}
@@ -4990,22 +4989,7 @@ MonoBehaviour:
   maxDistance: 30
   lancePosition: {x: 1, y: 1.1, z: 0}
   direct: 1
---- !u!114 &6484214835192745118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2505179672226310615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb04c8d39207d8b439cdc805ae009cb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originalObject: {fileID: 5945915952133202969, guid: 9f2401afb29b15c4e8fbf9597a02ee93,
-    type: 3}
-  amountInPooler: 3
-  incrementAmount: 1
+  lances: {fileID: 0}
 --- !u!114 &2962846522363779958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5257,11 +5241,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5317,6 +5296,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: lancer
@@ -5327,21 +5316,16 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 1139848323108292844}
-    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: aggroModifier
