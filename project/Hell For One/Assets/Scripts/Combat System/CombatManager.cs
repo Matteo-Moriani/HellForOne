@@ -7,12 +7,19 @@ public class CombatManager : MonoBehaviour
     #region fields
 
     [SerializeField]
+    [Tooltip("The AttackCollider of this unit used for combat")]
     private GameObject attackCollider;
+    
     [SerializeField]
+    [Tooltip("The BlockCollider of this unit used for combat")]
     private GameObject blockCollider;
+    
     [SerializeField]
+    [Tooltip("The IdleCollider of this unit used for combat")]
     private GameObject idleCollider;
+    
     [SerializeField]
+    [Tooltip("Reference to Lancer component, used for ranged attacks")]
     private Lancer lancer;
 
     [SerializeField]
