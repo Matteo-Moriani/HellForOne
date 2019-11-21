@@ -16,7 +16,7 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float runSpeed = 10f;
 
-    void Update()
+    void FixedUpdate()
     {
         zMovement = Input.GetAxis( "Vertical" );
         xMovement = Input.GetAxis( "Horizontal" );
