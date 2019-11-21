@@ -8,12 +8,17 @@ using UnityEngine.AI;
 
 public class BossBehavior : MonoBehaviour
 {
+    enum TimerType {
+        stare,
+        pursue
+    }
+
     public float speed = 8f;
     [Range( 0f, 1f )]
     public float rotSpeed = 0.1f;
     public float stopDist = 4.5f;
-    public float stare = 2f;
-    public float timeout = 5f;
+    public float stareTime = 2f;
+    public float pursueTime = 5f;
     [Range( 0f, 1f )]
     public float changeTargetProb = 0.3f;
     public GameObject arenaCenter;
@@ -33,6 +38,7 @@ public class BossBehavior : MonoBehaviour
     private FSM bossFSM;
     private bool timerStarted = false;
     private bool timerStillGoing = false;
+    private bool pursueTimeout = false;
     private bool resetFightingBT = false;
     private CRBT.BehaviorTree FightingBT;
     private Coroutine fightingCR;
@@ -153,8 +159,12 @@ public class BossBehavior : MonoBehaviour
         //}
         //else 
 
-        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon)
+        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout)
         {
+            if(pursueTimeout) {
+                pursueTimeout = false;
+            }
+
             float totalAggro = 0f;
             string aggroDebug = "aggro values: ";
             string probDebug = "probabilities: ";
@@ -183,10 +193,12 @@ public class BossBehavior : MonoBehaviour
                 probDebug = probDebug + totalAggro + " - ";
             }
             
-            //Debug.Log(aggroDebug);
-            //Debug.Log(probDebug);
+            float random = Random.Range(0f, totalAggro);
 
-            float random = Random.Range( 0f, totalAggro );
+            // if I was pursuing the player, I won't choose him again
+            if(pursueTimeout)
+                random = Random.Range(0f, totalAggro - player.GetComponent<Stats>().Aggro);
+
 
             for ( int i = 1; i < probability.Length; i++ )
             {
@@ -196,12 +208,9 @@ public class BossBehavior : MonoBehaviour
                     if ( i < probability.Length - 1 )
                     {
                         TargetGroup = demonGroups[ i - 1 ];
-                        //Debug.Log("target group's emptiness is " + targetGroup.GetComponent<GroupBehaviour>().IsEmpty() 
-                        //    + " with aggro values between " + probability[i - 1] + " and " + probability[i] + ", random: " + random);
                         TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
                     else {
-                        //Debug.Log("new target is the player");
                         TargetDemon = player;
                     }
 
@@ -209,14 +218,8 @@ public class BossBehavior : MonoBehaviour
                 }
 
             }
-            //Debug.Log(debugIndex + " - new target is " + TargetDemon + " with random " + random + " and total aggro " + totalAggro);
         }
-        else
-        {
-            //Debug.Log(debugIndex + " - target won't change this time");
-        }
-
-        //Debug.Log("________________________________________");
+        
         return true;
     }
 
@@ -224,7 +227,7 @@ public class BossBehavior : MonoBehaviour
     {
         if ( timer != null )
             StopCoroutine( timer );
-        timer = StartCoroutine( Timer( stare ) );
+        timer = StartCoroutine( Timer( stareTime, TimerType.stare ) );
         return true;
     }
 
@@ -242,10 +245,10 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    public bool TimeoutAttack()
+    public bool TimeoutPursue()
     {
         StopCoroutine( timer );
-        timer = StartCoroutine( Timer( timeout ) );
+        timer = StartCoroutine( Timer( pursueTime, TimerType.pursue ) );
         return true;
     }
 
@@ -270,7 +273,7 @@ public class BossBehavior : MonoBehaviour
 
         CRBT.BTAction target = new CRBT.BTAction( ChooseTarget );
         CRBT.BTAction stare = new CRBT.BTAction( StareAtTarget );
-        CRBT.BTAction timeout = new CRBT.BTAction( TimeoutAttack );
+        CRBT.BTAction timeout = new CRBT.BTAction( TimeoutPursue );
         CRBT.BTAction walk = new CRBT.BTAction( WalkToTarget );
         CRBT.BTAction attack = new CRBT.BTAction( RandomAttack );
 
@@ -399,12 +402,16 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
-    private IEnumerator Timer( float s )
+    private IEnumerator Timer( float s, TimerType type )
     {
         timerStarted = true;
         timerStillGoing = true;
         yield return new WaitForSeconds( s );
         timerStillGoing = false;
+        if(type == TimerType.pursue) {
+            pursueTimeout = true;
+        }
+        
     }
 
     private void SingleAttack()
@@ -417,7 +424,6 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null )
             bossCombat.Attack();
-        //Debug.Log("single attack!");
     }
 
     private void GroupAttack()
@@ -430,7 +436,6 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null )
             bossCombat.Sweep();
-        //Debug.Log("group attack!");
     }
 
     private void GlobalAttack()
@@ -443,7 +448,6 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null )
             bossCombat.GlobalAttack();
-        //Debug.Log("global attack!");
     }
 
     private float HorizDistFromTarget( GameObject target )
