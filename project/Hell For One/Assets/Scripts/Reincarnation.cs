@@ -27,7 +27,7 @@ public class Reincarnation : MonoBehaviour
             player.tag = "Player";
             //player.GetComponent<DemonBehaviour>().enabled = false;
             player.GetComponent<DemonMovement>().enabled = false;
-            player.GetComponent<ObjectsPooler>().enabled = false;
+            //player.GetComponent<ObjectsPooler>().enabled = false;
             player.GetComponent<Lancer>().enabled = false;
             player.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             player.GetComponent<Stats>().type = Stats.Type.Player;
