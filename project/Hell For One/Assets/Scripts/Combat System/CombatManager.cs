@@ -257,10 +257,10 @@ public class CombatManager : MonoBehaviour
 
             stats.IsIdle = true;
         }
-        else
-        {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopAttack is trying to stop an attack but is not idle or attackCR is null" );
-        }
+        //else
+        //{
+        //    Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopAttack is trying to stop an attack but is not idle or attackCR is null" );
+        //}
         return;
     }
 
