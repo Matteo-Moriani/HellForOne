@@ -101,19 +101,9 @@ public class CameraManager : MonoBehaviour
 
         if ( isLocked )
         {
-            //Vector3 cameraPos = player.transform.position - target.transform.position;
-
-            //Ray ray = new Ray( target.transform.position, player.transform.position );
-
-            //Debug.Log( ray );
-
             Vector3 direction = (player.transform.position - target.transform.position).normalized;
 
-            Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z);
-
-            //Vector3 rayOffset = ray.GetPoint( (player.transform.position - target.transform.position).magnitude + Mathf.Abs( offset.z ) );
-
-            //rayOffset.y = offset.y;
+            Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z );
 
             camera_offset.y = offset.y;
 
@@ -146,8 +136,6 @@ public class CameraManager : MonoBehaviour
             // Cycle through the enemies
             else
             {
-                //enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-                //boss = GameObject.FindGameObjectWithTag( "Boss" );
                 float minLeftDistance = -1 * Mathf.Infinity;
                 float minRightDistance = Mathf.Infinity;
                 GameObject leftNearestDemon = null;
@@ -157,13 +145,15 @@ public class CameraManager : MonoBehaviour
                 {
                     float demonXAxis = transform.InverseTransformPoint( demon.transform.position ).x;
 
-                    if ( demonXAxis > 0f && demonXAxis < minRightDistance )
+                    Debug.Log( demonXAxis );
+
+                    if ( demonXAxis > 0.01f && demonXAxis < minRightDistance )
                     {
                         minRightDistance = demonXAxis;
                         rightNearestDemon = demon;
                     }
 
-                    if ( demonXAxis < 0f && demonXAxis > minLeftDistance )
+                    if ( demonXAxis < -0.01f && demonXAxis > minLeftDistance )
                     {
                         minLeftDistance = demonXAxis;
                         leftNearestDemon = demon;
@@ -196,32 +186,5 @@ public class CameraManager : MonoBehaviour
             target = player;
             isLocked = false;
         }
-
-        //if ( isLocked )
-        //{
-        //    Vector3 cameraPos = player.transform.position - target.transform.position;
-
-        //    Ray ray = new Ray( target.transform.position, player.transform.position );
-        //    //Vector3 rayOffset = ray.GetPoint( cameraPos.magnitude + offset.z );
-        //    Vector3 rayOffset = ray.GetPoint( (target.transform.position - player.transform.position).magnitude );
-        //    rayOffset.y += offset.y;
-        //    rayOffset.z += offset.z;
-
-        //    transform.position = rayOffset;
-        //}
-        //else
-        //{
-        //    offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
-
-        //    if ( closedEnvironment )
-        //    {
-        //        transform.position = player.transform.position + closedEnvironmentOffset;
-        //        transform.LookAt( player.transform.position );
-        //    }
-        //    else
-        //        transform.position = player.transform.position + offset;
-        //}
-
-        //transform.LookAt( target.transform.position );
     }
 }
