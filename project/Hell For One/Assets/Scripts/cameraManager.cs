@@ -103,17 +103,25 @@ public class CameraManager : MonoBehaviour
         {
             //Vector3 cameraPos = player.transform.position - target.transform.position;
 
-            Ray ray = new Ray( target.transform.position, player.transform.position );
+            //Ray ray = new Ray( target.transform.position, player.transform.position );
 
-            Vector3 rayOffset = ray.GetPoint( (player.transform.position - target.transform.position).magnitude + Mathf.Abs( offset.z ) );
+            //Debug.Log( ray );
 
-            rayOffset.y = offset.y;
+            Vector3 direction = (player.transform.position - target.transform.position).normalized;
 
-            transform.position = rayOffset;
+            Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z);
+
+            //Vector3 rayOffset = ray.GetPoint( (player.transform.position - target.transform.position).magnitude + Mathf.Abs( offset.z ) );
+
+            //rayOffset.y = offset.y;
+
+            camera_offset.y = offset.y;
+
+            transform.position = camera_offset;
         }
         else
         {
-            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.up ) * offset;
+            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
 
             if ( closedEnvironment )
             {
