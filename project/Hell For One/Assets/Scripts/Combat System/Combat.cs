@@ -72,7 +72,7 @@ public class Combat : MonoBehaviour
     /// </summary>
     public void Attack()
     {
-        combatManager.Attack();
+        combatManager.MeleeAttack();
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public class Combat : MonoBehaviour
     /// <param name="target">The target of the attack</param>
     public void Attack( GameObject target )
     {
-        combatManager.Attack( target );
+        combatManager.MeleeAttack( target );
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class Combat : MonoBehaviour
     /// </summary>
     public void StopAttack()
     {
-        combatManager.StopAttack();
+        combatManager.StopMeleeAttack();
     }
 
     /// <summary>

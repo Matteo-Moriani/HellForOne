@@ -174,6 +174,7 @@ public class ObjectsPooler : MonoBehaviour
 
         newObject = Instantiate(originalObject, transform);
         newObject.SetActive(false);
+        newObject.name = newObject.name + "-" + (pooler.Count + 1).ToString();
         pooler.Add(newObject);
 
         return newObject;
