@@ -22,11 +22,6 @@ public class DemonBehaviour : MonoBehaviour
     {
         if ( !groupFound )
             FindGroup();
-        //if(stats.health <= 0) {
-        //    GroupBehaviour gb = groupBelongingTo.GetComponent<GroupBehaviour>();
-        //    gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
-        //    Destroy(gameObject);
-        //}
     }
 
     // Balances group entering too
@@ -85,5 +80,11 @@ public class DemonBehaviour : MonoBehaviour
             //    }
             //}
         }
+
+        ChangeColor();
+    }
+
+    private void ChangeColor() {
+        //TODO
     }
 }
