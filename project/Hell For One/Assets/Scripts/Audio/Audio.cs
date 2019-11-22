@@ -41,9 +41,9 @@ public class Audio : MonoBehaviour
         stats = GetComponent<Stats>();
 
         combatAudioSource = gameObject.AddComponent<AudioSource>();
-        SetAudioAudioSource(combatAudioSource,true,15f,50f,false);
+        SetAudioAudioSource(combatAudioSource,true,5f,500f,false);
         baseAudioSource = gameObject.AddComponent<AudioSource>();
-        SetAudioAudioSource(baseAudioSource,true,10f,50f,false);
+        SetAudioAudioSource(baseAudioSource,true,5f,500f,false);
     }
 
     private void Update()
@@ -77,7 +77,7 @@ public class Audio : MonoBehaviour
             case BaseAudio.Walk:
                 baseAudioSource.clip = walkClip;
                 baseAudioSource.loop = true;
-                baseAudioSource.pitch = Random.Range(0.8f,1f);
+                baseAudioSource.pitch = Random.Range(0.85f,1f);
                 baseAudioSource.Play();
                 break;
         }    
