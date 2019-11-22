@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 
 public class Audio : MonoBehaviour
 {
@@ -14,7 +15,12 @@ public class Audio : MonoBehaviour
     public enum BaseAudio { 
         Walk    
     }
-    
+
+    [SerializeField]
+    private AudioMixerGroup baseAudioMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup combatAudioMixerGroup;
+
     private AudioSource combatAudioSource;
     private AudioSource baseAudioSource;
 
@@ -39,11 +45,17 @@ public class Audio : MonoBehaviour
     private void Start()
     {
         stats = GetComponent<Stats>();
-
+        
         combatAudioSource = gameObject.AddComponent<AudioSource>();
         SetAudioAudioSource(combatAudioSource,true,5f,500f,false);
         baseAudioSource = gameObject.AddComponent<AudioSource>();
         SetAudioAudioSource(baseAudioSource,true,5f,500f,false);
+        if(baseAudioMixerGroup != null) {
+            baseAudioSource.outputAudioMixerGroup = baseAudioMixerGroup;
+        }
+        if(combatAudioMixerGroup != null) { 
+            combatAudioSource.outputAudioMixerGroup = combatAudioMixerGroup;    
+        }
     }
 
     private void Update()
@@ -77,8 +89,8 @@ public class Audio : MonoBehaviour
             case BaseAudio.Walk:
                 baseAudioSource.clip = walkClip;
                 baseAudioSource.loop = true;
-                baseAudioSource.pitch = Random.Range(0.85f,1f);
-                baseAudioSource.Play();
+                baseAudioSource.pitch = Random.Range(0.9f,1f);
+                baseAudioSource.Play((ulong)Random.Range(0,44100/1000));
                 break;
         }    
     }

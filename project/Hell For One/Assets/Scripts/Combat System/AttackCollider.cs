@@ -206,12 +206,17 @@ public class AttackCollider : MonoBehaviour
     
     private void ManageAudio(Stats targetRootStats) {
         Audio combatAudio = targetRootStats.gameObject.GetComponent<Audio>();
-
-        if(combatAudio != null) {
-            combatAudio.PlayRandomCombatAudioClip(Audio.CombatAudio.Hit);
-        }
-        else { 
-            Debug.Log(stats.gameObject.name + " cannot find CombatAudio in " + targetRootStats.gameObject.name);    
+        
+        // Global attack will have his own sound I think.
+        if (!isGlobalAttacking) {
+            if (combatAudio != null)
+            {
+                combatAudio.PlayRandomCombatAudioClip(Audio.CombatAudio.Hit);
+            }
+            else
+            {
+                Debug.Log(stats.gameObject.name + " cannot find CombatAudio in " + targetRootStats.gameObject.name);
+            }
         }
     }
 
