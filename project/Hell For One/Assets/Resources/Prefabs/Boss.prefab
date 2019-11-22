@@ -204,7 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   repulsionDist: 0.3
-  pushIntensity: 0.75
+  pushAwaySize: 0.5
+  pushAwayTime: 0.5
 --- !u!54 &4336737656561943043
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -253,6 +254,7 @@ MonoBehaviour:
   health: 3000
   meleeDamage: 2
   rangedDamage: 1
+  supportDamageBuffMultiplier: 3.5
   attackRange: 0.8
   attackDurationMultiplier: 5
   sweepSize: 0.8
@@ -260,6 +262,7 @@ MonoBehaviour:
   globalAttackDuration: 1
   blockChance: 0
   shieldBonusProbability: 0
+  supportingUnitsMultiplier: 0.95
   knockBackChance: 100
   knockBackSize: 5
   knockBackTime: 0.25
@@ -281,8 +284,8 @@ MonoBehaviour:
   speed: 8
   rotSpeed: 0.1
   stopDist: 4.5
-  stare: 3
-  timeout: 6
+  stareTime: 2
+  pursueTime: 5
   changeTargetProb: 0.3
   arenaCenter: {fileID: 0}
   maxDistFromCenter: 23
@@ -301,6 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatManager: {fileID: 3221598526240326888}
+  target: {fileID: 0}
   playerAttackCooldown: 0.5
 --- !u!1001 &4016947157684010372
 PrefabInstance:

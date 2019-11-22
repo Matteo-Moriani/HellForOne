@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CanvasDebug : MonoBehaviour
 {
-    public GroupBehaviour groupA, groupB, groupC, groupD;
+    public GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     public GroupAggro aggroA, aggroB, aggroC, aggroD;
     public Text aggroValueA, aggroValueB, aggroValueC, aggroValueD;
     public Text tacticA, tacticB, tacticC, tacticD;
@@ -22,25 +22,25 @@ public class CanvasDebug : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        groupA = GameObject.Find( "GroupA" ).GetComponent<GroupBehaviour>();
-        groupB = GameObject.Find( "GroupB" ).GetComponent<GroupBehaviour>();
-        groupC = GameObject.Find( "GroupC" ).GetComponent<GroupBehaviour>();
-        groupD = GameObject.Find( "GroupD" ).GetComponent<GroupBehaviour>();
+        groupAzure = GameObject.Find( "Group Azure" ).GetComponent<GroupBehaviour>();
+        groupPink = GameObject.Find( "Group Pink" ).GetComponent<GroupBehaviour>();
+        groupGreen = GameObject.Find( "Group Green" ).GetComponent<GroupBehaviour>();
+        groupYellow = GameObject.Find( "Group Yellow" ).GetComponent<GroupBehaviour>();
 
-        aggroA = GameObject.Find( "GroupA" ).GetComponent<GroupAggro>();
-        aggroB = GameObject.Find( "GroupB" ).GetComponent<GroupAggro>();
-        aggroC = GameObject.Find( "GroupC" ).GetComponent<GroupAggro>();
-        aggroD = GameObject.Find( "GroupD" ).GetComponent<GroupAggro>();
+        aggroA = GameObject.Find( "Group Azure" ).GetComponent<GroupAggro>();
+        aggroB = GameObject.Find( "Group Pink" ).GetComponent<GroupAggro>();
+        aggroC = GameObject.Find( "Group Green" ).GetComponent<GroupAggro>();
+        aggroD = GameObject.Find( "Group Yellow" ).GetComponent<GroupAggro>();
 
-        aggroValueA = GameObject.Find( "A aggro" ).GetComponent<Text>();
-        aggroValueB = GameObject.Find( "B aggro" ).GetComponent<Text>();
-        aggroValueC = GameObject.Find( "C aggro" ).GetComponent<Text>();
-        aggroValueD = GameObject.Find( "D aggro" ).GetComponent<Text>();
+        aggroValueA = GameObject.Find( "Azure aggro" ).GetComponent<Text>();
+        aggroValueB = GameObject.Find( "Pink aggro" ).GetComponent<Text>();
+        aggroValueC = GameObject.Find( "Green aggro" ).GetComponent<Text>();
+        aggroValueD = GameObject.Find( "Yellow aggro" ).GetComponent<Text>();
 
-        tacticA = GameObject.Find( "A tactic" ).GetComponent<Text>();
-        tacticB = GameObject.Find( "B tactic" ).GetComponent<Text>();
-        tacticC = GameObject.Find( "C tactic" ).GetComponent<Text>();
-        tacticD = GameObject.Find( "D tactic" ).GetComponent<Text>();
+        tacticA = GameObject.Find( "Azure tactic" ).GetComponent<Text>();
+        tacticB = GameObject.Find( "Pink tactic" ).GetComponent<Text>();
+        tacticC = GameObject.Find( "Green tactic" ).GetComponent<Text>();
+        tacticD = GameObject.Find( "Yellow tactic" ).GetComponent<Text>();
 
         bossBehaviour = GameObject.FindGameObjectWithTag( "Boss" ).GetComponent<BossBehavior>();
         bossTargetGroup = GameObject.Find( "Boss target's group" ).GetComponent<Text>();
@@ -59,10 +59,10 @@ public class CanvasDebug : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tacticA.text = groupA.currentState.ToString();
-        tacticB.text = groupB.currentState.ToString();
-        tacticC.text = groupC.currentState.ToString();
-        tacticD.text = groupD.currentState.ToString();
+        tacticA.text = groupAzure.currentState.ToString();
+        tacticB.text = groupPink.currentState.ToString();
+        tacticC.text = groupGreen.currentState.ToString();
+        tacticD.text = groupYellow.currentState.ToString();
 
         aggroValueA.text = aggroA.GetAggro().ToString();
         aggroValueB.text = aggroB.GetAggro().ToString();

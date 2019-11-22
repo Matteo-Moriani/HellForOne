@@ -57,7 +57,7 @@ public class Dash : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {   
         DashCycle();
     }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114225741877727004}
   - component: {fileID: 5471317392824937645}
   m_Layer: 0
-  m_Name: GroupD
+  m_Name: Group Azure
   m_TagString: Group
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxNumDemons: 4
-  demonsInGroup: 0
+  groupColor: {fileID: 2100000, guid: 462a10df86531d54c949df2459aaa0a9, type: 2}
   fsmReactionTime: 1
   currentState: 0
   newState: 0

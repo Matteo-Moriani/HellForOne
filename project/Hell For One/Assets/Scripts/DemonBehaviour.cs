@@ -85,6 +85,6 @@ public class DemonBehaviour : MonoBehaviour
     }
 
     private void ChangeColor() {
-        //TODO
+        gameObject.GetComponent<MeshRenderer>().material = groupBelongingTo.GetComponent<GroupBehaviour>().groupColor;
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114553889596279180}
   - component: {fileID: 4744940270589077485}
   m_Layer: 0
-  m_Name: GroupA
+  m_Name: Group Yellow
   m_TagString: Group
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxNumDemons: 4
-  demonsInGroup: 0
+  groupColor: {fileID: 2100000, guid: cd01d5364614bd94992e33519cc65005, type: 2}
   fsmReactionTime: 1
   currentState: 0
   newState: 0

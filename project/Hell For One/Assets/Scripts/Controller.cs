@@ -16,11 +16,14 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float runSpeed = 10f;
 
-    void FixedUpdate()
+    void Update()
     {
         zMovement = Input.GetAxis( "Vertical" );
         xMovement = Input.GetAxis( "Horizontal" );
+    }
 
+    private void FixedUpdate()
+    {
         if ( zMovement != 0 || xMovement != 0 )
         {
             Vector3 vertical = zMovement * Camera.main.transform.forward;

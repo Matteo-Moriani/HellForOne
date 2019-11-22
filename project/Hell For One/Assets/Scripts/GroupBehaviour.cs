@@ -7,8 +7,8 @@ public class GroupBehaviour : MonoBehaviour
     /// This script is attached to invisible gameobjects that manages the single group
 
     public int maxNumDemons = 4;
-    [SerializeField]
     private int demonsInGroup = 0;
+    public Material groupColor;
 
     #region 
 
