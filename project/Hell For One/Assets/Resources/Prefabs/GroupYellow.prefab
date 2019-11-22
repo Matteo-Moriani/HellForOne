@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8435978056055178386}
-  - component: {fileID: 114660412348658804}
-  - component: {fileID: 7278565163453889771}
-  - component: {fileID: 114924279363889158}
-  - component: {fileID: 185665734846565306}
+  - component: {fileID: 114505785571255092}
+  - component: {fileID: 8325787536396914807}
+  - component: {fileID: 114553889596279180}
+  - component: {fileID: 4744940270589077485}
   m_Layer: 0
-  m_Name: Group Pink
+  m_Name: GroupYellow
   m_TagString: Group
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114660412348658804
+--- !u!114 &114505785571255092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,14 +47,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxNumDemons: 4
-  groupColor: {fileID: 2100000, guid: 7ae70f86ba977b04ba49bf9bc67beaf7, type: 2}
+  groupColor: {fileID: 2100000, guid: cd01d5364614bd94992e33519cc65005, type: 2}
   fsmReactionTime: 1
   currentState: 0
   newState: 0
   orderConfirmed: 0
   demons: []
   target: {fileID: 0}
---- !u!114 &7278565163453889771
+--- !u!114 &8325787536396914807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,7 +69,7 @@ MonoBehaviour:
   rangedDist: 6
   cohesionMultiplier: 2
   player: {fileID: 0}
---- !u!114 &114924279363889158
+--- !u!114 &114553889596279180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groupAggro: 1
   tankMultiplier: 1.5
---- !u!114 &185665734846565306
+--- !u!114 &4744940270589077485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

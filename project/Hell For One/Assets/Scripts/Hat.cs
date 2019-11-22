@@ -37,6 +37,7 @@ public class Hat : MonoBehaviour
         {
             onGround = false;
             collision.gameObject.transform.root.Find( "Hat" ).gameObject.SetActive( true );
+            collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
             Destroy( gameObject );
         }
     }

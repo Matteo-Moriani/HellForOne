@@ -37,6 +37,7 @@ public class Lancer : MonoBehaviour
         lastShot = Time.time;
         timespanShots = 1f / ratio;
         lancerStats = transform.root.GetComponent<Stats>();
+        lances = GameObject.Find( "LancePooler" ).GetComponent<ObjectsPooler>();
     }
 
     // Update is called once per frame
