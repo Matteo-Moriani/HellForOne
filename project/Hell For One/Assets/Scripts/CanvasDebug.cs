@@ -76,7 +76,7 @@ public class CanvasDebug : MonoBehaviour
 
         playerAggro.text = "Player's aggro: " + playerStats.Aggro.ToString();
 
-        if ( bossBehaviour.TargetDemon.tag == "Player" )
+        if ( bossBehaviour.TargetDemon && bossBehaviour.TargetDemon.tag == "Player" )
             bossTargetGroup.text = "Boss target:    " + "Player";
         else
             bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;

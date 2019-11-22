@@ -467,9 +467,19 @@ public class Stats : MonoBehaviour
         }
         
         // if the player is dying...
-        if (type == Type.Player) { 
+        if (type == Type.Player) {
             // ... we need to reincarnate him
-            GetComponent<Reincarnation>().Reincarnate();    
+            //GameObject hat;
+            //if (hat == null)
+            //{
+            //    Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity );
+            //    hat = GameObject.Find( "Hat(Clone)" );
+            //    hat.GetComponent<Hat>().PlayerDied();
+            //    GetComponent<Reincarnation>().Reincarnate();
+            //}
+            GameObject hat = Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity ) as GameObject;
+            hat.GetComponent<Hat>().PlayerDied();
+            GetComponent<Reincarnation>().Reincarnate();
         }
 
         // if the boss is dying...
@@ -494,7 +504,7 @@ public class Stats : MonoBehaviour
             }
         }
 
-        // if something is dying we destroy his GameObject
+        // if something is dying we destroy his 
         Destroy( gameObject );
     }
 
