@@ -205,10 +205,10 @@ public class AttackCollider : MonoBehaviour
     }
     
     private void ManageAudio(Stats targetRootStats) {
-        CombatAudio combatAudio = targetRootStats.gameObject.GetComponent<CombatAudio>();
+        Audio combatAudio = targetRootStats.gameObject.GetComponent<Audio>();
 
         if(combatAudio != null) {
-            combatAudio.PlayRandomClip(CombatAudio.Type.Hit);
+            combatAudio.PlayRandomCombatAudioClip(Audio.CombatAudio.Hit);
         }
         else { 
             Debug.Log(stats.gameObject.name + " cannot find CombatAudio in " + targetRootStats.gameObject.name);    

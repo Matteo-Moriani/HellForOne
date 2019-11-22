@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent( typeof( Stats ) )]
-[RequireComponent(typeof(CombatAudio))]
 public class Combat : MonoBehaviour
 {
     #region fields
