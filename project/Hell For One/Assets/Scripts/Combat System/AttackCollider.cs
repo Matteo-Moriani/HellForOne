@@ -203,6 +203,30 @@ public class AttackCollider : MonoBehaviour
             Debug.Log("No KnockBack, probably the target is blocking");
         }
     }
+    
+    private void ManageAudio(Stats targetRootStats) {
+        CombatAudio combatAudio = targetRootStats.gameObject.GetComponent<CombatAudio>();
+
+        if(combatAudio != null) {
+            combatAudio.PlayRandomClip(CombatAudio.Type.Hit);
+        }
+        else { 
+            Debug.Log(stats.gameObject.name + " cannot find CombatAudio in " + targetRootStats.gameObject.name);    
+        }
+    }
+
+    private void ManageHit(Stats targetRootStats) { 
+        DealDamage(targetRootStats);
+        
+        ManageAudio(targetRootStats);
+
+        ManageAggro();
+
+        StopAttack();
+    }
+
+    // TODO - Implement this
+    private void ManageMiss() { }
 
     private void ManagePlayerCollisions(Stats targetRootStats, Collider other)
     {
@@ -210,10 +234,7 @@ public class AttackCollider : MonoBehaviour
         {
             if (CheckAngle(other.gameObject.transform.root))
             {
-                DealDamage(targetRootStats);
-                ManageAggro();
-
-                StopAttack();
+                ManageHit(targetRootStats);
             }
             else
             {
@@ -224,11 +245,7 @@ public class AttackCollider : MonoBehaviour
         }
         if (!targetRootStats.IsBlocking)
         {
-            DealDamage(targetRootStats);
-
-            ManageAggro();
-
-            StopAttack();
+            ManageHit(targetRootStats);
         }
     }
 
@@ -240,32 +257,38 @@ public class AttackCollider : MonoBehaviour
             {
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
-                    DealDamage(targetRootStats);
+                    ManageHit(targetRootStats);
                 }
-                ManageAggro();
+                else {
+                    ManageAggro();
 
-                StopAttack();
+                    StopAttack();
+                }
             }
             else
             {
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
-                    DealDamage(targetRootStats);
+                    ManageHit(targetRootStats);
                 }
-                ManageAggro();
+                else {
+                    ManageAggro();
 
-                StopAttack();
+                    StopAttack();
+                }
             }
         }
         if (!targetRootStats.IsBlocking)
         {
             if (targetRootStats.CalculateBeenHitChance(false))
             {
-                DealDamage(targetRootStats);
+                ManageHit(targetRootStats);
             }
-            ManageAggro();
+            else {
+                ManageAggro();
 
-            StopAttack();
+                StopAttack();
+            }
         }
     }
 
@@ -276,10 +299,9 @@ public class AttackCollider : MonoBehaviour
             // Player cannot block sweeping (heavy attack)
             if (isSweeping && targetRootStats.type == Stats.Type.Player)
             {
-                DealDamage(targetRootStats);
+                ManageHit(targetRootStats);
+                
                 ManageKnockBack(targetRootStats);
-                ManageAggro();
-                StopAttack();
             }
 
             // if target is blocking but is not looking towards the boss
@@ -288,15 +310,16 @@ public class AttackCollider : MonoBehaviour
                 // calculate been hit chance without counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
-                    DealDamage(targetRootStats);
+                    ManageHit(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
                 }
+                else {
+                    ManageAggro();
 
-                ManageAggro();
-
-                // We stop the attack only if is a simple attack
-                StopAttack();
+                    // We stop the attack only if is a simple attack
+                    StopAttack();
+                }
             }
             // if target is blocking and is looking towards the boss
             else
@@ -304,14 +327,15 @@ public class AttackCollider : MonoBehaviour
                 // calculate been hit chance counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
-                    DealDamage(targetRootStats);
+                    ManageHit(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
                 }
+                else {
+                    ManageAggro();
 
-                ManageAggro();
-
-                StopAttack();
+                    StopAttack();
+                }
             }
         }
         if (!targetRootStats.IsBlocking)
@@ -319,15 +343,17 @@ public class AttackCollider : MonoBehaviour
             // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
             {
-                DealDamage(targetRootStats);
+                ManageHit(targetRootStats);
 
                 ManageKnockBack(targetRootStats);
             }
+            else {
+                ManageAggro();
 
-            ManageAggro();
+                // We stop the attack only if is a simple attack
+                StopAttack();
 
-            // We stop the attack only if is a simple attack
-            StopAttack();
+            }
         }
     }
 

@@ -111,7 +111,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 077abe6e3fc5883418b8b4fd4e2229e7, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: b3a913dfe34e35a43bf1eadec408aa2c, type: 2}
 --- !u!1001 &92832976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +119,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -267,6 +282,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -346,6 +376,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -494,6 +539,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -573,6 +633,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -712,6 +787,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114505785571255092, guid: 478b9bf37234ea94b842ce825b73762a,
+        type: 3}
+      propertyPath: newState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114505785571255092, guid: 478b9bf37234ea94b842ce825b73762a,
+        type: 3}
+      propertyPath: orderConfirmed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 478b9bf37234ea94b842ce825b73762a, type: 3}
 --- !u!1001 &527457505
@@ -721,6 +806,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -872,6 +972,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114825707946308418, guid: 7a1fafda812482f45ac1cb0a43d989b0,
+        type: 3}
+      propertyPath: newState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114825707946308418, guid: 7a1fafda812482f45ac1cb0a43d989b0,
+        type: 3}
+      propertyPath: orderConfirmed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a1fafda812482f45ac1cb0a43d989b0, type: 3}
 --- !u!1001 &708853800
@@ -941,8 +1051,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114618281047304172, guid: b5cd994fb3434f149ace26e835a2366a,
+        type: 3}
+      propertyPath: newState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618281047304172, guid: b5cd994fb3434f149ace26e835a2366a,
+        type: 3}
+      propertyPath: orderConfirmed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5cd994fb3434f149ace26e835a2366a, type: 3}
+--- !u!1 &962371011 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8830103184730972064, guid: f7415d315e6b15c4989fce465cc15ac1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1017526206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &964288363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -950,6 +1076,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -1029,6 +1170,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -1168,11 +1324,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114027171503235308, guid: e89ad4b4601f90943b13152fa7f655e1,
-        type: 3}
-      propertyPath: countdown
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e89ad4b4601f90943b13152fa7f655e1, type: 3}
 --- !u!1001 &1017526206
@@ -1251,6 +1402,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -1491,6 +1657,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -1699,6 +1880,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114660412348658804, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
+        type: 3}
+      propertyPath: newState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114660412348658804, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
+        type: 3}
+      propertyPath: orderConfirmed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db1bf6e55c62f234ca1ac3e0d0825ffd, type: 3}
 --- !u!1 &1387940920
@@ -1737,8 +1928,8 @@ Camera:
   m_GameObject: {fileID: 1387940920}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.6509434, g: 0.03000612, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1802,7 +1993,7 @@ MonoBehaviour:
   distance: 0
   isLocked: 0
   enemies: []
-  boss: {fileID: 0}
+  boss: {fileID: 962371011}
   rightAxisInUse: 0
 --- !u!1001 &1401533737
 PrefabInstance:
@@ -1811,6 +2002,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -1890,6 +2096,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -2038,6 +2259,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -2117,6 +2353,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -2296,6 +2547,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6784614489089510746, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c290d430f78ea4ba59211026dc311f, type: 3}
 --- !u!1001 &2085775760
@@ -2305,6 +2561,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
@@ -2384,6 +2655,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: 82226917675787038, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2505179672226310615, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Name
