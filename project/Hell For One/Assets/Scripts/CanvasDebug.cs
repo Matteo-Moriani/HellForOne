@@ -22,15 +22,15 @@ public class CanvasDebug : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        groupAzure = GameObject.Find( "Group Azure" ).GetComponent<GroupBehaviour>();
-        groupPink = GameObject.Find( "Group Pink" ).GetComponent<GroupBehaviour>();
-        groupGreen = GameObject.Find( "Group Green" ).GetComponent<GroupBehaviour>();
-        groupYellow = GameObject.Find( "Group Yellow" ).GetComponent<GroupBehaviour>();
+        groupAzure = GameObject.Find( "GroupAzure" ).GetComponent<GroupBehaviour>();
+        groupPink = GameObject.Find( "GroupPink" ).GetComponent<GroupBehaviour>();
+        groupGreen = GameObject.Find( "GroupGreen" ).GetComponent<GroupBehaviour>();
+        groupYellow = GameObject.Find( "GroupYellow" ).GetComponent<GroupBehaviour>();
 
-        aggroA = GameObject.Find( "Group Azure" ).GetComponent<GroupAggro>();
-        aggroB = GameObject.Find( "Group Pink" ).GetComponent<GroupAggro>();
-        aggroC = GameObject.Find( "Group Green" ).GetComponent<GroupAggro>();
-        aggroD = GameObject.Find( "Group Yellow" ).GetComponent<GroupAggro>();
+        aggroA = GameObject.Find( "GroupAzure" ).GetComponent<GroupAggro>();
+        aggroB = GameObject.Find( "GroupPink" ).GetComponent<GroupAggro>();
+        aggroC = GameObject.Find( "GroupGreen" ).GetComponent<GroupAggro>();
+        aggroD = GameObject.Find( "GroupYellow" ).GetComponent<GroupAggro>();
 
         aggroValueA = GameObject.Find( "Azure aggro" ).GetComponent<Text>();
         aggroValueB = GameObject.Find( "Pink aggro" ).GetComponent<Text>();
@@ -72,11 +72,14 @@ public class CanvasDebug : MonoBehaviour
         currentGroup.text = tacticsManager.CurrentShowedGroup.ToString();
         currentTactic.text = tacticsManager.CurrentShowedState.ToString();
 
+        if (!tacticsManager)
+            tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
+
         regenCountdown.text = "New ally imp in: " + (( int ) (allyDemonSpawnerTest.countdown)).ToString();
 
         playerAggro.text = "Player's aggro: " + playerStats.Aggro.ToString();
 
-        if ( bossBehaviour.TargetDemon.tag == "Player" )
+        if ( bossBehaviour.TargetDemon && bossBehaviour.TargetDemon.tag == "Player" )
             bossTargetGroup.text = "Boss target:    " + "Player";
         else
             bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;

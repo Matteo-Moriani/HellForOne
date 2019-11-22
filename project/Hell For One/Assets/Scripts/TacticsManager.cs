@@ -8,10 +8,10 @@ public class TacticsManager : MonoBehaviour
 {
     public enum Group
     {
-        GroupA,
-        GroupB,
-        GroupC,
-        GroupD
+        GroupAzure,
+        GroupPink,
+        GroupGreen,
+        GroupYellow
     }
 
     [Header( "Input" )]
