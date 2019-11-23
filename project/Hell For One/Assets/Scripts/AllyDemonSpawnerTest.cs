@@ -15,7 +15,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
             if ( GameObject.FindGameObjectsWithTag( "Demon" ).Length < 16 )
             {
-                GameObject demonToSpawn = Resources.Load( "Prefabs/Demon" ) as GameObject;
+                GameObject demonToSpawn = Resources.Load( "Prefabs/FakeImp" ) as GameObject;
                 Instantiate( demonToSpawn, SpawnPosition(), Quaternion.identity );
             }
         }

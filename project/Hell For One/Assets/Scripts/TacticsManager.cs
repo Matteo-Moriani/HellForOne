@@ -92,14 +92,14 @@ public class TacticsManager : MonoBehaviour
             AssignOrderToGroup( CurrentShowedState, CurrentShowedGroup );
         }
 
-        if ( R2 )
+        if ( L2 )
         {
             groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
             CurrentShowedGroup = groupsArray[ groupsIndex ];
             Debug.Log( CurrentShowedGroup );
         }
 
-        if ( L2 )
+        if ( R2 )
         {
             tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
             CurrentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
