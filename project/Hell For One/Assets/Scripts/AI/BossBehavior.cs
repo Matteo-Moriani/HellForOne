@@ -16,13 +16,15 @@ public class BossBehavior : MonoBehaviour
     public float speed = 8f;
     [Range( 0f, 1f )]
     public float rotSpeed = 0.1f;
-    public float stopDist = 4.5f;
+    public float stopDist = 2.5f;
     public float stareTime = 2f;
     public float pursueTime = 5f;
     [Range( 0f, 1f )]
     public float changeTargetProb = 0.3f;
     public GameObject arenaCenter;
-    public float maxDistFromCenter = 23f;
+
+    // 15 is the ray of boss arena
+    public float maxDistFromCenter = 12f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -153,13 +155,10 @@ public class BossBehavior : MonoBehaviour
         if ( demonGroups.Length != 4 && !player )
             return false;
 
-        //if ( (transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
-        //{
-        //    ChooseCentralTarget();
-        //}
-        //else 
-
-        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout)
+        if((transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter) {
+            ChooseCentralTarget();
+        }
+        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout)
         {
             if(pursueTimeout) {
                 pursueTimeout = false;
@@ -218,6 +217,10 @@ public class BossBehavior : MonoBehaviour
                 }
 
             }
+
+            // if the chosen demon is too far from arena center I choose one from the most centered group
+            if((TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter)
+                ChooseCentralTarget();
         }
         
         return true;
@@ -377,19 +380,18 @@ public class BossBehavior : MonoBehaviour
         if ( TargetDemon )
         {
 
-            //if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
-            //{
-            //    needsCentering = true;
-            //    ChooseCentralTarget();
-            //}
-            //else if ( (transform.position - arenaCenter.transform.position).magnitude <= centeringDist )
-            //    needsCentering = false;
+            if((transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter) {
+                needsCentering = true;
+                ChooseCentralTarget();
+            }
+            else if((transform.position - arenaCenter.transform.position).magnitude <= centeringDist)
+                needsCentering = false;
 
 
             // If I'm far from arena borders, I'm always facing my last target
-            //if ( needsCentering )
-            //    Face( arenaCenter );
-            //else
+            if(needsCentering)
+                Face(arenaCenter);
+            else
                 Face( TargetDemon );
 
             if ( canWalk )
@@ -487,19 +489,16 @@ public class BossBehavior : MonoBehaviour
         return closest;
     }
 
-    //private void ChooseCentralTarget()
-    //{
-    //    targetGroup = ClosestGroupTo( arenaCenter.transform.position );
-    //    foreach ( GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons )
-    //    {
-    //        if ( demon != null )
-    //        {
-    //            targetDemon = demon;
-    //            Debug.Log(debugIndex + " - target is " + targetDemon.name + ", the most centered one");
-    //            break;
-    //        }
-    //    }
-    //}
+    private void ChooseCentralTarget() {
+        targetGroup = ClosestGroupTo(arenaCenter.transform.position);
+        foreach(GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons) {
+            if(demon != null) {
+                targetDemon = demon;
+                Debug.Log(debugIndex + " - target is " + targetDemon.name + ", the most centered one");
+                break;
+            }
+        }
+    }
 
     public GameObject[] GetDemonGroups() {
         return demonGroups;

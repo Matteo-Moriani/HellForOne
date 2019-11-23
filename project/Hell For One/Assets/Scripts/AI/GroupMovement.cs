@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class GroupMovement : MonoBehaviour
 {
     public float rangedDist = 6f;
-    public float cohesionMultiplier = 2f;
+    public float distanceAllowed = 2.5f;
 
     [SerializeField]
     private GameObject player;

@@ -133,9 +133,6 @@ public class Stats : MonoBehaviour
     private DemonBehaviour demonBehaviour;
     Coroutine aggroDecreasingCR = null;
 
-    //Used for aggro in general
-    //private bool shouldAggroStayFixed = false;
-
     // -TODO- Manage Crisis
     [SerializeField]
     private int crisis = 0;
@@ -262,10 +259,7 @@ public class Stats : MonoBehaviour
     /// <param name="n">The amount the aggro will be raised</param>
     public void RaiseAggro( float n )
     {
-        //if ( !shouldAggroStayFixed )
-        //{
-            aggro *= n;
-        //}
+        aggro *= n;
     }
 
     /// <summary>
@@ -274,46 +268,11 @@ public class Stats : MonoBehaviour
     /// <param name="n"></param>
     public void LowerAggro( float n )
     {
-        //if (!shouldAggroStayFixed) {
         aggro = aggro / n;
 
         if ( aggro < 1f )
-            aggro = 1f;
-        //if (aggro > 0)
-        //{
-        //    if (aggro - n < 0)
-        //    {
-        //        aggro = 0;
-        //    }
-        //    else
-        //    {
-        //        aggro -= n;
-        //    }
-        //}
-        //}    
+            aggro = 1f; 
     }
-
-    /// <summary>
-    /// Lower this unit aggro point by amount n
-    /// </summary>
-    /// <param name="n">The amount the aggro will be lowered</param>
-    //public void ResetAggro( int n )
-    //{
-    //    aggro = 0;
-
-    //    if ( type == Stats.Type.Ally )
-    //        this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
-    //}
-
-    //public void LockAggro()
-    //{
-    //    shouldAggroStayFixed = true;
-    //}
-
-    //public void UnlockAggro()
-    //{
-    //    shouldAggroStayFixed = false;
-    //}
 
     /// <summary>
     /// Lower this unit health by amount n

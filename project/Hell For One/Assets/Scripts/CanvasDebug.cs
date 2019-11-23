@@ -14,6 +14,7 @@ public class CanvasDebug : MonoBehaviour
     public Text currentTactic;
     public Text regenCountdown;
     public Text playerAggro;
+    public Text playerText;
     public BossBehavior bossBehaviour;
     public TacticsManager tacticsManager;
     public AllyDemonSpawnerTest allyDemonSpawnerTest;
@@ -75,9 +76,9 @@ public class CanvasDebug : MonoBehaviour
         if (!tacticsManager)
             tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
 
-        regenCountdown.text = "New ally imp in: " + (( int ) (allyDemonSpawnerTest.countdown)).ToString();
+        regenCountdown.text = "New ally imp in: " + (int)allyDemonSpawnerTest.countdown;
 
-        playerAggro.text = "Player's aggro: " + playerStats.Aggro.ToString();
+        playerAggro.text = playerStats.Aggro.ToString();
 
         if ( bossBehaviour.TargetDemon ) {
             if(bossBehaviour.TargetDemon.tag == "Player")

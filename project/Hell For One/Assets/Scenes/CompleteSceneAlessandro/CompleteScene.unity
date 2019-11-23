@@ -23,10 +23,10 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1739,7 +1739,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ef321cce25866014ba5fce80e20e0f46, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2717,26 +2717,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2874742806136768262, guid: 63c290d430f78ea4ba59211026dc311f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2874744866453578504, guid: 63c290d430f78ea4ba59211026dc311f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1982312412375386260, guid: 63c290d430f78ea4ba59211026dc311f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114506153893971918, guid: 63c290d430f78ea4ba59211026dc311f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: type
@@ -2747,16 +2727,36 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
-    - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
-        type: 3}
-      propertyPath: lances
-      value: 
-      objectReference: {fileID: 534213396}
     - target: {fileID: 2962846522363779958, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2874742806136768262, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982312412375386260, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874744866453578504, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114506153893971918, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: lances
+      value: 
+      objectReference: {fileID: 534213396}
     - target: {fileID: 6784614489089510746, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled

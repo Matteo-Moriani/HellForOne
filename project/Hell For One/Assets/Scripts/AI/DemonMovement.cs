@@ -182,7 +182,7 @@ public class DemonMovement : MonoBehaviour
 
     private void HighRangeMovement()
     {
-        if ( HorizDistFromTarget( group ) > transform.localScale.x * group.GetComponent<GroupMovement>().cohesionMultiplier && !inPosition )
+        if ( HorizDistFromTarget( group ) > transform.localScale.x * group.GetComponent<GroupMovement>().distanceAllowed && !inPosition )
         {
             GetComponent<NavMeshAgent>().destination = group.transform.position;
         }
