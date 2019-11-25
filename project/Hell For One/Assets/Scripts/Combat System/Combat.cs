@@ -71,7 +71,7 @@ public class Combat : MonoBehaviour
             }
 
             // Melee Attack
-            else if ( Input.GetButtonDown( "square" ) && coolDownCounter >= playerAttackCooldown )
+            if ( Input.GetButtonDown( "square" ) && coolDownCounter >= playerAttackCooldown )
             {
                 coolDownCounter = 0.0f;
 
