@@ -63,6 +63,45 @@ public class Combat : MonoBehaviour
             {
                 StopBlock();
             }
+
+            // Stop Block
+            if ( !Input.GetButtonDown( "L1" ) )
+            {
+                StopBlock();
+            }
+
+            // Melee Attack
+            else if ( Input.GetButtonDown( "square" ) && coolDownCounter >= playerAttackCooldown )
+            {
+                coolDownCounter = 0.0f;
+
+                Attack();
+            }
+
+            // Dash
+            else if ( Input.GetButtonDown( "circle" ) )
+            {
+                //TODO Dash
+            }
+
+            // Range Attack
+            else if ( Input.GetButtonDown( "triangle" ) && coolDownCounter >= playerAttackCooldown )
+            {
+                coolDownCounter = 0.0f;
+
+                RangedAttack( transform.Find( "RangeTarget" ).gameObject );
+            }
+
+            // Block
+            else if ( Input.GetButton( "L1" ) )
+            {
+                StartBlock();
+            }
+
+            else if ( Input.GetButtonDown( "R1" ) )
+            {
+
+            }
         }
     }
 

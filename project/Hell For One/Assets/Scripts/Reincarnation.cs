@@ -36,6 +36,7 @@ public class Reincarnation : MonoBehaviour
             //player.GetComponent<TacticsManager>().enabled = true;
             player.GetComponent<Dash>().enabled = true;
             player.GetComponent<Reincarnation>().enabled = true;
+            player.GetComponent<DemonMovement>().enabled = true;
 
 
             // Reset Combat
