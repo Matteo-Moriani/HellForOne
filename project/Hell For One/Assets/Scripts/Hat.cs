@@ -15,7 +15,7 @@ public class Hat : MonoBehaviour
 
     public void PlayerDied()
     {
-        if (!rb)
+        if ( !rb )
             rb = gameObject.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
         StartCoroutine( Falling() );

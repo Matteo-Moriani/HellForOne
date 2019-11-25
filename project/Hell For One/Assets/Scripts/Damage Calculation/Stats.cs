@@ -93,7 +93,7 @@ public class Stats : MonoBehaviour
     [Range( 0f, 100f )]
     [Tooltip( "This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0" )]
     private float shieldBonusProbability = 0f;
-    
+
     [SerializeField]
     private float supportingUnitsMultiplier = 0.95f;
 
@@ -233,9 +233,9 @@ public class Stats : MonoBehaviour
     /// How long will last a global attack
     /// </summary>
     public float GlobalAttackDuration { get => globalAttackDuration; set => globalAttackDuration = value; }
-    
+
     public bool IsPushedAway { get => isPushedAway; set => isPushedAway = value; }
-   
+
     public GameObject[] Groups { get => groups; private set => groups = value; }
     public float SupportDamageBuffMultiplier { get => supportDamageBuffMultiplier; set => supportDamageBuffMultiplier = value; }
 
@@ -250,7 +250,7 @@ public class Stats : MonoBehaviour
             aggroDecreasingCR = StartCoroutine( AggroDecreasingCR() );
         }
 
-        Groups = GameObject.FindGameObjectsWithTag("Group");
+        Groups = GameObject.FindGameObjectsWithTag( "Group" );
     }
 
     /// <summary>
@@ -271,7 +271,7 @@ public class Stats : MonoBehaviour
         aggro = aggro / n;
 
         if ( aggro < 1f )
-            aggro = 1f; 
+            aggro = 1f;
     }
 
     /// <summary>
@@ -311,14 +311,17 @@ public class Stats : MonoBehaviour
             dash.enabled = enable;
         }
 
-        if(type == Stats.Type.Ally) { 
+        if ( type == Stats.Type.Ally )
+        {
             DemonMovement dm = GetComponent<DemonMovement>();
-            
-            if(dm != null) {
+
+            if ( dm != null )
+            {
                 dm.CanMove = enable;
             }
-            else { 
-                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");    
+            else
+            {
+                Debug.Log( this.transform.root.name + " ManageMovement cannot find DemonMovement " );
             }
         }
     }
@@ -331,29 +334,29 @@ public class Stats : MonoBehaviour
                 // Calculate supporting units number
                 int supportingUnits = 0;
 
-                if (Groups != null)
+                if ( Groups != null )
                 {
-                    foreach (GameObject group in Groups)
-                    {   
-                        if(group != null)
+                    foreach ( GameObject group in Groups )
+                    {
+                        if ( group != null )
                             supportingUnits += group.GetComponent<GroupSupport>().SupportingUnits;
                         else
-                            Debug.Log(this.gameObject.name + " a group in Stats.groups is null");
+                            Debug.Log( this.gameObject.name + " a group in Stats.groups is null" );
                     }
                 }
 
                 if ( isBlocking )
                 {
-                    
+
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits));
+                    return Random.Range( 1f, 101f ) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow( supportingUnitsMultiplier, supportingUnits ));
                 }
                 else
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance) * Mathf.Pow(supportingUnitsMultiplier,supportingUnits);    
+                    return Random.Range( 1f, 101f ) <= (100 - blockChance) * Mathf.Pow( supportingUnitsMultiplier, supportingUnits );
                 }
             case Stats.Type.Player:
                 if ( isBlocking )
@@ -403,30 +406,33 @@ public class Stats : MonoBehaviour
         {
             // ...we need to update his group
             GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+            gb.SetDemonsNumber( gb.GetDemonsNumber() - 1 );
             // ...and remove him from his group
-            int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
-            gb.demons[demonIndex] = null;
+            int demonIndex = System.Array.IndexOf( gb.demons, this.gameObject );
+            gb.demons[ demonIndex ] = null;
 
             // ...we need to update his group aggro
             GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
             if ( ga != null )
-            {   
+            {
                 ga.UpdateGroupAggro();
             }
-            
+
             // ...if the unit is supporting we have to Update his gruop supporting units number
-            if (IsSupporting) { 
+            if ( IsSupporting )
+            {
                 GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
-                if(gs != null) { 
-                    gs.UpdateSupportingUnits();  
+                if ( gs != null )
+                {
+                    gs.UpdateSupportingUnits();
                 }
             }
         }
-        
+
         // if the player is dying...
-        if (type == Type.Player) {
+        if ( type == Type.Player )
+        {
             // ... we need to reincarnate him
             //GameObject hat;
             //if (hat == null)
@@ -442,21 +448,24 @@ public class Stats : MonoBehaviour
         }
 
         // if the boss is dying...
-        if(type == Type.Boss) {
-            foreach(GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups()) {
+        if ( type == Type.Boss )
+        {
+            foreach ( GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups() )
+            {
                 group.GetComponent<GroupMovement>().SetOutOfCombat();
             }
         }
 
         // if a littleEnemy is dying...
-        if(type == Type.Enemy) {
+        if ( type == Type.Enemy )
+        {
             GameObject[] allies;
 
-            allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
+            allies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
             // ...we need to check if he's the last one
-            if (allies.Length == 1)
+            if ( allies.Length == 1 )
             {
-                foreach (GameObject group in GameObject.FindGameObjectsWithTag("Group"))
+                foreach ( GameObject group in GameObject.FindGameObjectsWithTag( "Group" ) )
                 {
                     group.GetComponent<GroupMovement>().SetOutOfCombat();
                 }
@@ -482,13 +491,13 @@ public class Stats : MonoBehaviour
 
         Vector3 startingVelocity = rb.velocity;
 
-        if (type == Stats.Type.Player)
+        if ( type == Stats.Type.Player )
         {
             rb.interpolation = RigidbodyInterpolation.Extrapolate;
         }
 
         // The Player or Ally imps cannot move or dash if is processig KnockBack
-        ManageMovement(false);
+        ManageMovement( false );
 
         // Calculate KnocKback direction 
         Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
@@ -500,19 +509,19 @@ public class Stats : MonoBehaviour
         {
             // Use FixedDeltaTimeInstead?
             knockBackTimeCounter += Time.fixedDeltaTime;
-            
+
             rb.velocity = knockBackDirection * (AttackerKnockBackSize / attackerKnockBackTime);
 
             // We are using physics so we need to wait for FixedUpdate
             yield return new WaitForFixedUpdate();
-        } while (knockBackTimeCounter <= attackerKnockBackTime);
+        } while ( knockBackTimeCounter <= attackerKnockBackTime );
 
         // Player or Ally imps now can move or dash
-        ManageMovement(true);
+        ManageMovement( true );
 
         rb.velocity = startingVelocity;
 
-        if (type == Stats.Type.Player)
+        if ( type == Stats.Type.Player )
         {
             rb.interpolation = RigidbodyInterpolation.None;
         }
@@ -550,7 +559,7 @@ public class Stats : MonoBehaviour
                 {
                     foreach ( GameObject demon in group.GetComponent<GroupBehaviour>().demons )
                     {
-                        if (demon)
+                        if ( demon )
                             demon.GetComponent<Stats>().LowerAggro( maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10 );
                     }
 

@@ -8,7 +8,7 @@ public class Reincarnation : MonoBehaviour
     private GameObject player;
 
     public void Reincarnate()
-    {   
+    {
         // TODO - do we really need this? we are destroying this GamaObject
         player.GetComponent<Controller>().enabled = false;
         player.GetComponent<TacticsManager>().enabled = false;
@@ -17,11 +17,12 @@ public class Reincarnation : MonoBehaviour
         player.tag = "DeadPlayer";
         CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
         cameraManager.player = null;
-        
+
         player = GameObject.FindGameObjectWithTag( "Demon" );
 
         // If the player is null then the last ally demon is dying
-        if(player != null) {
+        if ( player != null )
+        {
             player.GetComponent<Reincarnation>().enabled = true;
 
             player.tag = "Player";
@@ -36,18 +37,19 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Dash>().enabled = true;
             player.GetComponent<Reincarnation>().enabled = true;
 
-            
+
             // Reset Combat
-            Combat playerCombat =  player.GetComponent<Combat>();
-            if (!player.GetComponent<Stats>().IsIdle) { 
-                playerCombat.StopAll();    
+            Combat playerCombat = player.GetComponent<Combat>();
+            if ( !player.GetComponent<Stats>().IsIdle )
+            {
+                playerCombat.StopAll();
             }
-            
+
             // Removing the new player from the group belonging to
-            int playerIndex = System.Array.IndexOf(player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player);
+            int playerIndex = System.Array.IndexOf( player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player );
             GroupBehaviour gb = player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.demons[playerIndex] = null;
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+            gb.demons[ playerIndex ] = null;
+            gb.SetDemonsNumber( gb.GetDemonsNumber() - 1 );
 
             // Update group aggro and supporting units
             // What if the unit was tanking?

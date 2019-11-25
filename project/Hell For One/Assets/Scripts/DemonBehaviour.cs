@@ -60,13 +60,13 @@ public class DemonBehaviour : MonoBehaviour
             // Returns -1 if not present
             int firstEmpty = System.Array.IndexOf( demonsArray, null );
 
-            if (firstEmpty >= 0)
+            if ( firstEmpty >= 0 )
             {
                 demonsArray[ firstEmpty ] = gameObject;
                 groupFound = true;
                 groupBelongingTo = bestGroup;
                 GroupBehaviour groupBehaviour = bestGroup.GetComponent<GroupBehaviour>();
-                groupBehaviour.SetDemonsNumber(groupBehaviour.GetDemonsNumber() + 1);
+                groupBehaviour.SetDemonsNumber( groupBehaviour.GetDemonsNumber() + 1 );
             }
 
             //for ( int i = 0; i < demonsArray.Length; i++ )
@@ -84,7 +84,8 @@ public class DemonBehaviour : MonoBehaviour
         ChangeColor();
     }
 
-    private void ChangeColor() {
+    private void ChangeColor()
+    {
         gameObject.GetComponent<MeshRenderer>().material = groupBelongingTo.GetComponent<GroupBehaviour>().groupColor;
     }
 }

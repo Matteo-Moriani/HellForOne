@@ -73,19 +73,20 @@ public class CanvasDebug : MonoBehaviour
         currentGroup.text = tacticsManager.CurrentShowedGroup.ToString();
         currentTactic.text = tacticsManager.CurrentShowedState.ToString();
 
-        if (!tacticsManager)
+        if ( !tacticsManager )
             tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
 
-        regenCountdown.text = "New ally imp in: " + (int)allyDemonSpawnerTest.countdown;
+        regenCountdown.text = "New ally imp in: " + ( int ) allyDemonSpawnerTest.countdown;
 
         playerAggro.text = playerStats.Aggro.ToString();
 
-        if ( bossBehaviour.TargetDemon ) {
-            if(bossBehaviour.TargetDemon.tag == "Player")
+        if ( bossBehaviour.TargetDemon )
+        {
+            if ( bossBehaviour.TargetDemon.tag == "Player" )
                 bossTargetGroup.text = "Boss target:    " + "Player";
             else
                 bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;
         }
-        
+
     }
 }

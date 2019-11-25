@@ -7,19 +7,19 @@ public class CombatManager : MonoBehaviour
     #region fields
 
     [SerializeField]
-    [Tooltip("The AttackCollider of this unit used for combat")]
+    [Tooltip( "The AttackCollider of this unit used for combat" )]
     private GameObject attackCollider;
-    
+
     [SerializeField]
-    [Tooltip("The BlockCollider of this unit used for combat")]
+    [Tooltip( "The BlockCollider of this unit used for combat" )]
     private GameObject blockCollider;
-    
+
     [SerializeField]
-    [Tooltip("The IdleCollider of this unit used for combat")]
+    [Tooltip( "The IdleCollider of this unit used for combat" )]
     private GameObject idleCollider;
-    
+
     [SerializeField]
-    [Tooltip("Reference to Lancer component, used for ranged attacks")]
+    [Tooltip( "Reference to Lancer component, used for ranged attacks" )]
     private Lancer lancer;
 
     [SerializeField]
@@ -38,9 +38,9 @@ public class CombatManager : MonoBehaviour
     private Vector3 baseAttackColliderScale;
 
     // Min distance for tactics
-    [Tooltip("The maximum distance at where they can melee attack")]
+    [Tooltip( "The maximum distance at where they can melee attack" )]
     private float maxMeleeDistance = 2f;
-    [Tooltip("The maximum distance at where they can launch")]
+    [Tooltip( "The maximum distance at where they can launch" )]
     private float maxRangeCombatDistance = 15f;
     [Tooltip( "The minimum distance at where they can launch" )]
     private float minRangeCombatDistance = 10f;
@@ -143,11 +143,13 @@ public class CombatManager : MonoBehaviour
             stats.IsSupporting = true;
             GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
-            if(gs != null) {
+            if ( gs != null )
+            {
                 gs.AddSupportingUnit();
             }
-            else { 
-                Debug.Log(this.transform.root.name + " cannot find GroupSupport");    
+            else
+            {
+                Debug.Log( this.transform.root.name + " cannot find GroupSupport" );
             }
 
         }
@@ -166,13 +168,13 @@ public class CombatManager : MonoBehaviour
 
             GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
-            if (gs != null)
+            if ( gs != null )
             {
                 gs.RemoveSupportingUnit();
             }
             else
             {
-                Debug.Log(this.transform.root.name + " cannot find GroupSupport");
+                Debug.Log( this.transform.root.name + " cannot find GroupSupport" );
             }
         }
         else
@@ -275,7 +277,7 @@ public class CombatManager : MonoBehaviour
         if ( stats.IsIdle )
         {
             stats.IsIdle = false;
-            
+
             if ( target != null )
             {
                 //lancer.Start( target );
@@ -284,7 +286,7 @@ public class CombatManager : MonoBehaviour
             }
             else
                 Debug.Log( this.name + "Is trying a ranged attack to a null target" );
-            
+
             stats.IsIdle = true;
         }
         else
@@ -311,7 +313,8 @@ public class CombatManager : MonoBehaviour
     {
         while
             // horizontal distance of the parent game object to the target's borders
-            (transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) > distance) {
+            ( transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders( target ) > distance )
+        {
             //((target.transform.position - gameObject.transform.position).magnitude > distance) {
             canAttack = false;
             yield return new WaitForSeconds( 1f );

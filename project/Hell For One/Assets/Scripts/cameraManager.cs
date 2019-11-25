@@ -72,7 +72,10 @@ public class CameraManager : MonoBehaviour
             turnSpeed = 4.0f;
 
         if ( !player )
+        {
+            isLocked = false;
             FindPlayer();
+        }
 
         // Remove lock-on
         if ( Input.GetButtonDown( "R3" ) && isLocked )

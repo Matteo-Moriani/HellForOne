@@ -8,7 +8,8 @@ using UnityEngine.AI;
 
 public class BossBehavior : MonoBehaviour
 {
-    enum TimerType {
+    enum TimerType
+    {
         stare,
         pursue
     }
@@ -155,12 +156,14 @@ public class BossBehavior : MonoBehaviour
         if ( demonGroups.Length != 4 && !player )
             return false;
 
-        if((transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter) {
+        if ( (transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
+        {
             ChooseCentralTarget();
         }
-        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout)
+        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout )
         {
-            if(pursueTimeout) {
+            if ( pursueTimeout )
+            {
                 pursueTimeout = false;
             }
 
@@ -172,8 +175,8 @@ public class BossBehavior : MonoBehaviour
             {
                 float groupAggro = 0f;
                 // if the group is empty, I give to the group a value of zero
-                if(!demonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
-                    groupAggro = demonGroups[i].GetComponent<GroupAggro>().GetAggro();
+                if ( !demonGroups[ i ].GetComponent<GroupBehaviour>().IsEmpty() )
+                    groupAggro = demonGroups[ i ].GetComponent<GroupAggro>().GetAggro();
                 aggroValues[ i ] = groupAggro;
                 totalAggro = totalAggro + groupAggro;
                 probability[ i + 1 ] = totalAggro;
@@ -191,12 +194,12 @@ public class BossBehavior : MonoBehaviour
                 aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
                 probDebug = probDebug + totalAggro + " - ";
             }
-            
-            float random = Random.Range(0f, totalAggro);
+
+            float random = Random.Range( 0f, totalAggro );
 
             // if I was pursuing the player, I won't choose him again
-            if(pursueTimeout)
-                random = Random.Range(0f, totalAggro - player.GetComponent<Stats>().Aggro);
+            if ( pursueTimeout )
+                random = Random.Range( 0f, totalAggro - player.GetComponent<Stats>().Aggro );
 
 
             for ( int i = 1; i < probability.Length; i++ )
@@ -209,7 +212,8 @@ public class BossBehavior : MonoBehaviour
                         TargetGroup = demonGroups[ i - 1 ];
                         TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
-                    else {
+                    else
+                    {
                         TargetDemon = player;
                     }
 
@@ -219,10 +223,10 @@ public class BossBehavior : MonoBehaviour
             }
 
             // if the chosen demon is too far from arena center I choose one from the most centered group
-            if((TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter)
+            if ( (TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
                 ChooseCentralTarget();
         }
-        
+
         return true;
     }
 
@@ -380,17 +384,18 @@ public class BossBehavior : MonoBehaviour
         if ( TargetDemon )
         {
 
-            if((transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter) {
+            if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
+            {
                 needsCentering = true;
                 ChooseCentralTarget();
             }
-            else if((transform.position - arenaCenter.transform.position).magnitude <= centeringDist)
+            else if ( (transform.position - arenaCenter.transform.position).magnitude <= centeringDist )
                 needsCentering = false;
 
 
             // If I'm far from arena borders, I'm always facing my last target
-            if(needsCentering)
-                Face(arenaCenter);
+            if ( needsCentering )
+                Face( arenaCenter );
             else
                 Face( TargetDemon );
 
@@ -410,10 +415,11 @@ public class BossBehavior : MonoBehaviour
         timerStillGoing = true;
         yield return new WaitForSeconds( s );
         timerStillGoing = false;
-        if(type == TimerType.pursue) {
+        if ( type == TimerType.pursue )
+        {
             pursueTimeout = true;
         }
-        
+
     }
 
     private void SingleAttack()
@@ -489,18 +495,22 @@ public class BossBehavior : MonoBehaviour
         return closest;
     }
 
-    private void ChooseCentralTarget() {
-        targetGroup = ClosestGroupTo(arenaCenter.transform.position);
-        foreach(GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons) {
-            if(demon != null) {
+    private void ChooseCentralTarget()
+    {
+        targetGroup = ClosestGroupTo( arenaCenter.transform.position );
+        foreach ( GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons )
+        {
+            if ( demon != null )
+            {
                 targetDemon = demon;
-                Debug.Log(debugIndex + " - target is " + targetDemon.name + ", the most centered one");
+                Debug.Log( debugIndex + " - target is " + targetDemon.name + ", the most centered one" );
                 break;
             }
         }
     }
 
-    public GameObject[] GetDemonGroups() {
+    public GameObject[] GetDemonGroups()
+    {
         return demonGroups;
     }
 }
