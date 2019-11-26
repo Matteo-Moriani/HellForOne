@@ -20,6 +20,8 @@ public class Combat : MonoBehaviour
     //          now has zero references
     public GameObject target;
 
+    private GameObject rangeTarget;
+
     [SerializeField]
     private float playerAttackCooldown = 0.5f;
 
@@ -34,6 +36,12 @@ public class Combat : MonoBehaviour
         stats = GetComponent<Stats>();
 
         coolDownCounter = playerAttackCooldown;
+
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "PlayerRangedTarget")
+                rangeTarget = child.gameObject;
+        }
     }
 
     void Update()
@@ -48,22 +56,7 @@ public class Combat : MonoBehaviour
         // Used for testing - Put attack button in player controller
         if ( stats.type == Stats.Type.Player )
         {
-            if ( Input.GetMouseButtonDown( 0 ) && coolDownCounter >= playerAttackCooldown )
-            {
-                coolDownCounter = 0.0f;
-
-                Attack();
-            }
-
-            if ( Input.GetMouseButtonDown( 1 ) )
-            {
-                StartBlock();
-            }
-            if ( Input.GetMouseButtonUp( 1 ) )
-            {
-                StopBlock();
-            }
-
+            /*
             // Stop Block
             if ( !Input.GetButtonDown( "L1" ) )
             {
@@ -102,21 +95,26 @@ public class Combat : MonoBehaviour
             {
 
             }
+            */
         }
     }
 
     /// <summary>
     /// Deals an attack.
     /// Calls CombatManager.Attack
+    /// Used for the player
     /// </summary>
     public void Attack()
-    {
-        combatManager.MeleeAttack();
+    {   if(coolDownCounter >= playerAttackCooldown) { 
+            coolDownCounter = 0f;
+            combatManager.MeleeAttack();
+        }
     }
 
     /// <summary>
     /// Deals an attack to a target.
     /// Calls CombatManager.Attack.
+    /// Used for generic demons
     /// </summary>
     /// <param name="target">The target of the attack</param>
     public void Attack( GameObject target )
@@ -139,7 +137,22 @@ public class Combat : MonoBehaviour
     /// <param name="target">The target of the ranged attack</param>
     public void RangedAttack( GameObject target )
     {
-        combatManager.RangedAttack( target );
+        // If the palyer wants to range attack...
+        if(stats.type == Stats.Type.Player) { 
+            if(coolDownCounter >= playerAttackCooldown) {
+                coolDownCounter = 0f;
+                if(rangeTarget != null) {
+                    combatManager.RangedAttack(rangeTarget);
+                }
+                else {
+                    Debug.Log("Player cannot find rangeTarget");
+                }
+            }
+        }
+        // For everty other demon...
+        else {
+            combatManager.RangedAttack(target);
+        }
     }
 
     /// <summary>

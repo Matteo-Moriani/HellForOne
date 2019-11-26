@@ -269,11 +269,14 @@ public class CombatManager : MonoBehaviour
     // TODO same as MeleeAttack(), they don't have to attack if not in distance
     public void RangedAttack( GameObject target )
     {
-        StartCoroutine( WaitTillMinDistance( MaxRangedDistance, target ) );
+        // Regular Imps need to check if target is in range
+        if(stats.type == Stats.Type.Ally) {
+            StartCoroutine(WaitTillMinDistance(MaxRangedDistance, target));
 
-        if ( !canAttack )
-            return;
-
+            if (!canAttack)
+                return;
+        }
+        
         if ( stats.IsIdle )
         {
             stats.IsIdle = false;

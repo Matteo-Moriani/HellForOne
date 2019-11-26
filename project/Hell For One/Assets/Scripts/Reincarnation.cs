@@ -25,6 +25,8 @@ public class Reincarnation : MonoBehaviour
         {
             player.GetComponent<Reincarnation>().enabled = true;
 
+            player.GetComponent<PlayerInput>().enabled = true;
+
             player.tag = "Player";
             //player.GetComponent<DemonBehaviour>().enabled = false;
             player.GetComponent<DemonMovement>().enabled = false;
