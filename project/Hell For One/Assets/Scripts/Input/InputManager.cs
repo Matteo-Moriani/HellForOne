@@ -14,7 +14,6 @@ public class InputManager : MonoBehaviour
     [Tooltip("Type of the controller that player will use")]
     private Controller type = Controller.None;
 
-    // TODO - To implement PS3 Input
     #region XorA
 
     /// <summary>
@@ -25,8 +24,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton0);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "cross" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -43,8 +41,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton0);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "cross" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -61,8 +58,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton0);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "cross" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -72,7 +68,6 @@ public class InputManager : MonoBehaviour
 
     #endregion
 
-    // TODO - To implement PS3 Input
     #region CircleOrB
 
     /// <summary>
@@ -85,8 +80,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton1);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "circle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -104,8 +98,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton1);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "circle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -123,8 +116,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton1);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "circle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -134,7 +126,6 @@ public class InputManager : MonoBehaviour
 
     #endregion
 
-    // TODO - To implement PS3 Input
     #region TriangleOrY
 
     /// <summary>
@@ -147,8 +138,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton3);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "triangle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -166,8 +156,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton3);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "triangle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -185,8 +174,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton3);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "triangle" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -196,7 +184,6 @@ public class InputManager : MonoBehaviour
 
     #endregion
 
-    // TODO - To implement PS3 Input
     #region SquareOrX
 
     /// <summary>
@@ -209,8 +196,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton2);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "square" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -228,8 +214,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton2);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "square" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -247,8 +232,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton2);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "square" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -512,8 +496,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton4);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "L1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -531,8 +514,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton4);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "L1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -550,8 +532,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton4);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "L1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -629,20 +610,22 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// Returns the value of the L2 axis
     /// </summary>
-    public float L2Axis()
+    public bool L2Axis()
     {
         switch (type)
         {
             case Controller.Xbox:
-                return Input.GetAxis("XBoxLT");
+                if ( Input.GetAxis( "XBoxLT" ) == 1f )
+                    return true;
+                else
+                    return false;
             case Controller.Ps3:
-                // TODO - To Implement
-                break;
+                return Input.GetButtonDown( "L2" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
         }
-        return 0f;
+        return false;
     }
 
     #endregion
@@ -653,20 +636,22 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// Returns the value of the R2 axis
     /// </summary>
-    public float R2Axis()
+    public bool R2Axis()
     {
         switch (type)
         {
             case Controller.Xbox:
-                return Input.GetAxis("XBoxRT");
+                if ( Input.GetAxis( "XBoxRT" ) == 1f)
+                    return true;
+                else
+                    return false;
             case Controller.Ps3:
-                // TODO - To Implement
-                break;
+                return Input.GetButtonDown( "R2" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
         }
-        return 0f;
+        return false;
     }
 
     #endregion

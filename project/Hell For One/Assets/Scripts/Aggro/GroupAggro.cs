@@ -23,46 +23,6 @@ public class GroupAggro : MonoBehaviour
         groups = GameObject.FindGameObjectsWithTag( "Group" );
     }
 
-    private void Update()
-    {
-        //if ( groupBehaviour.MeleeOrderGiven() )
-        //{
-        //    //if ( shouldStayFixed )
-        //    //{
-        //    //    ManageLockingAggroInDemons( false );
-        //        UpdateGroupAggro();
-        //    GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(OrderGivenMultiplier);
-        //        //shouldStayFixed = false;
-        //    //}
-        //}
-        //if ( groupBehaviour.RangeAttackOrderGiven() )
-        //{
-        //    //if ( shouldStayFixed )
-        //    //{
-        //    //    ManageLockingAggroInDemons( false );
-        //        UpdateGroupAggro();
-        //    GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(OrderGivenMultiplier);
-        //    //shouldStayFixed = false;
-        //    //}
-        //}
-        //if ( groupBehaviour.TankOrderGiven() )
-        //{
-        //    //ManageLockingAggroInDemons( true );
-        //    //shouldStayFixed = true;
-        //    GroupAggroValue = Mathf.Max( Mathf.CeilToInt( (CalculateAverageAggro() / groups.Length) * TankMultiplier ), GroupAggroValue );
-        //    GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(OrderGivenMultiplier);
-
-        //}
-        //if ( groupBehaviour.SupportOrderGiven() )
-        //{
-        //    //ManageLockingAggroInDemons( true );
-        //    UpdateGroupAggro();
-        //    GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(OrderGivenMultiplier);
-        //    //shouldStayFixed = true;
-        //    //groupAggro = Mathf.Max( Mathf.CeilToInt((CalculateAverageAggro() / groups.Length) * supportMultiplier), groupAggro );
-        //}
-    }
-
     public float GetAggro()
     {
         return GroupAggroValue;

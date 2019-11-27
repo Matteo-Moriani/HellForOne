@@ -66,6 +66,25 @@ public class TacticsManager : MonoBehaviour
         }
     }
 
+    public void RotateGroups()
+    {
+        groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
+        CurrentShowedGroup = groupsArray[ groupsIndex ];
+        Debug.Log( CurrentShowedGroup );
+    }
+
+    public void RotateTactics()
+    {
+        tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
+        CurrentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
+        Debug.Log( CurrentShowedState );
+    }
+
+    public void AssignOrder()
+    {
+        AssignOrderToGroup( CurrentShowedState, CurrentShowedGroup );
+    }
+
     void Start()
     {
         FillArrays();
@@ -73,37 +92,5 @@ public class TacticsManager : MonoBehaviour
         tacticsIndex = 0;
         CurrentShowedState = tacticsArray[ tacticsIndex ];
         CurrentShowedGroup = groupsArray[ groupsIndex ];
-    }
-
-    void Update()
-    {
-        cross = Input.GetButtonDown( "cross" );
-        square = Input.GetButtonDown( "square" );
-        triangle = Input.GetButtonDown( "triangle" );
-        circle = Input.GetButtonDown( "circle" );
-        L1 = Input.GetButtonDown( "L1" );
-        R1 = Input.GetButtonDown( "R1" );
-        L2 = Input.GetButtonDown( "L2" );
-        R2 = Input.GetButtonDown( "R2" );
-        R3 = Input.GetButtonDown( "R3" );
-
-        if ( cross )
-        {
-            AssignOrderToGroup( CurrentShowedState, CurrentShowedGroup );
-        }
-
-        if ( L2 )
-        {
-            groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
-            CurrentShowedGroup = groupsArray[ groupsIndex ];
-            Debug.Log( CurrentShowedGroup );
-        }
-
-        if ( R2 )
-        {
-            tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
-            CurrentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
-            Debug.Log( CurrentShowedState );
-        }
     }
 }

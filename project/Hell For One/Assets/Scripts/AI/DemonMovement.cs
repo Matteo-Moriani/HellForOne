@@ -77,7 +77,7 @@ public class DemonMovement : MonoBehaviour
                 {
                     if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
                     {
-                        if ( (HorizDistFromTargetBorders(target) > GetComponentInChildren<CombatManager>().MaxMeleeDistance) )
+                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MaxMeleeDistance) )
                         {
                             GetComponent<NavMeshAgent>().destination = target.transform.position;
                         }
@@ -86,7 +86,7 @@ public class DemonMovement : MonoBehaviour
                     }
                     else
                     {
-                        if ( (HorizDistFromTargetBorders(target) > GetComponentInChildren<CombatManager>().MinRangedDistance) )
+                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MinRangedDistance) )
                             GetComponent<NavMeshAgent>().destination = target.transform.position;
                         else
                             GetComponent<NavMeshAgent>().destination = transform.position;
@@ -108,7 +108,7 @@ public class DemonMovement : MonoBehaviour
 
     }
 
-    public float HorizDistFromTargetBorders(GameObject target)
+    public float HorizDistFromTargetBorders( GameObject target )
     {
         if ( !targetCollider )
             targetCollider = target.GetComponent<Collider>();
@@ -149,13 +149,13 @@ public class DemonMovement : MonoBehaviour
 
             Face( target );
 
-            if ( HorizDistFromTargetBorders(target) > maxMeleeDist )
+            if ( HorizDistFromTargetBorders( target ) > maxMeleeDist )
             {
                 enemyComponent = targetCollider.ClosestPoint( transform.position );
                 farFromEnemy = true;
             }
 
-            if ( HorizDistFromTargetBorders(target) < minMeleeDist )
+            if ( HorizDistFromTargetBorders( target ) < minMeleeDist )
             {
                 //GetComponent<Rigidbody>().AddForce(transform.position - targetCollider.ClosestPoint(transform.position));
                 enemyComponent = transform.position;
@@ -184,7 +184,8 @@ public class DemonMovement : MonoBehaviour
     {
         if ( HorizDistFromTarget( group ) > transform.localScale.x * group.GetComponent<GroupMovement>().distanceAllowed && !inPosition )
         {
-            GetComponent<NavMeshAgent>().destination = group.transform.position;
+            if ( gameObject.GetComponent<NavMeshAgent>() )
+                GetComponent<NavMeshAgent>().destination = group.transform.position;
         }
         else
         {
@@ -209,7 +210,7 @@ public class DemonMovement : MonoBehaviour
         switch ( gb.currentState )
         {
             case GroupBehaviour.State.MeleeAttack:
-                if ( HorizDistFromTargetBorders(target) <= maxMeleeDist )
+                if ( HorizDistFromTargetBorders( target ) <= maxMeleeDist )
                     return true;
                 else
                     return false;

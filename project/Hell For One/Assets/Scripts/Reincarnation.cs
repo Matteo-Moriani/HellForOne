@@ -24,12 +24,9 @@ public class Reincarnation : MonoBehaviour
         if ( player != null )
         {
             player.GetComponent<Reincarnation>().enabled = true;
-
             player.GetComponent<PlayerInput>().enabled = true;
-
             player.tag = "Player";
             //player.GetComponent<DemonBehaviour>().enabled = false;
-            player.GetComponent<DemonMovement>().enabled = false;
             //player.GetComponent<ObjectsPooler>().enabled = false;
             player.GetComponent<Lancer>().enabled = false;
             player.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
@@ -37,9 +34,6 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Controller>().enabled = true;
             //player.GetComponent<TacticsManager>().enabled = true;
             player.GetComponent<Dash>().enabled = true;
-            player.GetComponent<Reincarnation>().enabled = true;
-            player.GetComponent<DemonMovement>().enabled = true;
-
 
             // Reset Combat
             Combat playerCombat = player.GetComponent<Combat>();

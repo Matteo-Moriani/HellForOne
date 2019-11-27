@@ -8,12 +8,14 @@ public class PlayerInput : MonoBehaviour
 
     private Dash dash;
     private Combat combat;
+    private TacticsManager tacticsManager;
 
     private void Start()
     {
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
         inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+        tacticsManager = GetComponent<TacticsManager>();
     }
 
     private void Update()
@@ -24,6 +26,15 @@ public class PlayerInput : MonoBehaviour
             if (inputManager.CircleButtonDown()) { 
                 if(dash != null) {
                     dash.TryDash(inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal());
+                }
+            }
+
+            // Cross (PS3) / A (XBOX)
+            if ( inputManager.XButtonDown() )
+            {
+                if ( combat != null && tacticsManager)
+                {
+                    tacticsManager.AssignOrder();
                 }
             }
 
@@ -54,6 +65,24 @@ public class PlayerInput : MonoBehaviour
                 if(combat != null) { 
                     combat.RangedAttack(null);    
                 }    
+            }
+
+            // L2 (PS3) / LT (XBOX)
+            if ( inputManager.L2Axis() )
+            {
+                if ( combat != null &&  tacticsManager)
+                {
+                    tacticsManager.RotateGroups(); ;
+                }
+            }
+
+            // R2 (PS3) / RT (XBOX)
+            if ( inputManager.R2Axis() )
+            {
+                if ( combat != null && tacticsManager)
+                {
+                    tacticsManager.RotateTactics();
+                }
             }
         }
         else { 
