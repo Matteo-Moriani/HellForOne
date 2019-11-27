@@ -105,23 +105,14 @@ public class GroupBehaviour : MonoBehaviour
         currentState = newState;
         ConfirmEffects();
         orderConfirmed = false;
-    }
 
-    // Maybe all the CheckDemons() can be avoided by putting only 1 CheckDemons() inside the FSMUpdate()
-    //public void MeleeAttack()
-    //{
-    //    if ( !CheckDemons() )
-    //        return;
-    //    foreach ( GameObject demon in demons )
-    //    {
-    //        // This check must be done in every tactic
-    //        if ( demon )
-    //        {
-    //            Combat combat = demon.GetComponent<Combat>();
-    //            combat.Attack();
-    //        }
-    //    }
-    //}
+        GroupAggro groupAggro = gameObject.GetComponent<GroupAggro>();
+        groupAggro.UpdateGroupAggro();
+
+        if ( currentState == State.Tank )
+            groupAggro.GroupAggroValue = Mathf.Max( Mathf.CeilToInt( (groupAggro.CalculateAverageAggro() / groupAggro.groups.Length) * groupAggro.TankMultiplier ), groupAggro.GroupAggroValue );
+        GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().RaiseAggro( groupAggro.OrderGivenMultiplier );
+    }
 
     public void MeleeAttack()
     {
