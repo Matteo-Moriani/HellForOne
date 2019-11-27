@@ -25,7 +25,8 @@ public class BossBehavior : MonoBehaviour
     public GameObject arenaCenter;
 
     // 15 is the ray of boss arena
-    public float maxDistFromCenter = 12f;
+    public float maxDistFromCenter = 13.5f;
+    public float maxTargetDistFromCenter = 14.5f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -42,6 +43,7 @@ public class BossBehavior : MonoBehaviour
     private bool timerStarted = false;
     private bool timerStillGoing = false;
     private bool pursueTimeout = false;
+    private bool targetFarFromCenter = false;
     private bool resetFightingBT = false;
     private CRBT.BehaviorTree FightingBT;
     private Coroutine fightingCR;
@@ -142,6 +144,16 @@ public class BossBehavior : MonoBehaviour
         }
     }
 
+    public bool TargetNearArenaCenter() {
+        if((arenaCenter.transform.position - targetDemon.transform.position).magnitude > maxTargetDistFromCenter && HorizDistFromTarget(arenaCenter) > maxDistFromCenter) {
+            targetFarFromCenter = true;
+            canWalk = false;
+            return false;
+        }
+        else
+            return true;
+    }
+
     private void ResetTimer()
     {
         timerStarted = false;
@@ -151,22 +163,13 @@ public class BossBehavior : MonoBehaviour
     public bool ChooseTarget()
     {
         ResetTimer();
-        debugIndex++;
 
         if ( demonGroups.Length != 4 && !player )
             return false;
-
-        if ( (transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
+        
+        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout || targetFarFromCenter)
         {
-            ChooseCentralTarget();
-        }
-        else if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || pursueTimeout )
-        {
-            if ( pursueTimeout )
-            {
-                pursueTimeout = false;
-            }
-
+            GameObject previousTarget = TargetDemon;
             float totalAggro = 0f;
             string aggroDebug = "aggro values: ";
             string probDebug = "probabilities: ";
@@ -198,9 +201,8 @@ public class BossBehavior : MonoBehaviour
             float random = Random.Range( 0f, totalAggro );
 
             // if I was pursuing the player, I won't choose him again
-            if ( pursueTimeout )
-                random = Random.Range( 0f, totalAggro - player.GetComponent<Stats>().Aggro );
-
+            if ( pursueTimeout)
+                random = Random.Range(0f, totalAggro - player.GetComponent<Stats>().Aggro);
 
             for ( int i = 1; i < probability.Length; i++ )
             {
@@ -223,8 +225,11 @@ public class BossBehavior : MonoBehaviour
             }
 
             // if the chosen demon is too far from arena center I choose one from the most centered group
-            if ( (TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter )
+            if ( (TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter || targetFarFromCenter )
                 ChooseCentralTarget();
+
+            pursueTimeout = false;
+            targetFarFromCenter = false;
         }
 
         return true;
@@ -240,7 +245,7 @@ public class BossBehavior : MonoBehaviour
 
     public bool WalkToTarget()
     {
-        if ( HorizDistFromTarget( TargetDemon ) > stopDist )
+        if ( HorizDistFromTarget( TargetDemon ) > stopDist)
         {
             canWalk = true;
             return true;
@@ -277,6 +282,7 @@ public class BossBehavior : MonoBehaviour
 
         CRBT.BTCondition started = new CRBT.BTCondition( TimerStarted );
         CRBT.BTCondition going = new CRBT.BTCondition( TimerStillGoing );
+        CRBT.BTCondition nearArenaCenter = new CRBT.BTCondition(TargetNearArenaCenter);
 
         CRBT.BTAction target = new CRBT.BTAction( ChooseTarget );
         CRBT.BTAction stare = new CRBT.BTAction( StareAtTarget );
@@ -286,7 +292,7 @@ public class BossBehavior : MonoBehaviour
 
         CRBT.BTSelector sel1 = new CRBT.BTSelector( new CRBT.IBTTask[] { started, timeout } );
         CRBT.BTSelector sel3 = new CRBT.BTSelector( new CRBT.IBTTask[] { started, stare } );
-        CRBT.BTSequence seq4 = new CRBT.BTSequence( new CRBT.IBTTask[] { going, walk } );
+        CRBT.BTSequence seq4 = new CRBT.BTSequence( new CRBT.IBTTask[] { going, nearArenaCenter, walk } );
 
         CRBT.BTSequence seq1 = new CRBT.BTSequence( new CRBT.IBTTask[] { sel1, seq4 } );
         CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail( seq1 );
@@ -370,7 +376,6 @@ public class BossBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if ( !player )
             player = GameObject.FindGameObjectWithTag( "Player" );
 
@@ -383,21 +388,7 @@ public class BossBehavior : MonoBehaviour
         // in case I don't have a target anymore for some reason
         if ( TargetDemon )
         {
-
-            if ( (transform.position - arenaCenter.transform.position).magnitude >= maxDistFromCenter )
-            {
-                needsCentering = true;
-                ChooseCentralTarget();
-            }
-            else if ( (transform.position - arenaCenter.transform.position).magnitude <= centeringDist )
-                needsCentering = false;
-
-
-            // If I'm far from arena borders, I'm always facing my last target
-            if ( needsCentering )
-                Face( arenaCenter );
-            else
-                Face( TargetDemon );
+            Face( TargetDemon );
 
             if ( canWalk )
                 transform.position += transform.forward * speed * Time.deltaTime;
@@ -497,13 +488,12 @@ public class BossBehavior : MonoBehaviour
 
     private void ChooseCentralTarget()
     {
-        targetGroup = ClosestGroupTo( arenaCenter.transform.position );
-        foreach ( GameObject demon in targetGroup.GetComponent<GroupBehaviour>().demons )
+        TargetGroup = ClosestGroupTo( arenaCenter.transform.position );
+        foreach ( GameObject demon in TargetGroup.GetComponent<GroupBehaviour>().demons )
         {
             if ( demon != null )
             {
-                targetDemon = demon;
-                Debug.Log( debugIndex + " - target is " + targetDemon.name + ", the most centered one" );
+                TargetDemon = demon;
                 break;
             }
         }
