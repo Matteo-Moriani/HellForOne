@@ -118,22 +118,32 @@ public class GroupBehaviour : MonoBehaviour
     {
         if ( !CheckDemons() )
             return;
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+        GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+
+        if ( boss )
+            target = boss;
+        else if ( enemies != null )
+            target = CameraManager.FindNearestEnemy( gameObject, enemies );
+        else
+            return;
+
         foreach ( GameObject demon in demons )
         {
-            // This check must be done in every tactic
             if ( demon )
             {
                 Combat combat = demon.GetComponent<Combat>();
 
-                GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-                GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+                //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+                //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-                if ( boss )
-                    target = boss;
-                else if ( enemies != null )
-                    target = CameraManager.FindNearestEnemy( gameObject, enemies );
-                else
-                    return;
+                //if ( boss )
+                //    target = boss;
+                //else if ( enemies != null )
+                //    target = CameraManager.FindNearestEnemy( gameObject, enemies );
+                //else
+                //    return;
 
                 combat.Attack( target );
             }

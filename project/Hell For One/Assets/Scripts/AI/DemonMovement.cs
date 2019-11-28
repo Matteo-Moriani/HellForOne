@@ -67,6 +67,8 @@ public class DemonMovement : MonoBehaviour
                     if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
                     {
                         distanceInPosition = 0f;
+
+                        //TODO fix
                         CloseRangeMovement();
                     }
                     else
