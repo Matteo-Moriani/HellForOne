@@ -152,7 +152,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// Tells if this unit is Idle (not blocking)
     /// </summary>
-    private bool isIdle = true;
+    private bool notAttacking = true;
     /// <summary>
     /// Tells if this unit is blocking
     /// </summary>
@@ -165,6 +165,12 @@ public class Stats : MonoBehaviour
     // Used to store all groups reference
     // Using this we can avoid a lot of FindGameObjectsWithTag
     private GameObject[] groups;
+
+    private bool isDying = false;
+
+    // must be of the exact duration of the death animation for the character
+    public float deathDuration = 0f;
+    private Coroutine deathCR;
 
     #endregion
 
@@ -212,7 +218,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// Tells if the unit is Idle (not blocking)
     /// </summary>
-    public bool IsIdle { get => isIdle; set => isIdle = value; }
+    public bool NotAttacking { get => notAttacking; set => notAttacking = value; }
     /// <summary>
     /// Tells is the unit is blocking
     /// </summary>
@@ -450,14 +456,17 @@ public class Stats : MonoBehaviour
         // if the boss is dying...
         if ( type == Type.Boss )
         {
-            gameObject.GetComponent<BossAnimator>().StopAnimations();
-            gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
-            gameObject.GetComponent<BossAnimator>().StopAnimations();
+            if(!isDying) {
+                gameObject.GetComponent<BossAnimator>().StopAnimations();
+                gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
+            }
+            isDying = true;
 
             foreach ( GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups() )
             {
                 group.GetComponent<GroupMovement>().SetOutOfCombat();
             }
+            
         }
 
         // if a littleEnemy is dying...
@@ -476,8 +485,7 @@ public class Stats : MonoBehaviour
             }
         }
 
-        // if something is dying we destroy his 
-        Destroy( gameObject );
+        deathCR = StartCoroutine(Death(deathDuration));
     }
 
     #endregion
@@ -574,6 +582,11 @@ public class Stats : MonoBehaviour
             }
 
         }
+    }
+
+    private IEnumerator Death(float s) {
+        yield return new WaitForSeconds(s);
+        Destroy(gameObject);
     }
 
     #endregion

@@ -78,7 +78,7 @@ public class CombatManager : MonoBehaviour
 
     public void StopAll()
     {
-        if ( !stats.IsIdle )
+        if ( !stats.NotAttacking )
         {
             // Stop supporting
             if ( stats.IsSupporting )
@@ -131,15 +131,15 @@ public class CombatManager : MonoBehaviour
             }
 
             // Now the demon is idle
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
     }
 
     public void StartSupport()
     {
-        if ( stats.IsIdle && !stats.IsSupporting )
+        if ( stats.NotAttacking && !stats.IsSupporting )
         {
-            stats.IsIdle = false;
+            stats.NotAttacking = false;
             stats.IsSupporting = true;
             GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
@@ -161,10 +161,10 @@ public class CombatManager : MonoBehaviour
 
     public void StopSupport()
     {
-        if ( !stats.IsIdle && stats.IsSupporting )
+        if ( !stats.NotAttacking && stats.IsSupporting )
         {
             stats.IsSupporting = false;
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
 
             GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
@@ -185,9 +185,9 @@ public class CombatManager : MonoBehaviour
 
     public void StartBlock()
     {
-        if ( stats.IsIdle && !stats.IsBlocking )
+        if ( stats.NotAttacking && !stats.IsBlocking )
         {
-            stats.IsIdle = false;
+            stats.NotAttacking = false;
             stats.IsBlocking = true;
 
             //TODO-Remove this
@@ -202,13 +202,13 @@ public class CombatManager : MonoBehaviour
 
     public void StopBlock()
     {
-        if ( !stats.IsIdle && stats.IsBlocking )
+        if ( !stats.NotAttacking && stats.IsBlocking )
         {
             //TODO-Remove this
             blockCollider.SetActive( false );
 
             stats.IsBlocking = false;
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         else
         {
@@ -218,7 +218,7 @@ public class CombatManager : MonoBehaviour
 
     public void MeleeAttack()
     {
-        if ( stats.IsIdle )
+        if ( stats.NotAttacking )
         {
             attackCR = StartCoroutine( AttackCoroutine() );
         }
@@ -236,7 +236,7 @@ public class CombatManager : MonoBehaviour
         if ( !canAttack )
             return;
 
-        if ( stats.IsIdle )
+        if ( stats.NotAttacking )
         {
             attackCR = StartCoroutine( AttackCoroutine() );
         }
@@ -249,7 +249,7 @@ public class CombatManager : MonoBehaviour
 
     public void StopMeleeAttack()
     {
-        if ( attackCR != null && !stats.IsIdle )
+        if ( attackCR != null && !stats.NotAttacking )
         {
             StopCoroutine( attackCR );
             attackCR = null;
@@ -257,7 +257,7 @@ public class CombatManager : MonoBehaviour
             attackCollider.transform.localPosition = startPosition;
             attackCollider.SetActive( false );
 
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         //else
         //{
@@ -277,20 +277,20 @@ public class CombatManager : MonoBehaviour
                 return;
         }
         
-        if ( stats.IsIdle )
+        if ( stats.NotAttacking )
         {
-            stats.IsIdle = false;
+            stats.NotAttacking = false;
 
             if ( target != null )
             {
                 //lancer.Start( target );
                 lancer.Launch( target );
-                stats.IsIdle = true;
+                stats.NotAttacking = true;
             }
             else
                 Debug.Log( this.name + "Is trying a ranged attack to a null target" );
 
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         else
         {
@@ -300,10 +300,10 @@ public class CombatManager : MonoBehaviour
 
     public void StopRangedAttack()
     {
-        if ( !stats.IsIdle )
+        if ( !stats.NotAttacking )
         {
             //lancer.Stop();
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         else
         {
@@ -328,7 +328,7 @@ public class CombatManager : MonoBehaviour
 
     public void Sweep()
     {
-        if ( stats.IsIdle )
+        if ( stats.NotAttacking )
         {
             attackCollider.transform.localScale = new Vector3( stats.SweepSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
             attackCollider.GetComponent<AttackCollider>().isSweeping = true;
@@ -342,7 +342,7 @@ public class CombatManager : MonoBehaviour
 
     public void StopSweep()
     {
-        if ( attackCR != null && !stats.IsIdle )
+        if ( attackCR != null && !stats.NotAttacking )
         {
             StopCoroutine( attackCR );
             attackCR = null;
@@ -352,7 +352,7 @@ public class CombatManager : MonoBehaviour
             attackCollider.GetComponent<AttackCollider>().isSweeping = false;
             attackCollider.SetActive( false );
 
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         else
         {
@@ -363,7 +363,7 @@ public class CombatManager : MonoBehaviour
 
     public void GlobalAttack()
     {
-        if ( stats.IsIdle )
+        if ( stats.NotAttacking )
         {
             globalAttackCR = StartCoroutine( GlobalAttackCoroutine() );
         }
@@ -375,7 +375,7 @@ public class CombatManager : MonoBehaviour
 
     public void StopGlobalAttack()
     {
-        if ( globalAttackCR != null && !stats.IsIdle )
+        if ( globalAttackCR != null && !stats.NotAttacking )
         {
             StopCoroutine( globalAttackCR );
             globalAttackCR = null;
@@ -384,7 +384,7 @@ public class CombatManager : MonoBehaviour
             attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
             attackCollider.SetActive( false );
 
-            stats.IsIdle = true;
+            stats.NotAttacking = true;
         }
         else
         {
@@ -394,7 +394,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator AttackCoroutine()
     {
-        stats.IsIdle = false;
+        stats.NotAttacking = false;
 
         Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
 
@@ -431,12 +431,12 @@ public class CombatManager : MonoBehaviour
 
         attackCollider.SetActive( false );
 
-        stats.IsIdle = true;
+        stats.NotAttacking = true;
     }
 
     private IEnumerator GlobalAttackCoroutine()
     {
-        stats.IsIdle = false;
+        stats.NotAttacking = false;
 
         attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = true;
         attackCollider.transform.localScale = new Vector3( stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize );
@@ -449,7 +449,7 @@ public class CombatManager : MonoBehaviour
         attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
         attackCollider.SetActive( false );
 
-        stats.IsIdle = true;
+        stats.NotAttacking = true;
     }
 
     #endregion

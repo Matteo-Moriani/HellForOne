@@ -353,6 +353,7 @@ MonoBehaviour:
   aggro: 0
   aggroTime: 1
   crisis: 0
+  deathDuration: 5
 --- !u!114 &114500665212401214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5946,11 +5947,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6006,11 +6002,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 114968857816442034}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6081,6 +6072,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.289475
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 114968857816442034}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
 --- !u!4 &5197593867891282641 stripped

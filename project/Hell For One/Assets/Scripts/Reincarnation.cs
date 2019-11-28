@@ -37,7 +37,7 @@ public class Reincarnation : MonoBehaviour
 
             // Reset Combat
             Combat playerCombat = player.GetComponent<Combat>();
-            if ( !player.GetComponent<Stats>().IsIdle )
+            if ( !player.GetComponent<Stats>().NotAttacking )
             {
                 playerCombat.StopAll();
             }
