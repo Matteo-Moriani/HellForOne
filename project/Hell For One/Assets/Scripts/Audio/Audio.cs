@@ -66,13 +66,17 @@ public class Audio : MonoBehaviour
     public void PlayRandomCombatAudioClip(CombatAudio type) {
         switch (type) { 
             case CombatAudio.Hit:
-                    AudioClip clipToPlay = hitClips[(Random.Range(0,hitClips.Length - 1))];
-                    if(clipToPlay != null && combatAudioSource != null) { 
+                if(hitClips.Length > 0) {
+                    AudioClip clipToPlay = hitClips[(Random.Range(0, hitClips.Length - 1))];
+                    if (clipToPlay != null && combatAudioSource != null)
+                    {
                         combatAudioSource.clip = clipToPlay;
                         combatAudioSource.Play();
-                }
-                else { 
-                    Debug.Log(name + " CombatAudio: AudioSource is null or ClipToPlay is null");    
+                    }
+                    else
+                    {
+                        Debug.Log(name + " CombatAudio: AudioSource is null or ClipToPlay is null");
+                    }
                 }
                 break;
             case CombatAudio.Block:
@@ -81,7 +85,7 @@ public class Audio : MonoBehaviour
             case CombatAudio.Death:
                 Debug.Log("TODO - Implement death audio");
                 break;
-        }    
+        }
     } 
 
     private void PlayBaseAudioClip(BaseAudio type) {
