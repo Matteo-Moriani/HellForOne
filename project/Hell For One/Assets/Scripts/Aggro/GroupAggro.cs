@@ -10,7 +10,7 @@ public class GroupAggro : MonoBehaviour
 
     private float groupAggroValue = 1;
     private float tankMultiplier = 1.5f;
-    private float orderGivenMultiplier = 1.04f;
+    private float orderGivenMultiplier = 1.2f;
 
     public float OrderGivenMultiplier { get => orderGivenMultiplier; set => orderGivenMultiplier = value; }
     public float TankMultiplier { get => tankMultiplier; set => tankMultiplier = value; }
@@ -30,7 +30,7 @@ public class GroupAggro : MonoBehaviour
 
     public void UpdateGroupAggro()
     {
-        GroupAggroValue = 0;
+        GroupAggroValue = 1;
 
         if ( groupBehaviour == null )
             groupBehaviour = GetComponent<GroupBehaviour>();
