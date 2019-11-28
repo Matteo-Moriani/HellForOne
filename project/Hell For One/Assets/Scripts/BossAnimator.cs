@@ -44,7 +44,7 @@ public class BossAnimator : MonoBehaviour
         Animator.SetBool( "isDying", false );
         Animator.SetBool( "isAttacking", false );
         Animator.SetBool( "isRunning", false );
-        Animator.SetBool( "isidle", false );
+        Animator.SetBool( "isIdle", false );
 
         IsAnimating = false;
     }
