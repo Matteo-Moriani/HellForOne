@@ -18,9 +18,9 @@ public class BossAnimator : MonoBehaviour
         Idle
     }
 
-    public void PlayAnimation(Animations animation )
+    public void PlayAnimation( Animations animation )
     {
-        switch (animation)
+        switch ( animation )
         {
             case Animations.Death:
                 Animator.SetBool( "isDying", true );
@@ -49,24 +49,8 @@ public class BossAnimator : MonoBehaviour
         IsAnimating = false;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         Animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space) && !IsAnimating )
-        //{
-        //    Animator.SetBool( "isDying", true );
-        //    IsAnimating = true;
-        //}
-        //else if ( Input.GetKeyDown( KeyCode.Space ) && IsAnimating )
-        //{
-        //    Animator.SetBool( "isDying", false );
-        //    IsAnimating = false;
-        //}
     }
 }
