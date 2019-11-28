@@ -32,7 +32,7 @@ public class BossAnimator : MonoBehaviour
                 Animator.SetBool( "isRunning", true );
                 break;
             case Animations.Idle:
-                Animator.SetBool( "isidle", true );
+                Animator.SetBool( "isIdle", true );
                 break;
         }
 

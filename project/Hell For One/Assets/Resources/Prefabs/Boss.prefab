@@ -228,8 +228,9 @@ GameObject:
   - component: {fileID: 114018774866280732}
   - component: {fileID: 64965897125403734}
   - component: {fileID: 3179457235883649248}
+  - component: {fileID: 8480890277252142525}
   m_Layer: 0
-  m_Name: CH_Boss
+  m_Name: Boss
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,7 +245,7 @@ Transform:
   m_GameObject: {fileID: 3586834032733203110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.308, y: -0.75091434, z: 0.75147057}
-  m_LocalScale: {x: 0.4, y: 0.5, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3586834034688480104}
   - {fileID: 3586834034783778191}
@@ -334,23 +335,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 2
+  health: 0
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
-  attackRange: 1
-  attackDurationMultiplier: 1
-  sweepSize: 2
-  globalAttackSize: 10
+  attackRange: 0.8
+  attackDurationMultiplier: 5
+  sweepSize: 0.8
+  globalAttackSize: 20
   globalAttackDuration: 1
   blockChance: 0
   shieldBonusProbability: 0
   supportingUnitsMultiplier: 0.95
-  knockBackChance: 0
-  knockBackSize: 0
-  knockBackTime: 5
-  aggro: 1
-  aggroTime: 60
+  knockBackChance: 100
+  knockBackSize: 5
+  knockBackTime: 0.25
+  aggro: 0
+  aggroTime: 1
   crisis: 0
 --- !u!114 &114500665212401214
 MonoBehaviour:
@@ -441,6 +442,18 @@ MonoBehaviour:
   stats: {fileID: 0}
   attackDelayInSeconds: 0
   attackDurationInSeconds: 0.5
+--- !u!114 &8480890277252142525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3586834032733203110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2927dd0f5e97934abc658d5e9d4373f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3586834032741621890
 GameObject:
   m_ObjectHideFlags: 0

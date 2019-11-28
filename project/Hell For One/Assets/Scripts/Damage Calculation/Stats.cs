@@ -450,6 +450,10 @@ public class Stats : MonoBehaviour
         // if the boss is dying...
         if ( type == Type.Boss )
         {
+            gameObject.GetComponent<BossAnimator>().StopAnimations();
+            gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
+            gameObject.GetComponent<BossAnimator>().StopAnimations();
+
             foreach ( GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups() )
             {
                 group.GetComponent<GroupMovement>().SetOutOfCombat();

@@ -25,8 +25,8 @@ public class BossBehavior : MonoBehaviour
     public GameObject arenaCenter;
 
     // 15 is the ray of boss arena
-    public float maxDistFromCenter = 13.5f;
-    public float maxTargetDistFromCenter = 14.5f;
+    public float maxDistFromCenter = 12.5f;
+    public float maxTargetDistFromCenter = 14f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -57,6 +57,9 @@ public class BossBehavior : MonoBehaviour
     private bool demonsReady = false;
     private bool needsCentering = false;
     private float centeringDist;
+    private bool isWalking = false;
+    private bool isIdle = true;
+    private BossAnimator animator;
 
     private int debugIndex;
 
@@ -64,6 +67,8 @@ public class BossBehavior : MonoBehaviour
 
     public GameObject TargetGroup { get => targetGroup; set => targetGroup = value; }
     public GameObject TargetDemon { get => targetDemon; set => targetDemon = value; }
+    public bool IsWalking { get => isWalking; set => isWalking = value; }
+    public bool IsIdle { get => isIdle; set => isIdle = value; }
 
     #region Finite State Machine
 
@@ -71,6 +76,7 @@ public class BossBehavior : MonoBehaviour
 
     public bool PlayerApproaching()
     {
+        //TODO
         //if(playerDistance < tot)
         //    return true;
         return true;
@@ -92,6 +98,7 @@ public class BossBehavior : MonoBehaviour
 
     public bool RecoverFromStun()
     {
+        //TODO
         //StartCoroutine(WaitSeconds(5));
         return true;
     }
@@ -335,7 +342,7 @@ public class BossBehavior : MonoBehaviour
 
     void Start()
     {
-        // the initial target is himself to stay on his place for the first seconds
+        animator = gameObject.GetComponent<BossAnimator>();
         arenaCenter = GameObject.Find( "ArenaCenter" );
         stats = GetComponent<Stats>();
         hp = stats.health;
@@ -390,8 +397,24 @@ public class BossBehavior : MonoBehaviour
         {
             Face( TargetDemon );
 
-            if ( canWalk )
+            if ( canWalk) {
+                if(!isWalking) {
+                    IsWalking = true;
+                    IsIdle = false;
+                    animator.StopAnimations();
+                    animator.PlayAnimation(BossAnimator.Animations.Run);
+                }
+
                 transform.position += transform.forward * speed * Time.deltaTime;
+
+            } else {
+                if(!isIdle) {
+                    IsIdle = true;
+                    IsWalking = false;
+                    animator.StopAnimations();
+                    animator.PlayAnimation(BossAnimator.Animations.Idle);
+                }
+            }
 
         }
         else if ( !EnemiesAreDead() )
@@ -421,8 +444,12 @@ public class BossBehavior : MonoBehaviour
             if ( bossCombat == null )
                 Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( bossCombat != null )
+        if ( bossCombat != null) {
             bossCombat.Attack();
+            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            animator.StopAnimations();
+            animator.PlayAnimation(BossAnimator.Animations.Idle);
+        }
     }
 
     private void GroupAttack()
@@ -433,8 +460,12 @@ public class BossBehavior : MonoBehaviour
             if ( bossCombat == null )
                 Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( bossCombat != null )
+        if ( bossCombat != null) {
             bossCombat.Sweep();
+            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            animator.StopAnimations();
+            animator.PlayAnimation(BossAnimator.Animations.Idle);
+        }
     }
 
     private void GlobalAttack()
@@ -445,8 +476,12 @@ public class BossBehavior : MonoBehaviour
             if ( bossCombat == null )
                 Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( bossCombat != null )
+        if ( bossCombat != null) {
             bossCombat.GlobalAttack();
+            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            animator.StopAnimations();
+            animator.PlayAnimation(BossAnimator.Animations.Idle);
+        }
     }
 
     private float HorizDistFromTarget( GameObject target )
