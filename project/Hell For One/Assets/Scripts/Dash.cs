@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// -TODO- No Damage Frames
-// -TODO- Cash position
 public class Dash : MonoBehaviour
 {
     #region fields
@@ -164,12 +162,14 @@ public class Dash : MonoBehaviour
                         verticalDirection = 0f;
                         horizontalDirection = 0f;
 
+                        /*
                         // TODO - Remove this after testing
                         // Used for logging
                         Debug.Log("You ended dashing at. " + this.transform.position);
                         Debug.Log("You moved: " + Vector3.Distance(startPosition, this.transform.position));
                         Debug.Log("You should have moved: " + dashSize);
                         startPosition = Vector3.zero;
+                        */
                     }
 
                     // If we count the time down the if condition we round up dash size

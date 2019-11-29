@@ -67,8 +67,9 @@ public class PlayerInput : MonoBehaviour
                 }    
             }
 
-            // L2 (PS3) / LT (XBOX)
-            if ( inputManager.L2Axis() )
+            // L2 (PS3) / LT (XBOX) - Down
+            //if ( inputManager.L2Axis() )
+            if(inputManager.L2ButtonDown())
             {
                 if ( combat != null &&  tacticsManager)
                 {
@@ -76,14 +77,23 @@ public class PlayerInput : MonoBehaviour
                 }
             }
 
-            // R2 (PS3) / RT (XBOX)
-            if ( inputManager.R2Axis() )
+            // Need in order to set an internal bool in input manager
+            // Im looking for a better solution
+            if (inputManager.L2ButtonUp()) { }
+
+            // R2 (PS3) / RT (XBOX) - Down
+            //if ( inputManager.R2Axis() )
+            if(inputManager.R2ButtonDown())
             {
                 if ( combat != null && tacticsManager)
                 {
                     tacticsManager.RotateTactics();
                 }
             }
+
+            // Need in order to set an internal bool in input manager
+            // Im looking for a better solution
+            if (inputManager.R2ButtonUp()) { }
         }
         else { 
             Debug.Log( name + " PlayerInput cannot find InputManager");    

@@ -5,19 +5,30 @@ using UnityEngine;
 public class Hat : MonoBehaviour
 {
     private Rigidbody rb;
+    private BoxCollider bc;
     private bool onGround = false;
     private float fallingTime = 2f;
 
     void Awake()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        //rb = gameObject.GetComponent<Rigidbody>();
+        bc = GetComponent<BoxCollider>();
+
+        if(bc != null)
+            bc.enabled = false;
     }
 
     public void PlayerDied()
     {
-        if ( !rb )
-            rb = gameObject.GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.None;
+        //if ( !rb )
+        //    rb = gameObject.GetComponent<Rigidbody>();
+        //rb.constraints = RigidbodyConstraints.None;
+
+        rb = this.gameObject.AddComponent<Rigidbody>();
+
+        if(bc != null)
+            bc.enabled = true;
+
         StartCoroutine( Falling() );
     }
 

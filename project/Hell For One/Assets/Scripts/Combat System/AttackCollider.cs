@@ -28,6 +28,8 @@ public class AttackCollider : MonoBehaviour
     public float meleeAggroModifier = 1.1f;
     public float rangeAggroModifier = 1.05f;
 
+    private Audio audio;
+
     #endregion
 
     #region methods
@@ -45,6 +47,8 @@ public class AttackCollider : MonoBehaviour
         }
 
         combat = this.transform.root.gameObject.GetComponent<Combat>();
+
+        audio = GetComponent<Audio>();
     }
 
     private void OnEnable()
@@ -205,17 +209,15 @@ public class AttackCollider : MonoBehaviour
     }
     
     private void ManageAudio(Stats targetRootStats) {
-        Audio combatAudio = targetRootStats.gameObject.GetComponent<Audio>();
-        
         // Global attack will have his own sound I think.
         if (!isGlobalAttacking) {
-            if (combatAudio != null)
+            if (audio != null)
             {
-                combatAudio.PlayRandomCombatAudioClip(Audio.CombatAudio.Hit);
+                audio.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Hit);
             }
             else
             {
-                Debug.Log(stats.gameObject.name + " cannot find CombatAudio in " + targetRootStats.gameObject.name);
+                Debug.Log(stats.gameObject.name + " cannot find audio in " + targetRootStats.gameObject.name);
             }
         }
     }

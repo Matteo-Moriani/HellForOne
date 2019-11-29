@@ -14,7 +14,7 @@ public class InputTester : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("RT: " + inputManager.R2Axis());
-        Debug.Log("LT: " + inputManager.L2Axis());
+        //Debug.Log("RT: " + inputManager.R2Axis());
+        //Debug.Log("LT: " + inputManager.L2Axis());
     }
 }

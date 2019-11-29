@@ -14,6 +14,9 @@ public class InputManager : MonoBehaviour
     [Tooltip("Type of the controller that player will use")]
     private Controller type = Controller.None;
 
+    private bool ltWasPressedLastFrame = false;
+    private bool rtWasPressedLastFrame = false;
+
     #region XorA
 
     /// <summary>
@@ -610,6 +613,7 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// Returns the value of the L2 axis
     /// </summary>
+    /*
     public bool L2Axis()
     {
         switch (type)
@@ -627,6 +631,74 @@ public class InputManager : MonoBehaviour
         }
         return false;
     }
+    */
+
+    /// <summary>
+    /// Returns true when L2 (Ps3), LT (Xbox) is pressed
+    /// </summary>
+    public bool L2ButtonDown()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if( Input.GetAxis("XBoxLT") == 1f && !ltWasPressedLastFrame) { 
+                    ltWasPressedLastFrame = true;
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButtonDown("L2");
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true when L2 (Ps3), LT (Xbox) is relased
+    /// </summary>
+    public bool L2ButtonUp()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if (Input.GetAxis("XBoxLT") == 0f && ltWasPressedLastFrame)
+                {
+                    ltWasPressedLastFrame = false;
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButtonUp("L2");
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true while L2 (Ps3), LT (Xbox) is pressed
+    /// </summary>
+    public bool L2ButtonHeldDown()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if (Input.GetAxis("XBoxLT") == 1f && ltWasPressedLastFrame)
+                {
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButton("L2");
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
 
     #endregion
 
@@ -636,6 +708,7 @@ public class InputManager : MonoBehaviour
     /// <summary>
     /// Returns the value of the R2 axis
     /// </summary>
+    /*
     public bool R2Axis()
     {
         switch (type)
@@ -647,6 +720,75 @@ public class InputManager : MonoBehaviour
                     return false;
             case Controller.Ps3:
                 return Input.GetButtonDown( "R2" );
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+    */
+
+    /// <summary>
+    /// Returns true when R2 (Ps3), RT (Xbox) is pressed
+    /// </summary>
+    public bool R2ButtonDown()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if (Input.GetAxis("XBoxRT") == 1f && !rtWasPressedLastFrame)
+                {
+                    rtWasPressedLastFrame = true;
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButtonDown("R2");
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true when R2 (Ps3), RT (Xbox) is relased
+    /// </summary>
+    public bool R2ButtonUp()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if (Input.GetAxis("XBoxRT") == 0f && rtWasPressedLastFrame)
+                {
+                    rtWasPressedLastFrame = false;
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButtonUp("R2");
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true while R2 (Ps3), RT (Xbox) is pressed
+    /// </summary>
+    public bool R2ButtonHeldDown()
+    {
+        switch (type)
+        {
+            case Controller.Xbox:
+                if (Input.GetAxis("XBoxRT") == 1f && rtWasPressedLastFrame)
+                {
+                    return true;
+                }
+                break;
+            case Controller.Ps3:
+                return Input.GetButton("R2");
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
