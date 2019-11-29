@@ -19,63 +19,53 @@ public class AudioManager : MonoBehaviour
     }
 
     [SerializeField]
-    private static AudioMixerGroup walkAudioMixedGroup;
+    private  AudioMixerGroup walkAudioMixerGroup;
     [SerializeField]
-    private static AudioMixerGroup combatAudioMixerGroup;
+    private  AudioMixerGroup combatAudioMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
-    private static AudioClip[] hitClips;
+    private AudioClip[] hitClips;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit blocks")]
-    private static AudioClip[] blockClips;
+    private AudioClip[] blockClips;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit dies")]
-    private static AudioClip[] deathClips;
+    private AudioClip[] deathClips;
 
     [SerializeField]
     [Tooltip("Clip that will be played when an unit walks")]
-    private static AudioClip[] walkClips;
+    private AudioClip[] walkClips;
 
     /// <summary>
     /// Mixer group for base audio (Stuff like walking)
     /// </summary>
-    public static AudioMixerGroup WalkAudioMixerGroup { get => walkAudioMixedGroup; set => walkAudioMixedGroup = value; }
+    public AudioMixerGroup WalkAudioMixerGroup { get => walkAudioMixerGroup; private set => walkAudioMixerGroup = value; }
     /// <summary>
     /// Mixer group for combat audio
     /// </summary>
-    public static AudioMixerGroup CombatAudioMixerGroup { get => combatAudioMixerGroup; set => combatAudioMixerGroup = value; }
+    public AudioMixerGroup CombatAudioMixerGroup { get => combatAudioMixerGroup; private set => combatAudioMixerGroup = value; }
 
-    private void Start()
+    private static AudioManager _instance;
+
+    public static AudioManager Instance { get { return _instance; } }
+
+
+    private void Awake()
     {
-        /*
-        stats = GetComponent<Stats>();
-
-        combatAudioSource = gameObject.AddComponent<AudioSource>();
-        SetAudioAudioSource(combatAudioSource, true, 5f, 500f, false);
-        baseAudioSource = gameObject.AddComponent<AudioSource>();
-        SetAudioAudioSource(baseAudioSource, true, 5f, 500f, false);
-        if (baseAudioMixerGroup != null)
+        if (_instance != null && _instance != this)
         {
-            baseAudioSource.outputAudioMixerGroup = baseAudioMixerGroup;
+            Destroy(this.gameObject);
         }
-        if (combatAudioMixerGroup != null)
+        else
         {
-            combatAudioSource.outputAudioMixerGroup = combatAudioMixerGroup;
+            _instance = this;
         }
-        */
     }
 
-    /*
-    private void Update()
-    {
-        AudioCycle();
-    }
-    */
-
-    public static void PlayRandomCombatAudioClip(CombatAudio type, AudioSource combatAudioSource)
+    public void PlayRandomCombatAudioClip(CombatAudio type, AudioSource combatAudioSource)
     {
         switch (type)
         {
@@ -103,7 +93,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static void PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
+    public void PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
         switch (size) { 
             case Size.Small:
                 if(walkClips.Length > 0) {
@@ -142,7 +132,7 @@ public class AudioManager : MonoBehaviour
     }
     */
 
-    public static void SetAudioAudioSource(AudioSource audioSource, bool hasToBeSpatial, float minDistance, float maxDistance, bool hasToBePlayedOnAwake)
+    public void SetAudioAudioSource(AudioSource audioSource, bool hasToBeSpatial, float minDistance, float maxDistance, bool hasToBePlayedOnAwake)
     {
         audioSource.playOnAwake = hasToBePlayedOnAwake;
         if (hasToBeSpatial)
@@ -156,80 +146,4 @@ public class AudioManager : MonoBehaviour
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
     }
-
-    //public static void ManagePlayerBaseAudio(AudioSource baseAudioSource) { 
-    //    
-    //}
-
-    /*
-    private void AudioCycle()
-    {
-        if (stats != null)
-        {
-            if (stats.type == Stats.Type.Player)
-            {
-                ManagePlayerBaseAudio();
-            }
-            if (stats.type == Stats.Type.Ally)
-            {
-                ManageAllyBaseAudio();
-            }
-        }
-        else
-        {
-            stats = GetComponent<Stats>();
-        }
-    }
-
-    private void ManagePlayerBaseAudio()
-    {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-        {
-            if (baseAudioSource.clip != walkClip)
-                PlayBaseAudioClip(BaseAudio.Walk);
-            if (baseAudioSource.clip == walkClip && !baseAudioSource.isPlaying)
-            {
-                baseAudioSource.Play();
-            }
-        }
-        else
-        {
-            if (baseAudioSource.clip == walkClip)
-            {
-                baseAudioSource.Stop();
-            }
-        }
-    }
-
-    private void ManageAllyBaseAudio()
-    {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        if (agent != null)
-        {
-            if (agent.velocity != Vector3.zero)
-            {
-                if (baseAudioSource.clip != walkClip)
-                {
-                    PlayBaseAudioClip(BaseAudio.Walk);
-                }
-                if (baseAudioSource.clip == walkClip && !baseAudioSource.isPlaying)
-                {
-                    PlayBaseAudioClip(BaseAudio.Walk);
-                }
-            }
-            else
-            {
-                if (baseAudioSource.clip == walkClip)
-                {
-                    baseAudioSource.Stop();
-                }
-            }
-
-        }
-        else
-        {
-            Debug.Log(this.transform.root.gameObject.name + " is an ally but has no NavMeshAgent attached, cannot play Base Audio");
-        }
-    }
-    */
 }

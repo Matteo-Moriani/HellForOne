@@ -16,12 +16,12 @@ public class Audio : MonoBehaviour
         stats = GetComponent<Stats>();
 
         combatAudioSource = gameObject.AddComponent<AudioSource>();
-        AudioManager.SetAudioAudioSource(combatAudioSource, true, 5f, 500f, false);
+        AudioManager.Instance.SetAudioAudioSource(combatAudioSource, true, 5f, 500f, false);
         walkAudioSource = gameObject.AddComponent<AudioSource>();
-        AudioManager.SetAudioAudioSource(walkAudioSource, true, 5f, 500f, false);
+        AudioManager.Instance.SetAudioAudioSource(walkAudioSource, true, 5f, 500f, false);
 
-        walkAudioSource.outputAudioMixerGroup = AudioManager.WalkAudioMixerGroup;
-        combatAudioSource.outputAudioMixerGroup = AudioManager.CombatAudioMixerGroup;
+        walkAudioSource.outputAudioMixerGroup = AudioManager.Instance.WalkAudioMixerGroup;
+        combatAudioSource.outputAudioMixerGroup = AudioManager.Instance.CombatAudioMixerGroup;
     }
 
     private void Update()
@@ -30,7 +30,7 @@ public class Audio : MonoBehaviour
     }
 
     public void PlayRandomCombatAudioClip(AudioManager.CombatAudio type) { 
-        AudioManager.PlayRandomCombatAudioClip(type, combatAudioSource);    
+        AudioManager.Instance.PlayRandomCombatAudioClip(type, combatAudioSource);    
     }
 
     private void AudioCycle()
@@ -57,7 +57,7 @@ public class Audio : MonoBehaviour
         if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             // TODO - Implement right size
-            AudioManager.PlayRandomWalkClip(AudioManager.Size.Small,walkAudioSource);
+            AudioManager.Instance.PlayRandomWalkClip(AudioManager.Size.Small,walkAudioSource);
         }
         else
         {
@@ -72,7 +72,7 @@ public class Audio : MonoBehaviour
         {
             if (agent.velocity != Vector3.zero)
             {
-                AudioManager.PlayRandomWalkClip(AudioManager.Size.Small, walkAudioSource);
+                AudioManager.Instance.PlayRandomWalkClip(AudioManager.Size.Small, walkAudioSource);
             }
             else
             {

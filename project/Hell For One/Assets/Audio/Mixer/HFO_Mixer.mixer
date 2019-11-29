@@ -73,7 +73,7 @@ AudioMixerSnapshotController:
     ef30ecc20d2673142986cb85d0ce5422: 1
     08b57a135a9ec264bbcd97dd73bf5c27: 1
     7ee69125bede17e4fbc7267506b6994b: 10
-    e817f22586d75914ea09f49b8db1c7dd: 2.5
+    e817f22586d75914ea09f49b8db1c7dd: 5.2091503
     8bf8d755985db3b48849c91fb57c579b: 250
     0a39b276ef837824692a3494d87ff495: 1732
     2cbb50074a7adc549aa3cfb320145e6b: 11405
@@ -81,9 +81,9 @@ AudioMixerSnapshotController:
     f65a94f71b21b6a43af8d89c6f85bd7b: 20
     a9be1b79c3597474a92948472883f52e: 5
     a16677ab1cc1a1941aecbf17809f32b7: -25
-    0596033cc2794544c8844d93be19d4af: 4.5253077
+    0596033cc2794544c8844d93be19d4af: -3.6554365
     250a0f5dfc2ee44449ddd049ee3d14ce: 0
-    28244a7dad8c097478cce74bbef4a997: 5
+    28244a7dad8c097478cce74bbef4a997: -1.8363435
     ec076a7e87db0aa4eb548e91314f6c18: 298
     e36a835fec7f763489297527bf3fdb67: 0
   m_TransitionOverrides: {}
@@ -129,7 +129,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BaseAudio
+  m_Name: WalkAudio
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: ad3c9c197e278fe428838e5164b9a751
   m_Children: []
@@ -205,4 +205,4 @@ AudioMixerEffectController:
     m_GUID: a9be1b79c3597474a92948472883f52e
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
-  m_Bypass: 1
+  m_Bypass: 0
