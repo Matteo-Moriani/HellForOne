@@ -495,7 +495,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8ecaf151b7e46eb4aa0869ef71119c16, type: 2}
+      objectReference: {fileID: 2100000, guid: f971f952b021fe447b4d9f6bef46443d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c290d430f78ea4ba59211026dc311f, type: 3}
 --- !u!1 &206066415
@@ -1606,6 +1606,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3586834032733203110, guid: 749ff47ddbf0952469863f27be7fd255,
+        type: 3}
+      propertyPath: m_Name
+      value: CH_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 3586834032733203110, guid: 749ff47ddbf0952469863f27be7fd255,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 64965897125403734, guid: 749ff47ddbf0952469863f27be7fd255,
         type: 3}
       propertyPath: m_Enabled
@@ -1620,16 +1630,6 @@ PrefabInstance:
         type: 3}
       propertyPath: health
       value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3586834032733203110, guid: 749ff47ddbf0952469863f27be7fd255,
-        type: 3}
-      propertyPath: m_Name
-      value: CH_Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 3586834032733203110, guid: 749ff47ddbf0952469863f27be7fd255,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3586834032733203108, guid: 749ff47ddbf0952469863f27be7fd255,
         type: 3}

@@ -448,8 +448,13 @@ public class Stats : MonoBehaviour
             //    hat.GetComponent<Hat>().PlayerDied();
             //    GetComponent<Reincarnation>().Reincarnate();
             //}
-            GameObject hat = Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity ) as GameObject;
-            hat.GetComponent<Hat>().PlayerDied();
+
+            // It only works if Hat is the first child of Imp
+            if (transform.GetChild(0).gameObject.name != "Hat" )
+            {
+                GameObject hat = Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity ) as GameObject;
+                hat.GetComponent<Hat>().PlayerDied();
+            }
             GetComponent<Reincarnation>().Reincarnate();
         }
 

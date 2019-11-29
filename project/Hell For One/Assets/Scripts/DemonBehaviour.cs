@@ -14,7 +14,6 @@ public class DemonBehaviour : MonoBehaviour
 
     private void Start()
     {
-        //FindGroup();
         stats = GetComponent<Stats>();
     }
 
@@ -37,13 +36,6 @@ public class DemonBehaviour : MonoBehaviour
 
             GameObject[] demonsArray = group.GetComponent<GroupBehaviour>().demons;
             GroupBehaviour groupBehaviour = group.GetComponent<GroupBehaviour>();
-            //for ( int i = 0; i < demonsArray.Length; i++ )
-            //{
-            //    if ( demonsArray[ i ] == null )
-            //    {
-            //        freeSlots++;
-            //    }
-            //}
             freeSlots = groupBehaviour.maxNumDemons - groupBehaviour.GetDemonsNumber();
 
             if ( freeSlots > maxFreeSlots )
@@ -53,12 +45,20 @@ public class DemonBehaviour : MonoBehaviour
             }
         }
 
-        if ( bestGroup != null )
+        if ( bestGroup )
         {
             GameObject[] demonsArray = bestGroup.GetComponent<GroupBehaviour>().demons;
 
-            // Returns -1 if not present
-            int firstEmpty = System.Array.IndexOf( demonsArray, null );
+            int firstEmpty = -1;
+
+            for ( int i = 0; i < demonsArray.Length; i++ )
+            {
+                if ( !demonsArray[ i ] )
+                {
+                    firstEmpty = i;
+                    break;
+                }
+            }
 
             if ( firstEmpty >= 0 )
             {
@@ -68,17 +68,6 @@ public class DemonBehaviour : MonoBehaviour
                 GroupBehaviour groupBehaviour = bestGroup.GetComponent<GroupBehaviour>();
                 groupBehaviour.SetDemonsNumber( groupBehaviour.GetDemonsNumber() + 1 );
             }
-
-            //for ( int i = 0; i < demonsArray.Length; i++ )
-            //{
-            //    if ( demonsArray[ i ] == null )
-            //    {
-            //        demonsArray[ i ] = gameObject;
-            //        groupFound = true;
-            //        groupBelongingTo = bestGroup;
-            //        break;
-            //    }
-            //}
         }
 
         ChangeColor();

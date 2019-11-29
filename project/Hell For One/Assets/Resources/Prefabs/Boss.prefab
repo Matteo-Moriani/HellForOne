@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 114018774866280732}
   - component: {fileID: 8480890277252142525}
   - component: {fileID: 136265036855588500}
-  - component: {fileID: 4646407980332681692}
+  - component: {fileID: 8844099086490594050}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -320,7 +320,7 @@ NavMeshObstacle:
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
   m_TimeToStationary: 0.5
 --- !u!114 &114968857816442034
 MonoBehaviour:
@@ -377,6 +377,9 @@ MonoBehaviour:
   maxTargetDistFromCenter: 14.5
   fsmReactionTime: 0.5
   btReactionTime: 0.05
+  isWalking: 0
+  isIdle: 1
+  isAttacking: 0
 --- !u!114 &114980534540083738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,18 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6336b83341fcc9a4597eb5b3771af7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseAudioMixerGroup: {fileID: 243758903588963224, guid: 0c64c3ecd9ef86e43972791c4f44c097,
-    type: 2}
-  combatAudioMixerGroup: {fileID: 243691004808218884, guid: 0c64c3ecd9ef86e43972791c4f44c097,
-    type: 2}
-  hitClips:
-  - {fileID: 8300000, guid: 446ed41ad926e3a4291bcb16f9e76b30, type: 3}
-  - {fileID: 8300000, guid: 05057416ddd1b694abec5dc474e2e14f, type: 3}
-  - {fileID: 8300000, guid: fbaf46e49a0686646a4ef37a06f5f3b8, type: 3}
-  - {fileID: 8300000, guid: 688372a1199a25846aef95fc082ab6da, type: 3}
-  blockClips: []
-  deathClips: []
-  walkClip: {fileID: 8300000, guid: f1cf5e7cc3423524bb80f11d6d076add, type: 3}
 --- !u!114 &8480890277252142525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +433,7 @@ CapsuleCollider:
   m_Height: 2.4720955
   m_Direction: 1
   m_Center: {x: 0, y: 1.2353926, z: 0.12722367}
---- !u!54 &4646407980332681692
+--- !u!54 &8844099086490594050
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5947,6 +5938,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6002,6 +5998,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 114968857816442034}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6072,16 +6073,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.289475
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 114968857816442034}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
 --- !u!4 &5197593867891282641 stripped
