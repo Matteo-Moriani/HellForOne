@@ -31,6 +31,8 @@ public class DemonMovement : MonoBehaviour
     private float distanceInPosition = 0f;
     private bool canMove = true;
     public bool CanMove { get => canMove; set => canMove = value; }
+    private bool isMoving = false;
+    public bool IsMoving { get => isMoving; set => isMoving = value; }
 
     void Start()
     {
