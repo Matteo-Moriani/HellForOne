@@ -450,7 +450,7 @@ public class Stats : MonoBehaviour
             //}
 
             // It only works if Hat is the first child of Imp
-            if (transform.GetChild(0).gameObject.name != "Hat" )
+            if ( !GameObject.Find( "Hat(Clone)" ) )
             {
                 GameObject hat = Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity ) as GameObject;
                 hat.GetComponent<Hat>().PlayerDied();
