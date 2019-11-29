@@ -63,7 +63,7 @@ public class BossBehavior : MonoBehaviour
     public bool isIdle = true;
     public bool isAttacking = false;
     private BossAnimator animator;
-    private float singleAttackDuration = 3f;
+    private float singleAttackDuration = 3.1f;
 
     private int debugIndex;
 
@@ -170,6 +170,8 @@ public class BossBehavior : MonoBehaviour
     {
         timerStarted = false;
         timerStillGoing = false;
+        if(timer != null)
+            StopCoroutine(timer);
     }
 
     public bool ChooseTarget()
@@ -265,6 +267,7 @@ public class BossBehavior : MonoBehaviour
         else
         {
             canWalk = false;
+            ResetTimer();
             return false;
         }
     }
@@ -278,13 +281,11 @@ public class BossBehavior : MonoBehaviour
 
     public bool RandomAttack()
     {
-        Debug.Log("attacking");
-        StopCoroutine(timer);
-        ResetTimer();
-
         timer = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
 
         if(!isAttacking) {
+
+            isAttacking = true;
             animator.StopAnimations();
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
@@ -294,6 +295,7 @@ public class BossBehavior : MonoBehaviour
                 GroupAttack();
             else
                 GlobalAttack();
+
         }
         
         return true;
@@ -318,15 +320,15 @@ public class BossBehavior : MonoBehaviour
         CRBT.BTSequence seq4 = new CRBT.BTSequence( new CRBT.IBTTask[] { timerGoing, nearArenaCenter, walk } );
 
         CRBT.BTSequence seq1 = new CRBT.BTSequence( new CRBT.IBTTask[] { sel1, seq4 } );
-        CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail( seq1 );
+        CRBT.BTDecoratorUntilFail uf2 = new CRBT.BTDecoratorUntilFail( seq1 );
 
         CRBT.BTSequence seq3 = new CRBT.BTSequence( new CRBT.IBTTask[] { sel3, timerGoing } );
-        CRBT.BTDecoratorUntilFail uf2 = new CRBT.BTDecoratorUntilFail( seq3 );
+        CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail( seq3 );
 
         CRBT.BTSequence seq5 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel4, timerGoing });
         CRBT.BTDecoratorUntilFail uf3 = new CRBT.BTDecoratorUntilFail(seq5);
 
-        CRBT.BTSequence seq2 = new CRBT.BTSequence( new CRBT.IBTTask[] { target, uf2, uf1, uf3 } );
+        CRBT.BTSequence seq2 = new CRBT.BTSequence( new CRBT.IBTTask[] { target, uf1, uf2, uf3 } );
 
         CRBT.BTDecoratorUntilFail root = new CRBT.BTDecoratorUntilFail( seq2 );
 
@@ -362,6 +364,8 @@ public class BossBehavior : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponent<BossAnimator>();
+        animator.PlayAnimation(BossAnimator.Animations.Idle);
+
         arenaCenter = GameObject.Find( "ArenaCenter" );
         stats = GetComponent<Stats>();
         hp = stats.health;
@@ -450,17 +454,19 @@ public class BossBehavior : MonoBehaviour
         if ( type == TimerType.pursue )
         {
             pursueTimeout = true;
+            canWalk = false;
         }
         else if (type == TimerType.attack ) 
         {
+            Debug.Log("attack animation stopped");
             animator.StopAnimations();
+            animator.PlayAnimation(BossAnimator.Animations.Idle);
         }
 
     }
 
     private void SingleAttack()
     {
-        isAttacking = true;
         if ( bossCombat == null )
         {
             bossCombat = GetComponent<Combat>();
@@ -476,7 +482,6 @@ public class BossBehavior : MonoBehaviour
 
     private void GroupAttack()
     {
-        isAttacking = true;
         if ( bossCombat == null )
         {
             bossCombat = GetComponent<Combat>();
@@ -491,7 +496,6 @@ public class BossBehavior : MonoBehaviour
     }
 
     private void GlobalAttack() {
-        isAttacking = true;
         if ( bossCombat == null )
         {
             bossCombat = GetComponent<Combat>();
