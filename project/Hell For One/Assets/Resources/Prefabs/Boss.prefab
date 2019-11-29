@@ -339,7 +339,7 @@ MonoBehaviour:
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
-  attackRange: 0.8
+  attackRange: 1
   attackDurationMultiplier: 5
   sweepSize: 2
   globalAttackSize: 20
@@ -6003,6 +6003,11 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 114968857816442034}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: attackDelayInSeconds
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
