@@ -54,6 +54,7 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>().UpdateSupportingUnits();
 
             player.GetComponent<DemonBehaviour>().enabled = false;
+            player.GetComponent<DemonMovement>().CanMove = false;
         }
     }
 
