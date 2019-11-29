@@ -49,8 +49,8 @@ public class CombatManager : MonoBehaviour
     private bool canAttack = false;
 
     public float MaxMeleeDistance { get => maxMeleeDistance; set => maxMeleeDistance = value; }
-    public float MaxRangedDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
-    public float MinRangedDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
+    public float MaxRangeCombatDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
+    public float MinRangeCombatDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
 
     #endregion
 
@@ -272,13 +272,14 @@ public class CombatManager : MonoBehaviour
     public void RangedAttack( GameObject target )
     {
         // Regular Imps need to check if target is in range
-        if(stats.type == Stats.Type.Ally) {
-            StartCoroutine(WaitTillMinDistance(MaxRangedDistance, target));
+        if ( stats.type == Stats.Type.Ally )
+        {
+            StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
 
-            if (!canAttack)
+            if ( !canAttack )
                 return;
         }
-        
+
         if ( stats.NotAttacking )
         {
             stats.NotAttacking = false;
@@ -316,6 +317,9 @@ public class CombatManager : MonoBehaviour
     // To avoid to perform actions before imps are at minimum distance
     public IEnumerator WaitTillMinDistance( float distance, GameObject target )
     {
+        if ( !target )
+            canAttack = false;
+
         while
             // horizontal distance of the parent game object to the target's borders
             ( transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders( target ) > distance )

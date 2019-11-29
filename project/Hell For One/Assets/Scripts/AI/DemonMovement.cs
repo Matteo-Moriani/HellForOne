@@ -88,7 +88,7 @@ public class DemonMovement : MonoBehaviour
                     }
                     else
                     {
-                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MinRangedDistance) )
+                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MinRangeCombatDistance) )
                             GetComponent<NavMeshAgent>().destination = target.transform.position;
                         else
                             GetComponent<NavMeshAgent>().destination = transform.position;
