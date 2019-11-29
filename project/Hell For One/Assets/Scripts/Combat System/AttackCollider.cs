@@ -48,7 +48,9 @@ public class AttackCollider : MonoBehaviour
 
         combat = this.transform.root.gameObject.GetComponent<Combat>();
 
-        audio = GetComponent<Audio>();
+        // I'm using stats because if this collider belongs to a lance
+        // transform.root won't be the demon that is launching the lance
+        audio = stats.gameObject.GetComponent<Audio>();
     }
 
     private void OnEnable()
