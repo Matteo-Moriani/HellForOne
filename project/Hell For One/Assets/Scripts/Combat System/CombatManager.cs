@@ -76,7 +76,7 @@ public class CombatManager : MonoBehaviour
         idleCollider.SetActive( true );
     }
 
-    public void StopAll()
+    public void ResetCombat()
     {
         if ( !stats.NotAttacking )
         {
@@ -146,6 +146,7 @@ public class CombatManager : MonoBehaviour
             if ( gs != null )
             {
                 gs.AddSupportingUnit();
+                gs.StartUpdateSupportAggro();
             }
             else
             {
@@ -171,6 +172,7 @@ public class CombatManager : MonoBehaviour
             if ( gs != null )
             {
                 gs.RemoveSupportingUnit();
+                gs.StopUpdateSupportAggro();
             }
             else
             {

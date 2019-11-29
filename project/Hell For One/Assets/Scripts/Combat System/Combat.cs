@@ -50,53 +50,6 @@ public class Combat : MonoBehaviour
         {
             coolDownCounter += Time.deltaTime;
         }
-
-        // left click
-        // -TODO- add controller button
-        // Used for testing - Put attack button in player controller
-        if ( stats.type == Stats.Type.Player )
-        {
-            /*
-            // Stop Block
-            if ( !Input.GetButtonDown( "L1" ) )
-            {
-                StopBlock();
-            }
-
-            // Melee Attack
-            if ( Input.GetButtonDown( "square" ) && coolDownCounter >= playerAttackCooldown )
-            {
-                coolDownCounter = 0.0f;
-
-                Attack();
-            }
-
-            // Dash
-            else if ( Input.GetButtonDown( "circle" ) )
-            {
-                //TODO Dash
-            }
-
-            // Range Attack
-            else if ( Input.GetButtonDown( "triangle" ) && coolDownCounter >= playerAttackCooldown )
-            {
-                coolDownCounter = 0.0f;
-
-                RangedAttack( transform.Find( "RangeTarget" ).gameObject );
-            }
-
-            // Block
-            else if ( Input.GetButton( "L1" ) )
-            {
-                StartBlock();
-            }
-
-            else if ( Input.GetButtonDown( "R1" ) )
-            {
-
-            }
-            */
-        }
     }
 
     /// <summary>
@@ -243,11 +196,11 @@ public class Combat : MonoBehaviour
 
     /// <summary>
     /// Stops all ongoing combat actions
-    /// Calls CombatManager.StopAll
+    /// Calls CombatManager.ResetCombat
     /// </summary>
-    public void StopAll()
+    public void ResetCombat()
     {
-        combatManager.StopAll();
+        combatManager.ResetCombat();
     }
 
     #endregion

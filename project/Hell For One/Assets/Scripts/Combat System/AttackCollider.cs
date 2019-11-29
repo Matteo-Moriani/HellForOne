@@ -148,10 +148,16 @@ public class AttackCollider : MonoBehaviour
             // We update Group aggro only for Ally Imps
             if (stats.type == Stats.Type.Ally)
             {
-                if (demonBehaviour == null)
-                {
-                    demonBehaviour = this.transform.root.gameObject.GetComponent<DemonBehaviour>();
+                if(type != AttackColliderType.Ranged && demonBehaviour == null) {
+                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();
                 }
+
+                // We need to update demonBehaviour every ranged attack because
+                // lances are pooled, so owner can change every time
+                if(type == AttackColliderType.Ranged) { 
+                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();    
+                }
+
                 if (demonBehaviour != null)
                 {
                     demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro((aggroModifier - 1f) * stats.Aggro);

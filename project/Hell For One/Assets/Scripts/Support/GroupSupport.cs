@@ -5,17 +5,25 @@ using UnityEngine;
 public class GroupSupport : MonoBehaviour
 {
     private GroupBehaviour groupBehaviour;
+
+    private GroupAggro groupAggro;
     
     // Field serialized only for testing
     // TODO - Remove SerializeField after testing
-    [SerializeField]
+    //[SerializeField]
     private int supportingUnits = 0;
+    
+    [SerializeField]
+    private float supportAggroMultiplier = 1.1f;
+
+    private Coroutine supportAggroCR = null;
 
     public int SupportingUnits { get => supportingUnits; private set => supportingUnits = value; }
 
     private void Start()
     {
-        groupBehaviour = GetComponent<GroupBehaviour>();    
+        groupBehaviour = GetComponent<GroupBehaviour>();
+        groupAggro = GetComponent<GroupAggro>();
     }
 
     public void AddSupportingUnit() { 
@@ -52,5 +60,26 @@ public class GroupSupport : MonoBehaviour
                 }
             }    
         }    
+    }
+
+    public void StartUpdateSupportAggro() { 
+        if(supportAggroCR == null) { 
+            supportAggroCR = StartCoroutine(SupportAggroCoroutine());    
+        }  
+    }
+
+    public void StopUpdateSupportAggro() { 
+        if(supportAggroCR != null) { 
+            StopCoroutine(supportAggroCR);
+            supportAggroCR = null;
+        }    
+    }
+
+    private IEnumerator SupportAggroCoroutine()
+    {
+        while (true) {
+            groupAggro.GroupAggroValue *= supportAggroMultiplier;
+            yield return new WaitForSeconds(1.0f);
+        }
     }
 }

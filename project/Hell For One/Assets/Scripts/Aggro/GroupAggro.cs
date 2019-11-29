@@ -6,7 +6,6 @@ public class GroupAggro : MonoBehaviour
 {
     public GameObject[] groups;
     private GroupBehaviour groupBehaviour;
-    private bool shouldStayFixed = false;
 
     private float groupAggroValue = 1;
     private float tankMultiplier = 1.5f;
@@ -97,52 +96,6 @@ public class GroupAggro : MonoBehaviour
         }
     }
 
-    //public void LowerGroupAggro(int n) {
-    //    if (!shouldStayFixed) {
-    //        if (groupAggro > 0)
-    //        {
-    //            if (groupAggro - n < 0)
-    //            {
-    //                groupAggro = 0;
-    //            }
-    //            else
-    //            {
-    //                groupAggro -= n;
-    //            }
-    //        }
-    //    }
-    //}
-
-    //private void ManageLockingAggroInDemons( bool lockAggro )
-    //{
-    //    if ( groupBehaviour == null )
-    //        groupBehaviour = GetComponent<GroupBehaviour>();
-
-    //    if ( groupBehaviour != null )
-    //    {
-    //        foreach ( GameObject demon in groupBehaviour.demons )
-    //        {
-    //            Stats stats = demon.GetComponent<Stats>();
-
-    //            if ( stats != null )
-    //            {
-    //                if ( lockAggro )
-    //                    stats.LockAggro();
-    //                if ( !lockAggro )
-    //                    stats.UnlockAggro();
-    //            }
-    //            else
-    //            {
-    //                Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find stats in " + demon.name );
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log( this.transform.root.gameObject.name + " GruopAggro.ResetGroupAggro cannot find GroupBehaviour" );
-    //    }
-    //}
-
     public float CalculateAverageAggro()
     {
         float totalAggro = 0;
@@ -160,9 +113,4 @@ public class GroupAggro : MonoBehaviour
         }
         return totalAggro;
     }
-
-    //// aggiorna l'aggro dei singoli demoni in support
-    //public void UpdateSupportAggro() {
-
-    //}
 }

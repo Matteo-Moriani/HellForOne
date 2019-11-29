@@ -39,7 +39,7 @@ public class Reincarnation : MonoBehaviour
             Combat playerCombat = player.GetComponent<Combat>();
             if ( !player.GetComponent<Stats>().NotAttacking )
             {
-                playerCombat.StopAll();
+                playerCombat.ResetCombat();
             }
 
             // Removing the new player from the group belonging to
