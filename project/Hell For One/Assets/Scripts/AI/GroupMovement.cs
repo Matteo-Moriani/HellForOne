@@ -26,6 +26,18 @@ public class GroupMovement : MonoBehaviour
     private bool vsBoss = false;
     private bool outOfCombat = false;
 
+    private void OnEnable()
+    {
+        BattleEventsManager.onBattleExit += SetOutOfCombat;
+        BattleEventsManager.onBossBattleExit += SetOutOfCombat;
+    }
+
+    private void OnDisable()
+    {
+        BattleEventsManager.onBattleExit -= SetOutOfCombat;
+        BattleEventsManager.onBossBattleExit -= SetOutOfCombat;
+    }
+
     void Start()
     {
         targetPosition = gameObject.transform;
@@ -204,7 +216,8 @@ public class GroupMovement : MonoBehaviour
             }
             else
             {
-                SetOutOfCombat();
+                // TODO - Testing new logic
+                //SetOutOfCombat();
                 target = player;
                 SetDemonsTarget( target );
             }

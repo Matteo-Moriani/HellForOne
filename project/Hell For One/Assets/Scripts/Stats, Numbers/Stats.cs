@@ -468,11 +468,14 @@ public class Stats : MonoBehaviour
                 gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
             }
             isDying = true;
-
+            
+            // TODO - Testing new logic
+            /*
             foreach ( GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups() )
             {
                 group.GetComponent<GroupMovement>().SetOutOfCombat();
             }
+            */
             
             // Update EnemiesManager boss
             EnemiesManager.Instance.BossKilled();
@@ -481,6 +484,8 @@ public class Stats : MonoBehaviour
         // if a littleEnemy is dying...
         if ( type == Type.Enemy )
         {
+            // TODO - Testing new logic
+            /*
             GameObject[] allies;
 
             allies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
@@ -493,6 +498,7 @@ public class Stats : MonoBehaviour
                     group.GetComponent<GroupMovement>().SetOutOfCombat();
                 }
             }
+            */
 
             // Update EnemiesManager littleEnemiesList
             EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
