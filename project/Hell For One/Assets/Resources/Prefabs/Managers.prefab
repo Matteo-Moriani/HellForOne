@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3880845377671184619}
   m_Layer: 0
   m_Name: Managers
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,11 +423,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3880845377671184619}
     m_Modifications:
-    - target: {fileID: 4917205643853383734, guid: ebdc6a3f107e16f4fbc3419758c75d42,
-        type: 3}
-      propertyPath: m_Name
-      value: AlliesManager
-      objectReference: {fileID: 0}
     - target: {fileID: 8211123464355394950, guid: ebdc6a3f107e16f4fbc3419758c75d42,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -482,6 +477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4917205643853383734, guid: ebdc6a3f107e16f4fbc3419758c75d42,
+        type: 3}
+      propertyPath: m_Name
+      value: AlliesManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebdc6a3f107e16f4fbc3419758c75d42, type: 3}

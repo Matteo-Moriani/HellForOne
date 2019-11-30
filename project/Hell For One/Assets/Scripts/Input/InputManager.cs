@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private enum Controller { 
+    public enum Controller { 
         Xbox,
         Ps3,
         MouseAndKeyboard,
@@ -18,13 +18,15 @@ public class InputManager : MonoBehaviour
     private bool ltWasPressedLastFrame = false;
     private bool rtWasPressedLastFrame = false;
 
+    public Controller Type { get => type; set => type = value; }
+
     #region XorA
 
     /// <summary>
     /// Returns true when x (Ps3), a (Xbox) is pressed
     /// </summary>
     public bool XButtonDown() {
-        switch (type) { 
+        switch (Type) { 
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton0);
             case Controller.Ps3:
@@ -40,7 +42,7 @@ public class InputManager : MonoBehaviour
     /// Returns true when x (Ps3), a (Xbox) is relased
     /// </summary>
     public bool XButtonUp() {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton0);
@@ -57,7 +59,7 @@ public class InputManager : MonoBehaviour
     /// Returns true while x (Ps3), a (Xbox) is pressed
     /// </summary>
     public bool XButtonHeldDown() {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton0);
@@ -79,7 +81,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool CircleButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton1);
@@ -97,7 +99,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool CircleButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton1);
@@ -115,7 +117,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool CircleButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton1);
@@ -137,7 +139,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool TriangleButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton3);
@@ -155,7 +157,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool TriangleButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton3);
@@ -173,7 +175,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool TriangleButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton3);
@@ -195,7 +197,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool SquareButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton2);
@@ -213,7 +215,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool SquareButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton2);
@@ -231,7 +233,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool SquareButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton2);
@@ -253,7 +255,7 @@ public class InputManager : MonoBehaviour
     /// Returns the value of the horizontal axis of the left stick
     /// </summary>
     public float LeftStickHorizontal() {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("Horizontal");
@@ -271,7 +273,7 @@ public class InputManager : MonoBehaviour
     /// Returns the value of the vertical axis of the left stick
     /// </summary>
     public float LeftStickVertical() {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("Vertical");
@@ -290,7 +292,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool LeftStickButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton8);
@@ -309,7 +311,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool LeftStickButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton8);
@@ -328,7 +330,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool LeftStickButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton8);
@@ -352,7 +354,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public float RightStickHorizontal()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("XBoxRightStickHorizontal");
@@ -374,7 +376,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public float RightStickVertical()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("XBoxRightStickVertical");
@@ -393,7 +395,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool RightStickButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton9);
@@ -412,7 +414,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool RightStickButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton9);
@@ -431,7 +433,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool RightStickButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton9);
@@ -455,7 +457,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public float DpadHorizontal()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("XBoxDpadHorizontal");
@@ -474,7 +476,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public float DpadVertical()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetAxis("XBoxDpadVertical");
@@ -498,7 +500,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L1ButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton4);
@@ -516,7 +518,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L1ButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton4);
@@ -534,7 +536,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L1ButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton4);
@@ -557,7 +559,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R1ButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton5);
@@ -576,7 +578,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R1ButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton5);
@@ -595,7 +597,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R1ButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton5);
@@ -642,7 +644,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L2ButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if( Input.GetAxis("XBoxLT") == 1f && !ltWasPressedLastFrame) { 
@@ -664,7 +666,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L2ButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if (Input.GetAxis("XBoxLT") == 0f && ltWasPressedLastFrame)
@@ -687,7 +689,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool L2ButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if (Input.GetAxis("XBoxLT") == 1f && ltWasPressedLastFrame)
@@ -737,7 +739,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R2ButtonDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if (Input.GetAxis("XBoxRT") == 1f && !rtWasPressedLastFrame)
@@ -760,7 +762,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R2ButtonUp()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if (Input.GetAxis("XBoxRT") == 0f && rtWasPressedLastFrame)
@@ -783,7 +785,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public bool R2ButtonHeldDown()
     {
-        switch (type)
+        switch (Type)
         {
             case Controller.Xbox:
                 if (Input.GetAxis("XBoxRT") == 1f && rtWasPressedLastFrame)

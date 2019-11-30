@@ -30,6 +30,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private bool rightAxisInUse = false;
 
+    private float mouseSensitivity = 0.1f;
+
     private void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
@@ -77,44 +79,10 @@ public class CameraManager : MonoBehaviour
             FindPlayer();
         }
 
-        // Remove lock-on
-        if ( Input.GetButtonDown( "R3" ) && isLocked )
+        // M&K
+        if (GameObject.FindGameObjectWithTag("Managers").GetComponentInChildren<InputManager>().Type == InputManager.Controller.MouseAndKeyboard )
         {
-            isLocked = false;
-            target = player;
-        }
-
-        // Start lock-on
-        else if ( Input.GetButtonDown( "R3" ) && !isLocked )
-        {
-            enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-            boss = GameObject.FindGameObjectWithTag( "Boss" );
-
-            if ( boss == null && enemies != null )
-            {
-                isLocked = true;
-                target = FindNearestEnemy( gameObject, enemies );
-            }
-            else if ( boss != null )
-            {
-                isLocked = true;
-                target = boss;
-            }
-        }
-
-        if ( isLocked )
-        {
-            Vector3 direction = (player.transform.position - target.transform.position).normalized;
-
-            Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z );
-
-            camera_offset.y = offset.y;
-
-            transform.position = camera_offset;
-        }
-        else
-        {
-            offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
+            offset = Quaternion.AngleAxis( - Input.GetAxis( "Mouse X" ) * mouseSensitivity * turnSpeed, Vector3.down ) * offset;
 
             if ( closedEnvironment )
             {
@@ -123,57 +91,111 @@ public class CameraManager : MonoBehaviour
             }
             else
                 transform.position = player.transform.position + offset;
+
+            transform.LookAt( target.transform.position );
+
         }
 
-        transform.LookAt( target.transform.position );
-
-        // Change lock-on target
-        float input = Input.GetAxis( "Vertical2" );
-        if ( (!rightAxisInUse && Mathf.Abs( input ) > 0.4f) && isLocked )
+        // PS & Xbox
+        else
         {
-            rightAxisInUse = true;
+            // Remove lock-on
+            if ( Input.GetButtonDown( "R3" ) && isLocked )
+            {
+                isLocked = false;
+                target = player;
+            }
 
-            //Do nothing
-            if ( !boss && target == boss ) ;
+            // Start lock-on
+            else if ( Input.GetButtonDown( "R3" ) && !isLocked )
+            {
+                enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+                boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-            // Cycle through the enemies
+                if ( boss == null && enemies != null )
+                {
+                    isLocked = true;
+                    target = FindNearestEnemy( gameObject, enemies );
+                }
+                else if ( boss != null )
+                {
+                    isLocked = true;
+                    target = boss;
+                }
+            }
+
+            if ( isLocked )
+            {
+                Vector3 direction = (player.transform.position - target.transform.position).normalized;
+
+                Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z );
+
+                camera_offset.y = offset.y;
+
+                transform.position = camera_offset;
+            }
             else
             {
-                float minLeftDistance = -1 * Mathf.Infinity;
-                float minRightDistance = Mathf.Infinity;
-                GameObject leftNearestDemon = null;
-                GameObject rightNearestDemon = null;
+                offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
 
-                foreach ( GameObject demon in enemies )
+                if ( closedEnvironment )
                 {
-                    float demonXAxis = transform.InverseTransformPoint( demon.transform.position ).x;
-
-                    Debug.Log( demonXAxis );
-
-                    if ( demonXAxis > 0.01f && demonXAxis < minRightDistance )
-                    {
-                        minRightDistance = demonXAxis;
-                        rightNearestDemon = demon;
-                    }
-
-                    if ( demonXAxis < -0.01f && demonXAxis > minLeftDistance )
-                    {
-                        minLeftDistance = demonXAxis;
-                        leftNearestDemon = demon;
-                    }
+                    transform.position = player.transform.position + closedEnvironmentOffset;
+                    transform.LookAt( player.transform.position );
                 }
-
-                // Don't know why it is inverted
-                if ( input < 0 && rightNearestDemon )
-                    target = rightNearestDemon;
-                else if ( input > 0 && leftNearestDemon )
-                    target = leftNearestDemon;
+                else
+                    transform.position = player.transform.position + offset;
             }
-        }
 
-        // TODO The problem might not be here, but maybe it chooses again the already targeted enemy when it should change, need to check
-        else if ( Mathf.Abs( input ) <= 0.4f )
-            rightAxisInUse = false;
+            transform.LookAt( target.transform.position );
+
+            // Change lock-on target
+            float input = Input.GetAxis( "Vertical2" );
+            if ( (!rightAxisInUse && Mathf.Abs( input ) > 0.4f) && isLocked )
+            {
+                rightAxisInUse = true;
+
+                //Do nothing
+                if ( !boss && target == boss ) ;
+
+                // Cycle through the enemies
+                else
+                {
+                    float minLeftDistance = -1 * Mathf.Infinity;
+                    float minRightDistance = Mathf.Infinity;
+                    GameObject leftNearestDemon = null;
+                    GameObject rightNearestDemon = null;
+
+                    foreach ( GameObject demon in enemies )
+                    {
+                        float demonXAxis = transform.InverseTransformPoint( demon.transform.position ).x;
+
+                        Debug.Log( demonXAxis );
+
+                        if ( demonXAxis > 0.01f && demonXAxis < minRightDistance )
+                        {
+                            minRightDistance = demonXAxis;
+                            rightNearestDemon = demon;
+                        }
+
+                        if ( demonXAxis < -0.01f && demonXAxis > minLeftDistance )
+                        {
+                            minLeftDistance = demonXAxis;
+                            leftNearestDemon = demon;
+                        }
+                    }
+
+                    // Don't know why it is inverted
+                    if ( input < 0 && rightNearestDemon )
+                        target = rightNearestDemon;
+                    else if ( input > 0 && leftNearestDemon )
+                        target = leftNearestDemon;
+                }
+            }
+
+            else if ( Mathf.Abs( input ) <= 0.4f )
+                rightAxisInUse = false;
+        }
     }
 
     void LateUpdate()
