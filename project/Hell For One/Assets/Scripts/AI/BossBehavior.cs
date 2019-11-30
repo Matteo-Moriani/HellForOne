@@ -77,7 +77,7 @@ public class BossBehavior : MonoBehaviour
 
     #region Finite State Machine
 
-    FSMState waitingState, fightingState, stunnedState, winState;
+    FSMState waitingState, fightingState, stunnedState, winState, deathState;
 
     public bool PlayerApproaching()
     {
@@ -122,6 +122,13 @@ public class BossBehavior : MonoBehaviour
         else
             return true;
 
+    }
+
+    public bool Death() {
+        if(stats.health <= 0)
+            return true;
+        else
+            return false;
     }
 
     // The coroutine that cycles through the FSM
@@ -381,6 +388,7 @@ public class BossBehavior : MonoBehaviour
         FSMTransition t2 = new FSMTransition( LifeIsHalven );
         FSMTransition t3 = new FSMTransition( RecoverFromStun );
         FSMTransition t4 = new FSMTransition( EnemiesAreDead );
+        FSMTransition t5 = new FSMTransition( Death );
 
         FightingBT = FightingBTBuilder();
 
@@ -395,11 +403,15 @@ public class BossBehavior : MonoBehaviour
         winState = new FSMState();
         //roar animation to celebrate
 
+        deathState = new FSMState();
+
         waitingState.AddTransition( t0, fightingState );
         fightingState.AddTransition( t1, stunnedState );
         fightingState.AddTransition( t2, stunnedState );
         fightingState.AddTransition( t4, winState );
         stunnedState.AddTransition( t3, fightingState );
+        fightingState.AddTransition( t5, deathState );
+        stunnedState.AddTransition( t5, deathState );
 
         bossFSM = new FSM( waitingState );
     }
