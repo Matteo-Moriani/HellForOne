@@ -434,6 +434,8 @@ public class Stats : MonoBehaviour
                     gs.UpdateSupportingUnits();
                 }
             }
+
+            AlliesManager.Instance.AllyKilled(this.gameObject);
         }
 
         // if the player is dying...
@@ -472,6 +474,8 @@ public class Stats : MonoBehaviour
                 group.GetComponent<GroupMovement>().SetOutOfCombat();
             }
             
+            // Update EnemiesManager boss
+            EnemiesManager.Instance.BossKilled();
         }
 
         // if a littleEnemy is dying...
@@ -485,9 +489,13 @@ public class Stats : MonoBehaviour
             {
                 foreach ( GameObject group in GameObject.FindGameObjectsWithTag( "Group" ) )
                 {
+                    // TODO - Use BattleEventsManager event
                     group.GetComponent<GroupMovement>().SetOutOfCombat();
                 }
             }
+
+            // Update EnemiesManager littleEnemiesList
+            EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
         }
 
         deathCR = StartCoroutine(Death(deathDuration));

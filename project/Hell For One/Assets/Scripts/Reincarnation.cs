@@ -53,6 +53,9 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
             player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>().UpdateSupportingUnits();
 
+            // Update allies list
+            AlliesManager.Instance.ManagePlayerReincarnation(player);
+
             player.GetComponent<DemonBehaviour>().enabled = false;
             player.GetComponent<DemonMovement>().CanMove = false;
         }
