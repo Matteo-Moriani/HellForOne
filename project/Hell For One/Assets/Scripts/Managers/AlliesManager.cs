@@ -22,11 +22,8 @@ public class AlliesManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
 
-    private void Start()
-    {
-        alliesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Demon"));    
+        alliesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Demon"));
     }
 
     private void OnEnable()

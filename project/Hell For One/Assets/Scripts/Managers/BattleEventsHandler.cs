@@ -53,16 +53,21 @@ public class BattleEventsHandler : MonoBehaviour
 
     private void Update()
     {
-        if (IsInRegularBattle) { 
-            if(EnemiesManager.Instance.LittleEnemiesList.Count == 0) { 
-                BattleEventsManager.RaiseOnBattleExit();    
-            }    
+        if (IsInRegularBattle)
+        {
+            if (EnemiesManager.Instance.LittleEnemiesList.Count == 0)
+            {
+                BattleEventsManager.RaiseOnBattleExit();
+            }
         }
 
-        if (IsInBossBattle) { 
-            if(EnemiesManager.Instance.LittleEnemiesList.Count == 0 && EnemiesManager.Instance.Boss == null) { 
-                BattleEventsManager.RaiseOnBossBattleExit();    
-            }   
+
+        if (IsInBossBattle)
+        {
+            if (EnemiesManager.Instance.LittleEnemiesList.Count == 0 && EnemiesManager.Instance.Boss == null)
+            {
+                BattleEventsManager.RaiseOnBossBattleExit();
+            }
         }
     }
 

@@ -30,12 +30,16 @@ public class GroupMovement : MonoBehaviour
     {
         BattleEventsManager.onBattleExit += SetOutOfCombat;
         BattleEventsManager.onBossBattleExit += SetOutOfCombat;
+
+        BattleEventsManager.onBossBattleEnter += SetVsBoss;
     }
 
     private void OnDisable()
     {
         BattleEventsManager.onBattleExit -= SetOutOfCombat;
         BattleEventsManager.onBossBattleExit -= SetOutOfCombat;
+
+        BattleEventsManager.onBossBattleEnter -= SetVsBoss;
     }
 
     void Start()
@@ -48,7 +52,9 @@ public class GroupMovement : MonoBehaviour
 
     void Update()
     {
-        if ( !haveTarget )
+        // Adding OR target == null make the ally demons follow the player 
+        // when out of combat, idk why.
+        if ( !haveTarget || target == null )
         {
             ChooseTarget();
         }
@@ -178,7 +184,7 @@ public class GroupMovement : MonoBehaviour
         outOfCombat = false;
         haveTarget = false;
     }
-
+    // TODO - integrate with new logic
     public void SetVsBoss()
     {
         vsLittleEnemies = false;
@@ -197,27 +203,26 @@ public class GroupMovement : MonoBehaviour
 
     private void SearchTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-        if ( enemies.Length != 0 )
+        if ( EnemiesManager.Instance.LittleEnemiesList.Count != 0 )
         {
             SetVsLittleEnemies();
-            target = enemies[ Random.Range( 0, enemies.Length ) ];
+            target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0,EnemiesManager.Instance.LittleEnemiesList.Count)];
             SetDemonsTarget( target );
             haveTarget = true;
         }
         else
         {
-            GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
-            if ( boss )
+            if ( EnemiesManager.Instance.Boss != null )
             {
-                SetVsBoss();
-                target = boss;
+                // TODO - Testing new logic
+                // SetVsBoss();
+                target = EnemiesManager.Instance.Boss;
                 SetDemonsTarget( target );
             }
             else
             {
                 // TODO - Testing new logic
-                //SetOutOfCombat();
+                // SetOutOfCombat();
                 target = player;
                 SetDemonsTarget( target );
             }

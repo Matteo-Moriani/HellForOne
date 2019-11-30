@@ -43,7 +43,8 @@ public class EnemiesManager : MonoBehaviour
     }
     
     private void FindLittleEnemies() { 
-        LittleEnemiesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("LittleEnemy"));   
+        LittleEnemiesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("LittleEnemy"));
+        Debug.Log("Init little enemies lisst");
     }
 
     private void FindBoss() { 
