@@ -16,8 +16,6 @@ public class BattleEventsManager : MonoBehaviour
     public delegate void OnBossBattleExit();
     public static event OnBossBattleExit onBossBattleExit;
 
-    // TODO - Insert Some Boolean? maybe in BattleEventsHandler
-
     public static void RaiseOnBattleEnter() { 
         if(onBattleEnter != null) { 
             onBattleEnter();    

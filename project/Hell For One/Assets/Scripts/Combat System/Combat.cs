@@ -9,6 +9,8 @@ public class Combat : MonoBehaviour
 
     public CombatManager combatManager;
 
+    private CombatEventsManager combatEventManager;
+
     // We store a whole reference to Stats.
     // Used only to check the type of this Imp.
     // Type can change during time, so it's better to
@@ -37,11 +39,16 @@ public class Combat : MonoBehaviour
 
         coolDownCounter = playerAttackCooldown;
 
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "PlayerRangedTarget")
-                rangeTarget = child.gameObject;
+        // Need this because boss has many children in his transform
+        if(stats.type == Stats.Type.Player || stats.type == Stats.Type.Ally) {
+            foreach (Transform child in transform)
+            {
+                if (child.tag == "PlayerRangedTarget")
+                    rangeTarget = child.gameObject;
+            }
         }
+        
+        combatEventManager = GetComponent<CombatEventsManager>();
     }
 
     void Update()
@@ -60,7 +67,14 @@ public class Combat : MonoBehaviour
     public void Attack()
     {   if(coolDownCounter >= playerAttackCooldown) { 
             coolDownCounter = 0f;
+            
+            // Do attack
             combatManager.MeleeAttack();
+            
+            // Melee attack event
+            if(combatEventManager != null) { 
+                combatEventManager.RaiseOnMeleeAttack();    
+            }
         }
     }
 
@@ -73,6 +87,12 @@ public class Combat : MonoBehaviour
     public void Attack( GameObject target )
     {
         combatManager.MeleeAttack( target );
+
+        // Melee attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnMeleeAttack();
+        }
     }
 
     /// <summary>
@@ -82,6 +102,12 @@ public class Combat : MonoBehaviour
     public void StopAttack()
     {
         combatManager.StopMeleeAttack();
+
+        // Stop melee attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopMeleeAttack();
+        }
     }
 
     /// <summary>
@@ -96,6 +122,12 @@ public class Combat : MonoBehaviour
                 coolDownCounter = 0f;
                 if(rangeTarget != null) {
                     combatManager.RangedAttack(rangeTarget);
+
+                    // RangedAttack attack event
+                    if (combatEventManager != null)
+                    {
+                        combatEventManager.RaiseOnRangedAttack();
+                    }
                 }
                 else {
                     Debug.Log("Player cannot find rangeTarget");
@@ -105,6 +137,12 @@ public class Combat : MonoBehaviour
         // For everty other demon...
         else {
             combatManager.RangedAttack(target);
+
+            // RangedAttack attack event
+            if (combatEventManager != null)
+            {
+                combatEventManager.RaiseOnRangedAttack();
+            }
         }
     }
 
@@ -118,6 +156,12 @@ public class Combat : MonoBehaviour
     public void StopRangedAttack()
     {
         combatManager.StopRangedAttack();
+
+        // Stop rangedAttack attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopRangedAttack();
+        }
     }
 
     /// <summary>
@@ -127,6 +171,12 @@ public class Combat : MonoBehaviour
     public void StartBlock()
     {
         combatManager.StartBlock();
+
+        // Start block event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStartBlock();
+        }
     }
 
     /// <summary>
@@ -136,6 +186,12 @@ public class Combat : MonoBehaviour
     public void StopBlock()
     {
         combatManager.StopBlock();
+
+        // StopBlock event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopBlock();
+        }
     }
 
     /// <summary>
@@ -146,6 +202,12 @@ public class Combat : MonoBehaviour
     public void Sweep()
     {
         combatManager.Sweep();
+
+        // Sweep attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStartSweep();
+        }
     }
 
     /// <summary>
@@ -156,6 +218,12 @@ public class Combat : MonoBehaviour
     public void StopSweep()
     {
         combatManager.StopSweep();
+
+        // Stop sweep event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopSweep();
+        }
     }
 
     /// <summary>
@@ -165,6 +233,12 @@ public class Combat : MonoBehaviour
     public void GlobalAttack()
     {
         combatManager.GlobalAttack();
+
+        // Global attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStartGlobalAttack();
+        }
     }
 
     /// <summary>
@@ -174,6 +248,12 @@ public class Combat : MonoBehaviour
     public void StopGlobalAttack()
     {
         combatManager.StopGlobalAttack();
+        
+        // Stop global attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopGlobalAttack();
+        }
     }
 
     /// <summary>
@@ -183,6 +263,12 @@ public class Combat : MonoBehaviour
     public void StartSupport()
     {
         combatManager.StartSupport();
+
+        // Start support attack event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStartSupport();
+        }
     }
 
     /// <summary>
@@ -192,6 +278,12 @@ public class Combat : MonoBehaviour
     public void StopSupport()
     {
         combatManager.StopSupport();
+
+        // Stop support event
+        if (combatEventManager != null)
+        {
+            combatEventManager.RaiseOnStopSupport();
+        }
     }
 
     /// <summary>

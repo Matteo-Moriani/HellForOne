@@ -10,12 +10,35 @@ public class BossAnimator : MonoBehaviour
     public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
     public Animator Animator { get => animator; set => animator = value; }
 
+    private CombatEventsManager combatEventsManager;
+
     public enum Animations
     {
         Death,
         Attack,
         Run,
         Idle
+    }
+
+    private void OnEnable()
+    {
+        // Exemple to explain how to use events for animations
+        if(combatEventsManager != null) { 
+            combatEventsManager.onMeleeAttack += PlayAttackAnimation;
+            combatEventsManager.onStartSweep += PlayAttackAnimation;
+            combatEventsManager.onStartGlobalAttack += PlayAttackAnimation;
+        }    
+    }
+
+    private void OnDisable()
+    {
+        // Exemple to explain how to use events for animations
+        if (combatEventsManager != null)
+        {
+            combatEventsManager.onMeleeAttack -= PlayAttackAnimation;
+            combatEventsManager.onStartSweep -= PlayAttackAnimation;
+            combatEventsManager.onStartGlobalAttack -= PlayAttackAnimation;
+        }
     }
 
     public void PlayAnimation( Animations animation )
@@ -26,7 +49,7 @@ public class BossAnimator : MonoBehaviour
                 Animator.SetBool( "isDying", true );
                 break;
             case Animations.Attack:
-                Animator.SetBool( "isAttacking", true );
+                //Animator.SetBool( "isAttacking", true );
                 break;
             case Animations.Run:
                 Animator.SetBool( "isRunning", true );
@@ -49,8 +72,28 @@ public class BossAnimator : MonoBehaviour
         IsAnimating = false;
     }
 
+    /*
     void Start()
     {
         Animator = GetComponent<Animator>();
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
+    */
+
+    // Is better to use awake in this case
+    // Start is called after OnEnable
+    // Awake is called before OnEnable
+    // And we need to register for events in OnEnable
+    private void Awake()
+    {
+        Animator = GetComponent<Animator>();
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
+
+    // Example method to explain how to use events for animations
+    public void PlayAttackAnimation() { 
+        animator.SetBool("isAttacking",true);    
     }
 }

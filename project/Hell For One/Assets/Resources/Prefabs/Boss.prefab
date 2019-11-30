@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 8480890277252142525}
   - component: {fileID: 136265036855588500}
   - component: {fileID: 8844099086490594050}
+  - component: {fileID: 4658188591003335396}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -449,6 +450,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4658188591003335396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3586834032733203110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8ddc252492a274f86bcc010752ab9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3586834032741621890
 GameObject:
   m_ObjectHideFlags: 0
