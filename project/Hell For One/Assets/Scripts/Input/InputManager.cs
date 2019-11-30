@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     private enum Controller { 
         Xbox,
         Ps3,
+        MouseAndKeyboard,
         None
     }
 
@@ -356,6 +357,9 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("XBoxRightStickHorizontal");
             case Controller.Ps3:
+                // TODO - To Implement
+                break;
+            case Controller.MouseAndKeyboard:
                 // TODO - To Implement
                 break;
             case Controller.None:

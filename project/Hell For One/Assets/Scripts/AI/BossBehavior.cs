@@ -470,7 +470,6 @@ public class BossBehavior : MonoBehaviour
         }
         else if (type == TimerType.attack ) 
         {
-            Debug.Log("attack animation stopped");
             animator.StopAnimations();
             animator.PlayAnimation(BossAnimator.Animations.Idle);
         }
