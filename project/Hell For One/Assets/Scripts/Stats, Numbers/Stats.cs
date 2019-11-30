@@ -22,25 +22,25 @@ public class Stats : MonoBehaviour
     /// The type of this unit
     /// </summary>
     [SerializeField]
-    [Tooltip( "The type of this demon" )]
+    [Tooltip("The type of this demon")]
     public Type type = Type.None;
 
     /// <summary>
     /// Health of this unit
     /// </summary>
     [SerializeField]
-    [Tooltip( "Starting health of this demon" )]
+    [Tooltip("Starting health of this demon")]
     public float health = 2f;
 
     /// <summary>
     /// How much meleeDamage this unit will deal
     /// </summary>
     [SerializeField]
-    [Tooltip( "How much meleeDamage this demon can deal" )]
+    [Tooltip("How much meleeDamage this demon can deal")]
     private float meleeDamage = 2f;
 
     [SerializeField]
-    [Tooltip( "How mush ranged damage this demon can deal" )]
+    [Tooltip("How mush ranged damage this demon can deal")]
     private float rangedDamage = 1f;
 
     [SerializeField]
@@ -50,48 +50,48 @@ public class Stats : MonoBehaviour
     /// How far will go an attack
     /// </summary>
     [SerializeField]
-    [Tooltip( "How far the attack collider will go" )]
+    [Tooltip("How far the attack collider will go")]
     private float attackRange = 1.0f;
     /// <summary>
     /// How fast will be an attack
     /// </summary>
     [SerializeField]
-    [Tooltip( "How fast will be the attackCollider movement" )]
+    [Tooltip("How fast will be the attackCollider movement")]
     private float attackDurationMultiplier = 1.0f;
 
     /// <summary>
     /// How big will be a sweep attack
     /// </summary>
     [SerializeField]
-    [Tooltip( "How big sweep area will be" )]
+    [Tooltip("How big sweep area will be")]
     private float sweepSize = 2.0f;
 
     /// <summary>
     /// How big will be a global attack
     /// </summary>
     [SerializeField]
-    [Tooltip( "How big the global attack will be" )]
+    [Tooltip("How big the global attack will be")]
     private float globalAttackSize = 10f;
     /// <summary>
     /// How long will last a global attack
     /// </summary>
     [SerializeField]
-    [Tooltip( "How long the global attack will be (in seconds)" )]
+    [Tooltip("How long the global attack will be (in seconds)")]
     private float globalAttackDuration = 1.0f;
 
     /// <summary>
     /// Probability of this unit to dodge an attack
     /// </summary>
     [SerializeField]
-    [Range( 0f, 100f )]
-    [Tooltip( "The probability for this demon to dodge an attack. to stick to GDD it should be 75.0" )]
+    [Range(0f, 100f)]
+    [Tooltip("The probability for this demon to dodge an attack. to stick to GDD it should be 75.0")]
     private float blockChance = 0f;
     /// <summary>
     /// Probability bonus if this unit is blocking
     /// </summary>
     [SerializeField]
-    [Range( 0f, 100f )]
-    [Tooltip( "This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0" )]
+    [Range(0f, 100f)]
+    [Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
     private float shieldBonusProbability = 0f;
 
     [SerializeField]
@@ -101,23 +101,23 @@ public class Stats : MonoBehaviour
     /// Probability of this unit to deal a knockBack
     /// </summary>
     [SerializeField]
-    [Range( 0f, 100f )]
-    [Tooltip( "For Boss only" )]
+    [Range(0f, 100f)]
+    [Tooltip("For Boss only")]
     private float knockBackChance = 0f;
     /// <summary>
     /// How far this unit will push a target when dealing a knockBack
     /// </summary>
     [SerializeField]
-    [Tooltip( "For Boss only" )]
+    [Tooltip("For Boss only")]
     private float knockBackSize = 0f;
     /// <summary>
     /// How many seconds will take to go through knockBackSize
     /// </summary>
     [SerializeField]
-    [Tooltip( "For boss only" )]
+    [Tooltip("For boss only")]
     private float knockBackTime = 5.0f;
 
-    [Tooltip( "Do not change, here only for balancing and testing" )]
+    [Tooltip("Do not change, here only for balancing and testing")]
     [SerializeField]
     private float aggro = 1f;
 
@@ -126,7 +126,7 @@ public class Stats : MonoBehaviour
     //private int aggroDescreasingRateo = 1;
 
     [SerializeField]
-    [Tooltip( "How many seconds will pass before decreasing aggro" )]
+    [Tooltip("How many seconds will pass before decreasing aggro")]
     private float aggroTime = 60.0f;
 
     //Used for aggro decreasing
@@ -145,6 +145,7 @@ public class Stats : MonoBehaviour
     /// Tells if this unit can process a KnockBack
     /// </summary>
     private bool canProcessKnockBack = true;
+    
     private Coroutine knockBackCR = null;
 
     private bool isPushedAway = false;
@@ -171,6 +172,8 @@ public class Stats : MonoBehaviour
     // must be of the exact duration of the death animation for the character
     public float deathDuration = 0f;
     private Coroutine deathCR;
+
+    private CombatEventsManager combatEventsManager;
 
     #endregion
 
@@ -251,19 +254,21 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        if ( aggroDecreasingCR == null )
+        if (aggroDecreasingCR == null)
         {
-            aggroDecreasingCR = StartCoroutine( AggroDecreasingCR() );
+            aggroDecreasingCR = StartCoroutine(AggroDecreasingCR());
         }
 
-        Groups = GameObject.FindGameObjectsWithTag( "Group" );
+        Groups = GameObject.FindGameObjectsWithTag("Group");
+
+        combatEventsManager = GetComponent<CombatEventsManager>();
     }
 
     /// <summary>
     /// Raise this unit aggro points by amount n
     /// </summary>
     /// <param name="n">The amount the aggro will be raised</param>
-    public void RaiseAggro( float n )
+    public void RaiseAggro(float n)
     {
         aggro *= n;
     }
@@ -272,11 +277,11 @@ public class Stats : MonoBehaviour
     /// Lower this unit aggro points by amount n
     /// </summary>
     /// <param name="n"></param>
-    public void LowerAggro( float n )
+    public void LowerAggro(float n)
     {
         aggro = aggro / n;
 
-        if ( aggro < 1f )
+        if (aggro < 1f)
             aggro = 1f;
     }
 
@@ -284,11 +289,11 @@ public class Stats : MonoBehaviour
     /// Lower this unit health by amount n
     /// </summary>
     /// <param name="damage">The meleeDamage that this unit will take</param>
-    public void TakeHit( float damage )
+    public void TakeHit(float damage)
     {
         health -= damage;
 
-        if ( health <= 0 )
+        if (health <= 0)
         {
             ManageDeath();
         }
@@ -299,16 +304,16 @@ public class Stats : MonoBehaviour
     /// </summary>
     /// <param name="units">Knockback meters size</param>
     /// <param name="attackerTransform">Transform of the unit that is causing the knockback</param>
-    public void TakeKnockBack( float units, Transform attackerTransform, float knockBackSpeed )
+    public void TakeKnockBack(float units, Transform attackerTransform, float knockBackSpeed)
     {
-        if ( !isProcessingKnockBack && knockBackCR == null )
-            knockBackCR = StartCoroutine( TakeKnockBackCR( units, attackerTransform, knockBackSpeed ) );
+        if (!isProcessingKnockBack && knockBackCR == null)
+            knockBackCR = StartCoroutine(TakeKnockBackCR(units, attackerTransform, knockBackSpeed));
     }
 
-    private void ManageMovement( bool enable )
+    private void ManageMovement(bool enable)
     {
         // If is processing a KnockBack the Player cannot move or dash
-        if ( type == Stats.Type.Player )
+        if (type == Stats.Type.Player)
         {
             Controller controller = this.GetComponent<Controller>();
             Dash dash = this.GetComponent<Dash>();
@@ -317,55 +322,55 @@ public class Stats : MonoBehaviour
             dash.enabled = enable;
         }
 
-        if ( type == Stats.Type.Ally )
+        if (type == Stats.Type.Ally)
         {
             DemonMovement dm = GetComponent<DemonMovement>();
 
-            if ( dm != null )
+            if (dm != null)
             {
                 dm.CanMove = enable;
             }
             else
             {
-                Debug.Log( this.transform.root.name + " ManageMovement cannot find DemonMovement " );
+                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");
             }
         }
     }
 
-    public bool CalculateBeenHitChance( bool isBlocking )
+    public bool CalculateBeenHitChance(bool isBlocking)
     {
-        switch ( type )
+        switch (type)
         {
             case Stats.Type.Ally:
                 // Calculate supporting units number
                 int supportingUnits = 0;
 
-                if ( Groups != null )
+                if (Groups != null)
                 {
-                    foreach ( GameObject group in Groups )
+                    foreach (GameObject group in Groups)
                     {
-                        if ( group != null )
+                        if (group != null)
                             supportingUnits += group.GetComponent<GroupSupport>().SupportingUnits;
                         else
-                            Debug.Log( this.gameObject.name + " a group in Stats.groups is null" );
+                            Debug.Log(this.gameObject.name + " a group in Stats.groups is null");
                     }
                 }
 
-                if ( isBlocking )
+                if (isBlocking)
                 {
 
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow( supportingUnitsMultiplier, supportingUnits ));
+                    return Random.Range(1f, 101f) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits));
                 }
                 else
                 {
                     // 0.9: hardcoded value for support units bonus
                     // 4:   hardcoded value for number of support units
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance) * Mathf.Pow( supportingUnitsMultiplier, supportingUnits );
+                    return Random.Range(1f, 101f) <= (100 - blockChance) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits);
                 }
             case Stats.Type.Player:
-                if ( isBlocking )
+                if (isBlocking)
                 {
                     // When Player is blocking will allways avoid damage
                     return false;
@@ -376,29 +381,29 @@ public class Stats : MonoBehaviour
                     return true;
                 }
             case Stats.Type.Enemy:
-                if ( isBlocking )
+                if (isBlocking)
                 {
                     // TODO - Enemies will have support units?
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance + shieldBonusProbability);
+                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonusProbability);
                 }
                 else
                 {
                     // TODO - Enemies will have support units?
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance);
+                    return Random.Range(1f, 101f) <= (100 - blockChance);
                 }
             case Stats.Type.Boss:
-                if ( isBlocking )
+                if (isBlocking)
                 {
                     // TODO - Boss will have support units?
-                    return Random.Range( 1f, 101f ) <= (100 - blockChance + shieldBonusProbability);
+                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonusProbability);
                 }
                 else
                 {
                     // TODO - Boss will have support units?
-                    return Random.Range( 1, 101f ) <= (100 - blockChance);
+                    return Random.Range(1, 101f) <= (100 - blockChance);
                 }
             default:
-                Debug.Log( this.transform.root.name + " Stats error, did you set type?" );
+                Debug.Log(this.transform.root.name + " Stats error, did you set type?");
                 return false;
         }
     }
@@ -408,28 +413,29 @@ public class Stats : MonoBehaviour
         aggro = 1;
 
         // If an ally is dying...
-        if ( type == Stats.Type.Ally )
+        if (type == Stats.Type.Ally)
         {
             // ...we need to update his group
             GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber( gb.GetDemonsNumber() - 1 );
+            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
+            
             // ...and remove him from his group
-            int demonIndex = System.Array.IndexOf( gb.demons, this.gameObject );
-            gb.demons[ demonIndex ] = null;
+            int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
+            gb.demons[demonIndex] = null;
 
             // ...we need to update his group aggro
             GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
-            if ( ga != null )
+            if (ga != null)
             {
                 ga.UpdateGroupAggro();
             }
 
             // ...if the unit is supporting we have to Update his gruop supporting units number
-            if ( IsSupporting )
+            if (IsSupporting)
             {
                 GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
-                if ( gs != null )
+                if (gs != null)
                 {
                     gs.UpdateSupportingUnits();
                 }
@@ -439,69 +445,42 @@ public class Stats : MonoBehaviour
         }
 
         // if the player is dying...
-        if ( type == Type.Player )
+        if (type == Type.Player)
         {
-            // ... we need to reincarnate him
-            //GameObject hat;
-            //if (hat == null)
-            //{
-            //    Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity );
-            //    hat = GameObject.Find( "Hat(Clone)" );
-            //    hat.GetComponent<Hat>().PlayerDied();
-            //    GetComponent<Reincarnation>().Reincarnate();
-            //}
-
             // It only works if Hat is the first child of Imp
-            if ( !GameObject.Find( "Hat(Clone)" ) )
+            if (!GameObject.Find("Hat(Clone)"))
             {
-                GameObject hat = Instantiate( Resources.Load( "Prefabs/Hat" ), transform.position + new Vector3( 0, 5, 0 ), Quaternion.identity ) as GameObject;
+                GameObject hat = Instantiate(Resources.Load("Prefabs/Hat"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
                 hat.GetComponent<Hat>().PlayerDied();
             }
             GetComponent<Reincarnation>().Reincarnate();
         }
 
         // if the boss is dying...
-        if ( type == Type.Boss )
+        if (type == Type.Boss)
         {
-            if(!isDying) {
+            // TODO - Implement death animation using events
+            if (!isDying)
+            {
                 gameObject.GetComponent<BossAnimator>().StopAnimations();
                 gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
             }
             isDying = true;
-            
-            // TODO - Testing new logic
-            /*
-            foreach ( GameObject group in gameObject.GetComponent<BossBehavior>().GetDemonGroups() )
-            {
-                group.GetComponent<GroupMovement>().SetOutOfCombat();
-            }
-            */
-            
+
             // Update EnemiesManager boss
             EnemiesManager.Instance.BossKilled();
         }
 
         // if a littleEnemy is dying...
-        if ( type == Type.Enemy )
+        if (type == Type.Enemy)
         {
-            // TODO - Testing new logic
-            /*
-            GameObject[] allies;
-
-            allies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-            // ...we need to check if he's the last one
-            if ( allies.Length == 1 )
-            {
-                foreach ( GameObject group in GameObject.FindGameObjectsWithTag( "Group" ) )
-                {
-                    // TODO - Use BattleEventsManager event
-                    group.GetComponent<GroupMovement>().SetOutOfCombat();
-                }
-            }
-            */
-
             // Update EnemiesManager littleEnemiesList
             EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
+        }
+
+        // Other events related to death
+        if(combatEventsManager != null) { 
+            combatEventsManager.RaiseOnDeath();    
         }
 
         deathCR = StartCoroutine(Death(deathDuration));
@@ -511,7 +490,7 @@ public class Stats : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator TakeKnockBackCR( float AttackerKnockBackSize, Transform attackerTransform, float attackerKnockBackTime )
+    private IEnumerator TakeKnockBackCR(float AttackerKnockBackSize, Transform attackerTransform, float attackerKnockBackTime)
     {
         // We are processing the KnockBack
         isProcessingKnockBack = true;
@@ -522,13 +501,13 @@ public class Stats : MonoBehaviour
 
         Vector3 startingVelocity = rb.velocity;
 
-        if ( type == Stats.Type.Player )
+        if (type == Stats.Type.Player)
         {
             rb.interpolation = RigidbodyInterpolation.Extrapolate;
         }
 
         // The Player or Ally imps cannot move or dash if is processig KnockBack
-        ManageMovement( false );
+        ManageMovement(false);
 
         // Calculate KnocKback direction 
         Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
@@ -545,14 +524,14 @@ public class Stats : MonoBehaviour
 
             // We are using physics so we need to wait for FixedUpdate
             yield return new WaitForFixedUpdate();
-        } while ( knockBackTimeCounter <= attackerKnockBackTime );
+        } while (knockBackTimeCounter <= attackerKnockBackTime);
 
         // Player or Ally imps now can move or dash
-        ManageMovement( true );
+        ManageMovement(true);
 
         rb.velocity = startingVelocity;
 
-        if ( type == Stats.Type.Player )
+        if (type == Stats.Type.Player)
         {
             rb.interpolation = RigidbodyInterpolation.None;
         }
@@ -568,42 +547,43 @@ public class Stats : MonoBehaviour
     private IEnumerator AggroDecreasingCR()
     {
 
-        while ( true )
+        while (true)
         {
-            yield return new WaitForSeconds( aggroTime );
+            yield return new WaitForSeconds(aggroTime);
             // only the player will reduce the aggro to everyone
-            if ( type == Type.Player )
+            if (type == Type.Player)
             {
                 float maxAggro = 1;
-                GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
+                GameObject[] groups = GameObject.FindGameObjectsWithTag("Group");
 
-                foreach ( GameObject group in groups )
+                foreach (GameObject group in groups)
                 {
-                    if ( maxAggro < group.GetComponent<GroupAggro>().GetAggro() )
+                    if (maxAggro < group.GetComponent<GroupAggro>().GetAggro())
                         maxAggro = group.GetComponent<GroupAggro>().GetAggro();
                 }
-                if ( maxAggro < aggro )
+                if (maxAggro < aggro)
                     maxAggro = aggro;
 
                 // the max aggro group will have 10 as new value
-                foreach ( GameObject group in groups )
+                foreach (GameObject group in groups)
                 {
-                    foreach ( GameObject demon in group.GetComponent<GroupBehaviour>().demons )
+                    foreach (GameObject demon in group.GetComponent<GroupBehaviour>().demons)
                     {
-                        if ( demon )
-                            demon.GetComponent<Stats>().LowerAggro( maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10 );
+                        if (demon)
+                            demon.GetComponent<Stats>().LowerAggro(maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10);
                     }
 
                     group.GetComponent<GroupAggro>().UpdateGroupAggro();
                 }
                 // for the player
-                LowerAggro( maxAggro / 10 );
+                LowerAggro(maxAggro / 10);
             }
 
         }
     }
 
-    private IEnumerator Death(float s) {
+    private IEnumerator Death(float s)
+    {
         yield return new WaitForSeconds(s);
         Destroy(gameObject);
     }

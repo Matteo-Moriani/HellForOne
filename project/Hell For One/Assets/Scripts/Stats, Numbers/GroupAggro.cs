@@ -27,6 +27,8 @@ public class GroupAggro : MonoBehaviour
         return GroupAggroValue;
     }
 
+    // TODO -   Insert check if the group is supportin etc etc
+    //          in order to update group aggro properly
     public void UpdateGroupAggro()
     {
         GroupAggroValue = 1;

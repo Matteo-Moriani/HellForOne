@@ -37,7 +37,6 @@ public class BattleEventsManager : MonoBehaviour
     public static void RaiseOnBossBattleExit() { 
         if(onBossBattleExit != null) { 
             onBossBattleExit();
-            Debug.Log("ExitBattle");
         }    
     }
 }

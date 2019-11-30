@@ -178,11 +178,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3964743359483302681, guid: 67fdf98b604747f4684098afe40d93f9,
-        type: 3}
-      propertyPath: type
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67fdf98b604747f4684098afe40d93f9, type: 3}
 --- !u!4 &4349689355973396577 stripped
@@ -258,6 +253,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: blockClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: blockClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a3c1e3e403ae12b41a35c5fa6694abec, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: blockClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6bdc9384e48fce24684c5b5004d56995, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffd9fe02539bd149a5943517f2b9b92, type: 3}
 --- !u!4 &9165345064241577842 stripped
@@ -423,6 +433,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3880845377671184619}
     m_Modifications:
+    - target: {fileID: 4917205643853383734, guid: ebdc6a3f107e16f4fbc3419758c75d42,
+        type: 3}
+      propertyPath: m_Name
+      value: AlliesManager
+      objectReference: {fileID: 0}
     - target: {fileID: 8211123464355394950, guid: ebdc6a3f107e16f4fbc3419758c75d42,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -477,11 +492,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4917205643853383734, guid: ebdc6a3f107e16f4fbc3419758c75d42,
-        type: 3}
-      propertyPath: m_Name
-      value: AlliesManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebdc6a3f107e16f4fbc3419758c75d42, type: 3}

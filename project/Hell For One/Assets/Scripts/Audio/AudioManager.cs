@@ -97,6 +97,19 @@ public class AudioManager : MonoBehaviour
                 break;
             case CombatAudio.Block:
                 Debug.Log("TODO - Implement block audio");
+                if (blockClips.Length > 0)
+                {
+                    AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length - 1))];
+                    if (clipToPlay != null)
+                    {
+                        combatAudioSource.clip = clipToPlay;
+                        combatAudioSource.Play();
+                    }
+                    else
+                    {
+                        Debug.Log(" Input manager is trying to play a clip but it is null");
+                    }
+                }
                 break;
             case CombatAudio.Death:
                 Debug.Log("TODO - Implement death audio");

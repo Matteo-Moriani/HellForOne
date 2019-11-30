@@ -43,7 +43,6 @@ public class BattleEventsHandler : MonoBehaviour
         BattleEventsManager.onBossBattleExit -= ExitBossBattle;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // This is here now for testing, need to implment some logic, 

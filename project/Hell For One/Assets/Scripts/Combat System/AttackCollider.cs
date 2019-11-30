@@ -28,7 +28,7 @@ public class AttackCollider : MonoBehaviour
     public float meleeAggroModifier = 1.1f;
     public float rangeAggroModifier = 1.05f;
 
-    private Audio audio;
+    CombatEventsManager combatEventsManager;
 
     #endregion
 
@@ -50,7 +50,7 @@ public class AttackCollider : MonoBehaviour
 
         // I'm using stats because if this collider belongs to a lance
         // transform.root won't be the demon that is launching the lance
-        audio = stats.gameObject.GetComponent<Audio>();
+        combatEventsManager = stats.gameObject.GetComponent<CombatEventsManager>();
     }
 
     private void OnEnable()
@@ -216,24 +216,11 @@ public class AttackCollider : MonoBehaviour
         }
     }
     
-    private void ManageAudio(Stats targetRootStats) {
-        // Global attack will have his own sound I think.
-        if (!isGlobalAttacking) {
-            if (audio != null)
-            {
-                audio.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Hit);
-            }
-            else
-            {
-                Debug.Log(stats.gameObject.name + " cannot find audio in " + targetRootStats.gameObject.name);
-            }
-        }
-    }
-
+    // TODO - Register this stuff as event?
     private void ManageHit(Stats targetRootStats) { 
         DealDamage(targetRootStats);
         
-        ManageAudio(targetRootStats);
+        combatEventsManager.RaiseOnSuccessfulHit();
 
         ManageAggro();
 
@@ -243,6 +230,15 @@ public class AttackCollider : MonoBehaviour
     // TODO - Implement this
     private void ManageMiss() { }
 
+    // TODO - Implement this
+    private void ManageBlock() {
+        combatEventsManager.RaiseOnBlockedHit();
+        
+        ManageAggro();
+
+        StopAttack();
+    }
+
     private void ManagePlayerCollisions(Stats targetRootStats, Collider other)
     {
         if (targetRootStats.IsBlocking)
@@ -250,17 +246,21 @@ public class AttackCollider : MonoBehaviour
             if (CheckAngle(other.gameObject.transform.root))
             {
                 ManageHit(targetRootStats);
+
+                return;
             }
             else
             {
-                ManageAggro();
+                ManageBlock();
 
-                StopAttack();
+                return;
             }
         }
         if (!targetRootStats.IsBlocking)
         {
             ManageHit(targetRootStats);
+
+            return;
         }
     }
 
@@ -273,11 +273,13 @@ public class AttackCollider : MonoBehaviour
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
                     ManageHit(targetRootStats);
+
+                    return;
                 }
                 else {
-                    ManageAggro();
+                    ManageBlock();
 
-                    StopAttack();
+                    return;
                 }
             }
             else
@@ -285,11 +287,13 @@ public class AttackCollider : MonoBehaviour
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
                     ManageHit(targetRootStats);
+
+                    return;
                 }
                 else {
-                    ManageAggro();
+                    ManageBlock();
 
-                    StopAttack();
+                    return;
                 }
             }
         }
@@ -298,11 +302,13 @@ public class AttackCollider : MonoBehaviour
             if (targetRootStats.CalculateBeenHitChance(false))
             {
                 ManageHit(targetRootStats);
+
+                return;
             }
             else {
-                ManageAggro();
+                ManageBlock();
 
-                StopAttack();
+                return;
             }
         }
     }
@@ -317,6 +323,8 @@ public class AttackCollider : MonoBehaviour
                 ManageHit(targetRootStats);
                 
                 ManageKnockBack(targetRootStats);
+
+                return;
             }
 
             // if target is blocking but is not looking towards the boss
@@ -328,12 +336,13 @@ public class AttackCollider : MonoBehaviour
                     ManageHit(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
+
+                    return;
                 }
                 else {
-                    ManageAggro();
+                    ManageBlock();
 
-                    // We stop the attack only if is a simple attack
-                    StopAttack();
+                    return;
                 }
             }
             // if target is blocking and is looking towards the boss
@@ -345,11 +354,13 @@ public class AttackCollider : MonoBehaviour
                     ManageHit(targetRootStats);
 
                     ManageKnockBack(targetRootStats);
+
+                    return;
                 }
                 else {
-                    ManageAggro();
+                    ManageBlock();
 
-                    StopAttack();
+                    return;
                 }
             }
         }
@@ -361,13 +372,13 @@ public class AttackCollider : MonoBehaviour
                 ManageHit(targetRootStats);
 
                 ManageKnockBack(targetRootStats);
+
+                return;
             }
             else {
-                ManageAggro();
+               ManageBlock();
 
-                // We stop the attack only if is a simple attack
-                StopAttack();
-
+                return;
             }
         }
     }

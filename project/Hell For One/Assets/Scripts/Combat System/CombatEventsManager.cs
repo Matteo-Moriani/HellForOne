@@ -42,6 +42,15 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStopGlobalattack();
     public event OnStopGlobalattack onStopGlobalAttack;
 
+    public delegate void OnSuccessfulHit();
+    public event OnSuccessfulHit onSuccessfulHit;
+
+    public delegate void OnBlockedHit();
+    public event OnBlockedHit onBlockedHit;
+
+    public delegate void OnDeath();
+    public event OnDeath onDeath;
+
     #endregion
 
     #region CombatEventFields
@@ -139,6 +148,30 @@ public class CombatEventsManager : MonoBehaviour
         if (onStopGlobalAttack != null)
         {
             onStopGlobalAttack();
+        }
+    }
+
+    public void RaiseOnSuccessfulHit()
+    {
+        if (onSuccessfulHit != null)
+        {
+            onSuccessfulHit();
+        }
+    }
+
+    public void RaiseOnBlockedHit()
+    {
+        if (onBlockedHit != null)
+        {
+            onBlockedHit();
+        }
+    }
+
+    public void RaiseOnDeath()
+    {
+        if (onDeath != null)
+        {
+            onDeath();
         }
     }
 

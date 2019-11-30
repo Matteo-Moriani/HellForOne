@@ -11,6 +11,25 @@ public class Audio : MonoBehaviour
 
     private Stats stats;
 
+    private CombatEventsManager combatEventsManager;
+
+    private void Awake()
+    {
+        combatEventsManager = GetComponent<CombatEventsManager>();    
+    }
+
+    private void OnEnable()
+    {
+        combatEventsManager.onSuccessfulHit += PlayHitClip;
+        combatEventsManager.onBlockedHit += PlayBlockClip;
+    }
+
+    private void OnDisable()
+    {
+        combatEventsManager.onSuccessfulHit -= PlayHitClip;
+        combatEventsManager.onBlockedHit -= PlayBlockClip;
+    }
+
     private void Start()
     {
         stats = GetComponent<Stats>();
@@ -29,8 +48,12 @@ public class Audio : MonoBehaviour
         AudioCycle();    
     }
 
-    public void PlayRandomCombatAudioClip(AudioManager.CombatAudio type) { 
-        AudioManager.Instance.PlayRandomCombatAudioClip(type, combatAudioSource);    
+    private void PlayHitClip() { 
+        AudioManager.Instance.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Hit,combatAudioSource);    
+    }
+
+    private void PlayBlockClip() { 
+        AudioManager.Instance.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Block,combatAudioSource);    
     }
 
     private void AudioCycle()
