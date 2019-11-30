@@ -119,13 +119,19 @@ public class GroupBehaviour : MonoBehaviour
         if ( !CheckDemons() )
             return;
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-        GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+        //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-        if ( boss )
-            target = boss;
-        else if ( enemies != null )
-            target = CameraManager.FindNearestEnemy( gameObject, enemies );
+        //if ( boss )
+        if(EnemiesManager.Instance.Boss != null) {
+            //target = boss;
+            target = EnemiesManager.Instance.Boss;
+        }
+        //else if ( enemies != null )
+        else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0){
+            //target = CameraManager.FindNearestEnemy(gameObject, enemies);
+            target = CameraManager.FindNearestEnemy(gameObject,EnemiesManager.Instance.LittleEnemiesList.ToArray());
+        }    
         else
             return;
 
@@ -145,7 +151,11 @@ public class GroupBehaviour : MonoBehaviour
                 //else
                 //    return;
 
-                combat.Attack( target );
+                // TODO - Ally keep attacking when out of combat,
+                // I added this check to remove errors but need to 
+                // be fixed
+                if (combat.enabled)
+                    combat.Attack( target );
             }
         }
     }
@@ -197,13 +207,19 @@ public class GroupBehaviour : MonoBehaviour
         if ( !CheckDemons() )
             return;
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-        GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
+        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+        //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-        if ( boss )
-            target = boss;
-        else if ( enemies != null )
-            target = CameraManager.FindNearestEnemy( gameObject, enemies );
+        //if ( boss )
+        if(EnemiesManager.Instance.Boss != null) {
+            //target = boss;
+            target = EnemiesManager.Instance.Boss;
+        }
+        //else if ( enemies != null )
+        else if( EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
+            //target = CameraManager.FindNearestEnemy(gameObject, enemies);
+            target = CameraManager.FindNearestEnemy(gameObject,EnemiesManager.Instance.LittleEnemiesList.ToArray());
+        }    
         else
             return;
 
@@ -213,7 +229,12 @@ public class GroupBehaviour : MonoBehaviour
             if ( demon )
             {
                 Combat combat = demon.GetComponent<Combat>();
-                combat.RangedAttack( target );
+                
+                // TODO - Ally keep attacking when out of combat,
+                // I added this check to remove errors but need to 
+                // be fixed
+                if(combat.enabled)
+                    combat.RangedAttack( target );
             }
         }
     }
@@ -280,8 +301,10 @@ public class GroupBehaviour : MonoBehaviour
     //TODO To know if all demons found their group (can be improved by just setting a single boolean in a single gameobjact, without checking for all demons)
     public bool CheckDemons()
     {
-        GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
-        foreach ( GameObject go in allDemons )
+        //GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
+
+        //foreach ( GameObject go in allDemons )
+        foreach(GameObject go in AlliesManager.Instance.AlliesList)
         {
             if ( !go.GetComponent<DemonBehaviour>().groupFound )
                 return false;

@@ -32,6 +32,8 @@ public class GroupMovement : MonoBehaviour
         BattleEventsManager.onBossBattleExit += SetOutOfCombat;
 
         BattleEventsManager.onBossBattleEnter += SetVsBoss;
+
+        BattleEventsManager.onBattleEnter += SetVsLittleEnemies;
     }
 
     private void OnDisable()
@@ -40,6 +42,8 @@ public class GroupMovement : MonoBehaviour
         BattleEventsManager.onBossBattleExit -= SetOutOfCombat;
 
         BattleEventsManager.onBossBattleEnter -= SetVsBoss;
+
+        BattleEventsManager.onBattleEnter -= SetVsLittleEnemies;
     }
 
     void Start()
@@ -184,7 +188,7 @@ public class GroupMovement : MonoBehaviour
         outOfCombat = false;
         haveTarget = false;
     }
-    // TODO - integrate with new logic
+    
     public void SetVsBoss()
     {
         vsLittleEnemies = false;
@@ -205,7 +209,8 @@ public class GroupMovement : MonoBehaviour
     {
         if ( EnemiesManager.Instance.LittleEnemiesList.Count != 0 )
         {
-            SetVsLittleEnemies();
+            // TODO - Testing new logic
+            // SetVsLittleEnemies();
             target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0,EnemiesManager.Instance.LittleEnemiesList.Count)];
             SetDemonsTarget( target );
             haveTarget = true;

@@ -31,6 +31,10 @@ public class AlliesManager : MonoBehaviour
         BattleEventsManager.onBattleEnter += EnterBattle;
 
         BattleEventsManager.onBossBattleEnter += EnterBattle;
+
+        BattleEventsManager.onBattleExit += ExitBattle;
+
+        BattleEventsManager.onBossBattleExit += ExitBattle;
     }
 
     private void OnDisable()
@@ -38,6 +42,10 @@ public class AlliesManager : MonoBehaviour
         BattleEventsManager.onBattleEnter -= EnterBattle;
 
         BattleEventsManager.onBossBattleEnter -= EnterBattle;
+
+        BattleEventsManager.onBattleExit -= ExitBattle;
+
+        BattleEventsManager.onBossBattleExit -= ExitBattle;
     }
 
     private void EnterBattle()
