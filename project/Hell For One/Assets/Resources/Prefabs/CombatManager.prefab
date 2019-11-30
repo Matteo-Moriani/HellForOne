@@ -67,7 +67,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 1948504900106496662}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948504900828473199}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -163,6 +163,9 @@ MonoBehaviour:
   blockCollider: {fileID: 1948504901385055684}
   idleCollider: {fileID: 1948504900828473199}
   lancer: {fileID: 0}
+  stats: {fileID: 0}
+  attackDelayInSeconds: 0
+  attackDurationInSeconds: 0.5
 --- !u!1 &1948504901385055684
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +408,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  isSweeping: 0
+  isGlobalAttacking: 0
+  meleeAggroModifier: 1.1
+  rangeAggroModifier: 1.05
 --- !u!1001 &1948504900106496662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -501,6 +508,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216564665300084153, guid: e75bbd6de8a36c148ab6e512a3b58150,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

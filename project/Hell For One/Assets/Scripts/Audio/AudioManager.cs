@@ -18,10 +18,19 @@ public class AudioManager : MonoBehaviour
         Big
     }
 
+    public enum Music { 
+        OutOFCombat,
+        Combat,
+        Boss,
+        BossHalfLife
+    }
+
     [SerializeField]
     private  AudioMixerGroup walkAudioMixerGroup;
     [SerializeField]
     private  AudioMixerGroup combatAudioMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup musicMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -39,6 +48,9 @@ public class AudioManager : MonoBehaviour
     [Tooltip("Clip that will be played when an unit walks")]
     private AudioClip[] walkClips;
 
+    [SerializeField]
+    private AudioClip BossFightmusic;
+
     /// <summary>
     /// Mixer group for base audio (Stuff like walking)
     /// </summary>
@@ -51,7 +63,6 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
 
     public static AudioManager Instance { get { return _instance; } }
-
 
     private void Awake()
     {
@@ -116,22 +127,6 @@ public class AudioManager : MonoBehaviour
         }       
     }
     
-    /*
-    public static void PlayBaseAudioClip(BaseAudio type, AudioSource baseAudioSource)
-    {
-        switch (type)
-        {
-            case BaseAudio.Walk:
-                baseAudioSource.clip = walkClip;
-                baseAudioSource.loop = true;
-                baseAudioSource.pitch = Random.Range(0.9f, 1f);
-                //baseAudioSource.PlayDelayed(Random.Range(0, 44100 / 1000));
-                baseAudioSource.Play();
-                break;
-        }
-    }
-    */
-
     public void SetAudioAudioSource(AudioSource audioSource, bool hasToBeSpatial, float minDistance, float maxDistance, bool hasToBePlayedOnAwake)
     {
         audioSource.playOnAwake = hasToBePlayedOnAwake;
@@ -145,5 +140,23 @@ public class AudioManager : MonoBehaviour
         }
         audioSource.minDistance = minDistance;
         audioSource.maxDistance = maxDistance;
+    }
+
+    public void PlayMusic(AudioSource musicAudioSource, Music type) {
+        switch (type) { 
+            case Music.OutOFCombat:
+                break;
+            case Music.Combat:
+                break;
+            case Music.Boss:
+                if(musicAudioSource.clip != BossFightmusic) {
+                    musicAudioSource.loop = true;
+                    musicAudioSource.clip = BossFightmusic;
+                    musicAudioSource.Play();
+                }
+                break;
+            case Music.BossHalfLife:
+                break;
+        }
     }
 }
