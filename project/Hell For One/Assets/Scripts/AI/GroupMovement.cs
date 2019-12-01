@@ -21,7 +21,6 @@ public class GroupMovement : MonoBehaviour
     private bool haveTarget = false;
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
-    // da cambiare con fsm
     private bool vsLittleEnemies = false;
     private bool vsBoss = false;
     private bool outOfCombat = false;
@@ -127,12 +126,8 @@ public class GroupMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if ( targetPosition )
             transform.position = targetPosition.position;
-
-
-
     }
 
     public void ChooseTarget()

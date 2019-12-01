@@ -60,6 +60,7 @@ public class DemonMovement : MonoBehaviour
             }
             else if ( target )
             {
+                // TODO - change with events
                 if ( target.CompareTag( "Boss" ) )
                 {
                     // if the boss is escaping...
@@ -98,15 +99,16 @@ public class DemonMovement : MonoBehaviour
 
                 }
                 // out of combat
-                else
-                    if ( HorizDistFromTarget( group ) > repulsionWithGroup )
-                    GetComponent<NavMeshAgent>().destination = group.transform.position;
-                else
-                {
-                    GetComponent<NavMeshAgent>().destination = transform.position;
-                    Face( target );
+                else {
+                    // I move only if I'm far enough from the group center and if the group center is inside the navmesh
+                    if(HorizDistFromTarget(group) > repulsionWithGroup && GetComponent<NavMeshAgent>().CalculatePath(group.transform.position, new NavMeshPath())) {
+                        GetComponent<NavMeshAgent>().destination = group.transform.position;
+                    }
+                    else {
+                        GetComponent<NavMeshAgent>().destination = transform.position;
+                        Face(target);
+                    }
                 }
-
             }
         }
 

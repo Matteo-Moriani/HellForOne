@@ -7,6 +7,7 @@ public class GroupsFormation : MonoBehaviour
     private GameObject player;
     private Transform[] positions;
     private Dictionary<Transform, bool> available = new Dictionary<Transform, bool>();
+    private float centerDistanceFromPlayer = 5f;
 
     void Start()
     {
@@ -38,7 +39,7 @@ public class GroupsFormation : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
         else {
             FacePlayer();
-            transform.position = player.transform.position - 6f * player.transform.forward;
+            transform.position = player.transform.position - centerDistanceFromPlayer * player.transform.forward;
         }
     }
 
