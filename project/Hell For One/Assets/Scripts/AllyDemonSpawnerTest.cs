@@ -9,6 +9,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private float impMaxNumber = 16;
     public float ImpMaxNumber { get => impMaxNumber; set => impMaxNumber = value; }
     private bool needForRegen = true;
+    private Coroutine spawnAllyCR;
+    public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
 
     public IEnumerator SpawnAlly()
     {
@@ -37,13 +39,13 @@ public class AllyDemonSpawnerTest : MonoBehaviour
                 yield return new WaitForSeconds(timer);
                 GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
 
-                // We need to spawn the ally via AlliesManager
+                // TODO - We need to spawn the ally via AlliesManager
                 AlliesManager.Instance.SpawnAlly(demonToSpawn, SpawnPosition());
             }
         }
     }
 
-    // TODO - imps must spawn around the arena
+    // TODO - imps must spawn at the borders of the arena: x is random between -ray and +ray of the arena, z must be that value - the ray *1 or *-1
     public Vector3 SpawnPosition()
     {
         Vector3 spawnPosition = new Vector3( 0, 1, 0 );
@@ -54,7 +56,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine( SpawnAlly() );
+        SpawnAllyCR = StartCoroutine( SpawnAlly() );
         countdown = timer;
     }
 

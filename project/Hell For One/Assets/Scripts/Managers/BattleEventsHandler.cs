@@ -102,11 +102,13 @@ public class BattleEventsHandler : MonoBehaviour
 
     private void ExitRegularBattle() { 
         IsInRegularBattle = false;
+        StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
         spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
     }
 
     private void ExitBossBattle() { 
         IsInBossBattle = false;
+        StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
         spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
     }
     
