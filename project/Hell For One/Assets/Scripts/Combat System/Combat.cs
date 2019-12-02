@@ -64,7 +64,7 @@ public class Combat : MonoBehaviour
     /// Calls CombatManager.Attack
     /// Used for the player
     /// </summary>
-    public void Attack()
+    public void SingleAttack()
     {   if(coolDownCounter >= playerAttackCooldown) { 
             coolDownCounter = 0f;
             
@@ -199,7 +199,7 @@ public class Combat : MonoBehaviour
     /// (Heavy attack or Area attack)
     /// Calls CombatManager.Sweep.
     /// </summary>
-    public void Sweep()
+    public void GroupAttack()
     {
         combatManager.Sweep();
 

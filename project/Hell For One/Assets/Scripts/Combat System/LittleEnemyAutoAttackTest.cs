@@ -30,7 +30,7 @@ public class LittleEnemyAutoAttackTest : MonoBehaviour
         while (true) { 
             yield return new WaitForSeconds(attackRateo);
 
-            combat.Attack();
+            combat.SingleAttack();
         }    
     }
 }

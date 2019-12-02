@@ -4,25 +4,46 @@ using UnityEngine;
 
 public class AllyDemonSpawnerTest : MonoBehaviour
 {
-    private float timer = 30f;
+    public float timer = 30f;
     public float countdown;
+    private float impMaxNumber = 16;
+    public float ImpMaxNumber { get => impMaxNumber; set => impMaxNumber = value; }
+    private bool needForRegen = true;
 
     public IEnumerator SpawnAlly()
     {
         while ( true )
         {
-            yield return new WaitForSeconds( timer );
+            int impNumber = GameObject.FindGameObjectsWithTag("Demon").Length;
 
-            if ( GameObject.FindGameObjectsWithTag( "Demon" ).Length < 16 )
-            {
-                GameObject demonToSpawn = Resources.Load( "Prefabs/FakeImp" ) as GameObject;
-                
+            // 0 demons = game over, max number of demons = no need for spawn ally
+            if ( impNumber >= ImpMaxNumber * 0.75 && impNumber < ImpMaxNumber ) {
+                needForRegen = true;
+                timer = 45;
+            }
+            else if (impNumber >= ImpMaxNumber * 0.25 && impNumber < ImpMaxNumber * 0.75) {
+                needForRegen = true;
+                timer = 30;
+            }
+            else if (impNumber >= 1 && impNumber < ImpMaxNumber * 0.25) {
+                needForRegen = true;
+                timer = 15;
+            }
+            else {
+                needForRegen = false;
+            }
+
+            if(needForRegen) {
+                yield return new WaitForSeconds(timer);
+                GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
+
                 // We need to spawn the ally via AlliesManager
-                AlliesManager.Instance.SpawnAlly(demonToSpawn,SpawnPosition());
+                AlliesManager.Instance.SpawnAlly(demonToSpawn, SpawnPosition());
             }
         }
     }
 
+    // TODO - imps must spawn around the arena
     public Vector3 SpawnPosition()
     {
         Vector3 spawnPosition = new Vector3( 0, 1, 0 );

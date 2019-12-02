@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-//TODO ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
-//TODO minor error: some times it does only the choosetarget action and than it jumps everything else to choose the target again
-
 public class BossBehavior : MonoBehaviour
 {
     enum TimerType
@@ -62,7 +59,6 @@ public class BossBehavior : MonoBehaviour
     public bool isWalking = false;
     public bool isIdle = true;
     public bool isAttacking = false;
-    //private BossAnimator animator;
     private float singleAttackDuration = 3.1f;
     private CombatEventsManager combatEventsManager;
 
@@ -82,7 +78,7 @@ public class BossBehavior : MonoBehaviour
 
     public bool PlayerApproaching()
     {
-        //TODO
+        //TODO - transition between wait and fight event
         //if(playerDistance < tot)
         //    return true;
         return true;
@@ -131,8 +127,7 @@ public class BossBehavior : MonoBehaviour
         else
             return false;
     }
-
-    // The coroutine that cycles through the FSM
+    
     public IEnumerator MoveThroughFSM()
     {
         while ( true )
@@ -199,7 +194,7 @@ public class BossBehavior : MonoBehaviour
             for ( int i = 0; i < demonGroups.Length; i++ )
             {
                 float groupAggro = 0f;
-                // if the group is empty, I give to the group a value of zero
+                // if the group is empty, I give to the group a temporary value of zero
                 if ( !demonGroups[ i ].GetComponent<GroupBehaviour>().IsEmpty() )
                     groupAggro = demonGroups[ i ].GetComponent<GroupAggro>().GetAggro();
                 aggroValues[ i ] = groupAggro;
@@ -209,16 +204,13 @@ public class BossBehavior : MonoBehaviour
                 aggroDebug = aggroDebug + groupAggro + " - ";
                 probDebug = probDebug + totalAggro + " - ";
             }
-            // questo controllo va tolto prima o poi
-            if ( player )
-            {
-                aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().Aggro;
-                totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
-                probability[ demonGroups.Length + 1 ] = totalAggro;
 
-                aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
-                probDebug = probDebug + totalAggro + " - ";
-            }
+            aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().Aggro;
+            totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
+            probability[ demonGroups.Length + 1 ] = totalAggro;
+
+            aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
+            probDebug = probDebug + totalAggro + " - ";
 
             float random = Random.Range( 0f, totalAggro );
 
@@ -294,8 +286,6 @@ public class BossBehavior : MonoBehaviour
         if(!isAttacking) {
 
             isAttacking = true;
-            //animator.StopAnimations();
-            // RaiseOnStop...something is the same for every action in the animator diagram
             combatEventsManager.RaiseOnStopAnimation();
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
@@ -405,7 +395,7 @@ public class BossBehavior : MonoBehaviour
         stunnedState = new FSMState();
 
         winState = new FSMState();
-        //roar animation to celebrate
+        //TODO - if we will have a transparent gameover screen, the bosse must do the roar animation to celebrate in the background
 
         deathState = new FSMState();
 
@@ -475,7 +465,6 @@ public class BossBehavior : MonoBehaviour
         }
         else if (type == TimerType.attack ) 
         {
-            // same as before, any will do
             combatEventsManager.RaiseOnStopAnimation();
             combatEventsManager.RaiseOnStartIdle();
         }
@@ -491,8 +480,7 @@ public class BossBehavior : MonoBehaviour
                 Debug.Log( "Boss Combat cannot be found" );
         }
         if ( bossCombat != null) {
-            bossCombat.Attack();
-            //animator.PlayAnimation(BossAnimator.Animations.Attack);
+            bossCombat.SingleAttack();
         }
         isAttacking = false;
     }
@@ -506,8 +494,7 @@ public class BossBehavior : MonoBehaviour
                 Debug.Log( "Boss Combat cannot be found" );
         }
         if ( bossCombat != null) {
-            bossCombat.Sweep();
-            //animator.PlayAnimation(BossAnimator.Animations.Attack);
+            bossCombat.GroupAttack();
         }
         isAttacking = false;
     }
@@ -521,7 +508,6 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null) {
             bossCombat.GlobalAttack();
-            //animator.PlayAnimation(BossAnimator.Animations.Attack);
         }
         isAttacking = false;
     }

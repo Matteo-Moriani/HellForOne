@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BattleEventsHandler : MonoBehaviour
 {
+    private GameObject spawner;
+
     private bool isInBossBattle = false;
     private bool isInRegularBattle = false;
 
@@ -15,6 +17,8 @@ public class BattleEventsHandler : MonoBehaviour
 
     private void Awake()
     {
+        spawner = GameObject.FindGameObjectWithTag("Spawner");
+
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -87,19 +91,23 @@ public class BattleEventsHandler : MonoBehaviour
     }
 
     private void EnterRegularBattle() { 
-        IsInRegularBattle = true;   
+        IsInRegularBattle = true;
+        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
     }
 
     private void EnterBossBattle(){
         IsInBossBattle = true;
+        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
     }
 
     private void ExitRegularBattle() { 
-        IsInRegularBattle = false;    
+        IsInRegularBattle = false;
+        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
     }
 
     private void ExitBossBattle() { 
-        IsInBossBattle = false;    
+        IsInBossBattle = false;
+        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
     }
     
 }
