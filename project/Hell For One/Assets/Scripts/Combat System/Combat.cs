@@ -9,7 +9,7 @@ public class Combat : MonoBehaviour
 
     public CombatManager combatManager;
 
-    private CombatEventsManager combatEventManager;
+    private CombatEventsManager combatEventsManager;
 
     // We store a whole reference to Stats.
     // Used only to check the type of this Imp.
@@ -48,7 +48,7 @@ public class Combat : MonoBehaviour
             }
         }
         
-        combatEventManager = GetComponent<CombatEventsManager>();
+        combatEventsManager = GetComponent<CombatEventsManager>();
     }
 
     void Update()
@@ -72,8 +72,8 @@ public class Combat : MonoBehaviour
             combatManager.MeleeAttack();
             
             // Melee attack event
-            if(combatEventManager != null) { 
-                combatEventManager.RaiseOnMeleeAttack();    
+            if(combatEventsManager != null) { 
+                combatEventsManager.RaiseOnStartSingleAttack();    
             }
         }
     }
@@ -89,9 +89,9 @@ public class Combat : MonoBehaviour
         combatManager.MeleeAttack( target );
 
         // Melee attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnMeleeAttack();
+            combatEventsManager.RaiseOnStartSingleAttack();
         }
     }
 
@@ -104,9 +104,9 @@ public class Combat : MonoBehaviour
         combatManager.StopMeleeAttack();
 
         // Stop melee attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopMeleeAttack();
+            combatEventsManager.RaiseOnStopSingleAttack();
         }
     }
 
@@ -124,9 +124,9 @@ public class Combat : MonoBehaviour
                     combatManager.RangedAttack(rangeTarget);
 
                     // RangedAttack attack event
-                    if (combatEventManager != null)
+                    if (combatEventsManager != null)
                     {
-                        combatEventManager.RaiseOnRangedAttack();
+                        combatEventsManager.RaiseOnStartRangedAttack();
                     }
                 }
                 else {
@@ -139,9 +139,9 @@ public class Combat : MonoBehaviour
             combatManager.RangedAttack(target);
 
             // RangedAttack attack event
-            if (combatEventManager != null)
+            if (combatEventsManager != null)
             {
-                combatEventManager.RaiseOnRangedAttack();
+                combatEventsManager.RaiseOnStartRangedAttack();
             }
         }
     }
@@ -158,9 +158,9 @@ public class Combat : MonoBehaviour
         combatManager.StopRangedAttack();
 
         // Stop rangedAttack attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopRangedAttack();
+            combatEventsManager.RaiseOnStopRangedAttack();
         }
     }
 
@@ -173,9 +173,9 @@ public class Combat : MonoBehaviour
         combatManager.StartBlock();
 
         // Start block event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStartBlock();
+            combatEventsManager.RaiseOnStartBlock();
         }
     }
 
@@ -188,9 +188,9 @@ public class Combat : MonoBehaviour
         combatManager.StopBlock();
 
         // StopBlock event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopBlock();
+            combatEventsManager.RaiseOnStopBlock();
         }
     }
 
@@ -204,9 +204,9 @@ public class Combat : MonoBehaviour
         combatManager.Sweep();
 
         // Sweep attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStartSweep();
+            combatEventsManager.RaiseOnStartSweep();
         }
     }
 
@@ -220,9 +220,9 @@ public class Combat : MonoBehaviour
         combatManager.StopSweep();
 
         // Stop sweep event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopSweep();
+            combatEventsManager.RaiseOnStopAnimation();
         }
     }
 
@@ -235,9 +235,9 @@ public class Combat : MonoBehaviour
         combatManager.GlobalAttack();
 
         // Global attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStartGlobalAttack();
+            combatEventsManager.RaiseOnStartGlobalAttack();
         }
     }
 
@@ -250,9 +250,9 @@ public class Combat : MonoBehaviour
         combatManager.StopGlobalAttack();
         
         // Stop global attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopGlobalAttack();
+            combatEventsManager.RaiseOnStopAnimation();
         }
     }
 
@@ -265,9 +265,9 @@ public class Combat : MonoBehaviour
         combatManager.StartSupport();
 
         // Start support attack event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStartSupport();
+            combatEventsManager.RaiseOnStartSupport();
         }
     }
 
@@ -280,9 +280,9 @@ public class Combat : MonoBehaviour
         combatManager.StopSupport();
 
         // Stop support event
-        if (combatEventManager != null)
+        if (combatEventsManager != null)
         {
-            combatEventManager.RaiseOnStopSupport();
+            combatEventsManager.RaiseOnStopSupport();
         }
     }
 

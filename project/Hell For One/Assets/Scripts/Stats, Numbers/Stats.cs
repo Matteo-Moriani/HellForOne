@@ -464,8 +464,9 @@ public class Stats : MonoBehaviour
             // TODO - Implement death animation using events
             if (!isDying)
             {
-                gameObject.GetComponent<BossAnimator>().StopAnimations();
-                gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
+                //gameObject.GetComponent<BossAnimator>().StopAnimations();
+                //gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
+                combatEventsManager.RaiseOnDeath();
             }
             isDying = true;
 
@@ -481,11 +482,12 @@ public class Stats : MonoBehaviour
         }
 
         // Other events related to death
-        if(combatEventsManager != null) { 
-            combatEventsManager.RaiseOnDeath();    
+        if(combatEventsManager != null) {
+            combatEventsManager.RaiseOnStopAnimation();
+            combatEventsManager.RaiseOnDeath();
         }
 
-        deathCR = StartCoroutine(Death(deathDuration));
+        deathCR = StartCoroutine(DeathTimer(deathDuration));
     }
 
     // TODO - Do not use this, I'm testing this
@@ -601,7 +603,7 @@ public class Stats : MonoBehaviour
         }
     }
 
-    private IEnumerator Death(float s)
+    private IEnumerator DeathTimer(float s)
     {
         yield return new WaitForSeconds(s);
         Destroy(gameObject);

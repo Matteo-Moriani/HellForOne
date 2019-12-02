@@ -62,8 +62,9 @@ public class BossBehavior : MonoBehaviour
     public bool isWalking = false;
     public bool isIdle = true;
     public bool isAttacking = false;
-    private BossAnimator animator;
+    //private BossAnimator animator;
     private float singleAttackDuration = 3.1f;
+    private CombatEventsManager combatEventsManager;
 
     private int debugIndex;
 
@@ -293,7 +294,9 @@ public class BossBehavior : MonoBehaviour
         if(!isAttacking) {
 
             isAttacking = true;
-            animator.StopAnimations();
+            //animator.StopAnimations();
+            // RaiseOnStop...something is the same for every action in the animator diagram
+            combatEventsManager.RaiseOnStopAnimation();
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
             if(random < singleAttackProb)
@@ -368,13 +371,14 @@ public class BossBehavior : MonoBehaviour
 
     #endregion
 
+    private void Awake() {
+        combatEventsManager = GetComponent<CombatEventsManager>();
+        stats = GetComponent<Stats>();
+    }
+
     void Start()
     {
-        animator = gameObject.GetComponent<BossAnimator>();
-        animator.PlayAnimation(BossAnimator.Animations.Idle);
-
         arenaCenter = GameObject.Find( "ArenaCenter" );
-        stats = GetComponent<Stats>();
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
         player = GameObject.FindGameObjectWithTag( "Player" );
@@ -435,8 +439,9 @@ public class BossBehavior : MonoBehaviour
                 if(!isWalking) {
                     IsWalking = true;
                     IsIdle = false;
-                    animator.StopAnimations();
-                    animator.PlayAnimation(BossAnimator.Animations.Run);
+                    combatEventsManager.RaiseOnStopAnimation();
+                    combatEventsManager.RaiseOnStartRunning();
+
                 }
 
                 transform.position += transform.forward * speed * Time.deltaTime;
@@ -445,8 +450,8 @@ public class BossBehavior : MonoBehaviour
                 if(!isIdle) {
                     IsIdle = true;
                     IsWalking = false;
-                    animator.StopAnimations();
-                    animator.PlayAnimation(BossAnimator.Animations.Idle);
+                    combatEventsManager.RaiseOnStopAnimation();
+                    combatEventsManager.RaiseOnStartIdle();
                 }
             }
 
@@ -470,8 +475,9 @@ public class BossBehavior : MonoBehaviour
         }
         else if (type == TimerType.attack ) 
         {
-            animator.StopAnimations();
-            animator.PlayAnimation(BossAnimator.Animations.Idle);
+            // same as before, any will do
+            combatEventsManager.RaiseOnStopAnimation();
+            combatEventsManager.RaiseOnStartIdle();
         }
 
     }
@@ -486,7 +492,7 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null) {
             bossCombat.Attack();
-            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            //animator.PlayAnimation(BossAnimator.Animations.Attack);
         }
         isAttacking = false;
     }
@@ -501,7 +507,7 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null) {
             bossCombat.Sweep();
-            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            //animator.PlayAnimation(BossAnimator.Animations.Attack);
         }
         isAttacking = false;
     }
@@ -515,7 +521,7 @@ public class BossBehavior : MonoBehaviour
         }
         if ( bossCombat != null) {
             bossCombat.GlobalAttack();
-            animator.PlayAnimation(BossAnimator.Animations.Attack);
+            //animator.PlayAnimation(BossAnimator.Animations.Attack);
         }
         isAttacking = false;
     }

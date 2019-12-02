@@ -6,14 +6,14 @@ public class CombatEventsManager : MonoBehaviour
 {
     #region CombatEvents fields
 
-    public delegate void OnMeleeAttack();
-    public event OnMeleeAttack onMeleeAttack;
+    public delegate void OnStartSingleAttack();
+    public event OnStartSingleAttack onStartSingleAttack;
 
-    public delegate void OnStopMeleeAttack();
-    public event OnStopMeleeAttack onStopMeleeAttack;
+    public delegate void OnStopSingleAttack();
+    public event OnStopSingleAttack onStopSingleAttack;
 
-    public delegate void OnRangedAttack();
-    public event OnRangedAttack onRangedAttack;
+    public delegate void OnStartRangedAttack();
+    public event OnStartRangedAttack onRangedAttack;
 
     public delegate void OnStopRangedAttack();
     public event OnStopRangedAttack onStopRangedAttack;
@@ -30,17 +30,11 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStopSupport();
     public event OnStopSupport onStopSupport;
 
-    public delegate void OnStartSweep();
-    public event OnStartSweep onStartSweep;
-
-    public delegate void OnStopSweep();
-    public event OnStopSweep onStopSweep;
+    public delegate void OnStartGroupAttack();
+    public event OnStartGroupAttack onStartGroupAttack;
 
     public delegate void OnStartGlobalAttack();
     public event OnStartGlobalAttack onStartGlobalAttack;
-
-    public delegate void OnStopGlobalattack();
-    public event OnStopGlobalattack onStopGlobalAttack;
 
     public delegate void OnSuccessfulHit();
     public event OnSuccessfulHit onSuccessfulHit;
@@ -51,27 +45,36 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnDeath();
     public event OnDeath onDeath;
 
+    public delegate void OnStartRunning();
+    public event OnStartRunning onStartRunning;
+
+    public delegate void OnStartIdle();
+    public event OnStartIdle onStartIdle;
+
+    public delegate void OnStopAnimation();
+    public event OnStopAnimation onStopAnimation;
+
     #endregion
 
     #region CombatEventFields
 
-    public void RaiseOnMeleeAttack()
+    public void RaiseOnStartSingleAttack()
     {
-        if (onMeleeAttack != null)
+        if (onStartSingleAttack != null)
         {
-            onMeleeAttack();
+            onStartSingleAttack();
         }
     }
 
-    public void RaiseOnStopMeleeAttack()
+    public void RaiseOnStopSingleAttack()
     {
-        if (onStopMeleeAttack != null)
+        if (onStopSingleAttack != null)
         {
-            onStopMeleeAttack();
+            onStopSingleAttack();
         }
     }
 
-    public void RaiseOnRangedAttack()
+    public void RaiseOnStartRangedAttack()
     {
         if (onRangedAttack != null)
         {
@@ -121,17 +124,9 @@ public class CombatEventsManager : MonoBehaviour
 
     public void RaiseOnStartSweep()
     {
-        if (onStartSweep != null)
+        if (onStartGroupAttack != null)
         {
-            onStartSweep();
-        }
-    }
-
-    public void RaiseOnStopSweep()
-    {
-        if (onStopSweep != null)
-        {
-            onStopSweep();
+            onStartGroupAttack();
         }
     }
 
@@ -140,14 +135,6 @@ public class CombatEventsManager : MonoBehaviour
         if (onStartGlobalAttack != null)
         {
             onStartGlobalAttack();
-        }
-    }
-
-    public void RaiseOnStopGlobalAttack()
-    {
-        if (onStopGlobalAttack != null)
-        {
-            onStopGlobalAttack();
         }
     }
 
@@ -172,6 +159,24 @@ public class CombatEventsManager : MonoBehaviour
         if (onDeath != null)
         {
             onDeath();
+        }
+    }
+
+    public void RaiseOnStartRunning() {
+        if(onStartRunning != null) {
+            onStartRunning();
+        }
+    }
+
+    public void RaiseOnStartIdle() {
+        if(onStartIdle != null) {
+            onStartIdle();
+        }
+    }
+
+    public void RaiseOnStopAnimation() {
+        if(onStopAnimation != null) {
+            onStopAnimation();
         }
     }
 
