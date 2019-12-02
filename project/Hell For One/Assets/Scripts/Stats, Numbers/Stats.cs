@@ -263,7 +263,7 @@ public class Stats : MonoBehaviour
 
         combatEventsManager = GetComponent<CombatEventsManager>();
 
-        ManageSpawn();
+        //ManageSpawn();
     }
 
     /// <summary>
@@ -488,6 +488,8 @@ public class Stats : MonoBehaviour
         deathCR = StartCoroutine(Death(deathDuration));
     }
 
+    // TODO - Do not use this, I'm testing this
+    /*
     private void ManageSpawn() {
         switch (type) { 
             case Type.Ally:
@@ -501,6 +503,7 @@ public class Stats : MonoBehaviour
                 break;
         }
     }
+    */
 
     #endregion
 

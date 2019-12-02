@@ -84,6 +84,7 @@ public class AlliesManager : MonoBehaviour
         alliesList.Remove(deadAlly);
     }
 
+    /*
     public void AddAlly(GameObject ally) {
         if (!alliesList.Contains(ally)) { 
             alliesList.Add(ally);   
@@ -96,4 +97,5 @@ public class AlliesManager : MonoBehaviour
             // Need to find a way to manage this
         }
     }
+    */
 }

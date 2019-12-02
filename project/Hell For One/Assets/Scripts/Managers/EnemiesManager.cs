@@ -59,6 +59,7 @@ public class EnemiesManager : MonoBehaviour
         Boss = null;    
     }
 
+    /*
     public void AddEnemy(GameObject enemy) {
         if (!littleEnemiesList.Contains(enemy))
         {
@@ -88,4 +89,5 @@ public class EnemiesManager : MonoBehaviour
             // Need to find a way to manage this
         }
     }
+    */
 }

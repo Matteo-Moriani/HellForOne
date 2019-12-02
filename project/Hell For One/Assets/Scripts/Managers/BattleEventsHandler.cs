@@ -51,7 +51,8 @@ public class BattleEventsHandler : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
+        // TODO - Need to test this update logic
         if (IsInRegularBattle)
         {
             if (EnemiesManager.Instance.LittleEnemiesList.Count == 0)
@@ -63,10 +64,22 @@ public class BattleEventsHandler : MonoBehaviour
 
         if (IsInBossBattle)
         {
-            if (EnemiesManager.Instance.LittleEnemiesList.Count == 0 && EnemiesManager.Instance.Boss == null)
+            if (EnemiesManager.Instance.Boss == null)
             {
                 BattleEventsManager.RaiseOnBossBattleExit();
             }
+        }
+
+        if (!isInRegularBattle) { 
+            if(EnemiesManager.Instance.LittleEnemiesList.Count > 0) { 
+                BattleEventsManager.RaiseOnBattleEnter();    
+            }    
+        }
+
+        if (!IsInBossBattle) { 
+            if(EnemiesManager.Instance.Boss != null) { 
+                BattleEventsManager.RaiseOnBossBattleEnter();    
+            }    
         }
     }
 
