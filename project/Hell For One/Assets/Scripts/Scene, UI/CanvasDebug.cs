@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CanvasDebug : MonoBehaviour
 {
     public GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
+    public Text groupAzureText, groupPinkText, groupGreenText, groupYellowText;
     public GroupAggro aggroA, aggroB, aggroC, aggroD;
     public Text aggroValueA, aggroValueB, aggroValueC, aggroValueD;
     public Text tacticA, tacticB, tacticC, tacticD;
@@ -19,6 +20,9 @@ public class CanvasDebug : MonoBehaviour
     public TacticsManager tacticsManager;
     public AllyDemonSpawnerTest allyDemonSpawnerTest;
     public Stats playerStats;
+
+    public Color red;
+    public Color black;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +59,14 @@ public class CanvasDebug : MonoBehaviour
 
         playerStats = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>();
         playerAggro = GameObject.Find( "Player Aggro" ).GetComponent<Text>();
+
+        groupAzureText = GameObject.Find( "Azure group" ).GetComponent<Text>();
+        groupPinkText = GameObject.Find( "Pink group" ).GetComponent<Text>();
+        groupGreenText = GameObject.Find( "Green group" ).GetComponent<Text>();
+        groupYellowText = GameObject.Find( "Yellow group" ).GetComponent<Text>();
+
+        red = new Color( 255f, 0f, 0f, 255f );
+        black = new Color( 0f, 0f, 0f, 255f );
     }
 
     // Update is called once per frame
@@ -86,6 +98,34 @@ public class CanvasDebug : MonoBehaviour
                 bossTargetGroup.text = "Boss target:    " + "Player";
             else if (bossBehaviour.TargetDemon.tag == "Ally")
                 bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;
+        }
+
+        switch ( tacticsManager.CurrentShowedGroup )
+        {
+            case TacticsManager.Group.GroupAzure:
+                groupAzureText.color = red;
+                groupPinkText.color = black;
+                groupGreenText.color = black;
+                groupYellowText.color = black;
+                break;
+            case TacticsManager.Group.GroupPink:
+                groupAzureText.color = black;
+                groupPinkText.color = red;
+                groupGreenText.color = black;
+                groupYellowText.color = black;
+                break;
+            case TacticsManager.Group.GroupGreen:
+                groupAzureText.color = black;
+                groupPinkText.color = black;
+                groupGreenText.color = red;
+                groupYellowText.color = black;
+                break;
+            case TacticsManager.Group.GroupYellow:
+                groupAzureText.color = black;
+                groupPinkText.color = black;
+                groupGreenText.color = black;
+                groupYellowText.color = red;
+                break;
         }
 
     }
