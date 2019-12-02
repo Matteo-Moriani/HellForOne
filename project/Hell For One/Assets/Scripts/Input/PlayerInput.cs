@@ -9,94 +9,159 @@ public class PlayerInput : MonoBehaviour
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
+    private float dpadWaitTime = 0.2f;
+    private bool dpadInUse = false;
+
+    public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
+
+    private IEnumerator DpadWait( float waitTime )
+    {
+        yield return new WaitForSeconds( waitTime );
+        DpadInUse = false;
+    }
 
     private void Start()
     {
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
-        inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+        inputManager = GameObject.FindGameObjectWithTag( "InputManager" ).GetComponent<InputManager>();
         tacticsManager = GetComponent<TacticsManager>();
     }
 
     private void Update()
     {
-        if(inputManager != null) {
-            
+        if ( inputManager != null )
+        {
+
             // Circle (PS3) / B (XBOX) 
-            if (inputManager.CircleButtonDown()) { 
-                if(dash != null) {
-                    dash.TryDash(inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal());
+            if ( inputManager.CircleButtonDown() )
+            {
+                if ( dash != null )
+                {
+                    dash.TryDash( inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal() );
                 }
             }
 
             // Cross (PS3) / A (XBOX)
             if ( inputManager.XButtonDown() )
             {
-                if ( combat != null && tacticsManager)
+                if ( combat != null && tacticsManager )
                 {
                     tacticsManager.AssignOrder();
                 }
             }
 
             // Square (PS3) / X (XBOX)
-            if (inputManager.SquareButtonDown()) { 
-                if(combat != null) {
+            if ( inputManager.SquareButtonDown() )
+            {
+                if ( combat != null )
+                {
                     combat.Attack();
                 }
             }
 
             // L1 (PS3) / LB (XBOX) - Down
-            if (inputManager.L1ButtonDown())
+            if ( inputManager.L1ButtonDown() )
             {
-                if(combat != null) { 
-                    combat.StartBlock();    
+                if ( combat != null )
+                {
+                    combat.StartBlock();
                 }
             }
 
             // L1 (PS3) / LB (XOBX) - Up
-            if (inputManager.L1ButtonUp()) { 
-                if(combat != null) { 
-                    combat.StopBlock();    
-                }    
+            if ( inputManager.L1ButtonUp() )
+            {
+                if ( combat != null )
+                {
+                    combat.StopBlock();
+                }
             }
 
             // Triangle (PS3) / Y (XBOX)
-            if (inputManager.TriangleButtonDown()) { 
-                if(combat != null) { 
-                    combat.RangedAttack(null);    
-                }    
+            if ( inputManager.TriangleButtonDown() )
+            {
+                if ( combat != null )
+                {
+                    combat.RangedAttack( null );
+                }
             }
 
             // L2 (PS3) / LT (XBOX) - Down
             //if ( inputManager.L2Axis() )
-            if(inputManager.L2ButtonDown())
+            if ( inputManager.L2ButtonDown() )
             {
-                if ( combat != null &&  tacticsManager)
+                if ( combat != null && tacticsManager )
                 {
-                    tacticsManager.RotateGroups(); ;
+                    tacticsManager.RotateLeftGroups();
+                }
+            }
+
+            // DPad UP
+            if ( inputManager.DpadVertical() > 0.7f )
+            {
+                if ( combat != null && tacticsManager && !DpadInUse )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
+            }
+
+            // DPad DOWN
+            if ( inputManager.DpadVertical() < -0.7f )
+            {
+                if ( combat != null && tacticsManager )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
+            }
+
+            // DPad RIGHT
+            if ( inputManager.DpadHorizontal() > 0.7f )
+            {
+                if ( combat != null && tacticsManager )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
+            }
+
+            // DPad LEFT
+            if ( inputManager.DpadHorizontal() < -0.7f )
+            {
+                if ( combat != null && tacticsManager )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
                 }
             }
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if (inputManager.L2ButtonUp()) { }
+            if ( inputManager.L2ButtonUp() ) { }
 
             // R2 (PS3) / RT (XBOX) - Down
             //if ( inputManager.R2Axis() )
-            if(inputManager.R2ButtonDown())
+            if ( inputManager.R2ButtonDown() )
             {
-                if ( combat != null && tacticsManager)
+                if ( combat != null && tacticsManager )
                 {
-                    tacticsManager.RotateTactics();
+                    tacticsManager.RotateRightGroups();
                 }
             }
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if (inputManager.R2ButtonUp()) { }
+            if ( inputManager.R2ButtonUp() ) { }
         }
-        else { 
-            Debug.Log( name + " PlayerInput cannot find InputManager");    
+        else
+        {
+            Debug.Log( name + " PlayerInput cannot find InputManager" );
         }
     }
 }

@@ -51,6 +51,11 @@ public class TacticsManager : MonoBehaviour
         return (index + 1) % arrayLength;
     }
 
+    public int DecrementCircularArrayIndex( int index, int arrayLength )
+    {
+        return (index + arrayLength - 1) % arrayLength;
+    }
+
     public void ConfirmOrder()
     {
         cross = true;
@@ -59,25 +64,25 @@ public class TacticsManager : MonoBehaviour
     public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
         GroupBehaviour groupBehaviour = GameObject.Find( CurrentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
-        if (groupBehaviour.groupFSM.current.stateName != state.ToString())
+        if ( groupBehaviour.groupFSM.current.stateName != state.ToString() )
         {
             groupBehaviour.newState = state;
             groupBehaviour.orderConfirmed = true;
         }
     }
 
-    public void RotateGroups()
+    public void RotateRightGroups()
     {
         groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
         CurrentShowedGroup = groupsArray[ groupsIndex ];
-        Debug.Log( CurrentShowedGroup );
+        //Debug.Log( CurrentShowedGroup );
     }
 
-    public void RotateTactics()
+    public void RotateLeftGroups()
     {
-        tacticsIndex = IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length );
-        CurrentShowedState = tacticsArray[ IncrementCircularArrayIndex( tacticsIndex, tacticsArray.Length ) ];
-        Debug.Log( CurrentShowedState );
+        groupsIndex = DecrementCircularArrayIndex( groupsIndex, groupsArray.Length );
+        CurrentShowedGroup = groupsArray[ groupsIndex ];
+        //Debug.Log( CurrentShowedState );
     }
 
     public void AssignOrder()

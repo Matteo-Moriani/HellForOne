@@ -462,8 +462,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("XBoxDpadHorizontal");
             case Controller.Ps3:
-                // TODO - To Implement
-                break;
+                return Input.GetAxis( "PS4DpadXAxis" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -481,8 +480,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("XBoxDpadVertical");
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetAxis( "PS4DpadYAxis" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
