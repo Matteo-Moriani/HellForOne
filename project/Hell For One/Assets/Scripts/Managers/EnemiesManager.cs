@@ -30,7 +30,7 @@ public class EnemiesManager : MonoBehaviour
     {
         BattleEventsManager.onBattleEnter += FindLittleEnemies;
         
-        BattleEventsManager.onBossBattleEnter += FindLittleEnemies;
+        //BattleEventsManager.onBossBattleEnter += FindLittleEnemies;
         BattleEventsManager.onBossBattleEnter += FindBoss;
     }
     
@@ -38,7 +38,7 @@ public class EnemiesManager : MonoBehaviour
     {
         BattleEventsManager.onBattleEnter -= FindLittleEnemies;
 
-        BattleEventsManager.onBossBattleEnter -= FindLittleEnemies;
+        //BattleEventsManager.onBossBattleEnter -= FindLittleEnemies;
         BattleEventsManager.onBossBattleEnter -= FindBoss;
     }
     

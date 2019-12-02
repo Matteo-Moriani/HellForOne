@@ -53,6 +53,7 @@ public class BattleEventsHandler : MonoBehaviour
     private void Update()
     {   
         // TODO - Need to test this update logic
+        // Should use triggers to activate battles!
         if (IsInRegularBattle)
         {
             if (EnemiesManager.Instance.LittleEnemiesList.Count == 0)
@@ -70,6 +71,7 @@ public class BattleEventsHandler : MonoBehaviour
             }
         }
 
+        /*
         if (!isInRegularBattle) { 
             if(EnemiesManager.Instance.LittleEnemiesList.Count > 0) { 
                 BattleEventsManager.RaiseOnBattleEnter();    
@@ -81,6 +83,7 @@ public class BattleEventsHandler : MonoBehaviour
                 BattleEventsManager.RaiseOnBossBattleEnter();    
             }    
         }
+        */
     }
 
     private void EnterRegularBattle() { 
