@@ -83,4 +83,17 @@ public class AlliesManager : MonoBehaviour
     public void AllyKilled(GameObject deadAlly) { 
         alliesList.Remove(deadAlly);
     }
+
+    public void AddAlly(GameObject ally) {
+        if (!alliesList.Contains(ally)) { 
+            alliesList.Add(ally);   
+        }
+        else {
+            // TODO - Im not 100% sure about this
+            // Need to test
+            // Destroy(ally);
+
+            // Need to find a way to manage this
+        }
+    }
 }

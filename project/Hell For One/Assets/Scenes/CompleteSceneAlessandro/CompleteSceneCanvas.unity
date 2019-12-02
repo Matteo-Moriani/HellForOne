@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -460,6 +460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: health
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -1195,6 +1200,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -1426,6 +1436,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -1570,7 +1585,7 @@ PrefabInstance:
     - target: {fileID: 114968857816442034, guid: 749ff47ddbf0952469863f27be7fd255,
         type: 3}
       propertyPath: health
-      value: 50
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 3586834032733203108, guid: 749ff47ddbf0952469863f27be7fd255,
         type: 3}
@@ -2596,6 +2611,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -2826,6 +2846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: health
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -4441,6 +4466,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -4844,6 +4874,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -4998,6 +5033,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -5151,6 +5191,11 @@ PrefabInstance:
         type: 3}
       propertyPath: health
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -6215,6 +6260,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -6445,6 +6495,11 @@ PrefabInstance:
         type: 3}
       propertyPath: health
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
@@ -6855,6 +6910,11 @@ PrefabInstance:
       propertyPath: health
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 1139848323108292844, guid: 63c290d430f78ea4ba59211026dc311f,
+        type: 3}
+      propertyPath: blockChance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 700325638455118188, guid: 63c290d430f78ea4ba59211026dc311f,
         type: 3}
       propertyPath: m_Enabled
@@ -7200,6 +7260,11 @@ PrefabInstance:
     - target: {fileID: 3880845377671184619, guid: 458750bf1afbfea4ba6c16b45248d375,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415210133246406200, guid: 458750bf1afbfea4ba6c16b45248d375,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemiesManager : MonoBehaviour
 {
-    private List<GameObject> littleEnemiesList;
+    public List<GameObject> littleEnemiesList;
 
     private GameObject boss;
 
@@ -57,5 +57,35 @@ public class EnemiesManager : MonoBehaviour
 
     public void BossKilled() { 
         Boss = null;    
+    }
+
+    public void AddEnemy(GameObject enemy) {
+        if (!littleEnemiesList.Contains(enemy))
+        {
+            littleEnemiesList.Add(enemy);
+        }
+        else
+        {
+            // TODO - Im not 100% sure about this
+            // Need to test
+            //Destroy(enemy);
+
+            // Need to find a way to manage this
+        }
+    }
+
+    public void AddBoss(GameObject boss) {
+        if (this.boss == null)
+        {
+            this.boss = boss;    
+        }
+        else
+        {
+            // TODO - Im not 100% sure about this
+            // Need to test
+            //Destroy(boss);
+
+            // Need to find a way to manage this
+        }
     }
 }

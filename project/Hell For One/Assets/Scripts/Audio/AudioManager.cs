@@ -87,7 +87,8 @@ public class AudioManager : MonoBehaviour
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
-                        combatAudioSource.Play();
+                        //combatAudioSource.Play();
+                        combatAudioSource.PlayOneShot(clipToPlay);
                     }
                     else
                     {
@@ -103,7 +104,8 @@ public class AudioManager : MonoBehaviour
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
-                        combatAudioSource.Play();
+                        //combatAudioSource.Play();
+                        combatAudioSource.PlayOneShot(clipToPlay);
                     }
                     else
                     {

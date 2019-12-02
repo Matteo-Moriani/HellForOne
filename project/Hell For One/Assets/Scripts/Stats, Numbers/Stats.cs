@@ -262,6 +262,8 @@ public class Stats : MonoBehaviour
         Groups = GameObject.FindGameObjectsWithTag("Group");
 
         combatEventsManager = GetComponent<CombatEventsManager>();
+
+        ManageSpawn();
     }
 
     /// <summary>
@@ -484,6 +486,20 @@ public class Stats : MonoBehaviour
         }
 
         deathCR = StartCoroutine(Death(deathDuration));
+    }
+
+    private void ManageSpawn() {
+        switch (type) { 
+            case Type.Ally:
+                AlliesManager.Instance.AddAlly(this.gameObject);
+                break;
+            case Type.Enemy:
+                EnemiesManager.Instance.AddEnemy(this.gameObject);
+                break;
+            case Type.Boss:
+                EnemiesManager.Instance.AddBoss(this.gameObject);
+                break;
+        }
     }
 
     #endregion
