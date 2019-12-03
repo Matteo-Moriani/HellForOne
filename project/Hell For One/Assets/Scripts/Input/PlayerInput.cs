@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
     private PauseScript pauseScript;
     private float dpadWaitTime = 0.2f;
     private bool dpadInUse = false;
+    private bool gameIsPaused = false;
+    public bool GameIsPaused { get => gameIsPaused; set => gameIsPaused = value; }
 
     public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
 
@@ -38,10 +40,18 @@ public class PlayerInput : MonoBehaviour
             // Circle (PS3) / B (XBOX) 
             if ( inputManager.CircleButtonDown() )
             {
-                if ( dash != null )
-                {
-                    dash.TryDash( inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal() );
+                if(GameIsPaused) {
+                    if(pauseScript.CurrentMenu != MenuType.pause)
+                        pauseScript.Back();
+                    else
+                        pauseScript.Resume();
                 }
+                else {
+                    if(dash != null) {
+                        dash.TryDash(inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal());
+                    }
+                }
+               
             }
 
             // Cross (PS3) / A (XBOX)
@@ -49,7 +59,11 @@ public class PlayerInput : MonoBehaviour
             {
                 if ( combat != null && tacticsManager )
                 {
-                    tacticsManager.AssignOrder();
+                    if(GameIsPaused) {
+                        pauseScript.PressSelectedButton();
+                    }
+
+                    // TODO - dialogues
                 }
             }
 
@@ -102,30 +116,41 @@ public class PlayerInput : MonoBehaviour
             // DPad UP
             if ( inputManager.DpadVertical() > 0.7f )
             {
-                if ( combat != null && tacticsManager && !DpadInUse )
-                {
-                    DpadInUse = true;
-                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup );
-                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                if ( combat != null && tacticsManager && !DpadInUse ) {
+                    
+                    if(GameIsPaused) {
+                        pauseScript.PreviousButton();
+                    }
+                    else {
+                        DpadInUse = true;
+                        tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
+                        StartCoroutine(DpadWait(dpadWaitTime));
+                    }
+
                 }
             }
 
             // DPad DOWN
             if ( inputManager.DpadVertical() < -0.7f )
             {
-                if ( combat != null && tacticsManager )
-                {
-                    DpadInUse = true;
-                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup );
-                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                if ( combat != null && tacticsManager && !DpadInUse) {
+
+                    if(GameIsPaused) {
+                        pauseScript.NextButton();
+                    }
+                    else {
+                        DpadInUse = true;
+                        tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
+                        StartCoroutine(DpadWait(dpadWaitTime));
+                    }
+                    
                 }
             }
 
             // DPad RIGHT
             if ( inputManager.DpadHorizontal() > 0.7f )
             {
-                if ( combat != null && tacticsManager )
-                {
+                if ( combat != null && tacticsManager && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup );
                     StartCoroutine( DpadWait( dpadWaitTime ) );
@@ -135,8 +160,7 @@ public class PlayerInput : MonoBehaviour
             // DPad LEFT
             if ( inputManager.DpadHorizontal() < -0.7f )
             {
-                if ( combat != null && tacticsManager )
-                {
+                if ( combat != null && tacticsManager && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup );
                     StartCoroutine( DpadWait( dpadWaitTime ) );
@@ -164,6 +188,7 @@ public class PlayerInput : MonoBehaviour
             // Start (PS3) / Options (PS4)
             if(inputManager.PauseButtonDown()) {
                 if(combat != null && pauseScript) {
+                    gameIsPaused = true;
                     pauseScript.Pause();
                 }
             }

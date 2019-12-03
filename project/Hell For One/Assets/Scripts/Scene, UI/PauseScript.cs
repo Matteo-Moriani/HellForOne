@@ -2,16 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public enum MenuType {
+    pause,
+    options
+}
 
 public class PauseScript : MonoBehaviour
 {
     public static bool gameIsPaused = false;
     public GameObject pauseMenuUI;
+    public GameObject optionsUI;
+    public GameObject[] pauseButtons = new GameObject[3];
+    public GameObject[] optionsButtons = new GameObject[1];
+    public int pauseIndex = 0;
+    public int optionsIndex = 0;
+    private PlayerInput playerInput;
+    private MenuType currentMenu = MenuType.pause;
+    public MenuType CurrentMenu { get => currentMenu; set => currentMenu = value; }
+    // TODO - selected button must be highlighted
+
+    private void Awake() {
+        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
+        pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
+    }
 
     public void Resume() {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
+        playerInput.GameIsPaused = false;
     }
 
     public void Freeze() {
@@ -30,22 +52,105 @@ public class PauseScript : MonoBehaviour
         // TODO - manage pause with events
 
     }
-
+    
     public void Pause() {
         if(gameIsPaused)
             Resume();
         else
             Freeze();
     }
+    
+    public void NextButton() {
 
-    private void Update() {
-
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            if(gameIsPaused)
-                Resume();
+        if(currentMenu == MenuType.pause) {
+            pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.normalColor;
+            if(pauseIndex == pauseButtons.Length - 1)
+                pauseIndex = 0;
             else
-                Freeze();
+                pauseIndex++;
+            pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
+        }
+        else if(currentMenu == MenuType.options) {
+            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
+            if(optionsIndex == optionsButtons.Length - 1)
+                optionsIndex = 0;
+            else
+                optionsIndex++;
+            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
         }
 
+    }
+    
+    public void PreviousButton() {
+        if(currentMenu == MenuType.pause) {
+            pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.normalColor;
+            if(pauseIndex == 0)
+                pauseIndex = pauseButtons.Length - 1;
+            else
+                pauseIndex--;
+            pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
+        }
+        else if(currentMenu == MenuType.options) {
+            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
+            if(optionsIndex == 0)
+                optionsIndex = optionsButtons.Length - 1;
+            else
+                optionsIndex--;
+            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
+        }
+
+        
+        
+    }
+
+    // TODO - must be called with X button
+    public void PressSelectedButton() {
+
+        if(currentMenu == MenuType.pause) {
+            switch(pauseIndex) {
+                case 0:
+                    Resume();
+                    break;
+                case 1:
+                    Options();
+                    break;
+                case 2:
+                    TitleScreen();
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(currentMenu == MenuType.options) {
+            switch(optionsIndex) {
+                case 0:
+                    Back();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+    }
+
+    private void Options() {
+        foreach(GameObject button in pauseButtons) {
+            button.GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.normalColor;
+        }
+        currentMenu = MenuType.options;
+        pauseIndex = 0;
+        pauseMenuUI.SetActive(false);
+        optionsUI.SetActive(true);
+        pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
+    }
+
+    public void Back() {
+        foreach(GameObject button in optionsButtons) {
+            button.GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.normalColor;
+        }
+        currentMenu = MenuType.pause;
+        optionsIndex = 0;
+        optionsUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
     }
 }

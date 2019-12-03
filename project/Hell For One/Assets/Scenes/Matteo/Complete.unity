@@ -2602,7 +2602,7 @@ GameObject:
   - component: {fileID: 633627914}
   m_Layer: 5
   m_Name: Options
-  m_TagString: Untagged
+  m_TagString: Options
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3445,7 +3445,7 @@ GameObject:
   - component: {fileID: 1046354175}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3589,6 +3589,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 886173932}
+  optionsUI: {fileID: 633627913}
+  pauseButtons:
+  - {fileID: 778292424}
+  - {fileID: 199056884}
+  - {fileID: 35545095}
+  optionsButtons:
+  - {fileID: 547066532}
 --- !u!1001 &1103868284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3659,7 +3666,7 @@ PrefabInstance:
     - target: {fileID: 4349689355973396590, guid: 458750bf1afbfea4ba6c16b45248d375,
         type: 3}
       propertyPath: type
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 458750bf1afbfea4ba6c16b45248d375, type: 3}
