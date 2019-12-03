@@ -801,4 +801,23 @@ public class InputManager : MonoBehaviour
     }
 
     #endregion
+
+    #region Pause
+
+    public bool PauseButtonDown() {
+        switch(Type) {
+            case Controller.Xbox:
+                // TODO
+            case Controller.Ps3:
+                // TODO
+            case Controller.MouseAndKeyboard:
+                return Input.GetKeyDown(KeyCode.Escape);
+            case Controller.None:
+                Debug.Log("Controller.type not set");
+                break;
+        }
+        return false;
+    }
+
+    #endregion
 }

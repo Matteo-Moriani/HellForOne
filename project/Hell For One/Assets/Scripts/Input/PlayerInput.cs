@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
+    private PauseScript pauseScript;
     private float dpadWaitTime = 0.2f;
     private bool dpadInUse = false;
 
@@ -26,6 +27,7 @@ public class PlayerInput : MonoBehaviour
         combat = GetComponent<Combat>();
         inputManager = GameObject.FindGameObjectWithTag( "InputManager" ).GetComponent<InputManager>();
         tacticsManager = GetComponent<TacticsManager>();
+        pauseScript = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PauseScript>();
     }
 
     private void Update()
@@ -158,6 +160,13 @@ public class PlayerInput : MonoBehaviour
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
             if ( inputManager.R2ButtonUp() ) { }
+
+            // Start (PS3) / Options (PS4)
+            if(inputManager.PauseButtonDown()) {
+                if(combat != null && pauseScript) {
+                    pauseScript.Pause();
+                }
+            }
         }
         else
         {
