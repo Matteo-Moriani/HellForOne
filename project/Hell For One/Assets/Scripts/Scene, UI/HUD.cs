@@ -14,7 +14,38 @@ public class HUD : MonoBehaviour
     private Vector3 enlargedScale = new Vector3( 1.5f, 1.5f, 1f );
     private GroupBehaviour[] groupBehaviours = new GroupBehaviour[ 4 ];
     private Dictionary<GroupBehaviour, Image> dict = new Dictionary<GroupBehaviour, Image>();
+    private List<Image> healthPoolList = new List<Image>();
+    private Image[] healthPoolArray = new Image[ 17 ];
+    private int impsCount = 1;
+    private int healthIconsCount = 17;
+    private AlliesManager alliesManager;
+    GameObject healthPool;
 
+    /// <summary>
+    /// Used to update the health pool if imps die or join the horde
+    /// </summary>
+    public void ResizeHealthPool()
+    {
+        // An Imp died
+        if (alliesManager.AlliesList.Count < impsCount )
+        {
+            for ( int i = alliesManager.AlliesList.Count; i < healthPool.transform.childCount; i++ )
+            {
+                healthPool.transform.GetChild( i ).gameObject.SetActive( false );
+            }
+        }
+
+        // An Imp joined
+        if ( alliesManager.AlliesList.Count > impsCount )
+        {
+            for ( int i = healthPool.transform.childCount; i < alliesManager.AlliesList.Count; i++ )
+            {
+                healthPool.transform.GetChild( i ).gameObject.SetActive( true );
+            }
+        }
+    }
+
+    public void CheckImpsHealth() { }
 
     void Start()
     {
@@ -66,10 +97,36 @@ public class HUD : MonoBehaviour
         dict.Add( groupPink, pinkImage );
         dict.Add( groupGreen, greenImage );
         dict.Add( groupYellow, yellowImage );
+
+        alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
+
+        //foreach (GameObject go in alliesManager.AlliesList )
+        //{
+
+        //}
+
+        healthPool = transform.GetChild( 1 ).gameObject;
+
+        // Player's Health
+        healthPoolArray[ 0 ] = healthPool.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+
+        for (int i = 1; i < alliesManager.AlliesList.Count; i++ )
+        {
+            healthPoolArray[i] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
+            impsCount++;
+        }
+        
+        for (int i = alliesManager.AlliesList.Count; i < healthPool.transform.childCount; i++ )
+        {
+            healthPool.transform.GetChild( i ).gameObject.SetActive( false );
+            healthIconsCount--;
+        }
     }
 
     void Update()
     {
+        ResizeHealthPool();
+
         foreach ( GroupBehaviour gb in groupBehaviours )
         {
             switch ( gb.currentState )
@@ -116,5 +173,8 @@ public class HUD : MonoBehaviour
                 panelYellow.transform.localScale = enlargedScale;
                 break;
         }
+
+        
     }
+
 }
