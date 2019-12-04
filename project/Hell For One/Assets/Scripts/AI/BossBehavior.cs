@@ -476,6 +476,8 @@ public class BossBehavior : MonoBehaviour
         else if (type == TimerType.attack ) 
         {
             combatEventsManager.RaiseOnStartIdle();
+            // TODO - don't know why it doesn't work here
+            //isAttacking = false;
         }
 
     }

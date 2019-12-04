@@ -168,9 +168,8 @@ public class Stats : MonoBehaviour
     private GameObject[] groups;
 
     private bool isDying = false;
-
-    // must be of the exact duration of the death animation for the character
-    public float deathDuration = 0f;
+    
+    private float deathDuration;
     private Coroutine deathCR;
 
     private CombatEventsManager combatEventsManager;
@@ -254,6 +253,8 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
+        deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
+
         if (aggroDecreasingCR == null)
         {
             aggroDecreasingCR = StartCoroutine(AggroDecreasingCR());
