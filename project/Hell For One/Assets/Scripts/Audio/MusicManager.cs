@@ -14,6 +14,7 @@ public class MusicManager : MonoBehaviour
     private Coroutine startCombatMusicCR;
     private Coroutine startBossMusicCR;
 
+    // TODO - lerp volume when changing music.
 
     private void OnEnable()
     {

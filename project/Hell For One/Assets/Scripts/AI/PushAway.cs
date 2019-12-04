@@ -8,11 +8,11 @@ public class PushAway : MonoBehaviour
     //public float pushIntensity = 0.75f;
     public float pushAwaySize = 0.5f;
     public float pushAwayTime = 0.5f;
-    private GameObject[] demons;
+    //private GameObject[] demons;
 
     void Start()
     {
-        demons = GameObject.FindGameObjectsWithTag( "Demon" );
+        //demons = GameObject.FindGameObjectsWithTag( "Demon" );
     }
 
     void FixedUpdate()
@@ -28,7 +28,7 @@ public class PushAway : MonoBehaviour
 
     private void PushDemons()
     {
-        foreach ( GameObject demon in demons )
+        foreach ( GameObject demon in AlliesManager.Instance.AlliesList)
         {
 
             if ( demon != null )

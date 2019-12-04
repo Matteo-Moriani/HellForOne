@@ -153,7 +153,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// Tells if this unit is Idle (not blocking)
     /// </summary>
-    private bool notAttacking = true;
+    private bool combatIdle = true;
     /// <summary>
     /// Tells if this unit is blocking
     /// </summary>
@@ -221,7 +221,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// Tells if the unit is Idle (not blocking)
     /// </summary>
-    public bool NotAttacking { get => notAttacking; set => notAttacking = value; }
+    public bool CombatIdle { get => combatIdle; set => combatIdle = value; }
     /// <summary>
     /// Tells is the unit is blocking
     /// </summary>

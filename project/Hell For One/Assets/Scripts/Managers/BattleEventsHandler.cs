@@ -32,8 +32,8 @@ public class BattleEventsHandler : MonoBehaviour
     private void Start()
     {
         // This is here to start in an out of combat situation
-        BattleEventsManager.RaiseOnBattleExit();
-        BattleEventsManager.RaiseOnBossBattleExit();
+        //BattleEventsManager.RaiseOnBattleExit();
+        //BattleEventsManager.RaiseOnBossBattleExit();
     }
 
     private void OnEnable()

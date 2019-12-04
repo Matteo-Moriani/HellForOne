@@ -51,6 +51,9 @@ public class GroupMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag( "Player" );
         bossPositions = GameObject.FindGameObjectWithTag("BossPositions");
         groupsFormation = GameObject.FindGameObjectWithTag( "GroupsFormation" );
+
+        // Testing out of combat start
+        SetOutOfCombat();
     }
 
     void Update()
