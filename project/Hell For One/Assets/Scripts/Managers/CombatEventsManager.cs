@@ -33,14 +33,23 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStartGroupAttack();
     public event OnStartGroupAttack onStartGroupAttack;
 
+    public delegate void OnStopGroupAttack();
+    public event OnStopGroupAttack onStopGroupAttack;
+
     public delegate void OnStartGlobalAttack();
     public event OnStartGlobalAttack onStartGlobalAttack;
+
+    public delegate void OnStopGlobalAttack();
+    public event OnStopGlobalAttack onStopGlobalAttack;
 
     public delegate void OnSuccessfulHit();
     public event OnSuccessfulHit onSuccessfulHit;
 
     public delegate void OnBlockedHit();
     public event OnBlockedHit onBlockedHit;
+
+    public delegate void OnBeenHit();
+    public event OnBeenHit onBeenHit;
 
     public delegate void OnDeath();
     public event OnDeath onDeath;
@@ -51,12 +60,12 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStartIdle();
     public event OnStartIdle onStartIdle;
 
-    public delegate void OnStopAnimation();
-    public event OnStopAnimation onStopAnimation;
+    //public delegate void OnStopAnimation();
+    //public event OnStopAnimation onStopAnimation;
 
     #endregion
 
-    #region CombatEventFields
+    #region CombatEvents methods
 
     public void RaiseOnStartSingleAttack()
     {
@@ -130,11 +139,27 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
+    public void RaiseOnStopSweep()
+    {
+        if (onStopGroupAttack != null)
+        {
+            onStopGroupAttack();
+        }
+    }
+
     public void RaiseOnStartGlobalAttack()
     {
         if (onStartGlobalAttack != null)
         {
             onStartGlobalAttack();
+        }
+    }
+
+    public void RaiseOnStopGlobalAttack()
+    {
+        if (onStopGlobalAttack != null)
+        {
+            onStopGlobalAttack();
         }
     }
 
@@ -154,31 +179,47 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
+    public void RaiseOnBeenHit() { 
+        if(onBeenHit != null) { 
+            onBeenHit();    
+        }    
+    }
+
     public void RaiseOnDeath()
     {
+        // We need to stop all animations here!
+
         if (onDeath != null)
         {
             onDeath();
         }
     }
 
-    public void RaiseOnStartRunning() {
-        if(onStartRunning != null) {
+    public void RaiseOnStartRunning()
+    {
+        if (onStartRunning != null)
+        {
             onStartRunning();
         }
     }
 
-    public void RaiseOnStartIdle() {
-        if(onStartIdle != null) {
+    public void RaiseOnStartIdle()
+    {
+        if (onStartIdle != null)
+        {
             onStartIdle();
         }
     }
 
-    public void RaiseOnStopAnimation() {
-        if(onStopAnimation != null) {
+    /*
+    public void RaiseOnStopAnimation()
+    {
+        if (onStopAnimation != null)
+        {
             onStopAnimation();
         }
     }
+    */
 
     #endregion
 }

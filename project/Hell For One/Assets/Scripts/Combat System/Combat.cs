@@ -222,7 +222,8 @@ public class Combat : MonoBehaviour
         // Stop sweep event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStopAnimation();
+            //combatEventsManager.RaiseOnStopAnimation();
+            combatEventsManager.RaiseOnStopSweep();
         }
     }
 
@@ -252,7 +253,8 @@ public class Combat : MonoBehaviour
         // Stop global attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStopAnimation();
+            //combatEventsManager.RaiseOnStopAnimation();
+            combatEventsManager.RaiseOnStopGlobalAttack();
         }
     }
 

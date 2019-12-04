@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     private  AudioMixerGroup combatAudioMixerGroup;
     [SerializeField]
     private AudioMixerGroup musicMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup deathMixedGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -41,8 +43,12 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] blockClips;
 
     [SerializeField]
-    [Tooltip("Clips that will be played when an unit dies")]
-    private AudioClip[] deathClips;
+    [Tooltip("Clips that will be played when a big unit dies")]
+    private AudioClip[] bigDeathClips;
+
+    [SerializeField]
+    [Tooltip("Clips that will be played when a small unit dies")]
+    private AudioClip[] smallDeathClips;
 
     [SerializeField]
     [Tooltip("Clip that will be played when an unit walks")]
@@ -59,6 +65,10 @@ public class AudioManager : MonoBehaviour
     /// Mixer group for combat audio
     /// </summary>
     public AudioMixerGroup CombatAudioMixerGroup { get => combatAudioMixerGroup; private set => combatAudioMixerGroup = value; }
+    /// <summary>
+    /// Mixer group for death audio
+    /// </summary>
+    public AudioMixerGroup DeathMixedGroup { get => deathMixedGroup; private set => deathMixedGroup = value; }
 
     private static AudioManager _instance;
 
@@ -97,7 +107,6 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
             case CombatAudio.Block:
-                Debug.Log("TODO - Implement block audio");
                 if (blockClips.Length > 0)
                 {
                     AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length - 1))];
@@ -119,7 +128,57 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
+    public void PlayDeathSound(Stats.Type type, AudioSource deathAudioSource) {
+        switch (type) { 
+            case Stats.Type.Ally:
+                if(smallDeathClips.Length > 0) {
+                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+                    if (clipToPlay != null)
+                    {
+                        deathAudioSource.clip = clipToPlay;
+                        deathAudioSource.PlayOneShot(clipToPlay);
+                    }
+                }
+                break;
+            case Stats.Type.Boss:
+                if(bigDeathClips.Length > 0) {
+                    AudioClip clipToPlay = bigDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+                    if (clipToPlay != null)
+                    {
+                        deathAudioSource.clip = clipToPlay;
+                        deathAudioSource.PlayOneShot(clipToPlay);
+                    }
+                }
+                break;
+            case Stats.Type.Enemy:
+                if (smallDeathClips.Length > 0)
+                {
+                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+                    if (clipToPlay != null)
+                    {
+                        deathAudioSource.clip = clipToPlay;
+                        deathAudioSource.PlayOneShot(clipToPlay);
+                    }
+                }
+                break;
+            case Stats.Type.Player:
+                if (smallDeathClips.Length > 0)
+                {
+                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+                    if (clipToPlay != null)
+                    {
+                        deathAudioSource.clip = clipToPlay;
+                        deathAudioSource.PlayOneShot(clipToPlay);
+                    }
+                }
+                break;
+            case Stats.Type.None:
+                Debug.Log("You are trying to play a death sound but the type of this unit is Stats.Type.None");
+                break;
+        }
+    }
+
+    public float PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
         switch (size) { 
             case Size.Small:
                 if(walkClips.Length > 0) {
@@ -128,8 +187,9 @@ public class AudioManager : MonoBehaviour
                         
                         if(clipToPlay != null) { 
                             walkAudioSource.clip = clipToPlay;
-                            walkAudioSource.Play();
-                         }
+                            walkAudioSource.PlayOneShot(clipToPlay);
+                            return clipToPlay.length;
+                        }
                     }    
                 }
                 break;
@@ -139,7 +199,8 @@ public class AudioManager : MonoBehaviour
             case Size.Big:
                 Debug.Log("TODO - Implement big size walk audio");
                 break;
-        }       
+        }
+        return 0;
     }
     
     public void SetAudioAudioSource(AudioSource audioSource, bool hasToBeSpatial, float minDistance, float maxDistance, bool hasToBePlayedOnAwake)

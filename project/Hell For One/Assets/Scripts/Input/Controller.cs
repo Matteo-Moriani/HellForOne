@@ -16,6 +16,14 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float runSpeed = 10f;
 
+    private CombatEventsManager combatEventsManager;
+    private bool walkEventRaised = false;
+
+    private void Start()
+    {
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
+
     void Update()
     {
         zMovement = Input.GetAxis( "Vertical" );
@@ -26,6 +34,14 @@ public class Controller : MonoBehaviour
     {
         if ( zMovement != 0 || xMovement != 0 )
         {
+            // Player is walking so we need to raise the event
+            if(combatEventsManager != null) {
+                if (!walkEventRaised) { 
+                    combatEventsManager.RaiseOnStartRunning(); 
+                    walkEventRaised = true;
+                }    
+            }
+
             Vector3 vertical = zMovement * Camera.main.transform.forward;
             Vector3 horizontal = xMovement * Camera.main.transform.right;
 
@@ -49,6 +65,17 @@ public class Controller : MonoBehaviour
             Quaternion targetRotation = Quaternion.Slerp( transform.rotation, tr, moveAmount * rotateSpeed );
 
             transform.rotation = targetRotation;
+        }
+        else {
+            // Player is not walking so we need to raise the event
+            if (combatEventsManager != null)
+            {
+                if (walkEventRaised)
+                {
+                    combatEventsManager.RaiseOnStartIdle();
+                    walkEventRaised = false;
+                }
+            }
         }
     }
 }

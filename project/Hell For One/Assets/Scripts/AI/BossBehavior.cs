@@ -286,7 +286,7 @@ public class BossBehavior : MonoBehaviour
         if(!isAttacking) {
 
             isAttacking = true;
-            combatEventsManager.RaiseOnStopAnimation();
+            //combatEventsManager.RaiseOnStopAnimation();
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
             if(random < singleAttackProb)
@@ -429,7 +429,7 @@ public class BossBehavior : MonoBehaviour
                 if(!isWalking) {
                     IsWalking = true;
                     IsIdle = false;
-                    combatEventsManager.RaiseOnStopAnimation();
+                    //combatEventsManager.RaiseOnStopAnimation();
                     combatEventsManager.RaiseOnStartRunning();
 
                 }
@@ -440,7 +440,7 @@ public class BossBehavior : MonoBehaviour
                 if(!isIdle) {
                     IsIdle = true;
                     IsWalking = false;
-                    combatEventsManager.RaiseOnStopAnimation();
+                    //combatEventsManager.RaiseOnStopAnimation();
                     combatEventsManager.RaiseOnStartIdle();
                 }
             }
@@ -465,7 +465,7 @@ public class BossBehavior : MonoBehaviour
         }
         else if (type == TimerType.attack ) 
         {
-            combatEventsManager.RaiseOnStopAnimation();
+            //combatEventsManager.RaiseOnStopAnimation();
             combatEventsManager.RaiseOnStartIdle();
         }
 

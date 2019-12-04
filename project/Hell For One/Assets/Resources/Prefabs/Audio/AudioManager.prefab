@@ -49,13 +49,36 @@ MonoBehaviour:
     type: 2}
   musicMixerGroup: {fileID: 243243975911492710, guid: 0c64c3ecd9ef86e43972791c4f44c097,
     type: 2}
+  deathMixedGroup: {fileID: 243420114838782986, guid: 0c64c3ecd9ef86e43972791c4f44c097,
+    type: 2}
   hitClips:
   - {fileID: 8300000, guid: 446ed41ad926e3a4291bcb16f9e76b30, type: 3}
   - {fileID: 8300000, guid: 05057416ddd1b694abec5dc474e2e14f, type: 3}
   - {fileID: 8300000, guid: fbaf46e49a0686646a4ef37a06f5f3b8, type: 3}
   - {fileID: 8300000, guid: 688372a1199a25846aef95fc082ab6da, type: 3}
-  blockClips: []
-  deathClips: []
+  blockClips:
+  - {fileID: 8300000, guid: a3c1e3e403ae12b41a35c5fa6694abec, type: 3}
+  - {fileID: 8300000, guid: 6bdc9384e48fce24684c5b5004d56995, type: 3}
+  bigDeathClips:
+  - {fileID: 8300000, guid: a10e9de17c06c174b879b1c922bc377c, type: 3}
+  - {fileID: 8300000, guid: 0b3589a06cf78aa4f981bb43aa88d59a, type: 3}
+  smallDeathClips:
+  - {fileID: 8300000, guid: 2571bb801db36b84b90d689e895c88a9, type: 3}
+  - {fileID: 8300000, guid: ae22783bf3618a34f84167a067ce0bd6, type: 3}
   walkClips:
-  - {fileID: 8300000, guid: f1cf5e7cc3423524bb80f11d6d076add, type: 3}
+  - {fileID: 8300000, guid: adea0c6b67105ba4c85da7f5fcb848a3, type: 3}
+  - {fileID: 8300000, guid: 993b04963fd7c1040826bc3233293161, type: 3}
+  - {fileID: 8300000, guid: 4f6d3b2efc5a4a44e988134524cada1f, type: 3}
+  - {fileID: 8300000, guid: d1e24e515bc07e041a5cb505dd6aa4b8, type: 3}
+  - {fileID: 8300000, guid: 76e5f04e8cb9d354cae8d3b341af40d4, type: 3}
+  - {fileID: 8300000, guid: 796a4d755e46cf347a50b93bec2480f9, type: 3}
+  - {fileID: 8300000, guid: 297166fabd4a38647be9256fc4fa2641, type: 3}
+  - {fileID: 8300000, guid: 9c74890b0d4532e49833ae8bf37e2951, type: 3}
+  - {fileID: 8300000, guid: 6b7cd62a9667d9d449f43982c5bc4bed, type: 3}
+  - {fileID: 8300000, guid: 62867b212a285fb4aa8819abfbb3bfb8, type: 3}
+  - {fileID: 8300000, guid: 2b64a54e72848b64c90f20c1422f6bc2, type: 3}
+  - {fileID: 8300000, guid: d916a519ec8ee1e4aa6b03e75fd76e06, type: 3}
+  - {fileID: 8300000, guid: e146605f06011b3408aee883e2ed94a2, type: 3}
+  - {fileID: 8300000, guid: bb282ea1a98359f47966c061f57ab5aa, type: 3}
+  - {fileID: 8300000, guid: bc1859f41f70e49478d11627fc2cea17, type: 3}
   BossFightmusic: {fileID: 8300000, guid: 391575c3eda86f44bbd0c5b1c9cd5ed3, type: 3}

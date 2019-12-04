@@ -34,12 +34,18 @@ public class DemonMovement : MonoBehaviour
     private bool isMoving = false;
     public bool IsMoving { get => isMoving; set => isMoving = value; }
 
+    private CombatEventsManager combatEventsManager;
+    private NavMeshAgent agent;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
         maxMeleeDist = GetComponentInChildren<CombatManager>().MaxMeleeDistance;
         minMeleeDist = maxMeleeDist - 1;
         myCollider = GetComponent<Collider>();
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
     }
 
     void FixedUpdate()
@@ -111,7 +117,7 @@ public class DemonMovement : MonoBehaviour
                 }
             }
         }
-
+        ManageMovementEvents();
     }
 
     public float HorizDistFromTargetBorders( GameObject target )
@@ -238,5 +244,28 @@ public class DemonMovement : MonoBehaviour
         }
     }
 
+    private void ManageMovementEvents() {
+        // TODO - Parametrize this velocity
+        if(agent.velocity.magnitude > 0.2) {
+            if (!isMoving)
+            {
+                if (combatEventsManager != null)
+                {
+                    combatEventsManager.RaiseOnStartRunning();
+                }
 
+                isMoving = true;
+            }
+        }
+        // TODO - Parametrize this velocity
+        if(agent.velocity.magnitude <= 0.2) {
+            if (isMoving) { 
+                if(combatEventsManager != null) { 
+                    combatEventsManager.RaiseOnStartIdle();    
+                }
+                isMoving = false;
+            }    
+        }
+            
+    }
 }

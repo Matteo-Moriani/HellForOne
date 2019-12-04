@@ -222,6 +222,8 @@ public class AttackCollider : MonoBehaviour
         
         combatEventsManager.RaiseOnSuccessfulHit();
 
+        targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBeenHit();
+
         ManageAggro();
 
         StopAttack();
@@ -231,9 +233,11 @@ public class AttackCollider : MonoBehaviour
     private void ManageMiss() { }
 
     // TODO - Implement this
-    private void ManageBlock() {
-        combatEventsManager.RaiseOnBlockedHit();
+    private void ManageBlock(Stats targetRootStats) {
+        //combatEventsManager.RaiseOnBlockedHit();
         
+        targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBlockedHit();
+
         ManageAggro();
 
         StopAttack();
@@ -251,7 +255,7 @@ public class AttackCollider : MonoBehaviour
             }
             else
             {
-                ManageBlock();
+                ManageBlock(targetRootStats);
 
                 return;
             }
@@ -277,7 +281,7 @@ public class AttackCollider : MonoBehaviour
                     return;
                 }
                 else {
-                    ManageBlock();
+                    ManageBlock(targetRootStats);
 
                     return;
                 }
@@ -291,7 +295,7 @@ public class AttackCollider : MonoBehaviour
                     return;
                 }
                 else {
-                    ManageBlock();
+                    ManageBlock(targetRootStats);
 
                     return;
                 }
@@ -306,7 +310,7 @@ public class AttackCollider : MonoBehaviour
                 return;
             }
             else {
-                ManageBlock();
+                ManageBlock(targetRootStats);
 
                 return;
             }
@@ -340,7 +344,7 @@ public class AttackCollider : MonoBehaviour
                     return;
                 }
                 else {
-                    ManageBlock();
+                    ManageBlock(targetRootStats);
 
                     return;
                 }
@@ -358,7 +362,7 @@ public class AttackCollider : MonoBehaviour
                     return;
                 }
                 else {
-                    ManageBlock();
+                    ManageBlock(targetRootStats);
 
                     return;
                 }
@@ -376,7 +380,7 @@ public class AttackCollider : MonoBehaviour
                 return;
             }
             else {
-               ManageBlock();
+               ManageBlock(targetRootStats);
 
                 return;
             }

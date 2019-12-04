@@ -293,6 +293,8 @@ public class Stats : MonoBehaviour
     /// <param name="damage">The meleeDamage that this unit will take</param>
     public void TakeHit(float damage)
     {
+        //combatEventsManager.RaiseOnBeenHit();
+
         health -= damage;
 
         if (health <= 0)
@@ -483,7 +485,7 @@ public class Stats : MonoBehaviour
 
         // Other events related to death
         if(combatEventsManager != null) {
-            combatEventsManager.RaiseOnStopAnimation();
+            //combatEventsManager.RaiseOnStopAnimation();
             combatEventsManager.RaiseOnDeath();
         }
 

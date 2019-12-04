@@ -30,8 +30,14 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartRunning += PlayRunAnimation;
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack += StopAnimations;
-            combatEventsManager.onStopAnimation += StopAnimations;
-        }    
+
+            // Start mods
+            combatEventsManager.onStopGroupAttack += StopAnimations;
+            combatEventsManager.onStopGlobalAttack += StopAnimations;
+            // End mods
+
+            //combatEventsManager.onStopAnimation += StopAnimations;
+        }
     }
 
     private void OnDisable()
@@ -46,7 +52,13 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartRunning -= PlayRunAnimation;
             combatEventsManager.onDeath -= PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
-            combatEventsManager.onStopAnimation -= StopAnimations;
+            
+            // Start mods
+            combatEventsManager.onStopGroupAttack -= StopAnimations;
+            combatEventsManager.onStopGlobalAttack -= StopAnimations;
+            // End mods
+
+            //combatEventsManager.onStopAnimation -= StopAnimations;
         }
     }
 
@@ -71,19 +83,35 @@ public class BossAnimator : MonoBehaviour
     }
 
     // Example method to explain how to use events for animations
-    public void PlayAttackAnimation() { 
+    public void PlayAttackAnimation() {
+        // Start mods
+        StopAnimations();
+        // End mods
+
         animator.SetBool("isAttacking",true);    
     }
 
     public void PlayRunAnimation() {
+        // Start mods
+        StopAnimations();
+        // End mods
+
         animator.SetBool("isRunning", true);
     }
 
     public void PlayIdleAnimation() {
+        // Start mods
+        StopAnimations();
+        // End mods
+
         animator.SetBool("isIdle", true);
     }
 
     public void PlayDeathAnimation() {
+        // Start mods
+        StopAnimations();
+        // End mods
+
         animator.SetBool("isDying", true);
     }
 

@@ -9,7 +9,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
     public float stopDist = 1.5f;
-    
+
     private GameObject targetDemon;
     private GameObject[] demonGroups;
     private GameObject[] allies;
@@ -17,7 +17,11 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private float[] aggroValues;
     private float[] probability;
 
-    
+    private CombatEventsManager combatEventsManager;
+    private NavMeshAgent agent;
+    private bool isMoving = false;
+
+
     void Start()
     {
         demonGroups = GameObject.FindGameObjectsWithTag("Group");
@@ -26,47 +30,59 @@ public class LittleEnemyBehaviour : MonoBehaviour
         aggroValues = new float[demonGroups.Length + 1];
         probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
 
-        if(!player)
+        if (!player)
             player = GameObject.FindGameObjectWithTag("Player");
 
-        if(targetDemon) {
+        if (targetDemon)
+        {
 
             FaceTarget(targetDemon);
 
-            if((targetDemon.transform.position - transform.position).magnitude > stopDist) {
+            if ((targetDemon.transform.position - transform.position).magnitude > stopDist)
+            {
                 GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
             }
-            else {
+            else
+            {
                 GetComponent<NavMeshAgent>().destination = transform.position;
             }
         }
         else
             ChooseTarget();
+
+        ManageMovementEvents();
     }
 
-    private void FaceTarget(GameObject target) {
+    private void FaceTarget(GameObject target)
+    {
         Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
         Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
-        transform.rotation = newRotation;       
+        transform.rotation = newRotation;
     }
 
-    public void ChooseTarget() {
+    public void ChooseTarget()
+    {
 
-        if(GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
+        if (GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
             return;
 
         // this includes the player
         GameObject targetGroup;
 
         float totalAggro = 0f;
-        for(int i = 0; i < demonGroups.Length; i++) {
+        for (int i = 0; i < demonGroups.Length; i++)
+        {
             //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
             aggroValues[i] = 5;
 
@@ -82,9 +98,12 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
         float random = Random.Range(0.001f, totalAggro);
 
-        for(int i = 1; i < probability.Length; i++) {
-            if(random > probability[i - 1] && random <= probability[i]) {
-                if(i < probability.Length - 1) {
+        for (int i = 1; i < probability.Length; i++)
+        {
+            if (random > probability[i - 1] && random <= probability[i])
+            {
+                if (i < probability.Length - 1)
+                {
                     targetGroup = demonGroups[i - 1];
                     GroupBehaviour gb = targetGroup.GetComponent<GroupBehaviour>();
                     int index = Random.Range(0, gb.demons.Length);
@@ -92,11 +111,39 @@ public class LittleEnemyBehaviour : MonoBehaviour
                 }
                 else
                     targetDemon = player;
-                
+
                 return;
             }
         }
-        
+
     }
-    
+
+    private void ManageMovementEvents()
+    {
+        // TODO - Parametrize this velocity
+        if (agent.velocity.magnitude > 0.2)
+        {
+            if (!isMoving)
+            {
+                if (combatEventsManager != null)
+                {
+                    combatEventsManager.RaiseOnStartRunning();
+                }
+
+                isMoving = true;
+            }
+        }
+        // TODO - Parametrize this velocity
+        if (agent.velocity.magnitude <= 0.2)
+        {
+            if (isMoving)
+            {
+                if (combatEventsManager != null)
+                {
+                    combatEventsManager.RaiseOnStartIdle();
+                }
+                isMoving = false;
+            }
+        }
+    }
 }

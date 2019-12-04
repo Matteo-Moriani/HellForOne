@@ -8,10 +8,13 @@ public class Audio : MonoBehaviour
 {
     private AudioSource combatAudioSource;
     private AudioSource walkAudioSource;
+    private AudioSource deathAudioSource;
 
     private Stats stats;
 
     private CombatEventsManager combatEventsManager;
+
+    private Coroutine walkCR;
 
     private void Awake()
     {
@@ -20,14 +23,20 @@ public class Audio : MonoBehaviour
 
     private void OnEnable()
     {
-        combatEventsManager.onSuccessfulHit += PlayHitClip;
+        combatEventsManager.onBeenHit += PlayHitClip;
         combatEventsManager.onBlockedHit += PlayBlockClip;
+        combatEventsManager.onStartRunning += PlayFootStep;
+        combatEventsManager.onStartIdle += StopFootStep;
+        combatEventsManager.onDeath += PlayDeathSound;
     }
 
     private void OnDisable()
     {
-        combatEventsManager.onSuccessfulHit -= PlayHitClip;
+        combatEventsManager.onBeenHit -= PlayHitClip;
         combatEventsManager.onBlockedHit -= PlayBlockClip;
+        combatEventsManager.onStartRunning -= PlayFootStep;
+        combatEventsManager.onStartIdle -= StopFootStep;
+        combatEventsManager.onDeath -= PlayDeathSound;
     }
 
     private void Start()
@@ -38,14 +47,17 @@ public class Audio : MonoBehaviour
         AudioManager.Instance.SetAudioAudioSource(combatAudioSource, true, 5f, 500f, false);
         walkAudioSource = gameObject.AddComponent<AudioSource>();
         AudioManager.Instance.SetAudioAudioSource(walkAudioSource, true, 5f, 500f, false);
+        deathAudioSource = gameObject.AddComponent<AudioSource>();
+        AudioManager.Instance.SetAudioAudioSource(deathAudioSource,true,5f,500f,false);
 
         walkAudioSource.outputAudioMixerGroup = AudioManager.Instance.WalkAudioMixerGroup;
         combatAudioSource.outputAudioMixerGroup = AudioManager.Instance.CombatAudioMixerGroup;
+        deathAudioSource.outputAudioMixerGroup = AudioManager.Instance.DeathMixedGroup;
     }
 
     private void Update()
     {
-        AudioCycle();    
+        //AudioCycle();    
     }
 
     private void PlayHitClip() { 
@@ -56,6 +68,29 @@ public class Audio : MonoBehaviour
         AudioManager.Instance.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Block,combatAudioSource);    
     }
 
+    private void PlayDeathSound() { 
+        AudioManager.Instance.PlayDeathSound(stats.type,deathAudioSource);    
+    }
+
+    private void PlayFootStep() { 
+        if(walkCR == null) { 
+            walkCR = StartCoroutine(walkCoroutine());    
+        }   
+    }
+
+    private void StopFootStep() { 
+        if(walkCR != null) { 
+            StopCoroutine(walkCR);
+            walkCR = null;
+            walkAudioSource.Stop();
+        }    
+    }
+
+    private IEnumerator walkCoroutine() { 
+        yield return new WaitForSeconds(AudioManager.Instance.PlayRandomWalkClip(AudioManager.Size.Small, walkAudioSource));    
+    }
+
+    /*
     private void AudioCycle()
     {
         if (stats != null)
@@ -108,4 +143,5 @@ public class Audio : MonoBehaviour
             Debug.Log(this.transform.root.gameObject.name + " is an ally but has no NavMeshAgent attached, cannot play Base Audio");
         }
     }
+    */
 }
