@@ -27,18 +27,27 @@ public class HUD : MonoBehaviour
     public void ResizeHealthPool()
     {
         // An Imp died
-        if (alliesManager.AlliesList.Count < impsCount )
+        if (alliesManager.AlliesList.Count < impsCount - 1 )
         {
+            impsCount = alliesManager.AlliesList.Count + 1;
+
             for ( int i = alliesManager.AlliesList.Count; i < healthPool.transform.childCount; i++ )
             {
-                healthPool.transform.GetChild( i ).gameObject.SetActive( false );
+                healthPool.transform.GetChild( i + 1 ).gameObject.SetActive( false );
+            }
+
+            for (int i = 0; i < alliesManager.AlliesList.Count; i++ )
+            {
+                healthPool.transform.GetChild( i ).gameObject.SetActive( true );
             }
         }
 
         // An Imp joined
-        if ( alliesManager.AlliesList.Count > impsCount )
+        if ( alliesManager.AlliesList.Count >= impsCount - 1 )
         {
-            for ( int i = healthPool.transform.childCount; i < alliesManager.AlliesList.Count; i++ )
+            impsCount = alliesManager.AlliesList.Count + 1;
+
+            for ( int i = 0; i < alliesManager.AlliesList.Count + 1; i++ )
             {
                 healthPool.transform.GetChild( i ).gameObject.SetActive( true );
             }
@@ -116,7 +125,7 @@ public class HUD : MonoBehaviour
             impsCount++;
         }
         
-        for (int i = alliesManager.AlliesList.Count; i < healthPool.transform.childCount; i++ )
+        for (int i = alliesManager.AlliesList.Count + 1; i < healthPool.transform.childCount; i++ )
         {
             healthPool.transform.GetChild( i ).gameObject.SetActive( false );
             healthIconsCount--;
