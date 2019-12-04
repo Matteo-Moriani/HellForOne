@@ -63,7 +63,7 @@ public class HUD : MonoBehaviour
         else
             healthPoolArray[ 0 ].fillAmount = 1f;
 
-        for ( int i = 0; i < alliesManager.AlliesList.Count; i++ )
+        for ( int i = 0; i < alliesManager.AlliesList.Count - 1; i++ )
         {
             if ( alliesManager.AlliesList[ i ].GetComponent<Stats>().health < 4 )
                 healthPoolArray[ i + 1 ].fillAmount = 0.5f;
