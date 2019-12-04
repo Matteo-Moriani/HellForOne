@@ -14,7 +14,6 @@ public class HUD : MonoBehaviour
     private Vector3 enlargedScale = new Vector3( 1.5f, 1.5f, 1f );
     private GroupBehaviour[] groupBehaviours = new GroupBehaviour[ 4 ];
     private Dictionary<GroupBehaviour, Image> dict = new Dictionary<GroupBehaviour, Image>();
-    private List<Image> healthPoolList = new List<Image>();
     private Image[] healthPoolArray = new Image[ 17 ];
     private int impsCount = 1;
     private int healthIconsCount = 17;
@@ -27,7 +26,7 @@ public class HUD : MonoBehaviour
     public void ResizeHealthPool()
     {
         // An Imp died
-        if (alliesManager.AlliesList.Count < impsCount - 1 )
+        if ( alliesManager.AlliesList.Count < impsCount - 1 )
         {
             impsCount = alliesManager.AlliesList.Count + 1;
 
@@ -36,7 +35,7 @@ public class HUD : MonoBehaviour
                 healthPool.transform.GetChild( i + 1 ).gameObject.SetActive( false );
             }
 
-            for (int i = 0; i < alliesManager.AlliesList.Count; i++ )
+            for ( int i = 0; i < alliesManager.AlliesList.Count; i++ )
             {
                 healthPool.transform.GetChild( i ).gameObject.SetActive( true );
             }
@@ -54,7 +53,24 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void CheckImpsHealth() { }
+    /// <summary>
+    /// Halves the health icons if imps take damage
+    /// </summary>
+    public void CheckImpsHealth()
+    {
+        if ( GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().health < 4 )
+            healthPoolArray[ 0 ].fillAmount = 0.5f;
+        else
+            healthPoolArray[ 0 ].fillAmount = 1f;
+
+        for ( int i = 0; i < alliesManager.AlliesList.Count; i++ )
+        {
+            if ( alliesManager.AlliesList[ i ].GetComponent<Stats>().health < 4 )
+                healthPoolArray[ i + 1 ].fillAmount = 0.5f;
+            else
+                healthPoolArray[ i + 1 ].fillAmount = 1f;
+        }
+    }
 
     void Start()
     {
@@ -119,13 +135,13 @@ public class HUD : MonoBehaviour
         // Player's Health
         healthPoolArray[ 0 ] = healthPool.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
 
-        for (int i = 1; i < alliesManager.AlliesList.Count; i++ )
+        for ( int i = 1; i < alliesManager.AlliesList.Count; i++ )
         {
-            healthPoolArray[i] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
+            healthPoolArray[ i ] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
             impsCount++;
         }
-        
-        for (int i = alliesManager.AlliesList.Count + 1; i < healthPool.transform.childCount; i++ )
+
+        for ( int i = alliesManager.AlliesList.Count + 1; i < healthPool.transform.childCount; i++ )
         {
             healthPool.transform.GetChild( i ).gameObject.SetActive( false );
             healthIconsCount--;
@@ -135,6 +151,8 @@ public class HUD : MonoBehaviour
     void Update()
     {
         ResizeHealthPool();
+
+        CheckImpsHealth();
 
         foreach ( GroupBehaviour gb in groupBehaviours )
         {
@@ -183,7 +201,7 @@ public class HUD : MonoBehaviour
                 break;
         }
 
-        
+
     }
 
 }
