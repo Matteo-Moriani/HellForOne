@@ -11,6 +11,7 @@ public enum MenuType {
 
 public class PauseScript : MonoBehaviour
 {
+    private FPSLimiter FPSLimiter;
     public static bool gameIsPaused = false;
     public GameObject pauseMenuUI;
     public GameObject optionsUI;
@@ -27,6 +28,7 @@ public class PauseScript : MonoBehaviour
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
         pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
+        FPSLimiter = gameObject.GetComponent<FPSLimiter>();
     }
 
     public void Resume() {
@@ -34,12 +36,14 @@ public class PauseScript : MonoBehaviour
         Time.timeScale = 1f;
         gameIsPaused = false;
         playerInput.GameIsPaused = false;
+        FPSLimiter.IsPaused = false;
     }
 
     public void Freeze() {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
+        FPSLimiter.IsPaused = true;
     }
 
     public void TitleScreen() {

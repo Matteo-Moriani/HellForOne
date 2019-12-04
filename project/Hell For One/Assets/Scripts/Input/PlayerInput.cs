@@ -6,6 +6,8 @@ public class PlayerInput : MonoBehaviour
 {
     private InputManager inputManager;
 
+    public int fpsCounterInPause = 0;
+    private bool dpadPressedInPause = false;
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
@@ -36,6 +38,16 @@ public class PlayerInput : MonoBehaviour
     {
         if ( inputManager != null )
         {
+            if ( dpadPressedInPause && GameIsPaused )
+            {
+                if ( fpsCounterInPause >= 8 )
+                {
+                    fpsCounterInPause = 0;
+                    dpadPressedInPause = false;
+                }
+                else
+                    fpsCounterInPause++;
+            }
 
             // Circle (PS3) / B (XBOX) 
             if ( inputManager.CircleButtonDown() )
@@ -137,7 +149,9 @@ public class PlayerInput : MonoBehaviour
                 if ( combat != null && tacticsManager && !DpadInUse ) {
                     
                     if(GameIsPaused) {
-                        pauseScript.PreviousButton();
+                        dpadPressedInPause = true;
+                        if (fpsCounterInPause == 0)
+                            pauseScript.PreviousButton();
                     }
                     else {
                         DpadInUse = true;
@@ -154,7 +168,9 @@ public class PlayerInput : MonoBehaviour
                 if ( combat != null && tacticsManager && !DpadInUse) {
 
                     if(GameIsPaused) {
-                        pauseScript.NextButton();
+                        dpadPressedInPause = true;
+                        if ( fpsCounterInPause == 0 )
+                            pauseScript.NextButton();
                     }
                     else {
                         DpadInUse = true;
