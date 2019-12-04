@@ -10,7 +10,7 @@ public class BattleEventsHandler : MonoBehaviour
     private bool isInRegularBattle = false;
 
     private static BattleEventsHandler _instance;
-    public static BattleEventsHandler Instance { get { return _instance;} }
+    public static BattleEventsHandler Instance { get { return _instance; } }
 
     public bool IsInBossBattle { get => isInBossBattle; private set => isInBossBattle = value; }
     public bool IsInRegularBattle { get => isInRegularBattle; private set => isInRegularBattle = value; }
@@ -27,6 +27,13 @@ public class BattleEventsHandler : MonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    private void Start()
+    {
+        // This is here to start in an out of combat situation
+        BattleEventsManager.RaiseOnBattleExit();
+        BattleEventsManager.RaiseOnBossBattleExit();
     }
 
     private void OnEnable()
@@ -47,17 +54,8 @@ public class BattleEventsHandler : MonoBehaviour
         BattleEventsManager.onBossBattleExit -= ExitBossBattle;
     }
 
-    void Start()
-    {
-        // This is here now for testing, need to implment some logic, 
-        // maybe triggers to enter in battle or boss battle state.
-        BattleEventsManager.RaiseOnBossBattleEnter();
-    }
-
     private void Update()
-    {   
-        // TODO - Need to test this update logic
-        // Should use triggers to activate battles!
+    {
         if (IsInRegularBattle)
         {
             if (EnemiesManager.Instance.LittleEnemiesList.Count == 0)
@@ -74,42 +72,71 @@ public class BattleEventsHandler : MonoBehaviour
                 BattleEventsManager.RaiseOnBossBattleExit();
             }
         }
+    }
 
-        /*
-        if (!isInRegularBattle) { 
-            if(EnemiesManager.Instance.LittleEnemiesList.Count > 0) { 
-                BattleEventsManager.RaiseOnBattleEnter();    
-            }    
+    private void EnterRegularBattle()
+    {
+        if (!IsInRegularBattle)
+        {
+            IsInRegularBattle = true;
+            if (spawner != null)
+            {
+                spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
+            }
         }
+    }
 
-        if (!IsInBossBattle) { 
-            if(EnemiesManager.Instance.Boss != null) { 
-                BattleEventsManager.RaiseOnBossBattleEnter();    
-            }    
+    private void EnterBossBattle()
+    {
+        if (!isInBossBattle)
+        {
+            IsInBossBattle = true;
+
+            if (spawner != null)
+            {
+                AllyDemonSpawnerTest adst = spawner.GetComponent<AllyDemonSpawnerTest>();
+
+                if (adst != null)
+                {
+                    adst.enabled = true;
+                }
+            }
+
+            GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+
+            if(boss != null) { 
+                BossBehavior bossBehavior = boss.GetComponent<BossBehavior>();
+                if(bossBehavior != null) { 
+                    bossBehavior.enabled = true;    
+                }
+            }
         }
-        */
     }
 
-    private void EnterRegularBattle() { 
-        IsInRegularBattle = true;
-        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
+    private void ExitRegularBattle()
+    {
+        if (IsInRegularBattle)
+        {
+            IsInRegularBattle = false;
+            if (spawner != null)
+            {
+                StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
+                spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
+            }
+        }
     }
 
-    private void EnterBossBattle(){
-        IsInBossBattle = true;
-        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
+    private void ExitBossBattle()
+    {
+        if (isInBossBattle)
+        {
+            IsInBossBattle = false;
+            if (spawner != null)
+            {
+                StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
+                spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
+            }
+        }
     }
 
-    private void ExitRegularBattle() { 
-        IsInRegularBattle = false;
-        StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
-        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
-    }
-
-    private void ExitBossBattle() { 
-        IsInBossBattle = false;
-        StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
-        spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
-    }
-    
 }

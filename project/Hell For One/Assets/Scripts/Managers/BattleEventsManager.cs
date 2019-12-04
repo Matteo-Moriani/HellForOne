@@ -16,6 +16,22 @@ public class BattleEventsManager : MonoBehaviour
     public delegate void OnBossBattleExit();
     public static event OnBossBattleExit onBossBattleExit;
 
+    private BattleEventsManager _instance;
+
+    public BattleEventsManager Instance { get { return _instance;} }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     public static void RaiseOnBattleEnter() { 
         if(onBattleEnter != null) { 
             onBattleEnter();    

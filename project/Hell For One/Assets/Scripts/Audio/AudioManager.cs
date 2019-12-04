@@ -32,7 +32,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioMixerGroup musicMixerGroup;
     [SerializeField]
-    private AudioMixerGroup deathMixedGroup;
+    private AudioMixerGroup deathMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -55,7 +55,22 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] walkClips;
 
     [SerializeField]
-    private AudioClip BossFightmusic;
+    private AudioClip outOfCombatMusicMain;
+
+    [SerializeField]
+    private AudioClip outOfCombatMusicLoop;
+
+    [SerializeField]
+    private AudioClip combatMusicMain;
+
+    [SerializeField]
+    private AudioClip combatMusicLoop;
+
+    [SerializeField]
+    private AudioClip bossFightMusicMain;
+
+    [SerializeField]
+    private AudioClip bossFightMusicLoop;
 
     /// <summary>
     /// Mixer group for base audio (Stuff like walking)
@@ -68,7 +83,11 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Mixer group for death audio
     /// </summary>
-    public AudioMixerGroup DeathMixedGroup { get => deathMixedGroup; private set => deathMixedGroup = value; }
+    public AudioMixerGroup DeathMixerGroup { get => deathMixerGroup; private set => deathMixerGroup = value; }
+    /// <summary>
+    /// Mixer group for music audio
+    /// </summary>
+    public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; set => musicMixerGroup = value; }
 
     private static AudioManager _instance;
 
@@ -187,7 +206,9 @@ public class AudioManager : MonoBehaviour
                         
                         if(clipToPlay != null) { 
                             walkAudioSource.clip = clipToPlay;
-                            walkAudioSource.PlayOneShot(clipToPlay);
+                            //walkAudioSource.pitch = Random.Range(0.9f,1.1f);
+                            //walkAudioSource.PlayOneShot(clipToPlay);
+                            walkAudioSource.Play();
                             return clipToPlay.length;
                         }
                     }    
@@ -218,18 +239,47 @@ public class AudioManager : MonoBehaviour
         audioSource.maxDistance = maxDistance;
     }
 
-    public void PlayMusic(AudioSource musicAudioSource, Music type) {
+    public float PlayMusic(AudioSource musicAudioSource, Music type) {
         switch (type) { 
             case Music.OutOFCombat:
+                musicAudioSource.clip = outOfCombatMusicMain;
+                musicAudioSource.loop = false;
+                musicAudioSource.Play();
+                return outOfCombatMusicMain.length;
+            case Music.Combat:
+                musicAudioSource.clip = combatMusicMain;
+                musicAudioSource.loop = false;
+                musicAudioSource.Play();
+                return combatMusicMain.length;
+            case Music.Boss:
+                musicAudioSource.clip = bossFightMusicMain;
+                musicAudioSource.loop = false;
+                musicAudioSource.Play();
+                return bossFightMusicMain.length;
+            case Music.BossHalfLife:
+                break;
+        }
+        return 0;
+    }
+
+    public void PlayMusicLoop(AudioSource musicAudioSource, Music type)
+    {
+        switch (type)
+        {
+            case Music.OutOFCombat:
+                musicAudioSource.clip = outOfCombatMusicLoop;
+                musicAudioSource.loop = true;
+                musicAudioSource.Play();
                 break;
             case Music.Combat:
+                musicAudioSource.clip = combatMusicLoop;
+                musicAudioSource.loop = true;
+                musicAudioSource.Play();
                 break;
             case Music.Boss:
-                if(musicAudioSource.clip != BossFightmusic) {
-                    musicAudioSource.loop = true;
-                    musicAudioSource.clip = BossFightmusic;
-                    musicAudioSource.Play();
-                }
+                musicAudioSource.clip = bossFightMusicLoop;
+                musicAudioSource.loop = true;
+                musicAudioSource.Play();
                 break;
             case Music.BossHalfLife:
                 break;

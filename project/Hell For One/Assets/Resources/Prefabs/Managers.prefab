@@ -253,6 +253,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: deathMixerGroup
+      value: 
+      objectReference: {fileID: 243420114838782986, guid: 0c64c3ecd9ef86e43972791c4f44c097,
+        type: 2}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: outOfCombatMusicMain
+      value: 
+      objectReference: {fileID: 8300000, guid: a0068174d18e92445b8c50a579b02176, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: outOfCombatMusicLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: 936efe28f0d655b4185a77ec423674ea, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: combatMusicMain
+      value: 
+      objectReference: {fileID: 8300000, guid: fb23d55468ed3cf4389d8a134cd0db01, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: combatMusicLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: d1445340c263004408aae17ebda23326, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: bossFightMusicMain
+      value: 
+      objectReference: {fileID: 8300000, guid: 825cc656e0f77934189290d8ea05023e, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: bossFightMusicLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: 99f4fffde3fff2142877209898869448, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffd9fe02539bd149a5943517f2b9b92, type: 3}
 --- !u!4 &9165345064241577842 stripped
@@ -347,11 +383,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Music
-      objectReference: {fileID: 0}
-    - target: {fileID: 3088385954182245662, guid: 21080b5a47bda9d479ae103fe3724615,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3088385954182245660, guid: 21080b5a47bda9d479ae103fe3724615,
         type: 3}
