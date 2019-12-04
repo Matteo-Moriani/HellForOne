@@ -1739,7 +1739,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3474906910423305738}
   - component: {fileID: 3474906910423305739}
-  - component: {fileID: 158552807194494080}
   - component: {fileID: 29976122864050482}
   - component: {fileID: 224051520049113762}
   - component: {fileID: 29225505344274460}
@@ -1750,6 +1749,7 @@ GameObject:
   - component: {fileID: 7806206929916474}
   - component: {fileID: 8881989768778092460}
   - component: {fileID: 4709237129409666634}
+  - component: {fileID: 4446537587075073514}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -1793,25 +1793,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &158552807194494080
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3474906910423305736}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 73564896414ce374aad5c3ddcc697a7c, type: 3}
-  m_Animations:
-  - {fileID: 7400000, guid: 94be4763d815f82408116e73c63d6f1f, type: 3}
-  - {fileID: 7400000, guid: 93abc0d75faba774d9abc1cbb6049516, type: 3}
-  - {fileID: 7400000, guid: 7a0bdf85736839f4fa16e457c8e8a1b1, type: 3}
-  - {fileID: 7400000, guid: 73564896414ce374aad5c3ddcc697a7c, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &29976122864050482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1982,6 +1963,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8ddc252492a274f86bcc010752ab9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4446537587075073514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474906910423305736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d1423e789324c409bb299b2d90ae40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - {fileID: 7400000, guid: da408f4a2a3f8164d99289f134649ef8, type: 3}
+  - {fileID: 7400000, guid: d3a7ed4c5c458704fa5e174827cdd3ab, type: 3}
+  - {fileID: 7400000, guid: 5d2c6ba6477b6ba40a565ae6100f9e2a, type: 3}
+  - {fileID: 7400000, guid: 220a16ca0e6646a4f8536737a3aa5f47, type: 3}
+  - {fileID: 7400000, guid: f02f34cdfd69fcd46ba732968113b5bf, type: 3}
+  - {fileID: 7400000, guid: c5058bec093b06e40b33b110314c0efb, type: 3}
+  - {fileID: 7400000, guid: 144e9c3668bd3a44c9be985009742a0a, type: 3}
 --- !u!1 &3531317858689178427
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,9 +56,10 @@ public class MidBossBehavior : MonoBehaviour {
     public bool isWalking = false;
     public bool isIdle = true;
     public bool isAttacking = false;
-    private float singleAttackDuration = 2f;
-    private float groupAttackDuration = 2f;
+    private float singleAttackDuration;
+    private float groupAttackDuration;
     private CombatEventsManager combatEventsManager;
+    private AnimationsManager animationsManager;
 
     private int debugIndex;
 
@@ -331,10 +332,13 @@ public class MidBossBehavior : MonoBehaviour {
 
     private void Awake() {
         combatEventsManager = GetComponent<CombatEventsManager>();
+        animationsManager = GetComponent<AnimationsManager>();
         stats = GetComponent<Stats>();
     }
 
     void Start() {
+        singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
+        groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
         arenaCenter = GameObject.Find("ArenaCenter");
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag("Group");
@@ -386,7 +390,7 @@ public class MidBossBehavior : MonoBehaviour {
             StartCoroutine(MoveThroughFSM());
         }
 
-        if(TargetDemon && !isAttacking) {
+        if(TargetDemon && !isAttacking && stats.health > 0) {
             Face(TargetDemon);
 
             if(canWalk) {

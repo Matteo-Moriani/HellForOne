@@ -59,10 +59,11 @@ public class BossBehavior : MonoBehaviour
     public bool isWalking = false;
     public bool isIdle = true;
     public bool isAttacking = false;
-    private float singleAttackDuration = 2f;
-    private float groupAttackDuration = 2f;
-    private float globalAttackDuration = 5f;
+    private float singleAttackDuration;
+    private float groupAttackDuration;
+    private float globalAttackDuration;
     private CombatEventsManager combatEventsManager;
+    private AnimationsManager animationsManager;
 
     private int debugIndex;
 
@@ -371,11 +372,14 @@ public class BossBehavior : MonoBehaviour
 
     private void Awake() {
         combatEventsManager = GetComponent<CombatEventsManager>();
+        animationsManager = GetComponent<AnimationsManager>();
         stats = GetComponent<Stats>();
     }
 
-    void Start()
-    {
+    void Start() {
+        singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
+        groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
+        globalAttackDuration = animationsManager.GetAnimation("GlobalAttack").length + animationsManager.GetAnimation("Charge").length;
         arenaCenter = GameObject.Find( "ArenaCenter" );
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
@@ -429,7 +433,7 @@ public class BossBehavior : MonoBehaviour
             StartCoroutine( MoveThroughFSM() );
         }
 
-        if ( TargetDemon && !isAttacking)
+        if ( TargetDemon && !isAttacking && stats.health > 0)
         {
             Face( TargetDemon );
 

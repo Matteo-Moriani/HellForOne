@@ -290,7 +290,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2895537734241030978}
   - component: {fileID: 2895537734241030979}
-  - component: {fileID: 1883938024388155848}
   - component: {fileID: 1764322851209870458}
   - component: {fileID: 1949391224013076458}
   - component: {fileID: 1761339733299207508}
@@ -301,6 +300,7 @@ GameObject:
   - component: {fileID: 6434745983157060354}
   - component: {fileID: 114357742500044792}
   - component: {fileID: 6467166531030049564}
+  - component: {fileID: 114860063897773322}
   m_Layer: 0
   m_Name: MidBoss
   m_TagString: Boss
@@ -344,25 +344,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &1883938024388155848
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2895537734241030976}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 73564896414ce374aad5c3ddcc697a7c, type: 3}
-  m_Animations:
-  - {fileID: 7400000, guid: 94be4763d815f82408116e73c63d6f1f, type: 3}
-  - {fileID: 7400000, guid: 93abc0d75faba774d9abc1cbb6049516, type: 3}
-  - {fileID: 7400000, guid: 7a0bdf85736839f4fa16e457c8e8a1b1, type: 3}
-  - {fileID: 7400000, guid: 73564896414ce374aad5c3ddcc697a7c, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &1764322851209870458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +514,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6c789d1a1607948a9161f922bafa33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114860063897773322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2895537734241030976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d1423e789324c409bb299b2d90ae40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2952399013101302773
 GameObject:
   m_ObjectHideFlags: 0
