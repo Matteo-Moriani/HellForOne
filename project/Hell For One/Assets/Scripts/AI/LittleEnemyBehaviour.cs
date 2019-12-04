@@ -127,7 +127,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
             {
                 if (combatEventsManager != null)
                 {
-                    combatEventsManager.RaiseOnStartRunning();
+                    combatEventsManager.RaiseOnStartWalking();
                 }
 
                 isMoving = true;

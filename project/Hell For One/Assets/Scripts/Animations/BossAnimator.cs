@@ -11,14 +11,6 @@ public class BossAnimator : MonoBehaviour
 
     private CombatEventsManager combatEventsManager;
 
-    public enum Animations
-    {
-        Death,
-        Attack,
-        Run,
-        Idle
-    }
-
     private void OnEnable()
     {
         // Exemple to explain how to use events for animations
@@ -27,7 +19,7 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
             combatEventsManager.onStartGlobalAttack += PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle += PlayIdleAnimation;
-            combatEventsManager.onStartRunning += PlayRunAnimation;
+            combatEventsManager.onStartMoving += PlayMoveAnimation;
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
@@ -46,7 +38,7 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
             combatEventsManager.onStartGlobalAttack -= PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
-            combatEventsManager.onStartRunning -= PlayRunAnimation;
+            combatEventsManager.onStartMoving -= PlayMoveAnimation;
             combatEventsManager.onDeath -= PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
@@ -93,9 +85,9 @@ public class BossAnimator : MonoBehaviour
         animator.SetBool("isGlobalAttacking", true);
     }
 
-    public void PlayRunAnimation() {
+    public void PlayMoveAnimation() {
         StopAnimations();
-        animator.SetBool("isRunning", true);
+        animator.SetBool("isMoving", true);
     }
 
     public void PlayIdleAnimation() {
@@ -120,7 +112,7 @@ public class BossAnimator : MonoBehaviour
         Animator.SetBool("isSingleAttacking", false);
         Animator.SetBool("isGroupAttacking", false);
         Animator.SetBool("isGlobalAttacking", false);
-        Animator.SetBool("isRunning", false);
+        Animator.SetBool("isMoving", false);
         Animator.SetBool("isIdle", false);
 
         IsAnimating = false;

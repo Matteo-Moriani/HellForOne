@@ -25,7 +25,7 @@ public class Audio : MonoBehaviour
     {
         combatEventsManager.onBeenHit += PlayHitClip;
         combatEventsManager.onBlockedHit += PlayBlockClip;
-        combatEventsManager.onStartRunning += PlayFootStep;
+        combatEventsManager.onStartMoving += PlayFootStep;
         combatEventsManager.onStartIdle += StopFootStep;
         combatEventsManager.onDeath += PlayDeathSound;
     }
@@ -34,7 +34,7 @@ public class Audio : MonoBehaviour
     {
         combatEventsManager.onBeenHit -= PlayHitClip;
         combatEventsManager.onBlockedHit -= PlayBlockClip;
-        combatEventsManager.onStartRunning -= PlayFootStep;
+        combatEventsManager.onStartMoving -= PlayFootStep;
         combatEventsManager.onStartIdle -= StopFootStep;
         combatEventsManager.onDeath -= PlayDeathSound;
     }

@@ -397,7 +397,7 @@ public class MidBossBehavior : MonoBehaviour {
                 if(!isWalking) {
                     IsWalking = true;
                     IsIdle = false;
-                    combatEventsManager.RaiseOnStartRunning();
+                    combatEventsManager.RaiseOnStartWalking();
 
                 }
 

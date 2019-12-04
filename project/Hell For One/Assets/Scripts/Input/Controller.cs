@@ -14,7 +14,7 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private float rotateSpeed = 5f;
     [SerializeField]
-    private float runSpeed = 10f;
+    private float movingSpeed = 10f;
 
     private CombatEventsManager combatEventsManager;
     private bool walkEventRaised = false;
@@ -37,7 +37,7 @@ public class Controller : MonoBehaviour
             // Player is walking so we need to raise the event
             if(combatEventsManager != null) {
                 if (!walkEventRaised) { 
-                    combatEventsManager.RaiseOnStartRunning(); 
+                    combatEventsManager.RaiseOnStartWalking(); 
                     walkEventRaised = true;
                 }    
             }
@@ -53,7 +53,7 @@ public class Controller : MonoBehaviour
             float m = Mathf.Abs( zMovement ) + Mathf.Abs( xMovement );
             moveAmount = Mathf.Clamp01( m );
 
-            transform.position += moveDir.normalized * runSpeed * Time.deltaTime;
+            transform.position += moveDir.normalized * movingSpeed * Time.deltaTime;
 
             Vector3 targetDir = moveDir;
             targetDir.y = 0f;

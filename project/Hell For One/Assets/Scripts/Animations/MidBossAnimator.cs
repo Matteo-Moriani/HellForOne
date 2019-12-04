@@ -13,7 +13,7 @@ public class MidBossAnimator : MonoBehaviour {
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
             combatEventsManager.onStartIdle += PlayIdleAnimation;
-            combatEventsManager.onStartRunning += PlayRunAnimation;
+            combatEventsManager.onStartMoving += PlayMoveAnimation;
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
@@ -25,7 +25,7 @@ public class MidBossAnimator : MonoBehaviour {
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
-            combatEventsManager.onStartRunning -= PlayRunAnimation;
+            combatEventsManager.onStartMoving -= PlayMoveAnimation;
             combatEventsManager.onDeath -= PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
@@ -48,9 +48,9 @@ public class MidBossAnimator : MonoBehaviour {
         animator.SetBool("isGroupAttacking", true);
     }
 
-    public void PlayRunAnimation() {
+    public void PlayMoveAnimation() {
         StopAnimations();
-        animator.SetBool("isRunning", true);
+        animator.SetBool("isMoving", true);
     }
 
     public void PlayIdleAnimation() {
@@ -68,7 +68,7 @@ public class MidBossAnimator : MonoBehaviour {
         Animator.SetBool("isDying", false);
         Animator.SetBool("isSingleAttacking", false);
         Animator.SetBool("isGroupAttacking", false);
-        Animator.SetBool("isRunning", false);
+        Animator.SetBool("isMoving", false);
         Animator.SetBool("isIdle", false);
     }
 }

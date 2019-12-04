@@ -54,8 +54,8 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnDeath();
     public event OnDeath onDeath;
 
-    public delegate void OnStartRunning();
-    public event OnStartRunning onStartRunning;
+    public delegate void OnStartMoving();
+    public event OnStartMoving onStartMoving;
 
     public delegate void OnStartIdle();
     public event OnStartIdle onStartIdle;
@@ -195,11 +195,11 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStartRunning()
+    public void RaiseOnStartWalking()
     {
-        if (onStartRunning != null)
+        if (onStartMoving != null)
         {
-            onStartRunning();
+            onStartMoving();
         }
     }
 
