@@ -67,7 +67,7 @@ public class CombatEventsManager : MonoBehaviour
 
     #region CombatEvents methods
 
-    public void RaiseOnStartSingleAttack()
+    public void RaiseOnStartAttack()
     {
         if (onStartSingleAttack != null)
         {
@@ -75,7 +75,7 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStopSingleAttack()
+    public void RaiseOnStopAttack()
     {
         if (onStopSingleAttack != null)
         {

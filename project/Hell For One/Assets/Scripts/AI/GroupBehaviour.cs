@@ -155,7 +155,7 @@ public class GroupBehaviour : MonoBehaviour
                 // I added this check to remove errors but need to 
                 // be fixed
                 if (combat.enabled)
-                    combat.Attack( target );
+                    combat.SingleAttack( target );
             }
         }
     }

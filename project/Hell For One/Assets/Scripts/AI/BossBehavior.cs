@@ -32,9 +32,9 @@ public class BossBehavior : MonoBehaviour
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
-    private readonly float singleAttackProb = 0.6f;
-    private readonly float groupAttackProb = 0.3f;
-    private readonly float globalAttackProb = 0.1f;
+    private readonly float singleAttackProb = 0.34f;
+    private readonly float groupAttackProb = 0.33f;
+    private readonly float globalAttackProb = 0.33f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;
@@ -489,7 +489,7 @@ public class BossBehavior : MonoBehaviour
                 Debug.Log( "Boss Combat cannot be found" );
         }
         if ( bossCombat != null) {
-            bossCombat.SingleAttack();
+            bossCombat.PlayerAttack();
         }
         isAttacking = false;
     }

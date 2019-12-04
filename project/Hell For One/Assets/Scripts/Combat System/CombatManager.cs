@@ -218,7 +218,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void MeleeAttack()
+    public void PlayerAttack()
     {
         if ( stats.NotAttacking )
         {
@@ -231,7 +231,7 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void MeleeAttack( GameObject target )
+    public void SingleAttack( GameObject target )
     {
         StartCoroutine( WaitTillMinDistance( MaxMeleeDistance, target ) );
 
@@ -249,7 +249,7 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void StopMeleeAttack()
+    public void StopAttack()
     {
         if ( attackCR != null && !stats.NotAttacking )
         {

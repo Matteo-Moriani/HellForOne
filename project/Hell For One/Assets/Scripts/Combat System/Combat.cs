@@ -64,16 +64,16 @@ public class Combat : MonoBehaviour
     /// Calls CombatManager.Attack
     /// Used for the player
     /// </summary>
-    public void SingleAttack()
+    public void PlayerAttack()
     {   if(coolDownCounter >= playerAttackCooldown) { 
             coolDownCounter = 0f;
             
             // Do attack
-            combatManager.MeleeAttack();
+            combatManager.PlayerAttack();
             
             // Melee attack event
             if(combatEventsManager != null) { 
-                combatEventsManager.RaiseOnStartSingleAttack();    
+                combatEventsManager.RaiseOnStartAttack();    
             }
         }
     }
@@ -84,14 +84,14 @@ public class Combat : MonoBehaviour
     /// Used for generic demons
     /// </summary>
     /// <param name="target">The target of the attack</param>
-    public void Attack( GameObject target )
+    public void SingleAttack( GameObject target )
     {
-        combatManager.MeleeAttack( target );
+        combatManager.SingleAttack( target );
 
         // Melee attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStartSingleAttack();
+            combatEventsManager.RaiseOnStartAttack();
         }
     }
 
@@ -101,12 +101,12 @@ public class Combat : MonoBehaviour
     /// </summary>
     public void StopAttack()
     {
-        combatManager.StopMeleeAttack();
+        combatManager.StopAttack();
 
         // Stop melee attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStopSingleAttack();
+            combatEventsManager.RaiseOnStopAttack();
         }
     }
 

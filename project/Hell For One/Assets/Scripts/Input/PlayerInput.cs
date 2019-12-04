@@ -84,7 +84,7 @@ public class PlayerInput : MonoBehaviour
             {
                 if ( combat != null )
                 {
-                    combat.SingleAttack();
+                    combat.PlayerAttack();
                 }
             }
 

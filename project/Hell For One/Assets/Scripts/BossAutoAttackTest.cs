@@ -19,7 +19,7 @@ public class BossAutoAttackTest : MonoBehaviour
     private IEnumerator AttackTest() {
         yield return new WaitForSeconds(2.5f);
         while (true) { 
-            combat.SingleAttack();
+            combat.PlayerAttack();
             yield return new WaitForSeconds(attackRateo);
         }    
     }

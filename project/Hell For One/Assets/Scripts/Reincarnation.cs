@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Reincarnation : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Controller>().enabled = true;
             //player.GetComponent<TacticsManager>().enabled = true;
             player.GetComponent<Dash>().enabled = true;
+            player.GetComponent<NavMeshObstacle>().enabled = true;
 
             // Reset Combat
             Combat playerCombat = player.GetComponent<Combat>();

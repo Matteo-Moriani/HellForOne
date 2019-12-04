@@ -30,8 +30,8 @@ public class MidBossBehavior : MonoBehaviour {
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
-    private readonly float singleAttackProb = 0.7f;
-    private readonly float groupAttackProb = 0.3f;
+    private readonly float singleAttackProb = 0.5f;
+    private readonly float groupAttackProb = 0.5f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;
@@ -440,7 +440,7 @@ public class MidBossBehavior : MonoBehaviour {
                 Debug.Log("Boss Combat cannot be found");
         }
         if(bossCombat != null) {
-            bossCombat.SingleAttack();
+            bossCombat.PlayerAttack();
         }
         isAttacking = false;
     }

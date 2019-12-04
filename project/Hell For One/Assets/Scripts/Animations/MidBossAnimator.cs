@@ -9,7 +9,6 @@ public class MidBossAnimator : MonoBehaviour {
     private CombatEventsManager combatEventsManager;
 
     private void OnEnable() {
-        // Exemple to explain how to use events for animations
         if(combatEventsManager != null) {
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
@@ -18,13 +17,10 @@ public class MidBossAnimator : MonoBehaviour {
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
-
-            //combatEventsManager.onStopAnimation += StopAnimations;
         }
     }
 
     private void OnDisable() {
-        // Exemple to explain how to use events for animations
         if(combatEventsManager != null) {
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
@@ -33,32 +29,15 @@ public class MidBossAnimator : MonoBehaviour {
             combatEventsManager.onDeath -= PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
-            // End mods
-
-            //combatEventsManager.onStopAnimation -= StopAnimations;
         }
     }
-
-    /*
-    void Start()
-    {
-        Animator = GetComponent<Animator>();
-
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
-    }
-    */
-
-    // Is better to use awake in this case
-    // Start is called after OnEnable
-    // Awake is called before OnEnable
-    // And we need to register for events in OnEnable
+    
     private void Awake() {
         Animator = GetComponent<Animator>();
 
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
-
-    // Example method to explain how to use events for animations
+    
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isSingleAttacking", true);
@@ -82,12 +61,6 @@ public class MidBossAnimator : MonoBehaviour {
     public void PlayDeathAnimation() {
         StopAnimations();
         animator.SetBool("isDying", true);
-        //        AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0); // get next state on layer 0
-
-        //        if(nextState.IsName("Death"))
-        //{
-        //            animator.SetBool("isDying", true);
-        //        }
     }
 
 
