@@ -562,8 +562,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton5);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "R1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -581,8 +580,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyUp(KeyCode.JoystickButton5);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonUp( "R1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -600,8 +598,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKey(KeyCode.JoystickButton5);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButton( "R1" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;

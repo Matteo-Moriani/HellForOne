@@ -94,6 +94,24 @@ public class PlayerInput : MonoBehaviour
                 }
             }
 
+            // R1 (PS3) / RB (XBOX) - Down
+            if ( inputManager.R1ButtonDown() )
+            {
+                if ( combat != null )
+                {
+                    combat.StartBlock();
+                }
+            }
+
+            // R1 (PS3) / RB (XOBX) - Up
+            if ( inputManager.R1ButtonUp() )
+            {
+                if ( combat != null )
+                {
+                    combat.StopBlock();
+                }
+            }
+
             // Triangle (PS3) / Y (XBOX)
             if ( inputManager.TriangleButtonDown() )
             {
