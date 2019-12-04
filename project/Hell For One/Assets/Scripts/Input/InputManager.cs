@@ -806,7 +806,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 // TODO
             case Controller.Ps3:
-                // TODO
+                return Input.GetButtonDown( "Options" );
             case Controller.MouseAndKeyboard:
                 return Input.GetKeyDown(KeyCode.Escape);
             case Controller.None:
