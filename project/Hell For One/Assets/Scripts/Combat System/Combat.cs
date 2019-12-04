@@ -201,12 +201,12 @@ public class Combat : MonoBehaviour
     /// </summary>
     public void GroupAttack()
     {
-        combatManager.Sweep();
+        combatManager.GroupAttack();
 
         // Sweep attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStartSweep();
+            combatEventsManager.RaiseOnStartGroupAttack();
         }
     }
 
@@ -215,15 +215,15 @@ public class Combat : MonoBehaviour
     /// (Heavy attack or Area attack)
     /// Calls CombatManager.StopSweep.
     /// </summary>
-    public void StopSweep()
+    public void StopGroupAttack()
     {
-        combatManager.StopSweep();
+        combatManager.StopGroupAttack();
 
         // Stop sweep event
         if (combatEventsManager != null)
         {
             //combatEventsManager.RaiseOnStopAnimation();
-            combatEventsManager.RaiseOnStopSweep();
+            combatEventsManager.RaiseOnStopGroupAttack();
         }
     }
 

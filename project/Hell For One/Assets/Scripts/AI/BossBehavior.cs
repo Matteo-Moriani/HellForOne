@@ -59,7 +59,9 @@ public class BossBehavior : MonoBehaviour
     public bool isWalking = false;
     public bool isIdle = true;
     public bool isAttacking = false;
-    private float singleAttackDuration = 3.1f;
+    private float singleAttackDuration = 2f;
+    private float groupAttackDuration = 2f;
+    private float globalAttackDuration = 5f;
     private CombatEventsManager combatEventsManager;
 
     private int debugIndex;
@@ -281,20 +283,26 @@ public class BossBehavior : MonoBehaviour
 
     public bool RandomAttack()
     {
-        timer = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
-
         if(!isAttacking) {
 
             isAttacking = true;
-            //combatEventsManager.RaiseOnStopAnimation();
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
-            if(random < singleAttackProb)
+            if(random < singleAttackProb) {
+                Debug.Log("single attack");
+                timer = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
                 SingleAttack();
-            else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb)
+            } 
+            else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb) {
+                Debug.Log("group attack");
+                timer = StartCoroutine(Timer(groupAttackDuration, TimerType.attack));
                 GroupAttack();
-            else
+            }
+            else {
+                Debug.Log("global attack");
+                timer = StartCoroutine(Timer(globalAttackDuration, TimerType.attack));
                 GlobalAttack();
+            }
 
         }
         
@@ -429,7 +437,6 @@ public class BossBehavior : MonoBehaviour
                 if(!isWalking) {
                     IsWalking = true;
                     IsIdle = false;
-                    //combatEventsManager.RaiseOnStopAnimation();
                     combatEventsManager.RaiseOnStartRunning();
 
                 }
@@ -440,7 +447,6 @@ public class BossBehavior : MonoBehaviour
                 if(!isIdle) {
                     IsIdle = true;
                     IsWalking = false;
-                    //combatEventsManager.RaiseOnStopAnimation();
                     combatEventsManager.RaiseOnStartIdle();
                 }
             }
@@ -465,7 +471,6 @@ public class BossBehavior : MonoBehaviour
         }
         else if (type == TimerType.attack ) 
         {
-            //combatEventsManager.RaiseOnStopAnimation();
             combatEventsManager.RaiseOnStartIdle();
         }
 

@@ -3,288 +3,498 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// ResetTimer at the beginning of ChooseTarget but I don't understand why it doesn't stop the second timer
-
 public class MidBossBehavior : MonoBehaviour {
-    //public float speed = 5f;
-    //[Range(0f, 1f)]
-    //public float rotSpeed = 0.1f;
-    //public float stopDist = 4f;
-    //public float stare = 5f;
-    //public float timeout = 7f;
-    //public float initialHP = 70f;
-    //[Range(0f, 1f)]
-    //public float changeTargetProb = 0.1f;
+    enum TimerType {
+        stare,
+        pursue,
+        attack
+    }
 
-    //private GameObject[] demonGroups;
-    //private GameObject currentTarget;
-    //private float[] aggroValues;
-    //private float[] probability;
-    //private readonly float singleAttackProb = 0.7f;
-    //private readonly float globalAttackProb = 0.3f;
-    //private float crisis = 0f;
-    //private float crisisMax = 40f;
-    //private float hp;
-    //private FSM bossFSM;
-    //private bool timerStarted = false;
-    //private bool timerStillGoing = false;
-    //private bool resetFightingBT = false;
-    //private CRBT.BehaviorTree FightingBT;
-    //private Coroutine fightingCR;
-    //private Coroutine timer;
-    //private bool canWalk = false;
-    //[SerializeField]
-    //private float fsmReactionTime = 0.5f;
-    //[SerializeField]
-    //private float btReactionTime = 0.05f;
+    public float speed = 6f;
+    [Range(0f, 1f)]
+    public float rotSpeed = 0.1f;
+    public float stopDist = 3f;
+    public float stareTime = 4f;
+    public float pursueTime = 5f;
+    [Range(0f, 1f)]
+    public float changeTargetProb = 0.1f;
+    public GameObject arenaCenter;
 
-    //#region Finite State Machine
+    // 12 is the ray of mid boss arena
+    public float maxDistFromCenter = 10f;
+    public float maxTargetDistFromCenter = 11f;
 
-    //FSMState waitingState, fightingState, stunnedState;
+    private GameObject[] demonGroups;
+    private GameObject targetGroup;
+    private GameObject targetDemon;
+    private GameObject player;
+    private float[] aggroValues;
+    private float[] probability;
+    private readonly float singleAttackProb = 0.7f;
+    private readonly float groupAttackProb = 0.3f;
+    private float crisisMax = 50f;
+    private float hp;
+    private FSM bossFSM;
+    private bool timerStarted = false;
+    private bool timerStillGoing = false;
+    private bool pursueTimeout = false;
+    private bool targetFarFromCenter = false;
+    private bool resetFightingBT = false;
+    private CRBT.BehaviorTree FightingBT;
+    private Coroutine fightingCR;
+    private Coroutine timer;
+    private Coroutine attackCR;
+    private bool canWalk = false;
+    [SerializeField]
+    private float fsmReactionTime = 0.5f;
+    [SerializeField]
+    private float btReactionTime = 0.05f;
+    private Stats stats;
+    private bool demonsReady = false;
+    private bool needsCentering = false;
+    private float centeringDist;
+    public bool isWalking = false;
+    public bool isIdle = true;
+    public bool isAttacking = false;
+    private float singleAttackDuration = 2f;
+    private float groupAttackDuration = 2f;
+    private CombatEventsManager combatEventsManager;
 
-    //public bool PlayerApproaching() {
-    //    //if(playerDistance < tot)
-    //    //    return true;
-    //    return true;
-    //}
+    private int debugIndex;
 
-    //public bool CrisisFull() {
-    //    if(crisis >= crisisMax)
-    //        return true;
-    //    return false;
-    //}
+    private Combat bossCombat;
 
-    //public bool LifeIsHalven() {
-    //    if(hp <= initialHP / 2)
-    //        return true;
-    //    return false;
-    //}
+    public GameObject TargetGroup { get => targetGroup; set => targetGroup = value; }
+    public GameObject TargetDemon { get => targetDemon; set => targetDemon = value; }
+    public bool IsWalking { get => isWalking; set => isWalking = value; }
+    public bool IsIdle { get => isIdle; set => isIdle = value; }
+    public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
 
-    //public bool RecoverFromStun() {
-    //    //StartCoroutine(WaitSeconds(5));
-    //    return true;
-    //}
+    #region Finite State Machine
 
-    //// The coroutine that cycles through the FSM
-    //public IEnumerator MoveThroughFSM() {
-    //    while(true) {
-    //        bossFSM.Update();
-    //        yield return new WaitForSeconds(fsmReactionTime);
-    //    }
-    //}
+    FSMState waitingState, fightingState, stunnedState, winState, deathState;
 
-    //#endregion
+    public bool PlayerApproaching() {
+        //TODO - transition between wait and fight event
+        //if(playerDistance < tot)
+        //    return true;
+        return true;
+    }
 
-    //#region Fighting State Behavior Tree
+    public bool CrisisFull() {
+        if(stats.Crisis >= crisisMax)
+            return true;
+        return false;
+    }
 
-    //public bool TimerStarted() {
-    //    return timerStarted;
-    //}
+    public bool LifeIsHalven() {
+        if(hp <= stats.health / 2)
+            return true;
+        return false;
+    }
 
-    //public bool TimerStillGoing() {
-    //    if(!timerStillGoing) {
-    //        ResetTimer();
-    //        return false;
-    //    }
-    //    else {
-    //        return true;
-    //    }
-    //}
+    public bool RecoverFromStun() {
+        //TODO
+        //StartCoroutine(WaitSeconds(5));
+        return true;
+    }
 
-    //private void ResetTimer() {
-    //    timerStarted = false;
-    //    timerStillGoing = false;
-    //}
+    public bool EnemiesAreDead() {
+        int enemies = 0;
+        foreach(GameObject demonGroup in demonGroups) {
+            enemies += demonGroup.GetComponent<GroupBehaviour>().GetDemonsNumber();
+        }
+        if(GameObject.FindGameObjectWithTag("Player"))
+            enemies += 1;
+        if(enemies != 0)
+            return false;
+        else
+            return true;
 
-    //public bool ChooseTarget() {
-    //    ResetTimer();
+    }
 
-    //    if(GameObject.FindGameObjectsWithTag("Demon").Length == 0)
-    //        return false;
+    public bool Death() {
+        if(stats.health <= 0)
+            return true;
+        else
+            return false;
+    }
 
-    //    if(Random.Range(0f, 1f) < changeTargetProb || currentTarget == gameObject) {
-    //        float totalAggro = 0f;
-    //        for(int i = 0; i < demonGroups.Length; i++) {
-    //            aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-    //            totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-    //            probability[i + 1] = totalAggro;
-    //        }
+    public IEnumerator MoveThroughFSM() {
+        while(true) {
+            bossFSM.Update();
+            yield return new WaitForSeconds(fsmReactionTime);
+        }
+    }
 
-    //        float random = Random.Range(0.001f, totalAggro);
+    #endregion
 
-    //        for(int i = 1; i < probability.Length; i++) {
-    //            if(random > probability[i - 1] && random <= probability[i])
-    //                currentTarget = demonGroups[i - 1];
-    //        }
-    //        //Debug.Log("target: " + currentTarget.name);
-    //    }
-    //    else {
-    //        Debug.Log("target won't change this time");
-    //    }
+    #region Fighting State Behavior Tree
 
-    //    return true;
-    //}
+    public bool TimerStarted() {
+        return timerStarted;
+    }
 
-    //public bool StareAtTarget() {
-    //    if(timer != null)
-    //        StopCoroutine(timer);
-    //    timer = StartCoroutine(Timer(stare));
-    //    return true;
-    //}
+    public bool TimerStillGoing() {
+        if(!timerStillGoing) {
+            ResetTimer();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
-    //public bool WalkToTarget() {
-    //    if(HorizDistFromTarget(currentTarget) > stopDist) {
-    //        canWalk = true;
-    //        return true;
-    //    }
-    //    else {
-    //        canWalk = false;
-    //        return false;
-    //    }
-    //}
+    public bool TargetNearArenaCenter() {
+        if((arenaCenter.transform.position - targetDemon.transform.position).magnitude > maxTargetDistFromCenter && HorizDistFromTarget(arenaCenter) > maxDistFromCenter) {
+            targetFarFromCenter = true;
+            canWalk = false;
+            return false;
+        }
+        else
+            return true;
+    }
 
-    //public bool TimeoutAttack() {
-    //    StopCoroutine(timer);
-    //    timer = StartCoroutine(Timer(timeout));
-    //    return true;
-    //}
+    private void ResetTimer() {
+        timerStarted = false;
+        timerStillGoing = false;
+        if(timer != null)
+            StopCoroutine(timer);
+    }
 
-    //public bool RandomAttack() {
-    //    float random = Random.Range(0f, singleAttackProb + globalAttackProb);
-    //    if(random < singleAttackProb)
-    //        SingleAttack();
-    //    else
-    //        GlobalAttack();
+    public bool ChooseTarget() {
+        ResetTimer();
 
-    //    return true;
-    //}
+        if(demonGroups.Length != 4 && !player)
+            return false;
 
-    //public CRBT.BehaviorTree FightingBTBuilder() {
+        if(Random.Range(0f, 1f) < changeTargetProb || !TargetDemon || pursueTimeout || targetFarFromCenter) {
+            GameObject previousTarget = TargetDemon;
+            float totalAggro = 0f;
+            string aggroDebug = "aggro values: ";
+            string probDebug = "probabilities: ";
 
-    //    CRBT.BTCondition started = new CRBT.BTCondition(TimerStarted);
-    //    CRBT.BTCondition going = new CRBT.BTCondition(TimerStillGoing);
+            for(int i = 0; i < demonGroups.Length; i++) {
+                float groupAggro = 0f;
+                // if the group is empty, I give to the group a temporary value of zero
+                if(!demonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
+                    groupAggro = demonGroups[i].GetComponent<GroupAggro>().GetAggro();
+                aggroValues[i] = groupAggro;
+                totalAggro = totalAggro + groupAggro;
+                probability[i + 1] = totalAggro;
 
-    //    CRBT.BTAction target = new CRBT.BTAction(ChooseTarget);
-    //    CRBT.BTAction stare = new CRBT.BTAction(StareAtTarget);
-    //    CRBT.BTAction timeout = new CRBT.BTAction(TimeoutAttack);
-    //    CRBT.BTAction walk = new CRBT.BTAction(WalkToTarget);
-    //    CRBT.BTAction attack = new CRBT.BTAction(RandomAttack);
+                aggroDebug = aggroDebug + groupAggro + " - ";
+                probDebug = probDebug + totalAggro + " - ";
+            }
 
-    //    CRBT.BTSelector sel1 = new CRBT.BTSelector(new CRBT.IBTTask[] { started, timeout });
-    //    CRBT.BTSelector sel3 = new CRBT.BTSelector(new CRBT.IBTTask[] { started, stare });
-    //    CRBT.BTSequence seq4 = new CRBT.BTSequence(new CRBT.IBTTask[] { going, walk });
+            aggroValues[demonGroups.Length] = player.GetComponent<Stats>().Aggro;
+            totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
+            probability[demonGroups.Length + 1] = totalAggro;
 
-    //    CRBT.BTSequence seq1 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel1, seq4 });
-    //    CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail(seq1);
+            aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
+            probDebug = probDebug + totalAggro + " - ";
 
-    //    CRBT.BTSequence seq3 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel3, going });
-    //    CRBT.BTDecoratorUntilFail uf2 = new CRBT.BTDecoratorUntilFail(seq3);
+            float random = Random.Range(0f, totalAggro);
 
-    //    CRBT.BTSequence seq2 = new CRBT.BTSequence(new CRBT.IBTTask[] { target, uf2, uf1, attack });
+            // if I was pursuing the player, I won't choose him again
+            if(pursueTimeout)
+                random = Random.Range(0f, totalAggro - player.GetComponent<Stats>().Aggro);
 
-    //    CRBT.BTDecoratorUntilFail root = new CRBT.BTDecoratorUntilFail(seq2);
+            for(int i = 1; i < probability.Length; i++) {
+                if(random > probability[i - 1] && random <= probability[i]) {
+                    // if i'm talking about a group (player probability is in the last slot of the array)
+                    if(i < probability.Length - 1) {
+                        TargetGroup = demonGroups[i - 1];
+                        TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+                    }
+                    else {
+                        TargetDemon = player;
+                    }
 
-    //    return new CRBT.BehaviorTree(root);
-    //}
+                    break;
+                }
 
-    //public IEnumerator FightingLauncherCR() {
-    //    while(FightingBT.Step())
-    //        yield return new WaitForSeconds(btReactionTime);
-    //}
+            }
 
-    //public void StartFightingCoroutine() {
-    //    if(resetFightingBT) {
-    //        FightingBT = FightingBTBuilder();
-    //        resetFightingBT = false;
-    //    }
+            // if the chosen demon is too far from arena center I choose one from the most centered group
+            if((TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter || targetFarFromCenter)
+                ChooseCentralTarget();
 
-    //    fightingCR = StartCoroutine(FightingLauncherCR());
-    //}
+            pursueTimeout = false;
+            targetFarFromCenter = false;
+        }
 
-    //public void StopFightingBT() {
-    //    StopCoroutine(fightingCR);
-    //    fightingCR = null;
-    //    resetFightingBT = true;
-    //}
+        return true;
+    }
 
-    //#endregion
+    public bool StareAtTarget() {
+        if(timer != null)
+            StopCoroutine(timer);
+        timer = StartCoroutine(Timer(stareTime, TimerType.stare));
+        return true;
+    }
 
-    //void Start() {
-    //    FSMTransition t0 = new FSMTransition(PlayerApproaching);
-    //    FSMTransition t1 = new FSMTransition(CrisisFull);
-    //    FSMTransition t2 = new FSMTransition(LifeIsHalven);
-    //    FSMTransition t3 = new FSMTransition(RecoverFromStun);
+    public bool WalkToTarget() {
+        if(HorizDistFromTarget(TargetDemon) > stopDist) {
+            canWalk = true;
+            return true;
+        }
+        else {
+            canWalk = false;
+            ResetTimer();
+            return false;
+        }
+    }
 
-    //    FightingBT = FightingBTBuilder();
+    public bool TimeoutPursue() {
+        StopCoroutine(timer);
+        timer = StartCoroutine(Timer(pursueTime, TimerType.pursue));
+        return true;
+    }
 
-    //    waitingState = new FSMState();
+    public bool RandomAttack() {
+        if(!isAttacking) {
 
-    //    fightingState = new FSMState();
-    //    fightingState.enterActions.Add(StartFightingCoroutine);
-    //    fightingState.exitActions.Add(StopFightingBT);
+            isAttacking = true;
 
-    //    stunnedState = new FSMState();
+            float random = Random.Range(0f, singleAttackProb + groupAttackProb);
+            if(random < singleAttackProb) {
+                Debug.Log("single attack");
+                timer = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
+                SingleAttack();
+            }
+            else {
+                Debug.Log("group attack");
+                timer = StartCoroutine(Timer(groupAttackDuration, TimerType.attack));
+                GroupAttack();
+            }
 
+        }
 
-    //    waitingState.AddTransition(t0, fightingState);
-    //    fightingState.AddTransition(t1, stunnedState);
-    //    fightingState.AddTransition(t2, stunnedState);
-    //    stunnedState.AddTransition(t3, fightingState);
+        return true;
+    }
 
-    //    bossFSM = new FSM(waitingState);
+    public CRBT.BehaviorTree FightingBTBuilder() {
 
-    //    // the initial target is himself to stay on his place for the first seconds
-    //    hp = initialHP;
-    //    currentTarget = gameObject;
-    //    demonGroups = GameObject.FindGameObjectsWithTag("Demon");
-    //    aggroValues = new float[demonGroups.Length];
-    //    probability = new float[demonGroups.Length + 1];
-    //    probability[0] = 0f;
+        CRBT.BTCondition timerStarted = new CRBT.BTCondition(TimerStarted);
+        CRBT.BTCondition timerGoing = new CRBT.BTCondition(TimerStillGoing);
+        CRBT.BTCondition nearArenaCenter = new CRBT.BTCondition(TargetNearArenaCenter);
 
-    //    StartCoroutine(MoveThroughFSM());
-    //}
+        CRBT.BTAction target = new CRBT.BTAction(ChooseTarget);
+        CRBT.BTAction stare = new CRBT.BTAction(StareAtTarget);
+        CRBT.BTAction timeout = new CRBT.BTAction(TimeoutPursue);
+        CRBT.BTAction walk = new CRBT.BTAction(WalkToTarget);
+        CRBT.BTAction attack = new CRBT.BTAction(RandomAttack);
 
-    //void Update() {
+        CRBT.BTSelector sel1 = new CRBT.BTSelector(new CRBT.IBTTask[] { timerStarted, timeout });
+        CRBT.BTSelector sel3 = new CRBT.BTSelector(new CRBT.IBTTask[] { timerStarted, stare });
+        CRBT.BTSelector sel4 = new CRBT.BTSelector(new CRBT.IBTTask[] { timerStarted, attack });
+        CRBT.BTSequence seq4 = new CRBT.BTSequence(new CRBT.IBTTask[] { timerGoing, nearArenaCenter, walk });
 
-    //}
+        CRBT.BTSequence seq1 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel1, seq4 });
+        CRBT.BTDecoratorUntilFail uf2 = new CRBT.BTDecoratorUntilFail(seq1);
 
-    //void FixedUpdate() {
+        CRBT.BTSequence seq3 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel3, timerGoing });
+        CRBT.BTDecoratorUntilFail uf1 = new CRBT.BTDecoratorUntilFail(seq3);
 
-    //    // in case I don't have a target anymore for some reason
-    //    if(currentTarget.transform) {
+        CRBT.BTSequence seq5 = new CRBT.BTSequence(new CRBT.IBTTask[] { sel4, timerGoing });
+        CRBT.BTDecoratorUntilFail uf3 = new CRBT.BTDecoratorUntilFail(seq5);
 
-    //        // I'm always facing my last target
-    //        Vector3 targetPosition = currentTarget.transform.position;
-    //        Vector3 vectorToTarget = targetPosition - transform.position;
-    //        vectorToTarget.y = 0f;
-    //        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
-    //        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
-    //        transform.rotation = newRotation;
+        CRBT.BTSequence seq2 = new CRBT.BTSequence(new CRBT.IBTTask[] { target, uf1, uf2, uf3 });
 
-    //        if(canWalk) {
-    //            transform.position += transform.forward * speed * Time.deltaTime;
-    //        }
-    //    }
-    //}
+        CRBT.BTDecoratorUntilFail root = new CRBT.BTDecoratorUntilFail(seq2);
 
-    //private IEnumerator Timer(float s) {
-    //    timerStarted = true;
-    //    timerStillGoing = true;
-    //    yield return new WaitForSeconds(s);
-    //    timerStillGoing = false;
-    //}
+        return new CRBT.BehaviorTree(root);
+    }
 
-    //private void SingleAttack() {
-    //    Debug.Log("single attack!");
-    //}
+    public IEnumerator FightingLauncherCR() {
+        while(FightingBT.Step())
+            yield return new WaitForSeconds(btReactionTime);
+    }
 
-    //private void GlobalAttack() {
-    //    Debug.Log("global attack!");
-    //}
+    public void StartFightingCoroutine() {
+        if(resetFightingBT) {
+            FightingBT = FightingBTBuilder();
+            resetFightingBT = false;
+        }
 
-    //private float HorizDistFromTarget(GameObject target) {
-    //    Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-    //    return (targetPosition - transform.position).magnitude;
-    //}
+        fightingCR = StartCoroutine(FightingLauncherCR());
+    }
 
+    public void StopFightingBT() {
+        StopCoroutine(fightingCR);
+        fightingCR = null;
+        resetFightingBT = true;
+    }
+
+    #endregion
+
+    private void Awake() {
+        combatEventsManager = GetComponent<CombatEventsManager>();
+        stats = GetComponent<Stats>();
+    }
+
+    void Start() {
+        arenaCenter = GameObject.Find("ArenaCenter");
+        hp = stats.health;
+        demonGroups = GameObject.FindGameObjectsWithTag("Group");
+        player = GameObject.FindGameObjectWithTag("Player");
+        aggroValues = new float[demonGroups.Length + 1];
+        probability = new float[demonGroups.Length + 2];
+        probability[0] = 0f;
+        centeringDist = maxDistFromCenter - 5f;
+
+        FSMTransition t0 = new FSMTransition(PlayerApproaching);
+        FSMTransition t1 = new FSMTransition(CrisisFull);
+        FSMTransition t2 = new FSMTransition(LifeIsHalven);
+        FSMTransition t3 = new FSMTransition(RecoverFromStun);
+        FSMTransition t4 = new FSMTransition(EnemiesAreDead);
+        FSMTransition t5 = new FSMTransition(Death);
+
+        FightingBT = FightingBTBuilder();
+
+        waitingState = new FSMState();
+
+        fightingState = new FSMState();
+        fightingState.enterActions.Add(StartFightingCoroutine);
+        fightingState.exitActions.Add(StopFightingBT);
+
+        stunnedState = new FSMState();
+
+        winState = new FSMState();
+        //TODO - if we will have a transparent gameover screen, the bosse must do the roar animation to celebrate in the background
+
+        deathState = new FSMState();
+
+        waitingState.AddTransition(t0, fightingState);
+        fightingState.AddTransition(t1, stunnedState);
+        fightingState.AddTransition(t2, stunnedState);
+        fightingState.AddTransition(t4, winState);
+        stunnedState.AddTransition(t3, fightingState);
+        fightingState.AddTransition(t5, deathState);
+        stunnedState.AddTransition(t5, deathState);
+
+        bossFSM = new FSM(waitingState);
+    }
+
+    void FixedUpdate() {
+        if(!player)
+            player = GameObject.FindGameObjectWithTag("Player");
+
+        if(!demonsReady && demonGroups[0].GetComponent<GroupBehaviour>().CheckDemons()) {
+            demonsReady = true;
+            StartCoroutine(MoveThroughFSM());
+        }
+
+        if(TargetDemon && !isAttacking) {
+            Face(TargetDemon);
+
+            if(canWalk) {
+                if(!isWalking) {
+                    IsWalking = true;
+                    IsIdle = false;
+                    combatEventsManager.RaiseOnStartRunning();
+
+                }
+
+                transform.position += transform.forward * speed * Time.deltaTime;
+
+            }
+            else {
+                if(!isIdle) {
+                    IsIdle = true;
+                    IsWalking = false;
+                    combatEventsManager.RaiseOnStartIdle();
+                }
+            }
+
+        }
+        else if(!EnemiesAreDead()) {
+            ChooseTarget();
+        }
+    }
+
+    private IEnumerator Timer(float s, TimerType type) {
+        timerStarted = true;
+        timerStillGoing = true;
+        yield return new WaitForSeconds(s);
+        timerStillGoing = false;
+        if(type == TimerType.pursue) {
+            pursueTimeout = true;
+            canWalk = false;
+        }
+        else if(type == TimerType.attack) {
+            combatEventsManager.RaiseOnStartIdle();
+        }
+
+    }
+
+    private void SingleAttack() {
+        if(bossCombat == null) {
+            bossCombat = GetComponent<Combat>();
+            if(bossCombat == null)
+                Debug.Log("Boss Combat cannot be found");
+        }
+        if(bossCombat != null) {
+            bossCombat.SingleAttack();
+        }
+        isAttacking = false;
+    }
+
+    private void GroupAttack() {
+        if(bossCombat == null) {
+            bossCombat = GetComponent<Combat>();
+            if(bossCombat == null)
+                Debug.Log("Boss Combat cannot be found");
+        }
+        if(bossCombat != null) {
+            bossCombat.GroupAttack();
+        }
+        isAttacking = false;
+    }
+
+    private float HorizDistFromTarget(GameObject target) {
+        Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        return (targetPosition - transform.position).magnitude;
+    }
+
+    private void Face(GameObject target) {
+        Vector3 targetPosition = target.transform.position;
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        vectorToTarget.y = 0f;
+        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        transform.rotation = newRotation;
+    }
+
+    private GameObject ClosestGroupTo(Vector3 position) {
+
+        GameObject closest = demonGroups[0];
+        float minDist = float.MaxValue;
+
+        foreach(GameObject group in demonGroups) {
+            if(group.GetComponent<GroupBehaviour>().IsEmpty() == false) {
+                if((group.transform.position - position).magnitude < minDist) {
+                    minDist = (group.transform.position - position).magnitude;
+                    closest = group;
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    private void ChooseCentralTarget() {
+        TargetGroup = ClosestGroupTo(arenaCenter.transform.position);
+        foreach(GameObject demon in TargetGroup.GetComponent<GroupBehaviour>().demons) {
+            if(demon != null) {
+                TargetDemon = demon;
+                break;
+            }
+        }
+    }
+
+    public GameObject[] GetDemonGroups() {
+        return demonGroups;
+    }
 }

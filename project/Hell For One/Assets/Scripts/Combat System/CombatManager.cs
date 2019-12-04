@@ -332,7 +332,7 @@ public class CombatManager : MonoBehaviour
         canAttack = true;
     }
 
-    public void Sweep()
+    public void GroupAttack()
     {
         if ( stats.NotAttacking )
         {
@@ -346,7 +346,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void StopSweep()
+    public void StopGroupAttack()
     {
         if ( attackCR != null && !stats.NotAttacking )
         {

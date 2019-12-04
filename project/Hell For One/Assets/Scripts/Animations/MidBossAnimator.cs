@@ -2,55 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossAnimator : MonoBehaviour
-{
-    private bool isAnimating = false;
+public class MidBossAnimator : MonoBehaviour {
     private Animator animator;
-    public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
     public Animator Animator { get => animator; set => animator = value; }
 
     private CombatEventsManager combatEventsManager;
 
-    public enum Animations
-    {
-        Death,
-        Attack,
-        Run,
-        Idle
-    }
-
-    private void OnEnable()
-    {
+    private void OnEnable() {
         // Exemple to explain how to use events for animations
-        if(combatEventsManager != null) { 
+        if(combatEventsManager != null) {
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
-            combatEventsManager.onStartGlobalAttack += PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle += PlayIdleAnimation;
             combatEventsManager.onStartRunning += PlayRunAnimation;
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
-            combatEventsManager.onStopGlobalAttack += StopAnimations;
 
             //combatEventsManager.onStopAnimation += StopAnimations;
         }
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         // Exemple to explain how to use events for animations
-        if (combatEventsManager != null)
-        {
+        if(combatEventsManager != null) {
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
-            combatEventsManager.onStartGlobalAttack -= PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
             combatEventsManager.onStartRunning -= PlayRunAnimation;
             combatEventsManager.onDeath -= PlayDeathAnimation;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
-            combatEventsManager.onStopGlobalAttack -= StopAnimations;
             // End mods
 
             //combatEventsManager.onStopAnimation -= StopAnimations;
@@ -70,8 +52,7 @@ public class BossAnimator : MonoBehaviour
     // Start is called after OnEnable
     // Awake is called before OnEnable
     // And we need to register for events in OnEnable
-    private void Awake()
-    {
+    private void Awake() {
         Animator = GetComponent<Animator>();
 
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
@@ -80,17 +61,12 @@ public class BossAnimator : MonoBehaviour
     // Example method to explain how to use events for animations
     public void PlaySingleAttackAnimation() {
         StopAnimations();
-        animator.SetBool("isSingleAttacking",true);    
+        animator.SetBool("isSingleAttacking", true);
     }
 
     public void PlayGroupAttackAnimation() {
         StopAnimations();
         animator.SetBool("isGroupAttacking", true);
-    }
-    
-    public void PlayGlobalAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isGlobalAttacking", true);
     }
 
     public void PlayRunAnimation() {
@@ -106,12 +82,12 @@ public class BossAnimator : MonoBehaviour
     public void PlayDeathAnimation() {
         StopAnimations();
         animator.SetBool("isDying", true);
-//        AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0); // get next state on layer 0
+        //        AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0); // get next state on layer 0
 
-//        if(nextState.IsName("Death"))
-//{
-//            animator.SetBool("isDying", true);
-//        }
+        //        if(nextState.IsName("Death"))
+        //{
+        //            animator.SetBool("isDying", true);
+        //        }
     }
 
 
@@ -119,10 +95,7 @@ public class BossAnimator : MonoBehaviour
         Animator.SetBool("isDying", false);
         Animator.SetBool("isSingleAttacking", false);
         Animator.SetBool("isGroupAttacking", false);
-        Animator.SetBool("isGlobalAttacking", false);
         Animator.SetBool("isRunning", false);
         Animator.SetBool("isIdle", false);
-
-        IsAnimating = false;
     }
 }

@@ -131,7 +131,7 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStartSweep()
+    public void RaiseOnStartGroupAttack()
     {
         if (onStartGroupAttack != null)
         {
@@ -139,7 +139,7 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStopSweep()
+    public void RaiseOnStopGroupAttack()
     {
         if (onStopGroupAttack != null)
         {
