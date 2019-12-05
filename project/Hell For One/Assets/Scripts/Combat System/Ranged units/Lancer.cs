@@ -74,7 +74,17 @@ public class Lancer : MonoBehaviour
 
         alpha = 0;
 
-        if ( !calculateAngle( transform.position + lancePosition, target.transform.position, out alpha ) )
+        if (target.tag == "Boss" )
+        {
+            Vector3 targetPosFixed = target.transform.position + new Vector3( 0f, 1f, 0f );
+
+            if ( !calculateAngle( transform.position + lancePosition, targetPosFixed, out alpha ) )
+            {
+                return false;
+            }
+        }
+
+        else if ( !calculateAngle( transform.position + lancePosition, target.transform.position, out alpha ) )
         {
             return false;
         }
