@@ -253,7 +253,9 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
+        // TODO - everyone will have a death animation
+        if(type == Stats.Type.Boss)
+            deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
 
         if (aggroDecreasingCR == null)
         {
