@@ -146,14 +146,14 @@ public class PlayerInput : MonoBehaviour
             // DPad UP
             if ( inputManager.DpadVertical() > 0.7f )
             {
-                if ( combat != null && tacticsManager && !DpadInUse ) {
+                if ( combat != null && !DpadInUse ) {
                     
                     if(GameIsPaused) {
                         dpadPressedInPause = true;
                         if (fpsCounterInPause == 0)
                             pauseScript.PreviousButton();
                     }
-                    else {
+                    else if ( tacticsManager.isActiveAndEnabled ) {
                         DpadInUse = true;
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -165,14 +165,14 @@ public class PlayerInput : MonoBehaviour
             // DPad DOWN
             if ( inputManager.DpadVertical() < -0.7f )
             {
-                if ( combat != null && tacticsManager && !DpadInUse) {
+                if ( combat != null && !DpadInUse) {
 
                     if(GameIsPaused) {
                         dpadPressedInPause = true;
                         if ( fpsCounterInPause == 0 )
                             pauseScript.NextButton();
                     }
-                    else {
+                    else if ( tacticsManager.isActiveAndEnabled ) {
                         DpadInUse = true;
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -184,7 +184,7 @@ public class PlayerInput : MonoBehaviour
             // DPad RIGHT
             if ( inputManager.DpadHorizontal() > 0.7f )
             {
-                if ( combat != null && tacticsManager && !DpadInUse) {
+                if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup );
                     StartCoroutine( DpadWait( dpadWaitTime ) );
@@ -194,7 +194,7 @@ public class PlayerInput : MonoBehaviour
             // DPad LEFT
             if ( inputManager.DpadHorizontal() < -0.7f )
             {
-                if ( combat != null && tacticsManager && !DpadInUse) {
+                if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup );
                     StartCoroutine( DpadWait( dpadWaitTime ) );
