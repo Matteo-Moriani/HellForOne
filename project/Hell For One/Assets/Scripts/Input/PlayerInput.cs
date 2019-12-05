@@ -6,16 +6,19 @@ public class PlayerInput : MonoBehaviour
 {
     private InputManager inputManager;
 
-    public int fpsCounterInPause = 0;
-    private bool dpadPressedInPause = false;
+    public int fpsCounterInMenu = 0;
+    private bool dpadPressedInMenu = false;
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
     private PauseScript pauseScript;
+    private TitleScreen titleScreen;
     private float dpadWaitTime = 0.2f;
     private bool dpadInUse = false;
-    private bool gameIsPaused = false;
-    public bool GameIsPaused { get => gameIsPaused; set => gameIsPaused = value; }
+    private bool gameInPause = false;
+    public bool GameInPause { get => gameInPause; set => gameInPause = value; }
+    private bool inTitleScreen = false;
+    public bool InTitleScreen { get => inTitleScreen; set => inTitleScreen = value; }
 
     public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
 
@@ -30,33 +33,45 @@ public class PlayerInput : MonoBehaviour
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
         inputManager = GameObject.FindGameObjectWithTag( "InputManager" ).GetComponent<InputManager>();
-        tacticsManager = GetComponent<TacticsManager>();
-        pauseScript = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PauseScript>();
+
+        titleScreen = GameObject.FindGameObjectWithTag("Canvas").GetComponent<TitleScreen>();
+
+        if(titleScreen != null)
+            InTitleScreen = true;
+        else {
+            tacticsManager = GetComponent<TacticsManager>();
+            pauseScript = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PauseScript>();
+        }
+        
     }
 
     private void Update()
     {
         if ( inputManager != null )
         {
-            if ( dpadPressedInPause && GameIsPaused )
+            if ( dpadPressedInMenu && (GameInPause || InTitleScreen))
             {
-                if ( fpsCounterInPause >= 8 )
+                if ( fpsCounterInMenu >= 8 )
                 {
-                    fpsCounterInPause = 0;
-                    dpadPressedInPause = false;
+                    fpsCounterInMenu = 0;
+                    dpadPressedInMenu = false;
                 }
                 else
-                    fpsCounterInPause++;
+                    fpsCounterInMenu++;
             }
 
             // Circle (PS3) / B (XBOX) 
             if ( inputManager.CircleButtonDown() )
             {
-                if(GameIsPaused) {
+                if(GameInPause) {
                     if(pauseScript.CurrentMenu != MenuType.pause)
                         pauseScript.Back();
                     else
                         pauseScript.Resume();
+                }
+                else if(InTitleScreen) {
+                    if(titleScreen.CurrentScreen != Screen.title)
+                        titleScreen.Back();
                 }
                 else {
                     if(dash != null) {
@@ -69,18 +84,21 @@ public class PlayerInput : MonoBehaviour
             // Cross (PS3) / A (XBOX)
             if ( inputManager.XButtonDown() )
             {
-                if ( combat != null && tacticsManager )
-                {
-                    if(GameIsPaused) {
-                        pauseScript.PressSelectedButton();
-                    }
-
+                if(GameInPause) {
+                    pauseScript.PressSelectedButton();
+                }
+                else if(InTitleScreen) {
+                    titleScreen.PressSelectedButton();
+                }
+                else if(combat != null && tacticsManager) {
                     // TODO - dialogues
                 }
+
             }
+        
 
             // Square (PS3) / X (XBOX)
-            if ( inputManager.SquareButtonDown() )
+            if ( inputManager.SquareButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -89,7 +107,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // L1 (PS3) / LB (XBOX) - Down
-            if ( inputManager.L1ButtonDown() )
+            if ( inputManager.L1ButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -98,7 +116,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // L1 (PS3) / LB (XOBX) - Up
-            if ( inputManager.L1ButtonUp() )
+            if ( inputManager.L1ButtonUp() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -107,7 +125,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // R1 (PS3) / RB (XBOX) - Down
-            if ( inputManager.R1ButtonDown() )
+            if ( inputManager.R1ButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -116,7 +134,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // R1 (PS3) / RB (XOBX) - Up
-            if ( inputManager.R1ButtonUp() )
+            if ( inputManager.R1ButtonUp() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -125,7 +143,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // Triangle (PS3) / Y (XBOX)
-            if ( inputManager.TriangleButtonDown() )
+            if ( inputManager.TriangleButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null )
                 {
@@ -135,7 +153,7 @@ public class PlayerInput : MonoBehaviour
 
             // L2 (PS3) / LT (XBOX) - Down
             //if ( inputManager.L2Axis() )
-            if ( inputManager.L2ButtonDown() )
+            if ( inputManager.L2ButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null && tacticsManager )
                 {
@@ -146,14 +164,19 @@ public class PlayerInput : MonoBehaviour
             // DPad UP
             if ( inputManager.DpadVertical() > 0.7f )
             {
-                if ( combat != null && !DpadInUse ) {
+                if ( !DpadInUse ) {
                     
-                    if(GameIsPaused) {
-                        dpadPressedInPause = true;
-                        if (fpsCounterInPause == 0)
+                    if(GameInPause) {
+                        dpadPressedInMenu = true;
+                        if (fpsCounterInMenu == 0)
                             pauseScript.PreviousButton();
                     }
-                    else if ( tacticsManager.isActiveAndEnabled ) {
+                    else if(InTitleScreen) {
+                        dpadPressedInMenu = true;
+                        if(fpsCounterInMenu == 0)
+                            titleScreen.PreviousButton();
+                    }
+                    else if (combat != null && tacticsManager.isActiveAndEnabled ) {
                         DpadInUse = true;
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -165,14 +188,19 @@ public class PlayerInput : MonoBehaviour
             // DPad DOWN
             if ( inputManager.DpadVertical() < -0.7f )
             {
-                if ( combat != null && !DpadInUse) {
+                if ( !DpadInUse) {
 
-                    if(GameIsPaused) {
-                        dpadPressedInPause = true;
-                        if ( fpsCounterInPause == 0 )
+                    if(GameInPause) {
+                        dpadPressedInMenu = true;
+                        if ( fpsCounterInMenu == 0 )
                             pauseScript.NextButton();
                     }
-                    else if ( tacticsManager.isActiveAndEnabled ) {
+                    else if(InTitleScreen) {
+                        dpadPressedInMenu = true;
+                        if(fpsCounterInMenu == 0)
+                            titleScreen.NextButton();
+                    }
+                    else if (combat != null && tacticsManager.isActiveAndEnabled ) {
                         DpadInUse = true;
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -182,7 +210,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // DPad RIGHT
-            if ( inputManager.DpadHorizontal() > 0.7f )
+            if ( inputManager.DpadHorizontal() > 0.7f && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
@@ -192,7 +220,7 @@ public class PlayerInput : MonoBehaviour
             }
 
             // DPad LEFT
-            if ( inputManager.DpadHorizontal() < -0.7f )
+            if ( inputManager.DpadHorizontal() < -0.7f && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
@@ -203,11 +231,11 @@ public class PlayerInput : MonoBehaviour
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if ( inputManager.L2ButtonUp() ) { }
+            if ( inputManager.L2ButtonUp() && !inTitleScreen && !GameInPause) { }
 
             // R2 (PS3) / RT (XBOX) - Down
             //if ( inputManager.R2Axis() )
-            if ( inputManager.R2ButtonDown() )
+            if ( inputManager.R2ButtonDown() && !inTitleScreen && !GameInPause)
             {
                 if ( combat != null && tacticsManager )
                 {
@@ -217,13 +245,17 @@ public class PlayerInput : MonoBehaviour
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if ( inputManager.R2ButtonUp() ) { }
+            if ( inputManager.R2ButtonUp() && !inTitleScreen && !GameInPause) { }
 
             // Start (PS3) / Options (PS4)
-            if(inputManager.PauseButtonDown()) {
+            if(inputManager.PauseButtonDown() && !inTitleScreen) {
                 if(combat != null && pauseScript) {
-                    gameIsPaused = true;
-                    pauseScript.Pause();
+                    if(GameInPause) {
+                        pauseScript.Resume();
+                    } else {
+                        GameInPause = true;
+                        pauseScript.Pause();
+                    }
                 }
             }
         }

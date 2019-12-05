@@ -42,9 +42,6 @@ public class MeleePositionScript : MonoBehaviour
                 break;
         }
 
-        //Vector3 rayCastTargetUp = new Vector3(rayOrigin.x, rayOrigin.y + 3f, rayOrigin.z);
-        //Vector3 rayCastTargetDown = new Vector3(rayOrigin.x, rayOrigin.y - 3f, rayOrigin.z);
-
         if(NavMesh.SamplePosition(rayOrigin, out hit, 3f, NavMesh.AllAreas))
             transform.position = hit.position;
         else if(NavMesh.SamplePosition(rayOrigin, out hit, 3f, NavMesh.AllAreas))

@@ -22,12 +22,10 @@ public class PauseScript : MonoBehaviour
     private PlayerInput playerInput;
     private MenuType currentMenu = MenuType.pause;
     public MenuType CurrentMenu { get => currentMenu; set => currentMenu = value; }
-    // TODO - selected button must be highlighted
 
     private void Awake() {
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
-        pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
         FPSLimiter = gameObject.GetComponent<FPSLimiter>();
     }
 
@@ -35,7 +33,7 @@ public class PauseScript : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        playerInput.GameIsPaused = false;
+        playerInput.GameInPause = false;
         FPSLimiter.IsPaused = false;
     }
 
@@ -75,12 +73,12 @@ public class PauseScript : MonoBehaviour
             pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
         }
         else if(currentMenu == MenuType.options) {
-            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
+            optionsButtons[optionsIndex].GetComponent<Button>().image.color = optionsButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
             if(optionsIndex == optionsButtons.Length - 1)
                 optionsIndex = 0;
             else
                 optionsIndex++;
-            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
+            optionsButtons[optionsIndex].GetComponent<Button>().image.color = optionsButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
         }
 
     }
@@ -95,12 +93,12 @@ public class PauseScript : MonoBehaviour
             pauseButtons[pauseIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
         }
         else if(currentMenu == MenuType.options) {
-            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
+            optionsButtons[optionsIndex].GetComponent<Button>().image.color = optionsButtons[optionsIndex].GetComponent<Button>().colors.normalColor;
             if(optionsIndex == 0)
                 optionsIndex = optionsButtons.Length - 1;
             else
                 optionsIndex--;
-            pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
+            optionsButtons[optionsIndex].GetComponent<Button>().image.color = optionsButtons[optionsIndex].GetComponent<Button>().colors.highlightedColor;
         }
 
         
@@ -145,7 +143,7 @@ public class PauseScript : MonoBehaviour
         pauseIndex = 0;
         pauseMenuUI.SetActive(false);
         optionsUI.SetActive(true);
-        pauseButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
+        optionsButtons[optionsIndex].GetComponent<Button>().image.color = pauseButtons[pauseIndex].GetComponent<Button>().colors.highlightedColor;
     }
 
     public void Back() {
@@ -156,5 +154,6 @@ public class PauseScript : MonoBehaviour
         optionsIndex = 0;
         optionsUI.SetActive(false);
         pauseMenuUI.SetActive(true);
+        pauseButtons[0].GetComponent<Button>().image.color = pauseButtons[0].GetComponent<Button>().colors.highlightedColor;
     }
 }
