@@ -11,14 +11,12 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float turnSpeed = 4.0f;
 
-    private Vector3 offset;
+    private Vector3 offset = new Vector3( 0.0f, 5.0f, -10.0f );
+    private Vector3 lockedOffset = new Vector3( 0.0f, 5.0f, -10.0f );
     private Vector3 closedEnvironmentOffset;
 
     // Use this to set the camera in closed environment mode and viceversa
     public bool closedEnvironment { get; set; } = false;
-
-    [SerializeField]
-    private float distance;
 
     [SerializeField]
     private bool isLocked = false;
@@ -57,7 +55,6 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
-        offset = new Vector3( 0.0f, 5.0f, -10.0f );
         closedEnvironmentOffset = offset / 2;
         FindPlayer();
         target = player;
@@ -128,9 +125,9 @@ public class CameraManager : MonoBehaviour
             {
                 Vector3 direction = (player.transform.position - target.transform.position).normalized;
 
-                Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( offset.z );
+                Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( lockedOffset.z );
 
-                camera_offset.y = offset.y;
+                camera_offset.y = lockedOffset.y;
 
                 transform.position = camera_offset;
             }
