@@ -75,7 +75,10 @@ public class BattleEventsHandler : MonoBehaviour
     }
 
     private void EnterRegularBattle()
-    {   /*
+    {   
+        if(!isInRegularBattle)
+            isInRegularBattle = true;
+        /*
         if (!IsInRegularBattle)
         {
             IsInRegularBattle = true;
