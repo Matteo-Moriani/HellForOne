@@ -103,6 +103,8 @@ public class DemonMovement : MonoBehaviour
                             GetComponent<NavMeshAgent>().destination = transform.position;
                     }
 
+                    Face(target);
+
                 }
                 // out of combat
                 else {

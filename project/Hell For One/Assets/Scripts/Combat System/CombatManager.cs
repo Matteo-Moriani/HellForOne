@@ -39,7 +39,7 @@ public class CombatManager : MonoBehaviour
 
     // Min distance for tactics
     [Tooltip( "The maximum distance at where they can melee attack" )]
-    private float maxMeleeDistance = 2f;
+    private float maxMeleeDistance = 1.5f;
     [Tooltip( "The maximum distance at where they can launch" )]
     private float maxRangeCombatDistance = 15f;
     [Tooltip( "The minimum distance at where they can launch" )]
