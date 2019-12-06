@@ -91,6 +91,7 @@ public class BattleEventsHandler : MonoBehaviour
         if (!isInBossBattle)
         {
             IsInBossBattle = true;
+            /*
             // TODO - Manage this in alliesManager
             if (spawner != null)
             {

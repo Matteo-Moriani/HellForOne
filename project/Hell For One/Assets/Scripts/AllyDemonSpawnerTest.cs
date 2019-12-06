@@ -12,6 +12,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private Coroutine spawnAllyCR;
     public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
 
+    private GameObject arenaCenter;
+
     public IEnumerator SpawnAlly()
     {
         while ( true )
@@ -55,10 +57,22 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         return spawnPosition;
     }
 
+    private void OnEnable()
+    {
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+    }
+
+    private void OnDisable()
+    {
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+    }
+
     void Start()
     {
-        SpawnAllyCR = StartCoroutine( SpawnAlly() );
-        countdown = timer;
+        //SpawnAllyCR = StartCoroutine( SpawnAlly() );
+        //countdown = timer;
     }
 
     private void Update()
@@ -68,5 +82,29 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         {
             countdown = timer;
         }
+    }
+
+    private void OnBossBattleEnter() { 
+        arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
+        
+        if (arenaCenter != null) {
+            this.transform.position = arenaCenter.transform.position;
+        }
+        else { 
+            Debug.Log(this.gameObject.name + " cannot find arena center");    
+        }
+        
+
+        if(spawnAllyCR == null) { 
+            spawnAllyCR = StartCoroutine(SpawnAlly());
+            countdown = timer;
+        }
+    }
+
+    private void OnBossBattleExit() { 
+        if(spawnAllyCR != null) { 
+            StopCoroutine(spawnAllyCR);
+            spawnAllyCR = null;
+        }    
     }
 }
