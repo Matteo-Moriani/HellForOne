@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4320190621460710413}
   - component: {fileID: 6623970706863065130}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameCanvas
   m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -312,11 +312,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4320190621460710409}
     m_Modifications:
-    - target: {fileID: 114944870775793672, guid: 97873d889ffb56842957e50ca822fea6,
-        type: 3}
-      propertyPath: optionsUI
-      value: 
-      objectReference: {fileID: 3901231521102851290}
     - target: {fileID: 4083561038436558164, guid: 97873d889ffb56842957e50ca822fea6,
         type: 3}
       propertyPath: m_Name
@@ -427,6 +422,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114944870775793672, guid: 97873d889ffb56842957e50ca822fea6,
+        type: 3}
+      propertyPath: optionsUI
+      value: 
+      objectReference: {fileID: 3901231521102851290}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97873d889ffb56842957e50ca822fea6, type: 3}
 --- !u!224 &5825887188020615649 stripped
