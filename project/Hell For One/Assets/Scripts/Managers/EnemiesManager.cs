@@ -10,6 +10,8 @@ public class EnemiesManager : MonoBehaviour
 
     private static EnemiesManager _instance;
 
+    private LittleEnemyBehaviour littleEnemyBehaviour;
+
     public static EnemiesManager Instance { get { return _instance; } }
     public List<GameObject> LittleEnemiesList { get => littleEnemiesList; private set => littleEnemiesList = value; }
     public GameObject Boss { get => boss; private set => boss = value; }
@@ -44,6 +46,14 @@ public class EnemiesManager : MonoBehaviour
     
     private void FindLittleEnemies() { 
         LittleEnemiesList = new List<GameObject>(GameObject.FindGameObjectsWithTag("LittleEnemy"));
+
+        foreach(GameObject enemy in littleEnemiesList) { 
+            littleEnemyBehaviour = enemy.GetComponent<LittleEnemyBehaviour>();
+            
+            if(littleEnemyBehaviour != null) { 
+                littleEnemyBehaviour.enabled = true;    
+            }
+        }
         Debug.Log("Init little enemies lisst");
     }
 
