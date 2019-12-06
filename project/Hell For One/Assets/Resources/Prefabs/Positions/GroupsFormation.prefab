@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8561816250581032688}
+  - component: {fileID: 3313181443497015648}
   m_Layer: 0
   m_Name: left
   m_TagString: MeleePosition
@@ -30,6 +31,19 @@ Transform:
   m_Father: {fileID: 9187603978637581055}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3313181443497015648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696131744879836831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d847c574e855f42b85d717646e9f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: 2
 --- !u!1 &4793043370692946173
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,6 +53,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4562224736371941124}
+  - component: {fileID: 8248810267041019978}
   m_Layer: 0
   m_Name: front
   m_TagString: MeleePosition
@@ -60,6 +75,19 @@ Transform:
   m_Father: {fileID: 9187603978637581055}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8248810267041019978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4793043370692946173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d847c574e855f42b85d717646e9f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: 0
 --- !u!1 &6151337141642389558
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 10847214931748075}
+  - component: {fileID: 5266384316963682384}
   m_Layer: 0
   m_Name: right
   m_TagString: MeleePosition
@@ -137,6 +166,19 @@ Transform:
   m_Father: {fileID: 9187603978637581055}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5266384316963682384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372853451229685517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d847c574e855f42b85d717646e9f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: 3
 --- !u!1 &8598530677167922294
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,6 +188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8975602263875923751}
+  - component: {fileID: 5797302866616338927}
   m_Layer: 0
   m_Name: behind
   m_TagString: MeleePosition
@@ -167,3 +210,16 @@ Transform:
   m_Father: {fileID: 9187603978637581055}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5797302866616338927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8598530677167922294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d847c574e855f42b85d717646e9f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: 1

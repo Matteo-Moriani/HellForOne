@@ -87,11 +87,11 @@ public class BattleEventsHandler : MonoBehaviour
     }
 
     private void EnterBossBattle()
-    {
+    {   
         if (!isInBossBattle)
         {
             IsInBossBattle = true;
-
+            // TODO - Manage this in alliesManager
             if (spawner != null)
             {
                 AllyDemonSpawnerTest adst = spawner.GetComponent<AllyDemonSpawnerTest>();
@@ -101,7 +101,7 @@ public class BattleEventsHandler : MonoBehaviour
                     adst.enabled = true;
                 }
             }
-
+            /*
             GameObject boss = GameObject.FindGameObjectWithTag("Boss");
 
             if(boss != null) { 
@@ -110,6 +110,7 @@ public class BattleEventsHandler : MonoBehaviour
                     bossBehavior.enabled = true;    
                 }
             }
+            */
         }
     }
 

@@ -339,7 +339,7 @@ public class MidBossBehavior : MonoBehaviour {
     void Start() {
         singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
         groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
-        arenaCenter = GameObject.Find("ArenaCenter");
+        //arenaCenter = GameObject.Find("ArenaCenter");
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag("Group");
         player = GameObject.FindGameObjectWithTag("Player");

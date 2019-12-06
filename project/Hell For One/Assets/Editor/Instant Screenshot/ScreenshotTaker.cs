@@ -7,8 +7,8 @@ using UnityEngine;
 public class Screenshot : EditorWindow
 {
 
-	int resWidth = Screen.width*4; 
-	int resHeight = Screen.height*4;
+	int resWidth = UnityEngine.Screen.width*4; 
+	int resHeight = UnityEngine.Screen.height*4;
 
 	public Camera myCamera;
 	int scale = 1;

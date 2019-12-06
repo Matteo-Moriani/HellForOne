@@ -48,7 +48,20 @@ public class EnemiesManager : MonoBehaviour
     }
 
     private void FindBoss() { 
-        Boss = GameObject.FindGameObjectWithTag("Boss");   
+        Boss = GameObject.FindGameObjectWithTag("Boss");
+        
+        // TODO - Manage better this.
+        BossBehavior bossBehaviour = boss.GetComponent<BossBehavior>();
+
+        if(bossBehaviour != null) { 
+            bossBehaviour.enabled = true;    
+        }
+
+        MidBossBehavior midBossBehavior = boss.GetComponent<MidBossBehavior>();
+
+        if(midBossBehavior != null) { 
+            midBossBehavior.enabled = true;    
+        }
     }
 
     public void LittleEnemyKilled(GameObject littleEnemy) { 
