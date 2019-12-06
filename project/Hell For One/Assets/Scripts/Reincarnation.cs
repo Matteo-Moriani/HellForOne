@@ -78,6 +78,7 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Dash>().enabled = true;
             player.GetComponent<DemonMovement>().enabled = false;
             player.GetComponent<NavMeshObstacle>().enabled = true;
+            player.GetComponent<ColorManager>().DeactivateCircle();
 
 
             // Reset Combat
