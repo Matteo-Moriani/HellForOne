@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour {
             // Circle (PS3) / B (XBOX) 
             if(inputManager.CircleButtonDown()) {
                 if(NavigatingMenu) 
-                    currentScreen.GetComponent<Screen>().Back();
+                    currentScreen.GetComponent<Menu>().Back();
                 else {
                     if(dash != null) {
                         dash.TryDash(inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal());
@@ -70,7 +70,7 @@ public class PlayerInput : MonoBehaviour {
             // Cross (PS3) / A (XBOX)
             if(inputManager.XButtonDown()) {
                 if(NavigatingMenu)
-                    currentScreen.GetComponent<Screen>().PressSelectedButton();
+                    currentScreen.GetComponent<Menu>().PressSelectedButton();
                 else if(combat != null && tacticsManager) {
                     // TODO - dialogues
                 }
@@ -135,7 +135,7 @@ public class PlayerInput : MonoBehaviour {
                     if(NavigatingMenu) {
                         dpadPressedInMenu = true;
                         if(fpsCounterInMenu == 0)
-                            currentScreen.GetComponent<Screen>().PreviousButton();
+                            currentScreen.GetComponent<Menu>().PreviousButton();
                     }
                     else if(combat != null && tacticsManager.isActiveAndEnabled) {
                         DpadInUse = true;
@@ -153,7 +153,7 @@ public class PlayerInput : MonoBehaviour {
                     if(NavigatingMenu) {
                         dpadPressedInMenu = true;
                         if(fpsCounterInMenu == 0)
-                            currentScreen.GetComponent<Screen>().NextButton();
+                            currentScreen.GetComponent<Menu>().NextButton();
                     }
                     else if(combat != null && tacticsManager.isActiveAndEnabled) {
                         DpadInUse = true;

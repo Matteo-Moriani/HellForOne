@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Credits : Screen
+public class Credits : Menu
 {
     public override void PressSelectedButton() {
 

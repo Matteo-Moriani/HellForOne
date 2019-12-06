@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public abstract class Screen : MonoBehaviour {
+public abstract class Menu : MonoBehaviour {
     public GameObject[] buttons;
     private PlayerInput playerInput;
     public PlayerInput PlayerInput { get => playerInput; set => playerInput = value; }
@@ -61,7 +61,7 @@ public abstract class Screen : MonoBehaviour {
         playerInput.CurrentScreen = nextMenu;
         gameObject.SetActive(false);
         nextMenu.SetActive(true);
-        nextMenu.GetComponent<Screen>().ParentScreen = gameObject;
-        nextMenu.GetComponent<Screen>().buttons[0].GetComponent<Button>().image.color = nextMenu.GetComponent<Screen>().buttons[0].GetComponent<Button>().colors.highlightedColor;
+        nextMenu.GetComponent<Menu>().ParentScreen = gameObject;
+        nextMenu.GetComponent<Menu>().buttons[0].GetComponent<Button>().image.color = nextMenu.GetComponent<Menu>().buttons[0].GetComponent<Button>().colors.highlightedColor;
     }
 }

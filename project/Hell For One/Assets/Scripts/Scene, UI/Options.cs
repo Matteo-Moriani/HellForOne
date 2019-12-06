@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Options : Screen {
+public class Options : Menu {
 
     public override void PressSelectedButton() {
 

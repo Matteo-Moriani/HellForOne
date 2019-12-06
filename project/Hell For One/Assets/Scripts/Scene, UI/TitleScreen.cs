@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleScreen : Screen {
+public class TitleScreen : Menu {
 
     public GameObject optionsUI;
     public GameObject creditsUI;

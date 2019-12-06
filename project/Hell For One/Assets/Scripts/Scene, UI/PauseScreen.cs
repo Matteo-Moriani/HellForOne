@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseScreen : Screen
+public class PauseScreen : Menu
 {
     public GameObject optionsUI;
 
