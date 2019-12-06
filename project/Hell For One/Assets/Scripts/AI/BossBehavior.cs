@@ -380,7 +380,7 @@ public class BossBehavior : MonoBehaviour
         singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
         groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
         globalAttackDuration = animationsManager.GetAnimation("GlobalAttack").length + animationsManager.GetAnimation("Charge").length;
-        arenaCenter = GameObject.Find( "ArenaCenter" );
+        arenaCenter = GameObject.FindWithTag( "ArenaCenter" );
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
         player = GameObject.FindGameObjectWithTag( "Player" );
