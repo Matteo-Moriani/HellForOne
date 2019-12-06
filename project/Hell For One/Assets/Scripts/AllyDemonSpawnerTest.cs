@@ -12,39 +12,42 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private Coroutine spawnAllyCR;
     public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
 
+    [SerializeField]
+    private GameObject impPrefab;
+
     private GameObject arenaCenter;
 
     public IEnumerator SpawnAlly()
     {
         while ( true )
         {
-            int impNumber = GameObject.FindGameObjectsWithTag("Demon").Length;
+            int impNumber = AlliesManager.Instance.AlliesList.Count;
 
             // 0 demons = game over, max number of demons = no need for spawn ally
             if ( impNumber >= ImpMaxNumber * 0.75 && impNumber < ImpMaxNumber ) {
                 needForRegen = true;
-                timer = 45;
+                //timer = 45;
             }
             else if (impNumber >= ImpMaxNumber * 0.25 && impNumber < ImpMaxNumber * 0.75) {
                 needForRegen = true;
-                timer = 30;
+                //timer = 30;
             }
             else if ( impNumber >= 1 && impNumber < ImpMaxNumber * 0.25 )
             {
                 needForRegen = true;
-                timer = 15;
+                //timer = 15;
             }
             else {
                 needForRegen = false;
             }
 
             if(needForRegen) {
-                yield return new WaitForSeconds(timer);
-                GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
+                //GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
 
                 // TODO - We need to spawn the ally via AlliesManager
-                AlliesManager.Instance.SpawnAlly(demonToSpawn, SpawnPosition());
+                AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
             }
+            yield return new WaitForSeconds(timer);
         }
     }
 
@@ -52,8 +55,10 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     public Vector3 SpawnPosition()
     {
         Vector3 spawnPosition = new Vector3( 0, 1, 0 );
-        spawnPosition.x = Random.Range( -10f, 10f );
-        spawnPosition.z = Random.Range( -10f, 10f );
+        //spawnPosition.x = Random.Range( -10f, 10f );
+        //spawnPosition.z = Random.Range( -10f, 10f );
+        spawnPosition =  this.transform.position + this.transform.forward * 10;
+        spawnPosition.y = 1;
         return spawnPosition;
     }
 

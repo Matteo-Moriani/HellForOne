@@ -75,7 +75,7 @@ public class BattleEventsHandler : MonoBehaviour
     }
 
     private void EnterRegularBattle()
-    {
+    {   /*
         if (!IsInRegularBattle)
         {
             IsInRegularBattle = true;
@@ -84,6 +84,7 @@ public class BattleEventsHandler : MonoBehaviour
                 spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
             }
         }
+        */
     }
 
     private void EnterBossBattle()
@@ -117,6 +118,7 @@ public class BattleEventsHandler : MonoBehaviour
 
     private void ExitRegularBattle()
     {
+        /*
         if (IsInRegularBattle)
         {
             IsInRegularBattle = false;
@@ -126,10 +128,11 @@ public class BattleEventsHandler : MonoBehaviour
                 spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
             }
         }
+        */
     }
 
     private void ExitBossBattle()
-    {
+    {   /*
         if (isInBossBattle)
         {
             IsInBossBattle = false;
@@ -139,6 +142,7 @@ public class BattleEventsHandler : MonoBehaviour
                 spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
             }
         }
+        */
     }
 
 }
