@@ -4757,6 +4757,7 @@ GameObject:
   - component: {fileID: 4997347288878034106}
   - component: {fileID: 114770089614500528}
   - component: {fileID: 4002897263262298320}
+  - component: {fileID: 1488950048158556222}
   m_Layer: 9
   m_Name: FakeImp
   m_TagString: Demon
@@ -5106,6 +5107,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circle: {fileID: 684786139638479905}
+--- !u!114 &1488950048158556222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505179672226310615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac73b80e6b4a3874297a9542a3b9f9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpsCounterInMenu: 0
+  pauseScreen: {fileID: 0}
 --- !u!1 &2825315591348517779
 GameObject:
   m_ObjectHideFlags: 0
@@ -5582,6 +5597,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: aggroModifier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Mesh
@@ -5591,11 +5611,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: aggroModifier
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
