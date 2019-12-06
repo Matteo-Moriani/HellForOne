@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    private GameObject panelAzure, panelPink, PanelGreen, panelYellow;
+    private GameObject panelAzure, panelPink, panelGreen, panelYellow;
     private Image azureImage, pinkImage, greenImage, yellowImage;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
@@ -19,6 +19,9 @@ public class HUD : MonoBehaviour
     private int healthIconsCount = 17;
     private AlliesManager alliesManager;
     GameObject healthPool;
+    private Vector3 groupPanelCorrectionVector = new Vector3( +36.25f, -22.50f, 0f );
+    private Vector2 panelPosition = new Vector2( -36.25f, 22.33f );
+    private Vector2 xCorrection = new Vector2( 145f, 0f );
 
     /// <summary>
     /// Used to update the health pool if imps die or join the horde
@@ -77,18 +80,20 @@ public class HUD : MonoBehaviour
         GameObject panel = transform.GetChild( 0 ).gameObject;
         panelAzure = panel.transform.GetChild( 0 ).gameObject;
         panelPink = panel.transform.GetChild( 1 ).gameObject;
-        PanelGreen = panel.transform.GetChild( 2 ).gameObject;
+        panelGreen = panel.transform.GetChild( 2 ).gameObject;
         panelYellow = panel.transform.GetChild( 3 ).gameObject;
 
-        azureImage = panelAzure.GetComponentInChildren<Image>();
-        pinkImage = panelPink.GetComponentInChildren<Image>();
-        greenImage = PanelGreen.GetComponentInChildren<Image>();
-        yellowImage = panelYellow.GetComponentInChildren<Image>();
 
-        meleeSprite = Resources.Load<Sprite>( "Sprites/sword0" );
-        rangeSprite = Resources.Load<Sprite>( "Sprites/bow" );
-        tankSprite = Resources.Load<Sprite>( "Sprites/shield" );
-        supportSprite = Resources.Load<Sprite>( "Sprites/support" );
+
+        azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+
+        meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
+        rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
+        tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
+        supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
 
         tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
 
@@ -177,27 +182,44 @@ public class HUD : MonoBehaviour
         {
             case TacticsManager.Group.GroupAzure:
                 panelAzure.transform.localScale = enlargedScale;
+                panelAzure.transform.SetAsLastSibling();
+                panelAzure.transform.localPosition = panelPosition;
                 panelPink.transform.localScale = defaultScale;
-                PanelGreen.transform.localScale = defaultScale;
+                panelPink.transform.localPosition = xCorrection;
+                panelGreen.transform.localScale = defaultScale;
                 panelYellow.transform.localScale = defaultScale;
+                panelYellow.transform.localPosition = xCorrection * 3;
                 break;
             case TacticsManager.Group.GroupPink:
                 panelAzure.transform.localScale = defaultScale;
+                panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = enlargedScale;
-                PanelGreen.transform.localScale = defaultScale;
+                panelPink.transform.SetAsLastSibling();
+                panelPink.transform.localPosition = panelPosition + xCorrection;
+                panelGreen.transform.localScale = defaultScale;
+                panelGreen.transform.localPosition = xCorrection * 2;
                 panelYellow.transform.localScale = defaultScale;
                 break;
             case TacticsManager.Group.GroupGreen:
                 panelAzure.transform.localScale = defaultScale;
                 panelPink.transform.localScale = defaultScale;
-                PanelGreen.transform.localScale = enlargedScale;
+                panelPink.transform.localPosition = xCorrection;
+                panelGreen.transform.localScale = enlargedScale;
+                panelGreen.transform.SetAsLastSibling();
+                panelGreen.transform.localPosition = panelPosition + xCorrection * 2;
                 panelYellow.transform.localScale = defaultScale;
+                panelYellow.transform.localPosition = xCorrection * 3;
                 break;
             case TacticsManager.Group.GroupYellow:
                 panelAzure.transform.localScale = defaultScale;
+                panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = defaultScale;
-                PanelGreen.transform.localScale = defaultScale;
+                panelGreen.transform.localScale = defaultScale;
+                panelGreen.transform.localPosition = xCorrection * 2;
                 panelYellow.transform.localScale = enlargedScale;
+                panelYellow.transform.SetAsLastSibling();
+                panelYellow.transform.localPosition = panelPosition + xCorrection * 3;
+
                 break;
         }
 
