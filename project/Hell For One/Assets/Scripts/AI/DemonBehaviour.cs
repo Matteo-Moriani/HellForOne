@@ -70,11 +70,7 @@ public class DemonBehaviour : MonoBehaviour
             }
         }
 
-        ChangeColor();
+        gameObject.GetComponent<ColorManager>().ActivateCircle();
     }
 
-    private void ChangeColor()
-    {
-        gameObject.GetComponent<MeshRenderer>().material = groupBelongingTo.GetComponent<GroupBehaviour>().groupColor;
-    }
 }

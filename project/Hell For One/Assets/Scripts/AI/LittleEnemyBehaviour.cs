@@ -8,7 +8,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
     public float speed = 5f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
-    public float attackRange = 1.5f;
+    public float attackRange = 1f;
 
     private float movingSpeedTreshold = 0.2f;
     private GameObject targetDemon;
@@ -47,7 +47,8 @@ public class LittleEnemyBehaviour : MonoBehaviour
             {
                 GetComponent<NavMeshAgent>().destination = transform.position;
                 if(IsInRange()) {
-                    combat.SingleAttack(targetDemon);
+                    //combat.SingleAttack(targetDemon);
+                    combat.PlayerAttack();
                     //Attack();
                 }
             }

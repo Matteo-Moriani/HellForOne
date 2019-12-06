@@ -18,9 +18,9 @@ public class SelectedUnitEffects : MonoBehaviour
     [SerializeField, Min(0), Tooltip("The scaling lasts this number of seconds")]
     private float resizeIn;
 
-    [Header("Circle")]
-    [SerializeField, Tooltip("The quad object with the texture of the circle under the unit.")]
-    private GameObject circle;
+    //[Header("Circle")]
+    //[SerializeField, Tooltip("The quad object with the texture of the circle under the unit.")]
+    //private GameObject circle;
 
     [SerializeField, Tooltip("The duration of circle animation in seconds.")]
     private float animationDuration;
@@ -56,20 +56,20 @@ public class SelectedUnitEffects : MonoBehaviour
         {
             if (Time.time - startConfirm < animationDuration)
             {
-                step = 1 / (animationDuration / Time.deltaTime);
-                width = circle.transform.localScale.x;
-                width -= step;
-                if (width < 0)
-                {
-                    width = 0;
-                }
+            //    step = 1 / (animationDuration / Time.deltaTime);
+            //    width = circle.transform.localScale.x;
+            //    width -= step;
+            //    if (width < 0)
+            //    {
+            //        width = 0;
+            //    }
 
-                circle.transform.localScale = new Vector3(width, 1, width);
-            }
-            else
-            {
-                confirm = false;
-                circle.SetActive(false);
+            //    circle.transform.localScale = new Vector3(width, 1, width);
+            //}
+            //else
+            //{
+            //    confirm = false;
+            //    circle.SetActive(false);
             }
         }
     }
@@ -100,8 +100,8 @@ public class SelectedUnitEffects : MonoBehaviour
     {
         GetComponentInChildren<ParticleSystem>().Play();
         confirm = true;
-        circle.transform.localScale = Vector3.one;
+        //circle.transform.localScale = Vector3.one;
         startConfirm = Time.time;
-        circle.SetActive(true);
+        //circle.SetActive(true);
     }
 }
