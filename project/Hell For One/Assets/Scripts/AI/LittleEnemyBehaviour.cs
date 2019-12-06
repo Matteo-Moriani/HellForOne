@@ -5,17 +5,16 @@ using UnityEngine.AI;
 
 public class LittleEnemyBehaviour : MonoBehaviour
 {
-    public float speed = 8f;
+    public float speed = 5f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
-    public float stopDist = 1.5f;
+    public float attackRange = 1.5f;
 
+    private float movingSpeedTreshold = 0.2f;
     private GameObject targetDemon;
-    private GameObject[] demonGroups;
-    private GameObject[] allies;
     private GameObject player;
-    private float[] aggroValues;
-    private float[] probability;
+    private Combat combat;
+    private Animator animator;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
@@ -24,36 +23,36 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     void Start()
     {
-        demonGroups = GameObject.FindGameObjectsWithTag("Group");
         player = GameObject.FindGameObjectWithTag("Player");
-        allies = GameObject.FindGameObjectsWithTag("LittleEnemy");
-        aggroValues = new float[demonGroups.Length + 1];
-        probability = new float[demonGroups.Length + 2];
-        probability[0] = 0f;
-
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
-        agent = this.gameObject.GetComponent<NavMeshAgent>();
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        combat = GetComponent<Combat>();
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
-
         if (!player)
             player = GameObject.FindGameObjectWithTag("Player");
 
         if (targetDemon)
         {
-
             FaceTarget(targetDemon);
 
-            if ((targetDemon.transform.position - transform.position).magnitude > stopDist)
+            if ((targetDemon.transform.position - transform.position).magnitude > agent.stoppingDistance)
             {
                 GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
             }
             else
             {
                 GetComponent<NavMeshAgent>().destination = transform.position;
+                if(IsInRange()) {
+                    combat.SingleAttack(targetDemon);
+                    //Attack();
+                }
             }
+
+
         }
         else
             ChooseTarget();
@@ -73,55 +72,18 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     public void ChooseTarget()
     {
+        int random = Random.Range(0, AlliesManager.Instance.AlliesList.Count+1);
 
-        if (GameObject.FindGameObjectsWithTag("Group").Length == 0 && !player)
-            return;
-
-        // this includes the player
-        GameObject targetGroup;
-
-        float totalAggro = 0f;
-        for (int i = 0; i < demonGroups.Length; i++)
-        {
-            //aggroValues[i] = demonGroups[i].GetComponent<TargetScript>().GetAggro();
-            aggroValues[i] = 5;
-
-            //totalAggro = totalAggro + demonGroups[i].GetComponent<TargetScript>().GetAggro();
-            totalAggro = totalAggro + 5;
-
-            probability[i + 1] = totalAggro;
-        }
-        // Get player aggro
-        aggroValues[demonGroups.Length] = 5;
-        totalAggro = totalAggro + 5;
-        probability[demonGroups.Length + 1] = totalAggro;
-
-        float random = Random.Range(0.001f, totalAggro);
-
-        for (int i = 1; i < probability.Length; i++)
-        {
-            if (random > probability[i - 1] && random <= probability[i])
-            {
-                if (i < probability.Length - 1)
-                {
-                    targetGroup = demonGroups[i - 1];
-                    GroupBehaviour gb = targetGroup.GetComponent<GroupBehaviour>();
-                    int index = Random.Range(0, gb.demons.Length);
-                    targetDemon = gb.demons[index];
-                }
-                else
-                    targetDemon = player;
-
-                return;
-            }
-        }
-
+        if(random == AlliesManager.Instance.AlliesList.Count)
+            targetDemon = player;
+        else
+            targetDemon = AlliesManager.Instance.AlliesList[random];
     }
 
     private void ManageMovementEvents()
     {
         // TODO - Parametrize this velocity
-        if (agent.velocity.magnitude > 0.2)
+        if (agent.velocity.magnitude > movingSpeedTreshold)
         {
             if (!isMoving)
             {
@@ -134,7 +96,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
             }
         }
         // TODO - Parametrize this velocity
-        if (agent.velocity.magnitude <= 0.2)
+        if (agent.velocity.magnitude <= movingSpeedTreshold)
         {
             if (isMoving)
             {
@@ -144,6 +106,20 @@ public class LittleEnemyBehaviour : MonoBehaviour
                 }
                 isMoving = false;
             }
+        }
+    }
+
+    public bool IsInRange() {
+        if((targetDemon.transform.position - transform.position).magnitude <= attackRange)
+            return true;
+        else
+            return false;
+    }
+
+    public void Attack() {
+
+        if(!animator.GetBool("isSingleAttacking")) {
+            combat.SingleAttack(targetDemon);
         }
     }
 }

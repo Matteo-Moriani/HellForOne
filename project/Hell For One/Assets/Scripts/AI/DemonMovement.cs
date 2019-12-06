@@ -61,12 +61,12 @@ public class DemonMovement : MonoBehaviour
                 {
                     group = GetComponent<DemonBehaviour>().groupBelongingTo;
                     gb = group.GetComponent<GroupBehaviour>();
+                    // it's my group that decides my target
                     target = group.GetComponent<GroupMovement>().GetTarget();
                 }
             }
             else if ( target )
             {
-                // TODO - change with events
                 if ( target.CompareTag( "Boss" ) )
                 {
                     // if the boss is escaping...

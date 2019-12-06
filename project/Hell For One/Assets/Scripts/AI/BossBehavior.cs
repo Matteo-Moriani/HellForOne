@@ -191,8 +191,6 @@ public class BossBehavior : MonoBehaviour
         {
             GameObject previousTarget = TargetDemon;
             float totalAggro = 0f;
-            string aggroDebug = "aggro values: ";
-            string probDebug = "probabilities: ";
 
             for ( int i = 0; i < demonGroups.Length; i++ )
             {
@@ -203,17 +201,11 @@ public class BossBehavior : MonoBehaviour
                 aggroValues[ i ] = groupAggro;
                 totalAggro = totalAggro + groupAggro;
                 probability[ i + 1 ] = totalAggro;
-
-                aggroDebug = aggroDebug + groupAggro + " - ";
-                probDebug = probDebug + totalAggro + " - ";
             }
 
             aggroValues[ demonGroups.Length ] = player.GetComponent<Stats>().Aggro;
             totalAggro = totalAggro + player.GetComponent<Stats>().Aggro;
             probability[ demonGroups.Length + 1 ] = totalAggro;
-
-            aggroDebug = aggroDebug + player.GetComponent<Stats>().Aggro + " - ";
-            probDebug = probDebug + totalAggro + " - ";
 
             float random = Random.Range( 0f, totalAggro );
 
