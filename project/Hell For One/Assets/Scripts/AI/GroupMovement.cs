@@ -227,8 +227,17 @@ public class GroupMovement : MonoBehaviour
             {
                 // TODO - Testing new logic
                 // SetOutOfCombat();
-                target = player;
-                SetDemonsTarget( target );
+                if (player == null)
+                {
+                    player = GameObject.FindGameObjectWithTag("Player");
+                }
+                if (player != null) {
+                    target = player;
+                    SetDemonsTarget(target);
+                }
+                else { 
+                    Debug.Log(this.gameObject.name + "Cannot find Player");    
+                }
             }
         }
     }
