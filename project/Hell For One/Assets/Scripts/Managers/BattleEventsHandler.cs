@@ -132,6 +132,9 @@ public class BattleEventsHandler : MonoBehaviour
             }
         }
         */
+        if (isInRegularBattle) {
+            isInRegularBattle = false;
+        }
     }
 
     private void ExitBossBattle()
@@ -146,6 +149,9 @@ public class BattleEventsHandler : MonoBehaviour
             }
         }
         */
+        if (isInBossBattle) {
+            isInBossBattle = false;
+        }
     }
 
 }

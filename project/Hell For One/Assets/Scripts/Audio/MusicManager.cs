@@ -65,9 +65,6 @@ public class MusicManager : MonoBehaviour
     }
 
     private IEnumerator StartOutOFCombatMusicCoroutine() { 
-
-
-
         yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource,AudioManager.Music.OutOFCombat));
         AudioManager.Instance.PlayMusicLoop(musicAudiosource,AudioManager.Music.OutOFCombat);
     }
@@ -80,8 +77,7 @@ public class MusicManager : MonoBehaviour
                 StopAllCoroutines();
                 startOutOfCombatMusicCR = null;
                 startBossMusicCR = null;
-
-
+                    
                 //musicAudiosource.Stop();
                 startCombatMusicCR = StartCoroutine(StartCombatMusicCoroutine());
                 isOutOfCOmbat = false;

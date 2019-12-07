@@ -80,6 +80,13 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<NavMeshObstacle>().enabled = true;
             player.GetComponent<ColorManager>().DeactivateCircle();
 
+            // Set rigidbody
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+
+            if(rb != null) { 
+                rb.useGravity = true;
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            }
 
             // Reset Combat
             Combat playerCombat = player.GetComponent<Combat>();

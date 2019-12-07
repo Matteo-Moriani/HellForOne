@@ -4874,7 +4874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 5
-  movingSpeed: 10
+  movingSpeed: 4
 --- !u!114 &2874744866453578504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5582,11 +5582,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -5597,6 +5592,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: aggroModifier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Mesh
@@ -5606,11 +5611,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: aggroModifier
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}

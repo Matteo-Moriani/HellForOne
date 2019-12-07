@@ -23,6 +23,9 @@ public class HUD : MonoBehaviour
     private Vector2 panelPosition = new Vector2( -36.25f, 22.33f );
     private Vector2 xCorrection = new Vector2( 145f, 0f );
 
+    private GameObject player;
+    private CombatEventsManager playerCombatEventsManager;
+
     /// <summary>
     /// Used to update the health pool if imps die or join the horde
     /// </summary>
@@ -83,8 +86,6 @@ public class HUD : MonoBehaviour
         panelGreen = panel.transform.GetChild( 2 ).gameObject;
         panelYellow = panel.transform.GetChild( 3 ).gameObject;
 
-
-
         azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
         pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
         greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
@@ -97,8 +98,23 @@ public class HUD : MonoBehaviour
         fullHPSprite = Resources.Load<Sprite>( "Sprites/faceIcon" );
         halfHPSprite = Resources.Load<Sprite>( "Sprites/halfFaceIcon" );
 
-        tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
-
+        player = GameObject.FindGameObjectWithTag("Player");
+        
+        if(player != null) {
+            tacticsManager = player.GetComponent<TacticsManager>();
+            playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
+            
+            if(playerCombatEventsManager != null) {
+                playerCombatEventsManager.onDeath += OnPlayerDeath;
+            }
+            else { 
+                Debug.LogError("HUD cannot find player's CombatEventsManager");    
+            }
+        }
+        else { 
+            Debug.LogError("HUD cannot find player");    
+        }
+        
         GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
 
         foreach ( GameObject go in groups )
@@ -152,6 +168,13 @@ public class HUD : MonoBehaviour
         {
             healthPool.transform.GetChild( i ).gameObject.SetActive( false );
             healthIconsCount--;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(playerCombatEventsManager != null) { 
+            playerCombatEventsManager.onDeath -= OnPlayerDeath;    
         }
     }
 
@@ -228,4 +251,30 @@ public class HUD : MonoBehaviour
 
     }
 
+    private void OnPlayerDeath() {
+        if(playerCombatEventsManager != null) { 
+            playerCombatEventsManager.onDeath -= OnPlayerDeath;    
+        }
+        
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            tacticsManager = player.GetComponent<TacticsManager>();
+            playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
+
+            if (playerCombatEventsManager != null)
+            {
+                playerCombatEventsManager.onDeath += OnPlayerDeath;
+            }
+            else
+            {
+                Debug.LogError("HUD cannot find player's CombatEventsManager");
+            }
+        }
+        else
+        {
+            Debug.LogError("HUD cannot find player");
+        }
+    }
 }
