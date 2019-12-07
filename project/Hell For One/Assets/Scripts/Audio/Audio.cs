@@ -10,6 +10,7 @@ public class Audio : MonoBehaviour
     private AudioSource walkAudioSource;
     private AudioSource deathAudioSource;
     private AudioSource dashAudioSource;
+    private AudioSource roarAudioSource;
 
     private Stats stats;
 
@@ -31,7 +32,8 @@ public class Audio : MonoBehaviour
         combatEventsManager.onStartMoving += PlayFootStep;
         combatEventsManager.onStartIdle += StopFootStep;
         combatEventsManager.onDeath += PlayDeathSound;
-        combatEventsManager.onStartDash += PlayDashClip; 
+        combatEventsManager.onStartDash += PlayDashClip;
+        combatEventsManager.onStartGlobalAttack += PlayRoarClip;
     }
 
     private void OnDisable()
@@ -42,6 +44,7 @@ public class Audio : MonoBehaviour
         combatEventsManager.onStartIdle -= StopFootStep;
         combatEventsManager.onDeath -= PlayDeathSound;
         combatEventsManager.onStartDash -= PlayDashClip;
+        combatEventsManager.onStartGlobalAttack -= PlayRoarClip;
     }
 
     private void Start()
@@ -56,11 +59,21 @@ public class Audio : MonoBehaviour
         AudioManager.Instance.SetAudioAudioSource(deathAudioSource,true,5f,500f,false);
         dashAudioSource = gameObject.AddComponent<AudioSource>();
         AudioManager.Instance.SetAudioAudioSource(dashAudioSource,true,5f,500f,false);
-
+        
+        if(stats.type == Stats.Type.Boss) {
+            roarAudioSource = gameObject.AddComponent<AudioSource>();
+            AudioManager.Instance.SetAudioAudioSource(roarAudioSource,true,10,500,false);
+            roarAudioSource.outputAudioMixerGroup = AudioManager.Instance.RoarMixerGroup;
+        }
+        
         walkAudioSource.outputAudioMixerGroup = AudioManager.Instance.WalkAudioMixerGroup;
         combatAudioSource.outputAudioMixerGroup = AudioManager.Instance.CombatAudioMixerGroup;
         deathAudioSource.outputAudioMixerGroup = AudioManager.Instance.DeathMixerGroup;
         dashAudioSource.outputAudioMixerGroup = AudioManager.Instance.DashMixerGroup;
+    }
+
+    private void PlayRoarClip() { 
+        AudioManager.Instance.PlayRandomRoarClip(roarAudioSource);    
     }
 
     private void PlayDashClip() { 
