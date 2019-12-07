@@ -16,6 +16,8 @@ public class Audio : MonoBehaviour
 
     private Coroutine walkCR;
 
+    private Coroutine dashCr;
+
     private void Awake()
     {
         combatEventsManager = GetComponent<CombatEventsManager>();    
@@ -28,6 +30,7 @@ public class Audio : MonoBehaviour
         combatEventsManager.onStartMoving += PlayFootStep;
         combatEventsManager.onStartIdle += StopFootStep;
         combatEventsManager.onDeath += PlayDeathSound;
+        combatEventsManager.onStartDash += PlayDashClip; 
     }
 
     private void OnDisable()
@@ -37,6 +40,7 @@ public class Audio : MonoBehaviour
         combatEventsManager.onStartMoving -= PlayFootStep;
         combatEventsManager.onStartIdle -= StopFootStep;
         combatEventsManager.onDeath -= PlayDeathSound;
+        combatEventsManager.onStartDash -= PlayDashClip;
     }
 
     private void Start()
@@ -55,9 +59,17 @@ public class Audio : MonoBehaviour
         deathAudioSource.outputAudioMixerGroup = AudioManager.Instance.DeathMixerGroup;
     }
 
-    private void Update()
-    {
-        //AudioCycle();    
+    private void PlayDashClip() { 
+        if(dashCr == null) { 
+            dashCr = StartCoroutine(dashCoroutine());        
+        }    
+    }
+
+    private void StopDashClip() { 
+        if(dashCr != null){ 
+            StopCoroutine(dashCr);
+            dashCr = null;
+        }    
     }
 
     private void PlayHitClip() { 
@@ -90,5 +102,12 @@ public class Audio : MonoBehaviour
         while (true) {
             yield return new WaitForSeconds(AudioManager.Instance.PlayRandomWalkClip(AudioManager.Size.Small, walkAudioSource));// + Random.Range(0,0.01f));
         }    
+    }
+
+    private IEnumerator dashCoroutine() { 
+        AudioManager.Instance.LockWalkAudio();
+        yield return new WaitForSeconds(AudioManager.Instance.PlayRandomDashClip(walkAudioSource));
+        AudioManager.Instance.UnlockWalkAudio();
+        StopDashClip();
     }
 }

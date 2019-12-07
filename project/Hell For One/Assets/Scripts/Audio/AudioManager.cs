@@ -55,6 +55,10 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] walkClips;
 
     [SerializeField]
+    [Tooltip("Clips that will be played during a dash")]
+    private AudioClip[] dashClips;
+
+    [SerializeField]
     private AudioClip outOfCombatMusicMain;
 
     [SerializeField]
@@ -71,6 +75,8 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     private AudioClip bossFightMusicLoop;
+
+    private bool canPlayFootSteps = true;
 
     /// <summary>
     /// Mixer group for base audio (Stuff like walking)
@@ -198,29 +204,48 @@ public class AudioManager : MonoBehaviour
     }
 
     public float PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
-        switch (size) { 
-            case Size.Small:
-                if(walkClips.Length > 0) {
-                    if (!walkAudioSource.isPlaying) { 
-                        AudioClip clipToPlay = walkClips[Random.Range(0,walkClips.Length - 1)];
-                        
-                        if(clipToPlay != null) { 
-                            walkAudioSource.clip = clipToPlay;
-                            //walkAudioSource.pitch = Random.Range(0.9f,1.1f);
-                            //walkAudioSource.PlayOneShot(clipToPlay);
-                            walkAudioSource.Play();
-                            return clipToPlay.length;
+        if (canPlayFootSteps) {
+            switch (size)
+            {
+                case Size.Small:
+                    if (walkClips.Length > 0)
+                    {
+                        if (!walkAudioSource.isPlaying)
+                        {
+                            AudioClip clipToPlay = walkClips[Random.Range(0, walkClips.Length - 1)];
+
+                            if (clipToPlay != null)
+                            {
+                                walkAudioSource.clip = clipToPlay;
+                                //walkAudioSource.pitch = Random.Range(0.9f,1.1f);
+                                //walkAudioSource.PlayOneShot(clipToPlay);
+                                walkAudioSource.Play();
+                                return clipToPlay.length;
+                            }
                         }
-                    }    
-                }
-                break;
-            case Size.Medium:
-                Debug.Log("TODO - Implement medium size walk audio");
-                break;
-            case Size.Big:
-                Debug.Log("TODO - Implement big size walk audio");
-                break;
+                    }
+                    break;
+                case Size.Medium:
+                    Debug.Log("TODO - Implement medium size walk audio");
+                    break;
+                case Size.Big:
+                    Debug.Log("TODO - Implement big size walk audio");
+                    break;
+            }
         }
+        return 0;
+    }
+
+    public float PlayRandomDashClip(AudioSource audioSource) { 
+
+        if(dashClips.Length > 0) { 
+            AudioClip clipToPlay = dashClips[Random.Range(0,dashClips.Length)];
+            
+            audioSource.clip = clipToPlay;
+            audioSource.Play();
+            return clipToPlay.length;
+        }
+        
         return 0;
     }
     
@@ -284,5 +309,13 @@ public class AudioManager : MonoBehaviour
             case Music.BossHalfLife:
                 break;
         }
+    }
+
+    public void LockWalkAudio() { 
+        canPlayFootSteps = false;    
+    }
+
+    public void UnlockWalkAudio() { 
+        canPlayFootSteps = true;    
     }
 }

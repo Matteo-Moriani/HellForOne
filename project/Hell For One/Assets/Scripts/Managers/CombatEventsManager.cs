@@ -57,6 +57,9 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
 
+    public delegate void OnStartDash();
+    public event OnStartDash onStartDash;
+
     public delegate void OnStartIdle();
     public event OnStartIdle onStartIdle;
 
@@ -208,6 +211,12 @@ public class CombatEventsManager : MonoBehaviour
         if (onStartIdle != null)
         {
             onStartIdle();
+        }
+    }
+
+    public void RaiseOnStartDash() { 
+        if(onStartDash != null) { 
+            onStartDash();    
         }
     }
 
