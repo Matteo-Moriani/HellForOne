@@ -33,6 +33,8 @@ public class AudioManager : MonoBehaviour
     private AudioMixerGroup musicMixerGroup;
     [SerializeField]
     private AudioMixerGroup deathMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup dashMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -93,7 +95,8 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Mixer group for music audio
     /// </summary>
-    public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; set => musicMixerGroup = value; }
+    public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; private set => musicMixerGroup = value; }
+    public AudioMixerGroup DashMixerGroup { get => dashMixerGroup; private set => dashMixerGroup = value; }
 
     private static AudioManager _instance;
 
@@ -238,7 +241,7 @@ public class AudioManager : MonoBehaviour
 
     public float PlayRandomDashClip(AudioSource audioSource) { 
 
-        if(dashClips.Length > 0) { 
+        if(dashClips.Length > 0) {
             AudioClip clipToPlay = dashClips[Random.Range(0,dashClips.Length)];
             
             audioSource.clip = clipToPlay;
@@ -311,7 +314,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void LockWalkAudio() { 
+    public void LockWalkAudio() {
         canPlayFootSteps = false;    
     }
 

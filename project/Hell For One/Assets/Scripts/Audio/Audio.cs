@@ -9,6 +9,7 @@ public class Audio : MonoBehaviour
     private AudioSource combatAudioSource;
     private AudioSource walkAudioSource;
     private AudioSource deathAudioSource;
+    private AudioSource dashAudioSource;
 
     private Stats stats;
 
@@ -53,10 +54,13 @@ public class Audio : MonoBehaviour
         AudioManager.Instance.SetAudioAudioSource(walkAudioSource, true, 5f, 500f, false);
         deathAudioSource = gameObject.AddComponent<AudioSource>();
         AudioManager.Instance.SetAudioAudioSource(deathAudioSource,true,5f,500f,false);
+        dashAudioSource = gameObject.AddComponent<AudioSource>();
+        AudioManager.Instance.SetAudioAudioSource(dashAudioSource,true,5f,500f,false);
 
         walkAudioSource.outputAudioMixerGroup = AudioManager.Instance.WalkAudioMixerGroup;
         combatAudioSource.outputAudioMixerGroup = AudioManager.Instance.CombatAudioMixerGroup;
         deathAudioSource.outputAudioMixerGroup = AudioManager.Instance.DeathMixerGroup;
+        dashAudioSource.outputAudioMixerGroup = AudioManager.Instance.DashMixerGroup;
     }
 
     private void PlayDashClip() { 
@@ -106,7 +110,7 @@ public class Audio : MonoBehaviour
 
     private IEnumerator dashCoroutine() { 
         AudioManager.Instance.LockWalkAudio();
-        yield return new WaitForSeconds(AudioManager.Instance.PlayRandomDashClip(walkAudioSource));
+        yield return new WaitForSeconds(AudioManager.Instance.PlayRandomDashClip(dashAudioSource));
         AudioManager.Instance.UnlockWalkAudio();
         StopDashClip();
     }
