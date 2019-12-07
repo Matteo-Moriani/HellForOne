@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     {
         Hit,
         Block,
-        Death
     }
 
     public enum Size { 
@@ -35,6 +34,8 @@ public class AudioManager : MonoBehaviour
     private AudioMixerGroup deathMixerGroup;
     [SerializeField]
     private AudioMixerGroup dashMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup roarMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -59,6 +60,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Clips that will be played during a dash")]
     private AudioClip[] dashClips;
+
+    [SerializeField]
+    [Tooltip("Clips that will be played during global attack")]
+    private AudioClip[] roarClips;
 
     [SerializeField]
     private AudioClip outOfCombatMusicMain;
@@ -97,6 +102,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; private set => musicMixerGroup = value; }
     public AudioMixerGroup DashMixerGroup { get => dashMixerGroup; private set => dashMixerGroup = value; }
+    public AudioMixerGroup RoarMixerGroup { get => roarMixerGroup; private set => roarMixerGroup = value; }
 
     private static AudioManager _instance;
 
@@ -121,7 +127,7 @@ public class AudioManager : MonoBehaviour
             case CombatAudio.Hit:
                 if (hitClips.Length > 0)
                 {
-                    AudioClip clipToPlay = hitClips[(Random.Range(0, hitClips.Length - 1))];
+                    AudioClip clipToPlay = hitClips[(Random.Range(0, hitClips.Length))];
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
@@ -137,7 +143,7 @@ public class AudioManager : MonoBehaviour
             case CombatAudio.Block:
                 if (blockClips.Length > 0)
                 {
-                    AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length - 1))];
+                    AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length))];
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
@@ -149,9 +155,6 @@ public class AudioManager : MonoBehaviour
                         Debug.Log(" Input manager is trying to play a clip but it is null");
                     }
                 }
-                break;
-            case CombatAudio.Death:
-                Debug.Log("TODO - Implement death audio");
                 break;
         }
     }
@@ -237,6 +240,18 @@ public class AudioManager : MonoBehaviour
             }
         }
         return 0;
+    }
+    
+    public void PlayRandomRoarClip(AudioSource audioSource) {
+        if (roarClips.Length > 0)
+        {
+            AudioClip clipToPlay = roarClips[(Random.Range(0, blockClips.Length))];
+            if (clipToPlay != null)
+            {
+                audioSource.clip = clipToPlay;
+                audioSource.Play();
+            }
+        }
     }
 
     public float PlayRandomDashClip(AudioSource audioSource) { 
