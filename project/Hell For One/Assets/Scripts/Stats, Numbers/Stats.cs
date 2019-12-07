@@ -169,8 +169,8 @@ public class Stats : MonoBehaviour
     private GameObject[] groups;
 
     private bool isDying = false;
-    
-    private float deathDuration;
+
+    private float deathDuration = 1f;
     private Coroutine deathCR;
 
     private CombatEventsManager combatEventsManager;
@@ -254,15 +254,8 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        // TODO - everyone will have a death animation
-        if(type == Stats.Type.Boss)
+        if(GetComponent<AnimationsManager>().GetAnimation("Death"))
             deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
-
-        // TODO - Temporary death duration for non Boss type
-        // need for death animations and death sounds
-        if(type != Stats.Type.Boss) { 
-           deathDuration = 1f;
-        }
 
         if (aggroDecreasingCR == null)
         {
@@ -499,13 +492,14 @@ public class Stats : MonoBehaviour
             // if the player is dying...
             if (type == Type.Player)
             {
-                // It only works if Hat is the first child of Imp
-                if (!GameObject.Find("Hat(Clone)"))
-                {
+                // It only works if Hat is the first child of Imp - don't understand this check
+                //if (!GameObject.Find("Crown(Clone)"))
+                //{
                     // TODO - change someway this
-                    GameObject hat = Instantiate(Resources.Load("Prefabs/Prototypes/Hat"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
-                    hat.GetComponent<Hat>().PlayerDied();
-                }
+                    GameObject crown = Instantiate(Resources.Load("Prefabs/Crown"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
+                    crown.GetComponent<Hat>().PlayerDied();
+                //}
+                combatEventsManager.RaiseOnDeath();
                 GetComponent<Reincarnation>().Reincarnate();
             }
 

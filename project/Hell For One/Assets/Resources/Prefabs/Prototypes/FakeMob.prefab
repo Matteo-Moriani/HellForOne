@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 1481004117720838831}
   - component: {fileID: 114932269010341362}
   - component: {fileID: 5335115903366215495}
+  - component: {fileID: 8036774660507088620}
   m_Layer: 0
   m_Name: FakeMob
   m_TagString: LittleEnemy
@@ -330,6 +331,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6336b83341fcc9a4597eb5b3771af7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8036774660507088620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019981136456503368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d1423e789324c409bb299b2d90ae40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animations:
+  - {fileID: 7400000, guid: e467a1dbff6aaab4ab39e0c72c7de42a, type: 3}
+  - {fileID: 7400000, guid: 8fb08f0e74559f246ad525dce5d870ed, type: 3}
+  - {fileID: 7400000, guid: 44ad87885daba17469bb44e31c4c97a3, type: 3}
+  - {fileID: 7400000, guid: 873f3c9884dbe8c4c9d6bb10cc915678, type: 3}
+  - {fileID: 7400000, guid: 7eb8f78d8780a3649943b7dd56abb78b, type: 3}
+  - {fileID: 7400000, guid: ccc98e52396ba9f479ea6bf196fc9b42, type: 3}
+  - {fileID: 7400000, guid: 2a4512036d6123e4587399437ef48463, type: 3}
+  - {fileID: 7400000, guid: e6d27abff4f9fb342ba6644b3c945812, type: 3}
 --- !u!136 &8824111141166020857
 CapsuleCollider:
   m_ObjectHideFlags: 0

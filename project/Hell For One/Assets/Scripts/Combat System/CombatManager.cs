@@ -11,10 +11,6 @@ public class CombatManager : MonoBehaviour
     private GameObject attackCollider;
 
     [SerializeField]
-    [Tooltip( "The BlockCollider of this unit used for combat" )]
-    private GameObject blockCollider;
-
-    [SerializeField]
     [Tooltip( "The IdleCollider of this unit used for combat" )]
     private GameObject idleCollider;
 
@@ -72,7 +68,6 @@ public class CombatManager : MonoBehaviour
         baseAttackColliderScale = attackCollider.transform.localScale;
 
         attackCollider.SetActive( false );
-        blockCollider.SetActive( false );
         idleCollider.SetActive( true );
     }
 
@@ -89,7 +84,6 @@ public class CombatManager : MonoBehaviour
             // Stop Blocking
             if ( stats.IsBlocking )
             {
-                blockCollider.SetActive( false );
                 stats.IsBlocking = false;
             }
 
@@ -191,9 +185,6 @@ public class CombatManager : MonoBehaviour
         {
             stats.CombatIdle = false;
             stats.IsBlocking = true;
-
-            //TODO-Remove this
-            blockCollider.SetActive( true );
         }
         else
         {
@@ -206,9 +197,6 @@ public class CombatManager : MonoBehaviour
     {
         if ( !stats.CombatIdle && stats.IsBlocking )
         {
-            //TODO-Remove this
-            blockCollider.SetActive( false );
-
             stats.IsBlocking = false;
             stats.CombatIdle = true;
         }
