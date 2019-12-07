@@ -239,7 +239,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5239689912466303118}
-  m_LocalRotation: {x: -0.083835624, y: 0.0013632474, z: -0.0036249452, w: 0.99647206}
+  m_LocalRotation: {x: -0.08383563, y: 0.0013632474, z: -0.0036249454, w: 0.99647206}
   m_LocalPosition: {x: -9.053445e-12, y: 0.051495507, z: -2.2126073e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2107,7 +2107,7 @@ GameObject:
   - component: {fileID: 5239689912466797818}
   - component: {fileID: 5239689912459008772}
   m_Layer: 0
-  m_Name: CH_ImpNoHatShoulder@T-Pose
+  m_Name: CH_ImpSpectator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2122,7 +2122,7 @@ Transform:
   m_GameObject: {fileID: 5239689912466303194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3795, y: 1.3795, z: 1.3795}
   m_Children:
   - {fileID: 5239689912466797816}
   - {fileID: 5239689912466797768}
@@ -2139,7 +2139,7 @@ Animator:
   m_GameObject: {fileID: 5239689912466303194}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f5e6d78149acf444ea73391ebd4e9144, type: 3}
-  m_Controller: {fileID: 9100000, guid: 52b8b39fb4e4ff74386cb4ba811f5a4a, type: 2}
+  m_Controller: {fileID: 9100000, guid: f47aad5bc819d9c48afa1ba1c841827d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
