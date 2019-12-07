@@ -86,7 +86,7 @@ public class ImpAnimator : MonoBehaviour
 
     public void StopAnimations() {
         Animator.SetBool("isDying", false);
-        Animator.SetBool("isSingleAttacking", false);
+        Animator.SetBool("isMeleeAttacking", false);
         Animator.SetBool("isRangedAttacking", false);
         Animator.SetBool("isMoving", false);
         Animator.SetBool("isIdle", false);

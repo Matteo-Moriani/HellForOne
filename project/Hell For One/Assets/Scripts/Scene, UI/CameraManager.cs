@@ -11,8 +11,10 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float turnSpeed = 4.0f;
 
-    private Vector3 offset = new Vector3( 0.0f, 5.0f, -10.0f );
-    private Vector3 lockedOffset = new Vector3( 0.0f, 5.0f, -10.0f );
+    public float yOffset = 5.0f;
+    public float zOffset = -10.0f;
+    private Vector3 offset;
+    private Vector3 lockedOffset;
     private Vector3 closedEnvironmentOffset;
 
     // Use this to set the camera in closed environment mode and viceversa
@@ -51,6 +53,11 @@ public class CameraManager : MonoBehaviour
         }
 
         return nearestEnemy;
+    }
+
+    private void Awake() {
+        offset = new Vector3(0.0f, yOffset, zOffset);
+        lockedOffset = new Vector3(0.0f, yOffset, zOffset);
     }
 
     void Start()
