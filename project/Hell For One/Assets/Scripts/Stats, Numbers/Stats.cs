@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Stats : MonoBehaviour
 {
@@ -257,6 +258,12 @@ public class Stats : MonoBehaviour
         if(type == Stats.Type.Boss)
             deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
 
+        // TODO - Temporary death duration for non Boss type
+        // need for death animations and death sounds
+        if(type != Stats.Type.Boss) { 
+           deathDuration = 1f;
+        }
+
         if (aggroDecreasingCR == null)
         {
             aggroDecreasingCR = StartCoroutine(AggroDecreasingCR());
@@ -417,83 +424,126 @@ public class Stats : MonoBehaviour
 
     private void ManageDeath()
     {
-        aggro = 1;
-
-        // If an ally is dying...
-        if (type == Stats.Type.Ally)
-        {
-            // ...we need to update his group
-            GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
-            
-            // ...and remove him from his group
-            int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
-            gb.demons[demonIndex] = null;
-
-            // ...we need to update his group aggro
-            GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
-            if (ga != null)
-            {
-                ga.UpdateGroupAggro();
-            }
-
-            // ...if the unit is supporting we have to Update his gruop supporting units number
-            if (IsSupporting)
-            {
-                GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
-
-                if (gs != null)
-                {
-                    gs.UpdateSupportingUnits();
-                }
-            }
-
-            AlliesManager.Instance.AllyKilled(this.gameObject);
-        }
-
-        // if the player is dying...
-        if (type == Type.Player)
-        {
-            // It only works if Hat is the first child of Imp
-            if (!GameObject.Find("Hat(Clone)"))
-            {
-                // TODO - change someway this
-                GameObject hat = Instantiate(Resources.Load("Prefabs/Prototypes/Hat"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
-                hat.GetComponent<Hat>().PlayerDied();
-            }
-            GetComponent<Reincarnation>().Reincarnate();
-        }
-
-        // if the boss is dying...
-        if (type == Type.Boss)
-        {
-            // TODO - Implement death animation using events
-            if (!isDying)
-            {
-                //gameObject.GetComponent<BossAnimator>().StopAnimations();
-                //gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
-                combatEventsManager.RaiseOnDeath();
-            }
+        if (!isDying) { 
             isDying = true;
 
-            // Update EnemiesManager boss
-            EnemiesManager.Instance.BossKilled();
-        }
+            aggro = 1;
 
-        // if a littleEnemy is dying...
-        if (type == Type.Enemy)
-        {
-            // Update EnemiesManager littleEnemiesList
-            EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
-        }
+            // If an ally is dying...
+            if (type == Stats.Type.Ally)
+            {
+                // ...we need to update his group
+                GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+                if (gb != null)
+                {
+                    gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
 
-        // Other events related to death
-        if(combatEventsManager != null) {
-            //combatEventsManager.RaiseOnStopAnimation();
-            combatEventsManager.RaiseOnDeath();
-        }
+                    // ...and remove him from his group
+                    int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
+                    gb.demons[demonIndex] = null;
+                }
 
-        deathCR = StartCoroutine(DeathTimer(deathDuration));
+                // ...we need to update his group aggro
+                GroupAggro ga = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>();
+                if (ga != null)
+                {
+                    ga.UpdateGroupAggro();
+                }
+
+                // ...if the unit is supporting we have to Update his group supporting units number
+                if (IsSupporting)
+                {
+                    GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+
+                    if (gs != null)
+                    {
+                        gs.UpdateSupportingUnits();
+                    }
+                }
+
+                // ...we need to disable his combat.
+                Combat combat = this.gameObject.GetComponent<Combat>();
+
+                if (combat != null)
+                {
+                    combat.enabled = false;
+                }
+
+                // ...we need to disable his demonBehaviour.
+                DemonBehaviour demonBehaviour = this.gameObject.GetComponent<DemonBehaviour>();
+
+                if (demonBehaviour != null)
+                {
+                    demonBehaviour.enabled = false;
+                }
+
+                // ...we need to disable his demonMovement.
+                DemonMovement demonMovement = this.gameObject.GetComponent<DemonMovement>();
+
+                if (demonMovement != null)
+                {
+                    demonMovement.enabled = false;
+                }
+
+                // ...we nned to disable his NavMeshAgent.
+                NavMeshAgent navMeshAgent = this.GetComponent<NavMeshAgent>();
+
+                if (navMeshAgent != null)
+                {
+                    navMeshAgent.enabled = false;
+                }
+
+                AlliesManager.Instance.AllyKilled(this.gameObject);
+            }
+
+            // if the player is dying...
+            if (type == Type.Player)
+            {
+                // It only works if Hat is the first child of Imp
+                if (!GameObject.Find("Hat(Clone)"))
+                {
+                    // TODO - change someway this
+                    GameObject hat = Instantiate(Resources.Load("Prefabs/Prototypes/Hat"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
+                    hat.GetComponent<Hat>().PlayerDied();
+                }
+                GetComponent<Reincarnation>().Reincarnate();
+            }
+
+            // if the boss is dying...
+            if (type == Type.Boss)
+            {
+                // TODO - Implement death animation using events
+                //if (!isDying)
+                //{
+                    //gameObject.GetComponent<BossAnimator>().StopAnimations();
+                    //gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
+                combatEventsManager.RaiseOnDeath();
+                //}
+                //isDying = true;
+
+                // Update EnemiesManager boss
+                EnemiesManager.Instance.BossKilled();
+            }
+
+            // if a littleEnemy is dying...
+            if (type == Type.Enemy)
+            {
+                // Update EnemiesManager littleEnemiesList
+                EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
+            }
+
+            // Other events related to death
+            if (combatEventsManager != null)
+            {
+                //combatEventsManager.RaiseOnStopAnimation();
+                combatEventsManager.RaiseOnDeath();
+            }
+
+            // TODO - disable components for death duration
+
+            deathCR = StartCoroutine(DeathTimer(deathDuration));
+
+        }
     }
 
     // TODO - Do not use this, I'm testing this
