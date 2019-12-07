@@ -90,7 +90,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
             {
                 if (combatEventsManager != null)
                 {
-                    combatEventsManager.RaiseOnStartWalking();
+                    combatEventsManager.RaiseOnStartMoving();
                 }
 
                 isMoving = true;

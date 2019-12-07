@@ -433,7 +433,7 @@ public class BossBehavior : MonoBehaviour
                 if(!isWalking) {
                     IsWalking = true;
                     IsIdle = false;
-                    combatEventsManager.RaiseOnStartWalking();
+                    combatEventsManager.RaiseOnStartMoving();
 
                 }
 
