@@ -45,6 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boss: {fileID: 0}
   midBoss: {fileID: 0}
+  bossPosition: {fileID: 6653741546990222667, guid: e393fdaa6531cc243b7af43e5313c880,
+    type: 3}
+  bossArenaCenter: {fileID: 0}
+  midBossArenaCenter: {fileID: 0}
 --- !u!1 &8260617209456588946
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +305,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
         type: 3}
+      propertyPath: dashClips.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
       propertyPath: deathMixerGroup
       value: 
       objectReference: {fileID: 243420114838782986, guid: 0c64c3ecd9ef86e43972791c4f44c097,
@@ -335,6 +349,78 @@ PrefabInstance:
       propertyPath: bossFightMusicLoop
       value: 
       objectReference: {fileID: 8300000, guid: 99f4fffde3fff2142877209898869448, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 06f0ccf2d5ec40e48b59860be3faaaf4, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bf99a014c71c77148912c0d285f260a7, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 243b48a48ef08e349af50a8cd6126460, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4c95486a419015c4488f11bc87645d1c, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7d67370a8f3cbb546bb781917f1819a9, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: aa90692bb5a37e8418a2f5444b08824c, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashClips.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4c273126cb237444d9bc4db6ff6e259f, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: dashMixerGroup
+      value: 
+      objectReference: {fileID: 243529461212889428, guid: 0c64c3ecd9ef86e43972791c4f44c097,
+        type: 2}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarMixerGroup
+      value: 
+      objectReference: {fileID: 243417527021592414, guid: 0c64c3ecd9ef86e43972791c4f44c097,
+        type: 2}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 941e7b98b8e85e24ca492551741c4c7c, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 608a3a87a6e22f34aa12b46ab77837fb, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2d6756601df2f0544ac01f94c7dfe73a, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 510cb1a77a7d840439891708ea7f5cf8, type: 3}
+    - target: {fileID: 7617623667755187562, guid: dffd9fe02539bd149a5943517f2b9b92,
+        type: 3}
+      propertyPath: roarClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: dce322f487045c24889c9ea775f71b37, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffd9fe02539bd149a5943517f2b9b92, type: 3}
 --- !u!4 &9165345064241577842 stripped

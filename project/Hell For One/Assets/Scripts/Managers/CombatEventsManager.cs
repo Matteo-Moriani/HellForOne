@@ -13,7 +13,7 @@ public class CombatEventsManager : MonoBehaviour
     public event OnStopSingleAttack onStopSingleAttack;
 
     public delegate void OnStartRangedAttack();
-    public event OnStartRangedAttack onRangedAttack;
+    public event OnStartRangedAttack onStartRangedAttack;
 
     public delegate void OnStopRangedAttack();
     public event OnStopRangedAttack onStopRangedAttack;
@@ -57,6 +57,9 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
 
+    public delegate void OnStartDash();
+    public event OnStartDash onStartDash;
+
     public delegate void OnStartIdle();
     public event OnStartIdle onStartIdle;
 
@@ -85,9 +88,9 @@ public class CombatEventsManager : MonoBehaviour
 
     public void RaiseOnStartRangedAttack()
     {
-        if (onRangedAttack != null)
+        if (onStartRangedAttack != null)
         {
-            onRangedAttack();
+            onStartRangedAttack();
         }
     }
 
@@ -195,7 +198,7 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStartWalking()
+    public void RaiseOnStartMoving()
     {
         if (onStartMoving != null)
         {
@@ -208,6 +211,12 @@ public class CombatEventsManager : MonoBehaviour
         if (onStartIdle != null)
         {
             onStartIdle();
+        }
+    }
+
+    public void RaiseOnStartDash() { 
+        if(onStartDash != null) { 
+            onStartDash();    
         }
     }
 

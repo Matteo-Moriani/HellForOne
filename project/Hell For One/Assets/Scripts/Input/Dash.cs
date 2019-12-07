@@ -39,6 +39,10 @@ public class Dash : MonoBehaviour
 
     private Controller controller;
 
+    private CombatEventsManager combatEventsManager;
+
+    private bool eventAlreadyCalled = false;
+
     #endregion
 
     #region methods
@@ -51,6 +55,18 @@ public class Dash : MonoBehaviour
         isDashing = false;
         canDash = true;
         playerWantsToDash = false;
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
+
+    private void OnEnable()
+    {
+        combatEventsManager.onStartDash += OnDash;   
+    }
+
+    private void OnDisable()
+    {
+        combatEventsManager.onStartDash -= OnDash;
     }
 
     private void Start()
@@ -77,9 +93,11 @@ public class Dash : MonoBehaviour
     /// <param name="horizontalDirection"> The x component of the dash </param>
     public void TryDash(float verticalDirection, float horizontalDirection)
     {
-        playerWantsToDash = true;
-        this.verticalDirection = verticalDirection;
-        this.horizontalDirection = horizontalDirection;
+        if (!playerWantsToDash) {
+            playerWantsToDash = true;
+            this.verticalDirection = verticalDirection;
+            this.horizontalDirection = horizontalDirection;
+        }
     }
 
     private void DashCycle()
@@ -138,6 +156,11 @@ public class Dash : MonoBehaviour
                         Debug.Log("You started dashing at: " + this.transform.position);
                     }
                     */
+                    if (!eventAlreadyCalled) { 
+                        if(combatEventsManager != null) { 
+                            combatEventsManager.RaiseOnStartDash();    
+                        }    
+                    }
 
                     // Dash, will move the player for dashSize units in dashTime seconds
                     rb.velocity = moveDirection.normalized * (dashSize / dashTime);
@@ -162,6 +185,9 @@ public class Dash : MonoBehaviour
                         verticalDirection = 0f;
                         horizontalDirection = 0f;
 
+                        // Reset event bool
+                        eventAlreadyCalled = false;
+
                         /*
                         // TODO - Remove this after testing
                         // Used for logging
@@ -178,6 +204,10 @@ public class Dash : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void OnDash() { 
+        eventAlreadyCalled = true;    
     }
 
     #endregion

@@ -86,7 +86,9 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton1);
             case Controller.Ps3:
-                return Input.GetButtonDown( "circle" );
+                //return Input.GetkeyDown( KeyCode.JoystickButton1 );
+                return Input.GetKeyDown(KeyCode.JoystickButton2);
+                //return Input.GetButtonDown("Circle");
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -260,8 +262,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("Horizontal");
             case Controller.Ps3:
-                // TODO - To Implement
-                break;
+                return Input.GetAxis("Horizontal");
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
@@ -278,8 +279,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("Vertical");
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetAxis("Vertical");
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;

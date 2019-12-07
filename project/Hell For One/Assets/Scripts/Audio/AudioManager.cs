@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     {
         Hit,
         Block,
-        Death
     }
 
     public enum Size { 
@@ -33,6 +32,10 @@ public class AudioManager : MonoBehaviour
     private AudioMixerGroup musicMixerGroup;
     [SerializeField]
     private AudioMixerGroup deathMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup dashMixerGroup;
+    [SerializeField]
+    private AudioMixerGroup roarMixerGroup;
 
     [SerializeField]
     [Tooltip("Clips that will be played when an unit is hit")]
@@ -55,6 +58,14 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] walkClips;
 
     [SerializeField]
+    [Tooltip("Clips that will be played during a dash")]
+    private AudioClip[] dashClips;
+
+    [SerializeField]
+    [Tooltip("Clips that will be played during global attack")]
+    private AudioClip[] roarClips;
+
+    [SerializeField]
     private AudioClip outOfCombatMusicMain;
 
     [SerializeField]
@@ -72,6 +83,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip bossFightMusicLoop;
 
+    private bool canPlayFootSteps = true;
+
     /// <summary>
     /// Mixer group for base audio (Stuff like walking)
     /// </summary>
@@ -87,7 +100,9 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Mixer group for music audio
     /// </summary>
-    public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; set => musicMixerGroup = value; }
+    public AudioMixerGroup MusicMixerGroup { get => musicMixerGroup; private set => musicMixerGroup = value; }
+    public AudioMixerGroup DashMixerGroup { get => dashMixerGroup; private set => dashMixerGroup = value; }
+    public AudioMixerGroup RoarMixerGroup { get => roarMixerGroup; private set => roarMixerGroup = value; }
 
     private static AudioManager _instance;
 
@@ -112,7 +127,7 @@ public class AudioManager : MonoBehaviour
             case CombatAudio.Hit:
                 if (hitClips.Length > 0)
                 {
-                    AudioClip clipToPlay = hitClips[(Random.Range(0, hitClips.Length - 1))];
+                    AudioClip clipToPlay = hitClips[(Random.Range(0, hitClips.Length))];
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
@@ -128,7 +143,7 @@ public class AudioManager : MonoBehaviour
             case CombatAudio.Block:
                 if (blockClips.Length > 0)
                 {
-                    AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length - 1))];
+                    AudioClip clipToPlay = blockClips[(Random.Range(0, blockClips.Length))];
                     if (clipToPlay != null)
                     {
                         combatAudioSource.clip = clipToPlay;
@@ -140,9 +155,6 @@ public class AudioManager : MonoBehaviour
                         Debug.Log(" Input manager is trying to play a clip but it is null");
                     }
                 }
-                break;
-            case CombatAudio.Death:
-                Debug.Log("TODO - Implement death audio");
                 break;
         }
     }
@@ -198,29 +210,60 @@ public class AudioManager : MonoBehaviour
     }
 
     public float PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
-        switch (size) { 
-            case Size.Small:
-                if(walkClips.Length > 0) {
-                    if (!walkAudioSource.isPlaying) { 
-                        AudioClip clipToPlay = walkClips[Random.Range(0,walkClips.Length - 1)];
-                        
-                        if(clipToPlay != null) { 
-                            walkAudioSource.clip = clipToPlay;
-                            //walkAudioSource.pitch = Random.Range(0.9f,1.1f);
-                            //walkAudioSource.PlayOneShot(clipToPlay);
-                            walkAudioSource.Play();
-                            return clipToPlay.length;
+        if (canPlayFootSteps) {
+            switch (size)
+            {
+                case Size.Small:
+                    if (walkClips.Length > 0)
+                    {
+                        if (!walkAudioSource.isPlaying)
+                        {
+                            AudioClip clipToPlay = walkClips[Random.Range(0, walkClips.Length - 1)];
+
+                            if (clipToPlay != null)
+                            {
+                                walkAudioSource.clip = clipToPlay;
+                                //walkAudioSource.pitch = Random.Range(0.9f,1.1f);
+                                //walkAudioSource.PlayOneShot(clipToPlay);
+                                walkAudioSource.Play();
+                                return clipToPlay.length;
+                            }
                         }
-                    }    
-                }
-                break;
-            case Size.Medium:
-                Debug.Log("TODO - Implement medium size walk audio");
-                break;
-            case Size.Big:
-                Debug.Log("TODO - Implement big size walk audio");
-                break;
+                    }
+                    break;
+                case Size.Medium:
+                    Debug.Log("TODO - Implement medium size walk audio");
+                    break;
+                case Size.Big:
+                    Debug.Log("TODO - Implement big size walk audio");
+                    break;
+            }
         }
+        return 0;
+    }
+    
+    public void PlayRandomRoarClip(AudioSource audioSource) {
+        if (roarClips.Length > 0)
+        {
+            AudioClip clipToPlay = roarClips[(Random.Range(0, blockClips.Length))];
+            if (clipToPlay != null)
+            {
+                audioSource.clip = clipToPlay;
+                audioSource.Play();
+            }
+        }
+    }
+
+    public float PlayRandomDashClip(AudioSource audioSource) { 
+
+        if(dashClips.Length > 0) {
+            AudioClip clipToPlay = dashClips[Random.Range(0,dashClips.Length)];
+            
+            audioSource.clip = clipToPlay;
+            audioSource.Play();
+            return clipToPlay.length;
+        }
+        
         return 0;
     }
     
@@ -284,5 +327,13 @@ public class AudioManager : MonoBehaviour
             case Music.BossHalfLife:
                 break;
         }
+    }
+
+    public void LockWalkAudio() {
+        canPlayFootSteps = false;    
+    }
+
+    public void UnlockWalkAudio() { 
+        canPlayFootSteps = true;    
     }
 }
