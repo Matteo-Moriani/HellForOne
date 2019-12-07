@@ -7,7 +7,7 @@ public class HUD : MonoBehaviour
 {
     private GameObject panelAzure, panelPink, panelGreen, panelYellow;
     private Image azureImage, pinkImage, greenImage, yellowImage;
-    private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
+    private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite, fullHPSprite, halfHPSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     private TacticsManager tacticsManager;
     private Vector3 defaultScale = new Vector3( 1f, 1f, 1f );
@@ -62,16 +62,16 @@ public class HUD : MonoBehaviour
     public void CheckImpsHealth()
     {
         if ( GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().health < 4 )
-            healthPoolArray[ 0 ].fillAmount = 0.5f;
+            healthPoolArray[ 0 ].overrideSprite = halfHPSprite;
         else
-            healthPoolArray[ 0 ].fillAmount = 1f;
+            healthPoolArray[ 0 ].overrideSprite = fullHPSprite;
 
         for ( int i = 0; i < alliesManager.AlliesList.Count - 1; i++ )
         {
             if ( alliesManager.AlliesList[ i ].GetComponent<Stats>().health < 4 )
-                healthPoolArray[ i + 1 ].fillAmount = 0.5f;
+                healthPoolArray[ i + 1 ].overrideSprite = halfHPSprite;
             else
-                healthPoolArray[ i + 1 ].fillAmount = 1f;
+                healthPoolArray[ i + 1 ].overrideSprite = fullHPSprite;
         }
     }
 
@@ -94,6 +94,8 @@ public class HUD : MonoBehaviour
         rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
         tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
         supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
+        fullHPSprite = Resources.Load<Sprite>( "Sprites/faceIcon" );
+        halfHPSprite = Resources.Load<Sprite>( "Sprites/halfFaceIcon" );
 
         tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
 
