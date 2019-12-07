@@ -93,9 +93,11 @@ public class Dash : MonoBehaviour
     /// <param name="horizontalDirection"> The x component of the dash </param>
     public void TryDash(float verticalDirection, float horizontalDirection)
     {
-        playerWantsToDash = true;
-        this.verticalDirection = verticalDirection;
-        this.horizontalDirection = horizontalDirection;
+        if (!playerWantsToDash) {
+            playerWantsToDash = true;
+            this.verticalDirection = verticalDirection;
+            this.horizontalDirection = horizontalDirection;
+        }
     }
 
     private void DashCycle()
