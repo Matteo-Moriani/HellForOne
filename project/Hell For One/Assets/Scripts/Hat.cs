@@ -47,7 +47,8 @@ public class Hat : MonoBehaviour
         if ( onGround && collision.gameObject.transform.root.tag == "Player" )
         {
             onGround = false;
-            collision.gameObject.transform.root.Find( "Hat" ).gameObject.SetActive( true );
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
+            //collision.gameObject.transform.root.Find("Crown").gameObject.SetActive(true);
             collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
             Destroy( gameObject );
         }

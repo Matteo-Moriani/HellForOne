@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorManager : MonoBehaviour
+public class ChildrenObjectsManager : MonoBehaviour
 {
     public GameObject circle;
+    public GameObject crown;
 
     // Start is called before the first frame update
     void Start()

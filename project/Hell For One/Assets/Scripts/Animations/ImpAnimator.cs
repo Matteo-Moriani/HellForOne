@@ -45,7 +45,7 @@ public class ImpAnimator : MonoBehaviour
 
     public void PlaySingleAttackAnimation() {
         StopAnimations();
-        animator.SetBool("isSingleAttacking", true);
+        animator.SetBool("isMeleeAttacking", true);
     }
 
     public void PlayRangedAttackAnimation() {

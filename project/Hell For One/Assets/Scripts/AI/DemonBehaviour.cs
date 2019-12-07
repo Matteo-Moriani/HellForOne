@@ -70,7 +70,7 @@ public class DemonBehaviour : MonoBehaviour
             }
         }
 
-        gameObject.GetComponent<ColorManager>().ActivateCircle();
+        gameObject.GetComponent<ChildrenObjectsManager>().ActivateCircle();
     }
 
 }
