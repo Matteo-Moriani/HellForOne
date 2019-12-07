@@ -37,7 +37,7 @@ public class Controller : MonoBehaviour
             // Player is walking so we need to raise the event
             if(combatEventsManager != null) {
                 if (!walkEventRaised) { 
-                    combatEventsManager.RaiseOnStartWalking(); 
+                    combatEventsManager.RaiseOnStartMoving(); 
                     walkEventRaised = true;
                 }    
             }

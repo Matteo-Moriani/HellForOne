@@ -198,7 +198,7 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStartWalking()
+    public void RaiseOnStartMoving()
     {
         if (onStartMoving != null)
         {

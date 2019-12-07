@@ -32,7 +32,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
                 needForRegen = true;
                 //timer = 30;
             }
-            else if ( impNumber >= 1 && impNumber < ImpMaxNumber * 0.25 )
+            else if ( impNumber >= 0 && impNumber < ImpMaxNumber * 0.25 )
             {
                 needForRegen = true;
                 //timer = 15;

@@ -253,7 +253,7 @@ public class DemonMovement : MonoBehaviour
             {
                 if (combatEventsManager != null)
                 {
-                    combatEventsManager.RaiseOnStartWalking();
+                    combatEventsManager.RaiseOnStartMoving();
                 }
 
                 isMoving = true;
