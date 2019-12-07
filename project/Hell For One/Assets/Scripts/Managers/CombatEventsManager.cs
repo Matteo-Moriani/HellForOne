@@ -13,7 +13,7 @@ public class CombatEventsManager : MonoBehaviour
     public event OnStopSingleAttack onStopSingleAttack;
 
     public delegate void OnStartRangedAttack();
-    public event OnStartRangedAttack onRangedAttack;
+    public event OnStartRangedAttack onStartRangedAttack;
 
     public delegate void OnStopRangedAttack();
     public event OnStopRangedAttack onStopRangedAttack;
@@ -88,9 +88,9 @@ public class CombatEventsManager : MonoBehaviour
 
     public void RaiseOnStartRangedAttack()
     {
-        if (onRangedAttack != null)
+        if (onStartRangedAttack != null)
         {
-            onRangedAttack();
+            onStartRangedAttack();
         }
     }
 
