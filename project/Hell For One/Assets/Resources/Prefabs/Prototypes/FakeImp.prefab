@@ -5107,6 +5107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circle: {fileID: 684786139638479905}
+  crown: {fileID: 1282317012767701461}
 --- !u!114 &1488950048158556222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5428,6 +5429,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 71682201650354648}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1282317012767701461 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1239930336501243917, guid: 4e60f62bdb8815b44b941a054863eae5,
+    type: 3}
+  m_PrefabInstance: {fileID: 71682201650354648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &684786139638446721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5582,6 +5589,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901385055684, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -5592,16 +5604,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: aggroModifier
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Mesh
@@ -5611,6 +5613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 559601048356761775, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: aggroModifier
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
