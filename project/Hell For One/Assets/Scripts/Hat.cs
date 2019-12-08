@@ -39,6 +39,7 @@ public class Hat : MonoBehaviour
     {
         yield return new WaitForSeconds( fallingTime );
         onGround = true;
+        transform.GetChild( 0 ).gameObject.SetActive( true );
     }
 
     public void OnCollisionEnter( Collision collision )

@@ -55,9 +55,10 @@ public class CameraManager : MonoBehaviour
         return nearestEnemy;
     }
 
-    private void Awake() {
-        offset = new Vector3(0.0f, yOffset, zOffset);
-        lockedOffset = new Vector3(0.0f, yOffset, zOffset);
+    private void Awake()
+    {
+        offset = new Vector3( 0.0f, yOffset, zOffset );
+        lockedOffset = new Vector3( 0.0f, yOffset, zOffset );
     }
 
     void Start()
@@ -85,9 +86,9 @@ public class CameraManager : MonoBehaviour
 
         // M&K
         //if (GameObject.FindGameObjectWithTag("Managers").GetComponentInChildren<InputManager>().Type == InputManager.Controller.MouseAndKeyboard )
-        if(InputManager.Instance.Type == InputManager.Controller.MouseAndKeyboard)
+        if ( InputManager.Instance.Type == InputManager.Controller.MouseAndKeyboard )
         {
-            offset = Quaternion.AngleAxis( - Input.GetAxis( "Mouse X" ) * mouseSensitivity * turnSpeed, Vector3.down ) * offset;
+            offset = Quaternion.AngleAxis( -Input.GetAxis( "Mouse X" ) * mouseSensitivity * turnSpeed, Vector3.down ) * offset;
 
             if ( closedEnvironment )
             {
@@ -106,7 +107,7 @@ public class CameraManager : MonoBehaviour
         {
             // Remove lock-on
             // if ( Input.GetButtonDown( "R3" ) && isLocked )
-            if(InputManager.Instance.RightStickButtonDown() && isLocked)
+            if ( InputManager.Instance.RightStickButtonDown() && isLocked )
             {
                 isLocked = false;
                 target = player;
@@ -114,22 +115,24 @@ public class CameraManager : MonoBehaviour
 
             // Start lock-on
             //else if ( Input.GetButtonDown( "R3" ) && !isLocked )
-            else if(InputManager.Instance.RightStickButtonDown() && !isLocked)
+            else if ( InputManager.Instance.RightStickButtonDown() && !isLocked )
             {
                 //enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
                 //boss = GameObject.FindGameObjectWithTag( "Boss" );
 
                 //if ( boss == null && enemies != null )
-                if(EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null)
+                if ( EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null )
                 {
-                    isLocked = true;
                     target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
+                    if ( target )
+                        isLocked = true;
                 }
                 //else if ( boss != null )
-                else if(EnemiesManager.Instance.Boss != null)
+                else if ( EnemiesManager.Instance.Boss != null )
                 {
-                    isLocked = true;
                     target = EnemiesManager.Instance.Boss;
+                    if ( target )
+                        isLocked = true;
                 }
             }
 
@@ -146,7 +149,7 @@ public class CameraManager : MonoBehaviour
             else
             {
                 //offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
-                offset = Quaternion.AngleAxis(InputManager.Instance.RightStickHorizontal() * turnSpeed,Vector3.down) * offset;
+                offset = Quaternion.AngleAxis( InputManager.Instance.RightStickHorizontal() * turnSpeed, Vector3.down ) * offset;
                 if ( closedEnvironment )
                 {
                     transform.position = player.transform.position + closedEnvironmentOffset;
