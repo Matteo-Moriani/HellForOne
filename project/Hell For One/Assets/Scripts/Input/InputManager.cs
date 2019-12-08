@@ -415,8 +415,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton9);
             case Controller.Ps3:
-                // TODO - To implement
-                break;
+                return Input.GetButtonDown( "R3" );
             case Controller.None:
                 Debug.Log("Controller.type not set");
                 break;
