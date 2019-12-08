@@ -254,8 +254,15 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        if(GetComponent<AnimationsManager>().GetAnimation("Death"))
-            deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
+        AnimationsManager animationsManager = this.gameObject.GetComponent<AnimationsManager>();
+
+        if(animationsManager != null) { 
+            AnimationClip death = animationsManager.GetAnimation("Death");
+            
+            if(death != null) { 
+                deathDuration = death.length;    
+            }
+        }
 
         if (aggroDecreasingCR == null)
         {
