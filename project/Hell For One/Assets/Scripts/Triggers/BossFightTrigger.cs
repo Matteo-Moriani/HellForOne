@@ -16,23 +16,24 @@ public class BossFightTrigger : MonoBehaviour
         BattleEventsManager.onBossBattleExit -= onBossBattleExit;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter( Collider other )
     {
-        if (other.tag == "Player")
+        if ( other.tag == "Player" )
         {
-            if (!isAlreadyInBossFight)
+            if ( !isAlreadyInBossFight )
             {
                 isAlreadyInBossFight = true;
 
                 BattleEventsManager.RaiseOnBossBattleEnter();
-                Debug.Log("Player entered boss area");
+                Debug.Log( "Player entered boss area" );
 
-                Destroy(this.gameObject);
+                Destroy( this.gameObject );
             }
         }
     }
 
-    private void onBossBattleExit() { 
-        isAlreadyInBossFight = false;    
+    private void onBossBattleExit()
+    {
+        isAlreadyInBossFight = false;
     }
 }

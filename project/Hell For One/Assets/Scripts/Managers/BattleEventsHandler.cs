@@ -6,8 +6,8 @@ public class BattleEventsHandler : MonoBehaviour
 {
     private GameObject spawner;
 
-    private bool isInBossBattle = false;
-    private bool isInRegularBattle = false;
+    public bool isInBossBattle = false;
+    public bool isInRegularBattle = false;
 
     private static BattleEventsHandler _instance;
     public static BattleEventsHandler Instance { get { return _instance; } }

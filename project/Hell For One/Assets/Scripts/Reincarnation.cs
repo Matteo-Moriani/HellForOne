@@ -73,6 +73,7 @@ public class Reincarnation : MonoBehaviour
             player.GetComponent<Lancer>().enabled = false;
             player.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             player.GetComponent<Stats>().type = Stats.Type.Player;
+            player.layer = LayerMask.NameToLayer( "Player" );
             player.GetComponent<Controller>().enabled = true;
             //player.GetComponent<TacticsManager>().enabled = true;
             player.GetComponent<Dash>().enabled = true;
