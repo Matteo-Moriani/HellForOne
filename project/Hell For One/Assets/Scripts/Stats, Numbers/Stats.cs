@@ -254,8 +254,15 @@ public class Stats : MonoBehaviour
 
     private void Start()
     {
-        if(GetComponent<AnimationsManager>().GetAnimation("Death"))
-            deathDuration = GetComponent<AnimationsManager>().GetAnimation("Death").length;
+        AnimationsManager animationsManager = this.gameObject.GetComponent<AnimationsManager>();
+
+        if(animationsManager != null) { 
+            AnimationClip death = animationsManager.GetAnimation("Death");
+            
+            if(death != null) { 
+                deathDuration = death.length;    
+            }
+        }
 
         if (aggroDecreasingCR == null)
         {
@@ -493,12 +500,12 @@ public class Stats : MonoBehaviour
             if (type == Type.Player)
             {
                 // It only works if Hat is the first child of Imp - don't understand this check
-                //if (!GameObject.Find("Crown(Clone)"))
-                //{
+                if (!GameObject.Find("Crown(Clone)"))
+                {
                     // TODO - change someway this
                     GameObject crown = Instantiate(Resources.Load("Prefabs/Crown"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
                     crown.GetComponent<Hat>().PlayerDied();
-                //}
+                }
                 combatEventsManager.RaiseOnDeath();
                 GetComponent<Reincarnation>().Reincarnate();
             }
