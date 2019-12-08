@@ -8,18 +8,14 @@ public class ImpAnimator : MonoBehaviour
     private AnimationsManager animationsManager;
 
     private Animator animator;
-    private bool isMoving = false;
-    public Animator Animator { get => animator; set => animator = value; }
-    public Controller controller;
+    private Animator Animator { get => animator; set => animator = value; }
+
+    private Controller controller;
+    private DemonMovement demonMovement;
+    private bool isAnimating = false;
+    public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
 
     private CombatEventsManager combatEventsManager;
-    //private Rigidbody rigidbody;
-    //private NavMeshAgent agent;
-
-    //private void FixedUpdate() {
-    //    if(gameObject.tag == "Player")
-    //        agent.SetDestination(transform.position);
-    //}
 
     private void OnEnable() {
         if(combatEventsManager != null) {
@@ -51,8 +47,6 @@ public class ImpAnimator : MonoBehaviour
 
     private void Awake() {
         Animator = GetComponent<Animator>();
-        //rigidbody = GetComponent<Rigidbody>();
-        //agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<Controller>();
         animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
@@ -109,7 +103,9 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public IEnumerator WaitAnimation(float time) {
+        isAnimating = true;
         yield return new WaitForSeconds(time);
+        isAnimating = false;
         if(controller.ZMovement != 0 || controller.XMovement != 0)
             combatEventsManager.RaiseOnStartMoving();
         else
@@ -127,27 +123,4 @@ public class ImpAnimator : MonoBehaviour
         Animator.SetBool("isSupporting", false);
         animator.SetBool("isDashing", false);
     }
-
-    //private void ManageMovementEvents() {
-    //    // TODO - Parametrize this velocity
-    //    if(rigidbody.velocity.magnitude > 0.2) {
-    //        if(!isMoving) {
-    //            if(combatEventsManager != null) {
-    //                combatEventsManager.RaiseOnStartMoving();
-    //            }
-
-    //            isMoving = true;
-    //        }
-    //    }
-    //    // TODO - Parametrize this velocity
-    //    if(rigidbody.velocity.magnitude <= 0.2) {
-    //        if(isMoving) {
-    //            if(combatEventsManager != null) {
-    //                combatEventsManager.RaiseOnStartIdle();
-    //            }
-    //            isMoving = false;
-    //        }
-    //    }
-
-    //}
 }

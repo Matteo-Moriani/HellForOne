@@ -381,6 +381,7 @@ public class GroupBehaviour : MonoBehaviour
 
         tankState.enterActions.Add( GeneralEnterAction );
         tankState.enterActions.Add( Tank );
+        tankState.stayActions.Add(Tank);
         tankState.exitActions.Add( StopTank );
 
         supportState.enterActions.Add( GeneralEnterAction );
