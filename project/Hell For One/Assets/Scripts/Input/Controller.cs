@@ -19,6 +19,9 @@ public class Controller : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private bool walkEventRaised = false;
 
+    public float ZMovement { get => zMovement; set => zMovement = value; }
+    public float XMovement { get => xMovement; set => xMovement = value; }
+
     private void Start()
     {
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();

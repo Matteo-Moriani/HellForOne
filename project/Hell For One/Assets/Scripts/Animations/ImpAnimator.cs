@@ -1,13 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ImpAnimator : MonoBehaviour
 {
+    private AnimationsManager animationsManager;
+
     private Animator animator;
+    private bool isMoving = false;
     public Animator Animator { get => animator; set => animator = value; }
+    public Controller controller;
 
     private CombatEventsManager combatEventsManager;
+    //private Rigidbody rigidbody;
+    //private NavMeshAgent agent;
+
+    //private void FixedUpdate() {
+    //    if(gameObject.tag == "Player")
+    //        agent.SetDestination(transform.position);
+    //}
 
     private void OnEnable() {
         if(combatEventsManager != null) {
@@ -15,9 +27,9 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartMoving += PlayMoveAnimation;
             combatEventsManager.onDeath += PlayDeathAnimation;
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
-            combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStartRangedAttack += PlayRangedAttackAnimation;
             combatEventsManager.onStartBlock += PlayBlockAnimation;
+            combatEventsManager.onStopBlock += StopBlockAnimation;
             combatEventsManager.onStartSupport += PlaySupportAnimation;
             combatEventsManager.onStartDash += PlayDashAnimation;
         }
@@ -28,10 +40,10 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
             combatEventsManager.onStartMoving -= PlayMoveAnimation;
             combatEventsManager.onDeath -= PlayDeathAnimation;
-            combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
             combatEventsManager.onStartRangedAttack -= PlayRangedAttackAnimation;
             combatEventsManager.onStartBlock -= PlayBlockAnimation;
+            combatEventsManager.onStopBlock -= StopBlockAnimation;
             combatEventsManager.onStartSupport -= PlaySupportAnimation;
             combatEventsManager.onStartDash -= PlayDashAnimation;
         }
@@ -39,18 +51,23 @@ public class ImpAnimator : MonoBehaviour
 
     private void Awake() {
         Animator = GetComponent<Animator>();
-
+        //rigidbody = GetComponent<Rigidbody>();
+        //agent = GetComponent<NavMeshAgent>();
+        controller = GetComponent<Controller>();
+        animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
 
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isMeleeAttacking", true);
+        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length));
     }
 
     public void PlayRangedAttackAnimation() {
         StopAnimations();
         animator.SetBool("isRangedAttacking", true);
+        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Goalie Throw").length));
     }
 
     public void PlayMoveAnimation() {
@@ -81,6 +98,22 @@ public class ImpAnimator : MonoBehaviour
     public void PlayDashAnimation() {
         StopAnimations();
         animator.SetBool("isDashing", true);
+        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Jump").length));
+    }
+
+    public void StopBlockAnimation() {
+        if(controller.ZMovement != 0 || controller.XMovement != 0)
+            combatEventsManager.RaiseOnStartMoving();
+        else
+            combatEventsManager.RaiseOnStartIdle();
+    }
+
+    public IEnumerator WaitAnimation(float time) {
+        yield return new WaitForSeconds(time);
+        if(controller.ZMovement != 0 || controller.XMovement != 0)
+            combatEventsManager.RaiseOnStartMoving();
+        else
+            combatEventsManager.RaiseOnStartIdle();
     }
 
 
@@ -92,5 +125,29 @@ public class ImpAnimator : MonoBehaviour
         Animator.SetBool("isIdle", false);
         Animator.SetBool("isBlocking", false);
         Animator.SetBool("isSupporting", false);
+        animator.SetBool("isDashing", false);
     }
+
+    //private void ManageMovementEvents() {
+    //    // TODO - Parametrize this velocity
+    //    if(rigidbody.velocity.magnitude > 0.2) {
+    //        if(!isMoving) {
+    //            if(combatEventsManager != null) {
+    //                combatEventsManager.RaiseOnStartMoving();
+    //            }
+
+    //            isMoving = true;
+    //        }
+    //    }
+    //    // TODO - Parametrize this velocity
+    //    if(rigidbody.velocity.magnitude <= 0.2) {
+    //        if(isMoving) {
+    //            if(combatEventsManager != null) {
+    //                combatEventsManager.RaiseOnStartIdle();
+    //            }
+    //            isMoving = false;
+    //        }
+    //    }
+
+    //}
 }

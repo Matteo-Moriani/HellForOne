@@ -8,7 +8,9 @@ public class GroupBehaviour : MonoBehaviour
 
     public int maxNumDemons = 4;
     private int demonsInGroup = 0;
+    public float rateo = 2f;
     public Material groupColor;
+    private Coroutine continuousAttack;
 
     #region 
 
@@ -109,8 +111,11 @@ public class GroupBehaviour : MonoBehaviour
         GroupAggro groupAggro = gameObject.GetComponent<GroupAggro>();
         groupAggro.UpdateGroupAggro();
 
-        if ( currentState == State.Tank )
-            groupAggro.GroupAggroValue = Mathf.Max( Mathf.CeilToInt( (groupAggro.CalculateAverageAggro() / groupAggro.groups.Length) * groupAggro.TankMultiplier ), groupAggro.GroupAggroValue );
+        if(currentState == State.Tank)
+            groupAggro.GroupAggroValue = Mathf.Max(Mathf.CeilToInt((groupAggro.CalculateAverageAggro() / groupAggro.groups.Length) * groupAggro.TankMultiplier), groupAggro.GroupAggroValue);
+        else if(currentState == State.MeleeAttack || currentState == State.RangeAttack)
+            continuousAttack = StartCoroutine(AttackOneTime(rateo));
+
         GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().RaiseAggro( groupAggro.OrderGivenMultiplier );
     }
 
@@ -172,6 +177,7 @@ public class GroupBehaviour : MonoBehaviour
                 combat.StopAttack();
             }
         }
+        StopCoroutine(continuousAttack);
     }
 
     public void Tank()
@@ -252,6 +258,8 @@ public class GroupBehaviour : MonoBehaviour
                 combat.StopRangedAttack();
             }
         }
+
+        StopCoroutine(continuousAttack);
     }
 
     // TODO implement support mechanic
@@ -364,11 +372,11 @@ public class GroupBehaviour : MonoBehaviour
         idleState = new FSMState();
 
         meleeState.enterActions.Add( GeneralEnterAction );
-        meleeState.stayActions.Add( MeleeAttack );
+        //meleeState.stayActions.Add( MeleeAttack );
         meleeState.exitActions.Add( StopAttack );
 
         rangeAttackState.enterActions.Add( GeneralEnterAction );
-        rangeAttackState.stayActions.Add( RangeAttack );
+        //rangeAttackState.stayActions.Add( RangeAttack );
         rangeAttackState.exitActions.Add( StopRangeAttack );
 
         tankState.enterActions.Add( GeneralEnterAction );
@@ -446,5 +454,15 @@ public class GroupBehaviour : MonoBehaviour
         }
 
         return demon;
+    }
+
+    public IEnumerator AttackOneTime(float rateo) {
+        while(true) {
+            yield return new WaitForSeconds(rateo);
+            if(currentState == State.MeleeAttack)
+                MeleeAttack();
+            else if(currentState == State.RangeAttack)
+                RangeAttack();
+        }
     }
 }

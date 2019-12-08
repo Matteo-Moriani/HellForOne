@@ -254,6 +254,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6542592131629019941, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: m_Speed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1172605104724893249, guid: 9a9f2e67cd4d2644093b16d559414d9e,
         type: 3}
       propertyPath: m_Enabled
@@ -514,6 +519,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114618281047304172, guid: b5cd994fb3434f149ace26e835a2366a,
+        type: 3}
+      propertyPath: rateo
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5cd994fb3434f149ace26e835a2366a, type: 3}
 --- !u!1001 &311822390
@@ -597,6 +607,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
@@ -749,12 +764,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -933,12 +953,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -1032,12 +1057,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -1262,6 +1292,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114505785571255092, guid: 478b9bf37234ea94b842ce825b73762a,
+        type: 3}
+      propertyPath: rateo
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 478b9bf37234ea94b842ce825b73762a, type: 3}
@@ -1535,6 +1570,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
 --- !u!1001 &1103868284
@@ -1607,6 +1647,11 @@ PrefabInstance:
     - target: {fileID: 4349689355973396590, guid: 458750bf1afbfea4ba6c16b45248d375,
         type: 3}
       propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7499791768782113751, guid: 458750bf1afbfea4ba6c16b45248d375,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1693,6 +1738,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
 --- !u!1001 &1191957805
@@ -1775,12 +1825,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -1860,6 +1915,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114825707946308418, guid: 7a1fafda812482f45ac1cb0a43d989b0,
+        type: 3}
+      propertyPath: rateo
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a1fafda812482f45ac1cb0a43d989b0, type: 3}
@@ -1944,6 +2004,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
@@ -2101,12 +2166,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -2202,6 +2272,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
 --- !u!1001 &1337838041
@@ -2285,6 +2360,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
@@ -2543,6 +2623,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}
 --- !u!1001 &1611014512
@@ -2611,6 +2696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114660412348658804, guid: db1bf6e55c62f234ca1ac3e0d0825ffd,
+        type: 3}
+      propertyPath: rateo
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db1bf6e55c62f234ca1ac3e0d0825ffd, type: 3}
@@ -2903,12 +2993,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -3150,12 +3245,17 @@ PrefabInstance:
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: meleeDamage
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
       propertyPath: attackRange
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152089660661641188, guid: 4148c5ee90567be44aec1f89c78f18e2,
+        type: 3}
+      propertyPath: rangedDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1481004117720838831, guid: 4148c5ee90567be44aec1f89c78f18e2,
         type: 3}
@@ -3250,6 +3350,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4364288494851231950, guid: 9a9f2e67cd4d2644093b16d559414d9e,
+        type: 3}
+      propertyPath: playerAttackCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a9f2e67cd4d2644093b16d559414d9e, type: 3}

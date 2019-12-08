@@ -46,8 +46,8 @@ public class MeleePositionScript : MonoBehaviour
             transform.position = hit.position;
         else if(NavMesh.SamplePosition(rayOrigin, out hit, 3f, NavMesh.AllAreas))
             transform.position = hit.position;
-        else
-            Debug.Log("I didn't found a navmesh through raycast");
+        //else
+            //Debug.Log("I didn't found a navmesh through raycast");
 
     }
 }
