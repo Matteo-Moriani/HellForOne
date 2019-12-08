@@ -111,7 +111,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
+  - {fileID: 2100000, guid: 353d5ed51a4cfd340a45118f2336ea8b, type: 2}
   - {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -170,20 +170,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0077011734, y: -0.0094150305, z: -0.010319635}
     m_Extent: {x: 0.3758303, y: 0.25151733, z: 0.15373616}
   m_DirtyAABB: 0
---- !u!136 &5203319798160537448
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2206354433086866997}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.2534746
-  m_Height: 0.9740498
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.43342578, z: -0.020389318}
 --- !u!1 &402488000635567034
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,18 +315,6 @@ Transform:
   m_Father: {fileID: 3487564949158083469}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1374973377518393532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4644509249348608393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc113202cfc7b1468796d2c992afe38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1275319402437393874
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +657,20 @@ Transform:
   m_Father: {fileID: 9020686044336007982}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5203319798160537448
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2206354433086866997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.2534746
+  m_Height: 0.9740498
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.43342578, z: -0.020389318}
 --- !u!1 &2210481871976009670
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +719,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
+  - {fileID: 2100000, guid: 353d5ed51a4cfd340a45118f2336ea8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1227,6 +1215,18 @@ Transform:
   m_Father: {fileID: 4296725212766191209}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1374973377518393532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644509249348608393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc113202cfc7b1468796d2c992afe38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5076852242652470651
 GameObject:
   m_ObjectHideFlags: 0
@@ -7357,7 +7357,7 @@ GameObject:
   - component: {fileID: 4098587929280634383}
   - component: {fileID: 2768105425166788149}
   m_Layer: 9
-  m_Name: Imp 1
+  m_Name: Mob
   m_TagString: Demon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
