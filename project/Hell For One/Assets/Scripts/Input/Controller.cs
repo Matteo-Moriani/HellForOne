@@ -26,8 +26,10 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        zMovement = Input.GetAxis( "Vertical" );
-        xMovement = Input.GetAxis( "Horizontal" );
+        //zMovement = Input.GetAxis( "Vertical" );
+        //xMovement = Input.GetAxis( "Horizontal" );
+        zMovement = InputManager.Instance.LeftStickVertical();
+        xMovement = InputManager.Instance.LeftStickHorizontal();
     }
 
     private void FixedUpdate()

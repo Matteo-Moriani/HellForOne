@@ -20,6 +20,22 @@ public class InputManager : MonoBehaviour
 
     public Controller Type { get => type; set => type = value; }
 
+    private static InputManager _instance;
+
+    public static InputManager Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     #region XorA
 
     /// <summary>
@@ -359,8 +375,7 @@ public class InputManager : MonoBehaviour
             case Controller.Xbox:
                 return Input.GetAxis("XBoxRightStickHorizontal");
             case Controller.Ps3:
-                // TODO - To Implement
-                break;
+                return Input.GetAxis("Vertical2");
             case Controller.MouseAndKeyboard:
                 // TODO - To Implement
                 break;
@@ -804,7 +819,7 @@ public class InputManager : MonoBehaviour
     public bool PauseButtonDown() {
         switch(Type) {
             case Controller.Xbox:
-                // TODO
+                return Input.GetKeyDown(KeyCode.JoystickButton7);
             case Controller.Ps3:
                 return Input.GetButtonDown( "Options" );
             case Controller.MouseAndKeyboard:

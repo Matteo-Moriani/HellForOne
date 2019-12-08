@@ -84,7 +84,8 @@ public class CameraManager : MonoBehaviour
         }
 
         // M&K
-        if (GameObject.FindGameObjectWithTag("Managers").GetComponentInChildren<InputManager>().Type == InputManager.Controller.MouseAndKeyboard )
+        //if (GameObject.FindGameObjectWithTag("Managers").GetComponentInChildren<InputManager>().Type == InputManager.Controller.MouseAndKeyboard )
+        if(InputManager.Instance.Type == InputManager.Controller.MouseAndKeyboard)
         {
             offset = Quaternion.AngleAxis( - Input.GetAxis( "Mouse X" ) * mouseSensitivity * turnSpeed, Vector3.down ) * offset;
 
@@ -104,27 +105,31 @@ public class CameraManager : MonoBehaviour
         else
         {
             // Remove lock-on
-            if ( Input.GetButtonDown( "R3" ) && isLocked )
+            // if ( Input.GetButtonDown( "R3" ) && isLocked )
+            if(InputManager.Instance.RightStickButtonDown() && isLocked)
             {
                 isLocked = false;
                 target = player;
             }
 
             // Start lock-on
-            else if ( Input.GetButtonDown( "R3" ) && !isLocked )
+            //else if ( Input.GetButtonDown( "R3" ) && !isLocked )
+            else if(InputManager.Instance.RightStickButtonDown() && !isLocked)
             {
-                enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-                boss = GameObject.FindGameObjectWithTag( "Boss" );
+                //enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
+                //boss = GameObject.FindGameObjectWithTag( "Boss" );
 
-                if ( boss == null && enemies != null )
+                //if ( boss == null && enemies != null )
+                if(EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null)
                 {
                     isLocked = true;
-                    target = FindNearestEnemy( gameObject, enemies );
+                    target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
                 }
-                else if ( boss != null )
+                //else if ( boss != null )
+                else if(EnemiesManager.Instance.Boss != null)
                 {
                     isLocked = true;
-                    target = boss;
+                    target = EnemiesManager.Instance.Boss;
                 }
             }
 
@@ -140,8 +145,8 @@ public class CameraManager : MonoBehaviour
             }
             else
             {
-                offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
-
+                //offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
+                offset = Quaternion.AngleAxis(InputManager.Instance.RightStickHorizontal() * turnSpeed,Vector3.down) * offset;
                 if ( closedEnvironment )
                 {
                     transform.position = player.transform.position + closedEnvironmentOffset;
@@ -154,13 +159,15 @@ public class CameraManager : MonoBehaviour
             transform.LookAt( target.transform.position );
 
             // Change lock-on target
-            float input = Input.GetAxis( "Vertical2" );
+            //float input = Input.GetAxis( "Vertical2" );
+            float input = InputManager.Instance.RightStickHorizontal();
+
             if ( (!rightAxisInUse && Mathf.Abs( input ) > 0.4f) && isLocked )
             {
                 rightAxisInUse = true;
 
                 //Do nothing
-                if ( !boss && target == boss ) ;
+                if ( !EnemiesManager.Instance.Boss && target == EnemiesManager.Instance.Boss ) ;
 
                 // Cycle through the enemies
                 else
@@ -170,7 +177,7 @@ public class CameraManager : MonoBehaviour
                     GameObject leftNearestDemon = null;
                     GameObject rightNearestDemon = null;
 
-                    foreach ( GameObject demon in enemies )
+                    foreach ( GameObject demon in EnemiesManager.Instance.littleEnemiesList )
                     {
                         float demonXAxis = transform.InverseTransformPoint( demon.transform.position ).x;
 
