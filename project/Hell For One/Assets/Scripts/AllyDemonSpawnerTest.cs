@@ -5,12 +5,13 @@ using UnityEngine;
 public class AllyDemonSpawnerTest : MonoBehaviour
 {
     public float timer = 30f;
-    public float countdown;
+    private float countdown;
     private float impMaxNumber = 16;
     public float ImpMaxNumber { get => impMaxNumber; set => impMaxNumber = value; }
     private bool needForRegen = true;
     private Coroutine spawnAllyCR;
     public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
+    public float Countdown { get => countdown; set => countdown = value; }
 
     [SerializeField]
     private GameObject impPrefab;
