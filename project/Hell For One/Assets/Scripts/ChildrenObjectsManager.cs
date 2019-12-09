@@ -8,8 +8,7 @@ public class ChildrenObjectsManager : MonoBehaviour
     public GameObject crown;
     public GameObject spear;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
