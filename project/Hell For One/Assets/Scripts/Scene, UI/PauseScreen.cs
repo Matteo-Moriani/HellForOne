@@ -20,7 +20,8 @@ public class PauseScreen : Menu
                 break;
             // TITLE SCREEN
             case 2:
-                SceneManager.LoadScene("Title Screen");
+                //SceneManager.LoadScene("Title Screen");
+                Debug.Log("title screen not available");
                 break;
             default:
                 break;
