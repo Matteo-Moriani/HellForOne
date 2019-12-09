@@ -15,6 +15,9 @@ public class ImpAnimator : MonoBehaviour
     private bool isAnimating = false;
     public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
 
+    private float meleeSpeedMultiplier = 2f;
+    private float rangedSpeedMultiplier = 3f;
+
     private CombatEventsManager combatEventsManager;
 
     private void OnEnable() {
@@ -55,13 +58,14 @@ public class ImpAnimator : MonoBehaviour
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isMeleeAttacking", true);
-        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length));
+        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / meleeSpeedMultiplier));
+        //StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / animator.GetCurrentAnimatorStateInfo(0).speed));
     }
 
     public void PlayRangedAttackAnimation() {
         StopAnimations();
         animator.SetBool("isRangedAttacking", true);
-        StartCoroutine(WaitRangedAnimation(animationsManager.GetAnimation("Goalie Throw").length));
+        StartCoroutine(WaitRangedAnimation(animationsManager.GetAnimation("Goalie Throw").length / rangedSpeedMultiplier));
     }
 
     public void PlayMoveAnimation() {
