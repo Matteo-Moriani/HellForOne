@@ -506,8 +506,10 @@ public class Stats : MonoBehaviour
                     GameObject crown = Instantiate(Resources.Load("Prefabs/Crown"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
                     crown.GetComponent<Hat>().PlayerDied();
                 }
-                combatEventsManager.RaiseOnDeath();
+                
                 GetComponent<Reincarnation>().Reincarnate();
+
+                combatEventsManager.RaiseOnDeath();
             }
 
             // if the boss is dying...

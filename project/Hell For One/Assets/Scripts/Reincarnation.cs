@@ -200,6 +200,12 @@ public class Reincarnation : MonoBehaviour
 
             // Update allies list
             AlliesManager.Instance.ManagePlayerReincarnation(player);
+
+            CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
+            
+            if(combatEventsManager != null) { 
+                combatEventsManager.RaiseOnReincarnation();    
+            }
         }
         else
         {
