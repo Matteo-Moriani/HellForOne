@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 8122182276196674175}
   - component: {fileID: 1356957124986730364}
   m_Layer: 0
-  m_Name: NewMidBoss
+  m_Name: MidBoss
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1479,6 +1479,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3329590975247583433}
     m_Modifications:
+    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_Midboss
+      objectReference: {fileID: 0}
     - target: {fileID: 7714929163739455013, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1533,11 +1538,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 105.019005
-      objectReference: {fileID: 0}
-    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_Midboss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b70bf6ff2c2c2324cad4a20ea02deeed, type: 3}
