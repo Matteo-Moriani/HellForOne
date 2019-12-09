@@ -18,9 +18,8 @@ public class Lancer : MonoBehaviour
     private float minDistance;
     [SerializeField, Min( 0 ), Tooltip( "The maximum distance of attack of the ranged unit." )]
     private float maxDistance;
-    [Space]
-    [SerializeField, Tooltip( "The spawn position of the lance." )]
-    private Vector3 lancePosition;
+    public GameObject spearPosition;
+    private Vector3 spearLaunchPoint;
     [SerializeField, Tooltip( "If the lance follow a direct trajectory or not (false is recommended)." )]
     private bool direct;
 
@@ -38,6 +37,7 @@ public class Lancer : MonoBehaviour
         timespanShots = 1f / ratio;
         lancerStats = transform.root.GetComponent<Stats>();
         lances = GameObject.Find( "LancePooler" ).GetComponent<ObjectsPooler>();
+        spearLaunchPoint = spearPosition.transform.position;
     }
 
     // Update is called once per frame
@@ -78,13 +78,13 @@ public class Lancer : MonoBehaviour
         {
             Vector3 targetPosFixed = target.transform.position + new Vector3( 0f, 1f, 0f );
 
-            if ( !calculateAngle( transform.position + lancePosition, targetPosFixed, out alpha ) )
+            if ( !calculateAngle( transform.position + spearLaunchPoint, targetPosFixed, out alpha ) )
             {
                 return false;
             }
         }
 
-        else if ( !calculateAngle( transform.position + lancePosition, target.transform.position, out alpha ) )
+        else if ( !calculateAngle( transform.position + spearLaunchPoint, target.transform.position, out alpha ) )
         {
             return false;
         }
@@ -92,7 +92,7 @@ public class Lancer : MonoBehaviour
         //transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
         lance = lances.GetNotActiveObject();
         lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        lance.transform.position = transform.position + lancePosition;
+        lance.transform.position = transform.position + spearLaunchPoint;
         lance.transform.forward = new Vector3( target.transform.position.x, lance.transform.position.y, target.transform.position.z ) - lance.transform.position;
         lance.transform.rotation = Quaternion.Euler( 90f - alpha, lance.transform.eulerAngles.y, 0 );
         lance.SetActive( true );
@@ -288,11 +288,11 @@ public class Lancer : MonoBehaviour
     {
         get
         {
-            return lancePosition;
+            return spearLaunchPoint;
         }
         set
         {
-            lancePosition = value;
+            spearLaunchPoint = value;
         }
     }
 
