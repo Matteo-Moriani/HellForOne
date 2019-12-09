@@ -16,9 +16,9 @@ public class BattleEventsManager : MonoBehaviour
     public delegate void OnBossBattleExit();
     public static event OnBossBattleExit onBossBattleExit;
 
-    private BattleEventsManager _instance;
+    private static BattleEventsManager _instance;
 
-    public BattleEventsManager Instance { get { return _instance;} }
+    public static BattleEventsManager Instance { get { return _instance;} }
 
     private void Awake()
     {

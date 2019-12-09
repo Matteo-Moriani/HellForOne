@@ -119,7 +119,7 @@ public class DemonMovement : MonoBehaviour
                 }
             }
         }
-        //ManageMovementEvents();
+        ManageMovementEvents();
     }
 
     public float HorizDistFromTargetBorders( GameObject target )
@@ -246,28 +246,28 @@ public class DemonMovement : MonoBehaviour
         }
     }
 
-    //private void ManageMovementEvents() {
-    //    // TODO - Parametrize this velocity
-    //    if(agent.velocity.magnitude > 0.2) {
-    //        if (!isMoving)
-    //        {
-    //            if (combatEventsManager != null)
-    //            {
-    //                combatEventsManager.RaiseOnStartMoving();
-    //            }
+    private void ManageMovementEvents() {
+        // TODO - Parametrize this velocity
+       if(agent.velocity.magnitude > 0.3) {
+            if (!isMoving)
+            {
+                if (combatEventsManager != null)
+                {
+                    combatEventsManager.RaiseOnStartMoving();
+                }
 
-    //            isMoving = true;
-    //        }
-    //    }
-    //    // TODO - Parametrize this velocity
-    //    if(agent.velocity.magnitude <= 0.2) {
-    //        if (isMoving) { 
-    //            if(combatEventsManager != null) { 
-    //                combatEventsManager.RaiseOnStartIdle();    
-    //            }
-    //            isMoving = false;
-    //        }    
-    //    }
+                isMoving = true;
+            }
+       }
+        // TODO - Parametrize this velocity
+        if(agent.velocity.magnitude <= 0.3) {
+            if (isMoving) { 
+                if(combatEventsManager != null) { 
+                    combatEventsManager.RaiseOnStartIdle();    
+                }
+                isMoving = false;
+            }    
+        }
             
-    //}
+    }
 }
