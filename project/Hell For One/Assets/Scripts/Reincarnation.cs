@@ -5,34 +5,74 @@ using UnityEngine.AI;
 
 public class Reincarnation : MonoBehaviour
 {
-    private Stats playerStats;
+    #region fields
+
     private GameObject player;
 
     private bool playerIsReincarnated = false;
 
     private Coroutine reicarnationCR = null;
 
-    public void Reincarnate()
-    {
-        // TODO - do we really need this? we are destroying this GamaObject
-        player.GetComponent<Controller>().enabled = false;
-        player.GetComponent<TacticsManager>().enabled = false;
-        player.GetComponent<Dash>().enabled = false;
-        player.GetComponent<Combat>().enabled = false;
-        player.tag = "DeadPlayer";
-        CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
-        cameraManager.player = null;
+    #endregion
 
-        if (reicarnationCR == null)
-        {
-            reicarnationCR = StartCoroutine(ReincarnationCoroutine());
-        }
-    }
+    #region methods
 
     void Start()
     {
         player = gameObject;
-        playerStats = gameObject.GetComponent<Stats>();
+    }
+
+    public void Reincarnate()
+    {   
+        if(player != null) {
+            // Disable controller
+            Controller controller = player.GetComponent<Controller>();
+            if (controller != null)
+            {
+                controller.enabled = false;
+            }
+
+            // Disable Tactics Manager
+            TacticsManager tacticsManager = player.GetComponent<TacticsManager>();
+            if (tacticsManager != null)
+            {
+                tacticsManager.enabled = false;
+            }
+
+            // Disable Dash
+            Dash dash = player.GetComponent<Dash>();
+            if (dash != null)
+            {
+                dash.enabled = false;
+            }
+
+            // Disable Combat
+            Combat combat = player.GetComponent<Combat>();
+            if (combat != null)
+            {
+                combat.enabled = false;
+            }
+
+            // Flag this player as dead player
+            player.tag = "DeadPlayer";
+
+            // Manage the camera
+            CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
+            if (cameraManager != null)
+            {
+                cameraManager.player = null;
+            }
+
+            // Start reicarnation coroutine
+            if (reicarnationCR == null)
+            {
+                reicarnationCR = StartCoroutine(ReincarnationCoroutine());
+            }
+        }
+        else { 
+            Debug.LogError("Reicarnation cannot find Player");    
+        }
+        
     }
 
     private IEnumerator ReincarnationCoroutine()
@@ -65,25 +105,87 @@ public class Reincarnation : MonoBehaviour
     {
         if (player != null)
         {
-            player.GetComponent<Reincarnation>().enabled = true;
-            player.GetComponent<PlayerInput>().enabled = true;
             player.tag = "Player";
-            //player.GetComponent<DemonBehaviour>().enabled = false;
-            //player.GetComponent<ObjectsPooler>().enabled = false;
-            player.GetComponent<Lancer>().enabled = false;
-            player.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-            player.GetComponent<Stats>().type = Stats.Type.Player;
-            player.layer = LayerMask.NameToLayer( "Player" );
-            player.GetComponent<Controller>().enabled = true;
-            //player.GetComponent<TacticsManager>().enabled = true;
-            player.GetComponent<Dash>().enabled = true;
-            player.GetComponent<DemonMovement>().enabled = false;
-            player.GetComponent<NavMeshObstacle>().enabled = true;
-            player.GetComponent<ChildrenObjectsManager>().DeactivateCircle();
 
+            DemonBehaviour demonBehaviour = player.GetComponent<DemonBehaviour>();
+            if(demonBehaviour != null) {
+                GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+
+                // Remmoving the player from group
+                if (groupBehaviour != null)
+                {
+                    int playerIndex = System.Array.IndexOf(groupBehaviour.demons, player);
+                    groupBehaviour.demons[playerIndex] = null;
+                    groupBehaviour.SetDemonsNumber(groupBehaviour.GetDemonsNumber() - 1);
+                }
+
+                // Update group aggro
+                GroupAggro groupAggro  = demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>();
+                if(groupAggro != null) { 
+                    groupAggro.UpdateGroupAggro();            
+                }
+
+                // Update supporting units
+                GroupSupport groupSupport = demonBehaviour.groupBelongingTo.GetComponent<GroupSupport>();
+                if(groupSupport != null) { 
+                    groupSupport.UpdateSupportingUnits();    
+                }
+
+                demonBehaviour.enabled = false;
+            }
+            
+            Reincarnation reincarnation = player.GetComponent<Reincarnation>();
+            if(reincarnation != null) { 
+                reincarnation.enabled = true;    
+            }
+
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            if(playerInput != null) { 
+                playerInput.enabled = true;    
+            }
+            
+            Lancer lancer = player.GetComponent<Lancer>();
+            if(lancer != null) { 
+                lancer.enabled = true;    
+            }
+
+            NavMeshAgent navMeshAgent = player.GetComponent<NavMeshAgent>();
+            if(navMeshAgent != null) { 
+                navMeshAgent.enabled = false;    
+            }
+
+            Stats stats = player.GetComponent<Stats>();
+            if(stats != null) { 
+                stats.type = Stats.Type.Player;    
+            }
+
+            Dash dash = player.GetComponent<Dash>();
+            if(dash != null) { 
+                dash.enabled = true;    
+            }
+
+            Controller controller = player.GetComponent<Controller>();
+            if(controller != null) { 
+                controller.enabled = true;    
+            }
+
+            DemonMovement demonMovement = player.GetComponent<DemonMovement>();
+            if(demonMovement != null) { 
+                demonMovement.enabled = false;    
+            }
+
+            NavMeshObstacle navMeshObstacle = player.GetComponent<NavMeshObstacle>();
+            if(navMeshObstacle != null) { 
+                navMeshObstacle.enabled = true;    
+            }
+
+            ChildrenObjectsManager childrenObjectsManager = player.GetComponent<ChildrenObjectsManager>();
+            if(childrenObjectsManager != null) { 
+                childrenObjectsManager.DeactivateCircle();    
+            }
+           
             // Set rigidbody
             Rigidbody rb = player.GetComponent<Rigidbody>();
-
             if(rb != null) { 
                 rb.useGravity = true;
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -96,26 +198,14 @@ public class Reincarnation : MonoBehaviour
                 playerCombat.ResetCombat();
             }
 
-            // Removing the new player from the group belonging to
-            int playerIndex = System.Array.IndexOf(player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().demons, player);
-            GroupBehaviour gb = player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-            gb.demons[playerIndex] = null;
-            gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
-
-            // Update group aggro and supporting units
-            // What if the unit was tanking?
-            player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupAggro>().UpdateGroupAggro();
-            player.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>().UpdateSupportingUnits();
-
             // Update allies list
             AlliesManager.Instance.ManagePlayerReincarnation(player);
-
-            player.GetComponent<DemonBehaviour>().enabled = false;
-            player.GetComponent<DemonMovement>().enabled = false;
         }
         else
         {
             // Start coroutine    
         }
     }
+
+    #endregion
 }

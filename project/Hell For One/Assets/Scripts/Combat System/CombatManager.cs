@@ -27,8 +27,12 @@ public class CombatManager : MonoBehaviour
     [SerializeField]
     private float attackDurationInSeconds = 0.5f;
 
+    [SerializeField]
+    private float rangedAttackDelayInSeconds = 0f;
+
     private Coroutine attackCR;
     private Coroutine globalAttackCR;
+    private Coroutine rangedAttackCR;
 
     private Vector3 startPosition;
     private Vector3 baseAttackColliderScale;
@@ -278,7 +282,8 @@ public class CombatManager : MonoBehaviour
 
     // TODO same as MeleeAttack(), they don't have to attack if not in distance
     public void RangedAttack( GameObject target )
-    {
+    {   
+        /*
         // Regular Imps need to check if target is in range
         if ( stats.type == Stats.Type.Ally )
         {
@@ -293,21 +298,13 @@ public class CombatManager : MonoBehaviour
                 return;
             }
         }
+        */
 
         if ( stats.CombatIdle )
         {
-            stats.CombatIdle = false;
-
-            if ( target != null )
-            {
-                //lancer.Start( target );
-                lancer.Launch( target );
-                stats.CombatIdle = true;
+            if(rangedAttackCR == null) { 
+                rangedAttackCR = StartCoroutine(RangedAttackCoroutine(target));    
             }
-            else
-                Debug.Log( this.name + "Is trying a ranged attack to a null target" );
-
-            stats.CombatIdle = true;
         }
         else
         {
@@ -317,10 +314,16 @@ public class CombatManager : MonoBehaviour
 
     public void StopRangedAttack()
     {
-        if ( !stats.CombatIdle )
+        if (rangedAttackCR != null && !stats.CombatIdle )
         {
             //lancer.Stop();
+            StopCoroutine(rangedAttackCR);
+            rangedAttackCR = null;
             stats.CombatIdle = true;
+
+            if(combatEventsManager != null) { 
+                combatEventsManager.RaiseOnStopRangedAttack();    
+            }
         }
         else
         {
@@ -452,6 +455,22 @@ public class CombatManager : MonoBehaviour
         attackCollider.SetActive( false );
 
         stats.CombatIdle = true;
+    }
+
+    private IEnumerator RangedAttackCoroutine(GameObject target) {
+        stats.CombatIdle = false;
+
+        yield return new WaitForSeconds(rangedAttackDelayInSeconds);
+
+        if (target != null)
+        {
+            lancer.Launch(target);
+        }
+        else
+            Debug.Log(this.name + "Is trying a ranged attack to a null target");
+
+        stats.CombatIdle = true;
+        rangedAttackCR = null;    
     }
 
     private IEnumerator GlobalAttackCoroutine()
