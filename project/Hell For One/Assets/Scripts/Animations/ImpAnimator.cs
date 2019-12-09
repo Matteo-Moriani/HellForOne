@@ -61,7 +61,7 @@ public class ImpAnimator : MonoBehaviour
     public void PlayRangedAttackAnimation() {
         StopAnimations();
         animator.SetBool("isRangedAttacking", true);
-        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Goalie Throw").length));
+        StartCoroutine(WaitRangedAnimation(animationsManager.GetAnimation("Goalie Throw").length));
     }
 
     public void PlayMoveAnimation() {
@@ -106,6 +106,18 @@ public class ImpAnimator : MonoBehaviour
         isAnimating = true;
         yield return new WaitForSeconds(time);
         isAnimating = false;
+        if(controller.ZMovement != 0 || controller.XMovement != 0)
+            combatEventsManager.RaiseOnStartMoving();
+        else
+            combatEventsManager.RaiseOnStartIdle();
+    }
+
+    public IEnumerator WaitRangedAnimation(float time) {
+        isAnimating = true;
+        GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
+        yield return new WaitForSeconds(time);
+        isAnimating = false;
+        GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
         if(controller.ZMovement != 0 || controller.XMovement != 0)
             combatEventsManager.RaiseOnStartMoving();
         else
