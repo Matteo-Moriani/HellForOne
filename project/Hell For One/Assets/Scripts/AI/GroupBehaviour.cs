@@ -160,7 +160,8 @@ public class GroupBehaviour : MonoBehaviour
                 // I added this check to remove errors but need to 
                 // be fixed
                 if (combat.enabled)
-                    combat.SingleAttack( target );
+                    if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f)
+                        combat.SingleAttack( target );
             }
         }
     }
