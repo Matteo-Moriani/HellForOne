@@ -14,6 +14,8 @@ public class InvisibleWallsTrigger : MonoBehaviour
         BattleEventsManager.onBossBattleEnter += EnableBossFlames;
         BattleEventsManager.onBattleEnter += CloseInvisibleWalls;
         BattleEventsManager.onBattleEnter += EnableNormalFlames;
+        DisableNormalFlames();
+        DisableBossFlames();
     }
 
     public void OpenInvisibleWalls()
