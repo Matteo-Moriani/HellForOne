@@ -5,21 +5,23 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    private Image healthBar;
+    private Image healthBarInside;
     private float maxHealth;
     private Stats characterStats;
+
+    public Image HealthBarInside { get => healthBarInside; set => healthBarInside = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        healthBar = gameObject.GetComponent<Image>();
+        HealthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthBar.fillAmount = characterStats.health / maxHealth;
+        HealthBarInside.fillAmount = characterStats.health / maxHealth;
     }
 }
