@@ -48,7 +48,8 @@ public class HUD : MonoBehaviour
         }
 
         // An Imp joined
-        if ( alliesManager.AlliesList.Count >= impsCount - 1 )
+        //if ( alliesManager.AlliesList.Count >= impsCount - 1 )
+        if ( alliesManager.AlliesList.Count >= impsCount )
         {
             impsCount = alliesManager.AlliesList.Count + 1;
 
@@ -69,12 +70,17 @@ public class HUD : MonoBehaviour
         else
             healthPoolArray[ 0 ].overrideSprite = fullCrownSprite;
 
-        for ( int i = 0; i < alliesManager.AlliesList.Count - 1; i++ )
+        for ( int i = 1; i < alliesManager.AlliesList.Count + 1; i++ )
         {
-            if ( alliesManager.AlliesList[ i ].GetComponent<Stats>().health < 4 )
-                healthPoolArray[ i + 1 ].overrideSprite = halfHPSprite;
+            if ( alliesManager.AlliesList[ i - 1 ].GetComponent<Stats>().health < 4 )
+                healthPoolArray[ i ].overrideSprite = halfHPSprite;
+            else if ( !healthPoolArray[ i ] )
+            {
+                healthPoolArray[ i ] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
+                healthPoolArray[ i ].overrideSprite = fullHPSprite;
+            }
             else
-                healthPoolArray[ i + 1 ].overrideSprite = fullHPSprite;
+                healthPoolArray[ i ].overrideSprite = fullHPSprite;
         }
     }
 
@@ -100,23 +106,27 @@ public class HUD : MonoBehaviour
         halfCrownSprite = Resources.Load<Sprite>( "Sprites/halfFaceIconCrown" );
         fullCrownSprite = Resources.Load<Sprite>( "Sprites/faceIconCrown" );
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        
-        if(player != null) {
+        player = GameObject.FindGameObjectWithTag( "Player" );
+
+        if ( player != null )
+        {
             tacticsManager = player.GetComponent<TacticsManager>();
             playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
-            
-            if(playerCombatEventsManager != null) {
+
+            if ( playerCombatEventsManager != null )
+            {
                 playerCombatEventsManager.onDeath += OnPlayerDeath;
             }
-            else { 
-                Debug.LogError("HUD cannot find player's CombatEventsManager");    
+            else
+            {
+                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
             }
         }
-        else { 
-            Debug.LogError("HUD cannot find player");    
+        else
+        {
+            Debug.LogError( "HUD cannot find player" );
         }
-        
+
         GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
 
         foreach ( GameObject go in groups )
@@ -175,8 +185,9 @@ public class HUD : MonoBehaviour
 
     private void OnDisable()
     {
-        if(playerCombatEventsManager != null) { 
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;    
+        if ( playerCombatEventsManager != null )
+        {
+            playerCombatEventsManager.onDeath -= OnPlayerDeath;
         }
     }
 
@@ -253,30 +264,32 @@ public class HUD : MonoBehaviour
 
     }
 
-    private void OnPlayerDeath() {
-        if(playerCombatEventsManager != null) { 
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;    
+    private void OnPlayerDeath()
+    {
+        if ( playerCombatEventsManager != null )
+        {
+            playerCombatEventsManager.onDeath -= OnPlayerDeath;
         }
-        
-        player = GameObject.FindGameObjectWithTag("Player");
 
-        if (player != null)
+        player = GameObject.FindGameObjectWithTag( "Player" );
+
+        if ( player != null )
         {
             tacticsManager = player.GetComponent<TacticsManager>();
             playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
 
-            if (playerCombatEventsManager != null)
+            if ( playerCombatEventsManager != null )
             {
                 playerCombatEventsManager.onDeath += OnPlayerDeath;
             }
             else
             {
-                Debug.LogError("HUD cannot find player's CombatEventsManager");
+                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
             }
         }
         else
         {
-            Debug.LogError("HUD cannot find player");
+            Debug.LogError( "HUD cannot find player" );
         }
     }
 }
