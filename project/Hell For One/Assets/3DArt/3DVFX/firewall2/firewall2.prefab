@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1211018198439942663}
   - component: {fileID: 5934338783777530254}
   - component: {fileID: 5546950016031066588}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ingredient-CandleType-Smoke
-  m_TagString: Untagged
+  m_TagString: NormalBattleFlames
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4655,9 +4655,9 @@ GameObject:
   - component: {fileID: 1207926129657893405}
   - component: {fileID: 1990006896519824866}
   - component: {fileID: 2035624035892293606}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ingredient-CandleType-Flame
-  m_TagString: Untagged
+  m_TagString: NormalBattleFlames
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9299,9 +9299,9 @@ GameObject:
   - component: {fileID: 6017113393154956329}
   - component: {fileID: 1233754737518367146}
   - component: {fileID: 9133571388574163820}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: firewall2
-  m_TagString: Untagged
+  m_TagString: NormalBattleFlames
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9313,16 +9313,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6832370234110755077}
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.70710677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_Children:
   - {fileID: 1207926129657893405}
   - {fileID: 2386744563577635858}
   - {fileID: 1211018198439942663}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
 --- !u!198 &1233754737518367146
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -14000,9 +14000,9 @@ GameObject:
   - component: {fileID: 2386744563577635858}
   - component: {fileID: 3685834653293124095}
   - component: {fileID: 6937203787612368217}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ingredient-CandleType-Flash
-  m_TagString: Untagged
+  m_TagString: NormalBattleFlames
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
