@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525407370}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -131,7 +131,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078837652}
   m_LocalRotation: {x: 0.7125774, y: -0.00067217357, z: 0.7015933, w: 0.000036271664}
-  m_LocalPosition: {x: -63.54, y: 35.2, z: -38.84}
+  m_LocalPosition: {x: -68.01, y: 35.2, z: -35.81}
   m_LocalScale: {x: 20, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 5862380122787851865}
@@ -152,7 +152,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078837652}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -244,7 +244,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832195562}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4057,7 +4057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122108368997}
   m_LocalRotation: {x: 0.7125774, y: -0.00067217357, z: 0.7015933, w: 0.000036271664}
-  m_LocalPosition: {x: -137.65, y: 35.26, z: -37.69}
+  m_LocalPosition: {x: -156.11, y: 35.26, z: -37.69}
   m_LocalScale: {x: 20, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 5862380122787851865}
@@ -4078,7 +4078,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122108368997}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8096,6 +8096,9 @@ Transform:
   - {fileID: 525407371}
   - {fileID: 1078837653}
   - {fileID: 1832195563}
+  - {fileID: 6017113393731881118}
+  - {fileID: 984526179}
+  - {fileID: 6017113392476692312}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8854,7 +8857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122949859977}
   m_LocalRotation: {x: -0, y: -0.97050655, z: 0, w: -0.24107479}
-  m_LocalPosition: {x: -72.46, y: 35, z: -44.62}
+  m_LocalPosition: {x: -72.53, y: 35, z: -44.58}
   m_LocalScale: {x: 5, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 5862380122787851865}
@@ -11648,3 +11651,768 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &580736183
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5862380122787851865}
+    m_Modifications:
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Name
+      value: firewall2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -68.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 32.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5934338783777530254, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990006896519824866, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685834653293124095, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31ae0df01f0246e4990b8e308df9fde6, type: 3}
+--- !u!4 &6017113393731881118 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+    type: 3}
+  m_PrefabInstance: {fileID: 580736183}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1609466737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5862380122787851865}
+    m_Modifications:
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Name
+      value: firewall2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -156.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 32.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -36.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043899367322599220, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 124329117158229509, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617562105541389142, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5934338783777530254, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990006896519824866, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685834653293124095, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31ae0df01f0246e4990b8e308df9fde6, type: 3}
+--- !u!4 &6017113392476692312 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1609466737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2212813860892975436
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5862380122787851865}
+    m_Modifications:
+    - target: {fileID: 2212813861859920940, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Name
+      value: FlameCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -81.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 22.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -37.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 127
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597090106009, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045940210230, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015107282088, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575193104586, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142991043993, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596903523342, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045590443169, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015021759039, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574743072349, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143378424590, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597412003867, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045087695028, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014382730794, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575517104712, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143740761883, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596689681123, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806046349548108, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013624988882, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574529224880, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142585638371, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597461241105, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045040594366, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014463517472, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575299999554, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143894985233, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595919338719, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806046581513328, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013997462254, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573755934348, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142213557215, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597769726640, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045261130271, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014713398401, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575588282595, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143669878192, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597447247627, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045043640228, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014493829434, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575272050008, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143923130379, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596918911137, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045571874830, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015005322896, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574760295154, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143360915361, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597399116976, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045091724319, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014411870849, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575487944419, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143702838192, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597402973698, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045099906733, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014405392435, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575493655633, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143701582082, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597840861769, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045197925094, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014776022136, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575658565658, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143599258953, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597706760967, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045332513704, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014642212150, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575793690964, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143464371207, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597351950671, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045149407712, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014320691070, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575442809628, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143819185743, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596951161617, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045549607870, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014995617056, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574771028290, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143413087249, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595851760811, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806046648022020, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013929773722, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573688344312, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142281114539, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595956595442, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806046534752861, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013975868611, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573776478369, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142260186610, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597113665409, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045917763374, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1128806045917763374, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015231637936, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575204019666, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142917148801, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: BossBattleFlames
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: adb68390d543ee24a9595542bb89f354, type: 3}
+--- !u!4 &984526179 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
+    type: 3}
+  m_PrefabInstance: {fileID: 2212813860892975436}
+  m_PrefabAsset: {fileID: 0}
