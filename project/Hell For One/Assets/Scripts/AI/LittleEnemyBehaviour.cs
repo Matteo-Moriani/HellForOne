@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class LittleEnemyBehaviour : MonoBehaviour
 {
-    public float speed = 5f;
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
-    public float attackRange = 1f;
+    //must be a little bit higher than navmesh stop distance
+    public float attackRange = 1.5f;
+    public float rateo = 2f;
 
     private float movingSpeedTreshold = 0.2f;
     private GameObject targetDemon;
@@ -28,6 +29,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
         combat = GetComponent<Combat>();
         animator = GetComponent<Animator>();
+        StartCoroutine(AttackOneTime(rateo));
     }
 
     void FixedUpdate()
@@ -46,14 +48,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
             else
             {
                 GetComponent<NavMeshAgent>().destination = transform.position;
-                if(IsInRange()) {
-                    //combat.SingleAttack(targetDemon);
-                    combat.PlayerAttack();
-                    //Attack();
-                }
             }
-
-
         }
         else
             ChooseTarget();
@@ -110,19 +105,27 @@ public class LittleEnemyBehaviour : MonoBehaviour
         }
     }
 
-    public bool IsInRange() {
-        if((targetDemon.transform.position - transform.position).magnitude <= attackRange)
+    // stopping distance is only with transform.positions
+    public bool IsInStopDist() {
+        if((targetDemon.transform.position - transform.position).magnitude <= agent.stoppingDistance)
             return true;
         else
             return false;
     }
 
-    public void Attack() {
+    private void Attack() {
 
         // TODO - Find a better bools
         if(!animator.GetBool("isSingleAttacking")) {
-            if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(this.gameObject)<1.5f)
-                combat.SingleAttack(targetDemon);
+            if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(gameObject) < attackRange)
+                combatEventsManager.RaiseOnStartAttack();
+        }
+    }
+
+    public IEnumerator AttackOneTime(float rateo) {
+        while(true) {
+            yield return new WaitForSeconds(rateo);
+            Attack();
         }
     }
 }
