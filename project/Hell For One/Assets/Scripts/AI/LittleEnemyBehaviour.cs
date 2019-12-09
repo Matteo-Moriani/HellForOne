@@ -119,8 +119,10 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     public void Attack() {
 
+        // TODO - Find a better bools
         if(!animator.GetBool("isSingleAttacking")) {
-            combat.SingleAttack(targetDemon);
+            if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(this.gameObject)<1.5f)
+                combat.SingleAttack(targetDemon);
         }
     }
 }

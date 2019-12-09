@@ -48,6 +48,10 @@ public class CombatManager : MonoBehaviour
     public float MaxRangeCombatDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
     public float MinRangeCombatDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
 
+    private Coroutine waitTillMinDistanceCR;
+
+    private CombatEventsManager combatEventsManager;
+
     #endregion
 
     #region methods
@@ -69,6 +73,8 @@ public class CombatManager : MonoBehaviour
 
         attackCollider.SetActive( false );
         idleCollider.SetActive( true );
+
+        combatEventsManager = this.transform.root.gameObject.GetComponent<CombatEventsManager>();
     }
 
     public void ResetCombat()
@@ -220,12 +226,22 @@ public class CombatManager : MonoBehaviour
     }
 
     public void SingleAttack( GameObject target )
-    {
-        StartCoroutine( WaitTillMinDistance( MaxMeleeDistance, target ) );
-
-        if ( !canAttack )
+    {   /*
+        // TODO - this check now is in GroupBehaviour
+        //if(target != null) {
+         //   if (transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) > maxMeleeDistance) { 
+                StopAttack();
+                return;
+            }
+        }
+        
+        if(target == null) { 
+            StopAttack();
             return;
-
+        }
+        // ( !canAttack )
+        //    return;
+        */
         if ( stats.CombatIdle )
         {
             attackCR = StartCoroutine( AttackCoroutine() );
@@ -249,6 +265,10 @@ public class CombatManager : MonoBehaviour
 
             stats.CombatIdle = true;
         }
+
+        if(combatEventsManager != null) { 
+            combatEventsManager.RaiseOnStopAttack();    
+        }
         //else
         //{
         //    Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopAttack is trying to stop an attack but is not idle or attackCR is null" );
@@ -262,10 +282,16 @@ public class CombatManager : MonoBehaviour
         // Regular Imps need to check if target is in range
         if ( stats.type == Stats.Type.Ally )
         {
-            StartCoroutine( WaitTillMinDistance( MaxRangeCombatDistance, target ) );
+            if (target != null)
+            {
+                if (transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) > maxMeleeDistance)
+                    return;
+            }
 
-            if ( !canAttack )
+            if (target == null)
+            {
                 return;
+            }
         }
 
         if ( stats.CombatIdle )
