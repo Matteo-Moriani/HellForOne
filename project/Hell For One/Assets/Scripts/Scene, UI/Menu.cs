@@ -26,13 +26,18 @@ public abstract class Menu : MonoBehaviour {
     }
 
     private void Awake() {
-        playerInput = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PlayerInput>();
-        if(!playerInput)
-            playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        //playerInput = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PlayerInput>();
+        //if(!playerInput)
+        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         buttons[0].GetComponent<Button>().image.color = buttons[0].GetComponent<Button>().colors.highlightedColor;
         FPSLimiter = gameObject.GetComponent<FPSLimiter>();
         if(!ParentScreen)
-            ParentScreen = GameObject.FindGameObjectWithTag("RootScreen");
+            ParentScreen = gameObject;
+    }
+
+    private void OnEnable() {
+        if(!ParentScreen)
+            ParentScreen = gameObject;
     }
 
     public void NextButton() {

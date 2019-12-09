@@ -19,30 +19,46 @@ public class PlayerInput : MonoBehaviour {
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
     private GameObject currentScreen;
     public GameObject CurrentScreen { get => currentScreen; set => currentScreen = value; }
-    // is initially inactive so I must put it manually from the inspector
-    public GameObject pauseScreen;
-
-
+    private GameObject pauseScreen;
+        
     private IEnumerator DpadWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         DpadInUse = false;
     }
 
-    private void Start() {
+    //private void OnEnable() {
+    //    Managers.Instance.onPressPlayButton += GameStart;
+    //}
+
+    //private void OnDisable() {
+    //    Managers.Instance.onPressPlayButton -= GameStart;
+    //}
+
+    //private void Start() {
+    //    inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+    //    NavigatingMenu = true;
+    //    CurrentScreen = GameObject.Find("TitleScreen");
+    //}
+
+    public void Start() {
+        inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+        NavigatingMenu = false;
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
-        inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
-
-        if(GameObject.Find("TitleScreen")) {
-            NavigatingMenu = true;
-            CurrentScreen = GameObject.Find("TitleScreen");
-        }
-        else {
-            tacticsManager = GetComponent<TacticsManager>();
-            CurrentScreen = pauseScreen;
-        }
-
+        tacticsManager = GetComponent<TacticsManager>();
+        pauseScreen = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+        CurrentScreen = pauseScreen;
     }
+
+    //public void GameStart() {
+    //    inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+    //    NavigatingMenu = false;
+    //    dash = GetComponent<Dash>();
+    //    combat = GetComponent<Combat>();
+    //    tacticsManager = GetComponent<TacticsManager>();
+    //    pauseScreen = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+    //    CurrentScreen = pauseScreen;
+    //}
 
     private void Update() {
         if(inputManager != null) {
@@ -202,12 +218,12 @@ public class PlayerInput : MonoBehaviour {
             if(inputManager.PauseButtonDown() ) {
                 if(combat != null) {
                     if(GameInPause && NavigatingMenu) {
-                        currentScreen.GetComponent<PauseScreen>().Resume();
+                        CurrentScreen.GetComponent<PauseScreen>().Resume();
                     }
                     else {
-                        currentScreen.SetActive(true);
+                        CurrentScreen.SetActive(true);
                         NavigatingMenu = true;
-                        currentScreen.GetComponent<PauseScreen>().Pause();
+                        CurrentScreen.GetComponent<PauseScreen>().Pause();
                     }
                 }
             }
