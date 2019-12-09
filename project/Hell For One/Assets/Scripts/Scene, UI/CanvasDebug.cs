@@ -88,7 +88,7 @@ public class CanvasDebug : MonoBehaviour
         if ( !tacticsManager )
             tacticsManager = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<TacticsManager>();
 
-        regenCountdown.text = "New ally imp in: " + ( int ) allyDemonSpawnerTest.countdown;
+        regenCountdown.text = "New ally imp in: " + ( int ) allyDemonSpawnerTest.Countdown;
 
         playerAggro.text = playerStats.Aggro.ToString();
 
