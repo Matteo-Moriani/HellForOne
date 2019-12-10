@@ -36,8 +36,9 @@ public class HealthBar : MonoBehaviour
     }
 
     private void OnBossBattleEnter() {
+        Debug.Log("HealtBar");
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        HealthBarInside = gameObject.GetComponent<Image>();
+        healthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;
     }
 }

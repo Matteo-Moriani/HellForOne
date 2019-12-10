@@ -7,7 +7,7 @@ public class Reincarnation : MonoBehaviour
 {
     #region fields
 
-    private GameObject player;
+    private static GameObject player;
 
     private bool playerIsReincarnated = false;
 
