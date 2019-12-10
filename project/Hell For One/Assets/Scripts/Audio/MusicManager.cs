@@ -34,16 +34,17 @@ public class MusicManager : MonoBehaviour
         BattleEventsManager.onBossBattleEnter -= StartBossMusic;
     }
 
-    private void Awake()
-    {
-        musicAudiosource = this.gameObject.AddComponent<AudioSource>();
-        AudioManager.Instance.SetAudioAudioSource(musicAudiosource, false, 100f, 100f, false);
-        musicAudiosource.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup;
-    }
+    //private void Start()
+    //{
+        
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
+        musicAudiosource = this.gameObject.GetComponent<AudioSource>();
+        AudioManager.Instance.SetAudioAudioSource(musicAudiosource, false, 100f, 100f, false);
+        musicAudiosource.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup;
         StartOutOfCombatMusic();
     }
 
