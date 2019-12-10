@@ -882,9 +882,9 @@ MonoBehaviour:
   blockChance: 0
   shieldBonusProbability: 0
   supportingUnitsMultiplier: 0.95
-  knockBackChance: 0
-  knockBackSize: 0
-  knockBackTime: 5
+  knockBackChance: 100
+  knockBackSize: 3
+  knockBackTime: 0.25
   aggro: 1
   aggroTime: 60
   crisis: 0
@@ -1539,6 +1539,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3329590975247583433}
     m_Modifications:
+    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_Midboss
+      objectReference: {fileID: 0}
     - target: {fileID: 7714929163739455013, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1593,11 +1598,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 105.019005
-      objectReference: {fileID: 0}
-    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_Midboss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b70bf6ff2c2c2324cad4a20ea02deeed, type: 3}
