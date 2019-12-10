@@ -20,19 +20,32 @@ public class PlayerInput : MonoBehaviour {
     private GameObject currentScreen;
     public GameObject CurrentScreen { get => currentScreen; set => currentScreen = value; }
     private GameObject pauseScreen;
+    private CombatEventsManager combatEventsManager;
         
     private IEnumerator DpadWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         DpadInUse = false;
     }
 
-    //private void OnEnable() {
-    //    Managers.Instance.onPressPlayButton += GameStart;
-    //}
+    private void Awake()
+    {
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
 
-    //private void OnDisable() {
-    //    Managers.Instance.onPressPlayButton -= GameStart;
-    //}
+    private void OnEnable() {
+    //    Managers.Instance.onPressPlayButton += GameStart;
+        if(combatEventsManager != null) { 
+            combatEventsManager.onDeath += OnDeath;
+        }
+    }
+
+    private void OnDisable() {
+        //    Managers.Instance.onPressPlayButton -= GameStart;
+        if (combatEventsManager != null)
+        {
+            combatEventsManager.onDeath -= OnDeath;
+        }
+    }
 
     //private void Start() {
     //    inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
@@ -231,5 +244,9 @@ public class PlayerInput : MonoBehaviour {
         else {
             Debug.Log(name + " PlayerInput cannot find InputManager");
         }
+    }
+
+    private void OnDeath() { 
+        this.enabled = false;    
     }
 }
