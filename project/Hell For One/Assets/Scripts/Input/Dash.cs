@@ -5,10 +5,8 @@ using UnityEngine;
 public class Dash : MonoBehaviour
 {
     #region fields
-
-    [SerializeField]
-    [Tooltip("How far the palyer will get")]
-    private float dashSize = 5.0f;
+    
+    public float dashSize = 4.0f;
 
     [SerializeField]
     [Tooltip("How often we can dash")]
@@ -16,9 +14,8 @@ public class Dash : MonoBehaviour
 
     [SerializeField]
     private GameObject idleCollider;
-
-    [SerializeField]
-    private float dashTime = 0.25f;
+    
+    public float dashTime = 0.4f;
 
     private float cooldownCounter;
     private float dashTimeCounter;

@@ -111,6 +111,7 @@ public class Reincarnation : MonoBehaviour
         if (player != null)
         {
             player.tag = "Player";
+            player.layer = LayerMask.NameToLayer( "Player" );
 
             DemonBehaviour demonBehaviour = player.GetComponent<DemonBehaviour>();
             if(demonBehaviour != null) {

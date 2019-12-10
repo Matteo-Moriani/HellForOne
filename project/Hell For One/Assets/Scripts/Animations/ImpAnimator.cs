@@ -17,6 +17,7 @@ public class ImpAnimator : MonoBehaviour
 
     private float meleeSpeedMultiplier = 2f;
     private float rangedSpeedMultiplier = 3f;
+    private float dashSpeedMultiplier = 2f;
 
     private CombatEventsManager combatEventsManager;
 
@@ -96,7 +97,7 @@ public class ImpAnimator : MonoBehaviour
     public void PlayDashAnimation() {
         StopAnimations();
         animator.SetBool("isDashing", true);
-        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Jump").length));
+        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Jump").length / dashSpeedMultiplier));
     }
 
     public void StopBlockAnimation() {

@@ -116,7 +116,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private void Attack() {
 
         // TODO - Find a better bools
-        if(!animator.GetBool("isSingleAttacking")) {
+        if(!animator.GetBool("isMeleeAttacking")) {
             if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(gameObject) < attackRange)
                 combatEventsManager.RaiseOnStartAttack();
         }

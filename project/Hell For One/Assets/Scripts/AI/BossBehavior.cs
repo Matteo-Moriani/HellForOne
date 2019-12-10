@@ -22,9 +22,9 @@ public class BossBehavior : MonoBehaviour
     public float changeTargetProb = 0.3f;
     public GameObject arenaCenter;
 
-    // 15 is the ray of boss arena
-    public float maxDistFromCenter = 12.5f;
-    public float maxTargetDistFromCenter = 14f;
+    // 19 is the ray of boss arena
+    public float maxDistFromCenter = 16.5f;
+    public float maxTargetDistFromCenter = 18f;
 
     private GameObject[] demonGroups;
     private GameObject targetGroup;
@@ -32,9 +32,9 @@ public class BossBehavior : MonoBehaviour
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
-    private readonly float singleAttackProb = 0.34f;
-    private readonly float groupAttackProb = 0.33f;
-    private readonly float globalAttackProb = 0.33f;
+    private readonly float singleAttackProb = 0.6f;
+    private readonly float groupAttackProb = 0.3f;
+    private readonly float globalAttackProb = 0.1f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;

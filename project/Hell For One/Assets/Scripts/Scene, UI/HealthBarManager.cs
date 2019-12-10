@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class HealthBarManager : MonoBehaviour
 
     private void ActivateHealthBar() {
         healthBar.SetActive(true);
+        healthBar.transform.GetChild( 0 ).gameObject.GetComponent<Image>().fillAmount = 1f;
     }
 
     private void DeactivateHealthBar() {
