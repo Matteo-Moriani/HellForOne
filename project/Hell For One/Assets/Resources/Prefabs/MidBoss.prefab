@@ -870,7 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 200
+  health: 800
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
@@ -969,7 +969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac33205fecbbb4d40bff4dff8ee43eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 5
   rotSpeed: 0.1
   stopDist: 3
   stareTime: 4
@@ -1539,11 +1539,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3329590975247583433}
     m_Modifications:
-    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_Midboss
-      objectReference: {fileID: 0}
     - target: {fileID: 7714929163739455013, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1598,6 +1593,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 105.019005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_Midboss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b70bf6ff2c2c2324cad4a20ea02deeed, type: 3}
