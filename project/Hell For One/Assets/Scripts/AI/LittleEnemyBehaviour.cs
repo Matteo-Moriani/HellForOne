@@ -116,9 +116,14 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private void Attack() {
 
         // TODO - Find a better bools
+        // TODO - Understand why they doesn't attack the player
         if(!animator.GetBool("isMeleeAttacking")) {
-            if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(gameObject) < attackRange)
-                combatEventsManager.RaiseOnStartAttack();
+            if(targetDemon.GetComponent<Stats>().type == Stats.Type.Ally) {
+                if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(gameObject) < attackRange)
+                    combat.PlayerAttack();
+            } else
+                combat.PlayerAttack();
+
         }
     }
 
