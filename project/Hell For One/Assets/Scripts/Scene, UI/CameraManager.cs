@@ -11,8 +11,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float turnSpeed = 4.0f;
 
-    public float yOffset = 5.0f;
-    public float zOffset = -10.0f;
+    private float yOffset = 3.0f;
+    private float zOffset = -6.0f;
     private Vector3 offset;
     private Vector3 lockedOffset;
     private Vector3 closedEnvironmentOffset;
