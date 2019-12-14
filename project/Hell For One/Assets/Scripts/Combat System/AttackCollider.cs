@@ -16,7 +16,7 @@ public class AttackCollider : MonoBehaviour
     [SerializeField]
     AttackColliderType type = AttackColliderType.None;
 
-    public bool isSweeping = false;
+    public bool isGroupAttacking = false;
     public bool isGlobalAttacking = false;
 
     private Stats stats;
@@ -117,7 +117,7 @@ public class AttackCollider : MonoBehaviour
         switch (this.type)
         {
             case AttackColliderType.Melee:
-                if (!isGlobalAttacking && !isSweeping)
+                if (!isGlobalAttacking && !isGroupAttacking)
                     combat.StopAttack();
                 break;
             case AttackColliderType.Ranged:
@@ -183,7 +183,7 @@ public class AttackCollider : MonoBehaviour
         if (Random.Range(1f, 101f) <= stats.KnockBackChance)
         {
             // If we are dealing a sweep attack (heavy attack)
-            if (isSweeping)
+            if (isGroupAttacking)
             {
                 // If we are hitting a non player that is not blocking
                 if (!targetRootStats.IsBlocking && targetRootStats.type != Stats.Type.Player)
@@ -322,7 +322,7 @@ public class AttackCollider : MonoBehaviour
         if (targetRootStats.IsBlocking)
         {
             // Player cannot block sweeping (heavy attack)
-            if (isSweeping && targetRootStats.type == Stats.Type.Player)
+            if (isGroupAttacking && targetRootStats.type == Stats.Type.Player)
             {
                 ManageHit(targetRootStats);
                 

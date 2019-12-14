@@ -65,7 +65,7 @@ public class Stats : MonoBehaviour
     /// </summary>
     [SerializeField]
     [Tooltip("How big sweep area will be")]
-    private float sweepSize = 2.0f;
+    private float groupAttackSize = 2.0f;
 
     /// <summary>
     /// How big will be a global attack
@@ -233,7 +233,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// How big will be a sweep attack
     /// </summary>
-    public float SweepSize { get => sweepSize; set => sweepSize = value; }
+    public float GroupAttackSize { get => groupAttackSize; private set => groupAttackSize = value; }
     /// <summary>
     /// How big will be a global attack
     /// </summary>

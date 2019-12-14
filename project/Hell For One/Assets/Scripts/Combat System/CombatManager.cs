@@ -22,7 +22,13 @@ public class CombatManager : MonoBehaviour
     private Stats stats;
 
     [SerializeField]
-    private float attackDelayInSeconds = 0f;
+    private float singleAttackDelayInSeconds = 0f;
+
+    [SerializeField]
+    private float groupAttackDelayInSeconds = 0f;
+
+    [SerializeField]
+    private float globalAttackDelayInSeconds = 0f;
 
     [SerializeField]
     private float attackDurationInSeconds = 0.5f;
@@ -106,10 +112,10 @@ public class CombatManager : MonoBehaviour
                 attackCollider.transform.localPosition = startPosition;
 
                 // Stop Sweep
-                if ( attackCollider.GetComponent<AttackCollider>().isSweeping )
+                if ( attackCollider.GetComponent<AttackCollider>().isGroupAttacking )
                 {
                     attackCollider.transform.localScale = baseAttackColliderScale;
-                    attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+                    attackCollider.GetComponent<AttackCollider>().isGroupAttacking = false;
                 }
             }
 
@@ -353,8 +359,8 @@ public class CombatManager : MonoBehaviour
     {
         if ( stats.CombatIdle )
         {
-            attackCollider.transform.localScale = new Vector3( stats.SweepSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
-            attackCollider.GetComponent<AttackCollider>().isSweeping = true;
+            attackCollider.transform.localScale = new Vector3( stats.GroupAttackSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
+            attackCollider.GetComponent<AttackCollider>().isGroupAttacking = true;
             attackCR = StartCoroutine( AttackCoroutine() );
         }
         else
@@ -372,7 +378,7 @@ public class CombatManager : MonoBehaviour
 
             attackCollider.transform.localPosition = startPosition;
             attackCollider.transform.localScale = baseAttackColliderScale;
-            attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+            attackCollider.GetComponent<AttackCollider>().isGroupAttacking = false;
             attackCollider.SetActive( false );
 
             stats.CombatIdle = true;
@@ -419,10 +425,20 @@ public class CombatManager : MonoBehaviour
     {
         stats.CombatIdle = false;
 
+        AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
+
         Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
+        
+        // If this is a regular attack we use regular attack delay
+        if (!attackColliderComponent.isGroupAttacking) {
+            yield return new WaitForSeconds(singleAttackDelayInSeconds);
+        }
 
-        yield return new WaitForSeconds( attackDelayInSeconds );
-
+        // If this is a group attack we use group attack delay
+        if (attackColliderComponent.isGroupAttacking) { 
+            yield return new WaitForSeconds(groupAttackDelayInSeconds);    
+        }
+        
         attackCollider.transform.localPosition = targetPosition;
 
         attackCollider.SetActive( true );
@@ -446,10 +462,10 @@ public class CombatManager : MonoBehaviour
 
         attackCollider.transform.localPosition = startPosition;
 
-        if ( attackCollider.GetComponent<AttackCollider>().isSweeping )
+        if ( attackColliderComponent.isGroupAttacking )
         {
             attackCollider.transform.localScale = baseAttackColliderScale;
-            attackCollider.GetComponent<AttackCollider>().isSweeping = false;
+            attackColliderComponent.isGroupAttacking = false;
         }
 
         attackCollider.SetActive( false );
@@ -475,17 +491,21 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator GlobalAttackCoroutine()
     {
+        AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
+
         stats.CombatIdle = false;
 
-        attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = true;
+        attackColliderComponent.isGlobalAttacking = true;
         attackCollider.transform.localScale = new Vector3( stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize );
+
+        yield return new WaitForSeconds(globalAttackDelayInSeconds);
 
         attackCollider.SetActive( true );
 
         yield return new WaitForSeconds( stats.GlobalAttackDuration );
 
         attackCollider.transform.localScale = baseAttackColliderScale;
-        attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+        attackColliderComponent.isGlobalAttacking = false;
         attackCollider.SetActive( false );
 
         stats.CombatIdle = true;
