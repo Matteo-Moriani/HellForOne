@@ -8,8 +8,12 @@ public class LevelManager : MonoBehaviour
     private GameObject boss;
     [SerializeField]
     private GameObject midBoss;
+
+    // TODO - andarle a prendere nei prefab
     [SerializeField]
     private GameObject bossPosition;
+    [SerializeField]
+    private GameObject minBossPosition;
     [SerializeField]
     private GameObject bossArenaCenter;
     [SerializeField]
@@ -55,12 +59,14 @@ public class LevelManager : MonoBehaviour
     }
 
     private void InstantiateBossPosition() {
+        GameObject positions = new GameObject();
         if (isMidBossAlive) {
-            Instantiate(bossPosition, midBoss.transform.position, Quaternion.identity);
+            positions = Instantiate(minBossPosition, midBoss.transform.position, Quaternion.identity);
         }
         if(isBossAlive){
-            Instantiate(bossPosition, boss.transform.position, Quaternion.identity);
-        }  
+            positions = Instantiate(bossPosition, boss.transform.position, Quaternion.identity);
+        }
+        positions.SetActive(true);
     }
 
     private void BossKilled() { 

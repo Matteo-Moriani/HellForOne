@@ -30,8 +30,8 @@ public class MidBossBehavior : MonoBehaviour {
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
-    private readonly float singleAttackProb = 0.5f;
-    private readonly float groupAttackProb = 0.5f;
+    public float singleAttackProb = 0.5f;
+    public float groupAttackProb = 0.5f;
     private float crisisMax = 50f;
     private float hp;
     private FSM bossFSM;

@@ -70,13 +70,17 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public void PlayMoveAnimation() {
-        StopAnimations();
-        animator.SetBool("isMoving", true);
+        if(!animator.GetBool("isBlocking")) {
+            StopAnimations();
+            animator.SetBool("isMoving", true);
+        }
     }
 
     public void PlayIdleAnimation() {
-        StopAnimations();
-        animator.SetBool("isIdle", true);
+        if(!animator.GetBool("isBlocking")) {
+            StopAnimations();
+            animator.SetBool("isIdle", true);
+        }
     }
 
     public void PlayDeathAnimation() {
@@ -101,10 +105,14 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public void StopBlockAnimation() {
-        if(controller.ZMovement != 0 || controller.XMovement != 0)
+        if(controller.ZMovement != 0 || controller.XMovement != 0) {
+            StopAnimations();
             combatEventsManager.RaiseOnStartMoving();
-        else
+        }
+        else {
+            StopAnimations();
             combatEventsManager.RaiseOnStartIdle();
+        }
     }
 
     public IEnumerator WaitAnimation(float time) {
