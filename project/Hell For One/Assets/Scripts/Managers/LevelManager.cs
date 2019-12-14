@@ -13,7 +13,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject bossPosition;
     [SerializeField]
-    private GameObject minBossPosition;
+    private GameObject midBossPosition;
+    [SerializeField]
+    private GameObject bossFightScriptedPosition;
+    [SerializeField]
+    private GameObject midBossFightScriptedPosition;
     [SerializeField]
     private GameObject bossArenaCenter;
     [SerializeField]
@@ -25,13 +29,13 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         BattleEventsManager.onBossBattleExit += MidBossKilled;
-        BattleEventsManager.onBossBattleEnter += InstantiateBossPosition;
+        BattleEventsManager.onBattlePreparation += InstantiatePosition;
     }
 
     private void OnDisable()
     {
         BattleEventsManager.onBossBattleExit -= MidBossKilled;
-        BattleEventsManager.onBossBattleEnter -= InstantiateBossPosition;
+        BattleEventsManager.onBattlePreparation -= InstantiatePosition;
     }
 
     private void Start(){
@@ -44,6 +48,7 @@ public class LevelManager : MonoBehaviour
             isMidBossAlive = false;
             isBossAlive = true;
             DestroyMidBossArenaCenter();
+            Destroy(midBossFightScriptedPosition);
             ActivateBossArenaCenter();
             ActivateBoss();
             BattleEventsManager.onBossBattleExit -= MidBossKilled;
@@ -58,15 +63,19 @@ public class LevelManager : MonoBehaviour
         GameObject.Destroy(midBossArenaCenter);    
     }
 
-    private void InstantiateBossPosition() {
-        GameObject positions = new GameObject();
+    private void InstantiatePosition() {
+        GameObject bossPositions = new GameObject();
         if (isMidBossAlive) {
-            positions = Instantiate(minBossPosition, midBoss.transform.position, Quaternion.identity);
+            bossPositions = Instantiate(midBossPosition, midBoss.transform.position, Quaternion.identity);
+            midBossFightScriptedPosition.SetActive(true);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScriptedMovements>().SetTargetPosition(midBossFightScriptedPosition.transform.position);
         }
         if(isBossAlive){
-            positions = Instantiate(bossPosition, boss.transform.position, Quaternion.identity);
+            bossPositions = Instantiate(bossPosition, boss.transform.position, Quaternion.identity);
+            bossFightScriptedPosition.SetActive(true);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScriptedMovements>().SetTargetPosition(bossFightScriptedPosition.transform.position);
         }
-        positions.SetActive(true);
+        bossPositions.SetActive(true);
     }
 
     private void BossKilled() { 

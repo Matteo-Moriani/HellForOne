@@ -185,6 +185,11 @@ public class Reincarnation : MonoBehaviour
                 navMeshObstacle.enabled = true;    
             }
 
+            PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
+            if(playerScriptedMovements != null) {
+                playerScriptedMovements.enabled = true;
+            }
+
             ChildrenObjectsManager childrenObjectsManager = player.GetComponent<ChildrenObjectsManager>();
             if(childrenObjectsManager != null) { 
                 childrenObjectsManager.DeactivateCircle();    

@@ -15,6 +15,8 @@ public class PlayerInput : MonoBehaviour {
     public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
     private bool gameInPause = false;
     public bool GameInPause { get => gameInPause; set => gameInPause = value; }
+    private bool playing = true;
+    public bool Playing { get => playing; set => playing = value; }
     private bool navigatingMenu = false;
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
     private GameObject currentScreen;
@@ -29,7 +31,7 @@ public class PlayerInput : MonoBehaviour {
 
     private void Awake()
     {
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
 
     private void OnEnable() {
