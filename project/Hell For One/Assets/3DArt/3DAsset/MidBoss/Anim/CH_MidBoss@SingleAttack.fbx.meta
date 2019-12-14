@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f06daeab39755a54b908b7ae692affc6
+guid: 02d6bc10bc778eb468a1dc6bf4d784eb
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -75,7 +75,7 @@ ModelImporter:
     400068: mixamorig:Spine2
     2100000: mid boss
     4300000: CH_MidBoss
-    7400000: mixamo.com
+    7400000: SingleAttack
     9500000: //RootNode
     13700000: CH_MidBoss
   externalObjects: {}
@@ -105,7 +105,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: SingleAttack
+      takeName: mixamo.com
+      firstFrame: 21
+      lastFrame: 73
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
