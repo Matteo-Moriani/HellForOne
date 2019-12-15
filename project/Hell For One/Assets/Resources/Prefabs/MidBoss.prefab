@@ -876,7 +876,7 @@ MonoBehaviour:
   supportDamageBuffMultiplier: 3.5
   attackRange: 1
   attackDurationMultiplier: 1
-  sweepSize: 2
+  groupAttackSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
   blockChance: 0
@@ -971,13 +971,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rotSpeed: 0.1
-  stopDist: 3
+  stopDist: 2
   stareTime: 4
   pursueTime: 5
   changeTargetProb: 0.1
   arenaCenter: {fileID: 0}
   maxDistFromCenter: 10
   maxTargetDistFromCenter: 11
+  singleAttackProb: 0.5
+  groupAttackProb: 0.5
   fsmReactionTime: 0.5
   btReactionTime: 0.05
   isWalking: 0
@@ -1452,10 +1454,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: singleAttackDelayInSeconds
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: groupAttackDelayInSeconds
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: attackDurationInSeconds
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -1467,11 +1479,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 2.58125
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1481,6 +1488,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.98117995
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}

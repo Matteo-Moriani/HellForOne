@@ -5561,7 +5561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashSize: 4
-  dashCooldown: 1
+  dashCooldown: 0.6
   idleCollider: {fileID: 5015163011506748079}
   dashTime: 0.4
 --- !u!114 &4364288494851231950
@@ -5624,7 +5624,7 @@ MonoBehaviour:
   supportDamageBuffMultiplier: 3.5
   attackRange: 0.5
   attackDurationMultiplier: 5
-  sweepSize: 2
+  groupAttackSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
   blockChance: 50
@@ -8044,21 +8044,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: lancer
-      value: 
-      objectReference: {fileID: 960445923078584083}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 809997081645463187}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: rangedAttackDelayInSeconds
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8114,10 +8099,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: lancer
+      value: 
+      objectReference: {fileID: 960445923078584083}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 809997081645463187}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: rangedAttackDelayInSeconds
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -8144,9 +8139,9 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.423
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: m_Enabled
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,
@@ -8158,6 +8153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
