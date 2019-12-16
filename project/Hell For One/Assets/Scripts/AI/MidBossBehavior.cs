@@ -45,6 +45,7 @@ public class MidBossBehavior : MonoBehaviour {
     private Coroutine timer;
     private Coroutine attackCR;
     private bool canWalk = false;
+    private bool canFace = true;
     [SerializeField]
     private float fsmReactionTime = 0.5f;
     [SerializeField]
@@ -60,6 +61,7 @@ public class MidBossBehavior : MonoBehaviour {
     private float groupAttackDuration;
     private CombatEventsManager combatEventsManager;
     private AnimationsManager animationsManager;
+    private float facingIntervall = 0.5f;
 
     private int debugIndex;
 
@@ -347,6 +349,7 @@ public class MidBossBehavior : MonoBehaviour {
         probability = new float[demonGroups.Length + 2];
         probability[0] = 0f;
         centeringDist = maxDistFromCenter - 5f;
+        StartCoroutine(FaceEvery(facingIntervall));
 
         FSMTransition t0 = new FSMTransition(PlayerApproaching);
         FSMTransition t1 = new FSMTransition(CrisisFull);
@@ -391,7 +394,12 @@ public class MidBossBehavior : MonoBehaviour {
         }
 
         if(TargetDemon && !isAttacking && stats.health > 0) {
-            Face(TargetDemon);
+
+            if(!isIdle)
+                Face(TargetDemon);
+            else
+                if(canFace)
+                    Face(TargetDemon);
 
             if(canWalk) {
                 if(!isWalking) {
@@ -500,5 +508,14 @@ public class MidBossBehavior : MonoBehaviour {
 
     public GameObject[] GetDemonGroups() {
         return demonGroups;
+    }
+
+    private IEnumerator FaceEvery(float f) {
+        while(true) {
+            canFace = false;
+            yield return new WaitForSeconds(f);
+            canFace = true;
+            yield return new WaitForSeconds(f);
+        }
     }
 }

@@ -48,6 +48,7 @@ public class BossBehavior : MonoBehaviour
     private Coroutine timer;
     private Coroutine attackCR;
     private bool canWalk = false;
+    private bool canFace = true;
     [SerializeField]
     private float fsmReactionTime = 0.5f;
     [SerializeField]
@@ -64,6 +65,7 @@ public class BossBehavior : MonoBehaviour
     private float globalAttackDuration;
     private CombatEventsManager combatEventsManager;
     private AnimationsManager animationsManager;
+    private float facingIntervall = 0.5f;
 
     private int debugIndex;
 
@@ -371,7 +373,8 @@ public class BossBehavior : MonoBehaviour
     void Start() {
         singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
         groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
-        globalAttackDuration = animationsManager.GetAnimation("GlobalAttack").length + animationsManager.GetAnimation("Charge").length;
+        // 1 is the transition lenght between the two annimations
+        globalAttackDuration = animationsManager.GetAnimation("GlobalAttack").length + animationsManager.GetAnimation("Charge").length - 1f;
         arenaCenter = GameObject.FindWithTag( "ArenaCenter" );
         hp = stats.health;
         demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
@@ -380,6 +383,7 @@ public class BossBehavior : MonoBehaviour
         probability = new float[ demonGroups.Length + 2 ];
         probability[ 0 ] = 0f;
         centeringDist = maxDistFromCenter - 5f;
+        StartCoroutine(FaceEvery(facingIntervall));
 
         FSMTransition t0 = new FSMTransition( PlayerApproaching );
         FSMTransition t1 = new FSMTransition( CrisisFull );
@@ -427,7 +431,11 @@ public class BossBehavior : MonoBehaviour
 
         if ( TargetDemon && !isAttacking && stats.health > 0)
         {
-            Face( TargetDemon );
+            if(!isIdle)
+                Face(TargetDemon);
+            else
+                if(canFace)
+                    Face( TargetDemon );
 
             if ( canWalk ) {
                 if(!isWalking) {
@@ -568,5 +576,14 @@ public class BossBehavior : MonoBehaviour
     public GameObject[] GetDemonGroups()
     {
         return demonGroups;
+    }
+
+    private IEnumerator FaceEvery(float f) {
+        while(true) {
+            canFace = false;
+            yield return new WaitForSeconds(f);
+            canFace = true;
+            yield return new WaitForSeconds(f);
+        }
     }
 }

@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpecialAttack : MonoBehaviour
+public class GlobalAttack : MonoBehaviour
 {
-
-    private float activationTime = 0.5f;
-    private float deactivationTime = 1f;
+    public float globalAttackDelay = 2.8f;
+    private float circlesTimeGap = 0.4f;
+    private float circleDuration = 0.5f;
     private GameObject[,] flameCircleArray = new GameObject[ 3, 18 ];
+    private GameObject boss;
+
+    private void Awake() {
+        boss = transform.root.gameObject;
+    }
 
     private void OnEnable()
     {
-        GameObject boss = transform.root.gameObject;
         boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StartFlamingAttack;
-        boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StopFlamingAttack;
+        //boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StopFlamingAttack;
 
         for ( int i = 0; i < 3; i++ )
         {
@@ -25,6 +29,10 @@ public class SpecialAttack : MonoBehaviour
                     particleSystem.Stop();
             }
         }
+    }
+
+    private void OnDisable() {
+        boss.GetComponent<CombatEventsManager>().onStartGlobalAttack -= StartFlamingAttack;
     }
 
     void Start()
@@ -49,9 +57,11 @@ public class SpecialAttack : MonoBehaviour
 
     public IEnumerator ActivateFlamingSpecialAttack()
     {
+        yield return new WaitForSeconds(globalAttackDelay);
+
         for ( int i = 0; i < 3; i++ )
         {
-            yield return new WaitForSeconds( activationTime );
+            yield return new WaitForSeconds( circlesTimeGap );
 
             for ( int j = 0; j < 18; j++ )
             {
@@ -60,6 +70,10 @@ public class SpecialAttack : MonoBehaviour
                     particleSystem.Play();
             }
         }
+
+        yield return new WaitForSeconds(circleDuration);
+
+        StartCoroutine(DeactivateFlamingSpecialAttack());
     }
 
     public void StopFlamingAttack()
@@ -71,7 +85,7 @@ public class SpecialAttack : MonoBehaviour
     {
         for ( int i = 0; i < 3; i++ )
         {
-            yield return new WaitForSeconds( deactivationTime );
+            yield return new WaitForSeconds( circlesTimeGap );
 
             for ( int j = 0; j < 18; j++ )
             {
