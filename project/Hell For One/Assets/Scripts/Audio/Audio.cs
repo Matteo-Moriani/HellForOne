@@ -89,7 +89,8 @@ public class Audio : MonoBehaviour
         }    
     }
 
-    private void PlayHitClip() { 
+    // Stats here is not used
+    private void PlayHitClip(Stats stats) { 
         AudioManager.Instance.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Hit,combatAudioSource);    
     }
 

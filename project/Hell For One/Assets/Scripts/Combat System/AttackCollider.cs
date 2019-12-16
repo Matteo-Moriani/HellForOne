@@ -222,7 +222,7 @@ public class AttackCollider : MonoBehaviour
         
         combatEventsManager.RaiseOnSuccessfulHit();
 
-        targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBeenHit();
+        targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBeenHit(stats);
 
         ManageAggro();
 

@@ -48,7 +48,7 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnBlockedHit();
     public event OnBlockedHit onBlockedHit;
 
-    public delegate void OnBeenHit();
+    public delegate void OnBeenHit(Stats attackerStats);
     public event OnBeenHit onBeenHit;
 
     public delegate void OnDeath();
@@ -185,9 +185,9 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnBeenHit() { 
+    public void RaiseOnBeenHit(Stats attackerStats) { 
         if(onBeenHit != null) { 
-            onBeenHit();    
+            onBeenHit(attackerStats);    
         }    
     }
 

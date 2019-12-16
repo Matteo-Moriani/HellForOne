@@ -664,6 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3329590975247583461}
   - component: {fileID: 3329590975234152901}
+  - component: {fileID: 8581690130048116882}
   m_Layer: 0
   m_Name: CH_MidBoss
   m_TagString: Untagged
@@ -762,6 +763,18 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.03464985, y: 0.93805057, z: 0.20216483}
     m_Extent: {x: 2.2137606, y: 1.6403964, z: 0.99376553}
   m_DirtyAABB: 0
+--- !u!114 &8581690130048116882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8a95032361dfb4d84b374333739e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3329590975247750343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,10 +1024,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animations:
   - {fileID: 7400000, guid: a9618b724f6db804d849d6a2d6e87810, type: 3}
-  - {fileID: 7400000, guid: 02d6bc10bc778eb468a1dc6bf4d784eb, type: 3}
+  - {fileID: 7400000, guid: f7210d05a493eb34db8820f33304fdf1, type: 3}
   - {fileID: 7400000, guid: 2f4d03a5a11e52e4bbbcb609d9f5e84e, type: 3}
   - {fileID: 7400000, guid: 65151b7cf0224f8428299b284640c85f, type: 3}
-  - {fileID: 7400000, guid: f06daeab39755a54b908b7ae692affc6, type: 3}
+  - {fileID: 7400000, guid: cda2ffb48d935494f8f37346be1ef6af, type: 3}
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,6 +1412,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: singleAttackDelayInSeconds
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: groupAttackDelayInSeconds
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: attackDurationInSeconds
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1454,20 +1482,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: singleAttackDelayInSeconds
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: groupAttackDelayInSeconds
-      value: 1.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: attackDurationInSeconds
-      value: 0.1
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -1479,6 +1497,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 2.58125
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1488,16 +1511,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.98117995
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
