@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Cinemachine;
 
 public class Reincarnation : MonoBehaviour
 {
@@ -139,6 +140,10 @@ public class Reincarnation : MonoBehaviour
 
                 demonBehaviour.enabled = false;
             }
+
+            CinemachineFreeLook cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
+            cinemachineFreeLook.Follow = player.transform;
+            cinemachineFreeLook.LookAt = player.transform;
             
             Reincarnation reincarnation = player.GetComponent<Reincarnation>();
             if(reincarnation != null) { 
