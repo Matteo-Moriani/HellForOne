@@ -8,9 +8,12 @@ public class PlayerScriptedMovements : MonoBehaviour
     private NavMeshAgent agent;
     private PlayerInput playerInput;
     private Vector3 target;
-    private bool scriptedMovement = false;
+    private bool scriptedMovementStarted = false;
     private CombatEventsManager combatEventsManager;
     private bool isMoving = false;
+    private int alliesNum;
+    private int alliesInPosition = 0;
+    private AlliesManager allies;
 
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
@@ -24,6 +27,7 @@ public class PlayerScriptedMovements : MonoBehaviour
 
     void Start()
     {
+        allies = AlliesManager.Instance;
         agent = GetComponent<NavMeshAgent>();
         playerInput = GetComponent<PlayerInput>();
         target = gameObject.transform.position;
@@ -31,14 +35,16 @@ public class PlayerScriptedMovements : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(scriptedMovement) {
+        if(scriptedMovementStarted) {
             agent.SetDestination(target);
             if(!isMoving) {
                 combatEventsManager.RaiseOnStartMoving();
                 isMoving = true;
             }
-            // TODO - if tutti in posizione, prossimo evento
             if((gameObject.transform.position - target).magnitude <= 0.1f) {
+                NotifyAllies();
+            }
+            if(alliesInPosition == alliesNum){ 
                 combatEventsManager.RaiseOnStartIdle();
                 BattleEventsManager.RaiseOnBossBattleEnter();
             }
@@ -50,16 +56,30 @@ public class PlayerScriptedMovements : MonoBehaviour
     }
 
     void MoveToScriptedPosition() {
-        scriptedMovement = true;
+        alliesNum = allies.AlliesList.Count;
+        scriptedMovementStarted = true;
         playerInput.Playing = false;
     }
 
     void FreeMovement() {
-        scriptedMovement = false;
+        scriptedMovementStarted = false;
         playerInput.Playing = true;
+        alliesInPosition = 0;
     }
 
     public void SetTargetPosition(Vector3 position) {
         target = position;
     }
+
+    public void NotifyInPosition() {
+        alliesInPosition++;
+        Debug.Log("allies in position: " + alliesInPosition);
+    }
+
+    private void NotifyAllies() {
+        foreach (GameObject ally in allies.AlliesList) {
+            ally.GetComponent<DemonMovement>().InScriptedMovement = true;
+        }
+    }
 }
+

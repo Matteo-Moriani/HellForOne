@@ -212,7 +212,7 @@ public class GroupMovement : MonoBehaviour
             target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0,EnemiesManager.Instance.LittleEnemiesList.Count)];
             SetDemonsTarget( target );
             haveTarget = true;
-            Debug.Log("new target is " + target.name);
+            //Debug.Log("new target is " + target.name);
         }
         else
         {

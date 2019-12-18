@@ -34,7 +34,7 @@ public class PlayerHitFeedback : MonoBehaviour
     {
        //float i = renderer.material.GetFloat("_Surfacetype");
        //Debug.Log(i);
-       Debug.Log(renderer.material.IsKeywordEnabled("_SURFACE_TYPE_TRANSPARENT"));
+       //Debug.Log(renderer.material.IsKeywordEnabled("_SURFACE_TYPE_TRANSPARENT"));
     }
 
     private void OnBeenHIt(Stats attackerStats)

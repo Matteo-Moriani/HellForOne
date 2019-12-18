@@ -33,6 +33,8 @@ public class DemonMovement : MonoBehaviour
     public bool CanMove { get => canMove; set => canMove = value; }
     private bool isMoving = false;
     public bool IsMoving { get => isMoving; set => isMoving = value; }
+    public bool InScriptedMovement { get => inScriptedMovement; set => inScriptedMovement = value; }
+    private bool inScriptedMovement = false;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
@@ -109,17 +111,28 @@ public class DemonMovement : MonoBehaviour
                 // out of combat
                 else {
                     // I move only if I'm far enough from the group center and if the group center is inside the navmesh
-                    if(HorizDistFromTarget(group) > repulsionWithGroup && GetComponent<NavMeshAgent>().CalculatePath(group.transform.position, new NavMeshPath())) {
+                    if(!InFormationPosition() && GetComponent<NavMeshAgent>().CalculatePath(group.transform.position, new NavMeshPath())) {
                         GetComponent<NavMeshAgent>().destination = group.transform.position;
                     }
                     else {
                         GetComponent<NavMeshAgent>().destination = transform.position;
                         Face(target);
+                        if(InScriptedMovement)
+                            player.GetComponent<PlayerScriptedMovements>().NotifyInPosition();
                     }
                 }
             }
         }
         ManageMovementEvents();
+    }
+
+    public bool InFormationPosition() {
+        if(HorizDistFromTarget(group) <= repulsionWithGroup) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public float HorizDistFromTargetBorders( GameObject target )
