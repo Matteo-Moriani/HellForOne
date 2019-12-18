@@ -37,6 +37,7 @@ public class PlayerHitFeedback : MonoBehaviour
     private void Start()
     {
         renderer = this.GetComponent<Renderer>();
+
         startingColor = renderer.material.GetColor("_EmissiveColor");
         type = this.transform.root.GetComponent<Stats>().type;
     }

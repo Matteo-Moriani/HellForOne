@@ -166,7 +166,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
         }
     }
 
