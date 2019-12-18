@@ -9,6 +9,7 @@ public class ImpAnimator : MonoBehaviour
 
     private Animator animator;
     private Animator Animator { get => animator; set => animator = value; }
+    //private GroupBehaviour groupBehaviour;
 
     private Controller controller;
     private DemonMovement demonMovement;
@@ -32,6 +33,8 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStopBlock += StopBlockAnimation;
             combatEventsManager.onStartSupport += PlaySupportAnimation;
             combatEventsManager.onStartDash += PlayDashAnimation;
+            BattleEventsManager.onBattleExit += PlayIdleAnimation;
+            BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
         }
     }
 
@@ -46,6 +49,8 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStopBlock -= StopBlockAnimation;
             combatEventsManager.onStartSupport -= PlaySupportAnimation;
             combatEventsManager.onStartDash -= PlayDashAnimation;
+            BattleEventsManager.onBattleExit -= PlayIdleAnimation;
+            BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
         }
     }
 
@@ -54,6 +59,8 @@ public class ImpAnimator : MonoBehaviour
         controller = GetComponent<Controller>();
         animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        demonMovement = gameObject.GetComponent<DemonMovement>();
+        //groupBehaviour = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
     }
 
     public void PlaySingleAttackAnimation() {
@@ -91,6 +98,7 @@ public class ImpAnimator : MonoBehaviour
     public void PlayBlockAnimation() {
         StopAnimations();
         animator.SetBool("isBlocking", true);
+        
     }
 
     public void PlaySupportAnimation() {

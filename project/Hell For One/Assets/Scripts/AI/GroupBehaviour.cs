@@ -34,8 +34,9 @@ public class GroupBehaviour : MonoBehaviour
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
     private bool inCombat = false;
     FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
-    [SerializeField]
     private GameObject target;
+
+    public GameObject Target { get => target; set => target = value; }
 
     #region Conditions
 
@@ -181,16 +182,21 @@ public class GroupBehaviour : MonoBehaviour
         StopCoroutine(continuousAttack);
     }
 
-    public void Tank()
+    public void TankStayAction()
     {
         if ( !CheckDemons() )
             return;
         foreach ( GameObject demon in demons )
         {
-            if ( demon )
-            {
+            if ( demon ) {
                 Combat combat = demon.GetComponent<Combat>();
-                combat.StartBlock();
+
+                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
+                    combat.StartBlock();
+                }
+                else {
+                    combat.StopBlock();
+                }
             }
         }
     }
@@ -262,9 +268,8 @@ public class GroupBehaviour : MonoBehaviour
 
         StopCoroutine(continuousAttack);
     }
-
-    // TODO implement support mechanic
-    public void StartSupport()
+    
+    public void SupportStayAction()
     {
         if ( !CheckDemons() )
             return;
@@ -273,7 +278,12 @@ public class GroupBehaviour : MonoBehaviour
             if ( demon )
             {
                 Combat combat = demon.GetComponent<Combat>();
-                combat.StartSupport();
+                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
+                    combat.StartSupport();
+                }
+                else {
+                    combat.StopSupport();
+                }
             }
         }
     }
@@ -381,12 +391,12 @@ public class GroupBehaviour : MonoBehaviour
         rangeAttackState.exitActions.Add( StopRangeAttack );
 
         tankState.enterActions.Add( GeneralEnterAction );
-        tankState.enterActions.Add( Tank );
-        tankState.stayActions.Add(Tank);
+        tankState.enterActions.Add( TankStayAction );
+        tankState.stayActions.Add(TankStayAction);
         tankState.exitActions.Add( StopTank );
 
         supportState.enterActions.Add( GeneralEnterAction );
-        supportState.stayActions.Add( StartSupport );
+        supportState.stayActions.Add( SupportStayAction );
         supportState.stayActions.Add( UpdateSupportAggro );
         supportState.exitActions.Add( StopSupport );
 
