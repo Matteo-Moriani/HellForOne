@@ -24,7 +24,9 @@ public class PlayerInput : MonoBehaviour {
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
     private Controller controller;
-        
+    private bool canGiveInput;
+    
+
     private IEnumerator DpadWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         DpadInUse = false;
@@ -40,6 +42,8 @@ public class PlayerInput : MonoBehaviour {
         if(combatEventsManager != null) { 
             combatEventsManager.onDeath += OnDeath;
         }
+        BattleEventsManager.onBattlePreparation += OnBattlePreparation;
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
     }
 
     private void OnDisable() {
@@ -48,6 +52,8 @@ public class PlayerInput : MonoBehaviour {
         {
             combatEventsManager.onDeath -= OnDeath;
         }
+        BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
     }
 
     //private void Start() {
@@ -59,6 +65,7 @@ public class PlayerInput : MonoBehaviour {
     public void Start() {
         inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
         controller = this.gameObject.GetComponent<Controller>();
+        canGiveInput = true;
         NavigatingMenu = false;
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
@@ -256,5 +263,14 @@ public class PlayerInput : MonoBehaviour {
 
     private void OnDeath() { 
         this.enabled = false;    
+    }
+
+    private void OnBattlePreparation() { 
+        canGiveInput = false;
+        controller.PassXZValues(0,0);
+    }
+
+    private void OnBossBattleEnter() { 
+        canGiveInput = true;    
     }
 }

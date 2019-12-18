@@ -30,6 +30,9 @@ public class InputManager : MonoBehaviour
     public delegate void OnPause();
     public event OnPause onPause;
 
+    public delegate void OnResume();
+    public event OnResume onResume;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
