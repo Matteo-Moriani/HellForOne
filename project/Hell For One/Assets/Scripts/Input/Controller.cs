@@ -30,14 +30,6 @@ public class Controller : MonoBehaviour
         animator = GetComponent<ImpAnimator>();
     }
 
-    void Update()
-    {
-        //zMovement = Input.GetAxis( "Vertical" );
-        //xMovement = Input.GetAxis( "Horizontal" );
-        zMovement = InputManager.Instance.LeftStickVertical();
-        xMovement = InputManager.Instance.LeftStickHorizontal();
-    }
-
     private void FixedUpdate()
     {
         if(!animator.IsAnimating) {
@@ -85,5 +77,10 @@ public class Controller : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PassXZValues(float xMovement, float zMovement) { 
+        this.zMovement = zMovement;
+        this.xMovement = xMovement;
     }
 }

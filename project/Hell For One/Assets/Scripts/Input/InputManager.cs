@@ -24,6 +24,12 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance { get { return _instance; } }
 
+    public delegate void OnStartGame();
+    public event OnStartGame onStartGame;
+
+    public delegate void OnPause();
+    public event OnPause onPause;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

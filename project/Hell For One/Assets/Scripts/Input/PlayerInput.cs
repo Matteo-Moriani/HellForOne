@@ -23,6 +23,7 @@ public class PlayerInput : MonoBehaviour {
     public GameObject CurrentScreen { get => currentScreen; set => currentScreen = value; }
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
+    private Controller controller;
         
     private IEnumerator DpadWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
@@ -57,6 +58,7 @@ public class PlayerInput : MonoBehaviour {
 
     public void Start() {
         inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
+        controller = this.gameObject.GetComponent<Controller>();
         NavigatingMenu = false;
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
@@ -86,6 +88,11 @@ public class PlayerInput : MonoBehaviour {
                     fpsCounterInMenu++;
             }
 
+            // Left stick (PS3 & XBOX)
+            if(controller != null) { 
+                controller.PassXZValues(InputManager.Instance.LeftStickHorizontal(),InputManager.Instance.LeftStickVertical());    
+            }
+
             // Circle (PS3) / B (XBOX) 
             if(inputManager.CircleButtonDown()) {
                 if(NavigatingMenu) 
@@ -107,7 +114,6 @@ public class PlayerInput : MonoBehaviour {
                 }
 
             }
-
 
             // Square (PS3) / X (XBOX)
             if(inputManager.SquareButtonDown() && !NavigatingMenu) {
