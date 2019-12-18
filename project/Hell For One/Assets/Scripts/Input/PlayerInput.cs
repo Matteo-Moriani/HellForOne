@@ -2,29 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour {
-    private InputManager inputManager;
-
-    public int fpsCounterInMenu = 0;
-    private bool dpadPressedInMenu = false;
+public class PlayerInput : GeneralInput {
+    
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
-    private float dpadWaitTime = 0.2f;
-    private bool dpadInUse = false;
-    public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
     private bool gameInPause = false;
     public bool GameInPause { get => gameInPause; set => gameInPause = value; }
     private bool playing = true;
     public bool Playing { get => playing; set => playing = value; }
     private bool navigatingMenu = false;
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
-    private GameObject currentScreen;
-    public GameObject CurrentScreen { get => currentScreen; set => currentScreen = value; }
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
-    private Controller controller;
-    private bool canGiveInput;
     
 
     private IEnumerator DpadWait(float waitTime) {
@@ -35,6 +25,20 @@ public class PlayerInput : MonoBehaviour {
     private void Awake()
     {
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        FindPauseScreen();
+    }
+
+    private void FindPauseScreen() {
+
+        GameObject canvas = GameObject.FindGameObjectWithTag("Canvas");
+        int childrenNum = canvas.transform.childCount;
+
+        for(int i = 0; i < childrenNum; i++) {
+            if(canvas.transform.GetChild(i).name == "PauseScreen") {
+                pauseScreen = canvas.transform.GetChild(i).gameObject;
+                break;
+            }
+        }
     }
 
     private void OnEnable() {
@@ -56,36 +60,18 @@ public class PlayerInput : MonoBehaviour {
         BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
     }
 
-    //private void Start() {
-    //    inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
-    //    NavigatingMenu = true;
-    //    CurrentScreen = GameObject.Find("TitleScreen");
-    //}
-
     public void Start() {
-        inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
         controller = this.gameObject.GetComponent<Controller>();
         canGiveInput = true;
         NavigatingMenu = false;
         dash = GetComponent<Dash>();
         combat = GetComponent<Combat>();
         tacticsManager = GetComponent<TacticsManager>();
-        pauseScreen = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
-        CurrentScreen = pauseScreen;
+        CurrentScreen = pauseScreen.GetComponent<Menu>();
     }
 
-    //public void GameStart() {
-    //    inputManager = GameObject.FindGameObjectWithTag("InputManager").GetComponent<InputManager>();
-    //    NavigatingMenu = false;
-    //    dash = GetComponent<Dash>();
-    //    combat = GetComponent<Combat>();
-    //    tacticsManager = GetComponent<TacticsManager>();
-    //    pauseScreen = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
-    //    CurrentScreen = pauseScreen;
-    //}
-
     private void Update() {
-        if(inputManager != null) {
+        if(InputManager.Instance != null) {
             if(dpadPressedInMenu && (NavigatingMenu)) {
                 if(fpsCounterInMenu >= 8) {
                     fpsCounterInMenu = 0;
@@ -101,21 +87,21 @@ public class PlayerInput : MonoBehaviour {
             }
 
             // Circle (PS3) / B (XBOX) 
-            if(inputManager.CircleButtonDown()) {
+            if(InputManager.Instance.CircleButtonDown()) {
                 if(NavigatingMenu) 
-                    currentScreen.GetComponent<Menu>().Back();
+                    CurrentScreen.Back();
                 else {
                     if(dash != null) {
-                        dash.TryDash(inputManager.LeftStickVertical(), inputManager.LeftStickHorizontal());
+                        dash.TryDash(InputManager.Instance.LeftStickVertical(), InputManager.Instance.LeftStickHorizontal());
                     }
                 }
 
             }
 
             // Cross (PS3) / A (XBOX)
-            if(inputManager.XButtonDown()) {
+            if(InputManager.Instance.XButtonDown()) {
                 if(NavigatingMenu)
-                    currentScreen.GetComponent<Menu>().PressSelectedButton();
+                    CurrentScreen.PressSelectedButton();
                 else if(combat != null && tacticsManager) {
                     // TODO - dialogues
                 }
@@ -123,42 +109,42 @@ public class PlayerInput : MonoBehaviour {
             }
 
             // Square (PS3) / X (XBOX)
-            if(inputManager.SquareButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.SquareButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.PlayerAttack();
                 }
             }
 
             // L1 (PS3) / LB (XBOX) - Down
-            if(inputManager.L1ButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.L1ButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.StartBlock();
                 }
             }
 
             // L1 (PS3) / LB (XOBX) - Up
-            if(inputManager.L1ButtonUp() && !NavigatingMenu) {
+            if(InputManager.Instance.L1ButtonUp() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.StopBlock();
                 }
             }
 
             // R1 (PS3) / RB (XBOX) - Down
-            if(inputManager.R1ButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.R1ButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.StartBlock();
                 }
             }
 
             // R1 (PS3) / RB (XOBX) - Up
-            if(inputManager.R1ButtonUp() && !NavigatingMenu) {
+            if(InputManager.Instance.R1ButtonUp() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.StopBlock();
                 }
             }
 
             // Triangle (PS3) / Y (XBOX)
-            if(inputManager.TriangleButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
                     combat.RangedAttack(null);
                 }
@@ -166,20 +152,20 @@ public class PlayerInput : MonoBehaviour {
 
             // L2 (PS3) / LT (XBOX) - Down
             //if ( inputManager.L2Axis() )
-            if(inputManager.L2ButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.L2ButtonDown() && !NavigatingMenu) {
                 if(combat != null && tacticsManager) {
                     tacticsManager.RotateLeftGroups();
                 }
             }
 
             // DPad UP
-            if(inputManager.DpadVertical() > 0.7f) {
+            if(InputManager.Instance.DpadVertical() > 0.7f) {
                 if(!DpadInUse) {
 
                     if(NavigatingMenu) {
                         dpadPressedInMenu = true;
                         if(fpsCounterInMenu == 0)
-                            currentScreen.GetComponent<Menu>().PreviousButton();
+                            CurrentScreen.PreviousButton();
                     }
                     else if(combat != null && tacticsManager.isActiveAndEnabled) {
                         DpadInUse = true;
@@ -191,13 +177,13 @@ public class PlayerInput : MonoBehaviour {
             }
 
             // DPad DOWN
-            if(inputManager.DpadVertical() < -0.7f) {
+            if(InputManager.Instance.DpadVertical() < -0.7f) {
                 if(!DpadInUse) {
 
                     if(NavigatingMenu) {
                         dpadPressedInMenu = true;
                         if(fpsCounterInMenu == 0)
-                            currentScreen.GetComponent<Menu>().NextButton();
+                            CurrentScreen.NextButton();
                     }
                     else if(combat != null && tacticsManager.isActiveAndEnabled) {
                         DpadInUse = true;
@@ -209,7 +195,7 @@ public class PlayerInput : MonoBehaviour {
             }
 
             // DPad RIGHT
-            if(inputManager.DpadHorizontal() > 0.7f && !NavigatingMenu) {
+            if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
                 if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
@@ -218,7 +204,7 @@ public class PlayerInput : MonoBehaviour {
             }
 
             // DPad LEFT
-            if(inputManager.DpadHorizontal() < -0.7f && !NavigatingMenu) {
+            if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                 if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                     DpadInUse = true;
                     tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
@@ -228,11 +214,11 @@ public class PlayerInput : MonoBehaviour {
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if(inputManager.L2ButtonUp() && !NavigatingMenu) { }
+            if(InputManager.Instance.L2ButtonUp() && !NavigatingMenu) { }
 
             // R2 (PS3) / RT (XBOX) - Down
             //if ( inputManager.R2Axis() )
-            if(inputManager.R2ButtonDown() && !NavigatingMenu) {
+            if(InputManager.Instance.R2ButtonDown() && !NavigatingMenu) {
                 if(combat != null && tacticsManager) {
                     tacticsManager.RotateRightGroups();
                 }
@@ -240,16 +226,16 @@ public class PlayerInput : MonoBehaviour {
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
-            if(inputManager.R2ButtonUp() && !NavigatingMenu) { }
+            if(InputManager.Instance.R2ButtonUp() && !NavigatingMenu) { }
 
             // Start (PS3) / Options (PS4)
-            if(inputManager.PauseButtonDown() ) {
+            if(InputManager.Instance.PauseButtonDown() ) {
                 if(combat != null) {
                     if(GameInPause && NavigatingMenu) {
                         CurrentScreen.GetComponent<PauseScreen>().Resume();
                     }
                     else {
-                        CurrentScreen.SetActive(true);
+                        CurrentScreen.gameObject.SetActive(true);
                         NavigatingMenu = true;
                         CurrentScreen.GetComponent<PauseScreen>().Pause();
                     }

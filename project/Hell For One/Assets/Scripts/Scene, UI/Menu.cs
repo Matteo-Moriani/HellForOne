@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public abstract class Menu : MonoBehaviour {
     public GameObject[] buttons;
-    private PlayerInput playerInput;
-    public PlayerInput PlayerInput { get => playerInput; set => playerInput = value; }
+    private GeneralInput input;
+    public GeneralInput Input { get => input; set => input = value; }
     private int buttonIndex = 0;
     public int ButtonIndex { get => buttonIndex; set => buttonIndex = value; }
     private GameObject parentScreen;
@@ -26,9 +26,10 @@ public abstract class Menu : MonoBehaviour {
     }
 
     private void Awake() {
-        //playerInput = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PlayerInput>();
-        //if(!playerInput)
-        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        if(GameObject.FindGameObjectWithTag("Player"))
+            input = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralInput>();
+        else
+            input = GameObject.FindGameObjectWithTag("MenuCanvas").GetComponent<GeneralInput>();
         buttons[0].GetComponent<Button>().image.color = buttons[0].GetComponent<Button>().colors.highlightedColor;
         FPSLimiter = gameObject.GetComponent<FPSLimiter>();
         if(!ParentScreen)
@@ -63,7 +64,7 @@ public abstract class Menu : MonoBehaviour {
             button.GetComponent<Button>().image.color = buttons[buttonIndex].GetComponent<Button>().colors.normalColor;
         }
         buttonIndex = 0;
-        playerInput.CurrentScreen = nextMenu;
+        input.CurrentScreen = nextMenu.GetComponent<Menu>();
         gameObject.SetActive(false);
         nextMenu.SetActive(true);
         nextMenu.GetComponent<Menu>().ParentScreen = gameObject;

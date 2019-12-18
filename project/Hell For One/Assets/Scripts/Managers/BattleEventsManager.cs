@@ -13,6 +13,9 @@ public class BattleEventsManager : MonoBehaviour
     public delegate void OnBattlePreparation();
     public static event OnBattlePreparation onBattlePreparation;
 
+    public delegate void OnGameOver();
+    public static event OnGameOver onGameOver;
+
     public delegate void OnBossBattleEnter();
     public static event OnBossBattleEnter onBossBattleEnter;
 
@@ -63,5 +66,11 @@ public class BattleEventsManager : MonoBehaviour
         if(onBossBattleExit != null) { 
             onBossBattleExit();
         }    
+    }
+
+    public static void RaiseOnGameOver() {
+        if(onGameOver != null) {
+            onGameOver();
+        }
     }
 }

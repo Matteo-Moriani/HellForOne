@@ -12,6 +12,10 @@ public class GameOver : Menu {
             case 0:
                 SceneManager.LoadScene("Demo");
                 break;
+            // TITLE SCREEN
+            case 1:
+                SceneManager.LoadScene("TitleScreen");
+                break;
             default:
                 break;
         }

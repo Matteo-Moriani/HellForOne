@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class Reincarnation : MonoBehaviour
 {
@@ -21,6 +22,14 @@ public class Reincarnation : MonoBehaviour
     void Start()
     {
         player = gameObject;
+    }
+
+    private void OnEnable() {
+        BattleEventsManager.onGameOver += GameOver;
+    }
+
+    private void OnDisable() {
+        BattleEventsManager.onGameOver -= GameOver;
     }
 
     public void Reincarnate()
@@ -110,6 +119,7 @@ public class Reincarnation : MonoBehaviour
         }
 
         // TODO - Implement game over event.
+        BattleEventsManager.RaiseOnGameOver();
     }
 
     private void ReincarnatePlayer(GameObject player)
@@ -232,6 +242,10 @@ public class Reincarnation : MonoBehaviour
         {
             // Start coroutine    
         }
+    }
+
+    private void GameOver() {
+        SceneManager.LoadScene("GameOverScreen");
     }
 
     #endregion
