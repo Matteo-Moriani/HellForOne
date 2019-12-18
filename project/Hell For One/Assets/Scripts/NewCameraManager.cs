@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class NewCameraManager : MonoBehaviour
 {
-    public GameObject target;
-    public GameObject player;
+    GameObject target;
+    GameObject player;
     private bool isLocked = false;
 
-    public GameObject[] enemies;
-    public GameObject boss;
+    GameObject[] enemies;
+    GameObject boss;
+
+    CinemachineFreeLook cinemachineFreeLook;
+    CinemachineVirtualCamera cinemachineVirtualCameraLock;
+
+    GameObject lockCameraPlayerTarget;
 
     private void FindPlayer()
     {
@@ -36,15 +42,47 @@ public class NewCameraManager : MonoBehaviour
 
     void Start()
     {
-        
+        FindPlayer();
+
+        lockCameraPlayerTarget = GameObject.FindGameObjectWithTag( "CameraTarget" );
+
+        cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
+        cinemachineVirtualCameraLock = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
+
+        cinemachineFreeLook.Follow = player.transform;
+        cinemachineFreeLook.LookAt = player.transform;
+        cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+
+        cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
+
+        cinemachineVirtualCameraLock.enabled = false;
     }
 
     void Update()
     {
+        if ( !player )
+        {
+            FindPlayer();
+
+            cinemachineFreeLook.Follow = player.transform;
+            cinemachineFreeLook.LookAt = player.transform;
+
+            cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
+
+            cinemachineVirtualCameraLock.enabled = false;
+            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+            cinemachineFreeLook.enabled = true;
+
+            isLocked = false;
+        }
+
         // Remove lock-on
         // if ( Input.GetButtonDown( "R3" ) && isLocked )
         if ( InputManager.Instance.RightStickButtonDown() && isLocked )
         {
+            cinemachineVirtualCameraLock.enabled = false;
+            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+            cinemachineFreeLook.enabled = true;
             isLocked = false;
             target = player;
         }
@@ -57,6 +95,11 @@ public class NewCameraManager : MonoBehaviour
             //boss = GameObject.FindGameObjectWithTag( "Boss" );
 
             //if ( boss == null && enemies != null )
+
+            cinemachineVirtualCameraLock.enabled = true;
+            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
+            cinemachineFreeLook.enabled = false;
+
             if ( EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null )
             {
                 target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
@@ -70,80 +113,9 @@ public class NewCameraManager : MonoBehaviour
                 if ( target )
                     isLocked = true;
             }
+
+            // LockCameraTraget gameobject is always the last child
+            cinemachineVirtualCameraLock.LookAt = target.transform;
         }
-
-        if ( isLocked )
-        {
-            //Vector3 direction = (player.transform.position - target.transform.position).normalized;
-
-            //Vector3 camera_offset = player.transform.position + direction * Mathf.Abs( lockedOffset.z );
-
-            //camera_offset.y = lockedOffset.y;
-
-            //transform.position = camera_offset;
-        }
-        else
-        {
-            ////offset = Quaternion.AngleAxis( Input.GetAxis( "Vertical2" ) * turnSpeed, Vector3.down ) * offset;
-            //offset = Quaternion.AngleAxis( InputManager.Instance.RightStickHorizontal() * turnSpeed, Vector3.down ) * offset;
-            //if ( closedEnvironment )
-            //{
-            //    transform.position = player.transform.position + closedEnvironmentOffset;
-            //    transform.LookAt( player.transform.position );
-            //}
-            //else
-            //    transform.position = player.transform.position + offset;
-        }
-
-        //transform.LookAt( target.transform.position );
-
-        //// Change lock-on target
-        ////float input = Input.GetAxis( "Vertical2" );
-        //float input = InputManager.Instance.RightStickHorizontal();
-
-        //if ( (!rightAxisInUse && Mathf.Abs( input ) > 0.4f) && isLocked )
-        //{
-        //    rightAxisInUse = true;
-
-        //    //Do nothing
-        //    if ( !EnemiesManager.Instance.Boss && target == EnemiesManager.Instance.Boss ) ;
-
-        //    // Cycle through the enemies
-        //    else
-        //    {
-        //        float minLeftDistance = -1 * Mathf.Infinity;
-        //        float minRightDistance = Mathf.Infinity;
-        //        GameObject leftNearestDemon = null;
-        //        GameObject rightNearestDemon = null;
-
-        //        foreach ( GameObject demon in EnemiesManager.Instance.littleEnemiesList )
-        //        {
-        //            float demonXAxis = transform.InverseTransformPoint( demon.transform.position ).x;
-
-        //            Debug.Log( demonXAxis );
-
-        //            if ( demonXAxis > 0.01f && demonXAxis < minRightDistance )
-        //            {
-        //                minRightDistance = demonXAxis;
-        //                rightNearestDemon = demon;
-        //            }
-
-        //            if ( demonXAxis < -0.01f && demonXAxis > minLeftDistance )
-        //            {
-        //                minLeftDistance = demonXAxis;
-        //                leftNearestDemon = demon;
-        //            }
-        //        }
-
-        //        // Don't know why it is inverted
-        //        if ( input < 0 && rightNearestDemon )
-        //            target = rightNearestDemon;
-        //        else if ( input > 0 && leftNearestDemon )
-        //            target = leftNearestDemon;
-        //    }
-        //}
-
-        //else if ( Mathf.Abs( input ) <= 0.4f )
-        //    rightAxisInUse = false;
     }
 }
