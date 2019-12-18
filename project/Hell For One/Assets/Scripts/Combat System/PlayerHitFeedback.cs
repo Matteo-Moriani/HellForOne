@@ -75,7 +75,7 @@ public class PlayerHitFeedback : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
             // Maybe we can use Color.black instead of this
-            renderer.material.SetColor("_EmissiveColor", startingColor);
+            renderer.material.SetColor("_EmissiveColor", Color.black);
 
             blinkCR = null;
         }
@@ -92,7 +92,7 @@ public class PlayerHitFeedback : MonoBehaviour
         else
         {
             // Maybe we can use Color.black instead of this
-            renderer.material.SetColor("_EmissiveColor", startingColor);
+            renderer.material.SetColor("_EmissiveColor", Color.black);
         }    
     }
 }
