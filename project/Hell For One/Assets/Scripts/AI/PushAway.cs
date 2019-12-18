@@ -54,7 +54,7 @@ public class PushAway : MonoBehaviour
 
         if (demonStats != null)
         {
-            if (!demonStats.IsPushedAway)
+            if (!demonStats.IsPushedAway && demonStats.type != Stats.Type.Player)
             {
                 demonStats.IsPushedAway = true;
 
