@@ -43,6 +43,16 @@ public class DemonMovement : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
 
+    private void OnEnable()
+    {
+        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+    }
+
+    private void OnDisable()
+    {
+        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
@@ -290,5 +300,9 @@ public class DemonMovement : MonoBehaviour
             }    
         }
             
+    }
+
+    private void OnBossBattleExit() { 
+        canMove = true;    
     }
 }
