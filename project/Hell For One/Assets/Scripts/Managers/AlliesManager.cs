@@ -66,7 +66,7 @@ public class AlliesManager : MonoBehaviour
         alliesList.Add(spawnedDemon);
 
         // TODO - MANAGE ALLY COMPONENTS WHEN IN COMBAT AND IN OUT OF COMBAT
-        if(BattleEventsHandler.Instance.IsInBossBattle || BattleEventsHandler.Instance.IsInRegularBattle) {
+        if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
             spawnedDemon.GetComponent<Combat>().enabled = true;
         }
         else {

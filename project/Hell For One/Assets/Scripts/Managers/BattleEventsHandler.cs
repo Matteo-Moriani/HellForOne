@@ -6,14 +6,14 @@ public class BattleEventsHandler : MonoBehaviour
 {
     private GameObject spawner;
 
-    public bool isInBossBattle = false;
-    public bool isInRegularBattle = false;
+    private static bool isInBossBattle = false;
+    private static bool isInRegularBattle = false;
 
     private static BattleEventsHandler _instance;
     public static BattleEventsHandler Instance { get { return _instance; } }
 
-    public bool IsInBossBattle { get => isInBossBattle; private set => isInBossBattle = value; }
-    public bool IsInRegularBattle { get => isInRegularBattle; private set => isInRegularBattle = value; }
+    public static bool IsInBossBattle { get => isInBossBattle; private set => isInBossBattle = value; }
+    public static bool IsInRegularBattle { get => isInRegularBattle; private set => isInRegularBattle = value; }
 
     private void Awake()
     {

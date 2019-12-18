@@ -17,40 +17,44 @@ public class PushAway : MonoBehaviour
 
     void FixedUpdate()
     {
-        PushDemons();
+        if (BattleEventsHandler.IsInBossBattle)
+        {
+            PushDemons();
+        }
     }
 
-    private float HorizDistFromTarget( Vector3 targetPosition )
+    private float HorizDistFromTarget(Vector3 targetPosition)
     {
-        targetPosition = new Vector3( targetPosition.x, transform.position.y, targetPosition.z );
+        targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
         return (targetPosition - transform.position).magnitude - transform.localScale.x / 2;
     }
 
     private void PushDemons()
     {
-        foreach ( GameObject demon in AlliesManager.Instance.AlliesList)
+        // TODO - this is not very clean
+        foreach (GameObject demon in AlliesManager.Instance.AlliesList)
         {
 
-            if ( demon != null )
+            if (demon != null)
             {
                 // closest point of demon's collider to the closest point of my collider to the demon center
-                if ( HorizDistFromTarget( demon.GetComponent<Collider>().ClosestPoint( GetComponent<Collider>().ClosestPoint( demon.transform.position ) ) ) < repulsionDist )
+                if (HorizDistFromTarget(demon.GetComponent<Collider>().ClosestPoint(GetComponent<Collider>().ClosestPoint(demon.transform.position))) < repulsionDist)
                 {
                     //demon.GetComponent<Rigidbody>().AddForce((demon.transform.position - transform.position) * pushIntensity, ForceMode.Impulse);
-                    StartCoroutine( pushAwayCoroutine( demon ) );
+                    StartCoroutine(pushAwayCoroutine(demon));
                 }
             }
 
         }
     }
 
-    private IEnumerator pushAwayCoroutine( GameObject demon )
+    private IEnumerator pushAwayCoroutine(GameObject demon)
     {
         Stats demonStats = demon.GetComponent<Stats>();
 
-        if ( demonStats != null )
+        if (demonStats != null)
         {
-            if ( !demonStats.IsPushedAway )
+            if (!demonStats.IsPushedAway)
             {
                 demonStats.IsPushedAway = true;
 
@@ -61,32 +65,32 @@ public class PushAway : MonoBehaviour
                 Vector3 startingVelocity = demonRb.velocity;
 
                 // If pushed away Player cannot move or dash
-                if ( demonStats.type == Stats.Type.Player )
+                if (demonStats.type == Stats.Type.Player)
                 {
                     Controller controller = demon.GetComponent<Controller>();
                     Dash dash = demon.GetComponent<Dash>();
-                    if ( controller != null && dash != null )
+                    if (controller != null && dash != null)
                     {
                         controller.enabled = false;
                         dash.enabled = false;
                     }
                     else
                     {
-                        Debug.Log( this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name );
+                        Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
                     }
                 }
 
                 // If pushed away ally imp cannot move
-                if ( demonStats.type == Stats.Type.Ally )
+                if (demonStats.type == Stats.Type.Ally)
                 {
                     DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
-                    if ( demonMovement != null )
+                    if (demonMovement != null)
                     {
                         demonMovement.CanMove = false;
                     }
                     else
                     {
-                        Debug.Log( this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name );
+                        Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
                     }
                 }
 
@@ -99,24 +103,24 @@ public class PushAway : MonoBehaviour
                 do
                 {
                     pushAwayTimeCounter += Time.fixedDeltaTime;
-                    if ( demonRb != null )
+                    if (demonRb != null)
                         demonRb.velocity = pushAwayDirection * (pushAwaySize / pushAwayTime);
 
                     // We are using physics so we need to wait for FixedUpdate
                     yield return new WaitForFixedUpdate();
-                } while ( pushAwayTimeCounter <= pushAwayTime );
+                } while (pushAwayTimeCounter <= pushAwayTime);
 
                 // We need this check because the demon that is being pushed away could die during the process
-                if ( demon != null )
+                if (demon != null)
                 {
                     // Player can move again
-                    if ( demonStats.type == Stats.Type.Player )
+                    if (demonStats.type == Stats.Type.Player)
                     {
                         Controller controller = demon.GetComponent<Controller>();
                         Dash dash = demon.GetComponent<Dash>();
-                        if ( controller != null && dash != null )
+                        if (controller != null && dash != null)
                         {
-                            if ( demon.tag == "Player" )
+                            if (demon.tag == "Player")
                             {
                                 controller.enabled = true;
                                 dash.enabled = true;
@@ -126,27 +130,27 @@ public class PushAway : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log( this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name );
+                            Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
                         }
                     }
 
                     // Ally can move again
-                    if ( demonStats.type == Stats.Type.Ally )
+                    if (demonStats.type == Stats.Type.Ally)
                     {
                         DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
-                        if ( demonMovement != null )
+                        if (demonMovement != null)
                         {
                             demonMovement.CanMove = true;
                         }
                         else
                         {
-                            Debug.Log( this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name );
+                            Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
                         }
                     }
                 }
 
                 // We need this check because the demon that is being pushed away could die during the process
-                if ( demonRb != null )
+                if (demonRb != null)
                     demonRb.velocity = startingVelocity;
 
                 demonStats.IsPushedAway = false;
@@ -154,7 +158,7 @@ public class PushAway : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.name + " is trying to pushAway a demon that does not have Stats. Demon: " + demon.transform.root.name );
+            Debug.Log(this.transform.root.name + " is trying to pushAway a demon that does not have Stats. Demon: " + demon.transform.root.name);
         }
     }
 }
