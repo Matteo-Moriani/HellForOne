@@ -64,6 +64,11 @@ public class Reincarnation : MonoBehaviour
                 cameraManager.player = null;
             }
 
+            PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
+            if(playerScriptedMovements != null) {
+                playerScriptedMovements.enabled = false;
+            }
+
             // Start reicarnation coroutine
             if (reicarnationCR == null)
             {

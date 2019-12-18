@@ -60,14 +60,12 @@ public class PlayerScriptedMovements : MonoBehaviour
     void MoveToScriptedPosition() {
         alliesNum = allies.AlliesList.Count;
         inScriptedMovement = true;
-        playerInput.Playing = false;
     }
 
     void ScriptedMovementEnd() {
         inScriptedMovement = false;
         alliesNotified = false;
         NotifyAllies(inScriptedMovement);
-        playerInput.Playing = true;
         alliesInPosition = 0;
     }
 
