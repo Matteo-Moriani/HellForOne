@@ -34,7 +34,11 @@ public class DemonMovement : MonoBehaviour
     private bool isMoving = false;
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     public bool InScriptedMovement { get => inScriptedMovement; set => inScriptedMovement = value; }
+    public bool PlayerNotified { get => playerNotified; set => playerNotified = value; }
+    public Vector3 agentDestination;
+
     private bool inScriptedMovement = false;
+    private bool playerNotified = false;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
@@ -46,8 +50,8 @@ public class DemonMovement : MonoBehaviour
         minMeleeDist = maxMeleeDist - 1;
         myCollider = GetComponent<Collider>();
 
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
-        agent = this.gameObject.GetComponent<NavMeshAgent>();
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        agent = gameObject.GetComponent<NavMeshAgent>();
     }
 
     void FixedUpdate()
@@ -92,17 +96,17 @@ public class DemonMovement : MonoBehaviour
                     {
                         if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MaxMeleeDistance) )
                         {
-                            GetComponent<NavMeshAgent>().destination = target.transform.position;
+                            agent.destination = target.transform.position;
                         }
                         else
-                            GetComponent<NavMeshAgent>().destination = transform.position;
+                            agent.destination = transform.position;
                     }
                     else
                     {
                         if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MinRangeCombatDistance) )
-                            GetComponent<NavMeshAgent>().destination = target.transform.position;
+                            agent.destination = target.transform.position;
                         else
-                            GetComponent<NavMeshAgent>().destination = transform.position;
+                            agent.destination = transform.position;
                     }
 
                     Face(target);
@@ -111,14 +115,18 @@ public class DemonMovement : MonoBehaviour
                 // out of combat
                 else {
                     // I move only if I'm far enough from the group center and if the group center is inside the navmesh
-                    if(!InFormationPosition() && GetComponent<NavMeshAgent>().CalculatePath(group.transform.position, new NavMeshPath())) {
-                        GetComponent<NavMeshAgent>().destination = group.transform.position;
+                    if(!InFormationPosition() && agent.CalculatePath(group.transform.position, new NavMeshPath())) {
+                        agent.destination = group.transform.position;
+                        agentDestination = agent.destination;
+                        //Debug.Log(gameObject.name + " still not in position. agent desitination is " + agent.destination);
                     }
                     else {
-                        GetComponent<NavMeshAgent>().destination = transform.position;
+                        agent.destination = transform.position;
                         Face(target);
-                        if(InScriptedMovement)
+                        if(InScriptedMovement && !PlayerNotified) {
+                            PlayerNotified = true;
                             player.GetComponent<PlayerScriptedMovements>().NotifyInPosition();
+                        }
                     }
                 }
             }
@@ -200,24 +208,24 @@ public class DemonMovement : MonoBehaviour
 
 
         if ( farFromEnemy && farFromGroup )
-            GetComponent<NavMeshAgent>().destination = enemyComponent + groupComponent;
+            agent.destination = enemyComponent + groupComponent;
         else if ( farFromEnemy && !farFromGroup )
-            GetComponent<NavMeshAgent>().destination = enemyComponent;
+            agent.destination = enemyComponent;
         else if ( !farFromEnemy && farFromGroup )
-            GetComponent<NavMeshAgent>().destination = groupComponent;
+            agent.destination = groupComponent;
     }
 
     private void HighRangeMovement()
     {
         if ( HorizDistFromTarget( group ) > transform.localScale.x * group.GetComponent<GroupMovement>().distanceAllowed && !inPosition )
         {
-            if ( gameObject.GetComponent<NavMeshAgent>() )
-                GetComponent<NavMeshAgent>().destination = group.transform.position;
+            if ( agent )
+                agent.destination = group.transform.position;
         }
         else
         {
             Face( target );
-            GetComponent<NavMeshAgent>().destination = transform.position;
+            agent.destination = transform.position;
             if ( !inPosition )
             {
                 inPosition = true;

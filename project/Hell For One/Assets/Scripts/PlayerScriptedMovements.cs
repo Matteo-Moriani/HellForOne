@@ -8,21 +8,22 @@ public class PlayerScriptedMovements : MonoBehaviour
     private NavMeshAgent agent;
     private PlayerInput playerInput;
     private Vector3 target;
-    private bool scriptedMovementStarted = false;
+    private bool inScriptedMovement = false;
     private CombatEventsManager combatEventsManager;
     private bool isMoving = false;
     private int alliesNum;
     private int alliesInPosition = 0;
     private AlliesManager allies;
+    private bool alliesNotified = false;
 
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
-        BattleEventsManager.onBossBattleEnter += FreeMovement;
+        BattleEventsManager.onBossBattleEnter += ScriptedMovementEnd;
     }
 
     public void OnDisable() {
         BattleEventsManager.onBattlePreparation -= MoveToScriptedPosition;
-        BattleEventsManager.onBossBattleEnter -= FreeMovement;
+        BattleEventsManager.onBossBattleEnter -= ScriptedMovementEnd;
     }
 
     void Start()
@@ -35,14 +36,15 @@ public class PlayerScriptedMovements : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(scriptedMovementStarted) {
+        if(inScriptedMovement) {
             agent.SetDestination(target);
             if(!isMoving) {
                 combatEventsManager.RaiseOnStartMoving();
                 isMoving = true;
             }
-            if((gameObject.transform.position - target).magnitude <= 0.1f) {
-                NotifyAllies();
+            if((gameObject.transform.position - target).magnitude <= 0.1f && !alliesNotified) {
+                alliesNotified = true;
+                NotifyAllies(inScriptedMovement);
             }
             if(alliesInPosition == alliesNum){ 
                 combatEventsManager.RaiseOnStartIdle();
@@ -57,12 +59,14 @@ public class PlayerScriptedMovements : MonoBehaviour
 
     void MoveToScriptedPosition() {
         alliesNum = allies.AlliesList.Count;
-        scriptedMovementStarted = true;
+        inScriptedMovement = true;
         playerInput.Playing = false;
     }
 
-    void FreeMovement() {
-        scriptedMovementStarted = false;
+    void ScriptedMovementEnd() {
+        inScriptedMovement = false;
+        alliesNotified = false;
+        NotifyAllies(inScriptedMovement);
         playerInput.Playing = true;
         alliesInPosition = 0;
     }
@@ -76,9 +80,10 @@ public class PlayerScriptedMovements : MonoBehaviour
         Debug.Log("allies in position: " + alliesInPosition);
     }
 
-    private void NotifyAllies() {
+    private void NotifyAllies(bool scriptedMovement) {
         foreach (GameObject ally in allies.AlliesList) {
-            ally.GetComponent<DemonMovement>().InScriptedMovement = true;
+            ally.GetComponent<DemonMovement>().InScriptedMovement = scriptedMovement;
+            ally.GetComponent<DemonMovement>().PlayerNotified = false;
         }
     }
 }
