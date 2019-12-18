@@ -504,7 +504,7 @@ public class Stats : MonoBehaviour
                 
                 GetComponent<Reincarnation>().Reincarnate();
 
-                combatEventsManager.RaiseOnDeath();
+                //combatEventsManager.RaiseOnDeath();
             }
 
             // if the boss is dying...
@@ -515,7 +515,7 @@ public class Stats : MonoBehaviour
                 //{
                     //gameObject.GetComponent<BossAnimator>().StopAnimations();
                     //gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
-                combatEventsManager.RaiseOnDeath();
+                //combatEventsManager.RaiseOnDeath();
                 //}
                 //isDying = true;
 

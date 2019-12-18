@@ -20,40 +20,57 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
     private bool isMoving = false;
+    private bool isAlive = true;
 
-
-    void Start()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         combat = GetComponent<Combat>();
         animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        combatEventsManager.onDeath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        combatEventsManager.onDeath -= OnDeath;
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(AttackOneTime(rateo));
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (!player)
-            player = GameObject.FindGameObjectWithTag("Player");
+        if (isAlive) {
+            if (!player)
+                player = GameObject.FindGameObjectWithTag("Player");
 
-        if (targetDemon)
-        {
-            FaceTarget(targetDemon);
-
-            if ((targetDemon.transform.position - transform.position).magnitude > agent.stoppingDistance)
+            if (targetDemon)
             {
-                GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
+                FaceTarget(targetDemon);
+
+                if ((targetDemon.transform.position - transform.position).magnitude > agent.stoppingDistance)
+                {
+                    GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
+                }
+                else
+                {
+                    GetComponent<NavMeshAgent>().destination = transform.position;
+                }
             }
             else
-            {
-                GetComponent<NavMeshAgent>().destination = transform.position;
-            }
-        }
-        else
-            ChooseTarget();
+                ChooseTarget();
 
-        ManageMovementEvents();
+            ManageMovementEvents();
+
+        }
     }
 
     private void FaceTarget(GameObject target)
@@ -132,5 +149,11 @@ public class LittleEnemyBehaviour : MonoBehaviour
             yield return new WaitForSeconds(rateo);
             Attack();
         }
+    }
+
+    private void OnDeath() { 
+        StopAllCoroutines();
+        agent.enabled = false;
+        isAlive = false;
     }
 }

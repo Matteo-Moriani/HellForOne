@@ -338,6 +338,16 @@ public class MidBossBehavior : MonoBehaviour {
         stats = GetComponent<Stats>();
     }
 
+    private void OnEnable()
+    {
+        combatEventsManager.onDeath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        combatEventsManager.onDeath -= OnDeath;
+    }
+
     void Start() {
         singleAttackDuration = animationsManager.GetAnimation("SingleAttack").length;
         groupAttackDuration = animationsManager.GetAnimation("GroupAttack").length;
@@ -517,5 +527,9 @@ public class MidBossBehavior : MonoBehaviour {
             canFace = true;
             yield return new WaitForSeconds(f);
         }
+    }
+
+    private void OnDeath() { 
+        StopAllCoroutines();    
     }
 }
