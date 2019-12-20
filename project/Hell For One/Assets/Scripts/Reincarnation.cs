@@ -40,8 +40,8 @@ public class Reincarnation : MonoBehaviour
     }
 
     public void Reincarnate()
-    {   
-        if(player != null) {
+    {
+        if (player != null) {
             // Disable controller
             Controller controller = player.GetComponent<Controller>();
             if (controller != null)
@@ -163,14 +163,18 @@ public class Reincarnation : MonoBehaviour
                 demonBehaviour.enabled = false;
             }
 
-            gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
-            GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
-            if ( lockCameraPlayerTarget )
+            if ( virtualCamera )
             {
-                virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
-            }
+                virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
+                gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
+                GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
+                if ( lockCameraPlayerTarget )
+                {
+                    virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
+                }
 
-            virtualCamera.SetActive( false );
+                virtualCamera.SetActive( false );
+            }
 
             cinemachineFreeLook.gameObject.SetActive( true );
             cinemachineFreeLook.Follow = player.transform;
