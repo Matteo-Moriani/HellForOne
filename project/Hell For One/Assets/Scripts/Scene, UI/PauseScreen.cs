@@ -20,8 +20,8 @@ public class PauseScreen : Menu
                 break;
             // TITLE SCREEN
             case 2:
-                //SceneManager.LoadScene("Title Screen");
-                Debug.Log("title screen not available");
+                Resume();
+                SceneManager.LoadScene("Title Screen");
                 break;
             default:
                 break;
@@ -31,15 +31,15 @@ public class PauseScreen : Menu
     public void Pause()
     {
         Time.timeScale = 0f;
-        PlayerInput.GameInPause = true;
+        Input.gameObject.GetComponent<PlayerInput>().GameInPause = true;
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<FPSLimiter>().IsPaused = true;
     }
     
     public void Resume()
     {
         Time.timeScale = 1f;
-        PlayerInput.GameInPause = false;
-        PlayerInput.NavigatingMenu = false;
+        Input.gameObject.GetComponent<PlayerInput>().GameInPause = false;
+        Input.gameObject.GetComponent<PlayerInput>().NavigatingMenu = false;
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<FPSLimiter>().IsPaused = false;
         gameObject.SetActive(false);
     }

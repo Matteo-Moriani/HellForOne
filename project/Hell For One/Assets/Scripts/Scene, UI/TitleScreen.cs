@@ -13,7 +13,7 @@ public class TitleScreen : Menu {
         switch(ButtonIndex) {
             // PLAY
             case 0:
-                // TODO - cambiare in index, rivedi tutorial
+                // TODO - cambiare tramite index, rivedi il tutorial
                 SceneManager.LoadScene("Demo");
                 // TODO - capire se funziona
                 Managers.Instance.RaiseOnPressPlayButton();

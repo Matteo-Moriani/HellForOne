@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class Reincarnation : MonoBehaviour
 {
@@ -14,11 +15,6 @@ public class Reincarnation : MonoBehaviour
 
     private Coroutine reicarnationCR = null;
 
-    private GameObjectSearcher gameObjectSearcher;
-
-    private CinemachineFreeLook cinemachineFreeLook;
-    private GameObject virtualCamera;
-
     #endregion
 
     #region methods
@@ -26,12 +22,17 @@ public class Reincarnation : MonoBehaviour
     void Start()
     {
         player = gameObject;
-        gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
-        cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
-        virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
     }
 
-public void Reincarnate()
+    private void OnEnable() {
+        BattleEventsManager.onGameOver += GameOver;
+    }
+
+    private void OnDisable() {
+        BattleEventsManager.onGameOver -= GameOver;
+    }
+
+    public void Reincarnate()
     {   
         if(player != null) {
             // Disable controller
@@ -118,6 +119,7 @@ public void Reincarnate()
         }
 
         // TODO - Implement game over event.
+        BattleEventsManager.RaiseOnGameOver();
     }
 
     private void ReincarnatePlayer(GameObject player)
@@ -154,24 +156,9 @@ public void Reincarnate()
                 demonBehaviour.enabled = false;
             }
 
-            gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
-            GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
-            if ( lockCameraPlayerTarget )
-            {
-                virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
-            }
-
-            virtualCamera.SetActive( false );
-
-            cinemachineFreeLook.gameObject.SetActive( true );
+            CinemachineFreeLook cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
             cinemachineFreeLook.Follow = player.transform;
             cinemachineFreeLook.LookAt = player.transform;
-
-            NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
-            if ( newCameraManager )
-            {
-                newCameraManager.IsLocked = false;
-            }
             
             Reincarnation reincarnation = player.GetComponent<Reincarnation>();
             if(reincarnation != null) { 
@@ -255,6 +242,10 @@ public void Reincarnate()
         {
             // Start coroutine    
         }
+    }
+
+    private void GameOver() {
+        SceneManager.LoadScene("GameOverScreen");
     }
 
     #endregion
