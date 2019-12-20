@@ -14,7 +14,7 @@ public class GameOver : Menu {
                 break;
             // TITLE SCREEN
             case 1:
-                SceneManager.LoadScene("TitleScreen");
+                SceneManager.LoadScene("Title Screen");
                 break;
             default:
                 break;

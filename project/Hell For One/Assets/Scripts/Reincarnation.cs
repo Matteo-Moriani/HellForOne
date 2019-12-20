@@ -124,9 +124,9 @@ public class Reincarnation : MonoBehaviour
 
             yield return null;
         }
-
-        // TODO - Implement game over event.
-        BattleEventsManager.RaiseOnGameOver();
+        
+        if(AlliesManager.Instance.AlliesList.Count == 0)
+            BattleEventsManager.RaiseOnGameOver();
     }
 
     private void ReincarnatePlayer(GameObject player)
@@ -271,7 +271,7 @@ public class Reincarnation : MonoBehaviour
     }
 
     private void GameOver() {
-        //SceneManager.LoadScene("Game Over Screen");
+        SceneManager.LoadScene("Game Over Screen");
     }
 
     #endregion
