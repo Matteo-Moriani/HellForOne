@@ -14,13 +14,15 @@ public class NewCameraManager : MonoBehaviour
 
     CinemachineFreeLook cinemachineFreeLook;
     CinemachineVirtualCamera cinemachineVirtualCameraLock;
+    GameObjectSearcher gameObjectSearcher;
 
     GameObject lockCameraPlayerTarget;
+
+    public bool IsLocked { get => isLocked; set => isLocked = value; }
 
     private void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
-        target = player;
     }
 
     public static GameObject FindNearestEnemy( GameObject objectFrom, GameObject[] gameObjects )
@@ -44,18 +46,20 @@ public class NewCameraManager : MonoBehaviour
     {
         FindPlayer();
 
-        lockCameraPlayerTarget = GameObject.FindGameObjectWithTag( "CameraTarget" );
+        gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
+        gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
+        lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
 
         cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
         cinemachineVirtualCameraLock = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
 
         cinemachineFreeLook.Follow = player.transform;
         cinemachineFreeLook.LookAt = player.transform;
-        cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
 
         cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
 
-        cinemachineVirtualCameraLock.enabled = false;
+        cinemachineVirtualCameraLock.gameObject.SetActive( false );
+        //cinemachineVirtualCameraLock.enabled = false;
     }
 
     void Update()
@@ -69,53 +73,72 @@ public class NewCameraManager : MonoBehaviour
 
             cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
 
-            cinemachineVirtualCameraLock.enabled = false;
-            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
-            cinemachineFreeLook.enabled = true;
+            cinemachineVirtualCameraLock.gameObject.SetActive( false );
+            cinemachineFreeLook.gameObject.SetActive(true);
 
-            isLocked = false;
+            //cinemachineVirtualCameraLock.enabled = false;
+            //cinemachineFreeLook.enabled = true;
+
+            IsLocked = false;
+        }
+
+        // If target dies
+        if (IsLocked && !target )
+        {
+            cinemachineVirtualCameraLock.gameObject.SetActive( false );
+            //cinemachineVirtualCameraLock.enabled = false;
+            //cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+            cinemachineFreeLook.gameObject.SetActive( true );
+            //cinemachineFreeLook.enabled = true;
+            IsLocked = false;
         }
 
         // Remove lock-on
         // if ( Input.GetButtonDown( "R3" ) && isLocked )
-        if ( InputManager.Instance.RightStickButtonDown() && isLocked )
+        if ( InputManager.Instance.RightStickButtonDown() && IsLocked )
         {
-            cinemachineVirtualCameraLock.enabled = false;
-            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
-            cinemachineFreeLook.enabled = true;
-            isLocked = false;
-            target = player;
+            cinemachineVirtualCameraLock.gameObject.SetActive( false );
+            //cinemachineVirtualCameraLock.enabled = false;
+            //cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+            cinemachineFreeLook.gameObject.SetActive( true );
+            //cinemachineFreeLook.enabled = true;
+            IsLocked = false;
         }
 
         // Start lock-on
         //else if ( Input.GetButtonDown( "R3" ) && !isLocked )
-        else if ( InputManager.Instance.RightStickButtonDown() && !isLocked )
+        else if ( InputManager.Instance.RightStickButtonDown() && !IsLocked )
         {
-            //enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-            //boss = GameObject.FindGameObjectWithTag( "Boss" );
-
-            //if ( boss == null && enemies != null )
-
-            cinemachineVirtualCameraLock.enabled = true;
-            cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
-            cinemachineFreeLook.enabled = false;
-
             if ( EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null )
             {
                 target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
                 if ( target )
-                    isLocked = true;
+                {
+                    cinemachineVirtualCameraLock.gameObject.SetActive( true );
+                    //cinemachineVirtualCameraLock.enabled = true;
+                    cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
+                    cinemachineFreeLook.gameObject.SetActive( false );
+                    //cinemachineFreeLook.enabled = false;
+                    cinemachineVirtualCameraLock.LookAt = target.transform;
+                    cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
+                    IsLocked = true;
+                }
             }
             //else if ( boss != null )
             else if ( EnemiesManager.Instance.Boss != null )
             {
                 target = EnemiesManager.Instance.Boss;
                 if ( target )
-                    isLocked = true;
+                {
+                    cinemachineVirtualCameraLock.gameObject.SetActive( true );
+                    //cinemachineVirtualCameraLock.enabled = true;
+                    cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
+                    cinemachineFreeLook.gameObject.SetActive( false );
+                    //cinemachineFreeLook.enabled = false;
+                    cinemachineVirtualCameraLock.LookAt = target.transform;
+                    IsLocked = true;
+                }
             }
-
-            // LockCameraTraget gameobject is always the last child
-            cinemachineVirtualCameraLock.LookAt = target.transform;
         }
     }
 }
