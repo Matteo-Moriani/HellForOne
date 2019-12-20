@@ -15,6 +15,10 @@ public class Reincarnation : MonoBehaviour
 
     private Coroutine reicarnationCR = null;
 
+    private GameObjectSearcher gameObjectSearcher;
+    private CinemachineFreeLook cinemachineFreeLook;
+    private GameObject virtualCamera;
+
     #endregion
 
     #region methods
@@ -22,6 +26,9 @@ public class Reincarnation : MonoBehaviour
     void Start()
     {
         player = gameObject;
+        gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
+        cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
+        virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
     }
 
     private void OnEnable() {
@@ -156,10 +163,25 @@ public class Reincarnation : MonoBehaviour
                 demonBehaviour.enabled = false;
             }
 
-            CinemachineFreeLook cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
+            gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
+            GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
+            if ( lockCameraPlayerTarget )
+            {
+                virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
+            }
+
+            virtualCamera.SetActive( false );
+
+            cinemachineFreeLook.gameObject.SetActive( true );
             cinemachineFreeLook.Follow = player.transform;
             cinemachineFreeLook.LookAt = player.transform;
-            
+
+            NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
+            if ( newCameraManager )
+            {
+                newCameraManager.IsLocked = false;
+            }
+
             Reincarnation reincarnation = player.GetComponent<Reincarnation>();
             if(reincarnation != null) { 
                 reincarnation.enabled = true;    
