@@ -52,7 +52,7 @@ public class PlayerScriptedMovements : MonoBehaviour
             }
 
         } else {
-            agent.SetDestination(gameObject.transform.position);
+            //agent.SetDestination(gameObject.transform.position);
         }
         
     }

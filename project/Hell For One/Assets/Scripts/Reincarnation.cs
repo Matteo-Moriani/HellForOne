@@ -267,7 +267,7 @@ public class Reincarnation : MonoBehaviour
     }
 
     private void GameOver() {
-        SceneManager.LoadScene("GameOverScreen");
+        //SceneManager.LoadScene("Game Over Screen");
     }
 
     #endregion
