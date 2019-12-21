@@ -42,21 +42,8 @@ public class CombatManager : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 baseAttackColliderScale;
-
-    // Min distance for tactics
-    [Tooltip( "The maximum distance at where they can melee attack" )]
-    private float maxMeleeDistance = 1.5f;
-    [Tooltip( "The maximum distance at where they can launch" )]
-    private float maxRangeCombatDistance = 15f;
-    [Tooltip( "The minimum distance at where they can launch" )]
-    private float minRangeCombatDistance = 10f;
-
     // To check if minDistance is verified
     private bool canAttack = false;
-
-    public float MaxMeleeDistance { get => maxMeleeDistance; set => maxMeleeDistance = value; }
-    public float MaxRangeCombatDistance { get => maxRangeCombatDistance; set => maxRangeCombatDistance = value; }
-    public float MinRangeCombatDistance { get => minRangeCombatDistance; set => minRangeCombatDistance = value; }
 
     private Coroutine waitTillMinDistanceCR;
 

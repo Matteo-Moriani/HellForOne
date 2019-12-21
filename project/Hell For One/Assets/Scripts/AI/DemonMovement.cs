@@ -10,18 +10,17 @@ public class DemonMovement : MonoBehaviour
 
     // Used to avoid melee atks and tanks if too distant
     private float minMeleeDist;
-    private float maxMeleeDist;
 
     public float extraCohesion = 1.75f;
-    // only vs mobs
-    //public float rangedDist = 10f;
     public float repulsionWithGroup = 1f;
+    // distanza massima coperta dall'affondo
+    public float maxMeleeDist = 0.85f;
+    public float maxRangeDist = 8f;
 
     [SerializeField]
     private GameObject target;
     private GameObject player;
     private GameObject group;
-    [SerializeField]
     private Collider targetCollider;
     private bool farFromEnemy = true;
     private bool farFromGroup = true;
@@ -56,7 +55,6 @@ public class DemonMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag( "Player" );
-        maxMeleeDist = GetComponentInChildren<CombatManager>().MaxMeleeDistance;
         minMeleeDist = maxMeleeDist - 1;
         myCollider = GetComponent<Collider>();
 
@@ -104,7 +102,7 @@ public class DemonMovement : MonoBehaviour
                 {
                     if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
                     {
-                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MaxMeleeDistance) )
+                        if ( (HorizDistFromTargetBorders( target ) > maxMeleeDist) )
                         {
                             agent.destination = target.transform.position;
                         }
@@ -113,7 +111,7 @@ public class DemonMovement : MonoBehaviour
                     }
                     else
                     {
-                        if ( (HorizDistFromTargetBorders( target ) > GetComponentInChildren<CombatManager>().MinRangeCombatDistance) )
+                        if ( (HorizDistFromTargetBorders( target ) > maxRangeDist) )
                             agent.destination = target.transform.position;
                         else
                             agent.destination = transform.position;
@@ -200,12 +198,14 @@ public class DemonMovement : MonoBehaviour
                 farFromEnemy = true;
             }
 
-            if ( HorizDistFromTargetBorders( target ) < minMeleeDist )
-            {
-                //GetComponent<Rigidbody>().AddForce(transform.position - targetCollider.ClosestPoint(transform.position));
-                enemyComponent = transform.position;
-                farFromEnemy = true;
-            }
+            // se sono troppo vicino if i'm too close
+
+            //if ( HorizDistFromTargetBorders( target ) < minMeleeDist )
+            //{
+            //    //GetComponent<Rigidbody>().AddForce(transform.position - targetCollider.ClosestPoint(transform.position));
+            //    enemyComponent = transform.position;
+            //    farFromEnemy = true;
+            //}
 
         }
 

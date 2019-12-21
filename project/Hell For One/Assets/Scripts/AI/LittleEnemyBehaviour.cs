@@ -7,8 +7,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
 {
     [Range(0f, 1f)]
     public float rotSpeed = 0.1f;
-    //must be a little bit higher than navmesh stop distance
-    public float attackRange = 1.5f;
+    public float attackRange = 0.85f;
     public float rateo = 2f;
 
     private float movingSpeedTreshold = 0.2f;
@@ -16,6 +15,8 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private GameObject player;
     private Combat combat;
     private Animator animator;
+    private Collider targetCollider;
+    private Collider myCollider;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
@@ -28,6 +29,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
         combat = GetComponent<Combat>();
         animator = GetComponent<Animator>();
+        myCollider = GetComponent<Collider>();
     }
 
     private void OnEnable()
@@ -56,7 +58,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
             {
                 FaceTarget(targetDemon);
 
-                if ((targetDemon.transform.position - transform.position).magnitude > agent.stoppingDistance)
+                if (HorizDistFromTargetBorders(targetDemon) > attackRange)
                 {
                     GetComponent<NavMeshAgent>().destination = targetDemon.transform.position;
                 }
@@ -136,7 +138,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
         // TODO - Understand why they doesn't attack the player
         if(!animator.GetBool("isMeleeAttacking")) {
             if(targetDemon.GetComponent<Stats>().type == Stats.Type.Ally) {
-                if(targetDemon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(gameObject) < attackRange)
+                if(HorizDistFromTargetBorders(targetDemon) < attackRange)
                     combat.PlayerAttack();
             } else
                 combat.PlayerAttack();
@@ -155,5 +157,13 @@ public class LittleEnemyBehaviour : MonoBehaviour
         StopAllCoroutines();
         agent.enabled = false;
         isAlive = false;
+    }
+
+    public float HorizDistFromTargetBorders(GameObject target) {
+        if(!targetCollider)
+            targetCollider = target.GetComponent<Collider>();
+        Vector3 closestPoint = targetCollider.ClosestPoint(myCollider.ClosestPoint(target.transform.position));
+        Vector3 targetPosition = new Vector3(closestPoint.x, transform.position.y, closestPoint.z);
+        return (targetPosition - transform.position).magnitude;
     }
 }
