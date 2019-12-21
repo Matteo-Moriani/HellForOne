@@ -11,6 +11,8 @@ public class GroupBehaviour : MonoBehaviour
     public float rateo = 2f;
     public Material groupColor;
     private Coroutine continuousAttack;
+    public GameObject healthBar;
+    private GroupHealthBar groupHealthBar;
 
     #region 
 
@@ -358,6 +360,10 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
+    private void Awake() {
+        groupHealthBar = healthBar.GetComponent<GroupHealthBar>();
+    }
+
     void Start()
     {
         currentState = State.MeleeAttack;
@@ -447,6 +453,7 @@ public class GroupBehaviour : MonoBehaviour
     public void SetDemonsNumber( int i )
     {
         demonsInGroup = i;
+        groupHealthBar.SetDemonsNumber(i);
     }
 
     //TODO to be improved

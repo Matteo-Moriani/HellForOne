@@ -178,7 +178,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopSupport is trying to stop supporting but is idle or is not supporting" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopSupport is trying to stop supporting but is idle or is not supporting" );
         }
     }
 
@@ -191,7 +191,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartBlock is trying to start blocking but is not idle or is already blocking" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartBlock is trying to start blocking but is not idle or is already blocking" );
         }
 
     }
@@ -205,7 +205,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopBlock is trying to stop blocking but is idle or is not blocking" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopBlock is trying to stop blocking but is idle or is not blocking" );
         }
     }
 
