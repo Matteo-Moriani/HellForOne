@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     private GameObject panelAzure, panelPink, panelGreen, panelYellow;
-    private Image azureImage, pinkImage, greenImage, yellowImage;
+    private Image azureImage, pinkImage, greenImage, yellowImage, bossFaceAzure, bossFacePink, bossFaceGreen, bossFaceYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite, fullHPSprite, halfHPSprite, fullCrownSprite, halfCrownSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     private TacticsManager tacticsManager;
@@ -84,6 +84,37 @@ public class HUD : MonoBehaviour
         }
     }
 
+    public void ActivateBossFace(TacticsManager.Group group )
+    {
+        switch ( group )
+        {
+            case TacticsManager.Group.GroupAzure:
+                bossFaceAzure.enabled = true;
+                bossFaceGreen.enabled = false;
+                bossFacePink.enabled = false;
+                bossFaceYellow.enabled = false;
+                break;
+            case TacticsManager.Group.GroupPink:
+                bossFaceAzure.enabled = false;
+                bossFaceGreen.enabled = true;
+                bossFacePink.enabled = false;
+                bossFaceYellow.enabled = false;
+                break;
+            case TacticsManager.Group.GroupGreen:
+                bossFaceAzure.enabled = false;
+                bossFaceGreen.enabled = false;
+                bossFacePink.enabled = true;
+                bossFaceYellow.enabled = false;
+                break;
+            case TacticsManager.Group.GroupYellow:
+                bossFaceAzure.enabled = false;
+                bossFaceGreen.enabled = false;
+                bossFacePink.enabled = false;
+                bossFaceYellow.enabled = true;
+                break;
+        }
+    }
+
     void Start()
     {
         GameObject panel = transform.GetChild( 0 ).gameObject;
@@ -93,9 +124,18 @@ public class HUD : MonoBehaviour
         panelYellow = panel.transform.GetChild( 3 ).gameObject;
 
         azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        bossFaceAzure = panelAzure.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        bossFacePink = panelPink.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        bossFaceGreen = panelGreen.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        bossFaceYellow = panelYellow.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
+
+        bossFaceAzure.enabled = false;
+        bossFacePink.enabled = false;
+        bossFaceGreen.enabled = false;
+        bossFaceYellow.enabled = false;
 
         meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
         rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
