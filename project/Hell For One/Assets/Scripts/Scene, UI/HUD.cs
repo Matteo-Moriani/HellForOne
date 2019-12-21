@@ -94,13 +94,13 @@ public class HUD : MonoBehaviour
                 bossFacePink.enabled = false;
                 bossFaceYellow.enabled = false;
                 break;
-            case TacticsManager.Group.GroupPink:
+            case TacticsManager.Group.GroupGreen:
                 bossFaceAzure.enabled = false;
                 bossFaceGreen.enabled = true;
                 bossFacePink.enabled = false;
                 bossFaceYellow.enabled = false;
                 break;
-            case TacticsManager.Group.GroupGreen:
+            case TacticsManager.Group.GroupPink:
                 bossFaceAzure.enabled = false;
                 bossFaceGreen.enabled = false;
                 bossFacePink.enabled = true;
@@ -113,6 +113,13 @@ public class HUD : MonoBehaviour
                 bossFaceYellow.enabled = true;
                 break;
         }
+    }
+
+    public void DeactivateBossFace() {
+        bossFaceAzure.enabled = false;
+        bossFaceGreen.enabled = false;
+        bossFacePink.enabled = false;
+        bossFaceYellow.enabled = false;
     }
 
     void Start()

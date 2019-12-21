@@ -66,6 +66,7 @@ public class BossBehavior : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private AnimationsManager animationsManager;
     private float facingIntervall = 0.5f;
+    private HUD hud;
 
     private int debugIndex;
 
@@ -223,10 +224,11 @@ public class BossBehavior : MonoBehaviour
                     if ( i < probability.Length - 1 )
                     {
                         TargetGroup = demonGroups[ i - 1 ];
+                        ActivateAggroIcon(i-1);
                         TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
-                    else
-                    {
+                    else {
+                        hud.DeactivateBossFace();
                         TargetDemon = player;
                     }
 
@@ -368,6 +370,7 @@ public class BossBehavior : MonoBehaviour
         combatEventsManager = GetComponent<CombatEventsManager>();
         animationsManager = GetComponent<AnimationsManager>();
         stats = GetComponent<Stats>();
+        hud = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
     }
 
     void Start() {
@@ -377,7 +380,16 @@ public class BossBehavior : MonoBehaviour
         globalAttackDuration = animationsManager.GetAnimation("GlobalAttack").length + animationsManager.GetAnimation("Charge").length - 1f;
         arenaCenter = GameObject.FindWithTag( "ArenaCenter" );
         hp = stats.health;
-        demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
+
+        //demonGroups = GameObject.FindGameObjectsWithTag( "Group" );
+
+        // TODO - find a better way to do this
+        demonGroups = new GameObject[GameObject.FindGameObjectsWithTag("Group").Length];
+        demonGroups[0] = GameObject.Find("GroupAzure");
+        demonGroups[1] = GameObject.Find("GroupPink");
+        demonGroups[2] = GameObject.Find("GroupGreen");
+        demonGroups[3] = GameObject.Find("GroupYellow");
+
         player = GameObject.FindGameObjectWithTag( "Player" );
         aggroValues = new float[ demonGroups.Length + 1 ];
         probability = new float[ demonGroups.Length + 2 ];
@@ -584,6 +596,32 @@ public class BossBehavior : MonoBehaviour
             yield return new WaitForSeconds(f);
             canFace = true;
             yield return new WaitForSeconds(f);
+        }
+    }
+
+    private void OnDeath() {
+        StopAllCoroutines();
+        hud.DeactivateBossFace();
+    }
+
+    private void ActivateAggroIcon(int index) {
+        if(stats.health > 0) {
+            switch(index) {
+                case 0:
+                    hud.ActivateBossFace(TacticsManager.Group.GroupAzure);
+                    break;
+                case 1:
+                    hud.ActivateBossFace(TacticsManager.Group.GroupPink);
+                    break;
+                case 2:
+                    hud.ActivateBossFace(TacticsManager.Group.GroupGreen);
+                    break;
+                case 3:
+                    hud.ActivateBossFace(TacticsManager.Group.GroupYellow);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
