@@ -8,19 +8,29 @@ public class MidBossBehavior : AbstractBoss {
     public float singleAttackProb = 0.7f;
     public float groupAttackProb = 0.3f;
 
+    public float speed = 5f;
+    [Range(0f, 1f)]
+    public float rotSpeed = 0.1f;
+    public float stopDist = 2f;
+    public float stareTime = 2.5f;
+    public float pursueTime = 5f;
+    [Range(0f, 1f)]
+    public float changeTargetProb = 0.2f;
+    public float maxDistFromCenter = 9.5f;
+    public float maxTargetDistFromCenter = 11f;
+
     private float singleAttackDuration;
     private float groupAttackDuration;
-    private float globalAttackDuration;
 
     public override void InitializeValues() {
-        speed = 5f;
-        rotSpeed = 0.1f;
-        stopDist = 2f;
-        stareTime = 2.5f;
-        pursueTime = 5f;
-        changeTargetProb = 0.2f;
-        maxDistFromCenter = 9.5f;
-        maxTargetDistFromCenter = 11f;
+        Speed = speed;
+        RotSpeed = rotSpeed;
+        StopDist = stopDist;
+        StareTime = stareTime;
+        PursueTime = pursueTime;
+        ChangeTargetProb = changeTargetProb;
+        MaxDistFromCenter = maxDistFromCenter;
+        MaxTargetDistFromCenter = maxTargetDistFromCenter;
     }
 
     void Start() {
@@ -140,7 +150,7 @@ public class MidBossBehavior : AbstractBoss {
             }
 
             // if the chosen demon is too far from arena center I choose one from the most centered group
-            if((TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter || TargetFarFromCenter)
+            if((TargetDemon.transform.position - ArenaCenter.transform.position).magnitude > maxDistFromCenter || TargetFarFromCenter)
                 ChooseCentralTarget();
 
             PursueTimeout = false;

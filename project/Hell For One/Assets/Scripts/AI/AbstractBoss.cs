@@ -11,23 +11,21 @@ public abstract class AbstractBoss : MonoBehaviour {
         pursue,
         attack
     }
-
-    // all these fields must be initialized in the children classes
-
-    public float speed;            // around 8
-    [Range(0f, 1f)]
-    public float rotSpeed;            // around 0.1
-    public float stopDist;            // around 2.5
-    public float stareTime;            // around 2
-    public float pursueTime;            // around 5
-    [Range(0f, 1f)]
-    public float changeTargetProb;            // around 0.3
-    public GameObject arenaCenter;
-    public float maxDistFromCenter;            // around arena ray - 2.5
-    public float maxTargetDistFromCenter;            // around arena ray - 1
-
+    
     #region private fields
 
+    // all these fields must be initialized in "InitializeValues()"
+    private float speed;                         // around 5
+    private float rotSpeed;
+    private float stopDist;
+    private float stareTime;
+    private float pursueTime;
+    private float changeTargetProb;
+    private GameObject arenaCenter;
+    private float maxDistFromCenter;             // around arena ray - 2.5
+    private float maxTargetDistFromCenter;       // around arena ray - 1
+    
+    // while these not
     private GameObject[] demonGroups;
     private GameObject player;
     private float[] aggroValues;
@@ -95,6 +93,15 @@ public abstract class AbstractBoss : MonoBehaviour {
     public float FacingIntervall { get => facingIntervall; set => facingIntervall = value; }
     public HUD Hud { get => hud; set => hud = value; }
     public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
+    public float Speed { get => speed; set => speed = value; }
+    public float RotSpeed { get => rotSpeed; set => rotSpeed = value; }
+    public float StopDist { get => stopDist; set => stopDist = value; }
+    public float StareTime { get => stareTime; set => stareTime = value; }
+    public float PursueTime { get => pursueTime; set => pursueTime = value; }
+    public float ChangeTargetProb { get => changeTargetProb; set => changeTargetProb = value; }
+    public GameObject ArenaCenter { get => arenaCenter; set => arenaCenter = value; }
+    public float MaxDistFromCenter { get => maxDistFromCenter; set => maxDistFromCenter = value; }
+    public float MaxTargetDistFromCenter { get => maxTargetDistFromCenter; set => maxTargetDistFromCenter = value; }
 
     #endregion
 
@@ -141,68 +148,6 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     #region Fighting State Behavior Tree
 
-    public bool TimerStarted() {
-        return TimerStarted1;
-    }
-
-    public bool TimerStillGoing() {
-        if(!TimerStillGoing1) {
-            ResetTimer();
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    public bool TargetNearArenaCenter() {
-        if((arenaCenter.transform.position - targetDemon.transform.position).magnitude > maxTargetDistFromCenter && HorizDistFromTarget(arenaCenter) > maxDistFromCenter) {
-            TargetFarFromCenter = true;
-            CanWalk = false;
-            return false;
-        }
-        else
-            return true;
-    }
-
-    public void ResetTimer() {
-        TimerStarted1 = false;
-        TimerStillGoing1 = false;
-        if(Timer1 != null)
-            StopCoroutine(Timer1);
-    }
-
-    public abstract bool ChooseTarget();
-
-    public bool StareAtTarget() {
-        if(Timer1 != null)
-            StopCoroutine(Timer1);
-        Timer1 = StartCoroutine(Timer(stareTime, TimerType.stare));
-        return true;
-    }
-
-    public bool WalkToTarget() {
-        if(HorizDistFromTarget(TargetDemon) > stopDist) {
-            CanWalk = true;
-            return true;
-        }
-        else {
-            CanWalk = false;
-            ResetTimer();
-            return false;
-        }
-    }
-
-    public bool TimeoutPursue() {
-        StopCoroutine(Timer1);
-        Timer1 = StartCoroutine(Timer(pursueTime, TimerType.pursue));
-        return true;
-    }
-
-    public abstract bool ChooseAttack();
-
-    public abstract CRBT.BehaviorTree FightingBTBuilder();
-    
     public IEnumerator FightingLauncherCR() {
         while(FightingBT.Step())
             yield return new WaitForSeconds(BtReactionTime);
@@ -223,14 +168,72 @@ public abstract class AbstractBoss : MonoBehaviour {
         ResetFightingBT = true;
     }
 
+    public abstract CRBT.BehaviorTree FightingBTBuilder();
+
+    public abstract bool ChooseTarget();
+
+    public abstract bool ChooseAttack();
+
+    public bool StareAtTarget() {
+        if(Timer1 != null)
+            StopCoroutine(Timer1);
+        Timer1 = StartCoroutine(Timer(StareTime, TimerType.stare));
+        return true;
+    }
+
+    public bool WalkToTarget() {
+        if(HorizDistFromTarget(TargetDemon) > StopDist) {
+            CanWalk = true;
+            return true;
+        }
+        else {
+            CanWalk = false;
+            ResetTimer();
+            return false;
+        }
+    }
+
+    public bool TimeoutPursue() {
+        StopCoroutine(Timer1);
+        Timer1 = StartCoroutine(Timer(PursueTime, TimerType.pursue));
+        return true;
+    }
+
+    public bool TimerStarted() {
+        return TimerStarted1;
+    }
+
+    public bool TimerStillGoing() {
+        if(!TimerStillGoing1) {
+            ResetTimer();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public bool TargetNearArenaCenter() {
+        if((ArenaCenter.transform.position - targetDemon.transform.position).magnitude > MaxTargetDistFromCenter && HorizDistFromTarget(ArenaCenter) > MaxDistFromCenter) {
+            TargetFarFromCenter = true;
+            CanWalk = false;
+            return false;
+        }
+        else
+            return true;
+    }
+
     #endregion
+
+    // must initialize every value of the list at the top of the this script
+    public abstract void InitializeValues();
 
     public void Awake() {
         CombatEventsManager = GetComponent<CombatEventsManager>();
         AnimationsManager = GetComponent<AnimationsManager>();
         Stats = GetComponent<Stats>();
         Hud = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
-        arenaCenter = GameObject.FindWithTag("ArenaCenter");
+        ArenaCenter = GameObject.FindWithTag("ArenaCenter");
 
         // TODO - find a better way to do this
         DemonGroups = new GameObject[GameObject.FindGameObjectsWithTag("Group").Length];
@@ -252,8 +255,8 @@ public abstract class AbstractBoss : MonoBehaviour {
     public void FixedUpdate() {
         if(!Player)
             Player = GameObject.FindGameObjectWithTag("Player");
-        if(!arenaCenter)
-            arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
+        if(!ArenaCenter)
+            ArenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
         if(!DemonsReady && DemonGroups[0].GetComponent<GroupBehaviour>().CheckDemons()) {
             DemonsReady = true;
@@ -275,7 +278,7 @@ public abstract class AbstractBoss : MonoBehaviour {
 
                 }
 
-                transform.position += transform.forward * speed * Time.deltaTime;
+                transform.position += transform.forward * Speed * Time.deltaTime;
 
             }
             else {
@@ -290,6 +293,19 @@ public abstract class AbstractBoss : MonoBehaviour {
         else if(!EnemiesAreDead()) {
             ChooseTarget();
         }
+    }
+
+    public void OnEnable() {
+        CombatEventsManager.onDeath += OnDeath;
+    }
+
+    public void OnDisable() {
+        CombatEventsManager.onDeath -= OnDeath;
+    }
+
+    public void OnDeath() {
+        StopAllCoroutines();
+        Hud.DeactivateBossFace();
     }
 
     public IEnumerator Timer(float s, TimerType type) {
@@ -309,9 +325,20 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     }
 
-    public float HorizDistFromTarget(GameObject target) {
-        Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-        return (targetPosition - transform.position).magnitude;
+    public void ResetTimer() {
+        TimerStarted1 = false;
+        TimerStillGoing1 = false;
+        if(Timer1 != null)
+            StopCoroutine(Timer1);
+    }
+
+    public IEnumerator FaceEvery(float f) {
+        while(true) {
+            CanFace = false;
+            yield return new WaitForSeconds(f);
+            CanFace = true;
+            yield return new WaitForSeconds(f);
+        }
     }
 
     public void Face(GameObject target) {
@@ -319,8 +346,13 @@ public abstract class AbstractBoss : MonoBehaviour {
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
         Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
-        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, RotSpeed);
         transform.rotation = newRotation;
+    }
+
+    public float HorizDistFromTarget(GameObject target) {
+        Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        return (targetPosition - transform.position).magnitude;
     }
 
     public GameObject ClosestGroupTo(Vector3 position) {
@@ -341,7 +373,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     }
 
     public void ChooseCentralTarget() {
-        TargetGroup = ClosestGroupTo(arenaCenter.transform.position);
+        TargetGroup = ClosestGroupTo(ArenaCenter.transform.position);
         foreach(GameObject demon in TargetGroup.GetComponent<GroupBehaviour>().demons) {
             if(demon != null) {
                 TargetDemon = demon;
@@ -352,20 +384,6 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public GameObject[] GetDemonGroups() {
         return DemonGroups;
-    }
-
-    public IEnumerator FaceEvery(float f) {
-        while(true) {
-            CanFace = false;
-            yield return new WaitForSeconds(f);
-            CanFace = true;
-            yield return new WaitForSeconds(f);
-        }
-    }
-
-    public void OnDeath() {
-        StopAllCoroutines();
-        Hud.DeactivateBossFace();
     }
 
     public void ActivateAggroIcon(int index) {
@@ -389,13 +407,4 @@ public abstract class AbstractBoss : MonoBehaviour {
         }
     }
 
-    public abstract void InitializeValues();
-
-    public void OnEnable() {
-        CombatEventsManager.onDeath += OnDeath;
-    }
-
-    public void OnDisable() {
-        CombatEventsManager.onDeath -= OnDeath;
-    }
 }

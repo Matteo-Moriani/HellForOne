@@ -9,19 +9,30 @@ public class BossBehavior : AbstractBoss
     public float groupAttackProb = 0.3f;
     public float globalAttackProb = 0.1f;
 
+    public float speed = 8f;
+    [Range(0f, 1f)]
+    public float rotSpeed = 0.1f;
+    public float stopDist = 2.5f;
+    public float stareTime = 2f;
+    public float pursueTime = 5f;
+    [Range(0f, 1f)]
+    public float changeTargetProb = 0.3f;
+    public float maxDistFromCenter = 16.5f;
+    public float maxTargetDistFromCenter = 18f;
+
     private float singleAttackDuration;
     private float groupAttackDuration;
     private float globalAttackDuration;
 
     public override void InitializeValues() {
-        speed = 8f;
-        rotSpeed = 0.1f;
-        stopDist = 2.5f;
-        stareTime = 2f;
-        pursueTime = 5f;
-        changeTargetProb = 0.3f;
-        maxDistFromCenter = 16.5f;
-        maxTargetDistFromCenter = 18f;
+        Speed = speed;
+        RotSpeed = rotSpeed;
+        StopDist = stopDist;
+        StareTime = stareTime;
+        PursueTime = pursueTime;
+        ChangeTargetProb = changeTargetProb;
+        MaxDistFromCenter = maxDistFromCenter;
+        MaxTargetDistFromCenter = maxTargetDistFromCenter;
     }
 
     void Start() {
@@ -92,7 +103,7 @@ public class BossBehavior : AbstractBoss
         if ( DemonGroups.Length != 4 && !Player )
             return false;
         
-        if ( Random.Range( 0f, 1f ) < changeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)
+        if ( Random.Range( 0f, 1f ) < ChangeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)
         {
             GameObject previousTarget = TargetDemon;
             float totalAggro = 0f;
@@ -140,7 +151,7 @@ public class BossBehavior : AbstractBoss
             }
 
             // if the chosen demon is too far from arena center I choose one from the most centered group
-            if ( (TargetDemon.transform.position - arenaCenter.transform.position).magnitude > maxDistFromCenter || TargetFarFromCenter )
+            if ( (TargetDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter )
                 ChooseCentralTarget();
 
             PursueTimeout = false;
