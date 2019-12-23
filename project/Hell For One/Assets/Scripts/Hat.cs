@@ -37,7 +37,6 @@ public class Hat : MonoBehaviour
     /// </summary>
     public IEnumerator Falling()
     {
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
         yield return new WaitForSeconds( fallingTime );
         onGround = true;
         transform.GetChild( 0 ).gameObject.SetActive( true );
