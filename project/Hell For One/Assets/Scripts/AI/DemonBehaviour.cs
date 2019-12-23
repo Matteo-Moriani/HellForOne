@@ -6,7 +6,6 @@ using System.Linq;
 
 public class DemonBehaviour : MonoBehaviour
 {
-    [SerializeField]
     public GameObject groupBelongingTo;
     public bool groupFound = false;
 

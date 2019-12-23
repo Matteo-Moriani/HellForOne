@@ -7,7 +7,7 @@ public class HUD : MonoBehaviour
 {
     private GameObject panelAzure, panelPink, panelGreen, panelYellow;
     private Image azureImage, pinkImage, greenImage, yellowImage, bossFaceAzure, bossFacePink, bossFaceGreen, bossFaceYellow;
-    private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite, fullHPSprite, halfHPSprite, fullCrownSprite, halfCrownSprite;
+    private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     private TacticsManager tacticsManager;
     private Vector3 defaultScale = new Vector3( 1f, 1f, 1f );
@@ -57,30 +57,6 @@ public class HUD : MonoBehaviour
             {
                 healthPool.transform.GetChild( i ).gameObject.SetActive( true );
             }
-        }
-    }
-
-    /// <summary>
-    /// Halves the health icons if imps take damage
-    /// </summary>
-    public void CheckImpsHealth()
-    {
-        if ( GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().health < 4 )
-            healthPoolArray[ 0 ].overrideSprite = halfCrownSprite;
-        else
-            healthPoolArray[ 0 ].overrideSprite = fullCrownSprite;
-
-        for ( int i = 1; i < alliesManager.AlliesList.Count + 1; i++ )
-        {
-            if ( alliesManager.AlliesList[ i - 1 ].GetComponent<Stats>().health < 4 )
-                healthPoolArray[ i ].overrideSprite = halfHPSprite;
-            else if ( !healthPoolArray[ i ] )
-            {
-                healthPoolArray[ i ] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
-                healthPoolArray[ i ].overrideSprite = fullHPSprite;
-            }
-            else
-                healthPoolArray[ i ].overrideSprite = fullHPSprite;
         }
     }
 
@@ -148,10 +124,6 @@ public class HUD : MonoBehaviour
         rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
         tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
         supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
-        fullHPSprite = Resources.Load<Sprite>( "Sprites/faceIcon" );
-        halfHPSprite = Resources.Load<Sprite>( "Sprites/halfFaceIcon" );
-        halfCrownSprite = Resources.Load<Sprite>( "Sprites/halfFaceIconCrown" );
-        fullCrownSprite = Resources.Load<Sprite>( "Sprites/faceIconCrown" );
 
         player = GameObject.FindGameObjectWithTag( "Player" );
 
@@ -206,28 +178,6 @@ public class HUD : MonoBehaviour
         dict.Add( groupYellow, yellowImage );
 
         alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
-
-        //foreach (GameObject go in alliesManager.AlliesList )
-        //{
-
-        //}
-
-        healthPool = transform.GetChild( 1 ).gameObject;
-
-        // Player's Health
-        healthPoolArray[ 0 ] = healthPool.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-
-        for ( int i = 1; i < alliesManager.AlliesList.Count; i++ )
-        {
-            healthPoolArray[ i ] = healthPool.transform.GetChild( i ).gameObject.GetComponent<Image>();
-            impsCount++;
-        }
-
-        for ( int i = alliesManager.AlliesList.Count + 1; i < healthPool.transform.childCount; i++ )
-        {
-            healthPool.transform.GetChild( i ).gameObject.SetActive( false );
-            healthIconsCount--;
-        }
     }
 
     private void OnDisable()
@@ -240,10 +190,6 @@ public class HUD : MonoBehaviour
 
     void Update()
     {
-        ResizeHealthPool();
-
-        CheckImpsHealth();
-
         foreach ( GroupBehaviour gb in groupBehaviours )
         {
             switch ( gb.currentState )
