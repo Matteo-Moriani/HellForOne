@@ -612,10 +612,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 8371428098820236118}
+  - {fileID: 6977553495555698761}
   - {fileID: 4963774796192184629}
   - {fileID: 975067159243867832}
-  - {fileID: 6977553495555698761}
-  - {fileID: 8371428098820236118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -957,7 +957,7 @@ RectTransform:
   - {fileID: 6977553494313978202}
   - {fileID: 5684074102779485827}
   m_Father: {fileID: 6977553493515905930}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1395,7 +1395,7 @@ PrefabInstance:
     - target: {fileID: 3436534357823803122, guid: 5a878368eaacc414eb7843b9402988c0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3436534357823803122, guid: 5a878368eaacc414eb7843b9402988c0,
         type: 3}
@@ -1464,15 +1464,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a878368eaacc414eb7843b9402988c0, type: 3}
---- !u!224 &975067159243867832 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3436534357823803122, guid: 5a878368eaacc414eb7843b9402988c0,
-    type: 3}
-  m_PrefabInstance: {fileID: 2466045839955593290}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &975067159243867833 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3436534357823803123, guid: 5a878368eaacc414eb7843b9402988c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2466045839955593290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &975067159243867832 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3436534357823803122, guid: 5a878368eaacc414eb7843b9402988c0,
     type: 3}
   m_PrefabInstance: {fileID: 2466045839955593290}
   m_PrefabAsset: {fileID: 0}
@@ -1643,6 +1643,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6977553493515905930}
     m_Modifications:
+    - target: {fileID: 3637670352721260205, guid: 996b51d2778e44043bb28bd6739dd963,
+        type: 3}
+      propertyPath: m_Name
+      value: BossHealthBar
+      objectReference: {fileID: 0}
     - target: {fileID: 3637670352721260206, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1681,7 +1686,7 @@ PrefabInstance:
     - target: {fileID: 3637670352721260206, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3637670352721260206, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
@@ -1762,11 +1767,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.3400337
-      objectReference: {fileID: 0}
-    - target: {fileID: 3637670352721260205, guid: 996b51d2778e44043bb28bd6739dd963,
-        type: 3}
-      propertyPath: m_Name
-      value: BossHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 3637670352867736546, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
@@ -2248,6 +2248,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 4083561038436558164, guid: 97873d889ffb56842957e50ca822fea6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4083561038436558165, guid: 97873d889ffb56842957e50ca822fea6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2286,7 +2291,7 @@ PrefabInstance:
     - target: {fileID: 4083561038436558165, guid: 97873d889ffb56842957e50ca822fea6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4083561038436558165, guid: 97873d889ffb56842957e50ca822fea6,
         type: 3}
@@ -2358,6 +2363,11 @@ PrefabInstance:
       propertyPath: optionsUI
       value: 
       objectReference: {fileID: 975067159243867833}
+    - target: {fileID: 4083561036987752098, guid: 97873d889ffb56842957e50ca822fea6,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97873d889ffb56842957e50ca822fea6, type: 3}
 --- !u!224 &4963774796192184629 stripped
