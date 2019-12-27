@@ -9,15 +9,6 @@ public class GameObjectSearcher : MonoBehaviour
 
     public List<GameObject> actors = new List<GameObject>();
 
-
-    //void Start()
-    //{
-    //    if ( searchTag != null )
-    //    {
-    //        FindObjectwithTag( searchTag );
-    //    }
-    //}
-
     public GameObject GetFirstChildWithTag()
     {
         return actors[ 0 ];
