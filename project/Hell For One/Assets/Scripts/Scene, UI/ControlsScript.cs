@@ -1,20 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class GameOver : Menu {
+public class ControlsScript : Menu {
 
     public override void PressSelectedButton() {
 
         switch(ElementIndex) {
-            // RETRY
+            // BACK
             case 0:
-                SceneManager.LoadScene("Demo");
-                break;
-            // TITLE SCREEN
-            case 1:
-                SceneManager.LoadScene("Title Screen");
+                TransitionTo(ParentScreen);
                 break;
             default:
                 break;

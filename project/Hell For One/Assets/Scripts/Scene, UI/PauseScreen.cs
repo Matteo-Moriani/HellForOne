@@ -5,21 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class PauseScreen : Menu
 {
+    public GameObject controlsUI;
     public GameObject optionsUI;
 
     public override void PressSelectedButton() {
 
-        switch(ButtonIndex) {
+        switch(ElementIndex) {
             // RESUME
             case 0:
                 Resume();
                 break;
-            // OPTIONS
+            // CONTROLS
             case 1:
+                TransitionTo(controlsUI);
+                break;
+            // OPTIONS
+            case 2:
                 TransitionTo(optionsUI);
                 break;
             // TITLE SCREEN
-            case 2:
+            case 3:
                 Resume();
                 SceneManager.LoadScene("Title Screen");
                 break;

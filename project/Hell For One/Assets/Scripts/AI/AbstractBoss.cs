@@ -15,15 +15,15 @@ public abstract class AbstractBoss : MonoBehaviour {
     #region private fields
 
     // all these fields must be initialized in "InitializeValues()"
-    private float speed;                         // around 5
-    private float rotSpeed;
-    private float stopDist;
-    private float stareTime;
-    private float pursueTime;
-    private float changeTargetProb;
-    private GameObject arenaCenter;
-    private float maxDistFromCenter;             // around arena ray - 2.5
-    private float maxTargetDistFromCenter;       // around arena ray - 1
+    private float absSpeed;                         // around 5
+    private float absRotSpeed;
+    private float absStopDist;
+    private float absStareTime;
+    private float absPursueTime;
+    private float absChangeTargetProb;
+    private GameObject absArenaCenter;
+    private float absMaxDistFromCenter;             // around arena ray - 2.5
+    private float absMaxTargetDistFromCenter;       // around arena ray - 1
     
     // while these not
     private GameObject[] demonGroups;
@@ -93,15 +93,15 @@ public abstract class AbstractBoss : MonoBehaviour {
     public float FacingIntervall { get => facingIntervall; set => facingIntervall = value; }
     public HUD Hud { get => hud; set => hud = value; }
     public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
-    public float Speed { get => speed; set => speed = value; }
-    public float RotSpeed { get => rotSpeed; set => rotSpeed = value; }
-    public float StopDist { get => stopDist; set => stopDist = value; }
-    public float StareTime { get => stareTime; set => stareTime = value; }
-    public float PursueTime { get => pursueTime; set => pursueTime = value; }
-    public float ChangeTargetProb { get => changeTargetProb; set => changeTargetProb = value; }
-    public GameObject ArenaCenter { get => arenaCenter; set => arenaCenter = value; }
-    public float MaxDistFromCenter { get => maxDistFromCenter; set => maxDistFromCenter = value; }
-    public float MaxTargetDistFromCenter { get => maxTargetDistFromCenter; set => maxTargetDistFromCenter = value; }
+    public float Speed { get => absSpeed; set => absSpeed = value; }
+    public float RotSpeed { get => absRotSpeed; set => absRotSpeed = value; }
+    public float StopDist { get => absStopDist; set => absStopDist = value; }
+    public float StareTime { get => absStareTime; set => absStareTime = value; }
+    public float PursueTime { get => absPursueTime; set => absPursueTime = value; }
+    public float ChangeTargetProb { get => absChangeTargetProb; set => absChangeTargetProb = value; }
+    public GameObject ArenaCenter { get => absArenaCenter; set => absArenaCenter = value; }
+    public float MaxDistFromCenter { get => absMaxDistFromCenter; set => absMaxDistFromCenter = value; }
+    public float MaxTargetDistFromCenter { get => absMaxTargetDistFromCenter; set => absMaxTargetDistFromCenter = value; }
 
     #endregion
 

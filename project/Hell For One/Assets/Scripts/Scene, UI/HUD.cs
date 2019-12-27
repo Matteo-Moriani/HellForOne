@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    private GameObject panelAzure, panelPink, panelGreen, panelYellow;
+    private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross;
     private Image azureImage, pinkImage, greenImage, yellowImage, bossFaceAzure, bossFacePink, bossFaceGreen, bossFaceYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
@@ -25,6 +25,8 @@ public class HUD : MonoBehaviour
 
     private GameObject player;
     private CombatEventsManager playerCombatEventsManager;
+
+    public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
     /// <summary>
     /// Used to update the health pool if imps die or join the horde
@@ -105,6 +107,7 @@ public class HUD : MonoBehaviour
         panelPink = panel.transform.GetChild( 1 ).gameObject;
         panelGreen = panel.transform.GetChild( 2 ).gameObject;
         panelYellow = panel.transform.GetChild( 3 ).gameObject;
+        OrdersCross = transform.GetChild(1).gameObject;
 
         azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
         bossFaceAzure = panelAzure.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
