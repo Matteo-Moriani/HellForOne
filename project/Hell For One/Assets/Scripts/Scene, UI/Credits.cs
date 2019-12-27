@@ -6,7 +6,7 @@ public class Credits : Menu
 {
     public override void PressSelectedButton() {
 
-        switch(ButtonIndex) {
+        switch(ElementIndex) {
             // BACK
             case 0:
                 TransitionTo(ParentScreen);

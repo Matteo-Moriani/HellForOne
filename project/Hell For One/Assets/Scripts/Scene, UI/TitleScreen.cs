@@ -5,12 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class TitleScreen : Menu {
 
-    public GameObject optionsUI;
     public GameObject creditsUI;
 
     public override void PressSelectedButton() {
         
-        switch(ButtonIndex) {
+        switch(ElementIndex) {
             // PLAY
             case 0:
                 // TODO - cambiare tramite index, rivedi il tutorial
@@ -18,16 +17,12 @@ public class TitleScreen : Menu {
                 // TODO - capire se funziona
                 Managers.Instance.RaiseOnPressPlayButton();
                 break;
-            // OPTIONS
-            case 1:
-                TransitionTo(optionsUI);
-                break;
             // CREDITS
-            case 2:
+            case 1:
                 TransitionTo(creditsUI);
                 break;
             // QUIT
-            case 3:
+            case 2:
                 Debug.Log("Quit!");
                 break;
             default:
