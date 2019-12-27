@@ -26,6 +26,12 @@ public class LevelManager : MonoBehaviour
     private bool isMidBossAlive;
     private bool isBossAlive;
 
+    public int bossTotRegenDemons = 2;
+    public int midBossTotRegenDemons = 1;
+
+    public bool IsMidBossAlive { get => isMidBossAlive; set => isMidBossAlive = value; }
+    public bool IsBossAlive { get => isBossAlive; set => isBossAlive = value; }
+
     private void OnEnable()
     {
         BattleEventsManager.onBossBattleExit += MidBossKilled;
@@ -39,14 +45,14 @@ public class LevelManager : MonoBehaviour
     }
 
     private void Start(){
-        isMidBossAlive = true;
-        isBossAlive = false;
+        IsMidBossAlive = true;
+        IsBossAlive = false;
     }
 
     private void MidBossKilled() {
-        if (isMidBossAlive) {
-            isMidBossAlive = false;
-            isBossAlive = true;
+        if (IsMidBossAlive) {
+            IsMidBossAlive = false;
+            IsBossAlive = true;
             DestroyMidBossArenaCenter();
             Destroy(midBossFightScriptedPosition);
             ActivateBossArenaCenter();
@@ -65,12 +71,12 @@ public class LevelManager : MonoBehaviour
 
     private void InstantiatePosition() {
         GameObject bossPositions = new GameObject();
-        if (isMidBossAlive) {
+        if (IsMidBossAlive) {
             bossPositions = Instantiate(midBossPosition, midBoss.transform.position, Quaternion.identity);
             midBossFightScriptedPosition.SetActive(true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScriptedMovements>().SetTargetPosition(midBossFightScriptedPosition.transform.position);
         }
-        if(isBossAlive){
+        if(IsBossAlive){
             bossPositions = Instantiate(bossPosition, boss.transform.position, Quaternion.identity);
             bossFightScriptedPosition.SetActive(true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScriptedMovements>().SetTargetPosition(bossFightScriptedPosition.transform.position);
@@ -79,7 +85,7 @@ public class LevelManager : MonoBehaviour
     }
 
     private void BossKilled() { 
-        isBossAlive = false;    
+        IsBossAlive = false;    
     }
 
     private void ActivateBoss() { 

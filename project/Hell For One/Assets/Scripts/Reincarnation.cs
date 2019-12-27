@@ -31,17 +31,8 @@ public class Reincarnation : MonoBehaviour
         virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
     }
 
-    private void OnEnable() {
-        BattleEventsManager.onGameOver += GameOver;
-    }
-
-    private void OnDisable() {
-        BattleEventsManager.onGameOver -= GameOver;
-    }
-
     public void Reincarnate()
-    {
-        if (player != null) {
+    {if (player != null) {
             // Disable controller
             Controller controller = player.GetComponent<Controller>();
             if (controller != null)
@@ -123,10 +114,7 @@ public class Reincarnation : MonoBehaviour
             reicarnationTimer += Time.deltaTime;
 
             yield return null;
-        }
-        
-        if(AlliesManager.Instance.AlliesList.Count == 0)
-            BattleEventsManager.RaiseOnGameOver();
+        }            
     }
 
     private void ReincarnatePlayer(GameObject player)
@@ -264,14 +252,6 @@ public class Reincarnation : MonoBehaviour
                 combatEventsManager.RaiseOnReincarnation();    
             }
         }
-        else
-        {
-            // Start coroutine    
-        }
-    }
-
-    private void GameOver() {
-        SceneManager.LoadScene("Game Over Screen");
     }
 
     #endregion

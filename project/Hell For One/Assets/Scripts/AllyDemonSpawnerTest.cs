@@ -12,6 +12,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private Coroutine spawnAllyCR;
     public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
     public float Countdown { get => countdown; set => countdown = value; }
+    private int regenDemonsLeft;
+    private GameObject levelManager;
 
     [SerializeField]
     private GameObject impPrefab;
@@ -20,23 +22,23 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     public IEnumerator SpawnAlly()
     {
-        while ( true )
+        while ( regenDemonsLeft > 0 )
         {
             int impNumber = AlliesManager.Instance.AlliesList.Count;
 
             // 0 demons = game over, max number of demons = no need for spawn ally
-            if ( impNumber >= ImpMaxNumber * 0.75 && impNumber < ImpMaxNumber ) {
+            if ( impNumber >= ImpMaxNumber * 0.8 && impNumber < ImpMaxNumber ) {            // 13-16
                 needForRegen = true;
-                //timer = 45;
+                timer = 45f;
             }
-            else if (impNumber >= ImpMaxNumber * 0.25 && impNumber < ImpMaxNumber * 0.75) {
+            else if (impNumber >= ImpMaxNumber * 0.4 && impNumber < ImpMaxNumber * 0.8) {   // 7-12
                 needForRegen = true;
-                //timer = 30;
+                timer = 30f;
             }
-            else if ( impNumber >= 0 && impNumber < ImpMaxNumber * 0.25 )
+            else if ( impNumber > 0 && impNumber < ImpMaxNumber * 0.4 )                    // 1-6
             {
                 needForRegen = true;
-                //timer = 15;
+                timer = 15f;
             }
             else {
                 needForRegen = false;
@@ -47,9 +49,12 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
                 // TODO - We need to spawn the ally via AlliesManager
                 AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
+                regenDemonsLeft--;
             }
             yield return new WaitForSeconds(timer);
         }
+
+        Debug.Log("no more demons will help you!");
     }
 
     // TODO - imps must spawn at the borders of the arena: x is random between -ray and +ray of the arena, z must be that value - the ray *1 or *-1
@@ -79,6 +84,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     {
         //SpawnAllyCR = StartCoroutine( SpawnAlly() );
         //countdown = timer;
+        levelManager = GameObject.Find("LevelManager");
     }
 
     private void Update()
@@ -92,6 +98,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     private void OnBossBattleEnter() { 
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
+
+        if(levelManager.GetComponent<LevelManager>().IsMidBossAlive)
+            regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
+        else if(levelManager.GetComponent<LevelManager>().IsBossAlive)
+            regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
         
         if (arenaCenter != null) {
             this.transform.position = arenaCenter.transform.position;
