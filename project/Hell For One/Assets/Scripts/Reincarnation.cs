@@ -110,7 +110,7 @@ public class Reincarnation : MonoBehaviour
         {
             if (AlliesManager.Instance.AlliesList.Count > 0)
             {
-                player = AlliesManager.Instance.AlliesList[Random.Range(0, AlliesManager.Instance.AlliesList.Count)];
+                player = AlliesManager.Instance.AlliesList[Random.Range(0, AlliesManager.Instance.AlliesList.Count - 1)];
 
                 if (player != null)
                 {
@@ -165,7 +165,7 @@ public class Reincarnation : MonoBehaviour
 
             if ( virtualCamera )
             {
-                virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
+                //virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
                 gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
                 GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
                 if ( lockCameraPlayerTarget )
