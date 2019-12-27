@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AlliesManager : MonoBehaviour
 {
@@ -29,23 +30,19 @@ public class AlliesManager : MonoBehaviour
     private void OnEnable()
     {
         BattleEventsManager.onBattleEnter += EnterBattle;
-
         BattleEventsManager.onBossBattleEnter += EnterBattle;
-
         BattleEventsManager.onBattleExit += ExitBattle;
-
         BattleEventsManager.onBossBattleExit += ExitBattle;
+        BattleEventsManager.onGameOver += GameOver;
     }
 
     private void OnDisable()
     {
         BattleEventsManager.onBattleEnter -= EnterBattle;
-
         BattleEventsManager.onBossBattleEnter -= EnterBattle;
-
         BattleEventsManager.onBattleExit -= ExitBattle;
-
         BattleEventsManager.onBossBattleExit -= ExitBattle;
+        BattleEventsManager.onGameOver -= GameOver;
     }
 
     private void EnterBattle()
@@ -76,12 +73,20 @@ public class AlliesManager : MonoBehaviour
 
     public void ManagePlayerReincarnation(GameObject newPlayer) { 
         if(newPlayer != null) { 
-            alliesList.Remove(newPlayer);    
+            alliesList.Remove(newPlayer);
+            if(alliesList.Count == 0)
+                BattleEventsManager.RaiseOnGameOver();
         }           
     }
 
     public void AllyKilled(GameObject deadAlly) { 
         alliesList.Remove(deadAlly);
+        if(alliesList.Count == 0)
+            BattleEventsManager.RaiseOnGameOver();
+    }
+
+    private void GameOver() {
+        SceneManager.LoadScene("Game Over Screen");
     }
 
     /*

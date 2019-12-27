@@ -8,7 +8,7 @@ public class GroupHealthBar : MonoBehaviour
     private Image healthBarInside;
     private float maxDemons = 4f;
     // starting number
-    private float demonsNum = 3f;
+    private float demonsNum = 0f;
     
     void Start() {
         healthBarInside = gameObject.GetComponent<Image>();
