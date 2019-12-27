@@ -14,6 +14,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     public float Countdown { get => countdown; set => countdown = value; }
     private int regenDemonsLeft;
     private GameObject levelManager;
+    private float arenaRay;
 
     [SerializeField]
     private GameObject impPrefab;
@@ -22,8 +23,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     public IEnumerator SpawnAlly()
     {
-        while ( regenDemonsLeft > 0 )
-        {
+        while ( regenDemonsLeft > 0 ) {
+
             int impNumber = AlliesManager.Instance.AlliesList.Count;
 
             // 0 demons = game over, max number of demons = no need for spawn ally
@@ -44,6 +45,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
                 needForRegen = false;
             }
 
+            yield return new WaitForSeconds(timer);
+
             if(needForRegen) {
                 //GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
 
@@ -51,18 +54,24 @@ public class AllyDemonSpawnerTest : MonoBehaviour
                 AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
                 regenDemonsLeft--;
             }
-            yield return new WaitForSeconds(timer);
         }
 
         Debug.Log("no more demons will help you!");
     }
-
-    // TODO - imps must spawn at the borders of the arena: x is random between -ray and +ray of the arena, z must be that value - the ray *1 or *-1
+    
     public Vector3 SpawnPosition()
     {
-        Vector3 spawnPosition = new Vector3( 0, 1, 0 );
-        //spawnPosition.x = Random.Range( -10f, 10f );
-        //spawnPosition.z = Random.Range( -10f, 10f );
+        //circumference with a little adjustment of 1 in both coordinates to the center.
+        Vector3 spawnPosition = new Vector3( 0, 0, 0 );
+        spawnPosition.x = Random.Range(0f, arenaRay-1f);
+        spawnPosition.z = Mathf.Sqrt(Mathf.Pow(arenaRay, 2f) - Mathf.Pow(spawnPosition.x+1f, 2f));     // circumference with the center in the origin: x^2 + y^2 = r^2
+        spawnPosition.z -= 1f;
+        if(Random.Range(0f, 1f) > 0.5f)
+            spawnPosition.x = spawnPosition.x * -1;
+        if(Random.Range(0f, 1f) > 0.5f)
+            spawnPosition.z = spawnPosition.z * -1;
+
+        Debug.Log(spawnPosition.x + " " + spawnPosition.z);
         spawnPosition =  this.transform.position + this.transform.forward * 10;
         spawnPosition.y = 1;
         return spawnPosition;
@@ -82,8 +91,6 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     void Start()
     {
-        //SpawnAllyCR = StartCoroutine( SpawnAlly() );
-        //countdown = timer;
         levelManager = GameObject.Find("LevelManager");
     }
 
@@ -99,10 +106,14 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private void OnBossBattleEnter() { 
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
-        if(levelManager.GetComponent<LevelManager>().IsMidBossAlive)
+        if(levelManager.GetComponent<LevelManager>().IsMidBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
-        else if(levelManager.GetComponent<LevelManager>().IsBossAlive)
+            arenaRay = 12f;
+        }
+        else if(levelManager.GetComponent<LevelManager>().IsBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
+            arenaRay = 19f;
+        }
         
         if (arenaCenter != null) {
             this.transform.position = arenaCenter.transform.position;
@@ -112,9 +123,9 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         }
         
 
-        if(spawnAllyCR == null) { 
-            spawnAllyCR = StartCoroutine(SpawnAlly());
+        if(spawnAllyCR == null) {
             countdown = timer;
+            spawnAllyCR = StartCoroutine(SpawnAlly());
         }
     }
 
