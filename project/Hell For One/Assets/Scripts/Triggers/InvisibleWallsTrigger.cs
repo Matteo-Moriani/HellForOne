@@ -10,6 +10,7 @@ public class InvisibleWallsTrigger : MonoBehaviour
         BattleEventsManager.onBossBattleExit += DisableBossFlames;
         BattleEventsManager.onBattleExit += OpenInvisibleWalls;
         BattleEventsManager.onBattleExit += DisableNormalFlames;
+        BattleEventsManager.onBattleExit += LetDemonsPassFlames;
         BattleEventsManager.onBossBattleEnter += CloseInvisibleWalls;
         BattleEventsManager.onBossBattleEnter += EnableBossFlames;
         BattleEventsManager.onBattleEnter += CloseInvisibleWalls;
@@ -22,20 +23,30 @@ public class InvisibleWallsTrigger : MonoBehaviour
     {
         Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
         Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Player" ), true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), true );
     }
 
     public void CloseInvisibleWalls()
     {
         Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "InvisibleWalls" ), false );
         Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Player" ), false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), false );
     }
 
     public void EnableBossFlames()
     {
-        foreach(GameObject go in GameObject.FindGameObjectsWithTag( "BossBattleFlames" ) )
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag( "BossBattleFlames" ) )
         {
             go.GetComponent<ParticleSystem>().Play();
         }
+    }
+
+    public void LetDemonsPassFlames()
+    {
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), true );
     }
 
     public void DisableBossFlames()
