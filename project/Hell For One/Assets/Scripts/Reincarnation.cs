@@ -151,27 +151,11 @@ public class Reincarnation : MonoBehaviour
                 demonBehaviour.enabled = false;
             }
 
-            if ( virtualCamera )
-            {
-                //virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
-                gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
-                GameObject lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
-                if ( lockCameraPlayerTarget )
-                {
-                    virtualCamera.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
-                }
-
-                virtualCamera.SetActive( false );
-            }
-
-            cinemachineFreeLook.gameObject.SetActive( true );
-            cinemachineFreeLook.Follow = player.transform;
-            cinemachineFreeLook.LookAt = player.transform;
-
             NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
             if ( newCameraManager )
             {
-                newCameraManager.IsLocked = false;
+                newCameraManager.Player = player;
+                newCameraManager.PlayerReincarnated();
             }
 
             Reincarnation reincarnation = player.GetComponent<Reincarnation>();

@@ -6,7 +6,7 @@ using Cinemachine;
 public class NewCameraManager : MonoBehaviour
 {
     GameObject target;
-    GameObject player;
+    private GameObject player;
     private bool isLocked = false;
 
     GameObject[] enemies;
@@ -19,10 +19,34 @@ public class NewCameraManager : MonoBehaviour
     GameObject lockCameraPlayerTarget;
 
     public bool IsLocked { get => isLocked; set => isLocked = value; }
+    public GameObject Player { get => player; set => player = value; }
 
     private void FindPlayer()
     {
-        player = GameObject.FindGameObjectWithTag( "Player" );
+        Player = GameObject.FindGameObjectWithTag( "Player" );
+        gameObjectSearcher.GetChildObject( Player.transform, "CameraTarget" );
+        lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
+    }
+
+    public void PlayerReincarnated()
+    {
+        IsLocked = false;
+
+        if ( cinemachineVirtualCameraLock.enabled )
+        {
+            FindPlayer();
+
+            if ( lockCameraPlayerTarget )
+            {
+                cinemachineVirtualCameraLock.GetComponent<CinemachineVirtualCamera>().Follow = lockCameraPlayerTarget.transform;
+            }
+
+            cinemachineVirtualCameraLock.gameObject.SetActive( false );
+        }
+
+        cinemachineFreeLook.gameObject.SetActive( true );
+        cinemachineFreeLook.Follow = Player.transform;
+        cinemachineFreeLook.LookAt = Player.transform;
     }
 
     public static GameObject FindNearestEnemy( GameObject objectFrom, GameObject[] gameObjects )
@@ -44,17 +68,15 @@ public class NewCameraManager : MonoBehaviour
 
     void Start()
     {
-        FindPlayer();
-
         gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
-        gameObjectSearcher.GetChildObject( player.transform, "CameraTarget" );
-        lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
+
+        FindPlayer();
 
         cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
         cinemachineVirtualCameraLock = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
 
-        cinemachineFreeLook.Follow = player.transform;
-        cinemachineFreeLook.LookAt = player.transform;
+        cinemachineFreeLook.Follow = Player.transform;
+        cinemachineFreeLook.LookAt = Player.transform;
 
         cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
 
@@ -64,12 +86,12 @@ public class NewCameraManager : MonoBehaviour
 
     void Update()
     {
-        if ( !player )
+        if ( !Player )
         {
             FindPlayer();
 
-            cinemachineFreeLook.Follow = player.transform;
-            cinemachineFreeLook.LookAt = player.transform;
+            cinemachineFreeLook.Follow = Player.transform;
+            cinemachineFreeLook.LookAt = Player.transform;
 
             cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
 
@@ -114,6 +136,8 @@ public class NewCameraManager : MonoBehaviour
                 target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
                 if ( target )
                 {
+                    FindPlayer();
+                    IsLocked = true;
                     cinemachineVirtualCameraLock.gameObject.SetActive( true );
                     //cinemachineVirtualCameraLock.enabled = true;
                     cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
@@ -121,7 +145,6 @@ public class NewCameraManager : MonoBehaviour
                     //cinemachineFreeLook.enabled = false;
                     cinemachineVirtualCameraLock.LookAt = target.transform;
                     cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
-                    IsLocked = true;
                 }
             }
             //else if ( boss != null )
@@ -130,13 +153,15 @@ public class NewCameraManager : MonoBehaviour
                 target = EnemiesManager.Instance.Boss;
                 if ( target )
                 {
+                    FindPlayer();
+                    IsLocked = true;
                     cinemachineVirtualCameraLock.gameObject.SetActive( true );
                     //cinemachineVirtualCameraLock.enabled = true;
                     cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
                     cinemachineFreeLook.gameObject.SetActive( false );
                     //cinemachineFreeLook.enabled = false;
                     cinemachineVirtualCameraLock.LookAt = target.transform;
-                    IsLocked = true;
+                    cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
                 }
             }
         }

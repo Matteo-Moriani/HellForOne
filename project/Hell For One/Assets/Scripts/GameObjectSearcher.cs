@@ -11,7 +11,12 @@ public class GameObjectSearcher : MonoBehaviour
 
     public GameObject GetFirstChildWithTag()
     {
-        return actors[ 0 ];
+        foreach (GameObject go in actors )
+        {
+            if ( go )
+                return go;
+        }
+        return null;
     }
 
     public void FindObjectwithTag( Transform parent, string _tag )
