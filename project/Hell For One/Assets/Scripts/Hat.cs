@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Hat : MonoBehaviour
 {
-    private Rigidbody rb;
+    //private Rigidbody rb;
     private BoxCollider bc;
     private bool onGround = false;
     private float fallingTime = 2f;
@@ -24,7 +24,7 @@ public class Hat : MonoBehaviour
         //    rb = gameObject.GetComponent<Rigidbody>();
         //rb.constraints = RigidbodyConstraints.None;
 
-        rb = this.gameObject.AddComponent<Rigidbody>();
+        //rb = this.gameObject.AddComponent<Rigidbody>();
 
         if(bc != null)
             bc.enabled = true;

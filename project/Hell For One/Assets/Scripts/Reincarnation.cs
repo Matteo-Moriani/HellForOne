@@ -173,10 +173,10 @@ public class Reincarnation : MonoBehaviour
                 lancer.enabled = true;    
             }
 
-            NavMeshAgent navMeshAgent = player.GetComponent<NavMeshAgent>();
-            if(navMeshAgent != null) { 
-                navMeshAgent.enabled = false;    
-            }
+            //NavMeshAgent navMeshAgent = player.GetComponent<NavMeshAgent>();
+            //if(navMeshAgent != null) { 
+            //    navMeshAgent.enabled = false;    
+            //}
 
             Stats stats = player.GetComponent<Stats>();
             if(stats != null) { 

@@ -91,7 +91,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public CombatEventsManager CombatEventsManager { get => combatEventsManager; set => combatEventsManager = value; }
     public AnimationsManager AnimationsManager { get => animationsManager; set => animationsManager = value; }
     public float FacingIntervall { get => facingIntervall; set => facingIntervall = value; }
-    public HUD Hud { get => hud; set => hud = value; }
+    public HUD HUD { get => hud; set => hud = value; }
     public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
     public float Speed { get => absSpeed; set => absSpeed = value; }
     public float RotSpeed { get => absRotSpeed; set => absRotSpeed = value; }
@@ -232,7 +232,7 @@ public abstract class AbstractBoss : MonoBehaviour {
         CombatEventsManager = GetComponent<CombatEventsManager>();
         AnimationsManager = GetComponent<AnimationsManager>();
         Stats = GetComponent<Stats>();
-        Hud = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
+        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
         ArenaCenter = GameObject.FindWithTag("ArenaCenter");
 
         // TODO - find a better way to do this
@@ -305,7 +305,7 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public void OnDeath() {
         StopAllCoroutines();
-        Hud.DeactivateBossFace();
+        HUD.DeactivateAggroIcon();
     }
 
     public IEnumerator Timer(float s, TimerType type) {
@@ -386,20 +386,20 @@ public abstract class AbstractBoss : MonoBehaviour {
         return DemonGroups;
     }
 
-    public void ActivateAggroIcon(int index) {
+    public void SwitchAggroIcon(int index) {
         if(Stats.health > 0) {
             switch(index) {
                 case 0:
-                    Hud.ActivateBossFace(TacticsManager.Group.GroupAzure);
+                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupAzure);
                     break;
                 case 1:
-                    Hud.ActivateBossFace(TacticsManager.Group.GroupPink);
+                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupPink);
                     break;
                 case 2:
-                    Hud.ActivateBossFace(TacticsManager.Group.GroupGreen);
+                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupGreen);
                     break;
                 case 3:
-                    Hud.ActivateBossFace(TacticsManager.Group.GroupYellow);
+                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupYellow);
                     break;
                 default:
                     break;

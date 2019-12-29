@@ -13,8 +13,11 @@ public class PlayerInput : GeneralInput {
     public bool Playing { get => playing; set => playing = value; }
     private bool navigatingMenu = false;
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
+    private bool inCutscene = false;
     
 
     private IEnumerator DpadWait(float waitTime) {
@@ -71,7 +74,8 @@ public class PlayerInput : GeneralInput {
     }
 
     private void Update() {
-        if(InputManager.Instance != null) {
+        if(InputManager.Instance != null && !InCutscene) {
+
             if(dpadPressedInMenu && (NavigatingMenu)) {
                 if(fpsCounterInMenu >= 8) {
                     fpsCounterInMenu = 0;
@@ -241,9 +245,6 @@ public class PlayerInput : GeneralInput {
                     }
                 }
             }
-        }
-        else {
-            Debug.Log(name + " PlayerInput cannot find InputManager");
         }
     }
 

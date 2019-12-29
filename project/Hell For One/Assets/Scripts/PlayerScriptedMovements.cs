@@ -60,6 +60,7 @@ public class PlayerScriptedMovements : MonoBehaviour
     void MoveToScriptedPosition() {
         alliesNum = allies.AlliesList.Count;
         inScriptedMovement = true;
+        playerInput.InCutscene = true;
     }
 
     void ScriptedMovementEnd() {
@@ -67,6 +68,7 @@ public class PlayerScriptedMovements : MonoBehaviour
         alliesNotified = false;
         NotifyAllies(inScriptedMovement);
         alliesInPosition = 0;
+        playerInput.InCutscene = false;
     }
 
     public void SetTargetPosition(Vector3 position) {

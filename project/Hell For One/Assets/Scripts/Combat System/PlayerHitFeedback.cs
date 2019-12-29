@@ -24,13 +24,13 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private void OnEnable()
     {
-        combatEventsManager.onBeenHit += OnBeenHIt;
+        combatEventsManager.onBeenHit += OnBeenHit;
         combatEventsManager.onDeath += OnDeath;
     }
 
     private void OnDisable()
     {
-        combatEventsManager.onBeenHit -= OnBeenHIt;
+        combatEventsManager.onBeenHit -= OnBeenHit;
         combatEventsManager.onDeath -= OnDeath;
     }
 
@@ -42,7 +42,7 @@ public class PlayerHitFeedback : MonoBehaviour
         type = this.transform.root.GetComponent<Stats>().type;
     }
 
-    private void OnBeenHIt(Stats attackerStats)
+    private void OnBeenHit(Stats attackerStats)
     {
         // We blink only if receiving damage from the player
         if (attackerStats.type == Stats.Type.Player && blinkCR == null)

@@ -62,7 +62,7 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void ActivateBossFace(TacticsManager.Group group )
+    public void ActivateAggroIcon(TacticsManager.Group group )
     {
         switch ( group )
         {
@@ -93,7 +93,7 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void DeactivateBossFace() {
+    public void DeactivateAggroIcon() {
         bossFaceAzure.enabled = false;
         bossFaceGreen.enabled = false;
         bossFacePink.enabled = false;
