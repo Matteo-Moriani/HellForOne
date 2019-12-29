@@ -137,11 +137,11 @@ public class BossBehavior : AbstractBoss
                     if ( i < Probability.Length - 1 )
                     {
                         TargetGroup = DemonGroups[ i - 1 ];
-                        ActivateAggroIcon(i-1);
+                        SwitchAggroIcon(i-1);
                         TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
                     }
                     else {
-                        Hud.DeactivateBossFace();
+                        HUD.DeactivateAggroIcon();
                         TargetDemon = Player;
                     }
 
@@ -157,6 +157,12 @@ public class BossBehavior : AbstractBoss
             PursueTimeout = false;
             TargetFarFromCenter = false;
         }
+        // same target as before
+        else {
+            // check if the previous target has become the player
+            if(TargetDemon.GetComponent<Stats>().type == Stats.Type.Player)
+                HUD.DeactivateAggroIcon();
+        }
 
         return true;
     }
@@ -169,17 +175,14 @@ public class BossBehavior : AbstractBoss
 
             float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
             if(random < singleAttackProb) {
-                Debug.Log("single attack");
                 Timer1 = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
                 SingleAttack();
             } 
             else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb) {
-                Debug.Log("group attack");
                 Timer1 = StartCoroutine(Timer(groupAttackDuration, TimerType.attack));
                 GroupAttack();
             }
             else {
-                Debug.Log("global attack");
                 Timer1 = StartCoroutine(Timer(globalAttackDuration, TimerType.attack));
                 GlobalAttack();
             }

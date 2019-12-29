@@ -174,8 +174,13 @@ public class Reincarnation : MonoBehaviour
             }
 
             NavMeshAgent navMeshAgent = player.GetComponent<NavMeshAgent>();
-            if(navMeshAgent != null) { 
-                navMeshAgent.enabled = false;    
+            if(navMeshAgent != null) {
+                navMeshAgent.enabled = false;
+            }
+
+            Rigidbody rigidbody = player.GetComponent<Rigidbody>();
+            if(rigidbody != null) {
+                rigidbody.useGravity = true;
             }
 
             Stats stats = player.GetComponent<Stats>();

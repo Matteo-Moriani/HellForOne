@@ -54,7 +54,6 @@ public class EnemiesManager : MonoBehaviour
                 littleEnemyBehaviour.enabled = true;    
             }
         }
-        Debug.Log("Init little enemies lisst");
     }
 
     private void FindBoss() { 

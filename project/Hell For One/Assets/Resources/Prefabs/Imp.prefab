@@ -5561,7 +5561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907d4fa682638db4d88bb81c9f7deffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSize: 3
+  dashSize: 3.5
   dashCooldown: 0.6
   idleCollider: {fileID: 5015163011506748079}
   dashTime: 0.4
@@ -5628,9 +5628,8 @@ MonoBehaviour:
   groupAttackSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
-  blockChance: 50
-  shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
+  blockChance: 75
+  shieldBonusProbability: 15
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -5672,11 +5671,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingSpeed: 0.1
   extraCohesion: 1.75
-  repulsionWithGroup: 1
+  minGroupRepulsion: 0.9
+  maxGroupRepulsion: 1.5
   maxMeleeDist: 0.85
   maxRangeDist: 8
+  faceAllowedDegreeError: 10
+  faceActualDegreeError: 0
   target: {fileID: 0}
-  agentDestination: {x: 0, y: 0, z: 0}
 --- !u!195 &6542592131629019941
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8275,7 +8276,12 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -8285,7 +8291,7 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
       value: 0

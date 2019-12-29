@@ -71,7 +71,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.z = spawnPosition.z * -1;
 
-        Debug.Log(spawnPosition.x + " " + spawnPosition.z);
+        Debug.Log("ally spawned in position " + spawnPosition.x + " , " + spawnPosition.z);
         spawnPosition =  this.transform.position + this.transform.forward * 10;
         spawnPosition.y = 1;
         return spawnPosition;

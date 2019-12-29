@@ -35,6 +35,7 @@ public class PlayerScriptedMovements : MonoBehaviour
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
 
+    // TODO - a questo punto conviene far partire l'evento da qualche altra parte a attivare questo script dall'evento
     private void FixedUpdate() {
         if(inScriptedMovement) {
             agent.SetDestination(target);
@@ -51,22 +52,23 @@ public class PlayerScriptedMovements : MonoBehaviour
                 BattleEventsManager.RaiseOnBossBattleEnter();
             }
 
-        } else {
-            agent.SetDestination(gameObject.transform.position);
-        }
-        
+        }        
     }
 
     void MoveToScriptedPosition() {
+        agent.enabled = true;
         alliesNum = allies.AlliesList.Count;
         inScriptedMovement = true;
+        playerInput.InCutscene = true;
     }
 
     void ScriptedMovementEnd() {
+        agent.enabled = false;
         inScriptedMovement = false;
         alliesNotified = false;
         NotifyAllies(inScriptedMovement);
         alliesInPosition = 0;
+        playerInput.InCutscene = false;
     }
 
     public void SetTargetPosition(Vector3 position) {

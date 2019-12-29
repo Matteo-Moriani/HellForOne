@@ -212,7 +212,7 @@ public class AttackCollider : MonoBehaviour
         }
         else
         {
-            Debug.Log("No KnockBack, probably the target is blocking");
+            //Debug.Log("No KnockBack, probably the target is blocking");
         }
     }
     

@@ -1,0 +1,447 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerInput : GeneralInput
+{
+
+    private Dash dash;
+    private Combat combat;
+    private TacticsManager tacticsManager;
+    private bool gameInPause = false;
+    public bool GameInPause { get => gameInPause; set => gameInPause = value; }
+    private bool playing = true;
+    public bool Playing { get => playing; set => playing = value; }
+    private bool navigatingMenu = false;
+    public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
+    public bool InCutscene { get => inCutscene; set => inCutscene = value; }
+
+    private GameObject pauseScreen;
+    private CombatEventsManager combatEventsManager;
+<<<<<<< HEAD
+=======
+    private bool inCutscene = false;
+    
+>>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
+
+    private float dpadUpOld, dpadDownOld, dpadLeftOld, dpadRightOld = 0f;
+    private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
+    private float heldTime = 1.5f;
+
+
+    private IEnumerator DpadWait( float waitTime )
+    {
+        yield return new WaitForSeconds( waitTime );
+        DpadInUse = false;
+    }
+
+    private void Awake()
+    {
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        FindPauseScreen();
+    }
+
+    private void FindPauseScreen()
+    {
+
+        GameObject canvas = GameObject.FindGameObjectWithTag( "Canvas" );
+        int childrenNum = canvas.transform.childCount;
+
+        for ( int i = 0; i < childrenNum; i++ )
+        {
+            if ( canvas.transform.GetChild( i ).name == "PauseScreen" )
+            {
+                pauseScreen = canvas.transform.GetChild( i ).gameObject;
+                break;
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        //    Managers.Instance.onPressPlayButton += GameStart;
+        if ( combatEventsManager != null )
+        {
+            combatEventsManager.onDeath += OnDeath;
+        }
+        BattleEventsManager.onBattlePreparation += OnBattlePreparation;
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+    }
+
+    private void OnDisable()
+    {
+        //    Managers.Instance.onPressPlayButton -= GameStart;
+        if ( combatEventsManager != null )
+        {
+            combatEventsManager.onDeath -= OnDeath;
+        }
+        BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+    }
+
+    public void Start()
+    {
+        controller = this.gameObject.GetComponent<Controller>();
+        canGiveInput = true;
+        NavigatingMenu = false;
+        dash = GetComponent<Dash>();
+        combat = GetComponent<Combat>();
+        tacticsManager = GetComponent<TacticsManager>();
+        CurrentScreen = pauseScreen.GetComponent<Menu>();
+    }
+
+<<<<<<< HEAD
+    private void Update()
+    {
+        if ( InputManager.Instance != null )
+        {
+            if ( dpadPressedInMenu && (NavigatingMenu) )
+            {
+                if ( fpsCounterInMenu >= 8 )
+                {
+=======
+    private void Update() {
+        if(InputManager.Instance != null && !InCutscene) {
+
+            if(dpadPressedInMenu && (NavigatingMenu)) {
+                if(fpsCounterInMenu >= 8) {
+>>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
+                    fpsCounterInMenu = 0;
+                    dpadPressedInMenu = false;
+                }
+                else
+                    fpsCounterInMenu++;
+            }
+
+            // Left stick (PS3 & XBOX)
+            if ( controller != null )
+            {
+                controller.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
+            }
+
+            // Circle (PS3) / B (XBOX) 
+            if ( InputManager.Instance.CircleButtonDown() )
+            {
+                if ( NavigatingMenu )
+                    CurrentScreen.Back();
+                else
+                {
+                    if ( dash != null )
+                    {
+                        dash.TryDash( InputManager.Instance.LeftStickVertical(), InputManager.Instance.LeftStickHorizontal() );
+                    }
+                }
+
+            }
+
+            // Cross (PS3) / A (XBOX)
+            if ( InputManager.Instance.XButtonDown() )
+            {
+                if ( NavigatingMenu )
+                    CurrentScreen.PressSelectedButton();
+                else if ( combat != null && tacticsManager )
+                {
+                    // TODO - dialogues
+                }
+
+            }
+
+            // Square (PS3) / X (XBOX)
+            if ( InputManager.Instance.SquareButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.PlayerAttack();
+                }
+            }
+
+            // L1 (PS3) / LB (XBOX) - Down
+            if ( InputManager.Instance.L1ButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.StartBlock();
+                }
+            }
+
+            // L1 (PS3) / LB (XOBX) - Up
+            if ( InputManager.Instance.L1ButtonUp() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.StopBlock();
+                }
+            }
+
+            // R1 (PS3) / RB (XBOX) - Down
+            if ( InputManager.Instance.R1ButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.StartBlock();
+                }
+            }
+
+            // R1 (PS3) / RB (XOBX) - Up
+            if ( InputManager.Instance.R1ButtonUp() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.StopBlock();
+                }
+            }
+
+            // Triangle (PS3) / Y (XBOX)
+            if ( InputManager.Instance.TriangleButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
+                    combat.RangedAttack( null );
+                }
+            }
+
+            // L2 (PS3) / LT (XBOX) - Down
+            //if ( inputManager.L2Axis() )
+            if ( InputManager.Instance.L2ButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null && tacticsManager )
+                {
+                    tacticsManager.RotateLeftGroups();
+                }
+            }
+
+            // DPad UP
+            if ( InputManager.Instance.DpadVertical() > 0.7f )
+            {
+                if ( !DpadInUse )
+                {
+
+                    if ( NavigatingMenu )
+                    {
+                        dpadPressedInMenu = true;
+                        if ( fpsCounterInMenu == 0 )
+                            CurrentScreen.PreviousButton();
+                    }
+                    else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                    {
+                        DpadInUse = true;
+                        tacticsManager.AssignOrderToGroup( GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup );
+                        StartCoroutine( DpadWait( dpadWaitTime ) );
+                    }
+
+                }
+            }
+
+            //DPad HELD UP
+            if ( InputManager.Instance.DpadVertical() > 0.7f )
+            {
+                dpadUpOld = InputManager.Instance.DpadVertical();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled && dpadUpOld != 0f )
+                {
+                    DpadInUse = true;
+
+                    if ( allGroupsOrderStartTimeUp == 0f )
+                        allGroupsOrderStartTimeUp = Time.time;
+
+                    if ( (Time.time - allGroupsOrderStartTimeUp) >= heldTime )
+                    {
+                        tacticsManager.AllGroupsOrder( GroupBehaviour.State.MeleeAttack );
+                        DpadInUse = false;
+                        allGroupsOrderStartTimeUp = 0f;
+                        dpadUpOld = 0f;
+                    }
+                }
+            }
+            else if ( 0f <= InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() < 0.7f )
+            {
+                dpadUpOld = 0f;
+                allGroupsOrderStartTimeUp = 0f;
+            }
+
+            // DPad DOWN
+            if ( InputManager.Instance.DpadVertical() < -0.7f )
+            {
+                if ( !DpadInUse )
+                {
+
+                    if ( NavigatingMenu )
+                    {
+                        dpadPressedInMenu = true;
+                        if ( fpsCounterInMenu == 0 )
+                            CurrentScreen.NextButton();
+                    }
+                    else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                    {
+                        DpadInUse = true;
+                        tacticsManager.AssignOrderToGroup( GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup );
+                        StartCoroutine( DpadWait( dpadWaitTime ) );
+                    }
+
+                }
+            }
+
+            //DPad HELD DOWN
+            if ( InputManager.Instance.DpadVertical() < -0.7f )
+            {
+                dpadDownOld = InputManager.Instance.DpadVertical();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled && dpadDownOld != 0f )
+                {
+                    DpadInUse = true;
+
+                    if ( allGroupsOrderStartTimeDown == 0f )
+                        allGroupsOrderStartTimeDown = Time.time;
+
+                    if ( (Time.time - allGroupsOrderStartTimeDown) >= heldTime )
+                    {
+                        tacticsManager.AllGroupsOrder( GroupBehaviour.State.RangeAttack );
+                        DpadInUse = false;
+                        allGroupsOrderStartTimeDown = 0f;
+                        dpadDownOld = 0f;
+                    }
+                }
+            }
+            else if ( -0.7f < InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() <= 0f )
+            {
+                dpadDownOld = 0f;
+                allGroupsOrderStartTimeDown = 0f;
+            }
+
+            // DPad RIGHT
+            if ( InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu )
+            {
+                if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
+            }
+
+            //DPad HELD RIGHT
+            if ( InputManager.Instance.DpadHorizontal() > 0.7f )
+            {
+                dpadRightOld = InputManager.Instance.DpadHorizontal();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled && dpadRightOld != 0f )
+                {
+                    DpadInUse = true;
+
+                    if ( allGroupsOrderStartTimeRight == 0f )
+                        allGroupsOrderStartTimeRight = Time.time;
+
+                    if ( (Time.time - allGroupsOrderStartTimeRight) >= heldTime )
+                    {
+                        tacticsManager.AllGroupsOrder( GroupBehaviour.State.Tank );
+                        DpadInUse = false;
+                        allGroupsOrderStartTimeRight = 0f;
+                        dpadRightOld = 0f;
+                    }
+                }
+            }
+            else if ( 0f <= InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() < 0.7f )
+            {
+                dpadRightOld = 0f;
+                allGroupsOrderStartTimeRight = 0f;
+            }
+
+            // DPad LEFT
+            if ( InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu )
+            {
+                if ( combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse )
+                {
+                    DpadInUse = true;
+                    tacticsManager.AssignOrderToGroup( GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup );
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
+            }
+
+            //DPad HELD LEFT
+            if ( InputManager.Instance.DpadHorizontal() < -0.7f )
+            {
+                dpadLeftOld = InputManager.Instance.DpadHorizontal();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled && dpadLeftOld != 0f )
+                {
+                    DpadInUse = true;
+
+                    if ( allGroupsOrderStartTimeLeft == 0f )
+                        allGroupsOrderStartTimeLeft = Time.time;
+
+                    if ( (Time.time - allGroupsOrderStartTimeLeft) >= heldTime )
+                    {
+                        tacticsManager.AllGroupsOrder( GroupBehaviour.State.Support );
+                        DpadInUse = false;
+                        allGroupsOrderStartTimeLeft = 0f;
+                        dpadLeftOld = 0f;
+                    }
+                }
+            }
+            else if ( -0.7f < InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() <= 0f )
+            {
+                dpadLeftOld = 0f;
+                allGroupsOrderStartTimeLeft = 0f;
+            }
+
+            // Need in order to set an internal bool in input manager
+            // Im looking for a better solution
+            if ( InputManager.Instance.L2ButtonUp() && !NavigatingMenu ) { }
+
+            // R2 (PS3) / RT (XBOX) - Down
+            //if ( inputManager.R2Axis() )
+            if ( InputManager.Instance.R2ButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null && tacticsManager )
+                {
+                    tacticsManager.RotateRightGroups();
+                }
+            }
+
+            // Need in order to set an internal bool in input manager
+            // Im looking for a better solution
+            if ( InputManager.Instance.R2ButtonUp() && !NavigatingMenu ) { }
+
+            // Start (PS3) / Options (PS4)
+            if ( InputManager.Instance.PauseButtonDown() )
+            {
+                if ( combat != null )
+                {
+                    if ( GameInPause && NavigatingMenu )
+                    {
+                        CurrentScreen.GetComponent<PauseScreen>().Resume();
+                    }
+                    else
+                    {
+                        CurrentScreen.gameObject.SetActive( true );
+                        NavigatingMenu = true;
+                        CurrentScreen.GetComponent<PauseScreen>().Pause();
+                    }
+                }
+            }
+        }
+<<<<<<< HEAD
+        else
+        {
+            Debug.Log( name + " PlayerInput cannot find InputManager" );
+        }
+=======
+>>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
+    }
+
+    private void OnDeath()
+    {
+        this.enabled = false;
+    }
+
+    private void OnBattlePreparation()
+    {
+        canGiveInput = false;
+        controller.PassXZValues( 0, 0 );
+    }
+
+    private void OnBossBattleEnter()
+    {
+        canGiveInput = true;
+    }
+}

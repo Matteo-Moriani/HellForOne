@@ -75,23 +75,20 @@ public class Stats : MonoBehaviour
     [Tooltip("How long the global attack will be (in seconds)")]
     private float globalAttackDuration = 1.0f;
 
-    /// <summary>
-    /// Probability of this unit to dodge an attack
-    /// </summary>
-    [SerializeField]
-    [Range(0f, 100f)]
-    [Tooltip("The probability for this demon to dodge an attack. to stick to GDD it should be 75.0")]
-    private float blockChance = 0f;
+    public float attackingBlockChance = 60f;
+    public float supportingBlockChance = 30f;
+    public float blockingBlockChance = 90f;
+
     /// <summary>
     /// Probability bonus if this unit is blocking
     /// </summary>
-    [SerializeField]
-    [Range(0f, 100f)]
-    [Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
-    private float shieldBonusProbability = 0f;
+    //[SerializeField]
+    //[Range(0f, 100f)]
+    //[Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
+    //private float shieldBonusProbability = 15f;
 
-    [SerializeField]
-    private float supportingUnitsMultiplier = 0.95f;
+    //[SerializeField]
+    //private float supportingUnitsMultiplier = 0.95f;
 
     /// <summary>
     /// Probability of this unit to deal a knockBack
@@ -190,13 +187,9 @@ public class Stats : MonoBehaviour
     /// </summary>
     public float RangedDamage { get => rangedDamage; set => rangedDamage = value; }
     /// <summary>
-    /// Probability of this unit to dodge an attack
-    /// </summary>
-    public float BlockChance { get => blockChance; set => blockChance = value; }
-    /// <summary>
     /// Probability bonus if this unit is blocking
     /// </summary>
-    public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
+    //public float ShieldBonusProbability { get => shieldBonusProbability; set => shieldBonusProbability = value; }
 
     public float Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
@@ -346,6 +339,7 @@ public class Stats : MonoBehaviour
         }
     }
 
+    // TODO - rifarlo, strutturato così non ha più senso per come calcoliamo ora la probabilità di schivata
     public bool CalculateBeenHitChance(bool isBlocking)
     {
         switch (type)
@@ -367,18 +361,20 @@ public class Stats : MonoBehaviour
 
                 if (isBlocking)
                 {
-
-                    // 0.9: hardcoded value for support units bonus
-                    // 4:   hardcoded value for number of support units
-                    return Random.Range(1f, 101f) <= (100 - (blockChance + shieldBonusProbability) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits));
+                    return Random.Range(0f, 100f) <= (100 - blockingBlockChance)
+                        //* Mathf.Pow(supportingUnitsMultiplier, supportingUnits))
+                        ;
                 }
                 else
                 {
-                    // 0.9: hardcoded value for support units bonus
-                    // 4:   hardcoded value for number of support units
-                    return Random.Range(1f, 101f) <= (100 - blockChance) * Mathf.Pow(supportingUnitsMultiplier, supportingUnits);
+                    if(gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().currentState == GroupBehaviour.State.Support)
+                        return Random.Range(0f, 100f) <= (100 - supportingBlockChance);
+                    else
+                        return Random.Range(0f, 100f) <= (100 - attackingBlockChance)
+                        //* Mathf.Pow(supportingUnitsMultiplier, supportingUnits)
+                        ;
                 }
-            case Stats.Type.Player:
+            case Type.Player:
                 if (isBlocking)
                 {
                     // When Player is blocking will allways avoid damage
@@ -389,28 +385,10 @@ public class Stats : MonoBehaviour
                     // When Playes is not blocking will allways take damage
                     return true;
                 }
-            case Stats.Type.Enemy:
-                if (isBlocking)
-                {
-                    // TODO - Enemies will have support units?
-                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonusProbability);
-                }
-                else
-                {
-                    // TODO - Enemies will have support units?
-                    return Random.Range(1f, 101f) <= (100 - blockChance);
-                }
-            case Stats.Type.Boss:
-                if (isBlocking)
-                {
-                    // TODO - Boss will have support units?
-                    return Random.Range(1f, 101f) <= (100 - blockChance + shieldBonusProbability);
-                }
-                else
-                {
-                    // TODO - Boss will have support units?
-                    return Random.Range(1, 101f) <= (100 - blockChance);
-                }
+            case Type.Enemy:
+                return true;
+            case Type.Boss:
+                return true;
             default:
                 Debug.Log(this.transform.root.name + " Stats error, did you set type?");
                 return false;

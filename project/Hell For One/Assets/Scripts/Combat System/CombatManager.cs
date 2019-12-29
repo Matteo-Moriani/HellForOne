@@ -217,7 +217,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManager.Attack is trying to attack but is not idle." );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.Attack is trying to attack but is not idle." );
         }
 
     }

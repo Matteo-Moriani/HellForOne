@@ -885,18 +885,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 800
+  health: 1400
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
   attackRange: 1.6
   attackDurationMultiplier: 1
-  groupAttackSize: 3
+  groupAttackSize: 2.8
   globalAttackSize: 10
   globalAttackDuration: 1
-  blockChance: 0
-  shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
+  attackingBlockChance: 60
+  supportingBlockChance: 30
+  blockingBlockChance: 90
   knockBackChance: 100
   knockBackSize: 3
   knockBackTime: 0.25
@@ -974,7 +974,7 @@ MonoBehaviour:
   groupAttackProb: 0.5
   speed: 5
   rotSpeed: 0.1
-  stopDist: 2
+  stopDist: 2.2
   stareTime: 4
   pursueTime: 5
   changeTargetProb: 0.1
@@ -1597,6 +1597,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -1611,6 +1616,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.98117995
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
