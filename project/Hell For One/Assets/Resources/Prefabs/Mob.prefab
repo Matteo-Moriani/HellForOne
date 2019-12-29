@@ -1649,7 +1649,6 @@ MonoBehaviour:
   globalAttackDuration: 1
   blockChance: 50
   shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -3023,6 +3022,11 @@ PrefabInstance:
     - target: {fileID: 1093593339305281125, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f,

@@ -5629,8 +5629,7 @@ MonoBehaviour:
   globalAttackSize: 10
   globalAttackDuration: 1
   blockChance: 75
-  shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
+  shieldBonusProbability: 15
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -8276,6 +8275,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}

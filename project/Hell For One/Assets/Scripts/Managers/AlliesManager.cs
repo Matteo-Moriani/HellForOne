@@ -9,6 +9,7 @@ public class AlliesManager : MonoBehaviour
     private List<GameObject> alliesList;
 
     private static AlliesManager _instance;
+    private float maxHealth = 4f;
 
     public static AlliesManager Instance { get { return _instance; } }
     public List<GameObject> AlliesList { get => alliesList; private set => alliesList = value; }
@@ -54,7 +55,8 @@ public class AlliesManager : MonoBehaviour
 
     private void ExitBattle() { 
         foreach(GameObject ally in alliesList) { 
-            ally.GetComponent<Combat>().enabled = false;    
+            ally.GetComponent<Combat>().enabled = false;
+            ally.GetComponent<Stats>().health = maxHealth;
         }  
     }
 

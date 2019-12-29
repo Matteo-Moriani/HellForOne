@@ -4612,7 +4612,6 @@ MonoBehaviour:
   globalAttackDuration: 1
   blockChance: 0
   shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
   knockBackChance: 100
   knockBackSize: 3
   knockBackTime: 0.25
@@ -8024,6 +8023,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4565625
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
