@@ -63,12 +63,20 @@ public class TacticsManager : MonoBehaviour
 
     public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
-        GroupBehaviour groupBehaviour = GameObject.Find( CurrentShowedGroup.ToString() ).GetComponent<GroupBehaviour>();
+        GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
         if ( groupBehaviour.groupFSM.current.stateName != state.ToString() )
         {
             groupBehaviour.newState = state;
             groupBehaviour.orderConfirmed = true;
         }
+    }
+
+    public void AllGroupsOrder(GroupBehaviour.State state )
+    {
+        AssignOrderToGroup( state, Group.GroupAzure );
+        AssignOrderToGroup( state, Group.GroupPink );
+        AssignOrderToGroup( state, Group.GroupGreen );
+        AssignOrderToGroup( state, Group.GroupYellow );
     }
 
     public void RotateRightGroups()
