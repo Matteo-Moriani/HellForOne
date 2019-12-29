@@ -18,11 +18,7 @@ public class PlayerInput : GeneralInput
 
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
-<<<<<<< HEAD
-=======
     private bool inCutscene = false;
-    
->>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
 
     private float dpadUpOld, dpadDownOld, dpadLeftOld, dpadRightOld = 0f;
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
@@ -90,22 +86,16 @@ public class PlayerInput : GeneralInput
         CurrentScreen = pauseScreen.GetComponent<Menu>();
     }
 
-<<<<<<< HEAD
     private void Update()
     {
-        if ( InputManager.Instance != null )
+
+        if ( InputManager.Instance != null && !InCutscene )
         {
+
             if ( dpadPressedInMenu && (NavigatingMenu) )
             {
                 if ( fpsCounterInMenu >= 8 )
                 {
-=======
-    private void Update() {
-        if(InputManager.Instance != null && !InCutscene) {
-
-            if(dpadPressedInMenu && (NavigatingMenu)) {
-                if(fpsCounterInMenu >= 8) {
->>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
                     fpsCounterInMenu = 0;
                     dpadPressedInMenu = false;
                 }
@@ -420,14 +410,10 @@ public class PlayerInput : GeneralInput
                 }
             }
         }
-<<<<<<< HEAD
         else
-        {
             Debug.Log( name + " PlayerInput cannot find InputManager" );
-        }
-=======
->>>>>>> 43d168223a7fb36a6c36adc05389a90ff0c8cdbc
     }
+
 
     private void OnDeath()
     {
