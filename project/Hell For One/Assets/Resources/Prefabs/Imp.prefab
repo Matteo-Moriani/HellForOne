@@ -5561,7 +5561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907d4fa682638db4d88bb81c9f7deffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSize: 3
+  dashSize: 3.5
   dashCooldown: 0.6
   idleCollider: {fileID: 5015163011506748079}
   dashTime: 0.4
@@ -5672,11 +5672,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingSpeed: 0.1
   extraCohesion: 1.75
-  repulsionWithGroup: 1
+  minGroupRepulsion: 0.9
+  maxGroupRepulsion: 1.5
   maxMeleeDist: 0.85
   maxRangeDist: 8
+  faceAllowedDegreeError: 10
+  faceActualDegreeError: 0
   target: {fileID: 0}
-  agentDestination: {x: 0, y: 0, z: 0}
 --- !u!195 &6542592131629019941
 NavMeshAgent:
   m_ObjectHideFlags: 0

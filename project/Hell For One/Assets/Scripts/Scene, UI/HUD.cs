@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross;
-    private Image azureImage, pinkImage, greenImage, yellowImage, bossFaceAzure, bossFacePink, bossFaceGreen, bossFaceYellow;
+    private Image azureImage, pinkImage, greenImage, yellowImage, aggroIconAzure, aggroIconPink, aggroIconGreen, aggroIconYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     private TacticsManager tacticsManager;
@@ -67,37 +67,37 @@ public class HUD : MonoBehaviour
         switch ( group )
         {
             case TacticsManager.Group.GroupAzure:
-                bossFaceAzure.enabled = true;
-                bossFaceGreen.enabled = false;
-                bossFacePink.enabled = false;
-                bossFaceYellow.enabled = false;
+                aggroIconAzure.enabled = true;
+                aggroIconGreen.enabled = false;
+                aggroIconPink.enabled = false;
+                aggroIconYellow.enabled = false;
                 break;
             case TacticsManager.Group.GroupGreen:
-                bossFaceAzure.enabled = false;
-                bossFaceGreen.enabled = true;
-                bossFacePink.enabled = false;
-                bossFaceYellow.enabled = false;
+                aggroIconAzure.enabled = false;
+                aggroIconGreen.enabled = true;
+                aggroIconPink.enabled = false;
+                aggroIconYellow.enabled = false;
                 break;
             case TacticsManager.Group.GroupPink:
-                bossFaceAzure.enabled = false;
-                bossFaceGreen.enabled = false;
-                bossFacePink.enabled = true;
-                bossFaceYellow.enabled = false;
+                aggroIconAzure.enabled = false;
+                aggroIconGreen.enabled = false;
+                aggroIconPink.enabled = true;
+                aggroIconYellow.enabled = false;
                 break;
             case TacticsManager.Group.GroupYellow:
-                bossFaceAzure.enabled = false;
-                bossFaceGreen.enabled = false;
-                bossFacePink.enabled = false;
-                bossFaceYellow.enabled = true;
+                aggroIconAzure.enabled = false;
+                aggroIconGreen.enabled = false;
+                aggroIconPink.enabled = false;
+                aggroIconYellow.enabled = true;
                 break;
         }
     }
 
     public void DeactivateAggroIcon() {
-        bossFaceAzure.enabled = false;
-        bossFaceGreen.enabled = false;
-        bossFacePink.enabled = false;
-        bossFaceYellow.enabled = false;
+        aggroIconAzure.enabled = false;
+        aggroIconGreen.enabled = false;
+        aggroIconPink.enabled = false;
+        aggroIconYellow.enabled = false;
     }
 
     void Start()
@@ -110,18 +110,18 @@ public class HUD : MonoBehaviour
         OrdersCross = transform.GetChild(1).gameObject;
 
         azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        bossFaceAzure = panelAzure.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
+        aggroIconAzure = panelAzure.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        bossFacePink = panelPink.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
+        aggroIconPink = panelPink.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        bossFaceGreen = panelGreen.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
+        aggroIconGreen = panelGreen.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
         yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        bossFaceYellow = panelYellow.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
+        aggroIconYellow = panelYellow.transform.GetChild( 1 ).gameObject.GetComponent<Image>();
 
-        bossFaceAzure.enabled = false;
-        bossFacePink.enabled = false;
-        bossFaceGreen.enabled = false;
-        bossFaceYellow.enabled = false;
+        aggroIconAzure.enabled = false;
+        aggroIconPink.enabled = false;
+        aggroIconGreen.enabled = false;
+        aggroIconYellow.enabled = false;
 
         meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
         rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );

@@ -9,7 +9,7 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private Stats.Type type;
 
-    private Renderer renderer;
+    private Renderer bossRenderer;
 
     private Color startingColor;
 
@@ -19,7 +19,7 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private void Awake()
     {
-        combatEventsManager = this.transform.root.gameObject.GetComponent<CombatEventsManager>();
+        combatEventsManager = transform.root.gameObject.GetComponent<CombatEventsManager>();
     }
 
     private void OnEnable()
@@ -36,10 +36,12 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private void Start()
     {
-        renderer = this.GetComponent<Renderer>();
+        bossRenderer = GetComponent<Renderer>();
 
-        startingColor = renderer.material.GetColor("_EmissiveColor");
-        type = this.transform.root.GetComponent<Stats>().type;
+        if(bossRenderer) {
+            startingColor = bossRenderer.material.GetColor("_EmissiveColor");
+            type = transform.root.GetComponent<Stats>().type;
+        }
     }
 
     private void OnBeenHit(Stats attackerStats)
@@ -53,7 +55,7 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private IEnumerator BlinkCoroutine(Stats attackerStats)
     { 
-        if(this.transform.root.gameObject.name == "Boss") {
+        if(transform.root.gameObject.name == "Boss") {
             foreach (Material material in finalBossMaterials)
             {
                 material.SetColor("_EmissiveColor", Color.red);
@@ -70,12 +72,12 @@ public class PlayerHitFeedback : MonoBehaviour
             blinkCR = null;
         }
         else {
-            renderer.material.SetColor("_EmissiveColor", Color.red);
+            bossRenderer.material.SetColor("_EmissiveColor", Color.red);
 
             yield return new WaitForSeconds(0.1f);
 
             // Maybe we can use Color.black instead of this
-            renderer.material.SetColor("_EmissiveColor", Color.black);
+            bossRenderer.material.SetColor("_EmissiveColor", Color.black);
 
             blinkCR = null;
         }
@@ -83,7 +85,7 @@ public class PlayerHitFeedback : MonoBehaviour
 
     private void OnDeath() {
         // Boss has strange material setup, so we need a different approach.
-        if (this.transform.root.gameObject.name == "Boss") {
+        if (transform.root.gameObject.name == "Boss") {
             foreach(Material material in finalBossMaterials) { 
                 material.SetColor("_EmissiveColor",Color.black);    
             }
@@ -92,7 +94,7 @@ public class PlayerHitFeedback : MonoBehaviour
         else
         {
             // Maybe we can use Color.black instead of this
-            renderer.material.SetColor("_EmissiveColor", Color.black);
+            bossRenderer.material.SetColor("_EmissiveColor", Color.black);
         }    
     }
 }

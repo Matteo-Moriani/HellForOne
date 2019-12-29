@@ -12,10 +12,13 @@ public class DemonMovement : MonoBehaviour
     private float minMeleeDist;
 
     public float extraCohesion = 1.75f;
-    public float repulsionWithGroup = 1f;
+    public float minGroupRepulsion = 0.9f;
+    public float maxGroupRepulsion = 1.5f;
     // distanza massima coperta dall'affondo
     public float maxMeleeDist = 0.85f;
     public float maxRangeDist = 8f;
+    public float faceAllowedDegreeError = 10f;
+    public float faceActualDegreeError = 0f;
 
     [SerializeField]
     private GameObject target;
@@ -34,13 +37,16 @@ public class DemonMovement : MonoBehaviour
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     public bool InScriptedMovement { get => inScriptedMovement; set => inScriptedMovement = value; }
     public bool PlayerNotified { get => playerNotified; set => playerNotified = value; }
-    public Vector3 agentDestination;
+    private Vector3 agentDestination;
+    private bool inFormationPosition = false;
 
     private bool inScriptedMovement = false;
     private bool playerNotified = false;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
+
+    private Quaternion facingDir;
 
     private void OnEnable()
     {
@@ -54,6 +60,7 @@ public class DemonMovement : MonoBehaviour
 
     void Start()
     {
+        facingDir = Quaternion.LookRotation(transform.forward);
         player = GameObject.FindGameObjectWithTag( "Player" );
         minMeleeDist = maxMeleeDist - 1;
         myCollider = GetComponent<Collider>();
@@ -64,6 +71,8 @@ public class DemonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
+
         if ( CanMove )
         {
             if ( !player )
@@ -90,8 +99,6 @@ public class DemonMovement : MonoBehaviour
                     if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
                     {
                         distanceInPosition = 0f;
-
-                        //TODO fix
                         CloseRangeMovement();
                     }
                     else
@@ -143,10 +150,12 @@ public class DemonMovement : MonoBehaviour
     }
 
     public bool InFormationPosition() {
-        if(HorizDistFromTarget(group) <= repulsionWithGroup) {
+        if(HorizDistFromTarget(group) <= minGroupRepulsion || (inFormationPosition && HorizDistFromTarget(group) < maxGroupRepulsion)) {
+            inFormationPosition = true;
             return true;
         }
         else {
+            inFormationPosition = false;
             return false;
         }
     }
@@ -172,8 +181,16 @@ public class DemonMovement : MonoBehaviour
         Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
-        Quaternion facingDir = Quaternion.LookRotation( vectorToTarget );
-        Quaternion newRotation = Quaternion.Slerp( transform.rotation, facingDir, facingSpeed );
+        Quaternion newFacingDir = Quaternion.LookRotation(vectorToTarget);
+
+        faceActualDegreeError = Mathf.Abs(transform.rotation.eulerAngles.y - newFacingDir.eulerAngles.y);
+
+        // i don't update the facing direction if i'm very close to the correct angle
+        if(faceActualDegreeError > faceAllowedDegreeError || faceActualDegreeError < 360f - faceAllowedDegreeError) {
+            facingDir = newFacingDir;
+        }
+
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, facingSpeed);
         transform.rotation = newRotation;
     }
 
