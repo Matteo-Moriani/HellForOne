@@ -5,14 +5,14 @@ using UnityEngine;
 public class ObjectsPooler : MonoBehaviour
 {
 
-    [SerializeField, Tooltip("The object to duplicate in the pooler. It must be a MonoBehaviour object with a Transform and a Rigidbody.")]
-    private GameObject originalObject;
+    [Tooltip("The object to duplicate in the pooler. It must be a MonoBehaviour object with a Transform and a Rigidbody.")]
+    public GameObject originalObject;
 
-    [SerializeField, Min(1), Tooltip("The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.")]
-    private int amountInPooler;
+    [Min(1), Tooltip("The amount of objects in the pooler. At the start, the pooler is fill with this number of objects.")]
+    public int amountInPooler;
 
-    [SerializeField, Min(1), Tooltip("The number of objects added to the pooler if there is no objects available.")]
-    private int incrementAmount;
+    [Min(1), Tooltip("The number of objects added to the pooler if there is no objects available.")]
+    public int incrementAmount;
 
     private List<GameObject> pooler;
 

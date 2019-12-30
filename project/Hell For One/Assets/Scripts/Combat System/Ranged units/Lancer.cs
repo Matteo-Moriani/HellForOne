@@ -24,11 +24,11 @@ public class Lancer : MonoBehaviour
     private bool direct;
 
     GameObject lance;
-    [SerializeField]
     private ObjectsPooler lances;
     private float lastShot;
     private float timespanShots;
     private Stats lancerStats;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,8 @@ public class Lancer : MonoBehaviour
         timespanShots = 1f / ratio;
         lancerStats = transform.root.GetComponent<Stats>();
         lances = GameObject.Find( "LancePooler" ).GetComponent<ObjectsPooler>();
-        spearLaunchPoint = spearPosition.transform.position;
+        //spearLaunchPoint = spearPosition.transform.position;
+        spearLaunchPoint = new Vector3(0f, 0.7f, 0f);
     }
 
     // Update is called once per frame
@@ -78,13 +79,13 @@ public class Lancer : MonoBehaviour
         {
             Vector3 targetPosFixed = target.transform.position + new Vector3( 0f, 1f, 0f );
 
-            if ( !calculateAngle( transform.position + spearLaunchPoint, targetPosFixed, out alpha ) )
+            if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), targetPosFixed, out alpha ) )
             {
                 return false;
             }
         }
 
-        else if ( !calculateAngle( transform.position + spearLaunchPoint, target.transform.position, out alpha ) )
+        else if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), target.transform.position, out alpha ) )
         {
             return false;
         }
@@ -92,7 +93,7 @@ public class Lancer : MonoBehaviour
         //transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
         lance = lances.GetNotActiveObject();
         lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        lance.transform.position = transform.position + spearLaunchPoint;
+        lance.transform.position = transform.position + spearLaunchPoint + RightComponent();
         lance.transform.forward = new Vector3( target.transform.position.x, lance.transform.position.y, target.transform.position.z ) - lance.transform.position;
         lance.transform.rotation = Quaternion.Euler( 90f - alpha, lance.transform.eulerAngles.y, 0 );
         lance.SetActive( true );
@@ -312,4 +313,7 @@ public class Lancer : MonoBehaviour
     }
     #endregion
 
+    private Vector3 RightComponent() {
+        return transform.right * 0.4f;
+    }
 }
