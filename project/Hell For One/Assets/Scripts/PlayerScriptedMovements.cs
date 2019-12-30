@@ -77,7 +77,7 @@ public class PlayerScriptedMovements : MonoBehaviour
 
     public void NotifyInPosition() {
         alliesInPosition++;
-        Debug.Log("allies in position: " + alliesInPosition);
+        //Debug.Log("allies in position: " + alliesInPosition);
     }
 
     private void NotifyAllies(bool scriptedMovement) {

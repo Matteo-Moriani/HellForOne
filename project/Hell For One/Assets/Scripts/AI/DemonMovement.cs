@@ -8,14 +8,11 @@ public class DemonMovement : MonoBehaviour
     [Range( 0f, 1f )]
     public float facingSpeed = 0.1f;
 
-    // Used to avoid melee atks and tanks if too distant
-    private float minMeleeDist;
-
     public float extraCohesion = 1.75f;
     public float minGroupRepulsion = 0.9f;
     public float maxGroupRepulsion = 1.5f;
     // distanza massima coperta dall'affondo
-    public float maxMeleeDist = 0.85f;
+    private float maxMeleeDist = 0.85f;
     public float maxRangeDist = 8f;
     public float faceAllowedDegreeError = 10f;
     public float faceActualDegreeError = 0f;
@@ -62,17 +59,15 @@ public class DemonMovement : MonoBehaviour
     {
         facingDir = Quaternion.LookRotation(transform.forward);
         player = GameObject.FindGameObjectWithTag( "Player" );
-        minMeleeDist = maxMeleeDist - 1;
         myCollider = GetComponent<Collider>();
 
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         agent = gameObject.GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = maxMeleeDist;
     }
 
     void FixedUpdate()
     {
-
-
         if ( CanMove )
         {
             if ( !player )

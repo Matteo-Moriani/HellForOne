@@ -4610,8 +4610,9 @@ MonoBehaviour:
   groupAttackSize: 3.4
   globalAttackSize: 666
   globalAttackDuration: 1
-  blockChance: 0
-  shieldBonusProbability: 0
+  attackingBlockChance: 60
+  supportingBlockChance: 30
+  blockingBlockChance: 90
   knockBackChance: 100
   knockBackSize: 3
   knockBackTime: 0.25
@@ -4754,10 +4755,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.4899236
+  m_Radius: 1.416668
   m_Height: 4.928893
   m_Direction: 1
-  m_Center: {x: 0, y: 0.99976254, z: 0.00000023841858}
+  m_Center: {x: 0.22642672, y: 0.99976254, z: 0.33964026}
 --- !u!1 &1318650425002105791
 GameObject:
   m_ObjectHideFlags: 0
@@ -6278,10 +6279,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.0237354
+  m_Radius: 0.9688698
   m_Height: 1.2896883
   m_Direction: 1
-  m_Center: {x: 0, y: 0.017732654, z: 0}
+  m_Center: {x: 0, y: 0.017732654, z: -0.079915166}
 --- !u!1001 &1013126710102920679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7984,6 +7985,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -8024,10 +8030,25 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.4565625
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.23
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}

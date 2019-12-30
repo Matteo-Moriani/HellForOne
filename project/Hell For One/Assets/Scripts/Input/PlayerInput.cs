@@ -22,7 +22,7 @@ public class PlayerInput : GeneralInput
 
     private float dpadUpOld, dpadDownOld, dpadLeftOld, dpadRightOld = 0f;
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
-    private float heldTime = 1.5f;
+    public float heldTime = 1f;
 
 
     private IEnumerator DpadWait( float waitTime )

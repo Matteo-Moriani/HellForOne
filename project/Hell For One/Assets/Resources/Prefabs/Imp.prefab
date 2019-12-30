@@ -5628,8 +5628,9 @@ MonoBehaviour:
   groupAttackSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
-  blockChance: 75
-  shieldBonusProbability: 15
+  attackingBlockChance: 60
+  supportingBlockChance: 30
+  blockingBlockChance: 90
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -5692,7 +5693,7 @@ NavMeshAgent:
   m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.05
+  m_StoppingDistance: 0.85
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -5773,6 +5774,7 @@ MonoBehaviour:
   dpadWaitTime: 0.2
   controller: {fileID: 0}
   canGiveInput: 0
+  heldTime: 0.7
 --- !u!95 &474679381212470201
 Animator:
   serializedVersion: 3
@@ -7417,7 +7419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7181385214865327624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.1, z: 0}
+  m_LocalPosition: {x: 0.36, y: 0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2749467006459795380}
@@ -8279,7 +8281,7 @@ PrefabInstance:
     - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
