@@ -338,8 +338,7 @@ public class Stats : MonoBehaviour
             }
         }
     }
-
-    // TODO - rifarlo, strutturato così non ha più senso per come calcoliamo ora la probabilità di schivata
+    
     public bool CalculateBeenHitChance(bool isBlocking)
     {
         switch (type)

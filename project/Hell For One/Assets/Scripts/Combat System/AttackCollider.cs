@@ -332,7 +332,7 @@ public class AttackCollider : MonoBehaviour
             }
 
             // if target is blocking but is not looking towards the boss
-            if (CheckAngle(other.gameObject.transform.root))
+            if (!isGlobalAttacking && CheckAngle(other.gameObject.transform.root))
             {
                 // calculate been hit chance without counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(false))
@@ -350,7 +350,7 @@ public class AttackCollider : MonoBehaviour
                 }
             }
             // if target is blocking and is looking towards the boss
-            else
+            else if(!isGlobalAttacking)
             {
                 // calculate been hit chance counting block bonus
                 if (targetRootStats.CalculateBeenHitChance(true))
@@ -367,8 +367,22 @@ public class AttackCollider : MonoBehaviour
                     return;
                 }
             }
+
+            // TODO - fix. for the moment, any angle will do for the global attack
+            if(targetRootStats.CalculateBeenHitChance(true)) {
+                ManageHit(targetRootStats);
+
+                ManageKnockBack(targetRootStats);
+
+                return;
+            }
+            else {
+                ManageBlock(targetRootStats);
+
+                return;
+            }
         }
-        if (!targetRootStats.IsBlocking)
+        else if (!targetRootStats.IsBlocking)
         {
             // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
