@@ -345,9 +345,12 @@ public class Stats : MonoBehaviour
         switch (type)
         {
             case Stats.Type.Ally:
+                // Support buff removed, we don't need this part anymore
+                
                 // Calculate supporting units number
-                int supportingUnits = 0;
+                //int supportingUnits = 0;
 
+                /*                
                 if (Groups != null)
                 {
                     foreach (GameObject group in Groups)
@@ -358,21 +361,18 @@ public class Stats : MonoBehaviour
                             Debug.Log(this.gameObject.name + " a group in Stats.groups is null");
                     }
                 }
+                */
 
                 if (isBlocking)
                 {
-                    return Random.Range(0f, 100f) <= (100 - blockingBlockChance)
-                        //* Mathf.Pow(supportingUnitsMultiplier, supportingUnits))
-                        ;
+                    return Random.Range(0f, 100f) <= (100 - blockingBlockChance);
                 }
                 else
                 {
                     if(gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>().currentState == GroupBehaviour.State.Support)
                         return Random.Range(0f, 100f) <= (100 - supportingBlockChance);
                     else
-                        return Random.Range(0f, 100f) <= (100 - attackingBlockChance)
-                        //* Mathf.Pow(supportingUnitsMultiplier, supportingUnits)
-                        ;
+                        return Random.Range(0f, 100f) <= (100 - attackingBlockChance);
                 }
             case Type.Player:
                 if (isBlocking)
@@ -382,7 +382,7 @@ public class Stats : MonoBehaviour
                 }
                 else
                 {
-                    // When Playes is not blocking will allways take damage
+                    // When Player is not blocking will allways take damage
                     return true;
                 }
             case Type.Enemy:
