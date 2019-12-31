@@ -259,11 +259,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e813ee6e7707e4db5b88f4199f06aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScreen: {fileID: 0}
   fpsCounterInMenu: 0
   dpadPressedInMenu: 0
   dpadWaitTime: 0.2
   controller: {fileID: 0}
   canGiveInput: 0
+  rootScreen: {fileID: 5287414173872976878}
 --- !u!1001 &730485655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -731,9 +733,10 @@ GameObject:
   - component: {fileID: 379053996741953260}
   - component: {fileID: 379053996741953263}
   - component: {fileID: 700597299}
+  - component: {fileID: 379053996741953264}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: MenuCanvas
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -755,6 +758,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &379053996741953264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379053996741953262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920693885b48d064cb10977e74894107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &379053996975893884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,3 +1012,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d230e1a1d2e2354b85709e297942658, type: 3}
+--- !u!1 &5287414173872976878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6058375219121121885, guid: 8d230e1a1d2e2354b85709e297942658,
+    type: 3}
+  m_PrefabInstance: {fileID: 5287414173872976877}
+  m_PrefabAsset: {fileID: 0}

@@ -26,10 +26,16 @@ public abstract class Menu : MonoBehaviour {
     }
 
     private void Awake() {
-        if(GameObject.FindGameObjectWithTag("Player"))
-            input = GameObject.FindGameObjectWithTag("Player").GetComponent<GeneralInput>();
-        else
-            input = GameObject.FindGameObjectWithTag("MenuCanvas").GetComponent<GeneralInput>();
+        // if player input is active
+        // TODO - fare questo if più sensato
+        //if(GameObject.FindGameObjectWithTag("Player")) {
+        //    if(GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().enabled == true)
+        //        Input = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+        //    else
+        //        Input = GameObject.FindGameObjectWithTag("Canvas").GetComponent<MenuInput>();
+        //}
+        //else
+            Input = GameObject.FindGameObjectWithTag("Canvas").GetComponent<MenuInput>();
         elements[0].GetComponent<Selectable>().image.color = elements[0].GetComponent<Selectable>().colors.highlightedColor;
         FPSLimiter = gameObject.GetComponent<FPSLimiter>();
         if(!ParentScreen)
@@ -64,10 +70,10 @@ public abstract class Menu : MonoBehaviour {
             button.GetComponent<Selectable>().image.color = elements[elementIndex].GetComponent<Selectable>().colors.normalColor;
         }
         elementIndex = 0;
-        input.CurrentScreen = nextMenu.GetComponent<Menu>();
-        gameObject.SetActive(false);
+        Input.CurrentScreen = nextMenu.GetComponent<Menu>();
         nextMenu.SetActive(true);
         nextMenu.GetComponent<Menu>().ParentScreen = gameObject;
         nextMenu.GetComponent<Menu>().elements[0].GetComponent<Selectable>().image.color = nextMenu.GetComponent<Menu>().elements[0].GetComponent<Selectable>().colors.highlightedColor;
+        gameObject.SetActive(false);
     }
 }

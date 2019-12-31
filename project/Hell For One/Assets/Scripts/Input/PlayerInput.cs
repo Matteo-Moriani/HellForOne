@@ -8,8 +8,8 @@ public class PlayerInput : GeneralInput
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
-    private bool gameInPause = false;
-    public bool GameInPause { get => gameInPause; set => gameInPause = value; }
+    //private bool gameInPause = false;
+    //public bool GameInPause { get => gameInPause; set => gameInPause = value; }
     private bool playing = true;
     public bool Playing { get => playing; set => playing = value; }
     private bool navigatingMenu = false;
@@ -397,16 +397,16 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    if ( GameInPause && NavigatingMenu )
-                    {
-                        CurrentScreen.GetComponent<PauseScreen>().Resume();
-                    }
-                    else
-                    {
+                    //if ( GameInPause && NavigatingMenu )
+                    //{
+                    //    CurrentScreen.GetComponent<PauseScreen>().Resume();
+                    //}
+                    //else
+                    //{
                         CurrentScreen.gameObject.SetActive( true );
-                        NavigatingMenu = true;
+                        //NavigatingMenu = true;
                         CurrentScreen.GetComponent<PauseScreen>().Pause();
-                    }
+                    //}
                 }
             }
         }

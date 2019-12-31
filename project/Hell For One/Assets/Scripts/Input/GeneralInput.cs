@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class GeneralInput : MonoBehaviour
 {
+    [SerializeField]
     private Menu currentScreen;
     public Menu CurrentScreen { get => currentScreen; set => currentScreen = value; }
     public int fpsCounterInMenu = 0;

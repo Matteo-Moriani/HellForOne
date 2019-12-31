@@ -36,16 +36,20 @@ public class PauseScreen : Menu
     public void Pause()
     {
         Time.timeScale = 0f;
-        Input.gameObject.GetComponent<PlayerInput>().GameInPause = true;
+        //Input.gameObject.GetComponent<PlayerInput>().GameInPause = true;
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<FPSLimiter>().IsPaused = true;
+        GameObject.FindGameObjectWithTag("Canvas").GetComponent<MenuInput>().enabled = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().enabled = false;
     }
     
     public void Resume()
     {
         Time.timeScale = 1f;
-        Input.gameObject.GetComponent<PlayerInput>().GameInPause = false;
-        Input.gameObject.GetComponent<PlayerInput>().NavigatingMenu = false;
+        //Input.gameObject.GetComponent<PlayerInput>().GameInPause = false;
+        //Input.gameObject.GetComponent<PlayerInput>().NavigatingMenu = false;
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<FPSLimiter>().IsPaused = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>().enabled = true;
+        GameObject.FindGameObjectWithTag("Canvas").GetComponent<MenuInput>().enabled = false;
         gameObject.SetActive(false);
     }
 

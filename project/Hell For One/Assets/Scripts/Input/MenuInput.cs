@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MenuInput : GeneralInput {
 
+    public GameObject rootScreen;
+
     private IEnumerator DpadWait(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         DpadInUse = false;
@@ -12,7 +14,7 @@ public class MenuInput : GeneralInput {
     private void Awake() {
         controller = gameObject.GetComponent<Controller>();
         canGiveInput = true;
-        CurrentScreen = GameObject.FindGameObjectWithTag("RootScreen").GetComponent<Menu>();
+        CurrentScreen = rootScreen.GetComponent<Menu>();
     }
 
     private void Update() {
@@ -27,19 +29,16 @@ public class MenuInput : GeneralInput {
             }
 
             // TODO - andare su e giu anche con le levette?
-
-            // Left stick (PS3 & XBOX)
-            //if(controller != null) {
-            //    controller.PassXZValues(InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical());
-            //}
-
-
-
-            // tutti metodi abstract con il nome del tasto da premere
+            
 
             // Circle (PS3) / B (XBOX) 
             if(InputManager.Instance.CircleButtonDown()) {
                 CurrentScreen.Back();
+            }
+
+            // Start (PS3) / Options (PS4)
+            if(InputManager.Instance.PauseButtonDown() && CurrentScreen.GetComponent<PauseScreen>()) {
+                CurrentScreen.GetComponent<PauseScreen>().Resume();
             }
 
             // Cross (PS3) / A (XBOX)
