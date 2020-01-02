@@ -148,14 +148,16 @@ public class AttackCollider : MonoBehaviour
             // We update Group aggro only for Ally Imps
             if (stats.type == Stats.Type.Ally)
             {
-                if(type != AttackColliderType.Ranged && demonBehaviour == null) {
+                if (type != AttackColliderType.Ranged && demonBehaviour == null)
+                {
                     demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();
                 }
 
                 // We need to update demonBehaviour every ranged attack because
                 // lances are pooled, so owner can change every time
-                if(type == AttackColliderType.Ranged) { 
-                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();    
+                if (type == AttackColliderType.Ranged)
+                {
+                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();
                 }
 
                 if (demonBehaviour != null)
@@ -172,6 +174,11 @@ public class AttackCollider : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks the angle between the attacker front direction and the target front direction
+    /// </summary>
+    /// <param name="other">The target transform</param>
+    /// <returns></returns>
     private bool CheckAngle(Transform other)
     {
         return Vector3.Angle(this.transform.root.transform.forward, other.forward) < 91;
@@ -215,11 +222,12 @@ public class AttackCollider : MonoBehaviour
             //Debug.Log("No KnockBack, probably the target is blocking");
         }
     }
-    
+
     // TODO - Register this stuff as event?
-    private void ManageHit(Stats targetRootStats) { 
+    private void ManageHit(Stats targetRootStats)
+    {
         DealDamage(targetRootStats);
-        
+
         combatEventsManager.RaiseOnSuccessfulHit();
 
         targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBeenHit(stats);
@@ -233,9 +241,10 @@ public class AttackCollider : MonoBehaviour
     private void ManageMiss() { }
 
     // TODO - Implement this
-    private void ManageBlock(Stats targetRootStats) {
+    private void ManageBlock(Stats targetRootStats)
+    {
         //combatEventsManager.RaiseOnBlockedHit();
-        
+
         targetRootStats.gameObject.GetComponent<CombatEventsManager>().RaiseOnBlockedHit();
 
         ManageAggro();
@@ -280,7 +289,8 @@ public class AttackCollider : MonoBehaviour
 
                     return;
                 }
-                else {
+                else
+                {
                     ManageBlock(targetRootStats);
 
                     return;
@@ -294,7 +304,8 @@ public class AttackCollider : MonoBehaviour
 
                     return;
                 }
-                else {
+                else
+                {
                     ManageBlock(targetRootStats);
 
                     return;
@@ -309,7 +320,8 @@ public class AttackCollider : MonoBehaviour
 
                 return;
             }
-            else {
+            else
+            {
                 ManageBlock(targetRootStats);
 
                 return;
@@ -325,64 +337,88 @@ public class AttackCollider : MonoBehaviour
             if (isGroupAttacking && targetRootStats.type == Stats.Type.Player)
             {
                 ManageHit(targetRootStats);
+
+                ManageKnockBack(targetRootStats);
+
+                return;
+            }
+
+            // We will take care of global attack in another way
+            if (!isGlobalAttacking)
+            {
+                // if target is blocking but is not looking towards the boss
+                if (CheckAngle(other.gameObject.transform.root))
+                {
+                    // calculate been hit chance without counting block bonus
+                    if (targetRootStats.CalculateBeenHitChance(false))
+                    {
+                        ManageHit(targetRootStats);
+
+                        ManageKnockBack(targetRootStats);
+
+                        return;
+                    }
+                    else
+                    {
+                        ManageBlock(targetRootStats);
+
+                        return;
+                    }
+                }
+                // if target is blocking and is looking towards the boss
+                else
+                {
+                    // calculate been hit chance counting block bonus
+                    if (targetRootStats.CalculateBeenHitChance(true))
+                    {
+                        ManageHit(targetRootStats);
+
+                        ManageKnockBack(targetRootStats);
+
+                        return;
+                    }
+                    else
+                    {
+                        ManageBlock(targetRootStats);
+
+                        return;
+                    }
+                }
+            }
+            if (isGlobalAttacking) {
+                // this is like CheckAngle, but now we are checking
+                // the angle between the target view direction and the attacker position
                 
-                ManageKnockBack(targetRootStats);
+                // If the target is blocking but is not looking towards the boss...
+                if(!(Vector3.Angle(other.gameObject.transform.root.forward, this.transform.root.position - other.gameObject.transform.root.position) < 45)) {
+                    if(targetRootStats.CalculateBeenHitChance(false)){
+                        ManageHit(targetRootStats);
 
-                return;
-            }
+                        ManageKnockBack(targetRootStats);
 
-            // if target is blocking but is not looking towards the boss
-            if (!isGlobalAttacking && CheckAngle(other.gameObject.transform.root))
-            {
-                // calculate been hit chance without counting block bonus
-                if (targetRootStats.CalculateBeenHitChance(false))
-                {
-                    ManageHit(targetRootStats);
-
-                    ManageKnockBack(targetRootStats);
-
-                    return;
+                        return;
+                    }
+                    else { 
+                        ManageBlock(targetRootStats);    
+                    }
                 }
                 else {
-                    ManageBlock(targetRootStats);
+                    if (targetRootStats.CalculateBeenHitChance(true)) { 
+                        ManageHit(targetRootStats);
 
-                    return;
+                        ManageKnockBack(targetRootStats);
+
+                        return;
+                    }
+                    else {
+                        ManageBlock(targetRootStats);
+
+                        return;
+                    }
                 }
-            }
-            // if target is blocking and is looking towards the boss
-            else if(!isGlobalAttacking)
-            {
-                // calculate been hit chance counting block bonus
-                if (targetRootStats.CalculateBeenHitChance(true))
-                {
-                    ManageHit(targetRootStats);
-
-                    ManageKnockBack(targetRootStats);
-
-                    return;
-                }
-                else {
-                    ManageBlock(targetRootStats);
-
-                    return;
-                }
-            }
-
-            // TODO - fix. for the moment, any angle will do for the global attack
-            if(targetRootStats.CalculateBeenHitChance(true)) {
-                ManageHit(targetRootStats);
-
-                ManageKnockBack(targetRootStats);
-
-                return;
-            }
-            else {
-                ManageBlock(targetRootStats);
-
-                return;
             }
         }
-        else if (!targetRootStats.IsBlocking)
+        if (!targetRootStats.IsBlocking)
         {
             // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
@@ -393,8 +429,9 @@ public class AttackCollider : MonoBehaviour
 
                 return;
             }
-            else {
-               ManageBlock(targetRootStats);
+            else
+            {
+                ManageBlock(targetRootStats);
 
                 return;
             }
