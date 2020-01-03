@@ -50,7 +50,8 @@ public class Hat : MonoBehaviour
             onGround = false;
             collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
             //collision.gameObject.transform.root.Find("Crown").gameObject.SetActive(true);
-            collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
+            //collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
+            collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
             Destroy( gameObject );
         }
     }

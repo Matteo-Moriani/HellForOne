@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public class BossBehavior : AbstractBoss
 {
+    // sum between single and group must be 1
     public float singleAttackProb = 0.6f;
-    public float groupAttackProb = 0.3f;
-    public float globalAttackProb = 0.1f;
+    public float groupAttackProb = 0.4f;
+    public int attacksBeforeGlobal = 5;
+    public int targetsBeforePlayer = 4;
+    // this attack will be available only after 5 normal attacks (single or group)
+    public float globalAttackProb = 0.4f;
 
     public float speed = 8f;
     [Range(0f, 1f)]
@@ -23,6 +27,8 @@ public class BossBehavior : AbstractBoss
     private float singleAttackDuration;
     private float groupAttackDuration;
     private float globalAttackDuration;
+    private int normalAttacksCount = 0;
+    private int targetsCount = 0;
 
     public override void InitializeValues() {
         Speed = speed;
@@ -33,6 +39,11 @@ public class BossBehavior : AbstractBoss
         ChangeTargetProb = changeTargetProb;
         MaxDistFromCenter = maxDistFromCenter;
         MaxTargetDistFromCenter = maxTargetDistFromCenter;
+
+        // this is the true probability value
+        float originalGlobalProb = globalAttackProb;
+        globalAttackProb = ((singleAttackProb + groupAttackProb + globalAttackProb) * globalAttackProb) / (singleAttackProb + groupAttackProb);
+        Debug.Log("boss global attack probability will be " + globalAttackProb + "/" + (singleAttackProb + groupAttackProb + originalGlobalProb) + " when available");
     }
 
     void Start() {
@@ -105,49 +116,55 @@ public class BossBehavior : AbstractBoss
         
         if ( Random.Range( 0f, 1f ) < ChangeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)
         {
-            GameObject previousTarget = TargetDemon;
-            float totalAggro = 0f;
-
-            for ( int i = 0; i < DemonGroups.Length; i++ )
-            {
-                float groupAggro = 0f;
-                // if the group is empty, I give to the group a temporary value of zero
-                if ( !DemonGroups[ i ].GetComponent<GroupBehaviour>().IsEmpty() )
-                    groupAggro = DemonGroups[ i ].GetComponent<GroupAggro>().GetAggro();
-                AggroValues[ i ] = groupAggro;
-                totalAggro = totalAggro + groupAggro;
-                Probability[ i + 1 ] = totalAggro;
+            // I always target the player after x non-player targets
+            if(targetsCount >= targetsBeforePlayer) {
+                HUD.DeactivateAggroIcon();
+                TargetDemon = Player;
+                targetsCount = 0;
             }
+            else {
+                GameObject previousTarget = TargetDemon;
+                float totalAggro = 0f;
 
-            AggroValues[ DemonGroups.Length ] = Player.GetComponent<Stats>().Aggro;
-            totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
-            Probability[ DemonGroups.Length + 1 ] = totalAggro;
-
-            float random = Random.Range( 0f, totalAggro );
-
-            // if I was pursuing the player, I won't choose him again
-            if ( PursueTimeout)
-                random = Random.Range(0f, totalAggro - Player.GetComponent<Stats>().Aggro);
-
-            for ( int i = 1; i < Probability.Length; i++ )
-            {
-                if ( random > Probability[ i - 1 ] && random <= Probability[ i ] )
-                {
-                    // if i'm talking about a group (player probability is in the last slot of the array)
-                    if ( i < Probability.Length - 1 )
-                    {
-                        TargetGroup = DemonGroups[ i - 1 ];
-                        SwitchAggroIcon(i-1);
-                        TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
-                    }
-                    else {
-                        HUD.DeactivateAggroIcon();
-                        TargetDemon = Player;
-                    }
-
-                    break;
+                for(int i = 0; i < DemonGroups.Length; i++) {
+                    float groupAggro = 0f;
+                    // if the group is empty, I give to the group a temporary value of zero
+                    if(!DemonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
+                        groupAggro = DemonGroups[i].GetComponent<GroupAggro>().GetAggro();
+                    AggroValues[i] = groupAggro;
+                    totalAggro = totalAggro + groupAggro;
+                    Probability[i + 1] = totalAggro;
                 }
 
+                AggroValues[DemonGroups.Length] = Player.GetComponent<Stats>().Aggro;
+                totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
+                Probability[DemonGroups.Length + 1] = totalAggro;
+
+                float random = Random.Range(0f, totalAggro);
+
+                // if I was pursuing the player, I won't choose him again
+                if(PursueTimeout)
+                    random = Random.Range(0f, totalAggro - Player.GetComponent<Stats>().Aggro);
+
+                for(int i = 1; i < Probability.Length; i++) {
+                    if(random > Probability[i - 1] && random <= Probability[i]) {
+                        // if i'm talking about a group (player probability is in the last slot of the array)
+                        if(i < Probability.Length - 1) {
+                            TargetGroup = DemonGroups[i - 1];
+                            SwitchAggroIcon(i - 1);
+                            TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+                            targetsCount++;
+                        }
+                        else {
+                            HUD.DeactivateAggroIcon();
+                            TargetDemon = Player;
+                            targetsCount = 0;
+                        }
+
+                        break;
+                    }
+
+                }
             }
 
             // if the chosen demon is too far from arena center I choose one from the most centered group
@@ -172,19 +189,27 @@ public class BossBehavior : AbstractBoss
         if(!IsAttacking) {
 
             IsAttacking = true;
+            float random = 0f;
 
-            float random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
+            if(normalAttacksCount < attacksBeforeGlobal)
+                random = Random.Range(0f, singleAttackProb + groupAttackProb);
+            else
+                random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
+
             if(random < singleAttackProb) {
                 Timer1 = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
                 SingleAttack();
+                normalAttacksCount++;
             } 
             else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb) {
                 Timer1 = StartCoroutine(Timer(groupAttackDuration, TimerType.attack));
                 GroupAttack();
+                normalAttacksCount++;
             }
             else {
                 Timer1 = StartCoroutine(Timer(globalAttackDuration, TimerType.attack));
                 GlobalAttack();
+                normalAttacksCount = 0;
             }
 
         }

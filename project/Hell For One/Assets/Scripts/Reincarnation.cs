@@ -41,11 +41,11 @@ public class Reincarnation : MonoBehaviour
             }
 
             // Disable Tactics Manager
-            TacticsManager tacticsManager = player.GetComponent<TacticsManager>();
-            if (tacticsManager != null)
-            {
-                tacticsManager.enabled = false;
-            }
+            //TacticsManager tacticsManager = player.GetComponent<TacticsManager>();
+            //if (tacticsManager != null)
+            //{
+            //    tacticsManager.enabled = false;
+            //}
 
             // Disable Dash
             Dash dash = player.GetComponent<Dash>();
@@ -123,6 +123,7 @@ public class Reincarnation : MonoBehaviour
         {
             player.tag = "Player";
             player.layer = LayerMask.NameToLayer( "Player" );
+            player.GetComponent<Stats>().health = 4f;
 
             DemonBehaviour demonBehaviour = player.GetComponent<DemonBehaviour>();
             if(demonBehaviour != null) {

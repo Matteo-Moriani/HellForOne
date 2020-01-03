@@ -320,7 +320,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopRangedAttack is trying to stop a ranged attack but it is idle" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StopRangedAttack is trying to stop a ranged attack but it is idle" );
         }
     }
 

@@ -108,7 +108,7 @@ public class AttackCollider : MonoBehaviour
         }
         else
         {
-            Debug.Log(this.transform.root.gameObject.name + " is trying to hit a target without stats. target is: " + other.transform.root.gameObject.name);
+            //Debug.Log(transform.root.gameObject.name + " is trying to hit a target without stats. target is: " + other.transform.root.gameObject.name);
         }
     }
 
