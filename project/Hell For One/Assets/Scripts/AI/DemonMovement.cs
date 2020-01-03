@@ -91,10 +91,13 @@ public class DemonMovement : MonoBehaviour
                     if ( distanceInPosition < (transform.position - target.transform.position).magnitude )
                         inPosition = false;
 
-                    if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
-                    {
+                    if(gb.currentState == GroupBehaviour.State.MeleeAttack) {
                         distanceInPosition = 0f;
                         CloseRangeMovement();
+                    }
+                    else if(gb.currentState == GroupBehaviour.State.Tank) {
+                        Face(target);
+                        agent.destination = transform.position;
                     }
                     else
                         HighRangeMovement();

@@ -885,7 +885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 1400
+  health: 1000
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
@@ -970,15 +970,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac33205fecbbb4d40bff4dff8ee43eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleAttackProb: 0.5
-  groupAttackProb: 0.5
+  singleAttackProb: 0
+  groupAttackProb: 1
   speed: 5
   rotSpeed: 0.1
   stopDist: 2.2
-  stareTime: 4
-  pursueTime: 5
-  changeTargetProb: 0.1
-  maxDistFromCenter: 10
+  stareTime: 2
+  pursueTime: 4
+  changeTargetProb: 0.3
+  maxDistFromCenter: 9.5
   maxTargetDistFromCenter: 11
 --- !u!114 &8122182276196674175
 MonoBehaviour:
