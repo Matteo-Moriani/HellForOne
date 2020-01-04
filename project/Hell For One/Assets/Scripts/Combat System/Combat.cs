@@ -23,9 +23,8 @@ public class Combat : MonoBehaviour
     public GameObject target;
 
     private GameObject rangeTarget;
-
-    [SerializeField]
-    private float playerAttackCooldown = 0.5f;
+    
+    public float playerAttackCooldown = 0.65f;
 
     private float coolDownCounter = 0.0f;
 
@@ -73,7 +72,7 @@ public class Combat : MonoBehaviour
             
             // Melee attack event
             if(combatEventsManager != null) { 
-                combatEventsManager.RaiseOnStartAttack();    
+                combatEventsManager.RaiseOnStartSingleAttack();    
             }
         }
     }
@@ -91,7 +90,7 @@ public class Combat : MonoBehaviour
         // Melee attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStartAttack();
+            combatEventsManager.RaiseOnStartSingleAttack();
         }
     }
 
@@ -101,12 +100,12 @@ public class Combat : MonoBehaviour
     /// </summary>
     public void StopAttack()
     {
-        combatManager.StopAttack();
+        combatManager.StopSingleAttack();
 
         // Stop melee attack event
         if (combatEventsManager != null)
         {
-            combatEventsManager.RaiseOnStopAttack();
+            combatEventsManager.RaiseOnStopSingleAttack();
         }
     }
 

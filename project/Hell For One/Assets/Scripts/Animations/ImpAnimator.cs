@@ -16,8 +16,8 @@ public class ImpAnimator : MonoBehaviour
     private bool isAnimating = false;
     public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
 
-    private float meleeSpeedMultiplier = 2f;
-    private float rangedSpeedMultiplier = 3f;
+    private float meleeSpeedMultiplier = 2.5f;
+    private float rangedSpeedMultiplier = 2.8f;
     private float dashSpeedMultiplier = 2f;
 
     private CombatEventsManager combatEventsManager;
@@ -35,6 +35,7 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartDash += PlayDashAnimation;
             BattleEventsManager.onBattleExit += PlayIdleAnimation;
             BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
+            combatEventsManager.onReincarnation += StopBlockAnimation;
         }
     }
 
@@ -51,6 +52,7 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartDash -= PlayDashAnimation;
             BattleEventsManager.onBattleExit -= PlayIdleAnimation;
             BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
+            combatEventsManager.onReincarnation -= StopBlockAnimation;
         }
     }
 
@@ -67,7 +69,6 @@ public class ImpAnimator : MonoBehaviour
         StopAnimations();
         animator.SetBool("isMeleeAttacking", true);
         StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / meleeSpeedMultiplier));
-        //StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / animator.GetCurrentAnimatorStateInfo(0).speed));
     }
 
     public void PlayRangedAttackAnimation() {

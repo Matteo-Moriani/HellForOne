@@ -16,7 +16,9 @@ public class PlayerInput : GeneralInput
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
     public bool InCutscene { get => inCutscene; set => inCutscene = value; }
     public bool HasHat { get => hasHat; set => hasHat = value; }
+    public bool Attacking { get => attacking; set => attacking = value; }
 
+    private bool attacking = false;
     private bool hasHat = true;
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
@@ -66,6 +68,10 @@ public class PlayerInput : GeneralInput
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
         combatEventsManager.onReincarnation += DisableOrders;
+        combatEventsManager.onStartSingleAttack += DisableLeftStick;
+        combatEventsManager.onStartRangedAttack += DisableLeftStick;
+        combatEventsManager.onStopSingleAttack += EnableLeftStick;
+        combatEventsManager.onStopRangedAttack += EnableLeftStick;
     }
 
     private void OnDisable()
@@ -78,6 +84,10 @@ public class PlayerInput : GeneralInput
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
         combatEventsManager.onReincarnation -= DisableOrders;
+        combatEventsManager.onStartSingleAttack -= DisableLeftStick;
+        combatEventsManager.onStartRangedAttack -= DisableLeftStick;
+        combatEventsManager.onStopSingleAttack -= EnableLeftStick;
+        combatEventsManager.onStopRangedAttack -= EnableLeftStick;
     }
 
     public void Start()
@@ -110,7 +120,7 @@ public class PlayerInput : GeneralInput
             }
 
             // Left stick (PS3 & XBOX)
-            if ( controller != null )
+            if ( controller != null && !Attacking)
             {
                 controller.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
             }
@@ -151,6 +161,13 @@ public class PlayerInput : GeneralInput
                 }
             }
 
+            // Triangle (PS3) / Y (XBOX)
+            if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
+                if(combat != null) {
+                    combat.RangedAttack(null);
+                }
+            }
+
             // L1 (PS3) / LB (XBOX) - Down
             if ( InputManager.Instance.L1ButtonDown() && !NavigatingMenu )
             {
@@ -184,15 +201,6 @@ public class PlayerInput : GeneralInput
                 if ( combat != null )
                 {
                     combat.StopBlock();
-                }
-            }
-
-            // Triangle (PS3) / Y (XBOX)
-            if ( InputManager.Instance.TriangleButtonDown() && !NavigatingMenu )
-            {
-                if ( combat != null )
-                {
-                    combat.RangedAttack( null );
                 }
             }
 
@@ -421,5 +429,15 @@ public class PlayerInput : GeneralInput
 
     public void DisableOrders() {
         HasHat = false;
+    }
+
+    public void DisableLeftStick() {
+        controller.XMovement = 0f;
+        controller.ZMovement = 0f;
+        Attacking = true;
+    }
+
+    public void EnableLeftStick() {
+        Attacking = false;
     }
 }
