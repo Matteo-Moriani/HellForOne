@@ -25,6 +25,7 @@ public class PlayerInput : GeneralInput
     private float dpadUpOld, dpadDownOld, dpadLeftOld, dpadRightOld = 0f;
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
     public float heldTime = 1f;
+    private NewHUD newHUD;
 
 
     private IEnumerator DpadWait( float waitTime )
@@ -88,6 +89,7 @@ public class PlayerInput : GeneralInput
         combat = GetComponent<Combat>();
         tacticsManager = GetComponent<TacticsManager>();
         CurrentScreen = pauseScreen.GetComponent<Menu>();
+        newHUD = GameObject.Find( "HUD" ).GetComponent<NewHUD>();
     }
 
     private void Update()
@@ -227,6 +229,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
+                            newHUD.ChangeGroupState( 0 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -268,6 +271,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
+                            newHUD.ChangeGroupState( 2 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -302,6 +306,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
+                        newHUD.ChangeGroupState( 1 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
@@ -334,6 +339,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
+                        newHUD.ChangeGroupState( 3 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
