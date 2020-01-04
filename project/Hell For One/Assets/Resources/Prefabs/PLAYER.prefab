@@ -7199,6 +7199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc20aac34edba347aa6c3f8b9f7d680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zMovement: 0
+  xMovement: 0
   rotateSpeed: 5
   movingSpeed: 4
 --- !u!114 &7638452466901446984
@@ -7294,9 +7296,9 @@ MonoBehaviour:
   groupAttackSize: 2
   globalAttackSize: 10
   globalAttackDuration: 1
-  blockChance: 50
-  shieldBonusProbability: 0
-  supportingUnitsMultiplier: 0.95
+  attackingBlockChance: 60
+  supportingBlockChance: 30
+  blockingBlockChance: 90
   knockBackChance: 0
   knockBackSize: 0
   knockBackTime: 5
@@ -7323,7 +7325,6 @@ MonoBehaviour:
   maxDistance: 30
   spearPosition: {fileID: 3071807851533249079}
   direct: 1
-  lances: {fileID: 0}
 --- !u!114 &7276194132139477302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7338,10 +7339,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingSpeed: 0.1
   extraCohesion: 1.75
-  repulsionWithGroup: 1
+  minGroupRepulsion: 0.9
+  maxGroupRepulsion: 1.5
+  maxRangeDist: 8
+  faceAllowedDegreeError: 10
+  faceActualDegreeError: 0
   target: {fileID: 0}
-  targetCollider: {fileID: 0}
-  agentDestination: {x: 0, y: 0, z: 0}
 --- !u!195 &1424214847073820442
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7432,7 +7435,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac73b80e6b4a3874297a9542a3b9f9b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScreen: {fileID: 0}
   fpsCounterInMenu: 0
+  dpadPressedInMenu: 0
+  dpadWaitTime: 0.2
+  controller: {fileID: 0}
+  canGiveInput: 0
+  heldTime: 1
 --- !u!95 &5737094836510553990
 Animator:
   serializedVersion: 3
@@ -7882,6 +7891,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: lancer
+      value: 
+      objectReference: {fileID: 4925837659583896364}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 4770885643943008940}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: rangedAttackDelayInSeconds
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7937,6 +7961,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -7962,25 +7991,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.423
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
-      propertyPath: lancer
-      value: 
-      objectReference: {fileID: 4925837659583896364}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: stats
-      value: 
-      objectReference: {fileID: 4770885643943008940}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: rangedAttackDelayInSeconds
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -7992,11 +8006,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
-    - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
 --- !u!4 &905600748503746706 stripped
@@ -8208,7 +8217,7 @@ PrefabInstance:
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
@@ -8218,7 +8227,7 @@ PrefabInstance:
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.29
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
@@ -8275,11 +8284,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2372447061007186255}
     m_Modifications:
-    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpShield
-      objectReference: {fileID: 0}
     - target: {fileID: 3449900416110481934, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8334,6 +8338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -270
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6af6d7f9967f2d42be1d2e0027e7aef, type: 3}
