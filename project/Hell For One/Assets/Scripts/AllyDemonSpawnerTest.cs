@@ -6,8 +6,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 {
     public float timer = 30f;
     private float countdown;
-    private float impMaxNumber = 16;
-    public float ImpMaxNumber { get => impMaxNumber; set => impMaxNumber = value; }
+    private int impMaxNumber = 16;
+    public int ImpMaxNumber { get => impMaxNumber; set => impMaxNumber = value; }
     private bool needForRegen = true;
     private Coroutine spawnAllyCR;
     public Coroutine SpawnAllyCR { get => spawnAllyCR; set => spawnAllyCR = value; }
@@ -18,6 +18,9 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     [SerializeField]
     private GameObject impPrefab;
+
+    [SerializeField]
+    private int impRewardAfterBossBattle = 4;
 
     private GameObject arenaCenter;
 
@@ -130,9 +133,25 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     }
 
     private void OnBossBattleExit() { 
+        // After the boss battle we stop spawn allies
         if(spawnAllyCR != null) { 
             StopCoroutine(spawnAllyCR);
             spawnAllyCR = null;
-        }    
+        }
+
+        // And we spawn 3-4 allied Imps as reward
+        int impNumber = AlliesManager.Instance.AlliesList.Count;
+
+        int impMissing = ImpMaxNumber - impNumber;
+
+        if(impMissing >= impRewardAfterBossBattle) { 
+            int counter = impRewardAfterBossBattle;
+            
+            while(counter > 0) { 
+                AlliesManager.Instance.SpawnAlly(impPrefab,SpawnPosition());
+                
+                counter--;
+            }
+        }
     }
 }
