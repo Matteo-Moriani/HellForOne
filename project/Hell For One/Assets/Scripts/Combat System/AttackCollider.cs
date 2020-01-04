@@ -332,7 +332,8 @@ public class AttackCollider : MonoBehaviour
     private void ManageBossCollisions(Stats targetRootStats, Collider other)
     {
         if (targetRootStats.IsBlocking)
-        {
+        {   
+            /*
             // Player cannot block sweeping (heavy attack)
             if (isGroupAttacking && targetRootStats.type == Stats.Type.Player)
             {
@@ -342,6 +343,7 @@ public class AttackCollider : MonoBehaviour
 
                 return;
             }
+            */
 
             // We will take care of global attack in another way
             if (!isGlobalAttacking)
