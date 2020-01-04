@@ -58,11 +58,11 @@ public class CombatManager : MonoBehaviour
         // -TODO- add if null coditions.
         // and if true init GO.
         if ( stats == null )
-            stats = this.transform.root.gameObject.GetComponent<Stats>();
+            stats = transform.root.gameObject.GetComponent<Stats>();
 
         if ( lancer == null )
         {
-            lancer = this.transform.root.gameObject.GetComponent<Lancer>();
+            lancer = transform.root.gameObject.GetComponent<Lancer>();
         }
 
         startPosition = attackCollider.transform.localPosition;
@@ -71,7 +71,7 @@ public class CombatManager : MonoBehaviour
         attackCollider.SetActive( false );
         idleCollider.SetActive( true );
 
-        combatEventsManager = this.transform.root.gameObject.GetComponent<CombatEventsManager>();
+        combatEventsManager = transform.root.gameObject.GetComponent<CombatEventsManager>();
     }
 
     public void ResetCombat()
@@ -250,7 +250,7 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void StopAttack()
+    public void StopSingleAttack()
     {
         if ( attackCR != null && !stats.CombatIdle )
         {
@@ -264,7 +264,7 @@ public class CombatManager : MonoBehaviour
         }
 
         if(combatEventsManager != null) { 
-            combatEventsManager.RaiseOnStopAttack();    
+            combatEventsManager.RaiseOnStopSingleAttack();    
         }
         //else
         //{
@@ -458,6 +458,8 @@ public class CombatManager : MonoBehaviour
         attackCollider.SetActive( false );
 
         stats.CombatIdle = true;
+
+        StopSingleAttack();
     }
 
     private IEnumerator RangedAttackCoroutine(GameObject target) {
@@ -473,7 +475,11 @@ public class CombatManager : MonoBehaviour
             Debug.Log(this.name + "Is trying a ranged attack to a null target");
 
         stats.CombatIdle = true;
-        rangedAttackCR = null;    
+        rangedAttackCR = null;
+
+        // TODO - doesn't work
+        //StopRangedAttack();
+        combatEventsManager.RaiseOnStopRangedAttack();
     }
 
     private IEnumerator GlobalAttackCoroutine()

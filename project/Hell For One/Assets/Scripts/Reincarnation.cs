@@ -129,7 +129,7 @@ public class Reincarnation : MonoBehaviour
             if(demonBehaviour != null) {
                 GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
 
-                // Remmoving the player from group
+                // Removing the player from group
                 if (groupBehaviour != null)
                 {
                     int playerIndex = System.Array.IndexOf(groupBehaviour.demons, player);
