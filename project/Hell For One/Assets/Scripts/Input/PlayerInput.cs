@@ -16,7 +16,9 @@ public class PlayerInput : GeneralInput
     public bool NavigatingMenu { get => navigatingMenu; set => navigatingMenu = value; }
     public bool InCutscene { get => inCutscene; set => inCutscene = value; }
     public bool HasHat { get => hasHat; set => hasHat = value; }
+    public bool Attacking { get => attacking; set => attacking = value; }
 
+    private bool attacking = false;
     private bool hasHat = true;
     private GameObject pauseScreen;
     private CombatEventsManager combatEventsManager;
@@ -25,6 +27,7 @@ public class PlayerInput : GeneralInput
     private float dpadUpOld, dpadDownOld, dpadLeftOld, dpadRightOld = 0f;
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
     public float heldTime = 1f;
+    private NewHUD newHUD;
 
 
     private IEnumerator DpadWait( float waitTime )
@@ -65,6 +68,10 @@ public class PlayerInput : GeneralInput
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
         combatEventsManager.onReincarnation += DisableOrders;
+        combatEventsManager.onStartSingleAttack += DisableLeftStick;
+        combatEventsManager.onStartRangedAttack += DisableLeftStick;
+        combatEventsManager.onStopSingleAttack += EnableLeftStick;
+        combatEventsManager.onStopRangedAttack += EnableLeftStick;
     }
 
     private void OnDisable()
@@ -77,6 +84,10 @@ public class PlayerInput : GeneralInput
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
         combatEventsManager.onReincarnation -= DisableOrders;
+        combatEventsManager.onStartSingleAttack -= DisableLeftStick;
+        combatEventsManager.onStartRangedAttack -= DisableLeftStick;
+        combatEventsManager.onStopSingleAttack -= EnableLeftStick;
+        combatEventsManager.onStopRangedAttack -= EnableLeftStick;
     }
 
     public void Start()
@@ -88,6 +99,7 @@ public class PlayerInput : GeneralInput
         combat = GetComponent<Combat>();
         tacticsManager = GetComponent<TacticsManager>();
         CurrentScreen = pauseScreen.GetComponent<Menu>();
+        newHUD = GameObject.Find( "HUD" ).GetComponent<NewHUD>();
     }
 
     private void Update()
@@ -108,7 +120,7 @@ public class PlayerInput : GeneralInput
             }
 
             // Left stick (PS3 & XBOX)
-            if ( controller != null )
+            if ( controller != null && !Attacking)
             {
                 controller.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
             }
@@ -149,6 +161,13 @@ public class PlayerInput : GeneralInput
                 }
             }
 
+            // Triangle (PS3) / Y (XBOX)
+            if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
+                if(combat != null) {
+                    combat.RangedAttack(null);
+                }
+            }
+
             // L1 (PS3) / LB (XBOX) - Down
             if ( InputManager.Instance.L1ButtonDown() && !NavigatingMenu )
             {
@@ -185,15 +204,6 @@ public class PlayerInput : GeneralInput
                 }
             }
 
-            // Triangle (PS3) / Y (XBOX)
-            if ( InputManager.Instance.TriangleButtonDown() && !NavigatingMenu )
-            {
-                if ( combat != null )
-                {
-                    combat.RangedAttack( null );
-                }
-            }
-
             // L2 (PS3) / LT (XBOX) - Down
             //if ( inputManager.L2Axis() )
             if ( InputManager.Instance.L2ButtonDown() && !NavigatingMenu)
@@ -227,6 +237,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
+                            newHUD.ChangeGroupState( 0 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -268,6 +279,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
+                            newHUD.ChangeGroupState( 2 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -302,6 +314,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
+                        newHUD.ChangeGroupState( 1 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
@@ -334,6 +347,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
+                        newHUD.ChangeGroupState( 3 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
@@ -415,5 +429,15 @@ public class PlayerInput : GeneralInput
 
     public void DisableOrders() {
         HasHat = false;
+    }
+
+    public void DisableLeftStick() {
+        controller.XMovement = 0f;
+        controller.ZMovement = 0f;
+        Attacking = true;
+    }
+
+    public void EnableLeftStick() {
+        Attacking = false;
     }
 }

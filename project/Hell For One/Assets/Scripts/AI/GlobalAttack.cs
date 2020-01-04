@@ -7,7 +7,9 @@ public class GlobalAttack : MonoBehaviour
     public float globalAttackDelay = 2.8f;
     private float circlesTimeGap = 0.4f;
     private float circleDuration = 0.5f;
-    private GameObject[,] flameCircleArray = new GameObject[ 3, 18 ];
+    private int circles = 6;
+    private int particlesPerCircle = 18;
+    private GameObject[,] flameCircleArray;
     private GameObject boss;
 
     private void Awake() {
@@ -19,9 +21,9 @@ public class GlobalAttack : MonoBehaviour
         boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StartFlamingAttack;
         //boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StopFlamingAttack;
 
-        for ( int i = 0; i < 3; i++ )
+        for ( int i = 0; i < circles; i++ )
         {
-            for ( int j = 0; j < 18; j++ )
+            for ( int j = 0; j < particlesPerCircle; j++ )
             {
                 flameCircleArray[ i, j ] = transform.GetChild( i ).gameObject.transform.GetChild( j ).gameObject;
                 ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
@@ -37,10 +39,11 @@ public class GlobalAttack : MonoBehaviour
 
     void Start()
     {
+        flameCircleArray = new GameObject[ circles, particlesPerCircle ];
 
-        for ( int i = 0; i < 3; i++ )
+        for ( int i = 0; i < circles; i++ )
         {
-            for ( int j = 0; j < 18; j++ )
+            for ( int j = 0; j < particlesPerCircle; j++ )
             {
                 flameCircleArray[ i, j ] = transform.GetChild( i ).gameObject.transform.GetChild( j ).gameObject;
                 ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
@@ -59,11 +62,11 @@ public class GlobalAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(globalAttackDelay);
 
-        for ( int i = 0; i < 3; i++ )
+        for ( int i = 0; i < circles; i++ )
         {
             yield return new WaitForSeconds( circlesTimeGap );
 
-            for ( int j = 0; j < 18; j++ )
+            for ( int j = 0; j < particlesPerCircle; j++ )
             {
                 ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
                 if ( particleSystem )
@@ -83,11 +86,11 @@ public class GlobalAttack : MonoBehaviour
 
     public IEnumerator DeactivateFlamingSpecialAttack()
     {
-        for ( int i = 0; i < 3; i++ )
+        for ( int i = 0; i < circles; i++ )
         {
             yield return new WaitForSeconds( circlesTimeGap );
 
-            for ( int j = 0; j < 18; j++ )
+            for ( int j = 0; j < particlesPerCircle; j++ )
             {
                 ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
                 if ( particleSystem )

@@ -7,6 +7,7 @@ using UnityEngine.Experimental.Input;
 public class Controller : MonoBehaviour
 {
     [Header( "Input" )]
+    [SerializeField]
     private float zMovement, xMovement;
     private float moveAmount, moveDir;
 

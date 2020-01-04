@@ -5533,6 +5533,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc20aac34edba347aa6c3f8b9f7d680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zMovement: 0
+  xMovement: 0
   rotateSpeed: 5
   movingSpeed: 4
 --- !u!114 &2524578988164291959
@@ -5579,7 +5581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatManager: {fileID: 5015163009590076588}
   target: {fileID: 0}
-  playerAttackCooldown: 0.5
+  playerAttackCooldown: 0.8
 --- !u!114 &394458618114674005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8080,7 +8082,7 @@ PrefabInstance:
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.29
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8968274695477069048, guid: 97e41612290534f498baaf06254dade3,
         type: 3}
@@ -8160,6 +8162,11 @@ PrefabInstance:
     - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: singleAttackDelayInSeconds
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: attackDurationInSeconds
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,

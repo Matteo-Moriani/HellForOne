@@ -1528,10 +1528,10 @@ GameObject:
   - component: {fileID: 7626895153130970338}
   - component: {fileID: 7627289788181559916}
   - component: {fileID: 7652870317835238682}
-  - component: {fileID: 6108140805301667880}
   - component: {fileID: 1100273472025396278}
   - component: {fileID: 1283422345851059212}
   - component: {fileID: 4009867113667091007}
+  - component: {fileID: 3392045773361011199}
   m_Layer: 9
   m_Name: Mob
   m_TagString: LittleEnemy
@@ -1721,18 +1721,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6108140805301667880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371108584754868491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2291c9f09a74634bac97ea40ae5fd0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &1100273472025396278
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1783,6 +1771,18 @@ MonoBehaviour:
   rotSpeed: 0.1
   attackRange: 0.85
   rateo: 2
+--- !u!114 &3392045773361011199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5371108584754868491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de3d4adf5f4b21048802e9521cd06eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5424827781604627025
 GameObject:
   m_ObjectHideFlags: 0
