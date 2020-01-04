@@ -18,4 +18,11 @@ public class AnimationsManager : MonoBehaviour
         return r;
 
     }
+
+    public AnimationClip GetRandomAnimation() {
+
+        int index = Random.Range(0, animations.Length);
+        return animations[index];
+
+    }
 }
