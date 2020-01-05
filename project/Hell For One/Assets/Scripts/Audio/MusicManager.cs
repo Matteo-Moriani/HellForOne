@@ -23,6 +23,9 @@ public class MusicManager : MonoBehaviour
 
         BattleEventsManager.onBattleEnter += StartCombatMusic;
         BattleEventsManager.onBossBattleEnter += StartBossMusic;
+
+        GameEvents.onPause += PauseMusic;
+        GameEvents.onResume += ResumeMusic;
     }
 
     private void OnDisable()
@@ -32,14 +35,11 @@ public class MusicManager : MonoBehaviour
 
         BattleEventsManager.onBattleEnter -= StartCombatMusic;
         BattleEventsManager.onBossBattleEnter -= StartBossMusic;
+
+        GameEvents.onPause -= PauseMusic;
+        GameEvents.onResume -= ResumeMusic;
     }
 
-    //private void Start()
-    //{
-        
-    //}
-
-    // Start is called before the first frame update
     void Start()
     {
         musicAudiosource = this.gameObject.GetComponent<AudioSource>();
@@ -114,5 +114,13 @@ public class MusicManager : MonoBehaviour
     private IEnumerator StartBossMusicCoroutine() {
         yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Boss));
         AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Boss);
+    }
+
+    private void PauseMusic() { 
+        musicAudiosource.Pause();    
+    }
+
+    private void ResumeMusic() { 
+        musicAudiosource.UnPause();    
     }
 }

@@ -37,8 +37,9 @@ public class MenuInput : GeneralInput {
             }
 
             // Start (PS3) / Options (PS4)
-            if(InputManager.Instance.PauseButtonDown() && CurrentScreen.GetComponent<PauseScreen>()) {
+            if(InputManager.Instance.StartButtonDown() && CurrentScreen.GetComponent<PauseScreen>()) {
                 CurrentScreen.GetComponent<PauseScreen>().Resume();
+                GameEvents.RaiseOnResume();
             }
 
             // Cross (PS3) / A (XBOX)

@@ -24,15 +24,6 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance { get { return _instance; } }
 
-    public delegate void OnStartGame();
-    public event OnStartGame onStartGame;
-
-    public delegate void OnPause();
-    public event OnPause onPause;
-
-    public delegate void OnResume();
-    public event OnResume onResume;
-
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -822,9 +813,9 @@ public class InputManager : MonoBehaviour
 
     #endregion
 
-    #region Pause
+    #region Start
 
-    public bool PauseButtonDown() {
+    public bool StartButtonDown() {
         switch(Type) {
             case Controller.Xbox:
                 return Input.GetKeyDown(KeyCode.JoystickButton7);

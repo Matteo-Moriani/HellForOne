@@ -405,10 +405,10 @@ public class PlayerInput : GeneralInput
             if ( InputManager.Instance.R2ButtonUp() && !NavigatingMenu ) { }
 
             // Start (PS3) / Options (PS4)
-            if ( InputManager.Instance.PauseButtonDown() )
+            if ( InputManager.Instance.StartButtonDown() )
             {
-                if ( combat != null )
-                {
+                //if ( combat != null )
+                //{
                     //if ( GameInPause && NavigatingMenu )
                     //{
                     //    CurrentScreen.GetComponent<PauseScreen>().Resume();
@@ -418,8 +418,10 @@ public class PlayerInput : GeneralInput
                         CurrentScreen.gameObject.SetActive( true );
                         //NavigatingMenu = true;
                         CurrentScreen.GetComponent<PauseScreen>().Pause();
+
+                        GameEvents.RaiseOnPause();
                     //}
-                }
+                //}
             }
         }
         else
