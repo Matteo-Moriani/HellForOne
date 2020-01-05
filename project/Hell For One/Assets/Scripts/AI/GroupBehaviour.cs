@@ -147,7 +147,7 @@ public class GroupBehaviour : MonoBehaviour
         {
             if ( demon )
             {
-                Combat combat = demon.GetComponent<Combat>();
+                //Combat combat = demon.GetComponent<Combat>();
 
                 //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
                 //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
@@ -162,11 +162,37 @@ public class GroupBehaviour : MonoBehaviour
                 // TODO - Ally keep attacking when out of combat,
                 // I added this check to remove errors but need to 
                 // be fixed
-                if (combat.enabled)
-                    if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f)
-                        combat.SingleAttack( target );
+                //if (combat.enabled)
+                    if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
+                        StartCoroutine(ActionAfterRandomDelay(demon, State.MeleeAttack));
+                        //combat.SingleAttack(target);
+                    }
+                        
             }
         }
+    }
+
+    IEnumerator ActionAfterRandomDelay(GameObject demon, State action) {
+
+        Combat combat = demon.GetComponent<Combat>();
+
+        if(combat.enabled) {
+            float randomDelay = Random.Range(0f, 0.5f);
+            yield return new WaitForSeconds(randomDelay);
+
+            switch(action) {
+                case State.MeleeAttack:
+                    combat.SingleAttack(target);
+                    break;
+                case State.RangeAttack:
+                    combat.RangedAttack(target);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+            
     }
 
     public void StopAttack()
@@ -243,13 +269,15 @@ public class GroupBehaviour : MonoBehaviour
         {
             if ( demon )
             {
-                Combat combat = demon.GetComponent<Combat>();
-                
+                //Combat combat = demon.GetComponent<Combat>();
+
                 // TODO - Ally keep attacking when out of combat,
                 // I added this check to remove errors but need to 
                 // be fixed
-                if(combat.enabled)
-                    combat.RangedAttack( target );
+                //if(combat.enabled) {
+                    StartCoroutine(ActionAfterRandomDelay(demon, State.RangeAttack));
+                    //combat.RangedAttack(target);
+                //}
             }
         }
     }

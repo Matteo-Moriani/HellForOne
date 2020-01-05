@@ -237,7 +237,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
-                            newHUD.ChangeGroupState( 0 );
+                            newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 0 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -256,6 +256,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeUp = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeUp) >= heldTime) {
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupAzure, 0 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupPink, 0 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupGreen, 0 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupYellow, 0 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.MeleeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeUp = 0f;
@@ -279,7 +283,7 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
-                            newHUD.ChangeGroupState( 2 );
+                            newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
                             tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
@@ -298,6 +302,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeDown = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeDown) >= heldTime) {
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupAzure, 2 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupPink, 2 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupGreen, 2 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupYellow, 2 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.RangeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeDown = 0f;
@@ -314,7 +322,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
-                        newHUD.ChangeGroupState( 1 );
+                        newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
@@ -331,6 +339,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeRight = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeRight) >= heldTime) {
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupAzure, 1 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupPink, 1 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupGreen, 1 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupYellow, 1 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Tank);
                             DpadInUse = false;
                             allGroupsOrderStartTimeRight = 0f;
@@ -347,7 +359,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
-                        newHUD.ChangeGroupState( 3 );
+                        newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 3 );
                         tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
@@ -364,6 +376,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeLeft = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeLeft) >= heldTime) {
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupAzure, 3 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupPink, 3 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupGreen, 3 );
+                            newHUD.ChangeGroupState( TacticsManager.Group.GroupYellow, 3 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Support);
                             DpadInUse = false;
                             allGroupsOrderStartTimeLeft = 0f;
