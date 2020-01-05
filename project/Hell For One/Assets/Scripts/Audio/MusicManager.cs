@@ -65,9 +65,24 @@ public class MusicManager : MonoBehaviour
         }  
     }
 
-    private IEnumerator StartOutOFCombatMusicCoroutine() { 
-        yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource,AudioManager.Music.OutOFCombat));
-        AudioManager.Instance.PlayMusicLoop(musicAudiosource,AudioManager.Music.OutOFCombat);
+    private IEnumerator StartOutOFCombatMusicCoroutine() {
+        // Play the main out of combat music
+        AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.OutOFCombat);
+        
+        //We wait the end of the main out of combat music
+        bool needToPlayLoop = true;
+        
+        while (needToPlayLoop) {
+            // If we done playing main out of combat music...
+            if (!musicAudiosource.isPlaying)
+            {
+                // ...we play the loop out of combat music...
+                AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.OutOFCombat);
+                needToPlayLoop = false;
+            }
+            // ... else, we'll chek next frame
+            yield return null;
+        }
     }
 
     private void StartCombatMusic() {
