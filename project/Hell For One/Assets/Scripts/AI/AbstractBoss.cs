@@ -50,7 +50,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     private CombatEventsManager combatEventsManager;
     private AnimationsManager animationsManager;
     private float facingIntervall = 0.5f;
-    private HUD hud;
+    private NewHUD newHud;
     private Combat bossCombat;
     private GameObject targetGroup;
     private GameObject targetDemon;
@@ -91,7 +91,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public CombatEventsManager CombatEventsManager { get => combatEventsManager; set => combatEventsManager = value; }
     public AnimationsManager AnimationsManager { get => animationsManager; set => animationsManager = value; }
     public float FacingIntervall { get => facingIntervall; set => facingIntervall = value; }
-    public HUD HUD { get => hud; set => hud = value; }
+    public NewHUD HUD { get => newHud; set => newHud = value; }
     public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
     public float Speed { get => absSpeed; set => absSpeed = value; }
     public float RotSpeed { get => absRotSpeed; set => absRotSpeed = value; }
@@ -232,7 +232,7 @@ public abstract class AbstractBoss : MonoBehaviour {
         CombatEventsManager = GetComponent<CombatEventsManager>();
         AnimationsManager = GetComponent<AnimationsManager>();
         Stats = GetComponent<Stats>();
-        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<HUD>();
+        HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>();
         ArenaCenter = GameObject.FindWithTag("ArenaCenter");
 
         // TODO - find a better way to do this

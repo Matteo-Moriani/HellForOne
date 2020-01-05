@@ -78,13 +78,13 @@ public class NewHUD : MonoBehaviour
         OrdersCross = transform.GetChild( 1 ).gameObject;
 
         azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconAzure = panelAzure.transform.GetChild( 4 ).gameObject.GetComponent<Image>();
+        aggroIconAzure = panelAzure.transform.GetChild( panelAzure.transform.childCount - 1 ).gameObject.GetComponent<Image>();
         pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconPink = panelPink.transform.GetChild( 4 ).gameObject.GetComponent<Image>();
+        aggroIconPink = panelPink.transform.GetChild( panelPink.transform.childCount - 1 ).gameObject.GetComponent<Image>();
         greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconGreen = panelGreen.transform.GetChild( 4 ).gameObject.GetComponent<Image>();
+        aggroIconGreen = panelGreen.transform.GetChild( panelGreen.transform.childCount - 1 ).gameObject.GetComponent<Image>();
         yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconYellow = panelYellow.transform.GetChild( 4 ).gameObject.GetComponent<Image>();
+        aggroIconYellow = panelYellow.transform.GetChild( panelYellow.transform.childCount - 1 ).gameObject.GetComponent<Image>();
 
         aggroIconAzure.enabled = false;
         aggroIconPink.enabled = false;
@@ -193,11 +193,11 @@ public class NewHUD : MonoBehaviour
         }
     }
 
-    public void ChangeGroupState(int index)
+    public void ChangeGroupState(TacticsManager.Group group, int index)
     {
         GroupBehaviour gb = null;
 
-        switch ( tacticsManager.CurrentShowedGroup )
+        switch ( group )
         {
             case TacticsManager.Group.GroupAzure:
                 gb = groupAzure;
