@@ -59,7 +59,7 @@ public class InvisibleWallsTrigger : MonoBehaviour
     private void EnableFirewallMidBoss()
     {
         firewallMidBossEnter.SetActive( true );
-        firewallMidBossEnter.tag = "InvisibleWalls";
+        firewallMidBossEnter.tag = "InvisibleWall";
 
         foreach ( ParticleSystem ps in firewallMidBossEnter.GetComponentsInChildren<ParticleSystem>() )
         {
@@ -67,7 +67,7 @@ public class InvisibleWallsTrigger : MonoBehaviour
         }
 
         firewallMidBossExit.SetActive( true );
-        firewallMidBossExit.tag = "InvisibleWalls";
+        firewallMidBossExit.tag = "InvisibleWall";
 
         foreach ( ParticleSystem ps in firewallMidBossExit.GetComponentsInChildren<ParticleSystem>() )
         {
