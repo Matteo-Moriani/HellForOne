@@ -15,6 +15,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private int regenDemonsLeft;
     private GameObject levelManager;
     private float arenaRay;
+    private float spawnAdjustment = 1f;
 
     [SerializeField]
     private GameObject impPrefab;
@@ -64,18 +65,18 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     
     public Vector3 SpawnPosition()
     {
-        //circumference with a little adjustment of 1 in both coordinates to the center.
+        //circumference with a little adjustment of 2 in both coordinates to the center.
         Vector3 spawnPosition = new Vector3( 0, 0, 0 );
-        spawnPosition.x = Random.Range(0f, arenaRay-1f);
-        spawnPosition.z = Mathf.Sqrt(Mathf.Pow(arenaRay, 2f) - Mathf.Pow(spawnPosition.x+1f, 2f));     // circumference with the center in the origin: x^2 + y^2 = r^2
-        spawnPosition.z -= 1f;
+        spawnPosition.x = Random.Range(0f, arenaRay - spawnAdjustment);
+        spawnPosition.z = Mathf.Sqrt(Mathf.Pow(arenaRay, 2f) - Mathf.Pow(spawnPosition.x + spawnAdjustment, 2f));     // circumference with the center in the origin: x^2 + y^2 = r^2
+        spawnPosition.z -= spawnAdjustment;
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.x = spawnPosition.x * -1;
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.z = spawnPosition.z * -1;
 
         //Debug.Log("ally spawned in position " + spawnPosition.x + " , " + spawnPosition.z);
-        spawnPosition =  this.transform.position + this.transform.forward * 10;
+        spawnPosition =  transform.position + transform.forward * 10;
         spawnPosition.y = 1;
         return spawnPosition;
     }
@@ -111,11 +112,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
         if(LevelManager.IsMidBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
-            arenaRay = 12f;
+            arenaRay = 10f;
         }
         else if(LevelManager.IsBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
-            arenaRay = 19f;
+            arenaRay = 15f;
         }
         
         if (arenaCenter != null) {
