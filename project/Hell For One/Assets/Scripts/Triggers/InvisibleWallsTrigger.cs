@@ -5,15 +5,17 @@ using UnityEngine;
 public class InvisibleWallsTrigger : MonoBehaviour
 {
 
-    private GameObject flameCircle;
-    private GameObject firewallMidBoss, arenaWallMidBoss;
+    //private GameObject flameCircle;
+    private GameObject firewallMidBossEnter, firewallMidBossExit, arenaWallMidBossEnter, arenaWallMidBossExit;
     private GameObject firewallBoss, arenaWallBoss;
 
     private void Start()
     {
-        flameCircle = GameObject.FindGameObjectWithTag( "FlameCircle" );
-        firewallMidBoss = GameObject.Find( "firewallMidBoss" );
-        arenaWallMidBoss = GameObject.Find( "ArenaWallMidBoss" );
+        //flameCircle = GameObject.FindGameObjectWithTag( "FlameCircle" );
+        firewallMidBossEnter = GameObject.Find( "firewallMidBossEnter" );
+        firewallMidBossExit = GameObject.Find( "firewallMidBossExit" );
+        arenaWallMidBossEnter = GameObject.Find( "ArenaWallMidBossEnter" );
+        arenaWallMidBossExit = GameObject.Find( "ArenaWallMidBossExit" );
         firewallBoss = GameObject.Find( "firewallBoss" );
         arenaWallBoss = GameObject.Find( "ArenaWallBoss" );
     }
@@ -21,33 +23,83 @@ public class InvisibleWallsTrigger : MonoBehaviour
     private void DisableWallsBoss()
     {
         firewallBoss.SetActive( false );
+
+        foreach ( ParticleSystem ps in firewallMidBossEnter.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Stop();
+        }
+
         arenaWallBoss.SetActive( false );
     }
 
     private void EnableWallBoss()
     {
         firewallBoss.SetActive( true );
+
+        foreach ( ParticleSystem ps in firewallBoss.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Play();
+        }
+
         arenaWallBoss.SetActive( true );
+    }
+
+    private void EnableArenaWallMidBoss()
+    {
+        arenaWallMidBossEnter.SetActive( true );
+        arenaWallMidBossExit.SetActive( true );
     }
 
     private void DisableArenaWallMidBoss()
     {
-        arenaWallMidBoss.SetActive( false );
+        arenaWallMidBossEnter.SetActive( false );
+        arenaWallMidBossExit.SetActive( false );
     }
 
-    private void DisableFirewall2()
+    private void EnableFirewallMidBoss()
     {
-        firewallMidBoss.SetActive( false );
+        firewallMidBossEnter.SetActive( true );
+        firewallMidBossEnter.tag = "InvisibleWalls";
+
+        foreach ( ParticleSystem ps in firewallMidBossEnter.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Play();
+        }
+
+        firewallMidBossExit.SetActive( true );
+        firewallMidBossExit.tag = "InvisibleWalls";
+
+        foreach ( ParticleSystem ps in firewallMidBossExit.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Play();
+        }
+    }
+
+    private void DisableFirewallMidBoss()
+    {
+        foreach ( ParticleSystem ps in firewallMidBossEnter.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Stop();
+        }
+
+        firewallMidBossEnter.SetActive( false );
+
+        foreach ( ParticleSystem ps in firewallMidBossExit.GetComponentsInChildren<ParticleSystem>() )
+        {
+            ps.Stop();
+        }
+
+        firewallMidBossExit.SetActive( false );
     }
 
     private void EnableFlameCircle()
     {
-        flameCircle.SetActive(true);
+        //flameCircle.SetActive(true);
     }
 
     private void DisableFlameCircle()
     {
-        flameCircle.SetActive( false );
+        //flameCircle.SetActive( false );
     }
 
     private void OnEnable()
@@ -56,15 +108,18 @@ public class InvisibleWallsTrigger : MonoBehaviour
         BattleEventsManager.onBossBattleExit += DisableBossFlames;
         BattleEventsManager.onBossBattleExit += DisableWallsBoss;
         BattleEventsManager.onBossBattleExit += DisableFlameCircle;
+        BattleEventsManager.onBossBattleExit += DisableFirewallMidBoss;
         BattleEventsManager.onBattleExit += OpenInvisibleWalls;
-        BattleEventsManager.onBattleExit += DisableFirewall2;
+        BattleEventsManager.onBattleExit += DisableFirewallMidBoss;
         BattleEventsManager.onBattleExit += DisableArenaWallMidBoss;
         BattleEventsManager.onBattleExit += DisableNormalFlames;
         BattleEventsManager.onBattleExit += LetDemonsPassFlames;
         BattleEventsManager.onBossBattleEnter += CloseInvisibleWalls;
+        BattleEventsManager.onBossBattleEnter += EnableArenaWallMidBoss;
         BattleEventsManager.onBossBattleEnter += EnableFlameCircle;
         BattleEventsManager.onBossBattleEnter += EnableBossFlames;
         BattleEventsManager.onBossBattleEnter += EnableWallBoss;
+        BattleEventsManager.onBossBattleEnter += EnableFirewallMidBoss;
         BattleEventsManager.onBattleEnter += CloseInvisibleWalls;
         BattleEventsManager.onBattleEnter += DisableFlameCircle;
         BattleEventsManager.onBattleEnter += EnableNormalFlames;

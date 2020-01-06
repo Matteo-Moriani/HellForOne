@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 1078837655}
   - component: {fileID: 1078837654}
   m_Layer: 12
-  m_Name: ArenaWall (1)
+  m_Name: ArenaWallMidBossEnter
   m_TagString: InvisibleWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,7 +227,7 @@ Transform:
   m_LocalScale: {x: 20, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 5862380122787851865}
-  m_RootOrder: 125
+  m_RootOrder: 126
   m_LocalEulerAnglesHint: {x: 0.057000004, y: -629.11, z: 180.05199}
 --- !u!33 &1832195567
 MeshFilter:
@@ -299,6 +299,188 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e17fa86a1a88548956cb807480a6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2851002384033004177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2442579115671519581}
+  - component: {fileID: 904681646522724504}
+  - component: {fileID: 27305764372152906}
+  - component: {fileID: 5571586144350482582}
+  m_Layer: 12
+  m_Name: ArenaWallMidBossExit
+  m_TagString: InvisibleWall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2442579115671519581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851002384033004177}
+  m_LocalRotation: {x: 0.6977903, y: -0.0006727838, z: 0.71630186, w: 0.000022245249}
+  m_LocalPosition: {x: -94.69, y: 35.23, z: -38.6}
+  m_LocalScale: {x: 20, y: 30, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5862380122787851865}
+  m_RootOrder: 125
+  m_LocalEulerAnglesHint: {x: 0.057000004, y: -631.5, z: 180.05199}
+--- !u!33 &904681646522724504
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851002384033004177}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &27305764372152906
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851002384033004177}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &5571586144350482582
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851002384033004177}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3820326795878586471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1483663210417971749}
+  - component: {fileID: 3343078715184453930}
+  - component: {fileID: 2753975422099787430}
+  - component: {fileID: 2596998647973174624}
+  m_Layer: 12
+  m_Name: ArenaWallMidBoss (1)
+  m_TagString: InvisibleWall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1483663210417971749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820326795878586471}
+  m_LocalRotation: {x: 0.7125774, y: -0.00067217357, z: 0.7015933, w: 0.000036271664}
+  m_LocalPosition: {x: -68.01, y: 35.2, z: -35.81}
+  m_LocalScale: {x: 20, y: 30, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5862380122787851865}
+  m_RootOrder: 131
+  m_LocalEulerAnglesHint: {x: 0.057000004, y: -629.11, z: 180.05199}
+--- !u!33 &3343078715184453930
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820326795878586471}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2753975422099787430
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820326795878586471}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &2596998647973174624
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820326795878586471}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5862380121457267172
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +493,7 @@ GameObject:
   - component: {fileID: 5862380121457267168}
   - component: {fileID: 5862380121457267171}
   - component: {fileID: 5862380121457267170}
-  - component: {fileID: 364340221468602671}
+  - component: {fileID: 1563665716}
   m_Layer: 0
   m_Name: Cube (35)
   m_TagString: Untagged
@@ -348,7 +530,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121457267172}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -391,7 +573,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &364340221468602671
+--- !u!208 &1563665716
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -419,7 +601,7 @@ GameObject:
   - component: {fileID: 5862380121483115831}
   - component: {fileID: 5862380121483115830}
   - component: {fileID: 5862380121483115833}
-  - component: {fileID: 4997389814161888299}
+  - component: {fileID: 1266362279}
   m_Layer: 0
   m_Name: Cube (20)
   m_TagString: Untagged
@@ -456,7 +638,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121483115835}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -499,7 +681,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4997389814161888299
+--- !u!208 &1266362279
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -527,7 +709,7 @@ GameObject:
   - component: {fileID: 5862380121498851502}
   - component: {fileID: 5862380121498851505}
   - component: {fileID: 5862380121498851504}
-  - component: {fileID: 554270828397010274}
+  - component: {fileID: 864437653}
   m_Layer: 0
   m_Name: Cube (115)
   m_TagString: Untagged
@@ -564,7 +746,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121498851506}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -607,7 +789,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &554270828397010274
+--- !u!208 &864437653
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -635,7 +817,7 @@ GameObject:
   - component: {fileID: 5862380121515777422}
   - component: {fileID: 5862380121515777425}
   - component: {fileID: 5862380121515777424}
-  - component: {fileID: 4950997158601207110}
+  - component: {fileID: 889680892}
   m_Layer: 0
   m_Name: Cube (63)
   m_TagString: Untagged
@@ -672,7 +854,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121515777426}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -715,7 +897,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4950997158601207110
+--- !u!208 &889680892
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -743,7 +925,7 @@ GameObject:
   - component: {fileID: 5862380121518408785}
   - component: {fileID: 5862380121518408784}
   - component: {fileID: 5862380121518408787}
-  - component: {fileID: 2767586037186807386}
+  - component: {fileID: 967355277}
   m_Layer: 0
   m_Name: Cube (114)
   m_TagString: Untagged
@@ -780,7 +962,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121518408789}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -823,7 +1005,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2767586037186807386
+--- !u!208 &967355277
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -851,7 +1033,7 @@ GameObject:
   - component: {fileID: 5862380121525949112}
   - component: {fileID: 5862380121525949115}
   - component: {fileID: 5862380121525949114}
-  - component: {fileID: 7031374806606239359}
+  - component: {fileID: 1538524872}
   m_Layer: 0
   m_Name: Cube (109)
   m_TagString: Untagged
@@ -888,7 +1070,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121525949116}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -931,7 +1113,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7031374806606239359
+--- !u!208 &1538524872
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -959,7 +1141,7 @@ GameObject:
   - component: {fileID: 5862380121549050059}
   - component: {fileID: 5862380121549050058}
   - component: {fileID: 5862380121549050061}
-  - component: {fileID: 397146958193740143}
+  - component: {fileID: 2001736611}
   m_Layer: 0
   m_Name: Cube (28)
   m_TagString: Untagged
@@ -996,7 +1178,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121549050063}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1039,7 +1221,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &397146958193740143
+--- !u!208 &2001736611
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1067,7 +1249,7 @@ GameObject:
   - component: {fileID: 5862380121557425537}
   - component: {fileID: 5862380121557425536}
   - component: {fileID: 5862380121557425539}
-  - component: {fileID: 6159482267373947539}
+  - component: {fileID: 1864816445}
   m_Layer: 0
   m_Name: Cube (112)
   m_TagString: Untagged
@@ -1104,7 +1286,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121557425541}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1147,7 +1329,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6159482267373947539
+--- !u!208 &1864816445
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1175,7 +1357,7 @@ GameObject:
   - component: {fileID: 5862380121587056298}
   - component: {fileID: 5862380121587056301}
   - component: {fileID: 5862380121587056300}
-  - component: {fileID: 1751864011336139013}
+  - component: {fileID: 1413408751}
   m_Layer: 0
   m_Name: Cube (9)
   m_TagString: Untagged
@@ -1212,7 +1394,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121587056302}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1255,7 +1437,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1751864011336139013
+--- !u!208 &1413408751
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1283,7 +1465,7 @@ GameObject:
   - component: {fileID: 5862380121592345392}
   - component: {fileID: 5862380121592345395}
   - component: {fileID: 5862380121592345394}
-  - component: {fileID: 5900939161747999954}
+  - component: {fileID: 144307383}
   m_Layer: 0
   m_Name: Cube (33)
   m_TagString: Untagged
@@ -1320,7 +1502,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121592345396}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1363,7 +1545,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5900939161747999954
+--- !u!208 &144307383
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1391,7 +1573,7 @@ GameObject:
   - component: {fileID: 5862380121598677655}
   - component: {fileID: 5862380121598677654}
   - component: {fileID: 5862380121598677657}
-  - component: {fileID: 813491968793561327}
+  - component: {fileID: 143705720}
   m_Layer: 0
   m_Name: Cube (14)
   m_TagString: Untagged
@@ -1428,7 +1610,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121598677659}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1471,7 +1653,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &813491968793561327
+--- !u!208 &143705720
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1499,7 +1681,7 @@ GameObject:
   - component: {fileID: 5862380121622556642}
   - component: {fileID: 5862380121622556645}
   - component: {fileID: 5862380121622556644}
-  - component: {fileID: 1910533858649738005}
+  - component: {fileID: 103401589}
   m_Layer: 0
   m_Name: Cube (82)
   m_TagString: Untagged
@@ -1536,7 +1718,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121622556646}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1579,7 +1761,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1910533858649738005
+--- !u!208 &103401589
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1607,7 +1789,7 @@ GameObject:
   - component: {fileID: 5862380121635581099}
   - component: {fileID: 5862380121635581098}
   - component: {fileID: 5862380121635581101}
-  - component: {fileID: 2947727254449822471}
+  - component: {fileID: 1229373155}
   m_Layer: 0
   m_Name: Cube (12)
   m_TagString: Untagged
@@ -1644,7 +1826,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121635581103}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1687,7 +1869,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2947727254449822471
+--- !u!208 &1229373155
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1715,7 +1897,7 @@ GameObject:
   - component: {fileID: 5862380121702756834}
   - component: {fileID: 5862380121702756837}
   - component: {fileID: 5862380121702756836}
-  - component: {fileID: 6660467179752800777}
+  - component: {fileID: 1787897398}
   m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -1752,7 +1934,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121702756838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1795,7 +1977,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6660467179752800777
+--- !u!208 &1787897398
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1823,7 +2005,7 @@ GameObject:
   - component: {fileID: 5862380121709215990}
   - component: {fileID: 5862380121709215993}
   - component: {fileID: 5862380121709215992}
-  - component: {fileID: 7065460705450165705}
+  - component: {fileID: 1458367579}
   m_Layer: 0
   m_Name: Cube (21)
   m_TagString: Untagged
@@ -1860,7 +2042,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121709215994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1903,7 +2085,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7065460705450165705
+--- !u!208 &1458367579
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1931,7 +2113,7 @@ GameObject:
   - component: {fileID: 5862380121723320207}
   - component: {fileID: 5862380121723320206}
   - component: {fileID: 5862380121723320209}
-  - component: {fileID: 5375985565546057204}
+  - component: {fileID: 955727306}
   m_Layer: 0
   m_Name: Cube (41)
   m_TagString: Untagged
@@ -1968,7 +2150,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121723320211}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2011,7 +2193,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5375985565546057204
+--- !u!208 &955727306
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2039,7 +2221,7 @@ GameObject:
   - component: {fileID: 5862380121746770401}
   - component: {fileID: 5862380121746770400}
   - component: {fileID: 5862380121746770403}
-  - component: {fileID: 5778183770952373325}
+  - component: {fileID: 976701510}
   m_Layer: 0
   m_Name: Cube (106)
   m_TagString: Untagged
@@ -2076,7 +2258,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121746770405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2119,7 +2301,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5778183770952373325
+--- !u!208 &976701510
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2147,7 +2329,7 @@ GameObject:
   - component: {fileID: 5862380121751017462}
   - component: {fileID: 5862380121751017465}
   - component: {fileID: 5862380121751017464}
-  - component: {fileID: 6281786875889043217}
+  - component: {fileID: 683847411}
   m_Layer: 0
   m_Name: Cube (93)
   m_TagString: Untagged
@@ -2184,7 +2366,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121751017466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2227,7 +2409,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6281786875889043217
+--- !u!208 &683847411
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2255,7 +2437,7 @@ GameObject:
   - component: {fileID: 5862380121754172072}
   - component: {fileID: 5862380121754172075}
   - component: {fileID: 5862380121754172074}
-  - component: {fileID: 1092005542804668185}
+  - component: {fileID: 578227503}
   m_Layer: 0
   m_Name: Cube (120)
   m_TagString: Untagged
@@ -2292,7 +2474,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121754172076}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2335,7 +2517,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1092005542804668185
+--- !u!208 &578227503
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2363,7 +2545,7 @@ GameObject:
   - component: {fileID: 5862380121769331673}
   - component: {fileID: 5862380121769331672}
   - component: {fileID: 5862380121769331675}
-  - component: {fileID: 911815190213515027}
+  - component: {fileID: 219155590}
   m_Layer: 0
   m_Name: Cube (105)
   m_TagString: Untagged
@@ -2400,7 +2582,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121769331677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2443,7 +2625,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &911815190213515027
+--- !u!208 &219155590
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2471,7 +2653,7 @@ GameObject:
   - component: {fileID: 5862380121791947626}
   - component: {fileID: 5862380121791947629}
   - component: {fileID: 5862380121791947628}
-  - component: {fileID: 1541577308898016222}
+  - component: {fileID: 1903142065}
   m_Layer: 0
   m_Name: Cube (91)
   m_TagString: Untagged
@@ -2508,7 +2690,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121791947630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2551,7 +2733,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1541577308898016222
+--- !u!208 &1903142065
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2579,7 +2761,7 @@ GameObject:
   - component: {fileID: 5862380121829134993}
   - component: {fileID: 5862380121829134992}
   - component: {fileID: 5862380121829134995}
-  - component: {fileID: 7848692188558008175}
+  - component: {fileID: 1635291712}
   m_Layer: 0
   m_Name: Cube (23)
   m_TagString: Untagged
@@ -2616,7 +2798,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121829134997}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2659,7 +2841,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7848692188558008175
+--- !u!208 &1635291712
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2687,7 +2869,7 @@ GameObject:
   - component: {fileID: 5862380121853930184}
   - component: {fileID: 5862380121853930187}
   - component: {fileID: 5862380121853930186}
-  - component: {fileID: 6876255435446814728}
+  - component: {fileID: 163286953}
   m_Layer: 0
   m_Name: Cube (110)
   m_TagString: Untagged
@@ -2724,7 +2906,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121853930188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2767,7 +2949,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6876255435446814728
+--- !u!208 &163286953
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2795,7 +2977,7 @@ GameObject:
   - component: {fileID: 5862380121865115327}
   - component: {fileID: 5862380121865115326}
   - component: {fileID: 5862380121865115201}
-  - component: {fileID: 3776045572128310359}
+  - component: {fileID: 360184523}
   m_Layer: 0
   m_Name: Cube (58)
   m_TagString: Untagged
@@ -2832,7 +3014,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121865115203}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2875,7 +3057,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3776045572128310359
+--- !u!208 &360184523
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2903,7 +3085,7 @@ GameObject:
   - component: {fileID: 5862380121871477167}
   - component: {fileID: 5862380121871477166}
   - component: {fileID: 5862380121871477169}
-  - component: {fileID: 8503979115429917592}
+  - component: {fileID: 1787999684}
   m_Layer: 0
   m_Name: Cube (99)
   m_TagString: Untagged
@@ -2940,7 +3122,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121871477171}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2983,7 +3165,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8503979115429917592
+--- !u!208 &1787999684
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3011,7 +3193,7 @@ GameObject:
   - component: {fileID: 5862380121879879173}
   - component: {fileID: 5862380121879879172}
   - component: {fileID: 5862380121879879175}
-  - component: {fileID: 1123740636422770301}
+  - component: {fileID: 1814848083}
   m_Layer: 0
   m_Name: Cube (53)
   m_TagString: Untagged
@@ -3048,7 +3230,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121879879177}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3091,7 +3273,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1123740636422770301
+--- !u!208 &1814848083
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3119,7 +3301,7 @@ GameObject:
   - component: {fileID: 5862380121898848463}
   - component: {fileID: 5862380121898848462}
   - component: {fileID: 5862380121898848465}
-  - component: {fileID: 5658781737191071393}
+  - component: {fileID: 1866833010}
   m_Layer: 0
   m_Name: Cube (77)
   m_TagString: Untagged
@@ -3156,7 +3338,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121898848467}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3199,7 +3381,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5658781737191071393
+--- !u!208 &1866833010
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3227,7 +3409,7 @@ GameObject:
   - component: {fileID: 5862380121908776137}
   - component: {fileID: 5862380121908776136}
   - component: {fileID: 5862380121908776139}
-  - component: {fileID: 2832771607414696998}
+  - component: {fileID: 1228493321}
   m_Layer: 0
   m_Name: Cube (25)
   m_TagString: Untagged
@@ -3264,7 +3446,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121908776141}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3307,7 +3489,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2832771607414696998
+--- !u!208 &1228493321
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3335,7 +3517,7 @@ GameObject:
   - component: {fileID: 5862380121912662484}
   - component: {fileID: 5862380121912662487}
   - component: {fileID: 5862380121912662486}
-  - component: {fileID: 8778092013171839608}
+  - component: {fileID: 1051857659}
   m_Layer: 0
   m_Name: Cube (117)
   m_TagString: Untagged
@@ -3372,7 +3554,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121912662488}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3415,7 +3597,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8778092013171839608
+--- !u!208 &1051857659
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3443,7 +3625,7 @@ GameObject:
   - component: {fileID: 5862380121915251136}
   - component: {fileID: 5862380121915251139}
   - component: {fileID: 5862380121915251138}
-  - component: {fileID: 4263849523443771281}
+  - component: {fileID: 1429296540}
   m_Layer: 0
   m_Name: Cube (78)
   m_TagString: Untagged
@@ -3480,7 +3662,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121915251140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3523,7 +3705,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4263849523443771281
+--- !u!208 &1429296540
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3551,7 +3733,7 @@ GameObject:
   - component: {fileID: 5862380121924504471}
   - component: {fileID: 5862380121924504470}
   - component: {fileID: 5862380121924504473}
-  - component: {fileID: 7505550906263992236}
+  - component: {fileID: 677004167}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -3588,7 +3770,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121924504475}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3631,7 +3813,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7505550906263992236
+--- !u!208 &677004167
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3659,7 +3841,7 @@ GameObject:
   - component: {fileID: 5862380121945095737}
   - component: {fileID: 5862380121945095736}
   - component: {fileID: 5862380121945095739}
-  - component: {fileID: 4657860549773573401}
+  - component: {fileID: 1549053775}
   m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Untagged
@@ -3696,7 +3878,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121945095741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3739,7 +3921,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4657860549773573401
+--- !u!208 &1549053775
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3767,7 +3949,7 @@ GameObject:
   - component: {fileID: 5862380121946207584}
   - component: {fileID: 5862380121946207587}
   - component: {fileID: 5862380121946207586}
-  - component: {fileID: 3874308775881793181}
+  - component: {fileID: 2069582580}
   m_Layer: 0
   m_Name: Cube (97)
   m_TagString: Untagged
@@ -3804,7 +3986,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121946207588}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3847,7 +4029,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3874308775881793181
+--- !u!208 &2069582580
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3875,7 +4057,7 @@ GameObject:
   - component: {fileID: 5862380121968012207}
   - component: {fileID: 5862380121968012206}
   - component: {fileID: 5862380121968012209}
-  - component: {fileID: 8740661934125566375}
+  - component: {fileID: 252499679}
   m_Layer: 0
   m_Name: Cube (84)
   m_TagString: Untagged
@@ -3912,7 +4094,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121968012211}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3955,7 +4137,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8740661934125566375
+--- !u!208 &252499679
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3983,7 +4165,7 @@ GameObject:
   - component: {fileID: 5862380121977444012}
   - component: {fileID: 5862380121977444015}
   - component: {fileID: 5862380121977444014}
-  - component: {fileID: 6146661790823082244}
+  - component: {fileID: 1866745385}
   m_Layer: 0
   m_Name: Cube (71)
   m_TagString: Untagged
@@ -4020,7 +4202,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121977444016}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4063,7 +4245,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6146661790823082244
+--- !u!208 &1866745385
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4091,7 +4273,7 @@ GameObject:
   - component: {fileID: 5862380121982847503}
   - component: {fileID: 5862380121982847502}
   - component: {fileID: 5862380121982847505}
-  - component: {fileID: 281357961552095087}
+  - component: {fileID: 1497537382}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -4128,7 +4310,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121982847507}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4171,7 +4353,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &281357961552095087
+--- !u!208 &1497537382
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4199,7 +4381,7 @@ GameObject:
   - component: {fileID: 5862380121993364463}
   - component: {fileID: 5862380121993364462}
   - component: {fileID: 5862380121993364465}
-  - component: {fileID: 4083119852189525292}
+  - component: {fileID: 828935054}
   m_Layer: 0
   m_Name: Cube (40)
   m_TagString: Untagged
@@ -4236,7 +4418,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121993364467}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4279,7 +4461,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4083119852189525292
+--- !u!208 &828935054
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4307,7 +4489,7 @@ GameObject:
   - component: {fileID: 5862380121997100943}
   - component: {fileID: 5862380121997100942}
   - component: {fileID: 5862380121997100945}
-  - component: {fileID: 4484704345583894183}
+  - component: {fileID: 1364497548}
   m_Layer: 0
   m_Name: Cube (98)
   m_TagString: Untagged
@@ -4344,7 +4526,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121997100947}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4387,7 +4569,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4484704345583894183
+--- !u!208 &1364497548
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4415,7 +4597,7 @@ GameObject:
   - component: {fileID: 5862380121998065864}
   - component: {fileID: 5862380121998065867}
   - component: {fileID: 5862380121998065866}
-  - component: {fileID: 7637356151030562210}
+  - component: {fileID: 756418635}
   m_Layer: 0
   m_Name: Cube (42)
   m_TagString: Untagged
@@ -4452,7 +4634,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380121998065868}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4495,7 +4677,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7637356151030562210
+--- !u!208 &756418635
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4523,7 +4705,7 @@ GameObject:
   - component: {fileID: 5862380122006553066}
   - component: {fileID: 5862380122006553069}
   - component: {fileID: 5862380122006553068}
-  - component: {fileID: 6688986487905411585}
+  - component: {fileID: 960803845}
   m_Layer: 0
   m_Name: Cube (95)
   m_TagString: Untagged
@@ -4560,7 +4742,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122006553070}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4603,7 +4785,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6688986487905411585
+--- !u!208 &960803845
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4631,7 +4813,7 @@ GameObject:
   - component: {fileID: 5862380122026018320}
   - component: {fileID: 5862380122026018323}
   - component: {fileID: 5862380122026018322}
-  - component: {fileID: 45712478809729083}
+  - component: {fileID: 149176181}
   m_Layer: 0
   m_Name: Cube (10)
   m_TagString: Untagged
@@ -4668,7 +4850,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122026018324}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4711,7 +4893,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &45712478809729083
+--- !u!208 &149176181
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4740,7 +4922,7 @@ GameObject:
   - component: {fileID: 5862380122108368992}
   - component: {fileID: 5862380122108368995}
   m_Layer: 12
-  m_Name: ArenaWall
+  m_Name: ArenaWallBoss
   m_TagString: InvisibleWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4830,7 +5012,7 @@ GameObject:
   - component: {fileID: 5862380122126599945}
   - component: {fileID: 5862380122126599944}
   - component: {fileID: 5862380122126599947}
-  - component: {fileID: 7977711834460457375}
+  - component: {fileID: 1340700032}
   m_Layer: 0
   m_Name: Cube (8)
   m_TagString: Untagged
@@ -4867,7 +5049,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122126599949}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4910,7 +5092,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7977711834460457375
+--- !u!208 &1340700032
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4938,7 +5120,7 @@ GameObject:
   - component: {fileID: 5862380122154032407}
   - component: {fileID: 5862380122154032406}
   - component: {fileID: 5862380122154032409}
-  - component: {fileID: 5264021486357334084}
+  - component: {fileID: 1716454042}
   m_Layer: 0
   m_Name: Cube (94)
   m_TagString: Untagged
@@ -4975,7 +5157,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122154032411}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5018,7 +5200,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5264021486357334084
+--- !u!208 &1716454042
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5046,7 +5228,7 @@ GameObject:
   - component: {fileID: 5862380122165280887}
   - component: {fileID: 5862380122165280886}
   - component: {fileID: 5862380122165280889}
-  - component: {fileID: 5083963706263440152}
+  - component: {fileID: 1168794025}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -5083,7 +5265,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122165280891}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5126,7 +5308,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5083963706263440152
+--- !u!208 &1168794025
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5154,7 +5336,7 @@ GameObject:
   - component: {fileID: 5862380122170835324}
   - component: {fileID: 5862380122170835327}
   - component: {fileID: 5862380122170835326}
-  - component: {fileID: 5021150057488293225}
+  - component: {fileID: 1665232550}
   m_Layer: 0
   m_Name: Cube (118)
   m_TagString: Untagged
@@ -5191,7 +5373,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122170835200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5234,7 +5416,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5021150057488293225
+--- !u!208 &1665232550
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5262,7 +5444,7 @@ GameObject:
   - component: {fileID: 5862380122174043577}
   - component: {fileID: 5862380122174043576}
   - component: {fileID: 5862380122174043579}
-  - component: {fileID: 6029241708117355845}
+  - component: {fileID: 1398927885}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -5299,7 +5481,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122174043581}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5342,7 +5524,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6029241708117355845
+--- !u!208 &1398927885
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5370,7 +5552,7 @@ GameObject:
   - component: {fileID: 5862380122199203278}
   - component: {fileID: 5862380122199203281}
   - component: {fileID: 5862380122199203280}
-  - component: {fileID: 8958121258140969164}
+  - component: {fileID: 1450575588}
   m_Layer: 0
   m_Name: Cube (34)
   m_TagString: Untagged
@@ -5407,7 +5589,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122199203282}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5450,7 +5632,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8958121258140969164
+--- !u!208 &1450575588
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5478,7 +5660,7 @@ GameObject:
   - component: {fileID: 5862380122220057147}
   - component: {fileID: 5862380122220057146}
   - component: {fileID: 5862380122220057149}
-  - component: {fileID: 4292092129924324883}
+  - component: {fileID: 1762052725}
   m_Layer: 0
   m_Name: Cube (11)
   m_TagString: Untagged
@@ -5515,7 +5697,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122220057151}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5558,7 +5740,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4292092129924324883
+--- !u!208 &1762052725
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5586,7 +5768,7 @@ GameObject:
   - component: {fileID: 5862380122223910888}
   - component: {fileID: 5862380122223910891}
   - component: {fileID: 5862380122223910890}
-  - component: {fileID: 2309986679386646771}
+  - component: {fileID: 796442535}
   m_Layer: 0
   m_Name: Cube (92)
   m_TagString: Untagged
@@ -5623,7 +5805,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122223910892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5666,7 +5848,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2309986679386646771
+--- !u!208 &796442535
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5694,7 +5876,7 @@ GameObject:
   - component: {fileID: 5862380122300336054}
   - component: {fileID: 5862380122300336057}
   - component: {fileID: 5862380122300336056}
-  - component: {fileID: 2885928404003578638}
+  - component: {fileID: 1718533988}
   m_Layer: 0
   m_Name: Cube (29)
   m_TagString: Untagged
@@ -5731,7 +5913,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122300336058}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5774,7 +5956,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2885928404003578638
+--- !u!208 &1718533988
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5802,7 +5984,7 @@ GameObject:
   - component: {fileID: 5862380122357127638}
   - component: {fileID: 5862380122357127641}
   - component: {fileID: 5862380122357127640}
-  - component: {fileID: 1499006430116740716}
+  - component: {fileID: 371233637}
   m_Layer: 0
   m_Name: Cube (75)
   m_TagString: Untagged
@@ -5839,7 +6021,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122357127642}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5882,7 +6064,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1499006430116740716
+--- !u!208 &371233637
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5910,7 +6092,7 @@ GameObject:
   - component: {fileID: 5862380122369907915}
   - component: {fileID: 5862380122369907914}
   - component: {fileID: 5862380122369907917}
-  - component: {fileID: 5034875271760533767}
+  - component: {fileID: 2074182653}
   m_Layer: 0
   m_Name: Cube (30)
   m_TagString: Untagged
@@ -5947,7 +6129,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122369907919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5990,7 +6172,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5034875271760533767
+--- !u!208 &2074182653
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6018,7 +6200,7 @@ GameObject:
   - component: {fileID: 5862380122379533563}
   - component: {fileID: 5862380122379533562}
   - component: {fileID: 5862380122379533565}
-  - component: {fileID: 1216812545076833111}
+  - component: {fileID: 966753425}
   m_Layer: 0
   m_Name: Cube (39)
   m_TagString: Untagged
@@ -6055,7 +6237,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122379533567}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6098,7 +6280,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1216812545076833111
+--- !u!208 &966753425
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6126,7 +6308,7 @@ GameObject:
   - component: {fileID: 5862380122399205090}
   - component: {fileID: 5862380122399205093}
   - component: {fileID: 5862380122399205092}
-  - component: {fileID: 7291713260344814328}
+  - component: {fileID: 864333545}
   m_Layer: 0
   m_Name: Cube (73)
   m_TagString: Untagged
@@ -6163,7 +6345,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122399205094}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6206,7 +6388,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7291713260344814328
+--- !u!208 &864333545
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6234,7 +6416,7 @@ GameObject:
   - component: {fileID: 5862380122407981256}
   - component: {fileID: 5862380122407981259}
   - component: {fileID: 5862380122407981258}
-  - component: {fileID: 7804028072620323096}
+  - component: {fileID: 1383136431}
   m_Layer: 0
   m_Name: Cube (80)
   m_TagString: Untagged
@@ -6271,7 +6453,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122407981260}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6314,7 +6496,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7804028072620323096
+--- !u!208 &1383136431
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6342,7 +6524,7 @@ GameObject:
   - component: {fileID: 5862380122429094642}
   - component: {fileID: 5862380122429094645}
   - component: {fileID: 5862380122429094644}
-  - component: {fileID: 8292481027229195246}
+  - component: {fileID: 1075734104}
   m_Layer: 0
   m_Name: Cube (7)
   m_TagString: Untagged
@@ -6379,7 +6561,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122429094646}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6422,7 +6604,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8292481027229195246
+--- !u!208 &1075734104
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6450,7 +6632,7 @@ GameObject:
   - component: {fileID: 5862380122430841984}
   - component: {fileID: 5862380122430841987}
   - component: {fileID: 5862380122430841986}
-  - component: {fileID: 8949035691864594531}
+  - component: {fileID: 80621657}
   m_Layer: 0
   m_Name: Cube (49)
   m_TagString: Untagged
@@ -6487,7 +6669,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122430841988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6530,7 +6712,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8949035691864594531
+--- !u!208 &80621657
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6558,7 +6740,7 @@ GameObject:
   - component: {fileID: 5862380122433939075}
   - component: {fileID: 5862380122433939074}
   - component: {fileID: 5862380122433939077}
-  - component: {fileID: 8890508703168479947}
+  - component: {fileID: 1174709697}
   m_Layer: 0
   m_Name: Cube (46)
   m_TagString: Untagged
@@ -6595,7 +6777,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122433939079}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6638,7 +6820,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8890508703168479947
+--- !u!208 &1174709697
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6666,7 +6848,7 @@ GameObject:
   - component: {fileID: 5862380122438174084}
   - component: {fileID: 5862380122438174087}
   - component: {fileID: 5862380122438174086}
-  - component: {fileID: 4547907433925800379}
+  - component: {fileID: 114546075}
   m_Layer: 0
   m_Name: Cube (85)
   m_TagString: Untagged
@@ -6703,7 +6885,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122438174088}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6746,7 +6928,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4547907433925800379
+--- !u!208 &114546075
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6774,7 +6956,7 @@ GameObject:
   - component: {fileID: 5862380122446043371}
   - component: {fileID: 5862380122446043370}
   - component: {fileID: 5862380122446043373}
-  - component: {fileID: 6785363057025887930}
+  - component: {fileID: 1041492034}
   m_Layer: 0
   m_Name: Cube (102)
   m_TagString: Untagged
@@ -6811,7 +6993,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122446043375}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6854,7 +7036,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6785363057025887930
+--- !u!208 &1041492034
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6882,7 +7064,7 @@ GameObject:
   - component: {fileID: 5862380122449947995}
   - component: {fileID: 5862380122449947994}
   - component: {fileID: 5862380122449947997}
-  - component: {fileID: 2102480604091194393}
+  - component: {fileID: 658602009}
   m_Layer: 0
   m_Name: Cube (104)
   m_TagString: Untagged
@@ -6919,7 +7101,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122449947999}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6962,7 +7144,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2102480604091194393
+--- !u!208 &658602009
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6990,7 +7172,7 @@ GameObject:
   - component: {fileID: 5862380122453410650}
   - component: {fileID: 5862380122453410653}
   - component: {fileID: 5862380122453410652}
-  - component: {fileID: 6627937829658681058}
+  - component: {fileID: 109895311}
   m_Layer: 0
   m_Name: Cube (57)
   m_TagString: Untagged
@@ -7027,7 +7209,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122453410654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7070,7 +7252,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6627937829658681058
+--- !u!208 &109895311
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7098,7 +7280,7 @@ GameObject:
   - component: {fileID: 5862380122460307213}
   - component: {fileID: 5862380122460307212}
   - component: {fileID: 5862380122460307215}
-  - component: {fileID: 6919147676148268861}
+  - component: {fileID: 829038349}
   m_Layer: 0
   m_Name: Cube (55)
   m_TagString: Untagged
@@ -7135,7 +7317,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122460307217}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7178,7 +7360,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6919147676148268861
+--- !u!208 &829038349
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7206,7 +7388,7 @@ GameObject:
   - component: {fileID: 5862380122479351793}
   - component: {fileID: 5862380122479351792}
   - component: {fileID: 5862380122479351795}
-  - component: {fileID: 6181093937199405488}
+  - component: {fileID: 53139169}
   m_Layer: 0
   m_Name: Cube (22)
   m_TagString: Untagged
@@ -7243,7 +7425,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122479351797}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7286,7 +7468,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6181093937199405488
+--- !u!208 &53139169
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7314,7 +7496,7 @@ GameObject:
   - component: {fileID: 5862380122488980104}
   - component: {fileID: 5862380122488980107}
   - component: {fileID: 5862380122488980106}
-  - component: {fileID: 8274071400052946996}
+  - component: {fileID: 205642967}
   m_Layer: 0
   m_Name: Cube (79)
   m_TagString: Untagged
@@ -7351,7 +7533,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122488980108}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7394,7 +7576,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8274071400052946996
+--- !u!208 &205642967
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7422,7 +7604,7 @@ GameObject:
   - component: {fileID: 5862380122507738758}
   - component: {fileID: 5862380122507738761}
   - component: {fileID: 5862380122507738760}
-  - component: {fileID: 4398057406997776458}
+  - component: {fileID: 1682200265}
   m_Layer: 0
   m_Name: Cube (26)
   m_TagString: Untagged
@@ -7459,7 +7641,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122507738762}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7502,7 +7684,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4398057406997776458
+--- !u!208 &1682200265
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7530,7 +7712,7 @@ GameObject:
   - component: {fileID: 5862380122545477588}
   - component: {fileID: 5862380122545477591}
   - component: {fileID: 5862380122545477590}
-  - component: {fileID: 8218025731659028468}
+  - component: {fileID: 1732551079}
   m_Layer: 0
   m_Name: Cube (24)
   m_TagString: Untagged
@@ -7567,7 +7749,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122545477592}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7610,7 +7792,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8218025731659028468
+--- !u!208 &1732551079
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7638,7 +7820,7 @@ GameObject:
   - component: {fileID: 5862380122557988937}
   - component: {fileID: 5862380122557988936}
   - component: {fileID: 5862380122557988939}
-  - component: {fileID: 419420213170296823}
+  - component: {fileID: 350024740}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -7675,7 +7857,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122557988941}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7718,7 +7900,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &419420213170296823
+--- !u!208 &350024740
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7746,7 +7928,7 @@ GameObject:
   - component: {fileID: 5862380122564608861}
   - component: {fileID: 5862380122564608860}
   - component: {fileID: 5862380122564608863}
-  - component: {fileID: 16471829785032686}
+  - component: {fileID: 884294400}
   m_Layer: 0
   m_Name: Cube (51)
   m_TagString: Untagged
@@ -7783,7 +7965,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122564608865}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7826,7 +8008,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &16471829785032686
+--- !u!208 &884294400
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7854,7 +8036,7 @@ GameObject:
   - component: {fileID: 5862380122570199040}
   - component: {fileID: 5862380122570199043}
   - component: {fileID: 5862380122570199042}
-  - component: {fileID: 5231174203072092682}
+  - component: {fileID: 1048910030}
   m_Layer: 0
   m_Name: Cube (100)
   m_TagString: Untagged
@@ -7891,7 +8073,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122570199044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7934,7 +8116,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5231174203072092682
+--- !u!208 &1048910030
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7962,7 +8144,7 @@ GameObject:
   - component: {fileID: 5862380122591516300}
   - component: {fileID: 5862380122591516303}
   - component: {fileID: 5862380122591516302}
-  - component: {fileID: 3475841643390902522}
+  - component: {fileID: 231382636}
   m_Layer: 0
   m_Name: Cube (121)
   m_TagString: Untagged
@@ -7999,7 +8181,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122591516304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8042,7 +8224,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3475841643390902522
+--- !u!208 &231382636
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8070,7 +8252,7 @@ GameObject:
   - component: {fileID: 5862380122594409984}
   - component: {fileID: 5862380122594409987}
   - component: {fileID: 5862380122594409986}
-  - component: {fileID: 8177428191303836170}
+  - component: {fileID: 999947396}
   m_Layer: 0
   m_Name: Cube (76)
   m_TagString: Untagged
@@ -8107,7 +8289,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122594409988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8150,7 +8332,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8177428191303836170
+--- !u!208 &999947396
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8178,7 +8360,7 @@ GameObject:
   - component: {fileID: 5862380122606212129}
   - component: {fileID: 5862380122606212128}
   - component: {fileID: 5862380122606212131}
-  - component: {fileID: 7750337096904000168}
+  - component: {fileID: 1832232179}
   m_Layer: 0
   m_Name: Cube (16)
   m_TagString: Untagged
@@ -8215,7 +8397,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122606212133}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8258,7 +8440,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7750337096904000168
+--- !u!208 &1832232179
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8286,7 +8468,7 @@ GameObject:
   - component: {fileID: 5862380122616853737}
   - component: {fileID: 5862380122616853736}
   - component: {fileID: 5862380122616853739}
-  - component: {fileID: 1677271918094162485}
+  - component: {fileID: 906904825}
   m_Layer: 0
   m_Name: Cube (108)
   m_TagString: Untagged
@@ -8323,7 +8505,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122616853741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8366,7 +8548,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1677271918094162485
+--- !u!208 &906904825
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8394,7 +8576,7 @@ GameObject:
   - component: {fileID: 5862380122633108176}
   - component: {fileID: 5862380122633108179}
   - component: {fileID: 5862380122633108178}
-  - component: {fileID: 2477279390496185053}
+  - component: {fileID: 2146083807}
   m_Layer: 0
   m_Name: Cube (83)
   m_TagString: Untagged
@@ -8431,7 +8613,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122633108180}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8474,7 +8656,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2477279390496185053
+--- !u!208 &2146083807
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8502,7 +8684,7 @@ GameObject:
   - component: {fileID: 5862380122645808245}
   - component: {fileID: 5862380122645808244}
   - component: {fileID: 5862380122645808247}
-  - component: {fileID: 9020147681167170278}
+  - component: {fileID: 759592785}
   m_Layer: 0
   m_Name: Cube (88)
   m_TagString: Untagged
@@ -8539,7 +8721,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122645808249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8582,7 +8764,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &9020147681167170278
+--- !u!208 &759592785
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8610,7 +8792,7 @@ GameObject:
   - component: {fileID: 5862380122651611922}
   - component: {fileID: 5862380122651611925}
   - component: {fileID: 5862380122651611924}
-  - component: {fileID: 8910555237614541214}
+  - component: {fileID: 1164641960}
   m_Layer: 0
   m_Name: Cube (96)
   m_TagString: Untagged
@@ -8647,7 +8829,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122651611926}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8690,7 +8872,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8910555237614541214
+--- !u!208 &1164641960
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8718,7 +8900,7 @@ GameObject:
   - component: {fileID: 5862380122668669643}
   - component: {fileID: 5862380122668669642}
   - component: {fileID: 5862380122668669645}
-  - component: {fileID: 3263324295372410168}
+  - component: {fileID: 1266066868}
   m_Layer: 0
   m_Name: Cube (113)
   m_TagString: Untagged
@@ -8755,7 +8937,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122668669647}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8798,7 +8980,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3263324295372410168
+--- !u!208 &1266066868
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8826,7 +9008,7 @@ GameObject:
   - component: {fileID: 5862380122689044110}
   - component: {fileID: 5862380122689044113}
   - component: {fileID: 5862380122689044112}
-  - component: {fileID: 9066678331101961590}
+  - component: {fileID: 186583182}
   m_Layer: 0
   m_Name: Cube (19)
   m_TagString: Untagged
@@ -8863,7 +9045,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122689044114}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8906,7 +9088,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &9066678331101961590
+--- !u!208 &186583182
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8934,7 +9116,7 @@ GameObject:
   - component: {fileID: 5862380122710196821}
   - component: {fileID: 5862380122710196820}
   - component: {fileID: 5862380122710196823}
-  - component: {fileID: 2634380401289290361}
+  - component: {fileID: 35655726}
   m_Layer: 0
   m_Name: Cube (50)
   m_TagString: Untagged
@@ -8971,7 +9153,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122710196825}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9014,7 +9196,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2634380401289290361
+--- !u!208 &35655726
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9042,7 +9224,7 @@ GameObject:
   - component: {fileID: 5862380122750130089}
   - component: {fileID: 5862380122750130088}
   - component: {fileID: 5862380122750130091}
-  - component: {fileID: 5120583941047941634}
+  - component: {fileID: 524009774}
   m_Layer: 0
   m_Name: Cube (13)
   m_TagString: Untagged
@@ -9079,7 +9261,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122750130093}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9122,7 +9304,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5120583941047941634
+--- !u!208 &524009774
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9150,7 +9332,7 @@ GameObject:
   - component: {fileID: 5862380122772793931}
   - component: {fileID: 5862380122772793930}
   - component: {fileID: 5862380122772793933}
-  - component: {fileID: 5091677548273197508}
+  - component: {fileID: 864822490}
   m_Layer: 0
   m_Name: Cube (65)
   m_TagString: Untagged
@@ -9187,7 +9369,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122772793935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9230,7 +9412,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5091677548273197508
+--- !u!208 &864822490
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9258,7 +9440,7 @@ GameObject:
   - component: {fileID: 5862380122776193029}
   - component: {fileID: 5862380122776193028}
   - component: {fileID: 5862380122776193031}
-  - component: {fileID: 1103490771915836222}
+  - component: {fileID: 1880368135}
   m_Layer: 0
   m_Name: Cube (86)
   m_TagString: Untagged
@@ -9295,7 +9477,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122776193033}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9338,7 +9520,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1103490771915836222
+--- !u!208 &1880368135
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9506,10 +9688,13 @@ Transform:
   - {fileID: 5862380122108368994}
   - {fileID: 525407371}
   - {fileID: 1078837653}
+  - {fileID: 2442579115671519581}
   - {fileID: 1832195563}
   - {fileID: 6017113393731881118}
+  - {fileID: 2247281391408232446}
   - {fileID: 984526179}
   - {fileID: 6017113392476692312}
+  - {fileID: 1483663210417971749}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9525,7 +9710,7 @@ GameObject:
   - component: {fileID: 5862380122804278938}
   - component: {fileID: 5862380122804278941}
   - component: {fileID: 5862380122804278940}
-  - component: {fileID: 163284729547817171}
+  - component: {fileID: 496320612}
   m_Layer: 0
   m_Name: Cube (54)
   m_TagString: Untagged
@@ -9562,7 +9747,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122804278942}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9605,7 +9790,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &163284729547817171
+--- !u!208 &496320612
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9633,7 +9818,7 @@ GameObject:
   - component: {fileID: 5862380122835509834}
   - component: {fileID: 5862380122835509837}
   - component: {fileID: 5862380122835509836}
-  - component: {fileID: 2144065533503912045}
+  - component: {fileID: 1158068193}
   m_Layer: 0
   m_Name: Cube (60)
   m_TagString: Untagged
@@ -9670,7 +9855,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122835509838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9713,7 +9898,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2144065533503912045
+--- !u!208 &1158068193
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9741,7 +9926,7 @@ GameObject:
   - component: {fileID: 5862380122841058127}
   - component: {fileID: 5862380122841058126}
   - component: {fileID: 5862380122841058129}
-  - component: {fileID: 7274329651653780938}
+  - component: {fileID: 368687253}
   m_Layer: 0
   m_Name: Cube (87)
   m_TagString: Untagged
@@ -9778,7 +9963,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122841058131}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9821,7 +10006,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7274329651653780938
+--- !u!208 &368687253
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9849,7 +10034,7 @@ GameObject:
   - component: {fileID: 5862380122841147679}
   - component: {fileID: 5862380122841147678}
   - component: {fileID: 5862380122841147681}
-  - component: {fileID: 7635733989832693817}
+  - component: {fileID: 1532493041}
   m_Layer: 0
   m_Name: Cube (47)
   m_TagString: Untagged
@@ -9886,7 +10071,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122841147683}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9929,7 +10114,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7635733989832693817
+--- !u!208 &1532493041
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9957,7 +10142,7 @@ GameObject:
   - component: {fileID: 5862380122861103662}
   - component: {fileID: 5862380122861103665}
   - component: {fileID: 5862380122861103664}
-  - component: {fileID: 5347511293452935191}
+  - component: {fileID: 1690780905}
   m_Layer: 0
   m_Name: Cube (64)
   m_TagString: Untagged
@@ -9994,7 +10179,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122861103666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10037,7 +10222,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5347511293452935191
+--- !u!208 &1690780905
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10065,7 +10250,7 @@ GameObject:
   - component: {fileID: 5862380122884091397}
   - component: {fileID: 5862380122884091396}
   - component: {fileID: 5862380122884091399}
-  - component: {fileID: 6844385163221062297}
+  - component: {fileID: 107760146}
   m_Layer: 0
   m_Name: Cube (116)
   m_TagString: Untagged
@@ -10102,7 +10287,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122884091401}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10145,7 +10330,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6844385163221062297
+--- !u!208 &107760146
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10173,7 +10358,7 @@ GameObject:
   - component: {fileID: 5862380122888955250}
   - component: {fileID: 5862380122888955253}
   - component: {fileID: 5862380122888955252}
-  - component: {fileID: 4414435602837742270}
+  - component: {fileID: 1950434532}
   m_Layer: 0
   m_Name: Cube (107)
   m_TagString: Untagged
@@ -10210,7 +10395,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122888955254}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10253,7 +10438,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4414435602837742270
+--- !u!208 &1950434532
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10281,7 +10466,7 @@ GameObject:
   - component: {fileID: 5862380122927029995}
   - component: {fileID: 5862380122927029994}
   - component: {fileID: 5862380122927029997}
-  - component: {fileID: 7307746966614940625}
+  - component: {fileID: 498088927}
   m_Layer: 0
   m_Name: Cube (43)
   m_TagString: Untagged
@@ -10318,7 +10503,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122927029999}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10361,7 +10546,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7307746966614940625
+--- !u!208 &498088927
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10389,7 +10574,7 @@ GameObject:
   - component: {fileID: 5862380122949859973}
   - component: {fileID: 5862380122949859972}
   - component: {fileID: 5862380122949859975}
-  - component: {fileID: 8279883845395766461}
+  - component: {fileID: 687692366}
   m_Layer: 0
   m_Name: Cube (31)
   m_TagString: Untagged
@@ -10426,7 +10611,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122949859977}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10469,7 +10654,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8279883845395766461
+--- !u!208 &687692366
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10497,7 +10682,7 @@ GameObject:
   - component: {fileID: 5862380122954223056}
   - component: {fileID: 5862380122954223059}
   - component: {fileID: 5862380122954223058}
-  - component: {fileID: 2351537306261419808}
+  - component: {fileID: 1076098412}
   m_Layer: 0
   m_Name: Cube (90)
   m_TagString: Untagged
@@ -10534,7 +10719,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122954223060}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10577,7 +10762,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2351537306261419808
+--- !u!208 &1076098412
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10605,7 +10790,7 @@ GameObject:
   - component: {fileID: 5862380122969315402}
   - component: {fileID: 5862380122969315405}
   - component: {fileID: 5862380122969315404}
-  - component: {fileID: 7536437289901604062}
+  - component: {fileID: 390073329}
   m_Layer: 0
   m_Name: Cube (103)
   m_TagString: Untagged
@@ -10642,7 +10827,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122969315406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10685,7 +10870,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7536437289901604062
+--- !u!208 &390073329
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10713,7 +10898,7 @@ GameObject:
   - component: {fileID: 5862380122984816942}
   - component: {fileID: 5862380122984816945}
   - component: {fileID: 5862380122984816944}
-  - component: {fileID: 4244357073512923932}
+  - component: {fileID: 637237133}
   m_Layer: 0
   m_Name: Cube (61)
   m_TagString: Untagged
@@ -10750,7 +10935,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380122984816946}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10793,7 +10978,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4244357073512923932
+--- !u!208 &637237133
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10821,7 +11006,7 @@ GameObject:
   - component: {fileID: 5862380123010695039}
   - component: {fileID: 5862380123010695038}
   - component: {fileID: 5862380123010694913}
-  - component: {fileID: 2352763228483835510}
+  - component: {fileID: 877698133}
   m_Layer: 0
   m_Name: Cube (72)
   m_TagString: Untagged
@@ -10858,7 +11043,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123010694915}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10901,7 +11086,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2352763228483835510
+--- !u!208 &877698133
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10929,7 +11114,7 @@ GameObject:
   - component: {fileID: 5862380123014077462}
   - component: {fileID: 5862380123014077465}
   - component: {fileID: 5862380123014077464}
-  - component: {fileID: 7379469722693048451}
+  - component: {fileID: 1264509989}
   m_Layer: 0
   m_Name: Cube (52)
   m_TagString: Untagged
@@ -10966,7 +11151,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123014077466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11009,7 +11194,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7379469722693048451
+--- !u!208 &1264509989
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11037,7 +11222,7 @@ GameObject:
   - component: {fileID: 5862380123039969892}
   - component: {fileID: 5862380123039969895}
   - component: {fileID: 5862380123039969894}
-  - component: {fileID: 836025950604503351}
+  - component: {fileID: 1591692141}
   m_Layer: 0
   m_Name: Cube (15)
   m_TagString: Untagged
@@ -11074,7 +11259,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123039969896}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11117,7 +11302,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &836025950604503351
+--- !u!208 &1591692141
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11145,7 +11330,7 @@ GameObject:
   - component: {fileID: 5862380123102849503}
   - component: {fileID: 5862380123102849502}
   - component: {fileID: 5862380123102849505}
-  - component: {fileID: 4643364867039635469}
+  - component: {fileID: 253023907}
   m_Layer: 0
   m_Name: Cube (56)
   m_TagString: Untagged
@@ -11182,7 +11367,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123102849507}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11225,7 +11410,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4643364867039635469
+--- !u!208 &253023907
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11253,7 +11438,7 @@ GameObject:
   - component: {fileID: 5862380123103661477}
   - component: {fileID: 5862380123103661476}
   - component: {fileID: 5862380123103661479}
-  - component: {fileID: 3305451568447609761}
+  - component: {fileID: 1764613518}
   m_Layer: 0
   m_Name: Cube (119)
   m_TagString: Untagged
@@ -11290,7 +11475,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123103661481}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11333,7 +11518,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3305451568447609761
+--- !u!208 &1764613518
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11361,7 +11546,7 @@ GameObject:
   - component: {fileID: 5862380123109548338}
   - component: {fileID: 5862380123109548341}
   - component: {fileID: 5862380123109548340}
-  - component: {fileID: 5075700387371388916}
+  - component: {fileID: 776505990}
   m_Layer: 0
   m_Name: Cube (37)
   m_TagString: Untagged
@@ -11398,7 +11583,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123109548342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11441,7 +11626,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5075700387371388916
+--- !u!208 &776505990
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11469,7 +11654,7 @@ GameObject:
   - component: {fileID: 5862380123116524449}
   - component: {fileID: 5862380123116524448}
   - component: {fileID: 5862380123116524451}
-  - component: {fileID: 3846930876159051089}
+  - component: {fileID: 2110672476}
   m_Layer: 0
   m_Name: Cube (45)
   m_TagString: Untagged
@@ -11506,7 +11691,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123116524453}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11549,7 +11734,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3846930876159051089
+--- !u!208 &2110672476
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11577,7 +11762,7 @@ GameObject:
   - component: {fileID: 5862380123119703713}
   - component: {fileID: 5862380123119703712}
   - component: {fileID: 5862380123119703715}
-  - component: {fileID: 662474917835446160}
+  - component: {fileID: 1238806596}
   m_Layer: 0
   m_Name: Cube (66)
   m_TagString: Untagged
@@ -11614,7 +11799,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123119703717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11657,7 +11842,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &662474917835446160
+--- !u!208 &1238806596
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11685,7 +11870,7 @@ GameObject:
   - component: {fileID: 5862380123120807380}
   - component: {fileID: 5862380123120807383}
   - component: {fileID: 5862380123120807382}
-  - component: {fileID: 3805345432516502474}
+  - component: {fileID: 904351281}
   m_Layer: 0
   m_Name: Cube (111)
   m_TagString: Untagged
@@ -11722,7 +11907,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123120807384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11765,7 +11950,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3805345432516502474
+--- !u!208 &904351281
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11793,7 +11978,7 @@ GameObject:
   - component: {fileID: 5862380123164392988}
   - component: {fileID: 5862380123164392991}
   - component: {fileID: 5862380123164392990}
-  - component: {fileID: 2624802529414555925}
+  - component: {fileID: 1044833178}
   m_Layer: 0
   m_Name: Cube (32)
   m_TagString: Untagged
@@ -11830,7 +12015,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123164392992}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11873,7 +12058,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &2624802529414555925
+--- !u!208 &1044833178
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11901,7 +12086,7 @@ GameObject:
   - component: {fileID: 5862380123168793741}
   - component: {fileID: 5862380123168793740}
   - component: {fileID: 5862380123168793743}
-  - component: {fileID: 8016275718135576957}
+  - component: {fileID: 617466713}
   m_Layer: 0
   m_Name: Cube (48)
   m_TagString: Untagged
@@ -11938,7 +12123,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123168793745}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11981,7 +12166,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8016275718135576957
+--- !u!208 &617466713
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12009,7 +12194,7 @@ GameObject:
   - component: {fileID: 5862380123207001617}
   - component: {fileID: 5862380123207001616}
   - component: {fileID: 5862380123207001619}
-  - component: {fileID: 6111319924575574498}
+  - component: {fileID: 652089526}
   m_Layer: 0
   m_Name: Cube (81)
   m_TagString: Untagged
@@ -12046,7 +12231,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123207001621}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12089,7 +12274,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &6111319924575574498
+--- !u!208 &652089526
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12117,7 +12302,7 @@ GameObject:
   - component: {fileID: 5862380123219268309}
   - component: {fileID: 5862380123219268308}
   - component: {fileID: 5862380123219268311}
-  - component: {fileID: 8473217699342713514}
+  - component: {fileID: 1898236321}
   m_Layer: 0
   m_Name: Cube (69)
   m_TagString: Untagged
@@ -12154,7 +12339,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123219268313}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12197,7 +12382,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8473217699342713514
+--- !u!208 &1898236321
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12225,7 +12410,7 @@ GameObject:
   - component: {fileID: 5862380123229364833}
   - component: {fileID: 5862380123229364832}
   - component: {fileID: 5862380123229364835}
-  - component: {fileID: 4015949788714681213}
+  - component: {fileID: 1414777550}
   m_Layer: 0
   m_Name: Cube (36)
   m_TagString: Untagged
@@ -12262,7 +12447,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123229364837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12305,7 +12490,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4015949788714681213
+--- !u!208 &1414777550
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12333,7 +12518,7 @@ GameObject:
   - component: {fileID: 5862380123240768626}
   - component: {fileID: 5862380123240768629}
   - component: {fileID: 5862380123240768628}
-  - component: {fileID: 1369290941735966096}
+  - component: {fileID: 2024994478}
   m_Layer: 0
   m_Name: Cube (101)
   m_TagString: Untagged
@@ -12370,7 +12555,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123240768630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12413,7 +12598,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1369290941735966096
+--- !u!208 &2024994478
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12441,7 +12626,7 @@ GameObject:
   - component: {fileID: 5862380123254746761}
   - component: {fileID: 5862380123254746760}
   - component: {fileID: 5862380123254746763}
-  - component: {fileID: 7733119904529939412}
+  - component: {fileID: 319246378}
   m_Layer: 0
   m_Name: Cube (18)
   m_TagString: Untagged
@@ -12478,7 +12663,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123254746765}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12521,7 +12706,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7733119904529939412
+--- !u!208 &319246378
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12549,7 +12734,7 @@ GameObject:
   - component: {fileID: 5862380123265694219}
   - component: {fileID: 5862380123265694218}
   - component: {fileID: 5862380123265694221}
-  - component: {fileID: 1643496714096390169}
+  - component: {fileID: 29814030}
   m_Layer: 0
   m_Name: Cube (62)
   m_TagString: Untagged
@@ -12586,7 +12771,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123265694223}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12629,7 +12814,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1643496714096390169
+--- !u!208 &29814030
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12657,7 +12842,7 @@ GameObject:
   - component: {fileID: 5862380123269033777}
   - component: {fileID: 5862380123269033776}
   - component: {fileID: 5862380123269033779}
-  - component: {fileID: 3163118629602952782}
+  - component: {fileID: 1514755582}
   m_Layer: 0
   m_Name: Cube (74)
   m_TagString: Untagged
@@ -12694,7 +12879,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123269033781}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12737,7 +12922,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3163118629602952782
+--- !u!208 &1514755582
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12765,7 +12950,7 @@ GameObject:
   - component: {fileID: 5862380123330540992}
   - component: {fileID: 5862380123330540995}
   - component: {fileID: 5862380123330540994}
-  - component: {fileID: 1474718881805586730}
+  - component: {fileID: 1549657925}
   m_Layer: 0
   m_Name: Cube (17)
   m_TagString: Untagged
@@ -12802,7 +12987,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123330540996}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12845,7 +13030,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1474718881805586730
+--- !u!208 &1549657925
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12873,7 +13058,7 @@ GameObject:
   - component: {fileID: 5862380123348739193}
   - component: {fileID: 5862380123348739192}
   - component: {fileID: 5862380123348739195}
-  - component: {fileID: 346275070580106210}
+  - component: {fileID: 1883400984}
   m_Layer: 0
   m_Name: Cube (59)
   m_TagString: Untagged
@@ -12910,7 +13095,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123348739197}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -12953,7 +13138,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &346275070580106210
+--- !u!208 &1883400984
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12981,7 +13166,7 @@ GameObject:
   - component: {fileID: 5862380123356370523}
   - component: {fileID: 5862380123356370522}
   - component: {fileID: 5862380123356370525}
-  - component: {fileID: 7407360783548921141}
+  - component: {fileID: 1482406906}
   m_Layer: 0
   m_Name: Cube (44)
   m_TagString: Untagged
@@ -13018,7 +13203,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123356370527}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13061,7 +13246,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &7407360783548921141
+--- !u!208 &1482406906
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13089,7 +13274,7 @@ GameObject:
   - component: {fileID: 5862380123374990067}
   - component: {fileID: 5862380123374990066}
   - component: {fileID: 5862380123374990069}
-  - component: {fileID: 3025405381057083410}
+  - component: {fileID: 1410166782}
   m_Layer: 0
   m_Name: Cube (68)
   m_TagString: Untagged
@@ -13126,7 +13311,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123374990071}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13169,7 +13354,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &3025405381057083410
+--- !u!208 &1410166782
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13197,7 +13382,7 @@ GameObject:
   - component: {fileID: 5862380123375808059}
   - component: {fileID: 5862380123375808058}
   - component: {fileID: 5862380123375808061}
-  - component: {fileID: 857902239405948428}
+  - component: {fileID: 1290711651}
   m_Layer: 0
   m_Name: Cube (70)
   m_TagString: Untagged
@@ -13234,7 +13419,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123375808063}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13277,7 +13462,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &857902239405948428
+--- !u!208 &1290711651
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13305,7 +13490,7 @@ GameObject:
   - component: {fileID: 5862380123423067939}
   - component: {fileID: 5862380123423067938}
   - component: {fileID: 5862380123423067941}
-  - component: {fileID: 4930857739791691814}
+  - component: {fileID: 1875888050}
   m_Layer: 0
   m_Name: Cube (38)
   m_TagString: Untagged
@@ -13342,7 +13527,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123423067943}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13385,7 +13570,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4930857739791691814
+--- !u!208 &1875888050
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13413,7 +13598,7 @@ GameObject:
   - component: {fileID: 5862380123428996267}
   - component: {fileID: 5862380123428996266}
   - component: {fileID: 5862380123428996269}
-  - component: {fileID: 9049127804266021942}
+  - component: {fileID: 1503557366}
   m_Layer: 0
   m_Name: Cube (67)
   m_TagString: Untagged
@@ -13450,7 +13635,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123428996271}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13493,7 +13678,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &9049127804266021942
+--- !u!208 &1503557366
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13521,7 +13706,7 @@ GameObject:
   - component: {fileID: 5862380123429686931}
   - component: {fileID: 5862380123429686930}
   - component: {fileID: 5862380123429686933}
-  - component: {fileID: 1000337593122249150}
+  - component: {fileID: 1052796066}
   m_Layer: 0
   m_Name: Cube (89)
   m_TagString: Untagged
@@ -13558,7 +13743,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123429686935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13601,7 +13786,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &1000337593122249150
+--- !u!208 &1052796066
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13629,7 +13814,7 @@ GameObject:
   - component: {fileID: 5862380123487185135}
   - component: {fileID: 5862380123487185134}
   - component: {fileID: 5862380123487185137}
-  - component: {fileID: 4801281493264626362}
+  - component: {fileID: 1557681834}
   m_Layer: 0
   m_Name: Cube (27)
   m_TagString: Untagged
@@ -13666,7 +13851,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862380123487185139}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13709,7 +13894,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &4801281493264626362
+--- !u!208 &1557681834
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13732,16 +13917,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5862380122787851865}
     m_Modifications:
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_Name
-      value: firewall2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13780,7 +13955,7 @@ PrefabInstance:
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 126
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
@@ -13796,6 +13971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Name
+      value: firewallMidBossEnter
       objectReference: {fileID: 0}
     - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
@@ -13837,26 +14017,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5862380122787851865}
     m_Modifications:
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_Name
-      value: firewall2 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_TagString
-      value: BossBattleFlames
-      objectReference: {fileID: 0}
-    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13895,7 +14055,7 @@ PrefabInstance:
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 128
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
@@ -13912,30 +14072,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
+      propertyPath: m_Name
+      value: firewallBoss
       objectReference: {fileID: 0}
-    - target: {fileID: 124329117158229509, guid: 31ae0df01f0246e4990b8e308df9fde6,
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
-      propertyPath: m_Layer
-      value: 12
+      propertyPath: m_TagString
+      value: BossBattleFlames
       objectReference: {fileID: 0}
     - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
       propertyPath: playOnAwake
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3043899367322599220, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617562105541389142, guid: 31ae0df01f0246e4990b8e308df9fde6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1990006896519824866, guid: 31ae0df01f0246e4990b8e308df9fde6,
         type: 3}
@@ -13970,6 +14120,16 @@ PrefabInstance:
     - target: {fileID: 2212813861859920940, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_Name
+      value: FlameCircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920940, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212813861859920940, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
       value: FlameCircle
       objectReference: {fileID: 0}
     - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
@@ -14010,7 +14170,7 @@ PrefabInstance:
     - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_RootOrder
-      value: 127
+      value: 129
       objectReference: {fileID: 0}
     - target: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14027,95 +14187,390 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2141715444826916371, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141715444826916371, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141715444826916371, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801856307536611516, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 801856307536611516, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 862239925316847393, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 862239925316847393, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914999418785801429, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914999418785801429, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914999418785801429, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1241574522695524002, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1241574522695524002, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3674034505977466312, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3674034505977466312, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645050354578407766, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645050354578407766, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3748433569947381365, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3748433569947381365, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448195757578520001, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448195757578520001, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1448195757578520001, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6241240680031813726, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6241240680031813726, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981684921454053124, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981684921454053124, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 3981684921454053124, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272177396851628766, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272177396851628766, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597706760967, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4639845597706760967, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597840861769, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597840861769, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597769726640, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597769726640, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597402973698, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597402973698, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597399116976, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597399116976, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597412003867, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597412003867, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597351950671, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597351950671, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597447247627, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597447247627, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597461241105, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597461241105, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597113665409, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597113665409, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845597090106009, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845597090106009, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596903523342, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845596903523342, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596918911137, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845596918911137, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596951161617, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845596951161617, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845596689681123, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845596689681123, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595919338719, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845595919338719, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595956595442, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845595956595442, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639845595851760811, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4639845595851760811, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503380962327487768, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503380962327487768, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958458040741164038, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958458040741164038, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324972099159167689, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324972099159167689, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324972099159167689, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462319627330899637, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462319627330899637, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674551934402363010, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7674551934402363010, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968477917283778020, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968477917283778020, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoredByCamera
       objectReference: {fileID: 0}
     - target: {fileID: 1128806045040594366, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14214,8 +14669,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142585638371, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142585638371, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142260186610, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142260186610, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14224,8 +14689,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142213557215, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142213557215, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142281114539, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142281114539, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14234,8 +14709,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143464371207, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143464371207, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143599258953, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143599258953, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14244,8 +14729,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143669878192, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143669878192, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143740761883, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143740761883, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14254,8 +14749,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143701582082, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143701582082, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143702838192, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143702838192, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14264,8 +14769,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143819185743, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143819185743, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143923130379, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143923130379, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14274,8 +14789,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143894985233, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143894985233, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142917148801, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142917148801, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14284,8 +14809,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386142991043993, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386142991043993, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143413087249, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143413087249, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14294,8 +14829,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143378424590, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143378424590, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237386143360915361, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2237386143360915361, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14304,8 +14849,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230013624988882, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013624988882, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013997462254, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230013997462254, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14314,8 +14869,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230013975868611, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013975868611, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230013929773722, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230013929773722, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14324,8 +14889,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014642212150, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014642212150, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014776022136, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014776022136, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14334,8 +14909,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014713398401, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014713398401, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014411870849, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014411870849, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14344,8 +14929,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014405392435, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014405392435, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014382730794, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014382730794, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14354,8 +14949,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014320691070, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014320691070, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014463517472, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014463517472, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14364,8 +14969,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014493829434, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014493829434, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015231637936, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230015231637936, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14374,8 +14989,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230015107282088, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015107282088, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015005322896, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230015005322896, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14384,8 +15009,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3786230015021759039, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230015021759039, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786230014995617056, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3786230014995617056, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14394,8 +15029,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575658565658, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575658565658, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575588282595, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575588282595, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14404,8 +15049,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575793690964, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575793690964, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575272050008, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575272050008, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14414,8 +15069,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575299999554, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575299999554, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575493655633, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575493655633, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14424,8 +15089,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575487944419, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575487944419, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575517104712, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575517104712, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14434,8 +15109,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575442809628, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575442809628, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575204019666, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575204019666, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14444,8 +15129,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834575193104586, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834575193104586, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574743072349, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834574743072349, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14454,8 +15149,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834574760295154, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574760295154, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574771028290, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834574771028290, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14464,8 +15169,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834574529224880, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834574529224880, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573755934348, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7575834573755934348, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
@@ -14474,13 +15189,398 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575834573776478369, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573776478369, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
       objectReference: {fileID: 0}
     - target: {fileID: 7575834573688344312, guid: adb68390d543ee24a9595542bb89f354,
         type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575834573688344312, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
       propertyPath: m_TagString
       value: BossBattleFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726445352852282836, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1726445352852282836, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157746661404383039, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157746661404383039, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043974548092808781, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043974548092808781, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870258348140652898, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870258348140652898, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144026994925613185, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144026994925613185, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2711489628421039980, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2711489628421039980, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8574608264137453221, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8574608264137453221, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1266178604064029187, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1266178604064029187, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491683790724309833, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491683790724309833, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422870246684726127, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422870246684726127, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 346621776900317654, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.14706
+      objectReference: {fileID: 0}
+    - target: {fileID: 346621776900317654, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.006782158
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.95876735
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.010409149
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.28392032
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104210185286160283, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 147
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581557037224965912, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581557037224965912, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581557037224965912, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581557037224965912, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000037737427
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9786203
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.012332406
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.20530517
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3121883333549722510, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 156.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451596752828936758, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451596752828936758, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451596752828936758, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451596752828936758, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0050988616
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9994637
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.010841912
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.030478492
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618142639999802337, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -176.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.007202622
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9879024
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.009280385
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.15463172
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149259150371881674, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -162.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.008428752
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.940509
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.007849585
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.33957344
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 85978823273634765, guid: adb68390d543ee24a9595542bb89f354,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -140.29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb68390d543ee24a9595542bb89f354, type: 3}
@@ -14489,4 +15589,104 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2212813861859920943, guid: adb68390d543ee24a9595542bb89f354,
     type: 3}
   m_PrefabInstance: {fileID: 2212813860892975436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5525606974995344343
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5862380122787851865}
+    m_Modifications:
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -95.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 32.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -39.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7015314
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.71263856
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 89.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832370234110755077, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: m_Name
+      value: firewallMidBossExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233754737518367146, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990006896519824866, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685834653293124095, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5934338783777530254, guid: 31ae0df01f0246e4990b8e308df9fde6,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 31ae0df01f0246e4990b8e308df9fde6, type: 3}
+--- !u!4 &2247281391408232446 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6017113393154956329, guid: 31ae0df01f0246e4990b8e308df9fde6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5525606974995344343}
   m_PrefabAsset: {fileID: 0}
