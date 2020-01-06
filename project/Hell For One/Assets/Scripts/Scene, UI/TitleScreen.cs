@@ -23,7 +23,7 @@ public class TitleScreen : Menu {
                 break;
             // QUIT
             case 2:
-                Debug.Log("Quit!");
+                Application.Quit();
                 break;
             default:
                 break;
