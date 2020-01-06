@@ -15,6 +15,8 @@ public class PlayerScriptedMovements : MonoBehaviour
     private int alliesInPosition = 0;
     private AlliesManager allies;
     private bool alliesNotified = false;
+    private float rotSpeed = 0.1f;
+    private GameObject enemy;
 
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
@@ -38,6 +40,9 @@ public class PlayerScriptedMovements : MonoBehaviour
     // TODO - a questo punto conviene far partire l'evento da qualche altra parte a attivare questo script dall'evento
     private void FixedUpdate() {
         if(inScriptedMovement) {
+            if(!enemy)
+                enemy = GameObject.FindGameObjectWithTag("Boss");
+            Face(enemy);
             agent.SetDestination(target);
             if(!isMoving) {
                 combatEventsManager.RaiseOnStartMoving();
@@ -85,6 +90,15 @@ public class PlayerScriptedMovements : MonoBehaviour
             ally.GetComponent<DemonMovement>().InScriptedMovement = scriptedMovement;
             ally.GetComponent<DemonMovement>().PlayerNotified = false;
         }
+    }
+
+    public void Face(GameObject target) {
+        Vector3 targetPosition = target.transform.position;
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        vectorToTarget.y = 0f;
+        Quaternion facingDir = Quaternion.LookRotation(vectorToTarget);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, rotSpeed);
+        transform.rotation = newRotation;
     }
 }
 
