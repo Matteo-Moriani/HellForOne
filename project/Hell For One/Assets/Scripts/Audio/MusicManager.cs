@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour
     private bool isOutOfCOmbat = false;
     private bool isInCombat = false;
     private bool isFightingBoss = false;
+    private bool isGamePaused = false;
 
     private Coroutine startOutOfCombatMusicCR;
     private Coroutine startCombatMusicCR;
@@ -74,7 +75,7 @@ public class MusicManager : MonoBehaviour
         
         while (needToPlayLoop) {
             // If we done playing main out of combat music...
-            if (!musicAudiosource.isPlaying)
+            if (!musicAudiosource.isPlaying && !isGamePaused)
             {
                 // ...we play the loop out of combat music...
                 AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.OutOFCombat);
@@ -137,11 +138,13 @@ public class MusicManager : MonoBehaviour
         } 
     }
 
-    private void PauseMusic() { 
+    private void PauseMusic() {
+        isGamePaused = true;
         musicAudiosource.Pause();    
     }
 
-    private void ResumeMusic() { 
+    private void ResumeMusic() {
+        isGamePaused = false;
         musicAudiosource.UnPause();    
     }
 }
