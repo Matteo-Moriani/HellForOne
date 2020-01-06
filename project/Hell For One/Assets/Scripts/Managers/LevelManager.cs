@@ -23,14 +23,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject midBossArenaCenter;
 
-    private bool isMidBossAlive;
-    private bool isBossAlive;
+    private static bool isMidBossAlive;
+    private static bool isBossAlive;
 
     public int bossTotRegenDemons = 2;
     public int midBossTotRegenDemons = 1;
 
-    public bool IsMidBossAlive { get => isMidBossAlive; set => isMidBossAlive = value; }
-    public bool IsBossAlive { get => isBossAlive; set => isBossAlive = value; }
+    public static bool IsMidBossAlive { get => isMidBossAlive; private set => isMidBossAlive = value; }
+    public static bool IsBossAlive { get => isBossAlive; private set => isBossAlive = value; }
 
     private void OnEnable()
     {
