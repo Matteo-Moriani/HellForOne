@@ -127,8 +127,14 @@ public class MusicManager : MonoBehaviour
     }
 
     private IEnumerator StartBossMusicCoroutine() {
-        yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Boss));
-        AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Boss);
+        if (LevelManager.IsMidBossAlive) {
+            yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Combat));
+            AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Combat);
+        }
+        if (LevelManager.IsBossAlive) {
+            yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Boss));
+            AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Boss);
+        } 
     }
 
     private void PauseMusic() { 

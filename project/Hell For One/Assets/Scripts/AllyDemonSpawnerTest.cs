@@ -109,11 +109,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private void OnBossBattleEnter() { 
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
-        if(levelManager.GetComponent<LevelManager>().IsMidBossAlive) {
+        if(LevelManager.IsMidBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
             arenaRay = 12f;
         }
-        else if(levelManager.GetComponent<LevelManager>().IsBossAlive) {
+        else if(LevelManager.IsBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
             arenaRay = 19f;
         }
