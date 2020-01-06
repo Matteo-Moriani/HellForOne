@@ -105,8 +105,24 @@ public class MusicManager : MonoBehaviour
     }
 
     private IEnumerator StartCombatMusicCoroutine() {
-        yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Combat));
-        AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Combat);
+        // Play the main out of combat music
+        AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Combat);
+
+        //We wait the end of the main out of combat music
+        bool needToPlayLoop = true;
+
+        while (needToPlayLoop)
+        {
+            // If we done playing main out of combat music...
+            if (!musicAudiosource.isPlaying && !isGamePaused)
+            {
+                // ...we play the loop out of combat music...
+                AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Combat);
+                needToPlayLoop = false;
+            }
+            // ... else, we'll chek next frame
+            yield return null;
+        }
     }
 
     private void StartBossMusic() {
@@ -129,12 +145,44 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator StartBossMusicCoroutine() {
         if (LevelManager.IsMidBossAlive) {
-            yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Combat));
-            AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Combat);
+            // Play the main out of combat music
+            AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Combat);
+
+            //We wait the end of the main out of combat music
+            bool needToPlayLoop = true;
+
+            while (needToPlayLoop)
+            {
+                // If we done playing main out of combat music...
+                if (!musicAudiosource.isPlaying && !isGamePaused)
+                {
+                    // ...we play the loop out of combat music...
+                    AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Combat);
+                    needToPlayLoop = false;
+                }
+                // ... else, we'll chek next frame
+                yield return null;
+            }
         }
         if (LevelManager.IsBossAlive) {
-            yield return new WaitForSeconds(AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Boss));
-            AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Boss);
+            // Play the main out of combat music
+            AudioManager.Instance.PlayMusic(musicAudiosource, AudioManager.Music.Boss);
+
+            //We wait the end of the main out of combat music
+            bool needToPlayLoop = true;
+
+            while (needToPlayLoop)
+            {
+                // If we done playing main out of combat music...
+                if (!musicAudiosource.isPlaying && !isGamePaused)
+                {
+                    // ...we play the loop out of combat music...
+                    AudioManager.Instance.PlayMusicLoop(musicAudiosource, AudioManager.Music.Boss);
+                    needToPlayLoop = false;
+                }
+                // ... else, we'll chek next frame
+                yield return null;
+            }
         } 
     }
 
