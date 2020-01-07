@@ -189,8 +189,8 @@ public class MidBossBehavior : AbstractBoss {
     private void SingleAttack() {
         if(BossCombat == null) {
             BossCombat = GetComponent<Combat>();
-            if(BossCombat == null)
-                Debug.Log("Boss Combat cannot be found");
+            //if(BossCombat == null)
+                //Debug.Log("Boss Combat cannot be found");
         }
         if(BossCombat != null) {
             BossCombat.PlayerAttack();
@@ -201,8 +201,8 @@ public class MidBossBehavior : AbstractBoss {
     private void GroupAttack() {
         if(BossCombat == null) {
             BossCombat = GetComponent<Combat>();
-            if(BossCombat == null)
-                Debug.Log("Boss Combat cannot be found");
+            //if(BossCombat == null)
+                //Debug.Log("Boss Combat cannot be found");
         }
         if(BossCombat != null) {
             BossCombat.GroupAttack();

@@ -74,10 +74,10 @@ public class PushAway : MonoBehaviour
                         controller.enabled = false;
                         dash.enabled = false;
                     }
-                    else
-                    {
-                        Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
-                    }
+                    //else
+                    //{
+                    //    Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
+                    //}
                 }
 
                 // If pushed away ally imp cannot move
@@ -88,10 +88,10 @@ public class PushAway : MonoBehaviour
                     {
                         demonMovement.CanMove = false;
                     }
-                    else
-                    {
-                        Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
-                    }
+                    //else
+                    //{
+                    //    Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
+                    //}
                 }
 
                 // Calculate PushAway direction
@@ -128,10 +128,10 @@ public class PushAway : MonoBehaviour
                             else
                                 dash.enabled = true;
                         }
-                        else
-                        {
-                            Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
-                        }
+                        //else
+                        //{
+                        //    Debug.Log(this.transform.root.name + " is trying to pushAway a Player that does not have controller or dash. Player: " + demon.transform.root.name);
+                        //}
                     }
 
                     // Ally can move again
@@ -142,10 +142,10 @@ public class PushAway : MonoBehaviour
                         {
                             demonMovement.CanMove = true;
                         }
-                        else
-                        {
-                            Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
-                        }
+                        //else
+                        //{
+                        //    Debug.Log(this.transform.root.name + " is trying to pushAway an ally Imp that does not have demonMovement. Imp: " + demon.transform.root.name);
+                        //}
                     }
                 }
 
@@ -156,9 +156,9 @@ public class PushAway : MonoBehaviour
                 demonStats.IsPushedAway = false;
             }
         }
-        else
-        {
-            Debug.Log(this.transform.root.name + " is trying to pushAway a demon that does not have Stats. Demon: " + demon.transform.root.name);
-        }
+        //else
+        //{
+        //    Debug.Log(this.transform.root.name + " is trying to pushAway a demon that does not have Stats. Demon: " + demon.transform.root.name);
+        //}
     }
 }

@@ -64,7 +64,7 @@ public class Lancer : MonoBehaviour
         float alpha;
         if ( target == null )
         {
-            Debug.LogError( "Target cannot be null" );
+            //Debug.LogError( "Target cannot be null" );
         }
 
         distance = Vector3.Distance( transform.position, target.transform.position );

@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "cross" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -65,7 +65,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "cross" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;    
@@ -82,7 +82,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "cross" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -106,7 +106,7 @@ public class InputManager : MonoBehaviour
                 return Input.GetKeyDown(KeyCode.JoystickButton2);
                 //return Input.GetButtonDown("Circle");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -124,7 +124,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "circle" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -142,7 +142,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "circle" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -164,7 +164,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "triangle" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -182,7 +182,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "triangle" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -200,7 +200,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "triangle" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -222,7 +222,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "square" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -240,7 +240,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "square" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -258,7 +258,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "square" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -280,7 +280,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetAxis("Horizontal");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -297,7 +297,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetAxis("Vertical");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -316,7 +316,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -335,7 +335,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -354,7 +354,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -380,7 +380,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To Implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -399,7 +399,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -417,7 +417,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "R3" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -436,7 +436,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -455,7 +455,7 @@ public class InputManager : MonoBehaviour
                 // TODO - To implement
                 break;
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -478,7 +478,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetAxis( "PS4DpadXAxis" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -496,7 +496,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetAxis( "PS4DpadYAxis" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return 0f;
@@ -519,7 +519,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "L1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -537,7 +537,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "L1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -555,7 +555,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "L1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -578,7 +578,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown( "R1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -596,7 +596,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp( "R1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -614,7 +614,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton( "R1" );
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -664,7 +664,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown("L2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -687,7 +687,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp("L2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -709,7 +709,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton("L2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -760,7 +760,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonDown("R2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -783,7 +783,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButtonUp("R2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -805,7 +805,7 @@ public class InputManager : MonoBehaviour
             case Controller.Ps3:
                 return Input.GetButton("R2");
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;
@@ -824,7 +824,7 @@ public class InputManager : MonoBehaviour
             case Controller.MouseAndKeyboard:
                 return Input.GetKeyDown(KeyCode.Escape);
             case Controller.None:
-                Debug.Log("Controller.type not set");
+                //Debug.Log("Controller.type not set");
                 break;
         }
         return false;

@@ -11,9 +11,9 @@ public class LanceAttackColliderManager : MonoBehaviour
         if(attackCollider != null) { 
             attackCollider.SetActive(true);    
         }
-        else { 
-            Debug.Log(this.gameObject.name + " LanceAttackColliderManager - AttackCollider is null");    
-        }
+        //else { 
+        //    Debug.Log(this.gameObject.name + " LanceAttackColliderManager - AttackCollider is null");    
+        //}
     }
 
     private void OnDisable()
@@ -22,9 +22,9 @@ public class LanceAttackColliderManager : MonoBehaviour
         {
             attackCollider.SetActive(false);
         }
-        else
-        {
-            Debug.Log(this.gameObject.name + " LanceAttackColliderManager - AttackCollider is null");
-        }
+        //else
+        //{
+        //    Debug.Log(this.gameObject.name + " LanceAttackColliderManager - AttackCollider is null");
+        //}
     }
 }

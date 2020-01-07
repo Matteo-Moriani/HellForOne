@@ -15,7 +15,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private int regenDemonsLeft;
     private GameObject levelManager;
     private float arenaRay;
-    private float spawnAdjustment = 1f;
+    private float spawnAdjustment = 4f;
 
     [SerializeField]
     private GameObject impPrefab;
@@ -60,7 +60,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
             }
         }
 
-        Debug.Log("no more demons will help you!");
+        //Debug.Log("no more demons will help you!");
     }
     
     public Vector3 SpawnPosition()
@@ -112,19 +112,19 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
         if(LevelManager.IsMidBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
-            arenaRay = 10f;
+            arenaRay = 5f;
         }
         else if(LevelManager.IsBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
-            arenaRay = 15f;
+            arenaRay = 5f;
         }
         
         if (arenaCenter != null) {
             this.transform.position = arenaCenter.transform.position;
         }
-        else { 
-            Debug.Log(this.gameObject.name + " cannot find arena center");    
-        }
+        //else { 
+        //    Debug.Log(this.gameObject.name + " cannot find arena center");    
+        //}
         
 
         if(spawnAllyCR == null) {

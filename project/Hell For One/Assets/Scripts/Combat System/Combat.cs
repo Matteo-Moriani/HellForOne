@@ -128,9 +128,9 @@ public class Combat : MonoBehaviour
                         combatEventsManager.RaiseOnStartRangedAttack();
                     }
                 }
-                else {
-                    Debug.Log("Player cannot find rangeTarget");
-                }
+                //else {
+                //    Debug.Log("Player cannot find rangeTarget");
+                //}
             }
         }
         // For everty other demon...

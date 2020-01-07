@@ -65,8 +65,8 @@ public class MenuInput : GeneralInput {
                 }
             }
         }
-        else {
-            Debug.Log("Can't find an input manager");
-        }
+        //else {
+        //    Debug.Log("Can't find an input manager");
+        //}
     }
 }

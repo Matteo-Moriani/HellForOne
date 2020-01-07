@@ -72,7 +72,7 @@ public class Dash : MonoBehaviour
 
         if (idleCollider == null)
         {
-            Debug.Log("Dash.cs - Set idleCollider");
+            //Debug.Log("Dash.cs - Set idleCollider");
         }
 
         rb = GetComponent<Rigidbody>();

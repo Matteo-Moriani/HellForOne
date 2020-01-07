@@ -134,10 +134,10 @@ public class AudioManager : MonoBehaviour
                         //combatAudioSource.Play();
                         combatAudioSource.PlayOneShot(clipToPlay);
                     }
-                    else
-                    {
-                        Debug.Log(" Input manager is trying to play a clip but it is null");
-                    }
+                    //else
+                    //{
+                    //    Debug.Log(" Input manager is trying to play a clip but it is null");
+                    //}
                 }
                 break;
             case CombatAudio.Block:
@@ -150,10 +150,10 @@ public class AudioManager : MonoBehaviour
                         //combatAudioSource.Play();
                         combatAudioSource.PlayOneShot(clipToPlay);
                     }
-                    else
-                    {
-                        Debug.Log(" Input manager is trying to play a clip but it is null");
-                    }
+                    //else
+                    //{
+                    //    Debug.Log(" Input manager is trying to play a clip but it is null");
+                    //}
                 }
                 break;
         }
@@ -204,7 +204,7 @@ public class AudioManager : MonoBehaviour
                 }
                 break;
             case Stats.Type.None:
-                Debug.Log("You are trying to play a death sound but the type of this unit is Stats.Type.None");
+                //Debug.Log("You are trying to play a death sound but the type of this unit is Stats.Type.None");
                 break;
         }
     }
@@ -232,10 +232,10 @@ public class AudioManager : MonoBehaviour
                     }
                     break;
                 case Size.Medium:
-                    Debug.Log("TODO - Implement medium size walk audio");
+                    //Debug.Log("TODO - Implement medium size walk audio");
                     break;
                 case Size.Big:
-                    Debug.Log("TODO - Implement big size walk audio");
+                    //Debug.Log("TODO - Implement big size walk audio");
                     break;
             }
         }

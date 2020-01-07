@@ -83,7 +83,7 @@ public class Reincarnation : MonoBehaviour
             }
         }
         else { 
-            Debug.LogError("Reicarnation cannot find Player");
+            //Debug.LogError("Reicarnation cannot find Player");
 
             // Start reicarnation coroutine
             if (reicarnationCR == null)

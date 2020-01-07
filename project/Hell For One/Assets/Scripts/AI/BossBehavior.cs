@@ -43,7 +43,7 @@ public class BossBehavior : AbstractBoss
         // this is the true probability value
         float originalGlobalProb = globalAttackProb;
         globalAttackProb = ((singleAttackProb + groupAttackProb + globalAttackProb) * globalAttackProb) / (singleAttackProb + groupAttackProb);
-        Debug.Log("boss global attack probability will be " + globalAttackProb + "/" + (singleAttackProb + groupAttackProb + originalGlobalProb) + " when available");
+        //Debug.Log("boss global attack probability will be " + globalAttackProb + "/" + (singleAttackProb + groupAttackProb + originalGlobalProb) + " when available");
     }
 
     void Start() {
@@ -222,8 +222,8 @@ public class BossBehavior : AbstractBoss
         if ( BossCombat == null )
         {
             BossCombat = GetComponent<Combat>();
-            if ( BossCombat == null )
-                Debug.Log( "Boss Combat cannot be found" );
+            //if ( BossCombat == null )
+                //Debug.Log( "Boss Combat cannot be found" );
         }
         if ( BossCombat != null) {
             BossCombat.PlayerAttack();
@@ -236,8 +236,8 @@ public class BossBehavior : AbstractBoss
         if ( BossCombat == null )
         {
             BossCombat = GetComponent<Combat>();
-            if ( BossCombat == null )
-                Debug.Log( "Boss Combat cannot be found" );
+            //if ( BossCombat == null )
+            //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( BossCombat != null) {
             BossCombat.GroupAttack();
@@ -249,8 +249,8 @@ public class BossBehavior : AbstractBoss
         if ( BossCombat == null )
         {
             BossCombat = GetComponent<Combat>();
-            if ( BossCombat == null )
-                Debug.Log( "Boss Combat cannot be found" );
+            //if ( BossCombat == null )
+            //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( BossCombat != null) {
             BossCombat.GlobalAttack();

@@ -235,9 +235,9 @@ public class GroupMovement : MonoBehaviour
                     target = player;
                     SetDemonsTarget(target);
                 }
-                else { 
-                    Debug.Log(this.gameObject.name + "Cannot find Player");    
-                }
+                //else { 
+                //    Debug.Log(this.gameObject.name + "Cannot find Player");    
+                //}
             }
         }
     }

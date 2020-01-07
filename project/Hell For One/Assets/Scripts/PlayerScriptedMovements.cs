@@ -12,7 +12,7 @@ public class PlayerScriptedMovements : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private bool isMoving = false;
     private int alliesNum;
-    private int alliesInPosition = 0;
+    public int alliesInPosition = 0;
     private AlliesManager allies;
     private bool alliesNotified = false;
     private float rotSpeed = 0.1f;
@@ -48,11 +48,13 @@ public class PlayerScriptedMovements : MonoBehaviour
                 combatEventsManager.RaiseOnStartMoving();
                 isMoving = true;
             }
-            if((gameObject.transform.position - target).magnitude <= 0.1f && !alliesNotified) {
+            //if((gameObject.transform.position - target).magnitude <= 0.5f && !alliesNotified)
+            if(gameObject.transform.position.x - target.x < 0.1f && gameObject.transform.position.z - target.z < 0.1f && !alliesNotified)
+            {
                 alliesNotified = true;
                 NotifyAllies(inScriptedMovement);
             }
-            if(alliesInPosition == alliesNum){ 
+            if(alliesInPosition == AlliesManager.Instance.AlliesList.Count){ 
                 combatEventsManager.RaiseOnStartIdle();
                 BattleEventsManager.RaiseOnBossBattleEnter();
             }

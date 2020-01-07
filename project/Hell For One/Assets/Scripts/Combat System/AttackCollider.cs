@@ -124,7 +124,7 @@ public class AttackCollider : MonoBehaviour
                 this.gameObject.SetActive(false);
                 break;
             case AttackColliderType.None:
-                Debug.Log(this.name + "AttackCollider.tyoe is set to None");
+                //Debug.Log(this.name + "AttackCollider.tyoe is set to None");
                 break;
         }
     }
@@ -168,10 +168,10 @@ public class AttackCollider : MonoBehaviour
 
             stats.RaiseAggro(aggroModifier);
         }
-        else
-        {
-            Debug.Log(this.name + "AttackCollider.type is set to None");
-        }
+        //else
+        //{
+        //    Debug.Log(this.name + "AttackCollider.type is set to None");
+        //}
     }
 
     /// <summary>
@@ -489,7 +489,7 @@ public class AttackCollider : MonoBehaviour
             }
             if (type == AttackColliderType.None)
             {
-                Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
+                //Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
             }
 
             // Deal damage
@@ -509,7 +509,7 @@ public class AttackCollider : MonoBehaviour
             }
             if (type == AttackColliderType.None)
             {
-                Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
+                //Debug.Log(this.transform.root.gameObject.name + " attack collide type not set");
             }
         }
     }

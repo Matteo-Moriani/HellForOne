@@ -21,7 +21,7 @@ public class Spectator : MonoBehaviour
 
     private void StartAnimation() {
         AnimationClip animation = GetComponent<AnimationsManager>().GetRandomAnimation();
-        Debug.Log(animation.name);
+        //Debug.Log(animation.name);
 
         switch(animation.name) {
             case "Clapping":
@@ -34,7 +34,7 @@ public class Spectator : MonoBehaviour
                 animator.SetBool("rally", true);
                 break;
             default:
-                Debug.Log("animation missing");
+                //Debug.Log("animation missing");
                 break;
         }
     }
