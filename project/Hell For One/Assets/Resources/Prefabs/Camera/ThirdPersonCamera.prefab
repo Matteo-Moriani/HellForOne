@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 3583090282580346645}
   - component: {fileID: 3583090282580346644}
   - component: {fileID: 3583090282580346646}
+  - component: {fileID: 1914116534175652620}
   m_Layer: 0
   m_Name: ThirdPersonCamera
   m_TagString: ThirdPersonCamera
@@ -647,6 +648,22 @@ MonoBehaviour:
   m_Damping: 1.35
   m_DampingWhenOccluded: 1.6
   m_OptimalTargetDistance: 0
+--- !u!114 &1914116534175652620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583090282580346643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c858a84a27cd540b3e737560e7eb44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps4XAxisName: Vertical2
+  ps4YAxisName: Horizontal2
+  xboxXAxisName: XBoxRightStickVertical
+  xboxYAxisName: XBoxRightStickHorizontal
 --- !u!1 &3583090282767041032
 GameObject:
   m_ObjectHideFlags: 0
