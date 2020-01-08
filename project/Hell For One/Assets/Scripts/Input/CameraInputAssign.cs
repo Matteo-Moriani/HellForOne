@@ -29,7 +29,7 @@ public class CameraInputAssign : MonoBehaviour
         defaultAxisState_Y = cinemachineFreeLook.m_YAxis;
 
         switch (InputManager.Instance.Type) { 
-            case InputManager.Controller.Ps3:
+            case InputManager.Controller.Playstation:
                 defaultAxisState_X.m_InputAxisName = ps4XAxisName;
                 defaultAxisState_Y.m_InputAxisName = ps4YAxisName;
                 break;
