@@ -51,9 +51,14 @@ public class CameraInputAssign : MonoBehaviour
 
     public void InvertAxis_X() { 
         defaultAxisState_X.m_InvertInput = !defaultAxisState_X.m_InvertInput;
+
+        cinemachineFreeLook.m_XAxis = defaultAxisState_X;
     }
 
-    public void InvertAxis_Y() { 
+    public void InvertAxis_Y() {
+        
         defaultAxisState_Y.m_InvertInput = !defaultAxisState_Y.m_InvertInput;
+
+        cinemachineFreeLook.m_YAxis = defaultAxisState_Y;
     }
 }
