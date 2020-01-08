@@ -18,21 +18,26 @@ public class CameraInputAssign : MonoBehaviour
     [SerializeField]
     private string xboxYAxisName;
 
+    private AxisState defaultAxisState_X;
+    private AxisState defaultAxisState_Y;
+    
     private void Start()
     {
         cinemachineFreeLook = GetComponent<CinemachineFreeLook>();
 
-        AxisState defaultXAxisState = cinemachineFreeLook.m_XAxis;
-        AxisState defaultYaxisState = cinemachineFreeLook.m_YAxis;
+        defaultAxisState_X = cinemachineFreeLook.m_XAxis;
+        defaultAxisState_Y = cinemachineFreeLook.m_YAxis;
 
         switch (InputManager.Instance.Type) { 
             case InputManager.Controller.Ps3:
-                defaultXAxisState.m_InputAxisName = ps4XAxisName;
-                defaultYaxisState.m_InputAxisName = ps4YAxisName;
+                defaultAxisState_X.m_InputAxisName = ps4XAxisName;
+                defaultAxisState_Y.m_InputAxisName = ps4YAxisName;
                 break;
             case InputManager.Controller.Xbox:
-                defaultXAxisState.m_InputAxisName = xboxXAxisName;
-                defaultYaxisState.m_InputAxisName = xboxYAxisName;
+                defaultAxisState_X.m_InputAxisName = xboxXAxisName;
+                defaultAxisState_Y.m_InputAxisName = xboxYAxisName;
+
+                defaultAxisState_X.m_InvertInput = false;
                 break;
             case InputManager.Controller.MouseAndKeyboard:
                 break;
@@ -40,7 +45,15 @@ public class CameraInputAssign : MonoBehaviour
                 break;
         }
 
-        cinemachineFreeLook.m_XAxis = defaultXAxisState;
-        cinemachineFreeLook.m_YAxis = defaultYaxisState;
+        cinemachineFreeLook.m_XAxis = defaultAxisState_X;
+        cinemachineFreeLook.m_YAxis = defaultAxisState_Y;
+    }
+
+    public void InvertAxis_X() { 
+        defaultAxisState_X.m_InvertInput = !defaultAxisState_X.m_InvertInput;
+    }
+
+    public void InvertAxis_Y() { 
+        defaultAxisState_Y.m_InvertInput = !defaultAxisState_Y.m_InvertInput;
     }
 }

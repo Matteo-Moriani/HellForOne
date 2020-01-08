@@ -615,9 +615,9 @@ MonoBehaviour:
     m_Radius: 10
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
-  - {fileID: 3583090282767041033}
-  - {fileID: 3583090283303256181}
-  - {fileID: 3583090282345519252}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &3583090282580346646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,8 +662,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ps4XAxisName: Vertical2
   ps4YAxisName: Horizontal2
-  xboxXAxisName: XBoxRightStickVertical
-  xboxYAxisName: XBoxRightStickHorizontal
+  xboxXAxisName: XBoxRightStickHorizontal
+  xboxYAxisName: XBoxRightStickVertical
 --- !u!1 &3583090282767041032
 GameObject:
   m_ObjectHideFlags: 0
