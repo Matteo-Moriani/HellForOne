@@ -10,13 +10,14 @@ public class Options : Menu {
         switch(ElementIndex) {
             // SHOW/HIDE ORDERS CROSS
             case 0:
-                if(elements[ElementIndex].GetComponent<Toggle>().isOn)
-                    elements[ElementIndex].GetComponent<Toggle>().isOn = false;
-                else
-                    elements[ElementIndex].GetComponent<Toggle>().isOn = true;
+                SwitchToggle();
+                break;
+            // INVERT/NOT X CAMERA AXIS
+            case 1:
+                SwitchToggle();
                 break;
             // BACK
-            case 1:
+            case 2:
                 TransitionTo(ParentScreen);
                 break;
             default:
@@ -26,5 +27,16 @@ public class Options : Menu {
 
     public void ShowOrdersCross(bool b) {
         GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>().OrdersCross.SetActive(b);
+    }
+
+    public void InvertXCameraAxis() {
+        GameObject.FindGameObjectWithTag("ThirdPersonCamera").GetComponent<CameraInputAssign>().InvertAxis_X();
+    }
+
+    private void SwitchToggle() {
+        if(elements[ElementIndex].GetComponent<Toggle>().isOn)
+            elements[ElementIndex].GetComponent<Toggle>().isOn = false;
+        else
+            elements[ElementIndex].GetComponent<Toggle>().isOn = true;
     }
 }
