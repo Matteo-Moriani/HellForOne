@@ -36,7 +36,7 @@ public class InputManager : MonoBehaviour
             _instance = this;
         }
 
-        GetControllerType();
+        //GetControllerType();
     }
 
     #region XorA

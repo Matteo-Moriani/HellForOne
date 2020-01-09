@@ -134,6 +134,10 @@ public class DemonMovement : MonoBehaviour
                         //Debug.Log(gameObject.name + " still not in position. agent desitination is " + agent.destination);
                     }
                     else {
+                        if(!agent.CalculatePath(group.transform.position, new NavMeshPath()))
+                            Debug.Log(gameObject.GetComponent<DemonBehaviour>().groupBelongingTo + " imp couldn't find a path");
+
+
                         agent.destination = transform.position;
                         Face(target);
                         if(InScriptedMovement && !PlayerNotified) {

@@ -15,10 +15,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private int regenDemonsLeft;
     private GameObject levelManager;
     private float arenaRay;
-    private float spawnAdjustment = 4f;
+    // TODO - maybe something is wrong with the adjustment calculation
+    private float spawnAdjustment = 0f;
 
-    [SerializeField]
-    private GameObject impPrefab;
+    // TODO -must not be assigned in the inspector
+    public GameObject impPrefab;
 
     [SerializeField]
     private int impRewardAfterBossBattle = 4;
@@ -52,8 +53,6 @@ public class AllyDemonSpawnerTest : MonoBehaviour
             yield return new WaitForSeconds(timer);
 
             if(needForRegen) {
-                //GameObject demonToSpawn = Resources.Load("Prefabs/FakeImp") as GameObject;
-
                 // TODO - We need to spawn the ally via AlliesManager
                 AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
                 regenDemonsLeft--;
@@ -75,9 +74,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.z = spawnPosition.z * -1;
 
-        //Debug.Log("ally spawned in position " + spawnPosition.x + " , " + spawnPosition.z);
-        spawnPosition =  transform.position + transform.forward * 10;
-        spawnPosition.y = 1;
+        Debug.Log("ally spawned in " + spawnPosition.x + " , " + spawnPosition.z + ". Must be between (-" + arenaRay + ", " + arenaRay + ") in both coordinates.");
+        spawnPosition += transform.position;
         return spawnPosition;
     }
 
@@ -112,15 +110,15 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
         if(LevelManager.IsMidBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
-            arenaRay = 5f;
+            arenaRay = 8f;
         }
         else if(LevelManager.IsBossAlive) {
             regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
-            arenaRay = 5f;
+            arenaRay = 13f;
         }
         
         if (arenaCenter != null) {
-            this.transform.position = arenaCenter.transform.position;
+            transform.position = arenaCenter.transform.position;
         }
         //else { 
         //    Debug.Log(this.gameObject.name + " cannot find arena center");    
@@ -149,7 +147,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
             int counter = impRewardAfterBossBattle;
             
             while(counter > 0) { 
-                AlliesManager.Instance.SpawnAlly(impPrefab,SpawnPosition());
+                AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
                 
                 counter--;
             }
