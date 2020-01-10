@@ -135,7 +135,7 @@ public class DemonMovement : MonoBehaviour
                     }
                     else {
                         if(!agent.CalculatePath(group.transform.position, new NavMeshPath()))
-                            Debug.Log(gameObject.GetComponent<DemonBehaviour>().groupBelongingTo + " imp couldn't find a path");
+                            //Debug.Log(gameObject.GetComponent<DemonBehaviour>().groupBelongingTo + " imp couldn't find a path");
 
 
                         agent.destination = transform.position;
