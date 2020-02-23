@@ -35,16 +35,16 @@ public class AllyDemonSpawnerTest : MonoBehaviour
             // 0 demons = game over, max number of demons = no need for spawn ally
             if ( impNumber >= ImpMaxNumber * 0.8 && impNumber < ImpMaxNumber ) {            // 13-16
                 needForRegen = true;
-                timer = 45f;
+                timer = 5f;
             }
             else if (impNumber >= ImpMaxNumber * 0.4 && impNumber < ImpMaxNumber * 0.8) {   // 7-12
                 needForRegen = true;
-                timer = 30f;
+                timer = 5f;
             }
             else if ( impNumber > 0 && impNumber < ImpMaxNumber * 0.4 )                    // 1-6
             {
                 needForRegen = true;
-                timer = 15f;
+                timer = 5f;
             }
             else {
                 needForRegen = false;
