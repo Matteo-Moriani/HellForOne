@@ -360,7 +360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 331}
+  m_AnchoredPosition: {x: 0, y: 357}
   m_SizeDelta: {x: 100, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2795623928954936061
@@ -490,6 +490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2795623929544978114}
+  - component: {fileID: 2777276165738394208}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -522,6 +523,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2777276165738394208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795623929544978113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c32e075409359584ea92ccb4f59665b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elements:
+  - {fileID: 2795623929837070341}
 --- !u!1 &2795623929837070341
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +573,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -306}
+  m_AnchoredPosition: {x: 0, y: -443}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2795623929837070361
@@ -734,8 +749,8 @@ MonoBehaviour:
 
 
 
-    Developed for the "Videogame Design and Programming course of the Politecnico
-    di Milano (prof. Pier Luca Lanzi and Dr. Daniele Loiacono)'
+    Demo presented for the NGD 2020 event by PONG (la Statale). Originally developed
+    for the "Videogame Design and Programming" course of the Politecnico di Milano.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -780,7 +795,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 119
+  m_firstOverflowCharacterIndex: 124
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -804,12 +819,12 @@ MonoBehaviour:
   m_margin: {x: -415.44983, y: -35.041016, z: -412.06592, w: 0}
   m_textInfo:
     textComponent: {fileID: 8008541866405176820}
-    characterCount: 189
+    characterCount: 213
     spriteCount: 0
-    spaceCount: 36
-    wordCount: 28
+    spaceCount: 40
+    wordCount: 32
     linkCount: 0
-    lineCount: 13
+    lineCount: 14
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
