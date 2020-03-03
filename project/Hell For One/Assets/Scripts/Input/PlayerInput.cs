@@ -237,8 +237,14 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
-                            newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 0 );
-                            tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
+                            
+                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
+                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
+
+                            if (hasAssignedOrder) {
+                                newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 0);
+                            }
+                            
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
 
@@ -283,8 +289,16 @@ public class PlayerInput : GeneralInput
                         }
                         else if(combat != null && tacticsManager.isActiveAndEnabled) {
                             DpadInUse = true;
-                            newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
-                            tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
+                            //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
+                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
+
+                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.RangeAttack);
+
+                            if (hasAssignedOrder)
+                            {
+                                newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 2);
+                            }
+
                             StartCoroutine(DpadWait(dpadWaitTime));
                         }
 
@@ -322,8 +336,16 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
-                        newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
-                        tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
+                        //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
+                        //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
+
+                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Tank);
+
+                        if (hasAssignedOrder)
+                        {
+                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 1);
+                        }
+
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
                 }
@@ -359,8 +381,16 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
-                        newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 3 );
-                        tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
+                        //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 3 );
+                        //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
+
+                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Support);
+
+                        if (hasAssignedOrder)
+                        {
+                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 3);
+                        }
+
                         StartCoroutine(DpadWait(dpadWaitTime));
                     }
                 }

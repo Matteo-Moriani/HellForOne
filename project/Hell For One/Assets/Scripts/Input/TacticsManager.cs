@@ -26,6 +26,8 @@ public class TacticsManager : MonoBehaviour
 
     private int tacticsIndex, groupsIndex = 0;
 
+    private GroupsInRangeDetector groupsInRangeDetector;
+
     public GroupBehaviour.State CurrentShowedState { get => currentShowedState; set => currentShowedState = value; }
     public Group CurrentShowedGroup { get => currentShowedGroup; set => currentShowedGroup = value; }
 
@@ -63,6 +65,7 @@ public class TacticsManager : MonoBehaviour
 
     public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
     {
+        // TODO - optimize this
         GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
         if ( groupBehaviour.groupFSM.current.stateName != state.ToString() )
         {
@@ -93,9 +96,23 @@ public class TacticsManager : MonoBehaviour
         //Debug.Log( CurrentShowedState );
     }
 
-    public void AssignOrder()
+    public bool AssignOrder(GroupBehaviour.State state)
     {
-        AssignOrderToGroup( CurrentShowedState, CurrentShowedGroup );
+        bool canAssingOrder = false;
+
+        if (groupsInRangeDetector != null) {
+            canAssingOrder = groupsInRangeDetector.IsTheGroupInRange(currentShowedGroup);
+        }
+        else
+        {
+            Debug.LogError(this.gameObject.name + " TacticsManager - cannot find GroupsInRangeDetector");
+        }
+
+        if (canAssingOrder) {
+            AssignOrderToGroup(state, CurrentShowedGroup);
+        }
+
+        return canAssingOrder;
     }
 
     void Start()
@@ -105,5 +122,7 @@ public class TacticsManager : MonoBehaviour
         tacticsIndex = 0;
         CurrentShowedState = tacticsArray[ tacticsIndex ];
         CurrentShowedGroup = groupsArray[ groupsIndex ];
+
+        groupsInRangeDetector = this.gameObject.GetComponentInChildren<GroupsInRangeDetector>(true);
     }
 }

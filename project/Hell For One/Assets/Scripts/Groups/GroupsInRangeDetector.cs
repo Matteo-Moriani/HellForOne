@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class GroupsInRangeDetector : MonoBehaviour
 {
-    private enum Actions{ 
+    private enum Actions
+    {
         Add,
         Remove
     }
-    
+
     [SerializeField]
     [Tooltip("The range of this Imp's group detection")]
     private float detectionRange = 1.0f;
 
     private List<GroupBehaviour.Group> groupsInRange = new List<GroupBehaviour.Group>();
-    
+
     /// <summary>
     /// List that contains all the groups in range of this Imp
     /// </summary>
@@ -22,20 +23,21 @@ public class GroupsInRangeDetector : MonoBehaviour
 
     private void Start()
     {
-        this.transform.localScale = new Vector3(detectionRange,detectionRange,detectionRange);
+        this.transform.localScale = new Vector3(detectionRange, detectionRange, detectionRange);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        ManageRange(GroupsInRangeDetector.Actions.Add, other);    
+        ManageRange(GroupsInRangeDetector.Actions.Add, other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        ManageRange(GroupsInRangeDetector.Actions.Remove, other);   
+        ManageRange(GroupsInRangeDetector.Actions.Remove, other);
     }
 
-    private void ManageRange(GroupsInRangeDetector.Actions action, Collider other) {
+    private void ManageRange(GroupsInRangeDetector.Actions action, Collider other)
+    {
         if (other.gameObject.tag == "Demon")
         {
             DemonBehaviour demonBehaviour = other.gameObject.GetComponent<DemonBehaviour>();
@@ -46,7 +48,8 @@ public class GroupsInRangeDetector : MonoBehaviour
 
                 if (groupBehaviour != null)
                 {
-                    switch (action) { 
+                    switch (action)
+                    {
                         case Actions.Add:
                             if (!groupsInRange.Contains(groupBehaviour.ThisGroupName))
                             {
@@ -61,7 +64,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                             if (groupsInRange.Contains(groupBehaviour.ThisGroupName))
                             {
                                 groupsInRange.Remove(groupBehaviour.ThisGroupName);
-                                
+
                                 // TODO - Debug for testing, remove this
                                 Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
                             }
@@ -79,5 +82,42 @@ public class GroupsInRangeDetector : MonoBehaviour
                 Debug.LogError("GroupInRangeDetector - " + other.name + " does not have DemonBehaviour attached");
             }
         }
+    }
+
+    /// <summary>
+    /// Checks if group is in range
+    /// </summary>
+    /// <param name="group">The group to check</param>
+    /// <returns></returns>
+    public bool IsTheGroupInRange(TacticsManager.Group group)
+    {
+        switch (group)
+        {
+            case TacticsManager.Group.GroupAzure:
+                if (groupsInRange.Contains(GroupBehaviour.Group.Azure))
+                {
+                    return true;
+                }
+                break;
+            case TacticsManager.Group.GroupGreen:
+                if (groupsInRange.Contains(GroupBehaviour.Group.Green))
+                {
+                    return true;
+                }
+                break;
+            case TacticsManager.Group.GroupPink:
+                if (groupsInRange.Contains(GroupBehaviour.Group.Pink))
+                {
+                    return true;
+                }
+                break;
+            case TacticsManager.Group.GroupYellow:
+                if (groupsInRange.Contains(GroupBehaviour.Group.Yellow))
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
     }
 }
