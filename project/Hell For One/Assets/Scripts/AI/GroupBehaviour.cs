@@ -4,6 +4,26 @@ using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour
 {
+    /// <summary>
+    /// Enum that lists the aviable groups
+    /// </summary>
+    public enum Group { 
+        None,
+        Azure,
+        Pink,
+        Yellow,
+        Green
+    }
+
+    [SerializeField]
+    [Tooltip("Field that indicate wich group this is")]
+    private Group thisGroupName = Group.None;
+
+    /// <summary>
+    /// Property that idicates wich group this is
+    /// </summary>
+    public Group ThisGroupName { get => thisGroupName; private set => thisGroupName = value; }
+
     /// This script is attached to invisible gameobjects that manages the single group
 
     public int maxNumDemons = 4;

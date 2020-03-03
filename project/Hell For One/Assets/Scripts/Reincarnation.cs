@@ -76,6 +76,14 @@ public class Reincarnation : MonoBehaviour
                 playerScriptedMovements.enabled = false;
             }
 
+            // Dectivate groups in range detection
+            Transform groupsInRangeDetector = player.transform.Find("GroupsInRangeDetector");
+
+            if (groupsInRangeDetector != null)
+            {
+                groupsInRangeDetector.gameObject.SetActive(false);
+            }
+
             // Start reicarnation coroutine
             if (reicarnationCR == null)
             {
@@ -240,6 +248,14 @@ public class Reincarnation : MonoBehaviour
             
             if(combatEventsManager != null) { 
                 combatEventsManager.RaiseOnReincarnation();    
+            }
+
+            // Activate groups in range detection
+            // TODO - shouold this be activated after picking up the crown?
+            Transform groupsInRangeDetector = player.transform.Find("GroupsInRangeDetector");
+
+            if(groupsInRangeDetector != null) { 
+                groupsInRangeDetector.gameObject.SetActive(true);    
             }
         }
     }
