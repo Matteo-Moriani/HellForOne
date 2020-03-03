@@ -8,16 +8,15 @@ public class GroupBehaviour : MonoBehaviour
     /// Enum that lists the aviable groups
     /// </summary>
     public enum Group { 
-        None,
         Azure,
         Pink,
-        Yellow,
-        Green
+        Green,
+        Yellow
     }
 
     [SerializeField]
     [Tooltip("Field that indicate wich group this is")]
-    private Group thisGroupName = Group.None;
+    private Group thisGroupName;
 
     /// <summary>
     /// Property that idicates wich group this is

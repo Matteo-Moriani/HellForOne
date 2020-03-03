@@ -89,29 +89,29 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// </summary>
     /// <param name="group">The group to check</param>
     /// <returns></returns>
-    public bool IsTheGroupInRange(TacticsManager.Group group)
+    public bool IsTheGroupInRange(GroupBehaviour.Group group)
     {
         switch (group)
         {
-            case TacticsManager.Group.GroupAzure:
+            case GroupBehaviour.Group.Azure:
                 if (groupsInRange.Contains(GroupBehaviour.Group.Azure))
                 {
                     return true;
                 }
                 break;
-            case TacticsManager.Group.GroupGreen:
+            case GroupBehaviour.Group.Green:
                 if (groupsInRange.Contains(GroupBehaviour.Group.Green))
                 {
                     return true;
                 }
                 break;
-            case TacticsManager.Group.GroupPink:
+            case GroupBehaviour.Group.Pink:
                 if (groupsInRange.Contains(GroupBehaviour.Group.Pink))
                 {
                     return true;
                 }
                 break;
-            case TacticsManager.Group.GroupYellow:
+            case GroupBehaviour.Group.Yellow:
                 if (groupsInRange.Contains(GroupBehaviour.Group.Yellow))
                 {
                     return true;

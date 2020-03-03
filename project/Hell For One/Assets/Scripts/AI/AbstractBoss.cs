@@ -390,16 +390,16 @@ public abstract class AbstractBoss : MonoBehaviour {
         if(Stats.health > 0) {
             switch(index) {
                 case 0:
-                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupAzure);
+                    HUD.ActivateAggroIcon(GroupBehaviour.Group.Azure);
                     break;
                 case 1:
-                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupPink);
+                    HUD.ActivateAggroIcon(GroupBehaviour.Group.Pink);
                     break;
                 case 2:
-                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupGreen);
+                    HUD.ActivateAggroIcon(GroupBehaviour.Group.Green);
                     break;
                 case 3:
-                    HUD.ActivateAggroIcon(TacticsManager.Group.GroupYellow);
+                    HUD.ActivateAggroIcon(GroupBehaviour.Group.Yellow);
                     break;
                 default:
                     break;

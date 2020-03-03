@@ -29,29 +29,29 @@ public class NewHUD : MonoBehaviour
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
-    public void ActivateAggroIcon( TacticsManager.Group group )
+    public void ActivateAggroIcon( GroupBehaviour.Group group)
     {
         switch ( group )
         {
-            case TacticsManager.Group.GroupAzure:
+            case GroupBehaviour.Group.Azure:
                 aggroIconAzure.enabled = true;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case TacticsManager.Group.GroupGreen:
+            case GroupBehaviour.Group.Green:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = true;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case TacticsManager.Group.GroupPink:
+            case GroupBehaviour.Group.Pink:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = true;
                 aggroIconYellow.enabled = false;
                 break;
-            case TacticsManager.Group.GroupYellow:
+            case GroupBehaviour.Group.Yellow:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
@@ -193,22 +193,22 @@ public class NewHUD : MonoBehaviour
         }
     }
 
-    public void ChangeGroupState(TacticsManager.Group group, int index)
+    public void ChangeGroupState(GroupBehaviour.Group group, int index)
     {
         GroupBehaviour gb = null;
 
         switch ( group )
         {
-            case TacticsManager.Group.GroupAzure:
+            case GroupBehaviour.Group.Azure:
                 gb = groupAzure;
                 break;
-            case TacticsManager.Group.GroupPink:
+            case GroupBehaviour.Group.Pink:
                 gb = groupPink;
                 break;
-            case TacticsManager.Group.GroupGreen:
+            case GroupBehaviour.Group.Green:
                 gb = groupGreen;
                 break;
-            case TacticsManager.Group.GroupYellow:
+            case GroupBehaviour.Group.Yellow:
                 gb = groupYellow;
                 break;
         }
@@ -257,7 +257,7 @@ public class NewHUD : MonoBehaviour
 
         switch ( tacticsManager.CurrentShowedGroup )
         {
-            case TacticsManager.Group.GroupAzure:
+            case GroupBehaviour.Group.Azure:
                 panelAzure.transform.localScale = enlargedScale;
                 panelAzure.transform.SetAsLastSibling();
                 panelAzure.transform.localPosition = panelPosition;
@@ -267,7 +267,7 @@ public class NewHUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case TacticsManager.Group.GroupPink:
+            case GroupBehaviour.Group.Pink:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = enlargedScale;
@@ -277,7 +277,7 @@ public class NewHUD : MonoBehaviour
                 panelGreen.transform.localPosition = xCorrection * 2;
                 panelYellow.transform.localScale = defaultScale;
                 break;
-            case TacticsManager.Group.GroupGreen:
+            case GroupBehaviour.Group.Green:
                 panelAzure.transform.localScale = defaultScale;
                 panelPink.transform.localScale = defaultScale;
                 panelPink.transform.localPosition = xCorrection;
@@ -287,7 +287,7 @@ public class NewHUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case TacticsManager.Group.GroupYellow:
+            case GroupBehaviour.Group.Yellow:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = defaultScale;

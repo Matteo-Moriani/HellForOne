@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.Experimental.Input;
 
 public class TacticsManager : MonoBehaviour
-{
+{   
+    /*
     public enum Group
     {
         GroupAzure,
@@ -13,6 +14,7 @@ public class TacticsManager : MonoBehaviour
         GroupGreen,
         GroupYellow
     }
+    */
 
     [Header( "Input" )]
     private bool cross, square, triangle, circle, L1, R1, L2, R2, R3 = false;
@@ -20,16 +22,18 @@ public class TacticsManager : MonoBehaviour
     [SerializeField]
     private GroupBehaviour.State currentShowedState;
     private GroupBehaviour.State[] tacticsArray;
-    private Group[] groupsArray;
+    //private Group[] groupsArray;
+    private GroupBehaviour.Group[] groupsArray;
     [SerializeField]
-    private Group currentShowedGroup;
+    //private Group currentShowedGroup;
+    private GroupBehaviour.Group currentShowedGroup;
 
     private int tacticsIndex, groupsIndex = 0;
 
     private GroupsInRangeDetector groupsInRangeDetector;
 
     public GroupBehaviour.State CurrentShowedState { get => currentShowedState; set => currentShowedState = value; }
-    public Group CurrentShowedGroup { get => currentShowedGroup; set => currentShowedGroup = value; }
+    public GroupBehaviour.Group CurrentShowedGroup { get => currentShowedGroup; set => currentShowedGroup = value; }
 
     public void FillArrays()
     {
@@ -40,8 +44,8 @@ public class TacticsManager : MonoBehaviour
             tacticsIndex++;
         }
 
-        groupsArray = new Group[ 4 ];
-        foreach ( Group g in ( Group[] ) Enum.GetValues( typeof( Group ) ) )
+        groupsArray = new GroupBehaviour.Group[ 4 ];
+        foreach ( GroupBehaviour.Group g in ( GroupBehaviour.Group[] ) Enum.GetValues( typeof( GroupBehaviour.Group ) ) )
         {
             groupsArray[ groupsIndex ] = g;
             groupsIndex++;
@@ -63,10 +67,11 @@ public class TacticsManager : MonoBehaviour
         cross = true;
     }
 
-    public void AssignOrderToGroup( GroupBehaviour.State state, Group group )
+    public void AssignOrderToGroup( GroupBehaviour.State state, GroupBehaviour.Group group )
     {
         // TODO - optimize this
-        GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
+        GroupBehaviour groupBehaviour = GameObject.Find( "Group" + group.ToString() ).GetComponent<GroupBehaviour>();
+        
         if ( groupBehaviour.groupFSM.current.stateName != state.ToString() )
         {
             groupBehaviour.newState = state;
@@ -76,10 +81,10 @@ public class TacticsManager : MonoBehaviour
 
     public void AllGroupsOrder(GroupBehaviour.State state )
     {
-        AssignOrderToGroup( state, Group.GroupAzure );
-        AssignOrderToGroup( state, Group.GroupPink );
-        AssignOrderToGroup( state, Group.GroupGreen );
-        AssignOrderToGroup( state, Group.GroupYellow );
+        AssignOrderToGroup( state, GroupBehaviour.Group.Azure );
+        AssignOrderToGroup( state, GroupBehaviour.Group.Pink );
+        AssignOrderToGroup( state, GroupBehaviour.Group.Green );
+        AssignOrderToGroup( state, GroupBehaviour.Group.Yellow );
     }
 
     public void RotateRightGroups()
