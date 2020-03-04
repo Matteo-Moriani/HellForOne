@@ -14,6 +14,13 @@ public class GroupsInRangeDetector : MonoBehaviour
     [Tooltip("The range of this Imp's group detection")]
     private float detectionRange = 1.0f;
 
+    /// <summary>
+    /// Delegate for the OnMostRappresentedGroupChanged event
+    /// </summary>
+    public delegate void OnMostRappresentedGroupChanged();
+    
+    private event OnMostRappresentedGroupChanged onMostRappresentedGroupChanged;
+
     private List<GroupBehaviour.Group> groupsInRange = new List<GroupBehaviour.Group>();
 
     /// <summary>
@@ -128,4 +135,26 @@ public class GroupsInRangeDetector : MonoBehaviour
     public GroupBehaviour.Group MostRappresentedGroupInRange() { 
         return GroupBehaviour.Group.None;    
     }
+
+    /// <summary>
+    /// Register method to OnMostRappresentedGroupChanged event
+    /// </summary>
+    /// <param name="method">The method to register</param>
+    public void RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged method) { 
+        onMostRappresentedGroupChanged += method;    
+    }
+
+    /// <summary>
+    /// Unregister method to OnMostRappresentedGroupChanged event
+    /// </summary>
+    /// <param name="method">The method to unregister</param>
+    public void UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged method) { 
+        onMostRappresentedGroupChanged -= method;    
+    }
+
+    private void RaiseOnMostRappresentedGroupChanged() { 
+        if( onMostRappresentedGroupChanged != null) { 
+            onMostRappresentedGroupChanged();    
+        }    
+    } 
 }
