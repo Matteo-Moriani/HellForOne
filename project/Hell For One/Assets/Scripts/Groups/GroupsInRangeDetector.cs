@@ -93,26 +93,26 @@ public class GroupsInRangeDetector : MonoBehaviour
     {
         switch (group)
         {
-            case GroupBehaviour.Group.Azure:
-                if (groupsInRange.Contains(GroupBehaviour.Group.Azure))
+            case GroupBehaviour.Group.GroupAzure:
+                if (groupsInRange.Contains(GroupBehaviour.Group.GroupAzure))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.Green:
-                if (groupsInRange.Contains(GroupBehaviour.Group.Green))
+            case GroupBehaviour.Group.GroupGreen:
+                if (groupsInRange.Contains(GroupBehaviour.Group.GroupGreen))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.Pink:
-                if (groupsInRange.Contains(GroupBehaviour.Group.Pink))
+            case GroupBehaviour.Group.GroupPink:
+                if (groupsInRange.Contains(GroupBehaviour.Group.GroupPink))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.Yellow:
-                if (groupsInRange.Contains(GroupBehaviour.Group.Yellow))
+            case GroupBehaviour.Group.GroupYellow:
+                if (groupsInRange.Contains(GroupBehaviour.Group.GroupYellow))
                 {
                     return true;
                 }

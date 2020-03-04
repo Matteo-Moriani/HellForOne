@@ -47,8 +47,13 @@ public class TacticsManager : MonoBehaviour
         groupsArray = new GroupBehaviour.Group[ 4 ];
         foreach ( GroupBehaviour.Group g in ( GroupBehaviour.Group[] ) Enum.GetValues( typeof( GroupBehaviour.Group ) ) )
         {
-            groupsArray[ groupsIndex ] = g;
-            groupsIndex++;
+            if( g != GroupBehaviour.Group.None) {
+                groupsArray[groupsIndex] = g;
+                groupsIndex++;
+            }
+            else { 
+                Debug.Log(this.gameObject.name + " TacticsManager.FillArrays is ignoring GroupBehaviour.Group.None");    
+            }
         }
     }
 
@@ -69,22 +74,27 @@ public class TacticsManager : MonoBehaviour
 
     public void AssignOrderToGroup( GroupBehaviour.State state, GroupBehaviour.Group group )
     {
-        // TODO - optimize this
-        GroupBehaviour groupBehaviour = GameObject.Find( "Group" + group.ToString() ).GetComponent<GroupBehaviour>();
-        
-        if ( groupBehaviour.groupFSM.current.stateName != state.ToString() )
-        {
-            groupBehaviour.newState = state;
-            groupBehaviour.orderConfirmed = true;
+        if(group != GroupBehaviour.Group.None) {
+            // TODO - optimize this
+            GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
+
+            if (groupBehaviour.groupFSM.current.stateName != state.ToString())
+            {
+                groupBehaviour.newState = state;
+                groupBehaviour.orderConfirmed = true;
+            }
+        }
+        else { 
+            Debug.LogError(this.gameObject.name + " TacticsManager.AssignOrderToGroup is trying to assign order to None group");    
         }
     }
 
     public void AllGroupsOrder(GroupBehaviour.State state )
     {
-        AssignOrderToGroup( state, GroupBehaviour.Group.Azure );
-        AssignOrderToGroup( state, GroupBehaviour.Group.Pink );
-        AssignOrderToGroup( state, GroupBehaviour.Group.Green );
-        AssignOrderToGroup( state, GroupBehaviour.Group.Yellow );
+        AssignOrderToGroup( state, GroupBehaviour.Group.GroupAzure );
+        AssignOrderToGroup( state, GroupBehaviour.Group.GroupPink );
+        AssignOrderToGroup( state, GroupBehaviour.Group.GroupGreen );
+        AssignOrderToGroup( state, GroupBehaviour.Group.GroupYellow );
     }
 
     public void RotateRightGroups()

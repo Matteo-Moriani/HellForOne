@@ -66,25 +66,25 @@ public class HUD : MonoBehaviour
     {
         switch ( group )
         {
-            case GroupBehaviour.Group.Azure:
+            case GroupBehaviour.Group.GroupAzure:
                 aggroIconAzure.enabled = true;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.Green:
+            case GroupBehaviour.Group.GroupGreen:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = true;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.Pink:
+            case GroupBehaviour.Group.GroupPink:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = true;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.Yellow:
+            case GroupBehaviour.Group.GroupYellow:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
@@ -215,7 +215,7 @@ public class HUD : MonoBehaviour
 
         switch ( tacticsManager.CurrentShowedGroup )
         {
-            case GroupBehaviour.Group.Azure:
+            case GroupBehaviour.Group.GroupAzure:
                 panelAzure.transform.localScale = enlargedScale;
                 panelAzure.transform.SetAsLastSibling();
                 panelAzure.transform.localPosition = panelPosition;
@@ -225,7 +225,7 @@ public class HUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case GroupBehaviour.Group.Pink:
+            case GroupBehaviour.Group.GroupPink:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = enlargedScale;
@@ -235,7 +235,7 @@ public class HUD : MonoBehaviour
                 panelGreen.transform.localPosition = xCorrection * 2;
                 panelYellow.transform.localScale = defaultScale;
                 break;
-            case GroupBehaviour.Group.Green:
+            case GroupBehaviour.Group.GroupGreen:
                 panelAzure.transform.localScale = defaultScale;
                 panelPink.transform.localScale = defaultScale;
                 panelPink.transform.localPosition = xCorrection;
@@ -245,7 +245,7 @@ public class HUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case GroupBehaviour.Group.Yellow:
+            case GroupBehaviour.Group.GroupYellow:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = defaultScale;

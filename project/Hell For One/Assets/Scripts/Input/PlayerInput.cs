@@ -262,10 +262,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeUp = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeUp) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Azure, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Pink, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Green, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Yellow, 0 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 0 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 0 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 0 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 0 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.MeleeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeUp = 0f;
@@ -316,10 +316,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeDown = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeDown) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Azure, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Pink, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Green, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Yellow, 2 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 2 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 2 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 2 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 2 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.RangeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeDown = 0f;
@@ -361,10 +361,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeRight = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeRight) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Azure, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Pink, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Green, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Yellow, 1 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 1 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 1 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 1 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 1 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Tank);
                             DpadInUse = false;
                             allGroupsOrderStartTimeRight = 0f;
@@ -406,10 +406,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeLeft = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeLeft) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Azure, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Pink, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Green, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.Yellow, 3 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 3 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 3 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 3 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 3 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Support);
                             DpadInUse = false;
                             allGroupsOrderStartTimeLeft = 0f;
