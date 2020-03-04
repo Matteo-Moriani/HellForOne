@@ -120,4 +120,12 @@ public class GroupsInRangeDetector : MonoBehaviour
         }
         return false;
     }
+
+    /// <summary>
+    /// Returns the most rappresented group in range of the player
+    /// </summary>
+    /// <returns>The most rappresented group in range</returns>
+    public GroupBehaviour.Group MostRappresentedGroupInRange() { 
+        return GroupBehaviour.Group.None;    
+    }
 }
