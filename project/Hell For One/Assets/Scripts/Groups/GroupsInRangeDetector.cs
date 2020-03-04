@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,16 +18,50 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// <summary>
     /// Delegate for the OnMostRappresentedGroupChanged event
     /// </summary>
-    public delegate void OnMostRappresentedGroupChanged();
-    
-    private event OnMostRappresentedGroupChanged onMostRappresentedGroupChanged;
+    //public delegate void OnMostRappresentedGroupChanged();
+
+    //private event OnMostRappresentedGroupChanged onMostRappresentedGroupChanged;
+
+    private event Action onMostRappresentedGroupChanged;
 
     private List<GroupBehaviour.Group> groupsInRange = new List<GroupBehaviour.Group>();
+
+    private Dictionary<GroupBehaviour.Group, int> impsInRange = new Dictionary<GroupBehaviour.Group, int>();
+
+    private GroupBehaviour.Group mostRappresentedGroupInRange = GroupBehaviour.Group.None;
 
     /// <summary>
     /// List that contains all the groups in range of this Imp
     /// </summary>
     public List<GroupBehaviour.Group> GroupsInRange { get => groupsInRange; private set => groupsInRange = value; }
+
+    /// <summary>
+    /// Dictionary that contains, for all groups, the number of imps in range
+    /// </summary>
+    public Dictionary<GroupBehaviour.Group, int> ImpsInRange { get => impsInRange; private set => impsInRange = value; }
+
+    /// <summary>
+    /// Current most rappresented group in range
+    /// </summary>
+    public GroupBehaviour.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
+
+    private void OnEnable()
+    {
+        foreach (GroupBehaviour.Group group in (GroupBehaviour.Group[])Enum.GetValues(typeof(GroupBehaviour.Group)))
+        {
+            if (group != GroupBehaviour.Group.None)
+            {
+                impsInRange.Add(group, 0);
+            }
+        }
+
+        RegisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
+    }
+
+    private void OnDisable()
+    {
+        UnregisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
+    }
 
     private void Start()
     {
@@ -41,6 +76,30 @@ public class GroupsInRangeDetector : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         ManageRange(GroupsInRangeDetector.Actions.Remove, other);
+    }
+
+    private void UpdateMostRappresentedGroup() {
+        GroupBehaviour.Group mostRappresentedGroup = GroupBehaviour.Group.None;
+
+        int temp = 0;
+
+        foreach (KeyValuePair<GroupBehaviour.Group, int> item in impsInRange)
+        {
+
+            if (item.Value > temp)
+            {
+                temp = item.Value;
+
+                mostRappresentedGroup = item.Key;
+            }
+        }
+
+        if (mostRappresentedGroup != mostRappresentedGroupInRange)
+        {
+            MostRappresentedGroupInRange = mostRappresentedGroup;
+
+            RaiseOnMostRappresentedGroupChanged();
+        }
     }
 
     private void ManageRange(GroupsInRangeDetector.Actions action, Collider other)
@@ -58,6 +117,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                     switch (action)
                     {
                         case Actions.Add:
+                            // Update Groups in range
                             if (!groupsInRange.Contains(groupBehaviour.ThisGroupName))
                             {
                                 groupsInRange.Add(groupBehaviour.ThisGroupName);
@@ -66,8 +126,24 @@ public class GroupsInRangeDetector : MonoBehaviour
                                 Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
                             }
 
+                            // Update Imps in range
+                            if (impsInRange[groupBehaviour.ThisGroupName] < 4)
+                            {
+                                impsInRange[groupBehaviour.ThisGroupName]++;
+
+                                // TODO - Debug for testing, remove this
+                                Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                            }
+                            else
+                            {
+                                Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 4");
+                            }
+
+                            UpdateMostRappresentedGroup();
+
                             break;
                         case Actions.Remove:
+                            // Update Groups in range
                             if (groupsInRange.Contains(groupBehaviour.ThisGroupName))
                             {
                                 groupsInRange.Remove(groupBehaviour.ThisGroupName);
@@ -75,6 +151,21 @@ public class GroupsInRangeDetector : MonoBehaviour
                                 // TODO - Debug for testing, remove this
                                 Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
                             }
+
+                            // Update Imps in range
+                            if (impsInRange[groupBehaviour.ThisGroupName] > 0)
+                            {
+                                impsInRange[groupBehaviour.ThisGroupName]--;
+
+                                // TODO - Debug for testing, remove this
+                                Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                            }
+                            else
+                            {
+                                Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 0");
+                            }
+
+                            UpdateMostRappresentedGroup();
 
                             break;
                     }
@@ -129,32 +220,33 @@ public class GroupsInRangeDetector : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the most rappresented group in range of the player
-    /// </summary>
-    /// <returns>The most rappresented group in range</returns>
-    public GroupBehaviour.Group MostRappresentedGroupInRange() { 
-        return GroupBehaviour.Group.None;    
-    }
-
-    /// <summary>
-    /// Register method to OnMostRappresentedGroupChanged event
+    /// Register method to onMostRappresentedGroupChanged event
     /// </summary>
     /// <param name="method">The method to register</param>
-    public void RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged method) { 
-        onMostRappresentedGroupChanged += method;    
+    public void RegisterOnMostRappresentedGroupChanged(Action method)
+    {
+        onMostRappresentedGroupChanged += method;
     }
 
     /// <summary>
-    /// Unregister method to OnMostRappresentedGroupChanged event
+    /// Unregister method to onMostRappresentedGroupChanged event
     /// </summary>
     /// <param name="method">The method to unregister</param>
-    public void UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged method) { 
-        onMostRappresentedGroupChanged -= method;    
+    public void UnregisterOnMostRappresentedGroupChanged(Action method)
+    {
+        onMostRappresentedGroupChanged -= method;
     }
 
-    private void RaiseOnMostRappresentedGroupChanged() { 
-        if( onMostRappresentedGroupChanged != null) { 
-            onMostRappresentedGroupChanged();    
-        }    
-    } 
+    private void RaiseOnMostRappresentedGroupChanged()
+    {
+        if (onMostRappresentedGroupChanged != null)
+        {
+            onMostRappresentedGroupChanged();
+        }
+    }
+
+    // TODO - used for testing, remove this
+    private void PrintMostRappresentedGroup() { 
+        Debug.Log("Most rappresented group: " + mostRappresentedGroupInRange.ToString());    
+    }
 }
