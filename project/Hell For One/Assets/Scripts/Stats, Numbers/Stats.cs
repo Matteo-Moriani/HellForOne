@@ -33,9 +33,6 @@ public class Stats : MonoBehaviour
     [Tooltip("Starting health of this demon")]
     public float health = 2f;
 
-    /// <summary>
-    /// How much meleeDamage this unit will deal
-    /// </summary>
     [SerializeField]
     [Tooltip("How much meleeDamage this demon can deal")]
     private float meleeDamage = 2f;
@@ -47,30 +44,23 @@ public class Stats : MonoBehaviour
     [SerializeField]
     private float supportDamageBuffMultiplier = 3.5f;
 
-    /// <summary>
-    /// How far will go an attack
-    /// </summary>
     [SerializeField]
     [Tooltip("How far the attack collider will go")]
     private float attackRange = 1.0f;
-    /// <summary>
-    /// How fast will be an attack
-    /// </summary>
+    
     [SerializeField]
     [Tooltip("How fast will be the attackCollider movement")]
     private float attackDurationMultiplier = 1.0f;
 
-    /// <summary>
-    /// How big will be a sweep attack
-    /// </summary>
     [SerializeField]
     [Tooltip("How big sweep area will be")]
     private float groupAttackSize = 2.0f;
     
-    public float globalAttackSize = 666f;
     /// <summary>
-    /// How long will last a global attack
+    /// Size of the global attack of this unit
     /// </summary>
+    public float globalAttackSize = 666f;
+    
     [SerializeField]
     [Tooltip("How long the global attack will be (in seconds)")]
     private float globalAttackDuration = 1.0f;
@@ -235,6 +225,8 @@ public class Stats : MonoBehaviour
 
     public GameObject[] Groups { get => groups; private set => groups = value; }
     public float SupportDamageBuffMultiplier { get => supportDamageBuffMultiplier; set => supportDamageBuffMultiplier = value; }
+    
+    public bool IsDying { get => isDying; private set => isDying = value; }
 
     #endregion
 
@@ -396,8 +388,8 @@ public class Stats : MonoBehaviour
 
     private void ManageDeath()
     {
-        if (!isDying) { 
-            isDying = true;
+        if (!IsDying) { 
+            IsDying = true;
 
             aggro = 1;
 
@@ -480,22 +472,11 @@ public class Stats : MonoBehaviour
                 }
                 
                 GetComponent<Reincarnation>().Reincarnate();
-
-                //combatEventsManager.RaiseOnDeath();
             }
 
             // if the boss is dying...
             if (type == Type.Boss)
             {
-                // TODO - Implement death animation using events
-                //if (!isDying)
-                //{
-                    //gameObject.GetComponent<BossAnimator>().StopAnimations();
-                    //gameObject.GetComponent<BossAnimator>().PlayAnimation(BossAnimator.Animations.Death);
-                //combatEventsManager.RaiseOnDeath();
-                //}
-                //isDying = true;
-
                 // Update EnemiesManager boss
                 EnemiesManager.Instance.BossKilled();
             }
@@ -513,30 +494,11 @@ public class Stats : MonoBehaviour
                 //combatEventsManager.RaiseOnStopAnimation();
                 combatEventsManager.RaiseOnDeath();
             }
-
-            // TODO - disable components for death duration
-
+ 
+            // TODO - disable components for death duratin
             deathCR = StartCoroutine(DeathTimer(deathDuration));
-
         }
     }
-
-    // TODO - Do not use this, I'm testing this
-    /*
-    private void ManageSpawn() {
-        switch (type) { 
-            case Type.Ally:
-                AlliesManager.Instance.AddAlly(this.gameObject);
-                break;
-            case Type.Enemy:
-                EnemiesManager.Instance.AddEnemy(this.gameObject);
-                break;
-            case Type.Boss:
-                EnemiesManager.Instance.AddBoss(this.gameObject);
-                break;
-        }
-    }
-    */
 
     #endregion
 

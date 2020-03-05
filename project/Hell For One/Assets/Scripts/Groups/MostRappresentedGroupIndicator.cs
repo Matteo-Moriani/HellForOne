@@ -7,15 +7,23 @@ public class MostRappresentedGroupIndicator : MonoBehaviour
     private MeshRenderer meshRenderer;
     private DemonBehaviour demonBehaviour;
     private GroupBehaviour groupBehaviour;
+    private CombatEventsManager combatEventsManager;
+
+    private void Awake()
+    {
+        combatEventsManager = this.transform.root.gameObject.GetComponent<CombatEventsManager>();
+    }
 
     private void OnEnable()
     {
         GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(ActivateIndicator);
+        combatEventsManager.onReincarnation += DeactivateIndicator;
     }
 
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(ActivateIndicator);
+        combatEventsManager.onReincarnation -= DeactivateIndicator;
     }
 
     private void Start()
@@ -38,27 +46,39 @@ public class MostRappresentedGroupIndicator : MonoBehaviour
 
     private void ActivateIndicator()
     {
-        if(groupBehaviour == null) {
-            if (demonBehaviour != null)
+        if (this.transform.root.gameObject.tag != "Player")
+        {
+            if (groupBehaviour == null)
             {
-                groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+                if (demonBehaviour != null)
+                {
+                    groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+                }
+                else
+                {
+                    Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find DemonBehaviour");
+                }
+            }
+
+            if (groupBehaviour.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange)
+            {
+                meshRenderer.enabled = true;
             }
             else
             {
-                Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find DemonBehaviour");
+                if (meshRenderer.enabled)
+                {
+                    meshRenderer.enabled = false;
+                }
             }
         }
+    }
 
-        if (groupBehaviour.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange)
+    private void DeactivateIndicator()
+    {
+        if (meshRenderer.enabled)
         {
-            meshRenderer.enabled = true;
-        }
-        else
-        {
-            if (meshRenderer.enabled)
-            {
-                meshRenderer.enabled = false;
-            }
+            meshRenderer.enabled = false;
         }
     }
 }

@@ -45,6 +45,11 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// </summary>
     public static GroupBehaviour.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
 
+    private void Awake()
+    {
+        mostRappresentedGroupInRange = GroupBehaviour.Group.None;    
+    }
+
     private void OnEnable()
     {
         foreach (GroupBehaviour.Group group in (GroupBehaviour.Group[])Enum.GetValues(typeof(GroupBehaviour.Group)))
@@ -106,78 +111,86 @@ public class GroupsInRangeDetector : MonoBehaviour
     {
         if (other.gameObject.tag == "Demon")
         {
-            DemonBehaviour demonBehaviour = other.gameObject.GetComponent<DemonBehaviour>();
+            Stats stats = other.transform.root.gameObject.GetComponent<Stats>();
 
-            if (demonBehaviour != null)
-            {
-                GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+            if(stats != null) {
+                if (!stats.IsDying) {
+                    DemonBehaviour demonBehaviour = other.gameObject.GetComponent<DemonBehaviour>();
 
-                if (groupBehaviour != null)
-                {
-                    switch (action)
+                    if (demonBehaviour != null)
                     {
-                        case Actions.Add:
-                            // Update Groups in range
-                            if (!groupsInRange.Contains(groupBehaviour.ThisGroupName))
+                        GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+
+                        if (groupBehaviour != null)
+                        {
+                            switch (action)
                             {
-                                groupsInRange.Add(groupBehaviour.ThisGroupName);
+                                case Actions.Add:
+                                    // Update Groups in range
+                                    if (!groupsInRange.Contains(groupBehaviour.ThisGroupName))
+                                    {
+                                        groupsInRange.Add(groupBehaviour.ThisGroupName);
 
-                                // TODO - Debug for testing, remove this
-                                Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
+                                        // TODO - Debug for testing, remove this
+                                        Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
+                                    }
+
+                                    // Update Imps in range
+                                    if (impsInRange[groupBehaviour.ThisGroupName] < 4)
+                                    {
+                                        impsInRange[groupBehaviour.ThisGroupName]++;
+
+                                        // TODO - Debug for testing, remove this
+                                        Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 4");
+                                    }
+
+                                    UpdateMostRappresentedGroup();
+
+                                    break;
+                                case Actions.Remove:
+                                    // Update Groups in range
+                                    if (groupsInRange.Contains(groupBehaviour.ThisGroupName))
+                                    {
+                                        if(impsInRange[groupBehaviour.ThisGroupName] == 1) {
+                                            groupsInRange.Remove(groupBehaviour.ThisGroupName);
+                                        }
+                                        
+                                        // TODO - Debug for testing, remove this
+                                        Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
+                                    }
+
+                                    // Update Imps in range
+                                    if (impsInRange[groupBehaviour.ThisGroupName] > 0)
+                                    {
+                                        impsInRange[groupBehaviour.ThisGroupName]--;
+
+                                        // TODO - Debug for testing, remove this
+                                        Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 0");
+                                    }
+
+                                    UpdateMostRappresentedGroup();
+
+                                    break;
                             }
-
-                            // Update Imps in range
-                            if (impsInRange[groupBehaviour.ThisGroupName] < 4)
-                            {
-                                impsInRange[groupBehaviour.ThisGroupName]++;
-
-                                // TODO - Debug for testing, remove this
-                                Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
-                            }
-                            else
-                            {
-                                Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 4");
-                            }
-
-                            UpdateMostRappresentedGroup();
-
-                            break;
-                        case Actions.Remove:
-                            // Update Groups in range
-                            if (groupsInRange.Contains(groupBehaviour.ThisGroupName))
-                            {
-                                groupsInRange.Remove(groupBehaviour.ThisGroupName);
-
-                                // TODO - Debug for testing, remove this
-                                Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
-                            }
-
-                            // Update Imps in range
-                            if (impsInRange[groupBehaviour.ThisGroupName] > 0)
-                            {
-                                impsInRange[groupBehaviour.ThisGroupName]--;
-
-                                // TODO - Debug for testing, remove this
-                                Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
-                            }
-                            else
-                            {
-                                Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 0");
-                            }
-
-                            UpdateMostRappresentedGroup();
-
-                            break;
+                        }
+                        else
+                        {
+                            Debug.LogError("GroupInRangeDetector - " + other.name + " cannot find GroupBehaviour of his group");
+                        }
                     }
-                }
-                else
-                {
-                    Debug.LogError("GroupInRangeDetector - " + other.name + " cannot find GroupBehaviour of his group");
-                }
-            }
-            else
-            {
-                Debug.LogError("GroupInRangeDetector - " + other.name + " does not have DemonBehaviour attached");
+                    else
+                    {
+                        Debug.LogError("GroupInRangeDetector - " + other.name + " does not have DemonBehaviour attached");
+                    }
+                }    
             }
         }
     }
@@ -235,6 +248,19 @@ public class GroupsInRangeDetector : MonoBehaviour
     public static void UnregisterOnMostRappresentedGroupChanged(Action method)
     {
         OnMostRappresentedGroupChanged -= method;
+    }
+
+    /// <summary>
+    /// Decrease imps in range count for group
+    /// </summary>
+    /// <param name="group">The group to decrease</param>
+    public void DecreaseImpInRangeCount(GroupBehaviour.Group group) { 
+        if(impsInRange[group] > 0) {
+            impsInRange[group]--;
+        }
+        else { 
+            Debug.LogError(this.transform.root.name + " " + this.name + " DecreaseImpsInRangeCount is trying to decrease imps number but it is 0");   
+        }    
     }
 
     private void RaiseOnMostRappresentedGroupChanged()
