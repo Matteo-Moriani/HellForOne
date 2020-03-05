@@ -57,6 +57,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     private bool isWalking = false;
     private bool isIdle = true;
     private bool isAttacking = false;
+    private GameObjectSearcher searcher;
 
     #endregion
 
@@ -102,6 +103,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public GameObject ArenaCenter { get => absArenaCenter; set => absArenaCenter = value; }
     public float MaxDistFromCenter { get => absMaxDistFromCenter; set => absMaxDistFromCenter = value; }
     public float MaxTargetDistFromCenter { get => absMaxTargetDistFromCenter; set => absMaxTargetDistFromCenter = value; }
+    public GameObjectSearcher Searcher { get => searcher; set => searcher = value; }
 
     #endregion
 
@@ -229,6 +231,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public abstract void InitializeValues();
 
     public void Awake() {
+        Searcher = new GameObjectSearcher();
         CombatEventsManager = GetComponent<CombatEventsManager>();
         AnimationsManager = GetComponent<AnimationsManager>();
         Stats = GetComponent<Stats>();
@@ -386,24 +389,42 @@ public abstract class AbstractBoss : MonoBehaviour {
         return DemonGroups;
     }
 
-    public void SwitchAggroIcon(int index) {
+    //public void SwitchAggroIcon(GameObject imp) {
+    //    if(Stats.health > 0) {
+    //        //switch(index) {
+    //        //    case 0:
+    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupAzure);
+    //        //        break;
+    //        //    case 1:
+    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupPink);
+    //        //        break;
+    //        //    case 2:
+    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupGreen);
+    //        //        break;
+    //        //    case 3:
+    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupYellow);
+    //        //        break;
+    //        //    default:
+    //        //        break;
+    //        //}
+
+    //        // servono tutti e due di fila
+            
+    //        // ecc.
+    //    }
+    //}
+
+    public void ChangeTarget(GameObject newTarget) {
         if(Stats.health > 0) {
-            switch(index) {
-                case 0:
-                    HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupAzure);
-                    break;
-                case 1:
-                    HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupPink);
-                    break;
-                case 2:
-                    HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupGreen);
-                    break;
-                case 3:
-                    HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupYellow);
-                    break;
-                default:
-                    break;
+            if(TargetDemon != null) {
+                Searcher.FindObjectWithTag(TargetDemon.transform, "AggroIcon");
+                Searcher.GetFirstChildWithTag().GetComponent<BossFaceRotations>().BossFaceOFF();
             }
+
+            TargetDemon = newTarget;
+
+            Searcher.FindObjectWithTag(TargetDemon.transform, "AggroIcon");
+            Searcher.GetFirstChildWithTag().GetComponent<BossFaceRotations>().BossFaceON();
         }
     }
 

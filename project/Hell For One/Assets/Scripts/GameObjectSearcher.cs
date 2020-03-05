@@ -19,7 +19,7 @@ public class GameObjectSearcher : MonoBehaviour
         return null;
     }
 
-    public void FindObjectwithTag( Transform parent, string _tag )
+    public void FindObjectWithTag( Transform parent, string _tag )
     {
         actors.Clear();
         //Transform parent = transform;
