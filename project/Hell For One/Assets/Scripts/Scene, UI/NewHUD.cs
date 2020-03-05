@@ -26,6 +26,7 @@ public class NewHUD : MonoBehaviour
     private int tankIndex = 1;
     private int rangeIndex = 2;
     private int supportIndex = 3;
+    private int recruitIndex = 4;
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
