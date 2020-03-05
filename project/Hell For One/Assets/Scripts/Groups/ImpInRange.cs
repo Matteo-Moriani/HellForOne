@@ -16,6 +16,7 @@ public class ImpInRange : MonoBehaviour
     {
         if(combatEventsManager != null) {
             combatEventsManager.onDeath += OnDeath;
+            combatEventsManager.onReincarnation += OnReincarnation;
         }
         else {
             Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find CombatEventsManager");
@@ -27,6 +28,7 @@ public class ImpInRange : MonoBehaviour
         if (combatEventsManager != null)
         {
             combatEventsManager.onDeath -= OnDeath;
+            combatEventsManager.onReincarnation -= OnReincarnation;
         }
         else
         {
@@ -84,5 +86,9 @@ public class ImpInRange : MonoBehaviour
                 Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find GroupBehaviour");    
             }
         }    
+    }
+
+    private void OnReincarnation() { 
+        this.enabled = false;    
     }
 }
