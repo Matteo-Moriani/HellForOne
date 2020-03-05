@@ -37,7 +37,7 @@ public class TacticsManager : MonoBehaviour
 
     public void FillArrays()
     {
-        tacticsArray = new GroupBehaviour.State[ 4 ];
+        tacticsArray = new GroupBehaviour.State[ 5 ];
         foreach ( GroupBehaviour.State s in ( GroupBehaviour.State[] ) Enum.GetValues( typeof( GroupBehaviour.State ) ) )
         {
             tacticsArray[ tacticsIndex ] = s;

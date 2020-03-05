@@ -29,5 +29,9 @@ public class BossFaceRotations : MonoBehaviour
             lookRotation = Quaternion.LookRotation( rotateDirection );
             transform.rotation = Quaternion.Slerp( transform.rotation, lookRotation, 1 );
         }
+        else
+        {
+            GetComponent<Canvas>().enabled = false;
+        }
     }
 }
