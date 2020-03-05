@@ -5625,21 +5625,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  health: 4
+  health: 2
   meleeDamage: 2
-  rangedDamage: 1
+  rangedDamage: 1.5
   supportDamageBuffMultiplier: 3.2
   attackRange: 0.5
   attackDurationMultiplier: 5
-  groupAttackSize: 2
-  globalAttackSize: 10
-  globalAttackDuration: 1
-  attackingBlockChance: 0
-  supportingBlockChance: 0
-  blockingBlockChance: 100
-  knockBackChance: 0
-  knockBackSize: 0
-  knockBackTime: 5
+  groupAttackSize: 0
+  globalAttackSize: 0
+  globalAttackDuration: 0
+  attackingBlockChance: 80
+  supportingBlockChance: 65
+  blockingBlockChance: 90
+  knockBackChance: 100
+  knockBackSize: 2
+  knockBackTime: 3
   aggro: 1
   aggroTime: 60
   crisis: 0
