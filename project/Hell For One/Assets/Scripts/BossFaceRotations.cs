@@ -5,8 +5,20 @@ using UnityEngine;
 public class BossFaceRotations : MonoBehaviour
 {
     private Vector3 cameraPosition, rotateDirection;
-    private bool bossFaceActive = true;
+    private bool bossFaceActive = false;
     private Quaternion lookRotation;
+
+    public void BossFaceON()
+    {
+        GetComponent<Canvas>().enabled = true;
+        bossFaceActive = true;
+    }
+
+    public void BossFaceOFF()
+    {
+        GetComponent<Canvas>().enabled = false;
+        bossFaceActive = false;
+    }
 
     void Update()
     {
@@ -16,7 +28,6 @@ public class BossFaceRotations : MonoBehaviour
             rotateDirection = (cameraPosition - transform.position).normalized;
             lookRotation = Quaternion.LookRotation( rotateDirection );
             transform.rotation = Quaternion.Slerp( transform.rotation, lookRotation, 1 );
-
         }
     }
 }

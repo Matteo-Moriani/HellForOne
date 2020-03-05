@@ -384,11 +384,11 @@ public class PlayerInput : GeneralInput
                         //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 3 );
                         //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
 
-                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Support);
+                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
 
                         if (hasAssignedOrder)
                         {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 3);
+                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 4);
                         }
 
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -406,11 +406,11 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeLeft = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeLeft) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 3 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 3 );
-                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.Support);
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 4 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 4 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 4 );
+                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 4 );
+                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.Recruit);
                             DpadInUse = false;
                             allGroupsOrderStartTimeLeft = 0f;
                             dpadLeftOld = 0f;
