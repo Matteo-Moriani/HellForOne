@@ -42,7 +42,8 @@ public class GroupBehaviour : MonoBehaviour
         MeleeAttack,
         Tank,
         RangeAttack,
-        Support
+        Support, 
+        Recruit
     }
 
     // The time after the next update of the FSM
@@ -55,7 +56,7 @@ public class GroupBehaviour : MonoBehaviour
     public FSM groupFSM;
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
     private bool inCombat = false;
-    FSMState meleeState, tankState, rangeAttackState, supportState, idleState;
+    FSMState meleeState, tankState, rangeAttackState, supportState, recruitState, idleState;
     private GameObject target;
 
     public GameObject Target { get => target; set => target = value; }
@@ -92,6 +93,15 @@ public class GroupBehaviour : MonoBehaviour
     public bool SupportOrderGiven()
     {
         if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool RecruitOrderGiven()
+    {
+        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Recruit) )
         {
             return true;
         }
@@ -353,6 +363,45 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
+    public void RecruitStayAction()
+    {
+        if ( !CheckDemons() )
+            return;
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                if ( BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle )
+                {
+                    // TODO
+                    //combat.StartRecruit();
+                }
+                else
+                {
+                    // TODO
+                    //combat.StopRecruit();
+                }
+            }
+        }
+    }
+
+    public void StopRecruit()
+    {
+        if ( !CheckDemons() )
+            return;
+
+        foreach ( GameObject demon in demons )
+        {
+            if ( demon )
+            {
+                Combat combat = demon.GetComponent<Combat>();
+                // TODO
+                //combat.StopRecruit();
+            }
+        }
+    }
+
     // TODO - Parametrize this
     public void UpdateSupportAggro()
     {
@@ -393,6 +442,8 @@ public class GroupBehaviour : MonoBehaviour
                 return rangeAttackState;
             case State.Support:
                 return supportState;
+            case State.Recruit:
+                return recruitState;
         }
         return null;
     }
@@ -429,11 +480,13 @@ public class GroupBehaviour : MonoBehaviour
         FSMTransition t4 = new FSMTransition( SupportOrderGiven );
         FSMTransition t5 = new FSMTransition( Idle );
         FSMTransition t6 = new FSMTransition( EnterCombat );
+        FSMTransition t7 = new FSMTransition( RecruitOrderGiven );
 
         meleeState = new FSMState( State.MeleeAttack.ToString() );
         tankState = new FSMState( State.Tank.ToString() );
         rangeAttackState = new FSMState( State.RangeAttack.ToString() );
         supportState = new FSMState( State.Support.ToString() );
+        recruitState = new FSMState( State.Recruit.ToString() );
         idleState = new FSMState();
 
         meleeState.enterActions.Add( GeneralEnterAction );
@@ -454,25 +507,39 @@ public class GroupBehaviour : MonoBehaviour
         supportState.stayActions.Add( UpdateSupportAggro );
         supportState.exitActions.Add( StopSupport );
 
+        recruitState.enterActions.Add( GeneralEnterAction );
+        recruitState.stayActions.Add( RecruitStayAction );
+        recruitState.exitActions.Add( StopRecruit );
+
         meleeState.AddTransition( t2, tankState );
         meleeState.AddTransition( t3, rangeAttackState );
         meleeState.AddTransition( t4, supportState );
         meleeState.AddTransition( t5, idleState );
+        meleeState.AddTransition( t7, recruitState );
 
         tankState.AddTransition( t1, meleeState );
         tankState.AddTransition( t3, rangeAttackState );
         tankState.AddTransition( t4, supportState );
         tankState.AddTransition( t5, idleState );
+        tankState.AddTransition( t7, recruitState );
 
         rangeAttackState.AddTransition( t1, meleeState );
         rangeAttackState.AddTransition( t2, tankState );
         rangeAttackState.AddTransition( t4, supportState );
         rangeAttackState.AddTransition( t5, idleState );
+        rangeAttackState.AddTransition( t7, recruitState );
 
         supportState.AddTransition( t1, meleeState );
         supportState.AddTransition( t2, tankState );
         supportState.AddTransition( t3, rangeAttackState );
         supportState.AddTransition( t5, idleState );
+        supportState.AddTransition( t7, recruitState );
+
+        recruitState.AddTransition( t1, meleeState );
+        recruitState.AddTransition( t2, tankState );
+        recruitState.AddTransition( t3, rangeAttackState );
+        recruitState.AddTransition( t4, supportState );
+        recruitState.AddTransition( t5, idleState );
 
         idleState.AddTransition( t6, GetCurrentFSMState( currentState ) );
 
