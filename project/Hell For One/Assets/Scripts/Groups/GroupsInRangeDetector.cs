@@ -22,13 +22,13 @@ public class GroupsInRangeDetector : MonoBehaviour
 
     //private event OnMostRappresentedGroupChanged onMostRappresentedGroupChanged;
 
-    private event Action onMostRappresentedGroupChanged;
+    private static event Action OnMostRappresentedGroupChanged;
 
     private List<GroupBehaviour.Group> groupsInRange = new List<GroupBehaviour.Group>();
 
     private Dictionary<GroupBehaviour.Group, int> impsInRange = new Dictionary<GroupBehaviour.Group, int>();
 
-    private GroupBehaviour.Group mostRappresentedGroupInRange = GroupBehaviour.Group.None;
+    private static GroupBehaviour.Group mostRappresentedGroupInRange = GroupBehaviour.Group.None;
 
     /// <summary>
     /// List that contains all the groups in range of this Imp
@@ -43,7 +43,7 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// <summary>
     /// Current most rappresented group in range
     /// </summary>
-    public GroupBehaviour.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
+    public static GroupBehaviour.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
 
     private void OnEnable()
     {
@@ -223,25 +223,25 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// Register method to onMostRappresentedGroupChanged event
     /// </summary>
     /// <param name="method">The method to register</param>
-    public void RegisterOnMostRappresentedGroupChanged(Action method)
+    public static void RegisterOnMostRappresentedGroupChanged(Action method)
     {
-        onMostRappresentedGroupChanged += method;
+        OnMostRappresentedGroupChanged += method;
     }
 
     /// <summary>
     /// Unregister method to onMostRappresentedGroupChanged event
     /// </summary>
     /// <param name="method">The method to unregister</param>
-    public void UnregisterOnMostRappresentedGroupChanged(Action method)
+    public static void UnregisterOnMostRappresentedGroupChanged(Action method)
     {
-        onMostRappresentedGroupChanged -= method;
+        OnMostRappresentedGroupChanged -= method;
     }
 
     private void RaiseOnMostRappresentedGroupChanged()
     {
-        if (onMostRappresentedGroupChanged != null)
+        if (OnMostRappresentedGroupChanged != null)
         {
-            onMostRappresentedGroupChanged();
+            OnMostRappresentedGroupChanged();
         }
     }
 
