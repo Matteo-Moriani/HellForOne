@@ -82,7 +82,7 @@ public class CanvasDebug : MonoBehaviour
         aggroValueC.text = aggroC.GetAggro().ToString();
         aggroValueD.text = aggroD.GetAggro().ToString();
 
-        currentGroup.text = tacticsManager.CurrentShowedGroup.ToString();
+        currentGroup.text = tacticsManager.CurrentMostRappresentedGroup.ToString();
         currentTactic.text = tacticsManager.CurrentShowedState.ToString();
 
         if ( !tacticsManager )
@@ -100,7 +100,7 @@ public class CanvasDebug : MonoBehaviour
                 bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;
         }
 
-        switch ( tacticsManager.CurrentShowedGroup )
+        switch ( tacticsManager.CurrentMostRappresentedGroup )
         {
             case GroupBehaviour.Group.GroupAzure:
                 groupAzureText.color = red;

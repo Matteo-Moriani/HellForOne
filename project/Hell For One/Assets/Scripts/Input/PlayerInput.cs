@@ -242,7 +242,7 @@ public class PlayerInput : GeneralInput
                             bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
 
                             if (hasAssignedOrder) {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 0);
+                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRappresentedGroup, 0);
                             }
                             
                             StartCoroutine(DpadWait(dpadWaitTime));
@@ -296,7 +296,7 @@ public class PlayerInput : GeneralInput
 
                             if (hasAssignedOrder)
                             {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 2);
+                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRappresentedGroup, 2);
                             }
 
                             StartCoroutine(DpadWait(dpadWaitTime));
@@ -343,7 +343,7 @@ public class PlayerInput : GeneralInput
 
                         if (hasAssignedOrder)
                         {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 1);
+                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRappresentedGroup, 1);
                         }
 
                         StartCoroutine(DpadWait(dpadWaitTime));
@@ -388,7 +388,7 @@ public class PlayerInput : GeneralInput
 
                         if (hasAssignedOrder)
                         {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentShowedGroup, 4);
+                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRappresentedGroup, 4);
                         }
 
                         StartCoroutine(DpadWait(dpadWaitTime));

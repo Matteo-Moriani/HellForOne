@@ -22,18 +22,30 @@ public class TacticsManager : MonoBehaviour
     [SerializeField]
     private GroupBehaviour.State currentShowedState;
     private GroupBehaviour.State[] tacticsArray;
+    
+    // TODO -   Replaced with a dictionary in order to avoid a lot of GameObject.Find
+    //          remove this if the new solution works better
     //private Group[] groupsArray;
-    private GroupBehaviour.Group[] groupsArray;
+    
+    private Dictionary<GroupBehaviour.Group, GameObject> groupsDict = new Dictionary<GroupBehaviour.Group, GameObject>();
+
     [SerializeField]
     //private Group currentShowedGroup;
-    private GroupBehaviour.Group currentShowedGroup;
+    private GroupBehaviour.Group currentMostRappresentedGroup;
 
-    private int tacticsIndex, groupsIndex = 0;
+    private int tacticsIndex = 0;
+
+    // TODO - used for HUD and rotate groups, remove this
+    //private int groupsIndex = 0;
 
     private GroupsInRangeDetector groupsInRangeDetector;
 
     public GroupBehaviour.State CurrentShowedState { get => currentShowedState; set => currentShowedState = value; }
-    public GroupBehaviour.Group CurrentShowedGroup { get => currentShowedGroup; set => currentShowedGroup = value; }
+    
+    /// <summary>
+    /// Current most rappresented group in range
+    /// </summary>
+    public GroupBehaviour.Group CurrentMostRappresentedGroup { get => currentMostRappresentedGroup; private set => currentMostRappresentedGroup = value; }
 
     public void FillArrays()
     {
@@ -44,6 +56,8 @@ public class TacticsManager : MonoBehaviour
             tacticsIndex++;
         }
 
+        // TODO - used for HUD and rotate groups, remove this
+        /*
         groupsArray = new GroupBehaviour.Group[ 4 ];
         foreach ( GroupBehaviour.Group g in ( GroupBehaviour.Group[] ) Enum.GetValues( typeof( GroupBehaviour.Group ) ) )
         {
@@ -55,13 +69,29 @@ public class TacticsManager : MonoBehaviour
                 Debug.Log(this.gameObject.name + " TacticsManager.FillArrays is ignoring GroupBehaviour.Group.None");    
             }
         }
+        */
+
+        foreach (GroupBehaviour.Group g in (GroupBehaviour.Group[])Enum.GetValues(typeof(GroupBehaviour.Group)))
+        {
+            if (g != GroupBehaviour.Group.None)
+            {
+                groupsDict[g] = GameObject.Find(g.ToString());
+            }
+            else
+            {
+                Debug.Log(this.gameObject.name + " TacticsManager.FillArrays is ignoring GroupBehaviour.Group.None");
+            }
+        }
+
     }
 
+    // TODO - used for HUD and rotate groups, remove this
     public int IncrementCircularArrayIndex( int index, int arrayLength )
     {
         return (index + 1) % arrayLength;
     }
 
+    // TODO - used for HUD and rotate groups, remove this
     public int DecrementCircularArrayIndex( int index, int arrayLength )
     {
         return (index + arrayLength - 1) % arrayLength;
@@ -72,16 +102,23 @@ public class TacticsManager : MonoBehaviour
         cross = true;
     }
 
-    public void AssignOrderToGroup( GroupBehaviour.State state, GroupBehaviour.Group group )
+    private void AssignOrderToGroup( GroupBehaviour.State state, GroupBehaviour.Group group )
     {
         if(group != GroupBehaviour.Group.None) {
             // TODO - optimize this
-            GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
+            // GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
 
-            if (groupBehaviour.groupFSM.current.stateName != state.ToString())
-            {
-                groupBehaviour.newState = state;
-                groupBehaviour.orderConfirmed = true;
+            GroupBehaviour groupBehaviour = groupsDict[group].GetComponent<GroupBehaviour>();
+
+            if(groupBehaviour != null) {
+                if (groupBehaviour.groupFSM.current.stateName != state.ToString())
+                {
+                    groupBehaviour.newState = state;
+                    groupBehaviour.orderConfirmed = true;
+                }
+            }
+            else { 
+                Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find " + group.ToString() + " GroupBehaviour");    
             }
         }
         else { 
@@ -89,6 +126,10 @@ public class TacticsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Assing order to all groups
+    /// </summary>
+    /// <param name="state">The order to assing</param>
     public void AllGroupsOrder(GroupBehaviour.State state )
     {
         AssignOrderToGroup( state, GroupBehaviour.Group.GroupAzure );
@@ -97,47 +138,79 @@ public class TacticsManager : MonoBehaviour
         AssignOrderToGroup( state, GroupBehaviour.Group.GroupYellow );
     }
 
+    // TODO - used for HUD and rotate groups, remove this 
     public void RotateRightGroups()
     {
-        groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsArray.Length );
-        CurrentShowedGroup = groupsArray[ groupsIndex ];
+        /*
+        groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsDict.Length );
+        CurrentShowedGroup = groupsDict[ groupsIndex ];
         //Debug.Log( CurrentShowedGroup );
+        */
     }
 
+    // TODO - used for HUD and rotate groups, remove this
     public void RotateLeftGroups()
     {
-        groupsIndex = DecrementCircularArrayIndex( groupsIndex, groupsArray.Length );
-        CurrentShowedGroup = groupsArray[ groupsIndex ];
+        /*
+        groupsIndex = DecrementCircularArrayIndex( groupsIndex, groupsDict.Length );
+        CurrentShowedGroup = groupsDict[ groupsIndex ];
         //Debug.Log( CurrentShowedState );
+        */
     }
-
+    
+    /// <summary>
+    /// Assing order state to the most rappresented group in range
+    /// </summary>
+    /// <param name="state">The order to assign</param>
+    /// <returns></returns>
     public bool AssignOrder(GroupBehaviour.State state)
     {
         bool canAssingOrder = false;
 
         if (groupsInRangeDetector != null) {
-            canAssingOrder = groupsInRangeDetector.IsTheGroupInRange(currentShowedGroup);
+            //canAssingOrder = groupsInRangeDetector.IsTheGroupInRange(currentShowedGroup);
+
+            canAssingOrder = GroupsInRangeDetector.MostRappresentedGroupInRange != GroupBehaviour.Group.None;
         }
         else
         {
+            // Insert here code to manage oder assign to None group
+
             Debug.LogError(this.gameObject.name + " TacticsManager - cannot find GroupsInRangeDetector");
         }
 
         if (canAssingOrder) {
-            AssignOrderToGroup(state, CurrentShowedGroup);
+            AssignOrderToGroup(state, GroupsInRangeDetector.MostRappresentedGroupInRange);
         }
 
         return canAssingOrder;
     }
 
-    void Start()
+    private void Awake()
+    {
+        groupsInRangeDetector = this.gameObject.GetComponentInChildren<GroupsInRangeDetector>(true);
+    }
+
+    private void OnEnable()
+    {
+        GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+    }
+
+    private void OnDisable()
+    {
+        GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+    }
+
+    private void Start()
     {
         FillArrays();
-        groupsIndex = 0;
+        //groupsIndex = 0;
         tacticsIndex = 0;
         CurrentShowedState = tacticsArray[ tacticsIndex ];
-        CurrentShowedGroup = groupsArray[ groupsIndex ];
+        //CurrentShowedGroup = groupsDict[ groupsIndex ];
+    }
 
-        groupsInRangeDetector = this.gameObject.GetComponentInChildren<GroupsInRangeDetector>(true);
+    private void OnMostRappresentedGroupChanged() { 
+        currentMostRappresentedGroup = GroupsInRangeDetector.MostRappresentedGroupInRange;
     }
 }
