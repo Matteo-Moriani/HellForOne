@@ -122,50 +122,8 @@ public class BossBehavior : AbstractBoss
                 targetsCount = 0;
             }
             else {
-                float totalAggro = 0f;
-
-                for(int i = 0; i < DemonGroups.Length; i++) {
-                    float groupAggro = 0f;
-                    // if the group is empty, I give to the group a temporary value of zero
-                    if(!DemonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
-                        groupAggro = DemonGroups[i].GetComponent<GroupAggro>().GetAggro();
-                    AggroValues[i] = groupAggro;
-                    totalAggro = totalAggro + groupAggro;
-                    Probability[i + 1] = totalAggro;
-                }
-
-                AggroValues[DemonGroups.Length] = Player.GetComponent<Stats>().Aggro;
-                totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
-                Probability[DemonGroups.Length + 1] = totalAggro;
-
-                float random = Random.Range(0f, totalAggro);
-
-                // if I was pursuing the player, I won't choose him again
-                if(PursueTimeout)
-                    random = Random.Range(0f, totalAggro - Player.GetComponent<Stats>().Aggro);
-
-                for(int i = 1; i < Probability.Length; i++) {
-                    if(random > Probability[i - 1] && random <= Probability[i]) {
-                        // if i'm talking about a group (player probability is in the last slot of the array)
-                        if(i < Probability.Length - 1) {
-                            TargetGroup = DemonGroups[i - 1];
-                            ChangeTarget(TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon());
-                            targetsCount++;
-                        }
-                        else {
-                            ChangeTarget(Player);
-                            targetsCount = 0;
-                        }
-
-                        break;
-                    }
-
-                }
+                ChooseByAggro();
             }
-
-            // if the chosen demon is too far from arena center I choose one from the most centered group
-            if ( (TargetDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter )
-                ChooseCentralTarget();
 
             PursueTimeout = false;
             TargetFarFromCenter = false;
@@ -259,4 +217,6 @@ public class BossBehavior : AbstractBoss
             return true;
         return false;
     }
+
+    
 }

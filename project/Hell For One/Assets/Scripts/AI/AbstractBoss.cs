@@ -375,14 +375,16 @@ public abstract class AbstractBoss : MonoBehaviour {
         return closest;
     }
 
-    public void ChooseCentralTarget() {
+    public GameObject ChooseCentralTarget() {
         TargetGroup = ClosestGroupTo(ArenaCenter.transform.position);
         foreach(GameObject demon in TargetGroup.GetComponent<GroupBehaviour>().demons) {
             if(demon != null) {
-                TargetDemon = demon;
-                break;
+                return demon;
             }
         }
+
+        // returns player if every demon of the group is dead in the meanwhile
+        return Player;
     }
 
     public GameObject[] GetDemonGroups() {
@@ -425,6 +427,51 @@ public abstract class AbstractBoss : MonoBehaviour {
 
             Searcher.FindObjectWithTag(TargetDemon.transform, "AggroIcon");
             Searcher.GetFirstChildWithTag().GetComponent<BossFaceRotations>().BossFaceON();
+        }
+    }
+
+    public void ChooseByAggro() {
+        float totalAggro = 0f;
+
+        for(int i = 0; i < DemonGroups.Length; i++) {
+            float groupAggro = 0f;
+            // if the group is empty, I give to the group a temporary value of zero
+            if(!DemonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
+                groupAggro = DemonGroups[i].GetComponent<GroupAggro>().GetAggro();
+            AggroValues[i] = groupAggro;
+            totalAggro = totalAggro + groupAggro;
+            Probability[i + 1] = totalAggro;
+        }
+
+        AggroValues[DemonGroups.Length] = Player.GetComponent<Stats>().Aggro;
+        totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
+        Probability[DemonGroups.Length + 1] = totalAggro;
+
+        float random = Random.Range(0f, totalAggro);
+
+        // if I was pursuing the player, I won't choose him again
+        if(PursueTimeout)
+            random = Random.Range(0f, totalAggro - Player.GetComponent<Stats>().Aggro);
+
+        for(int i = 1; i < Probability.Length; i++) {
+            if(random > Probability[i - 1] && random <= Probability[i]) {
+                // if i'm talking about a group (player probability is in the last slot of the array)
+                if(i < Probability.Length - 1) {
+                    TargetGroup = DemonGroups[i - 1];
+                    GameObject tempDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+
+                    //check if the chosen demon is too far from center
+                    if((tempDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter)
+                        tempDemon = ChooseCentralTarget();
+
+                    ChangeTarget(tempDemon);
+                }
+                else {
+                    ChangeTarget(Player);
+                }
+
+                break;
+            }
         }
     }
 
