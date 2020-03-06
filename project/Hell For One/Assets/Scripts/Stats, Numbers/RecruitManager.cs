@@ -7,7 +7,9 @@ public class RecruitManager : MonoBehaviour
     private GroupBehaviour[] groups = new GroupBehaviour[ 4 ];
     private AllyDemonSpawnerTest allyDemonSpawnerTest;
     private bool timerStarted;
-    private Time time;
+    private float timeWhenTimerStarted;
+    // The time in which the next imp will be spawned
+    private float timerEnd;
 
     // Just counts the total imps recruiting for all groups
     public int CountImpsRecruiting()
@@ -40,7 +42,21 @@ public class RecruitManager : MonoBehaviour
         if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16)
         {
             float timeTillNextImp = -15 / 11 * CountImpsRecruiting() + 25;
-            
+
+            if ( !timerStarted )
+            {
+                timerStarted = true;
+                timeWhenTimerStarted = Time.time;
+            }
+
+            timerEnd = timeWhenTimerStarted + timeTillNextImp;
+
+            // Spawn imp and reset fields
+            if (Time.time >= timerEnd )
+            {
+                timerStarted = false;
+                allyDemonSpawnerTest.Spawn();
+            }
         }
     }
 }

@@ -313,7 +313,7 @@ public class Combat : MonoBehaviour
         // Stop support event
         if ( combatEventsManager != null )
         {
-            combatEventsManager.RaiseOnStopRecruit);
+            combatEventsManager.RaiseOnStopRecruit();
         }
     }
 

@@ -30,6 +30,12 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStopSupport();
     public event OnStopSupport onStopSupport;
 
+    public delegate void OnStartRecruit();
+    public event OnStartSupport onStartRecruit;
+
+    public delegate void OnStopRecruit();
+    public event OnStopSupport onStopRecruit;
+
     public delegate void OnStartGroupAttack();
     public event OnStartGroupAttack onStartGroupAttack;
 
@@ -132,6 +138,22 @@ public class CombatEventsManager : MonoBehaviour
     public void RaiseOnStopSupport()
     {
         if (onStopSupport != null)
+        {
+            onStopSupport();
+        }
+    }
+
+    public void RaiseOnStartRecruit()
+    {
+        if ( onStartSupport != null )
+        {
+            onStartSupport();
+        }
+    }
+
+    public void RaiseOnStopRecruit()
+    {
+        if ( onStopSupport != null )
         {
             onStopSupport();
         }

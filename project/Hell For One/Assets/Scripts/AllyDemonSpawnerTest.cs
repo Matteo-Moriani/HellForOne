@@ -26,6 +26,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     private GameObject arenaCenter;
 
+    public void Spawn()
+    {
+        AlliesManager.Instance.SpawnAlly( impPrefab, SpawnPosition() );
+    }
+
     public IEnumerator SpawnAlly()
     {
         while ( regenDemonsLeft > 0 ) {
