@@ -28,6 +28,7 @@ public class PlayerInput : GeneralInput
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
     public float heldTime = 1f;
     private NewHUD newHUD;
+    private Mana mana;
 
 
     private IEnumerator DpadWait( float waitTime )
@@ -100,6 +101,7 @@ public class PlayerInput : GeneralInput
         tacticsManager = GetComponent<TacticsManager>();
         CurrentScreen = pauseScreen.GetComponent<Menu>();
         newHUD = GameObject.Find( "HUD" ).GetComponent<NewHUD>();
+        mana = GameObject.FindGameObjectWithTag( "Mana" ).GetComponent<Mana>();
     }
 
     private void Update()
@@ -204,27 +206,39 @@ public class PlayerInput : GeneralInput
                 }
             }
 
-            // L2 (PS3) / LT (XBOX) - Down
-            //if ( inputManager.L2Axis() )
-            if ( InputManager.Instance.L2ButtonDown() && !NavigatingMenu)
+            //// L2 (PS3) / LT (XBOX) - Down
+            ////if ( inputManager.L2Axis() )
+            //if ( InputManager.Instance.L2ButtonDown() && !NavigatingMenu)
+            //{
+            //    if ( combat != null && tacticsManager )
+            //    {
+            //        tacticsManager.RotateLeftGroups();
+            //    }
+            //}
+
+
+            //// R2 (PS3) / RT (XBOX) - Down
+            ////if ( inputManager.R2Axis() )
+            //if(InputManager.Instance.R2ButtonDown() && !NavigatingMenu) {
+            //    if(combat != null && tacticsManager) {
+            //        tacticsManager.RotateRightGroups();
+            //    }
+            //}
+
+            // LT + RT - HELD Down
+            if (InputManager.Instance.R2ButtonHeldDown() && InputManager.Instance.L2ButtonHeldDown() )
             {
-                if ( combat != null && tacticsManager )
-                {
-                    tacticsManager.RotateLeftGroups();
-                }
+                mana.ChargeMana();
             }
 
-
-            // R2 (PS3) / RT (XBOX) - Down
-            //if ( inputManager.R2Axis() )
-            if(InputManager.Instance.R2ButtonDown() && !NavigatingMenu) {
-                if(combat != null && tacticsManager) {
-                    tacticsManager.RotateRightGroups();
-                }
+            // LT + RT - Up
+            if ( InputManager.Instance.R2ButtonUp() || InputManager.Instance.L2ButtonUp() )
+            {
+                mana.StopChargeMana();
             }
 
             // DPad
-            if( HasHat) {
+            if ( HasHat) {
 
                 // DPad UP
                 if(InputManager.Instance.DpadVertical() > 0.7f) {

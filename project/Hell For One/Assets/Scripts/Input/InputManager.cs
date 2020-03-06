@@ -711,7 +711,7 @@ public class InputManager : MonoBehaviour
         switch (Type)
         {
             case Controller.Xbox:
-                if (Input.GetAxis("XBoxLT") == 1f && ltWasPressedLastFrame)
+                if (Input.GetAxis("XBoxLT") == 0.9f && ltWasPressedLastFrame)
                 {
                     return true;
                 }
@@ -807,7 +807,7 @@ public class InputManager : MonoBehaviour
         switch (Type)
         {
             case Controller.Xbox:
-                if (Input.GetAxis("XBoxRT") == 1f && rtWasPressedLastFrame)
+                if (Input.GetAxis("XBoxRT") == 0.9f && rtWasPressedLastFrame)
                 {
                     return true;
                 }
