@@ -100,7 +100,6 @@ public class MidBossBehavior : AbstractBoss {
             return false;
 
         if(Random.Range(0f, 1f) < changeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter) {
-            GameObject previousTarget = TargetDemon;
             float totalAggro = 0f;
             string aggroDebug = "aggro values: ";
             string probDebug = "probabilities: ";
@@ -136,12 +135,10 @@ public class MidBossBehavior : AbstractBoss {
                     // if i'm talking about a group (player probability is in the last slot of the array)
                     if(i < Probability.Length - 1) {
                         TargetGroup = DemonGroups[i - 1];
-                        SwitchAggroIcon(i - 1);
-                        TargetDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+                        ChangeTarget(TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon());
                     }
                     else {
-                        HUD.DeactivateAggroIcon();
-                        TargetDemon = Player;
+                        ChangeTarget(Player);
                     }
 
                     break;

@@ -34,6 +34,10 @@ public class BattleEventsHandler : MonoBehaviour
         // This is here to start in an out of combat situation
         //BattleEventsManager.RaiseOnBattleExit();
         //BattleEventsManager.RaiseOnBossBattleExit();
+
+        // TODO - Testing this to remove mob battle
+        // find better solution
+        BattleEventsManager.RaiseOnBattleExit();
     }
 
     private void OnEnable()
