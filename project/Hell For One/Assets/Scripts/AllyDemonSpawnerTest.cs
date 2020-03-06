@@ -30,21 +30,21 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     {
         while ( regenDemonsLeft > 0 ) {
 
-            int impNumber = AlliesManager.Instance.AlliesList.Count;
+            int impsNumber = AlliesManager.Instance.AlliesList.Count;
 
             // 0 demons = game over, max number of demons = no need for spawn ally
-            if ( impNumber >= ImpMaxNumber * 0.8 && impNumber < ImpMaxNumber ) {            // 13-16
+            if ( impsNumber >= ImpMaxNumber * 0.8 && impsNumber < ImpMaxNumber ) {            // 13-16
                 needForRegen = true;
-                timer = 5f;
+                timer = 60f;
             }
-            else if (impNumber >= ImpMaxNumber * 0.4 && impNumber < ImpMaxNumber * 0.8) {   // 7-12
+            else if (impsNumber >= ImpMaxNumber * 0.4 && impsNumber < ImpMaxNumber * 0.8) {   // 7-12
                 needForRegen = true;
-                timer = 5f;
+                timer = 45f;
             }
-            else if ( impNumber > 0 && impNumber < ImpMaxNumber * 0.4 )                    // 1-6
+            else if ( impsNumber > 0 && impsNumber < ImpMaxNumber * 0.4 )                    // 1-6
             {
                 needForRegen = true;
-                timer = 5f;
+                timer = 30f;
             }
             else {
                 needForRegen = false;

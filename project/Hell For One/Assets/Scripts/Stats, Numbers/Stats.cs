@@ -142,9 +142,13 @@ public class Stats : MonoBehaviour
     /// </summary>
     private bool isBlocking = false;
     /// <summary>
-    /// Tells if this unit is blocking
+    /// Tells if this unit is supporting
     /// </summary>
     private bool isSupporting = false;
+    /// <summary>
+    /// Tells if this unit is recruiting
+    /// </summary>
+    private bool isRecruiting = false;
 
     // Used to store all groups reference
     // Using this we can avoid a lot of FindGameObjectsWithTag
@@ -208,6 +212,10 @@ public class Stats : MonoBehaviour
     /// Tells is the unit is supporting
     /// </summary>
     public bool IsSupporting { get => isSupporting; set => isSupporting = value; }
+    /// <summary>
+    /// Tells is the unit is recruiting
+    /// </summary>
+    public bool IsRecruiting { get => isRecruiting; set => isRecruiting = value; }
     /// <summary>
     /// How big will be a sweep attack
     /// </summary>

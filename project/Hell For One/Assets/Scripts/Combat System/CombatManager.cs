@@ -182,6 +182,32 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    public void StartRecruit()
+    {
+        if ( stats.CombatIdle && !stats.IsRecruiting )
+        {
+            stats.CombatIdle = false;
+            stats.IsRecruiting = true;
+        }
+        else
+        {
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
+        }
+    }
+
+    public void StopRecruit()
+    {
+        if ( !stats.CombatIdle && stats.IsRecruiting )
+        {
+            stats.IsRecruiting = false;
+            stats.CombatIdle = true;
+        }
+        else
+        {
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopSupport is trying to stop supporting but is idle or is not supporting" );
+        }
+    }
+
     public void StartBlock()
     {
         if ( stats.CombatIdle && !stats.IsBlocking )

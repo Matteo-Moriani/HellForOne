@@ -243,7 +243,7 @@ public class Combat : MonoBehaviour
 
     /// <summary>
     /// Stops an ongoing Global attack.
-    /// Calss CombatManager.StopGlobalAttack.
+    /// Calls CombatManager.StopGlobalAttack.
     /// </summary>
     public void StopGlobalAttack()
     {
@@ -259,7 +259,7 @@ public class Combat : MonoBehaviour
 
     /// <summary>
     /// This unit start supporting.
-    /// Calss CombatManager.StartSupport.
+    /// Calls CombatManager.StartSupport.
     /// </summary>
     public void StartSupport()
     {
@@ -284,6 +284,36 @@ public class Combat : MonoBehaviour
         if (combatEventsManager != null)
         {
             combatEventsManager.RaiseOnStopSupport();
+        }
+    }
+
+    /// <summary>
+    /// This unit start recruiting.
+    /// Calls CombatManager.StartRecruit.
+    /// </summary>
+    public void StartRecruit()
+    {
+        combatManager.StartRecruit();
+
+        // Start support attack event
+        if ( combatEventsManager != null )
+        {
+            combatEventsManager.RaiseOnStartRecruit();
+        }
+    }
+
+    /// <summary>
+    /// This unit stop supporting.
+    /// Calls CombatManager.StopSupport 
+    /// </summary>
+    public void StopRecruit()
+    {
+        combatManager.StopRecruit();
+
+        // Stop support event
+        if ( combatEventsManager != null )
+        {
+            combatEventsManager.RaiseOnStopRecruit);
         }
     }
 

@@ -60,6 +60,7 @@ public class GroupBehaviour : MonoBehaviour
     private GameObject target;
 
     public GameObject Target { get => target; set => target = value; }
+    public int DemonsInGroup { get => demonsInGroup; set => demonsInGroup = value; }
 
     #region Conditions
 
@@ -562,12 +563,12 @@ public class GroupBehaviour : MonoBehaviour
 
     public int GetDemonsNumber()
     {
-        return demonsInGroup;
+        return DemonsInGroup;
     }
 
     public void SetDemonsNumber( int i )
     {
-        demonsInGroup = i;
+        DemonsInGroup = i;
         groupHealthBar.SetDemonsNumber(i);
     }
 
