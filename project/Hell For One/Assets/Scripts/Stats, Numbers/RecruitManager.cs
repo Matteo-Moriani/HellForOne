@@ -15,9 +15,9 @@ public class RecruitManager : MonoBehaviour
     public int CountImpsRecruiting()
     {
         int impsRecruiting = 0;
-        foreach (GroupBehaviour groupBehaviour in groups )
+        foreach ( GroupBehaviour groupBehaviour in groups )
         {
-            if (groupBehaviour.currentState == GroupBehaviour.State.Recruit )
+            if ( groupBehaviour.currentState == GroupBehaviour.State.Recruit )
             {
                 impsRecruiting += groupBehaviour.DemonsInGroup;
             }
@@ -28,10 +28,10 @@ public class RecruitManager : MonoBehaviour
 
     void Awake()
     {
-        groups[0] = GameObject.Find( "GroupAzure" ).GetComponent<GroupBehaviour>();
-        groups[1] = GameObject.Find( "GroupPink" ).GetComponent<GroupBehaviour>();
-        groups[2] = GameObject.Find( "GroupGreen" ).GetComponent<GroupBehaviour>();
-        groups[3] = GameObject.Find( "GroupYellow" ).GetComponent<GroupBehaviour>();
+        groups[ 0 ] = GameObject.Find( "GroupAzure" ).GetComponent<GroupBehaviour>();
+        groups[ 1 ] = GameObject.Find( "GroupPink" ).GetComponent<GroupBehaviour>();
+        groups[ 2 ] = GameObject.Find( "GroupGreen" ).GetComponent<GroupBehaviour>();
+        groups[ 3 ] = GameObject.Find( "GroupYellow" ).GetComponent<GroupBehaviour>();
 
         allyDemonSpawnerTest = GameObject.Find( "AllyDemonSpawner" ).GetComponent<AllyDemonSpawnerTest>();
     }
@@ -39,7 +39,7 @@ public class RecruitManager : MonoBehaviour
     void Update()
     {
         // Imps can be spawned
-        if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16)
+        if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16 )
         {
             float timeTillNextImp = -15 / 11 * CountImpsRecruiting() + 25;
 
@@ -47,15 +47,18 @@ public class RecruitManager : MonoBehaviour
             {
                 timerStarted = true;
                 timeWhenTimerStarted = Time.time;
+                //Debug.Log( "Timer Started at: " + timeWhenTimerStarted.ToString() );
             }
 
             timerEnd = timeWhenTimerStarted + timeTillNextImp;
+            //Debug.Log( "Imp should spawn around: " + timerEnd.ToString() );
 
             // Spawn imp and reset fields
-            if (Time.time >= timerEnd )
+            if ( Time.time >= timerEnd )
             {
                 timerStarted = false;
                 allyDemonSpawnerTest.Spawn();
+                //Debug.Log( "Imp spawned at: " + Time.time.ToString() );
             }
         }
     }
