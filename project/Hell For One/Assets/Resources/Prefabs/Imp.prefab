@@ -5541,7 +5541,7 @@ MonoBehaviour:
   zMovement: 0
   xMovement: 0
   rotateSpeed: 5
-  movingSpeed: 4
+  movingSpeed: 2.5
 --- !u!114 &2524578988164291959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5568,7 +5568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907d4fa682638db4d88bb81c9f7deffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSize: 3.5
+  dashSize: 2.5
   dashCooldown: 0.6
   idleCollider: {fileID: 5015163011506748079}
   dashTime: 0.4
@@ -5694,7 +5694,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 4
+  m_Speed: 2.5
   m_Acceleration: 6
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -7931,11 +7931,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7630372320048043376}
     m_Modifications:
-    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpShield
-      objectReference: {fileID: 0}
     - target: {fileID: 3449900416110481934, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7990,6 +7985,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -270
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6af6d7f9967f2d42be1d2e0027e7aef, type: 3}
@@ -8141,11 +8141,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     - target: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8201,6 +8196,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e75f9edde83864d9e6480681e59b30, type: 3}
 --- !u!1 &1978037948829490451 stripped

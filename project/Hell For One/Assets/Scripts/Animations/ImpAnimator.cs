@@ -126,14 +126,14 @@ public class ImpAnimator : MonoBehaviour
 
     public IEnumerator WaitAnimation(float time) {
         if(GetComponent<Stats>().type == Stats.Type.Enemy) {
-            isAnimating = true;
+            IsAnimating = true;
             yield return new WaitForSeconds(time);
-            isAnimating = false;
+            IsAnimating = false;
             combatEventsManager.RaiseOnStartIdle();
         } else {
-            isAnimating = true;
+            IsAnimating = true;
             yield return new WaitForSeconds(time);
-            isAnimating = false;
+            IsAnimating = false;
             if(controller.ZMovement != 0 || controller.XMovement != 0)
                 combatEventsManager.RaiseOnStartMoving();
             else
@@ -143,10 +143,10 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public IEnumerator WaitRangedAnimation(float time) {
-        isAnimating = true;
+        IsAnimating = true;
         GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
         yield return new WaitForSeconds(time);
-        isAnimating = false;
+        IsAnimating = false;
         GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
         if(controller.ZMovement != 0 || controller.XMovement != 0)
             combatEventsManager.RaiseOnStartMoving();
