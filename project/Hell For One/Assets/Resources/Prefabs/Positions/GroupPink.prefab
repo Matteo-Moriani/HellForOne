@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7278565163453889771}
   - component: {fileID: 114924279363889158}
   - component: {fileID: 185665734846565306}
+  - component: {fileID: 4971615192014887850}
   m_Layer: 0
   m_Name: GroupPink
   m_TagString: Group
@@ -97,3 +98,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   supportAggroMultiplier: 1.1
+--- !u!114 &4971615192014887850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9de1eedf1ac9af458c6627dcc23d2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMaterial: {fileID: 2100000, guid: 62e9ae933d1aba44480808585a200d66, type: 2}
+  color: {r: 0.972549, g: 0, b: 1, a: 1}
