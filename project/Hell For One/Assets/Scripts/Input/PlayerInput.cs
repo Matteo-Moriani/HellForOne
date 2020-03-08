@@ -468,6 +468,8 @@ public class PlayerInput : GeneralInput
                 //}
             }
         }
+        else
+            Debug.Log( name + " PlayerInput cannot find InputManager" );
     }
 
 
