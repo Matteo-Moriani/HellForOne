@@ -97,6 +97,9 @@ public class DemonMovement : MonoBehaviour
             {
                 if ( target.CompareTag( "Boss" ) )
                 {
+                    if(checkPositionCR == null)
+                        checkPositionCR = StartCoroutine(CheckInPosition());
+
                     // if the boss is escaping...
                     if ( distanceInPosition < (transform.position - target.transform.position).magnitude )
                         inPosition = false;
@@ -278,8 +281,6 @@ public class DemonMovement : MonoBehaviour
     {
         this.target = target;
         targetCollider = target.GetComponent<Collider>();
-        if(target.CompareTag("Boss"))
-            checkPositionCR = StartCoroutine(CheckInPosition());
     }
 
     public bool CanAct()
