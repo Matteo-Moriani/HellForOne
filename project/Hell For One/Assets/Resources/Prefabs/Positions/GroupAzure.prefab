@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5830274381028926096}
   - component: {fileID: 114225741877727004}
   - component: {fileID: 5471317392824937645}
+  - component: {fileID: 1516103467467881029}
   m_Layer: 0
   m_Name: GroupAzure
   m_TagString: Group
@@ -97,3 +98,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   supportAggroMultiplier: 1.1
+--- !u!114 &1516103467467881029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e530b073f31fb5047ba8782ade3f6871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMaterial: {fileID: 2100000, guid: 130f7d790064eb44796d1792b8391f6a, type: 2}
+  color: {r: 0, g: 0.85882354, b: 1, a: 1}
