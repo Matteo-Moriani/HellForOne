@@ -36,6 +36,9 @@ public class DemonMovement : MonoBehaviour
     public bool PlayerNotified { get => playerNotified; set => playerNotified = value; }
     private Vector3 agentDestination;
     private bool inFormationPosition = false;
+    private Stats stats;
+    private Coroutine checkPositionCR;
+    private float positionTimer;
 
     private bool inScriptedMovement = false;
     private bool playerNotified = false;
@@ -48,11 +51,18 @@ public class DemonMovement : MonoBehaviour
     private void OnEnable()
     {
         BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
     }
 
     private void OnDisable()
     {
         BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+    }
+
+    private void Awake() {
+        stats = gameObject.GetComponent<Stats>();
+        positionTimer = Random.Range(2f, 3f);
     }
 
     void Start()
@@ -103,28 +113,29 @@ public class DemonMovement : MonoBehaviour
                         HighRangeMovement();
 
                 }
-                else if ( target.CompareTag( "LittleEnemy" ) )
-                {
-                    if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
-                    {
-                        if ( (HorizDistFromTargetBorders( target ) > maxMeleeDist) )
-                        {
-                            agent.destination = target.transform.position;
-                        }
-                        else
-                            agent.destination = transform.position;
-                    }
-                    else
-                    {
-                        if ( (HorizDistFromTargetBorders( target ) > maxRangeDist) )
-                            agent.destination = target.transform.position;
-                        else
-                            agent.destination = transform.position;
-                    }
+                //else if ( target.CompareTag( "LittleEnemy" ) )
+                //{
+                //    if ( gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.Tank )
+                //    {
+                //        if ( (HorizDistFromTargetBorders( target ) > maxMeleeDist) )
+                //        {
+                //            agent.destination = target.transform.position;
+                //        }
+                //        else
+                //            agent.destination = transform.position;
+                //    }
+                //    else
+                //    {
+                //        if ( (HorizDistFromTargetBorders( target ) > maxRangeDist) )
+                //            agent.destination = target.transform.position;
+                //        else
+                //            agent.destination = transform.position;
+                //    }
 
-                    Face(target);
+                //    Face(target);
 
-                }
+                //}
+
                 // out of combat
                 else {
                     // I move only if I'm far enough from the group center and if the group center is inside the navmesh
@@ -267,6 +278,8 @@ public class DemonMovement : MonoBehaviour
     {
         this.target = target;
         targetCollider = target.GetComponent<Collider>();
+        if(target.CompareTag("Boss"))
+            checkPositionCR = StartCoroutine(CheckInPosition());
     }
 
     public bool CanAct()
@@ -322,6 +335,23 @@ public class DemonMovement : MonoBehaviour
     }
 
     private void OnBossBattleExit() { 
-        canMove = true;    
+        canMove = true;
+        StopCoroutine(checkPositionCR);
+        checkPositionCR = null;
+    }
+
+    private void OnBossBattleEnter() {
+        checkPositionCR = StartCoroutine(CheckInPosition());
+    }
+
+    private IEnumerator CheckInPosition() {
+        while(true) {
+            yield return new WaitForSeconds(positionTimer);
+            // in this case, distance allowed is halven since imps are much more separated then normal
+            if(HorizDistFromTarget(group) > transform.localScale.x * (group.GetComponent<GroupMovement>().distanceAllowed / 2f)) {
+                Debug.Log(gameObject.name + " is too distant from group center");
+                inPosition = false;
+            }
+        }
     }
 }
