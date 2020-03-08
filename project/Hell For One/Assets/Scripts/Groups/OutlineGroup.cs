@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OutlineGroup : MonoBehaviour
 {
+    // comment for push
+
     [SerializeField]
     [Tooltip("The material to use to outline this group")]
     private Material outlineMaterial;
