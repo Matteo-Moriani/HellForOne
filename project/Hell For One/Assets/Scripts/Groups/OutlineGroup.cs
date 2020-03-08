@@ -68,11 +68,12 @@ public class OutlineGroup : MonoBehaviour
                     Debug.LogError(this.gameObject.name + " " + this.name + " outlineMaterial not assigned");
                 }    
             }
+            // Last outlined group
             else {
                 if (isOutlined) { 
                     isOutlined = false;
 
-                    // Assign new material
+                    // Assign default material
                     foreach (GameObject imp in groupBehaviour.demons)
                     {
                         if(imp != null) {
@@ -80,7 +81,7 @@ public class OutlineGroup : MonoBehaviour
 
                             if (materialsManager != null)
                             {
-                                materialsManager.ChangeMaterials(defaultImpMaterial);
+                                materialsManager.SetDefaultMaterial();
                             }
                             else
                             {
