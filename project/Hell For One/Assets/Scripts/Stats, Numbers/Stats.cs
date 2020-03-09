@@ -522,7 +522,7 @@ public class Stats : MonoBehaviour
     }
 
     private void SetPlayerBaseHP() { 
-        health  = 2.0f    
+        health  = 2.0f;    
     }
 
     #endregion
