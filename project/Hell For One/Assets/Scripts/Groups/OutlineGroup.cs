@@ -29,6 +29,8 @@ public class OutlineGroup : MonoBehaviour
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+
+        outlineMaterial.SetColor("_OutlineColor", Color.white);
     }
 
     private void OnMostRappresentedGroupChanged()
