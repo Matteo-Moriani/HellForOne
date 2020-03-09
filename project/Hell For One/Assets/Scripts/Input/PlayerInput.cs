@@ -225,14 +225,16 @@ public class PlayerInput : GeneralInput
             //    }
             //}
 
+            // TODO Put LT + RT instead than LB + RB
             // LT + RT - HELD Down
-            if (InputManager.Instance.R2ButtonHeldDown() && InputManager.Instance.L2ButtonHeldDown() )
+            if (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonHeldDown() )
             {
                 mana.ChargeMana();
             }
 
+            // TODO Same as previous method
             // LT + RT - Up
-            if ( InputManager.Instance.R2ButtonUp() || InputManager.Instance.L2ButtonUp() )
+            if ( InputManager.Instance.R1ButtonUp() || InputManager.Instance.L1ButtonUp() )
             {
                 mana.StopChargeMana();
             }
