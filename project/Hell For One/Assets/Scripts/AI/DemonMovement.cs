@@ -106,7 +106,7 @@ public class DemonMovement : MonoBehaviour {
                         rangedDistanceInPosition = 0f;
                         //if(HorizDistFromTarget(group) > tankDistanceInPosition)
                         //    inPosition = false;
-                        if(HorizDistFromTarget(group) < transform.localScale.x * groupMovement.DistanceAllowed)
+                        if(HorizDistFromTarget(group) < transform.localScale.x * groupMovement.distanceAllowed)
                             inPosition = true;
                         if(inPosition) {
                             Face(target);
@@ -222,7 +222,7 @@ public class DemonMovement : MonoBehaviour {
     }
 
     private void HighRangeMovement() {
-        if(HorizDistFromTarget(group) > transform.localScale.x * groupMovement.DistanceAllowed && !inPosition) {
+        if(HorizDistFromTarget(group) > transform.localScale.x * groupMovement.distanceAllowed && !inPosition) {
             if(agent)
                 agent.destination = group.transform.position;
         }
@@ -300,7 +300,7 @@ public class DemonMovement : MonoBehaviour {
         while(true) {
             yield return new WaitForSeconds(positionTimer);
             // in this case, distance allowed is halven since imps are much more separated then normal
-            if(HorizDistFromTarget(group) > transform.localScale.x * (groupMovement.DistanceAllowed / 2f)) {
+            if(HorizDistFromTarget(group) > transform.localScale.x * (groupMovement.distanceAllowed / 2f)) {
                 Debug.Log(gameObject.name + " is too distant from group center");
                 inPosition = false;
             }
