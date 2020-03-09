@@ -58,6 +58,8 @@ public abstract class AbstractBoss : MonoBehaviour {
     private bool isIdle = true;
     private bool isAttacking = false;
     private GameObjectSearcher searcher;
+    private Coroutine faceCR;
+    private bool faceCRisActive = true;
 
     #endregion
 
@@ -66,7 +68,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public GameObject TargetGroup { get => targetGroup; set => targetGroup = value; }
     public GameObject TargetDemon { get => targetDemon; set => targetDemon = value; }
     public bool IsWalking { get => isWalking; set => isWalking = value; }
-    public bool IsIdle { get => isIdle; set => isIdle = value; }
+    public bool IsInPosition { get => isIdle; set => isIdle = value; }
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public GameObject[] DemonGroups { get => demonGroups; set => demonGroups = value; }
     public GameObject Player { get => player; set => player = value; }
@@ -104,6 +106,8 @@ public abstract class AbstractBoss : MonoBehaviour {
     public float MaxDistFromCenter { get => absMaxDistFromCenter; set => absMaxDistFromCenter = value; }
     public float MaxTargetDistFromCenter { get => absMaxTargetDistFromCenter; set => absMaxTargetDistFromCenter = value; }
     public GameObjectSearcher Searcher { get => searcher; set => searcher = value; }
+    public Coroutine FaceCR { get => faceCR; set => faceCR = value; }
+    public bool FaceCRisActive { get => faceCRisActive; set => faceCRisActive = value; }
 
     #endregion
 
@@ -189,7 +193,7 @@ public abstract class AbstractBoss : MonoBehaviour {
             return true;
         }
         else {
-            CanWalk = false;
+            // can walk = false verrà settato a fine attacco
             ResetTimer();
             return false;
         }
@@ -250,7 +254,7 @@ public abstract class AbstractBoss : MonoBehaviour {
         AggroValues = new float[DemonGroups.Length + 1];
         Probability = new float[DemonGroups.Length + 2];
         Probability[0] = 0f;
-        StartCoroutine(FaceEvery(FacingIntervall));
+        FaceCR = StartCoroutine(FaceEvery(FacingIntervall));
 
         FightingBT = FightingBTBuilder();
     }
@@ -266,29 +270,30 @@ public abstract class AbstractBoss : MonoBehaviour {
             StartCoroutine(MoveThroughFSM());
         }
 
-        if(TargetDemon && !isAttacking && Stats.health > 0) {
-            if(!isIdle)
+        if(TargetDemon && !IsAttacking && Stats.health > 0) {
+            if(!IsInPosition)
                 Face(TargetDemon);
             else
                 if(CanFace)
                 Face(TargetDemon);
 
             if(CanWalk) {
-                if(!isWalking) {
+                if(!IsWalking) {
                     IsWalking = true;
-                    IsIdle = false;
+                    IsInPosition = false;
                     CombatEventsManager.RaiseOnStartMoving();
 
                 }
 
-                transform.position += transform.forward * Speed * Time.deltaTime;
+                if(HorizDistFromTarget(TargetDemon) > StopDist)
+                    transform.position += transform.forward * Speed * Time.deltaTime;
 
             }
             else {
-                if(!isIdle) {
-                    IsIdle = true;
+                if(!IsInPosition) {
+                    IsInPosition = true;
                     IsWalking = false;
-                    CombatEventsManager.RaiseOnStartIdle();
+                    //CombatEventsManager.RaiseOnStartIdle();
                 }
             }
 
@@ -337,9 +342,9 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public IEnumerator FaceEvery(float f) {
         while(true) {
-            CanFace = false;
+            if(FaceCRisActive) CanFace = true;
             yield return new WaitForSeconds(f);
-            CanFace = true;
+            if(FaceCRisActive) CanFace = false;
             yield return new WaitForSeconds(f);
         }
     }
@@ -390,31 +395,6 @@ public abstract class AbstractBoss : MonoBehaviour {
     public GameObject[] GetDemonGroups() {
         return DemonGroups;
     }
-
-    //public void SwitchAggroIcon(GameObject imp) {
-    //    if(Stats.health > 0) {
-    //        //switch(index) {
-    //        //    case 0:
-    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupAzure);
-    //        //        break;
-    //        //    case 1:
-    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupPink);
-    //        //        break;
-    //        //    case 2:
-    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupGreen);
-    //        //        break;
-    //        //    case 3:
-    //        //        HUD.ActivateAggroIcon(GroupBehaviour.Group.GroupYellow);
-    //        //        break;
-    //        //    default:
-    //        //        break;
-    //        //}
-
-    //        // servono tutti e due di fila
-            
-    //        // ecc.
-    //    }
-    //}
 
     public void ChangeTarget(GameObject newTarget) {
         if(Stats.health > 0) {
