@@ -30,6 +30,11 @@ public class ScrollingUVs_Layers : MonoBehaviour
 		}
 	}
 
+	private void OnDisable()
+	{
+		lavaAnimationMaterial.SetTextureOffset(textureName,defaultTextureOffset);
+	}
+
 	private void Start()
 	{
 		if(lavaAnimationMaterial != null) {
