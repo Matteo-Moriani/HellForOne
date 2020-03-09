@@ -256,50 +256,50 @@ public class NewHUD : MonoBehaviour
 
         //Canvas.ForceUpdateCanvases();
 
-        switch ( tacticsManager.CurrentMostRappresentedGroup )
-        {
-            case GroupBehaviour.Group.GroupAzure:
-                panelAzure.transform.localScale = enlargedScale;
-                panelAzure.transform.SetAsLastSibling();
-                panelAzure.transform.localPosition = panelPosition;
-                panelPink.transform.localScale = defaultScale;
-                panelPink.transform.localPosition = xCorrection;
-                panelGreen.transform.localScale = defaultScale;
-                panelYellow.transform.localScale = defaultScale;
-                panelYellow.transform.localPosition = xCorrection * 3;
-                break;
-            case GroupBehaviour.Group.GroupPink:
-                panelAzure.transform.localScale = defaultScale;
-                panelAzure.transform.localPosition = Vector3.zero;
-                panelPink.transform.localScale = enlargedScale;
-                panelPink.transform.SetAsLastSibling();
-                panelPink.transform.localPosition = panelPosition + xCorrection;
-                panelGreen.transform.localScale = defaultScale;
-                panelGreen.transform.localPosition = xCorrection * 2;
-                panelYellow.transform.localScale = defaultScale;
-                break;
-            case GroupBehaviour.Group.GroupGreen:
-                panelAzure.transform.localScale = defaultScale;
-                panelPink.transform.localScale = defaultScale;
-                panelPink.transform.localPosition = xCorrection;
-                panelGreen.transform.localScale = enlargedScale;
-                panelGreen.transform.SetAsLastSibling();
-                panelGreen.transform.localPosition = panelPosition + xCorrection * 2;
-                panelYellow.transform.localScale = defaultScale;
-                panelYellow.transform.localPosition = xCorrection * 3;
-                break;
-            case GroupBehaviour.Group.GroupYellow:
-                panelAzure.transform.localScale = defaultScale;
-                panelAzure.transform.localPosition = Vector3.zero;
-                panelPink.transform.localScale = defaultScale;
-                panelGreen.transform.localScale = defaultScale;
-                panelGreen.transform.localPosition = xCorrection * 2;
-                panelYellow.transform.localScale = enlargedScale;
-                panelYellow.transform.SetAsLastSibling();
-                panelYellow.transform.localPosition = panelPosition + xCorrection * 3;
+        //switch ( tacticsManager.CurrentMostRappresentedGroup )
+        //{
+        //    case GroupBehaviour.Group.GroupAzure:
+        //        panelAzure.transform.localScale = enlargedScale;
+        //        panelAzure.transform.SetAsLastSibling();
+        //        panelAzure.transform.localPosition = panelPosition;
+        //        panelPink.transform.localScale = defaultScale;
+        //        panelPink.transform.localPosition = xCorrection;
+        //        panelGreen.transform.localScale = defaultScale;
+        //        panelYellow.transform.localScale = defaultScale;
+        //        panelYellow.transform.localPosition = xCorrection * 3;
+        //        break;
+        //    case GroupBehaviour.Group.GroupPink:
+        //        panelAzure.transform.localScale = defaultScale;
+        //        panelAzure.transform.localPosition = Vector3.zero;
+        //        panelPink.transform.localScale = enlargedScale;
+        //        panelPink.transform.SetAsLastSibling();
+        //        panelPink.transform.localPosition = panelPosition + xCorrection;
+        //        panelGreen.transform.localScale = defaultScale;
+        //        panelGreen.transform.localPosition = xCorrection * 2;
+        //        panelYellow.transform.localScale = defaultScale;
+        //        break;
+        //    case GroupBehaviour.Group.GroupGreen:
+        //        panelAzure.transform.localScale = defaultScale;
+        //        panelPink.transform.localScale = defaultScale;
+        //        panelPink.transform.localPosition = xCorrection;
+        //        panelGreen.transform.localScale = enlargedScale;
+        //        panelGreen.transform.SetAsLastSibling();
+        //        panelGreen.transform.localPosition = panelPosition + xCorrection * 2;
+        //        panelYellow.transform.localScale = defaultScale;
+        //        panelYellow.transform.localPosition = xCorrection * 3;
+        //        break;
+        //    case GroupBehaviour.Group.GroupYellow:
+        //        panelAzure.transform.localScale = defaultScale;
+        //        panelAzure.transform.localPosition = Vector3.zero;
+        //        panelPink.transform.localScale = defaultScale;
+        //        panelGreen.transform.localScale = defaultScale;
+        //        panelGreen.transform.localPosition = xCorrection * 2;
+        //        panelYellow.transform.localScale = enlargedScale;
+        //        panelYellow.transform.SetAsLastSibling();
+        //        panelYellow.transform.localPosition = panelPosition + xCorrection * 3;
 
-                break;
-        }
+        //        break;
+        //}
 
         //Canvas.ForceUpdateCanvases();
     }
