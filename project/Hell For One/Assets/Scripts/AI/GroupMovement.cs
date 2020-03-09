@@ -25,6 +25,8 @@ public class GroupMovement : MonoBehaviour
     private bool vsBoss = false;
     private bool outOfCombat = false;
 
+    public float DistanceAllowed { get => distanceAllowed; set => distanceAllowed = value; }
+
     private void OnEnable()
     {
         BattleEventsManager.onBattleExit += SetOutOfCombat;
