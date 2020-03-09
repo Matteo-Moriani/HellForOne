@@ -240,6 +240,21 @@ public class Stats : MonoBehaviour
 
     #region methods
 
+    private void Awake()
+    {
+        combatEventsManager = GetComponent<CombatEventsManager>();
+    }
+
+    private void OnEnable()
+    {
+        combatEventsManager.onReincarnation += SetPlayerBaseHP;
+    }
+
+    private void OnDisable()
+    {
+        combatEventsManager.onReincarnation -= SetPlayerBaseHP;
+    }
+
     private void Start()
     {
         AnimationsManager animationsManager = this.gameObject.GetComponent<AnimationsManager>();
@@ -258,8 +273,6 @@ public class Stats : MonoBehaviour
         }
 
         Groups = GameObject.FindGameObjectsWithTag("Group");
-
-        combatEventsManager = GetComponent<CombatEventsManager>();
 
         //ManageSpawn();
     }
@@ -506,6 +519,10 @@ public class Stats : MonoBehaviour
             // TODO - disable components for death duratin
             deathCR = StartCoroutine(DeathTimer(deathDuration));
         }
+    }
+
+    private void SetPlayerBaseHP() { 
+        health  = 2.0f    
     }
 
     #endregion
