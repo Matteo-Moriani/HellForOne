@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroupBehaviour : MonoBehaviour
-{
+public class GroupBehaviour : MonoBehaviour {
     /// <summary>
     /// Enum that lists the aviable groups
     /// </summary>
-    public enum Group { 
+    public enum Group {
         GroupAzure,
         GroupPink,
         GroupGreen,
@@ -37,12 +36,11 @@ public class GroupBehaviour : MonoBehaviour
     #region 
 
     // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)
-    public enum State
-    {
+    public enum State {
         MeleeAttack,
         Tank,
         RangeAttack,
-        Support, 
+        Support,
         Recruit
     }
 
@@ -64,70 +62,56 @@ public class GroupBehaviour : MonoBehaviour
 
     #region Conditions
 
-    public bool MeleeOrderGiven()
-    {
-        if ( (newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack) )
-        {
+    public bool MeleeOrderGiven() {
+        if((newState != currentState) && (orderConfirmed) && (newState == State.MeleeAttack)) {
             return true;
         }
         return false;
     }
 
-    public bool TankOrderGiven()
-    {
-        if ( (newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.Tank) )
-        {
+    public bool TankOrderGiven() {
+        if((newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.Tank)) {
             return true;
         }
         return false;
     }
 
-    public bool RangeAttackOrderGiven()
-    {
-        if ( (newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.RangeAttack) )
-        {
+    public bool RangeAttackOrderGiven() {
+        if((newState.ToString() != groupFSM.current.stateName) && (orderConfirmed) && (newState == State.RangeAttack)) {
             return true;
         }
         return false;
     }
 
-    public bool SupportOrderGiven()
-    {
-        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Support) )
-        {
+    public bool SupportOrderGiven() {
+        if((newState != currentState) && (orderConfirmed) && (newState == State.Support)) {
             return true;
         }
         return false;
     }
 
-    public bool RecruitOrderGiven()
-    {
-        if ( (newState != currentState) && (orderConfirmed) && (newState == State.Recruit) )
-        {
+    public bool RecruitOrderGiven() {
+        if((newState != currentState) && (orderConfirmed) && (newState == State.Recruit)) {
             return true;
         }
         return false;
     }
 
-    public bool Idle()
-    {
-        if ( !inCombat )
+    public bool Idle() {
+        if(!inCombat)
             return true;
         return false;
     }
 
-    public bool EnterCombat()
-    {
-        if ( !Idle() )
+    public bool EnterCombat() {
+        if(!Idle())
             return true;
         return false;
     }
 
-    private void ConfirmEffects()
-    {
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
+    private void ConfirmEffects() {
+        foreach(GameObject demon in demons) {
+            if(demon)
                 demon.GetComponent<SelectedUnitEffects>().ConfirmOrder();
         }
     }
@@ -136,8 +120,7 @@ public class GroupBehaviour : MonoBehaviour
 
     #region Actions
 
-    public void GeneralEnterAction()
-    {
+    public void GeneralEnterAction() {
         currentState = newState;
         ConfirmEffects();
         orderConfirmed = false;
@@ -150,12 +133,11 @@ public class GroupBehaviour : MonoBehaviour
         else if(currentState == State.MeleeAttack || currentState == State.RangeAttack)
             continuousAttack = StartCoroutine(AttackOneTime(rateo));
 
-        GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Stats>().RaiseAggro( groupAggro.OrderGivenMultiplier );
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(groupAggro.OrderGivenMultiplier);
     }
 
-    public void MeleeAttack()
-    {
-        if ( !CheckDemons() )
+    public void MeleeAttack() {
+        if(!CheckDemons())
             return;
 
         //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
@@ -167,17 +149,15 @@ public class GroupBehaviour : MonoBehaviour
             target = EnemiesManager.Instance.Boss;
         }
         //else if ( enemies != null )
-        else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0){
+        else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
             //target = CameraManager.FindNearestEnemy(gameObject, enemies);
-            target = CameraManager.FindNearestEnemy(gameObject,EnemiesManager.Instance.LittleEnemiesList.ToArray());
-        }    
+            target = CameraManager.FindNearestEnemy(gameObject, EnemiesManager.Instance.LittleEnemiesList.ToArray());
+        }
         else
             return;
 
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 //Combat combat = demon.GetComponent<Combat>();
 
                 //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
@@ -194,11 +174,11 @@ public class GroupBehaviour : MonoBehaviour
                 // I added this check to remove errors but need to 
                 // be fixed
                 //if (combat.enabled)
-                    if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
-                        StartCoroutine(ActionAfterRandomDelay(demon, State.MeleeAttack));
-                        //combat.SingleAttack(target);
-                    }
-                        
+                if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
+                    StartCoroutine(ActionAfterRandomDelay(demon, State.MeleeAttack));
+                    //combat.SingleAttack(target);
+                }
+
             }
         }
     }
@@ -207,9 +187,7 @@ public class GroupBehaviour : MonoBehaviour
 
         Combat combat = demon.GetComponent<Combat>();
 
-        if(combat.enabled) {
-            float randomDelay = Random.Range(0f, 0.5f);
-            yield return new WaitForSeconds(randomDelay);
+        if(combat.enabled && demon.GetComponent<DemonMovement>().CanAct()) {
 
             switch(action) {
                 case State.MeleeAttack:
@@ -222,18 +200,18 @@ public class GroupBehaviour : MonoBehaviour
                     break;
 
             }
+
+            float randomDelay = Random.Range(0f, 0.5f);
+            yield return new WaitForSeconds(randomDelay);
         }
-            
+
     }
 
-    public void StopAttack()
-    {
-        if ( !CheckDemons() )
+    public void StopAttack() {
+        if(!CheckDemons())
             return;
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 combat.StopAttack();
             }
@@ -241,13 +219,11 @@ public class GroupBehaviour : MonoBehaviour
         StopCoroutine(continuousAttack);
     }
 
-    public void TankStayAction()
-    {
-        if ( !CheckDemons() )
+    public void TankStayAction() {
+        if(!CheckDemons())
             return;
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon ) {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
 
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
@@ -260,23 +236,19 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
-    public void StopTank()
-    {
-        if ( !CheckDemons() )
+    public void StopTank() {
+        if(!CheckDemons())
             return;
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 combat.StopBlock();
             }
         }
     }
 
-    public void RangeAttack()
-    {
-        if ( !CheckDemons() )
+    public void RangeAttack() {
+        if(!CheckDemons())
             return;
 
         //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
@@ -288,40 +260,35 @@ public class GroupBehaviour : MonoBehaviour
             target = EnemiesManager.Instance.Boss;
         }
         //else if ( enemies != null )
-        else if( EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
+        else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
             //target = CameraManager.FindNearestEnemy(gameObject, enemies);
-            target = CameraManager.FindNearestEnemy(gameObject,EnemiesManager.Instance.LittleEnemiesList.ToArray());
-        }    
+            target = CameraManager.FindNearestEnemy(gameObject, EnemiesManager.Instance.LittleEnemiesList.ToArray());
+        }
         else
             return;
 
 
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 //Combat combat = demon.GetComponent<Combat>();
 
                 // TODO - Ally keep attacking when out of combat,
                 // I added this check to remove errors but need to 
                 // be fixed
                 //if(combat.enabled) {
-                    StartCoroutine(ActionAfterRandomDelay(demon, State.RangeAttack));
-                    //combat.RangedAttack(target);
+                StartCoroutine(ActionAfterRandomDelay(demon, State.RangeAttack));
+                //combat.RangedAttack(target);
                 //}
             }
         }
     }
 
-    public void StopRangeAttack()
-    {
-        if ( !CheckDemons() )
+    public void StopRangeAttack() {
+        if(!CheckDemons())
             return;
 
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 combat.StopRangedAttack();
             }
@@ -329,15 +296,12 @@ public class GroupBehaviour : MonoBehaviour
 
         StopCoroutine(continuousAttack);
     }
-    
-    public void SupportStayAction()
-    {
-        if ( !CheckDemons() )
+
+    public void SupportStayAction() {
+        if(!CheckDemons())
             return;
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
                     combat.StartSupport();
@@ -349,37 +313,29 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
-    public void StopSupport()
-    {
-        if ( !CheckDemons() )
+    public void StopSupport() {
+        if(!CheckDemons())
             return;
 
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 combat.StopSupport();
             }
         }
     }
 
-    public void RecruitStayAction()
-    {
-        if ( !CheckDemons() )
+    public void RecruitStayAction() {
+        if(!CheckDemons())
             return;
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
-                if ( BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle )
-                {
+                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
                     // TODO
                     //combat.StartRecruit();
                 }
-                else
-                {
+                else {
                     // TODO
                     //combat.StopRecruit();
                 }
@@ -387,15 +343,12 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
 
-    public void StopRecruit()
-    {
-        if ( !CheckDemons() )
+    public void StopRecruit() {
+        if(!CheckDemons())
             return;
 
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
-            {
+        foreach(GameObject demon in demons) {
+            if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 // TODO
                 //combat.StopRecruit();
@@ -404,11 +357,9 @@ public class GroupBehaviour : MonoBehaviour
     }
 
     // TODO - Parametrize this
-    public void UpdateSupportAggro()
-    {
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon )
+    public void UpdateSupportAggro() {
+        foreach(GameObject demon in demons) {
+            if(demon)
                 demon.GetComponent<Stats>().Aggro *= 1.08f;
         }
     }
@@ -418,23 +369,19 @@ public class GroupBehaviour : MonoBehaviour
     #endregion
 
     //TODO To know if all demons found their group (can be improved by just setting a single boolean in a single gameobjact, without checking for all demons)
-    public bool CheckDemons()
-    {
+    public bool CheckDemons() {
         //GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
 
         //foreach ( GameObject go in allDemons )
-        foreach(GameObject go in AlliesManager.Instance.AlliesList)
-        {
-            if ( !go.GetComponent<DemonBehaviour>().groupFound )
+        foreach(GameObject go in AlliesManager.Instance.AlliesList) {
+            if(!go.GetComponent<DemonBehaviour>().groupFound)
                 return false;
         }
         return true;
     }
 
-    public FSMState GetCurrentFSMState( State state )
-    {
-        switch ( state )
-        {
+    public FSMState GetCurrentFSMState(State state) {
+        switch(state) {
             case State.MeleeAttack:
                 return meleeState;
             case State.Tank:
@@ -450,11 +397,9 @@ public class GroupBehaviour : MonoBehaviour
     }
 
     // The coroutine that cycles through the FSM
-    public IEnumerator MoveThroughFSM()
-    {
-        while ( true )
-        {
-            yield return new WaitForSeconds( fsmReactionTime );
+    public IEnumerator MoveThroughFSM() {
+        while(true) {
+            yield return new WaitForSeconds(fsmReactionTime);
             //Debug.Log( groupFSM.current.stateName );
             groupFSM.Update();
         }
@@ -464,126 +409,118 @@ public class GroupBehaviour : MonoBehaviour
         groupHealthBar = healthBar.GetComponent<GroupHealthBar>();
     }
 
-    void Start()
-    {
+    void Start() {
         currentState = State.MeleeAttack;
         newState = State.MeleeAttack;
         // Just to test
         inCombat = true;
 
-        demons = new GameObject[ maxNumDemons ];
+        demons = new GameObject[maxNumDemons];
 
         #region FSM
 
-        FSMTransition t1 = new FSMTransition( MeleeOrderGiven );
-        FSMTransition t2 = new FSMTransition( TankOrderGiven );
-        FSMTransition t3 = new FSMTransition( RangeAttackOrderGiven );
-        FSMTransition t4 = new FSMTransition( SupportOrderGiven );
-        FSMTransition t5 = new FSMTransition( Idle );
-        FSMTransition t6 = new FSMTransition( EnterCombat );
-        FSMTransition t7 = new FSMTransition( RecruitOrderGiven );
+        FSMTransition t1 = new FSMTransition(MeleeOrderGiven);
+        FSMTransition t2 = new FSMTransition(TankOrderGiven);
+        FSMTransition t3 = new FSMTransition(RangeAttackOrderGiven);
+        FSMTransition t4 = new FSMTransition(SupportOrderGiven);
+        FSMTransition t5 = new FSMTransition(Idle);
+        FSMTransition t6 = new FSMTransition(EnterCombat);
+        FSMTransition t7 = new FSMTransition(RecruitOrderGiven);
 
-        meleeState = new FSMState( State.MeleeAttack.ToString() );
-        tankState = new FSMState( State.Tank.ToString() );
-        rangeAttackState = new FSMState( State.RangeAttack.ToString() );
-        supportState = new FSMState( State.Support.ToString() );
-        recruitState = new FSMState( State.Recruit.ToString() );
+        meleeState = new FSMState(State.MeleeAttack.ToString());
+        tankState = new FSMState(State.Tank.ToString());
+        rangeAttackState = new FSMState(State.RangeAttack.ToString());
+        supportState = new FSMState(State.Support.ToString());
+        recruitState = new FSMState(State.Recruit.ToString());
         idleState = new FSMState();
 
-        meleeState.enterActions.Add( GeneralEnterAction );
+        meleeState.enterActions.Add(GeneralEnterAction);
         //meleeState.stayActions.Add( MeleeAttack );
-        meleeState.exitActions.Add( StopAttack );
+        meleeState.exitActions.Add(StopAttack);
 
-        rangeAttackState.enterActions.Add( GeneralEnterAction );
+        rangeAttackState.enterActions.Add(GeneralEnterAction);
         //rangeAttackState.stayActions.Add( RangeAttack );
-        rangeAttackState.exitActions.Add( StopRangeAttack );
+        rangeAttackState.exitActions.Add(StopRangeAttack);
 
-        tankState.enterActions.Add( GeneralEnterAction );
-        tankState.enterActions.Add( TankStayAction );
+        tankState.enterActions.Add(GeneralEnterAction);
+        tankState.enterActions.Add(TankStayAction);
         tankState.stayActions.Add(TankStayAction);
-        tankState.exitActions.Add( StopTank );
+        tankState.exitActions.Add(StopTank);
 
-        supportState.enterActions.Add( GeneralEnterAction );
-        supportState.stayActions.Add( SupportStayAction );
-        supportState.stayActions.Add( UpdateSupportAggro );
-        supportState.exitActions.Add( StopSupport );
+        supportState.enterActions.Add(GeneralEnterAction);
+        supportState.stayActions.Add(SupportStayAction);
+        supportState.stayActions.Add(UpdateSupportAggro);
+        supportState.exitActions.Add(StopSupport);
 
-        recruitState.enterActions.Add( GeneralEnterAction );
-        recruitState.stayActions.Add( RecruitStayAction );
-        recruitState.exitActions.Add( StopRecruit );
+        recruitState.enterActions.Add(GeneralEnterAction);
+        recruitState.stayActions.Add(RecruitStayAction);
+        recruitState.exitActions.Add(StopRecruit);
 
-        meleeState.AddTransition( t2, tankState );
-        meleeState.AddTransition( t3, rangeAttackState );
-        meleeState.AddTransition( t4, supportState );
-        meleeState.AddTransition( t5, idleState );
-        meleeState.AddTransition( t7, recruitState );
+        meleeState.AddTransition(t2, tankState);
+        meleeState.AddTransition(t3, rangeAttackState);
+        meleeState.AddTransition(t4, supportState);
+        meleeState.AddTransition(t5, idleState);
+        meleeState.AddTransition(t7, recruitState);
 
-        tankState.AddTransition( t1, meleeState );
-        tankState.AddTransition( t3, rangeAttackState );
-        tankState.AddTransition( t4, supportState );
-        tankState.AddTransition( t5, idleState );
-        tankState.AddTransition( t7, recruitState );
+        tankState.AddTransition(t1, meleeState);
+        tankState.AddTransition(t3, rangeAttackState);
+        tankState.AddTransition(t4, supportState);
+        tankState.AddTransition(t5, idleState);
+        tankState.AddTransition(t7, recruitState);
 
-        rangeAttackState.AddTransition( t1, meleeState );
-        rangeAttackState.AddTransition( t2, tankState );
-        rangeAttackState.AddTransition( t4, supportState );
-        rangeAttackState.AddTransition( t5, idleState );
-        rangeAttackState.AddTransition( t7, recruitState );
+        rangeAttackState.AddTransition(t1, meleeState);
+        rangeAttackState.AddTransition(t2, tankState);
+        rangeAttackState.AddTransition(t4, supportState);
+        rangeAttackState.AddTransition(t5, idleState);
+        rangeAttackState.AddTransition(t7, recruitState);
 
-        supportState.AddTransition( t1, meleeState );
-        supportState.AddTransition( t2, tankState );
-        supportState.AddTransition( t3, rangeAttackState );
-        supportState.AddTransition( t5, idleState );
-        supportState.AddTransition( t7, recruitState );
+        supportState.AddTransition(t1, meleeState);
+        supportState.AddTransition(t2, tankState);
+        supportState.AddTransition(t3, rangeAttackState);
+        supportState.AddTransition(t5, idleState);
+        supportState.AddTransition(t7, recruitState);
 
-        recruitState.AddTransition( t1, meleeState );
-        recruitState.AddTransition( t2, tankState );
-        recruitState.AddTransition( t3, rangeAttackState );
-        recruitState.AddTransition( t4, supportState );
-        recruitState.AddTransition( t5, idleState );
+        recruitState.AddTransition(t1, meleeState);
+        recruitState.AddTransition(t2, tankState);
+        recruitState.AddTransition(t3, rangeAttackState);
+        recruitState.AddTransition(t4, supportState);
+        recruitState.AddTransition(t5, idleState);
 
-        idleState.AddTransition( t6, GetCurrentFSMState( currentState ) );
+        idleState.AddTransition(t6, GetCurrentFSMState(currentState));
 
         //groupFSM = new FSM( idleState );
-        groupFSM = new FSM( meleeState );
-        StartCoroutine( MoveThroughFSM() );
+        groupFSM = new FSM(meleeState);
+        StartCoroutine(MoveThroughFSM());
 
         #endregion
     }
 
-    public bool IsEmpty()
-    {
-        foreach ( GameObject demon in demons )
-        {
-            if ( demon != null )
+    public bool IsEmpty() {
+        foreach(GameObject demon in demons) {
+            if(demon != null)
                 return false;
         }
         return true;
     }
 
-    public int GetDemonsNumber()
-    {
+    public int GetDemonsNumber() {
         return DemonsInGroup;
     }
 
-    public void SetDemonsNumber( int i )
-    {
+    public void SetDemonsNumber(int i) {
         DemonsInGroup = i;
         groupHealthBar.SetDemonsNumber(i);
     }
 
     //TODO to be improved
-    public GameObject GetRandomDemon()
-    {
+    public GameObject GetRandomDemon() {
         GameObject demon = null;
 
         bool found = false;
-        while ( !found )
-        {
-            int index = Random.Range( 0, demons.Length );
-            if ( demons[ index ] != null )
-            {
-                demon = demons[ index ];
+        while(!found) {
+            int index = Random.Range(0, demons.Length);
+            if(demons[index] != null) {
+                demon = demons[index];
                 found = true;
             }
         }
