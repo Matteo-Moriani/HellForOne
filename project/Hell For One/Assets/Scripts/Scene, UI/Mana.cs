@@ -8,7 +8,7 @@ public class Mana : MonoBehaviour
     private float manaPool;
     private float maxMana = 100f;
     private Image manaBarIn;
-    private float chargeRate = 5f;
+    private float chargeRate = 1f;
     private bool isCharging = false;
 
     public void ChargeMana()
@@ -39,10 +39,7 @@ public class Mana : MonoBehaviour
 
         if ( isCharging )
         {
-            if (manaPool <= maxMana )
-            {
-                manaPool += chargeRate * Time.deltaTime;
-            }
+            manaPool += chargeRate * Time.deltaTime;
         }
     }
 }
