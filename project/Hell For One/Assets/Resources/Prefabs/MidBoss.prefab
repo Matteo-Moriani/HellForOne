@@ -885,7 +885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  health: 750
+  health: 1000
   meleeDamage: 2
   rangedDamage: 1
   supportDamageBuffMultiplier: 3.5
@@ -973,13 +973,13 @@ MonoBehaviour:
   singleAttackProb: 0
   groupAttackProb: 1
   speed: 5
-  rotSpeed: 0.07
-  stopDist: 2.3
-  stareTime: 1
-  pursueTime: 3
-  changeTargetProb: 0.4
-  maxDistFromCenter: 7.5
-  maxTargetDistFromCenter: 9
+  rotSpeed: 0.1
+  stopDist: 2.2
+  stareTime: 2
+  pursueTime: 4
+  changeTargetProb: 0.3
+  maxDistFromCenter: 9.5
+  maxTargetDistFromCenter: 11
 --- !u!114 &8122182276196674175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,12 +1505,12 @@ PrefabInstance:
     - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: groupAttackDelayInSeconds
-      value: 1
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: attackDurationInSeconds
-      value: 0.15
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -1627,10 +1627,20 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.13
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.3179009
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.15894996
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504900828473197, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -1666,16 +1676,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.x
       value: 0.012294233
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.3179009
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Center.y
-      value: -0.15894996
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}

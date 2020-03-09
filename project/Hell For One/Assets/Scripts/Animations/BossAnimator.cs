@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BossAnimator : MonoBehaviour
 {
+    private bool isAnimating = false;
     private Animator animator;
+    public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
     public Animator Animator { get => animator; set => animator = value; }
 
     private CombatEventsManager combatEventsManager;
 
     private void OnEnable()
     {
+        // Exemple to explain how to use events for animations
         if(combatEventsManager != null) { 
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
@@ -21,11 +24,14 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
             combatEventsManager.onStopGlobalAttack += StopAnimations;
+
+            //combatEventsManager.onStopAnimation += StopAnimations;
         }
     }
 
     private void OnDisable()
     {
+        // Exemple to explain how to use events for animations
         if (combatEventsManager != null)
         {
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
@@ -37,16 +43,33 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
             combatEventsManager.onStopGlobalAttack -= StopAnimations;
+            // End mods
+
+            //combatEventsManager.onStopAnimation -= StopAnimations;
         }
     }
-    
+
+    /*
+    void Start()
+    {
+        Animator = GetComponent<Animator>();
+
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+    }
+    */
+
+    // Is better to use awake in this case
+    // Start is called after OnEnable
+    // Awake is called before OnEnable
+    // And we need to register for events in OnEnable
     private void Awake()
     {
         Animator = GetComponent<Animator>();
 
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
-    
+
+    // Example method to explain how to use events for animations
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isSingleAttacking",true);    
@@ -75,6 +98,12 @@ public class BossAnimator : MonoBehaviour
     public void PlayDeathAnimation() {
         StopAnimations();
         animator.SetBool("isDying", true);
+//        AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0); // get next state on layer 0
+
+//        if(nextState.IsName("Death"))
+//{
+//            animator.SetBool("isDying", true);
+//        }
     }
 
 
@@ -85,5 +114,7 @@ public class BossAnimator : MonoBehaviour
         Animator.SetBool("isGlobalAttacking", false);
         Animator.SetBool("isMoving", false);
         Animator.SetBool("isIdle", false);
+
+        IsAnimating = false;
     }
 }
