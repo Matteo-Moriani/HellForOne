@@ -207,7 +207,7 @@ public class GroupBehaviour : MonoBehaviour
 
         Combat combat = demon.GetComponent<Combat>();
 
-        if(combat.enabled) {
+        if(combat.enabled && demon.GetComponent<DemonMovement>().CanAct()) {
             float randomDelay = Random.Range(0f, 0.5f);
             yield return new WaitForSeconds(randomDelay);
 
