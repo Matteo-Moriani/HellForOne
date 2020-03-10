@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class GroupMovement : MonoBehaviour {
-    public float rangedDist = 6f;
     private float distanceAllowed = 2.2f;
 
     [SerializeField]
@@ -18,30 +17,26 @@ public class GroupMovement : MonoBehaviour {
     private Transform outOfCombatPosition;
     private GroupBehaviour gb;
     private bool haveTarget = false;
-    private bool inRangedPosition = false;
-    private float distanceInPosition = float.MaxValue;
-    //private bool vsLittleEnemies = false;
     private bool vsBoss = false;
     private bool outOfCombat = false;
 
     public float DistanceAllowed { get => distanceAllowed; set => distanceAllowed = value; }
+    public GameObject Target { get => target; set => target = value; }
 
     private void OnEnable() {
         BattleEventsManager.onBattleExit += SetOutOfCombat;
         BattleEventsManager.onBossBattleExit += SetOutOfCombat;
-
         BattleEventsManager.onBossBattleEnter += SetVsBoss;
-
-        //BattleEventsManager.onBattleEnter += SetVsLittleEnemies;
     }
 
     private void OnDisable() {
         BattleEventsManager.onBattleExit -= SetOutOfCombat;
         BattleEventsManager.onBossBattleExit -= SetOutOfCombat;
-
         BattleEventsManager.onBossBattleEnter -= SetVsBoss;
+    }
 
-        //BattleEventsManager.onBattleEnter -= SetVsLittleEnemies;
+    private void Awake() {
+        gb = GetComponent<GroupBehaviour>();
     }
 
     void Start() {
@@ -54,76 +49,33 @@ public class GroupMovement : MonoBehaviour {
         SetOutOfCombat();
     }
 
-    void Update() {
-        // Adding OR target == null make the ally demons follow the player 
-        // when out of combat, idk why.
-        if(!haveTarget || target == null) {
-            ChooseTarget();
-        }
-
-        // i update the target position only if the group is too far to do its things
-        if(vsBoss) {
-            switch(gb.currentState) {
-                case GroupBehaviour.State.MeleeAttack:
-                case GroupBehaviour.State.Tank:
-                    targetPosition = meleePosition;
-                    inRangedPosition = false;
-                    break;
-                case GroupBehaviour.State.RangeAttack:
-                case GroupBehaviour.State.Support:
-                case GroupBehaviour.State.Recruit:
-                    targetPosition = rangedPosition;
-
-                    if(!inRangedPosition) {
-                        inRangedPosition = true;
-                        distanceInPosition = (transform.position - target.transform.position).magnitude;
-                    }
-                    break;
-                default:
-                    Debug.Log("NEW ORDER NOT YET ASSIGNED TO A POSITION!");
-                    break;
-            }
-            // if the boss is escaped since I positioned
-            if(distanceInPosition < (transform.position - target.transform.position).magnitude) {
-                inRangedPosition = false;
-                distanceInPosition = float.MaxValue;
-            }
-        }
-        //else if(vsLittleEnemies) {
-        //    if(!target)
-        //        SearchTarget();
-
-        //    switch(gb.currentState) {
-        //        case GroupBehaviour.State.MeleeAttack:
-        //            targetPosition = target.transform;
-        //            break;
-        //        case GroupBehaviour.State.Tank:
-        //            targetPosition = target.transform;
-        //            break;
-        //        case GroupBehaviour.State.RangeAttack:
-        //            if(HorizDistFromTargetBorders(target) > rangedDist)
-        //                targetPosition = target.transform;
-        //            break;
-        //        case GroupBehaviour.State.Support:
-        //            if(HorizDistFromTargetBorders(target) > rangedDist)
-        //                targetPosition = target.transform;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-        else {
-            FacePlayer();
-            targetPosition = outOfCombatPosition;
-        }
-
-    }
-
     void FixedUpdate() {
         if(targetPosition)
             transform.position = targetPosition.position;
     }
 
+    void Update() {
+        // Adding OR target == null make the ally demons follow the player 
+        // when out of combat, idk why.
+        if(!haveTarget || Target == null) {
+            ChooseTarget();
+        }
+
+        // i update the target position only if the group is too far to do its things
+        if(vsBoss) {
+            ChooseTargetPosition();
+            // if the boss is escaped since I positioned
+            //if(distanceInPosition < (transform.position - target.transform.position).magnitude) {
+            //    inRangedPosition = false;
+            //    distanceInPosition = float.MaxValue;
+            //}
+        }
+        else {
+            targetPosition = outOfCombatPosition;
+        }
+
+    }
+    
     public void ChooseTarget() {
         SearchTarget();
 
@@ -142,10 +94,6 @@ public class GroupMovement : MonoBehaviour {
         return (targetPosition - transform.position).magnitude;
     }
 
-    private void Awake() {
-        gb = GetComponent<GroupBehaviour>();
-    }
-
     private void PrepareDemonsToBattle(GameObject target) {
         foreach(GameObject demon in GetComponent<GroupBehaviour>().demons) {
             if(demon != null)
@@ -162,22 +110,13 @@ public class GroupMovement : MonoBehaviour {
         transform.rotation = newRotation;
     }
 
-    //public void SetVsLittleEnemies() {
-    //    vsLittleEnemies = true;
-    //    vsBoss = false;
-    //    outOfCombat = false;
-    //    haveTarget = false;
-    //}
-
     public void SetVsBoss() {
-        //vsLittleEnemies = false;
         vsBoss = true;
         outOfCombat = false;
         haveTarget = false;
     }
 
     public void SetOutOfCombat() {
-        //vsLittleEnemies = false;
         vsBoss = false;
         outOfCombat = true;
         haveTarget = false;
@@ -186,9 +125,8 @@ public class GroupMovement : MonoBehaviour {
     private void SearchTarget() {
         if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
             // TODO - Testing new logic
-            // SetVsLittleEnemies();
-            target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0, EnemiesManager.Instance.LittleEnemiesList.Count)];
-            PrepareDemonsToBattle(target);
+            Target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0, EnemiesManager.Instance.LittleEnemiesList.Count)];
+            PrepareDemonsToBattle(Target);
             haveTarget = true;
             //Debug.Log("new target is " + target.name);
         }
@@ -196,8 +134,8 @@ public class GroupMovement : MonoBehaviour {
             if(EnemiesManager.Instance.Boss != null) {
                 // TODO - Testing new logic
                 // SetVsBoss();
-                target = EnemiesManager.Instance.Boss;
-                PrepareDemonsToBattle(target);
+                Target = EnemiesManager.Instance.Boss;
+                PrepareDemonsToBattle(Target);
             }
             else {
                 // TODO - Testing new logic
@@ -206,8 +144,8 @@ public class GroupMovement : MonoBehaviour {
                     player = GameObject.FindGameObjectWithTag("Player");
                 }
                 if(player != null) {
-                    target = player;
-                    PrepareDemonsToBattle(target);
+                    Target = player;
+                    PrepareDemonsToBattle(Target);
                 }
                 //else { 
                 //    Debug.Log(this.gameObject.name + "Cannot find Player");    
@@ -235,7 +173,7 @@ public class GroupMovement : MonoBehaviour {
                 bossPositions.GetComponent<BossPositions>().SetAvailability(position, false);
                 haveTarget = true;
 
-                // sostituire poi con questo
+                // TODO - sostituire poi con questo
 
                 //switch(outOfCombatPosition.name) {
                 //    case "right":
@@ -255,7 +193,23 @@ public class GroupMovement : MonoBehaviour {
         }
     }
 
-    public GameObject GetTarget() {
-        return target;
+    // TODO - questa cosa andrebbe fatta invece che negli update solo quando viene dato un nuovo ordine
+    public void ChooseTargetPosition() {
+        switch(gb.currentState) {
+            case GroupBehaviour.State.MeleeAttack:
+            case GroupBehaviour.State.Tank:
+                targetPosition = meleePosition;
+                break;
+            case GroupBehaviour.State.RangeAttack:
+            case GroupBehaviour.State.Support:
+            case GroupBehaviour.State.Recruit:
+                targetPosition = rangedPosition;
+                break;
+            default:
+                Debug.Log("NEW ORDER NOT YET ASSIGNED TO A POSITION!");
+                break;
+        }
+
+        transform.position = targetPosition.position;
     }
 }

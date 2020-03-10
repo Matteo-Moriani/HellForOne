@@ -41,7 +41,6 @@ public class DemonMovement : MonoBehaviour {
     private Coroutine checkPositionCR;
     private float positionTimer;
     private AbstractBoss bossBehaviour;
-    private GroupBehaviour.State previousState;
 
     private bool inScriptedMovement = false;
     private bool playerNotified = false;
@@ -91,7 +90,7 @@ public class DemonMovement : MonoBehaviour {
                     groupBehaviour = group.GetComponent<GroupBehaviour>();
                     groupMovement = group.GetComponent<GroupMovement>();
                     // it's my group that decides my target
-                    target = groupMovement.GetTarget();
+                    target = groupMovement.Target;
                 }
             }
             else if(target) {
@@ -103,17 +102,12 @@ public class DemonMovement : MonoBehaviour {
                     if(rangedDistanceInPosition < (transform.position - target.transform.position).magnitude)
                         inPosition = false;
 
-                    //TODO - evitare questo controllo poi
-                    //if(groupBehaviour.currentState != previousState)
-                    //    inPosition = false;
-                    //previousState = groupBehaviour.currentState;
-
                     if(groupBehaviour.currentState == GroupBehaviour.State.MeleeAttack) {
                         rangedDistanceInPosition = 0f;
                         CloseRangeMovement();
                     }
                     else if(groupBehaviour.currentState == GroupBehaviour.State.Tank) {
-                        rangedDistanceInPosition = 0f;
+                        //rangedDistanceInPosition = 0f;
                         if(HorizDistFromTarget(group) < transform.localScale.x * groupMovement.DistanceAllowed)
                             inPosition = true;
                         if(inPosition) {
@@ -184,6 +178,8 @@ public class DemonMovement : MonoBehaviour {
     }
 
     private void HighRangeMovement() {
+        groupMovement.ChooseTargetPosition();
+        float a = HorizDistFromTarget(group);
         if(HorizDistFromTarget(group) > transform.localScale.x * groupMovement.DistanceAllowed && !inPosition) {
             if(agent)
                 agent.destination = group.transform.position;
