@@ -226,13 +226,13 @@ public class PlayerInput : GeneralInput
             //}
 
             // LT + RT - HELD Down
-            if (InputManager.Instance.R2ButtonHeldDown() && InputManager.Instance.L2ButtonHeldDown() )
+            if (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonHeldDown() )
             {
                 mana.ChargeMana();
             }
 
             // LT + RT - Up
-            if ( InputManager.Instance.R2ButtonUp() || InputManager.Instance.L2ButtonUp() )
+            if ( InputManager.Instance.R1ButtonUp() || InputManager.Instance.L1ButtonUp() )
             {
                 mana.StopChargeMana();
             }
