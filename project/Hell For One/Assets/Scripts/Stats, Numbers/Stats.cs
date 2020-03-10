@@ -66,26 +66,6 @@ public class Stats : MonoBehaviour
     public float supportingBlockChance = 30f;
     public float blockingBlockChance = 90f;
 
-    /// <summary>
-    /// Probability of this unit to deal a knockBack
-    /// </summary>
-    [SerializeField]
-    [Range(0f, 100f)]
-    [Tooltip("For Boss only")]
-    private float knockBackChance = 0f;
-    /// <summary>
-    /// How far this unit will push a target when dealing a knockBack
-    /// </summary>
-    [SerializeField]
-    [Tooltip("For Boss only")]
-    private float knockBackSize = 0f;
-    /// <summary>
-    /// How many seconds will take to go through knockBackSize
-    /// </summary>
-    [SerializeField]
-    [Tooltip("For boss only")]
-    private float knockBackTime = 5.0f;
-
     [Tooltip("Do not change, here only for balancing and testing")]
     [SerializeField]
     private float aggro = 1f;
@@ -161,18 +141,6 @@ public class Stats : MonoBehaviour
     public float Aggro { get => aggro; set => aggro = value; }
     public int Crisis { get => crisis; set => crisis = value; }
 
-    /// <summary>
-    /// Probability of this unit to deal a knockBack
-    /// </summary>
-    public float KnockBackChance { get => knockBackChance; set => knockBackChance = value; }
-    /// <summary>
-    /// How far this unit will push a target when dealing a knockBack
-    /// </summary>
-    public float KnockBackSize { get => knockBackSize; set => knockBackSize = value; }
-    /// <summary>
-    /// How many seconds will take to go through knockBackSize
-    /// </summary>
-    public float KnockBackTime { get => knockBackTime; set => knockBackTime = value; }
     /// <summary>
     /// Tells if the unit is Idle (not blocking)
     /// </summary>

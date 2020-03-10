@@ -4512,6 +4512,7 @@ GameObject:
   - component: {fileID: 1351389560}
   - component: {fileID: 4871677785356725929}
   - component: {fileID: 1413309525476566011}
+  - component: {fileID: 1385007586411826428}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -4613,9 +4614,6 @@ MonoBehaviour:
   attackingBlockChance: 60
   supportingBlockChance: 30
   blockingBlockChance: 90
-  knockBackChance: 100
-  knockBackSize: 3
-  knockBackTime: 0.25
   aggro: 1
   aggroTime: 60
   crisis: 0
@@ -4761,6 +4759,21 @@ CapsuleCollider:
   m_Height: 4.928893
   m_Direction: 1
   m_Center: {x: 0.22642672, y: 0.99976254, z: 0.33964026}
+--- !u!114 &1385007586411826428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318650425002105789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aceac41640581743b7801582a98cd80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackChance: 100
+  knockBackSize: 3
+  knockBackTime: 0.25
 --- !u!1 &1318650425002105791
 GameObject:
   m_ObjectHideFlags: 0
@@ -8708,6 +8721,12 @@ PrefabInstance:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
     - {fileID: 1948504900828473196, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}
+--- !u!1 &6332513275921715921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 5542771877044254142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6332513273996397778 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
@@ -8720,12 +8739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6332513275921715921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 5542771877044254142}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6332513273996397779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,

@@ -187,10 +187,11 @@ public class AttackCollider : MonoBehaviour
     private void ManageKnockBack(Stats targetRootStats)
     {
         KnockbackReceiver knockbackReceiver = targetRootStats.gameObject.GetComponent<KnockbackReceiver>();
+        KnockbackCaster knockbackCaster = this.transform.root.gameObject.GetComponent<KnockbackCaster>();
 
-        if(knockbackReceiver != null) {
+        if(knockbackReceiver != null && knockbackCaster != null) {
             // If we can deal a knockback
-            if (Random.Range(1f, 101f) <= stats.KnockBackChance)
+            if (Random.Range(1f, 101f) <= knockbackCaster.KnockBackChance)
             {
                 // If we are dealing a sweep attack (heavy attack)
                 if (isGroupAttacking)
@@ -198,26 +199,26 @@ public class AttackCollider : MonoBehaviour
                     // If we are hitting a non player that is not blocking
                     if (!targetRootStats.IsBlocking && targetRootStats.ThisUnitType != Stats.Type.Player)
                     {
-                        knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                        knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                     }
                     // If target is blocking we have to understand the angle to know if we have to deal a knockback or not
                     if (targetRootStats.IsBlocking)
                     {
                         if (CheckAngle(targetRootStats.gameObject.transform))
                         {
-                            knockbackReceiver.TakeKnockBack(stats.KnockBackSize,this.transform.root,stats.KnockBackTime);
+                            knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize,this.transform.root, knockbackCaster.KnockBackTime);
                         }
                     }
                     // Player cannot block an heavy attack, he/she has to dodge it
                     if (targetRootStats.ThisUnitType == Stats.Type.Player)
                     {
-                        knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                        knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                     }
                 }
                 // for any other attack we knockback only if the target is not blocking
                 if (!targetRootStats.IsBlocking)
                 {
-                    knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                    knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                 }
             }
             else
@@ -226,7 +227,10 @@ public class AttackCollider : MonoBehaviour
             }
         }
         else {
-            Debug.LogError(this.transform.root.gameObject.name + " cannot find KnockbackReceiver in " + targetRootStats.gameObject.name);
+            if(knockbackReceiver == null)
+                Debug.LogError(this.transform.root.gameObject.name + " cannot find KnockbackReceiver in " + targetRootStats.gameObject.name);
+            if(knockbackCaster == null)
+                Debug.LogError(this.transform.root.gameObject.name + " cannot find KnockbackCaster");
         }
     }
 
