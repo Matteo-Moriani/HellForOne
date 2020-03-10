@@ -38,27 +38,31 @@ public class RecruitManager : MonoBehaviour
 
     void Update()
     {
-        // Imps can be spawned
-        if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16 )
+        // Check if in Battle
+        if ( BattleEventsHandler.IsInBossBattle )
         {
-            float timeTillNextImp = -15 / 11 * CountImpsRecruiting() + 25;
-
-            if ( !timerStarted )
+            // Imps can be spawned
+            if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16 )
             {
-                timerStarted = true;
-                timeWhenTimerStarted = Time.time;
-                //Debug.Log( "Timer Started at: " + timeWhenTimerStarted.ToString() );
-            }
+                float timeTillNextImp = -15 / 11 * CountImpsRecruiting() + 25;
 
-            timerEnd = timeWhenTimerStarted + timeTillNextImp;
-            //Debug.Log( "Imp should spawn around: " + timerEnd.ToString() );
+                if ( !timerStarted )
+                {
+                    timerStarted = true;
+                    timeWhenTimerStarted = Time.time;
+                    //Debug.Log( "Timer Started at: " + timeWhenTimerStarted.ToString() );
+                }
 
-            // Spawn imp and reset fields
-            if ( Time.time >= timerEnd )
-            {
-                timerStarted = false;
-                allyDemonSpawnerTest.Spawn();
-                //Debug.Log( "Imp spawned at: " + Time.time.ToString() );
+                timerEnd = timeWhenTimerStarted + timeTillNextImp;
+                //Debug.Log( "Imp should spawn around: " + timerEnd.ToString() );
+
+                // Spawn imp and reset fields
+                if ( Time.time >= timerEnd )
+                {
+                    timerStarted = false;
+                    allyDemonSpawnerTest.Spawn();
+                    //Debug.Log( "Imp spawned at: " + Time.time.ToString() );
+                }
             }
         }
     }
