@@ -43,8 +43,6 @@ public class DemonBehaviour : MonoBehaviour
             }
         }
         
-        bestGroup.GetComponent<GroupBehaviour>().AddDemonToGroup(this.gameObject);
-
         if ( bestGroup )
         {
             if (bestGroup.GetComponent<GroupBehaviour>().AddDemonToGroup(this.gameObject)) {
