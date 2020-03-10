@@ -204,7 +204,7 @@ public class GroupBehaviour : MonoBehaviour {
 
             }
 
-            float randomDelay = Random.Range(0f, 0.5f);
+            float randomDelay = UnityEngine.Random.Range(0f, 0.5f);
             yield return new WaitForSeconds(randomDelay);
         }
 
@@ -521,7 +521,7 @@ public class GroupBehaviour : MonoBehaviour {
 
         bool found = false;
         while(!found) {
-            int index = Random.Range(0, demons.Length);
+            int index = UnityEngine.Random.Range(0, demons.Length);
             if(demons[index] != null) {
                 demon = demons[index];
                 found = true;
