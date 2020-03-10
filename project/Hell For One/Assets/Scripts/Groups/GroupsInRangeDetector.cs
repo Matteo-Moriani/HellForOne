@@ -60,12 +60,12 @@ public class GroupsInRangeDetector : MonoBehaviour
             }
         }
 
-        RegisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
+        //RegisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
     }
 
     private void OnDisable()
     {
-        UnregisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
+        //UnregisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
     }
 
     private void Start()
@@ -132,7 +132,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                                         groupsInRange.Add(groupBehaviour.ThisGroupName);
 
                                         // TODO - Debug for testing, remove this
-                                        Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
+                                        //Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
                                     }
 
                                     // Update Imps in range
@@ -141,7 +141,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                                         impsInRange[groupBehaviour.ThisGroupName]++;
 
                                         // TODO - Debug for testing, remove this
-                                        Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                        //Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
                                     }
                                     else
                                     {
@@ -160,7 +160,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                                         }
                                         
                                         // TODO - Debug for testing, remove this
-                                        Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
+                                        //Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
                                     }
 
                                     // Update Imps in range
@@ -169,7 +169,7 @@ public class GroupsInRangeDetector : MonoBehaviour
                                         impsInRange[groupBehaviour.ThisGroupName]--;
 
                                         // TODO - Debug for testing, remove this
-                                        Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                        //Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
                                     }
                                     else
                                     {
@@ -272,7 +272,7 @@ public class GroupsInRangeDetector : MonoBehaviour
     }
 
     // TODO - used for testing, remove this
-    private void PrintMostRappresentedGroup() { 
-        Debug.Log("Most rappresented group: " + mostRappresentedGroupInRange.ToString());    
-    }
+    //private void PrintMostRappresentedGroup() { 
+    //    Debug.Log("Most rappresented group: " + mostRappresentedGroupInRange.ToString());    
+    //}
 }
