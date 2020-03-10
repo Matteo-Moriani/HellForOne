@@ -57,12 +57,11 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
             yield return new WaitForSeconds(timer);
 
-        //    if(needForRegen) {
-        //        // TODO - We need to spawn the ally via AlliesManager
-        //        AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
-        //        regenDemonsLeft--;
-        //    }
-        //}
+        if(needForRegen) {
+            // TODO - We need to spawn the ally via AlliesManager
+            AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
+            //regenDemonsLeft--;
+        }
 
         //Debug.Log("no more demons will help you!");
     }
@@ -78,7 +77,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.z = spawnPosition.z * -1;
 
-        Debug.Log("ally spawned in " + spawnPosition.x + " , " + spawnPosition.z + ". Must be between (-" + arenaRay + ", " + arenaRay + ") in both coordinates.");
+        //Debug.Log("ally spawned in " + spawnPosition.x + " , " + spawnPosition.z + ". Must be between (-" + arenaRay + ", " + arenaRay + ") in both coordinates.");
         spawnPosition += transform.position;
         return spawnPosition;
     }

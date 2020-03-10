@@ -20,7 +20,7 @@ public class GroupMovement : MonoBehaviour {
     private bool haveTarget = false;
     private bool inRangedPosition = false;
     private float distanceInPosition = float.MaxValue;
-    private bool vsLittleEnemies = false;
+    //private bool vsLittleEnemies = false;
     private bool vsBoss = false;
     private bool outOfCombat = false;
 
@@ -32,7 +32,7 @@ public class GroupMovement : MonoBehaviour {
 
         BattleEventsManager.onBossBattleEnter += SetVsBoss;
 
-        BattleEventsManager.onBattleEnter += SetVsLittleEnemies;
+        //BattleEventsManager.onBattleEnter += SetVsLittleEnemies;
     }
 
     private void OnDisable() {
@@ -41,7 +41,7 @@ public class GroupMovement : MonoBehaviour {
 
         BattleEventsManager.onBossBattleEnter -= SetVsBoss;
 
-        BattleEventsManager.onBattleEnter -= SetVsLittleEnemies;
+        //BattleEventsManager.onBattleEnter -= SetVsLittleEnemies;
     }
 
     void Start() {
@@ -72,8 +72,9 @@ public class GroupMovement : MonoBehaviour {
                 case GroupBehaviour.State.RangeAttack:
                 case GroupBehaviour.State.Support:
                 case GroupBehaviour.State.Recruit:
+                    targetPosition = rangedPosition;
+
                     if(!inRangedPosition) {
-                        targetPosition = rangedPosition;
                         inRangedPosition = true;
                         distanceInPosition = (transform.position - target.transform.position).magnitude;
                     }
@@ -145,10 +146,10 @@ public class GroupMovement : MonoBehaviour {
         gb = GetComponent<GroupBehaviour>();
     }
 
-    private void SetDemonsTarget(GameObject target) {
+    private void PrepareDemonsToBattle(GameObject target) {
         foreach(GameObject demon in GetComponent<GroupBehaviour>().demons) {
             if(demon != null)
-                demon.GetComponent<DemonMovement>().SetTarget(target);
+                demon.GetComponent<DemonMovement>().PrepareForBattleWith(target);
         }
     }
 
@@ -161,22 +162,22 @@ public class GroupMovement : MonoBehaviour {
         transform.rotation = newRotation;
     }
 
-    public void SetVsLittleEnemies() {
-        vsLittleEnemies = true;
-        vsBoss = false;
-        outOfCombat = false;
-        haveTarget = false;
-    }
+    //public void SetVsLittleEnemies() {
+    //    vsLittleEnemies = true;
+    //    vsBoss = false;
+    //    outOfCombat = false;
+    //    haveTarget = false;
+    //}
 
     public void SetVsBoss() {
-        vsLittleEnemies = false;
+        //vsLittleEnemies = false;
         vsBoss = true;
         outOfCombat = false;
         haveTarget = false;
     }
 
     public void SetOutOfCombat() {
-        vsLittleEnemies = false;
+        //vsLittleEnemies = false;
         vsBoss = false;
         outOfCombat = true;
         haveTarget = false;
@@ -187,7 +188,7 @@ public class GroupMovement : MonoBehaviour {
             // TODO - Testing new logic
             // SetVsLittleEnemies();
             target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0, EnemiesManager.Instance.LittleEnemiesList.Count)];
-            SetDemonsTarget(target);
+            PrepareDemonsToBattle(target);
             haveTarget = true;
             //Debug.Log("new target is " + target.name);
         }
@@ -196,7 +197,7 @@ public class GroupMovement : MonoBehaviour {
                 // TODO - Testing new logic
                 // SetVsBoss();
                 target = EnemiesManager.Instance.Boss;
-                SetDemonsTarget(target);
+                PrepareDemonsToBattle(target);
             }
             else {
                 // TODO - Testing new logic
@@ -206,7 +207,7 @@ public class GroupMovement : MonoBehaviour {
                 }
                 if(player != null) {
                     target = player;
-                    SetDemonsTarget(target);
+                    PrepareDemonsToBattle(target);
                 }
                 //else { 
                 //    Debug.Log(this.gameObject.name + "Cannot find Player");    
