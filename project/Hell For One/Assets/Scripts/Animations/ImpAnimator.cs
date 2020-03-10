@@ -32,6 +32,7 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartBlock += PlayBlockAnimation;
             combatEventsManager.onStopBlock += StopBlockAnimation;
             combatEventsManager.onStartSupport += PlaySupportAnimation;
+            combatEventsManager.onStartRecruit += PlayRecruitAnimation;
             combatEventsManager.onStartDash += PlayDashAnimation;
             BattleEventsManager.onBattleExit += PlayIdleAnimation;
             BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
@@ -49,6 +50,7 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartBlock -= PlayBlockAnimation;
             combatEventsManager.onStopBlock -= StopBlockAnimation;
             combatEventsManager.onStartSupport -= PlaySupportAnimation;
+            combatEventsManager.onStartRecruit -= PlayRecruitAnimation;
             combatEventsManager.onStartDash -= PlayDashAnimation;
             BattleEventsManager.onBattleExit -= PlayIdleAnimation;
             BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
@@ -107,6 +109,11 @@ public class ImpAnimator : MonoBehaviour
         animator.SetBool("isSupporting", true);
     }
 
+    public void PlayRecruitAnimation() {
+        StopAnimations();
+        animator.SetBool("isRecruiting", true);
+    }
+
     public void PlayDashAnimation() {
         StopAnimations();
         animator.SetBool("isDashing", true);
@@ -163,6 +170,7 @@ public class ImpAnimator : MonoBehaviour
         Animator.SetBool("isIdle", false);
         Animator.SetBool("isBlocking", false);
         Animator.SetBool("isSupporting", false);
-        animator.SetBool("isDashing", false);
+        Animator.SetBool("isDashing", false);
+        Animator.SetBool("isRecruiting", false);
     }
 }

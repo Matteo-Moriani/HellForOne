@@ -71,6 +71,7 @@ public class GroupMovement : MonoBehaviour {
                     break;
                 case GroupBehaviour.State.RangeAttack:
                 case GroupBehaviour.State.Support:
+                case GroupBehaviour.State.Recruit:
                     if(!inRangedPosition) {
                         targetPosition = rangedPosition;
                         inRangedPosition = true;
@@ -78,6 +79,7 @@ public class GroupMovement : MonoBehaviour {
                     }
                     break;
                 default:
+                    Debug.Log("NEW ORDER NOT YET ASSIGNED TO A POSITION!");
                     break;
             }
             // if the boss is escaped since I positioned
@@ -86,29 +88,29 @@ public class GroupMovement : MonoBehaviour {
                 distanceInPosition = float.MaxValue;
             }
         }
-        else if(vsLittleEnemies) {
-            if(!target)
-                SearchTarget();
+        //else if(vsLittleEnemies) {
+        //    if(!target)
+        //        SearchTarget();
 
-            switch(gb.currentState) {
-                case GroupBehaviour.State.MeleeAttack:
-                    targetPosition = target.transform;
-                    break;
-                case GroupBehaviour.State.Tank:
-                    targetPosition = target.transform;
-                    break;
-                case GroupBehaviour.State.RangeAttack:
-                    if(HorizDistFromTargetBorders(target) > rangedDist)
-                        targetPosition = target.transform;
-                    break;
-                case GroupBehaviour.State.Support:
-                    if(HorizDistFromTargetBorders(target) > rangedDist)
-                        targetPosition = target.transform;
-                    break;
-                default:
-                    break;
-            }
-        }
+        //    switch(gb.currentState) {
+        //        case GroupBehaviour.State.MeleeAttack:
+        //            targetPosition = target.transform;
+        //            break;
+        //        case GroupBehaviour.State.Tank:
+        //            targetPosition = target.transform;
+        //            break;
+        //        case GroupBehaviour.State.RangeAttack:
+        //            if(HorizDistFromTargetBorders(target) > rangedDist)
+        //                targetPosition = target.transform;
+        //            break;
+        //        case GroupBehaviour.State.Support:
+        //            if(HorizDistFromTargetBorders(target) > rangedDist)
+        //                targetPosition = target.transform;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
         else {
             FacePlayer();
             targetPosition = outOfCombatPosition;

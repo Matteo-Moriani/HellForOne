@@ -164,7 +164,7 @@ public class CombatManager : MonoBehaviour
             stats.IsSupporting = false;
             stats.CombatIdle = true;
 
-            GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
+            GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
 
             if ( gs != null )
             {
@@ -191,7 +191,7 @@ public class CombatManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
+            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start recruiting but is not idle or is already supporting" );
         }
     }
 

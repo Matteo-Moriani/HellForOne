@@ -49,7 +49,7 @@ public class DemonMovement : MonoBehaviour {
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
 
-    private Quaternion facingDir;
+    private Quaternion futureRotation;
 
     private void OnEnable() {
         BattleEventsManager.onBossBattleExit += OnBossBattleExit;
@@ -67,7 +67,7 @@ public class DemonMovement : MonoBehaviour {
     }
 
     void Start() {
-        facingDir = Quaternion.LookRotation(transform.forward);
+        futureRotation = Quaternion.LookRotation(transform.forward);
         player = GameObject.FindGameObjectWithTag("Player");
         myCollider = GetComponent<Collider>();
 
@@ -174,14 +174,25 @@ public class DemonMovement : MonoBehaviour {
 
         // I don't update the facing direction if i'm very close to the correct angle
         if(!CorrectRotation()) {
-            facingDir = FaceTargetDirection();
+            futureRotation = TargetDirection();
         }
 
-        Quaternion newRotation = Quaternion.Slerp(transform.rotation, facingDir, facingSpeed);
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, futureRotation, facingSpeed);
         transform.rotation = newRotation;
     }
 
-    private Quaternion FaceTargetDirection() {
+    private void GiveTheBack(GameObject target) {
+
+        // I don't update the facing direction if i'm very close to the correct angle
+        if(!CorrectRotation()) {
+            futureRotation = TargetDirection();
+        }
+
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, futureRotation, facingSpeed);
+        transform.rotation = newRotation;
+    }
+
+    private Quaternion TargetDirection() {
         Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.y = 0f;
@@ -229,7 +240,10 @@ public class DemonMovement : MonoBehaviour {
                 agent.destination = group.transform.position;
         }
         else {
-            Face(target);
+            if(groupBehaviour.currentState == GroupBehaviour.State.Recruit)
+                GiveTheBack(target);
+            else
+                Face(target);
             agent.destination = transform.position;
             if(!inPosition) {
                 inPosition = true;
@@ -303,7 +317,7 @@ public class DemonMovement : MonoBehaviour {
         while(true) {
             yield return new WaitForSeconds(positionTimer);
 
-            // I regroup if the boss is closer than me to my group center. localScale is included to subtract the width of the boss in the calculation
+            // I regroup if the boss is closer than me to my group center.
             if(HorizDistFromTarget(group) > bossBehaviour.HorizDistFromTarget(group)) {
                 inPosition = false;
             }
@@ -311,7 +325,7 @@ public class DemonMovement : MonoBehaviour {
     }
 
     private bool CorrectRotation() {
-        faceActualDegreeError = Mathf.Abs(transform.rotation.eulerAngles.y - FaceTargetDirection().eulerAngles.y);
+        faceActualDegreeError = Mathf.Abs(transform.rotation.eulerAngles.y - TargetDirection().eulerAngles.y);
 
         if(faceActualDegreeError > faceAllowedDegreeError || faceActualDegreeError < 360f - faceAllowedDegreeError)
             return false;
