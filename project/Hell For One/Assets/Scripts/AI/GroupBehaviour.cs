@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour {
@@ -22,6 +23,8 @@ public class GroupBehaviour : MonoBehaviour {
     /// Property that idicates wich group this is
     /// </summary>
     public Group ThisGroupName { get => thisGroupName; private set => thisGroupName = value; }
+
+    private Action<GameObject> onDemonJoined;
 
     /// This script is attached to invisible gameobjects that manages the single group
 
@@ -536,5 +539,58 @@ public class GroupBehaviour : MonoBehaviour {
             else if(currentState == State.RangeAttack)
                 RangeAttack();
         }
+    }
+
+    /// <summary>
+    /// Add a demon to this group
+    /// </summary>
+    /// <param name="demon">The demon to add</param>
+    /// <returns>Returns true if the demon is added, false otherwise</returns>
+    public bool AddDemonToGroup(GameObject demon) {
+        int firstEmpty = -1;
+
+        for (int i = 0; i < demons.Length; i++)
+        {
+            if (!demons[i])
+            {
+                firstEmpty = i;
+                break;
+            }
+        }
+
+        if(firstEmpty >= 0) {
+            demons[firstEmpty] = demon;
+            SetDemonsNumber(GetDemonsNumber() + 1);
+
+            RaiseOnDemonJoined(demon);
+
+            return true;
+        }
+        else { 
+            return false;    
+        }
+    }
+
+    /// <summary>
+    /// Register a method to OnDemonJoined event
+    /// </summary>
+    /// <param name="method">The method to register</param>
+    public void RegisterOnDemonJoined(Action<GameObject> method) { 
+        onDemonJoined += method;        
+    }
+
+    /// <summary>
+    /// Unegister a method to OnDemonJoined event
+    /// </summary>
+    /// <param name="method">The method to register</param>
+    public void UnregisterOnDemonJoined(Action<GameObject> method)
+    {
+        onDemonJoined -= method;
+    }
+
+    private void RaiseOnDemonJoined(GameObject demon) { 
+        if(onDemonJoined != null) { 
+            onDemonJoined(demon);    
+        }    
     }
 }

@@ -12,7 +12,6 @@ public class OutlineGroup : MonoBehaviour
     [Tooltip("The color to use to outline this group")]
     private Color color = Color.white;
 
-    private Material defaultImpMaterial;
     private GroupBehaviour groupBehaviour;
     private bool isOutlined = false;
 
@@ -24,11 +23,13 @@ public class OutlineGroup : MonoBehaviour
     private void OnEnable()
     {
         GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+        groupBehaviour.RegisterOnDemonJoined(OnDemonJoined);
     }
 
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+        groupBehaviour.UnregisterOnDemonJoined(OnDemonJoined);
 
         outlineMaterial.SetColor("_OutlineColor", Color.white);
     }
@@ -56,12 +57,6 @@ public class OutlineGroup : MonoBehaviour
 
                             if (materialsManager != null)
                             {
-                                // TODO - Optimize this
-                                if (defaultImpMaterial == null)
-                                {
-                                    defaultImpMaterial = materialsManager.Renderers[0].material;
-                                }
-
                                 materialsManager.ChangeMaterials(outlineMaterial);
                             }
                             else
@@ -107,5 +102,15 @@ public class OutlineGroup : MonoBehaviour
         {
             Debug.LogError(this.gameObject.name + " " + this.name + " cannot find GroupBehaviour");
         }
+    }
+
+    private void OnDemonJoined(GameObject demon) { 
+        if(groupBehaviour.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange) { 
+            MaterialsManager materialsManager = demon.GetComponent<MaterialsManager>();
+            
+            if(materialsManager != null) {
+                materialsManager.ChangeMaterials(outlineMaterial);    
+            }
+        }    
     }
 }

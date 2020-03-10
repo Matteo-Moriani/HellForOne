@@ -25,11 +25,10 @@ public class DemonBehaviour : MonoBehaviour
     // Balances group entering too
     public void FindGroup()
     {
-        GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
         GameObject bestGroup = null;
         int maxFreeSlots = 0;
 
-        foreach ( GameObject group in groups )
+        foreach ( GameObject group in GroupsManager.Instance.Groups )
         {
             int freeSlots = 0;
 
@@ -43,29 +42,14 @@ public class DemonBehaviour : MonoBehaviour
                 bestGroup = group;
             }
         }
+        
+        bestGroup.GetComponent<GroupBehaviour>().AddDemonToGroup(this.gameObject);
 
         if ( bestGroup )
         {
-            GameObject[] demonsArray = bestGroup.GetComponent<GroupBehaviour>().demons;
-
-            int firstEmpty = -1;
-
-            for ( int i = 0; i < demonsArray.Length; i++ )
-            {
-                if ( !demonsArray[ i ] )
-                {
-                    firstEmpty = i;
-                    break;
-                }
-            }
-
-            if ( firstEmpty >= 0 )
-            {
-                demonsArray[ firstEmpty ] = gameObject;
+            if (bestGroup.GetComponent<GroupBehaviour>().AddDemonToGroup(this.gameObject)) {
                 groupFound = true;
                 groupBelongingTo = bestGroup;
-                GroupBehaviour groupBehaviour = bestGroup.GetComponent<GroupBehaviour>();
-                groupBehaviour.SetDemonsNumber( groupBehaviour.GetDemonsNumber() + 1 );
             }
         }
 
