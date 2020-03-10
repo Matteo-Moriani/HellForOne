@@ -15,8 +15,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     private int regenDemonsLeft;
     private GameObject levelManager;
     private float arenaRay;
-    // TODO - maybe something is wrong with the adjustment calculation
-    private float spawnAdjustment = 0f;
+    private float midBossArenaRay = 8f;
+    private float meleeBossArenaRay = 13f;
 
     // TODO -must not be assigned in the inspector
     public GameObject impPrefab;
@@ -33,7 +33,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     public IEnumerator SpawnAlly()
     {
-        while ( regenDemonsLeft > 0 ) {
+        //while ( regenDemonsLeft > 0 ) {
 
             int impsNumber = AlliesManager.Instance.AlliesList.Count;
 
@@ -57,12 +57,12 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
             yield return new WaitForSeconds(timer);
 
-            if(needForRegen) {
-                // TODO - We need to spawn the ally via AlliesManager
-                AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
-                regenDemonsLeft--;
-            }
-        }
+        //    if(needForRegen) {
+        //        // TODO - We need to spawn the ally via AlliesManager
+        //        AlliesManager.Instance.SpawnAlly(impPrefab, SpawnPosition());
+        //        regenDemonsLeft--;
+        //    }
+        //}
 
         //Debug.Log("no more demons will help you!");
     }
@@ -71,9 +71,8 @@ public class AllyDemonSpawnerTest : MonoBehaviour
     {
         //circumference with a little adjustment of 2 in both coordinates to the center.
         Vector3 spawnPosition = new Vector3( 0, 0, 0 );
-        spawnPosition.x = Random.Range(0f, arenaRay - spawnAdjustment);
-        spawnPosition.z = Mathf.Sqrt(Mathf.Pow(arenaRay, 2f) - Mathf.Pow(spawnPosition.x + spawnAdjustment, 2f));     // circumference with the center in the origin: x^2 + y^2 = r^2
-        spawnPosition.z -= spawnAdjustment;
+        spawnPosition.x = Random.Range(0f, arenaRay);
+        spawnPosition.z = Mathf.Sqrt(Mathf.Pow(arenaRay, 2f) - Mathf.Pow(spawnPosition.x, 2f));     // circumference with the center in the origin: x^2 + y^2 = r^2
         if(Random.Range(0f, 1f) > 0.5f)
             spawnPosition.x = spawnPosition.x * -1;
         if(Random.Range(0f, 1f) > 0.5f)
@@ -114,12 +113,10 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
         if(LevelManager.IsMidBossAlive) {
-            regenDemonsLeft = levelManager.GetComponent<LevelManager>().midBossTotRegenDemons;
-            arenaRay = 8f;
+            arenaRay = midBossArenaRay;
         }
         else if(LevelManager.IsBossAlive) {
-            regenDemonsLeft = levelManager.GetComponent<LevelManager>().bossTotRegenDemons;
-            arenaRay = 13f;
+            arenaRay = meleeBossArenaRay;
         }
         
         if (arenaCenter != null) {

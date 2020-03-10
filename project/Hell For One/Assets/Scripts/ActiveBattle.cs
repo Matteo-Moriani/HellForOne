@@ -35,7 +35,7 @@ public class ActiveBattle : MonoBehaviour
             {
                 if (enemy.CompareTag("Boss"))
                 {
-                    enemy.GetComponent<BossBehavior>().enabled = true;
+                    enemy.GetComponent<AbstractBoss>().enabled = true;
                 }
             }
             alreadyTriggered = true;

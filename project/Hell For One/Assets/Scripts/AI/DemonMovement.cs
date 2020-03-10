@@ -41,6 +41,7 @@ public class DemonMovement : MonoBehaviour {
     private Stats stats;
     private Coroutine checkPositionCR;
     private float positionTimer;
+    private AbstractBoss bossBehaviour;
 
     private bool inScriptedMovement = false;
     private bool playerNotified = false;
@@ -288,21 +289,22 @@ public class DemonMovement : MonoBehaviour {
     }
 
     private void OnBossBattleExit() {
-        canMove = true;
         StopCoroutine(checkPositionCR);
+        canMove = true;
         checkPositionCR = null;
     }
 
     private void OnBossBattleEnter() {
         checkPositionCR = StartCoroutine(CheckInPosition());
+        bossBehaviour = GameObject.FindGameObjectWithTag("Boss").GetComponent<AbstractBoss>();
     }
 
     private IEnumerator CheckInPosition() {
         while(true) {
             yield return new WaitForSeconds(positionTimer);
-            // in this case, distance allowed is halven since imps are much more separated then normal
-            if(HorizDistFromTarget(group) > transform.localScale.x * (groupMovement.DistanceAllowed / 2f)) {
-                Debug.Log(gameObject.name + " is too distant from group center");
+
+            // I regroup if the boss is closer than me to my group center. localScale is included to subtract the width of the boss in the calculation
+            if(HorizDistFromTarget(group) > bossBehaviour.HorizDistFromTarget(group)) {
                 inPosition = false;
             }
         }

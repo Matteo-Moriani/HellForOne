@@ -358,9 +358,11 @@ public abstract class AbstractBoss : MonoBehaviour {
         transform.rotation = newRotation;
     }
 
+    //localScale.x/2f should be the "ray" of the boss (half of his his width)
     public float HorizDistFromTarget(GameObject target) {
         Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-        return (targetPosition - transform.position).magnitude;
+
+        return (targetPosition - transform.position).magnitude - gameObject.transform.localScale.x/2f;
     }
 
     public GameObject ClosestGroupTo(Vector3 position) {

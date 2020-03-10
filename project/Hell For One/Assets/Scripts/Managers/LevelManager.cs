@@ -26,9 +26,6 @@ public class LevelManager : MonoBehaviour
     private static bool isMidBossAlive;
     private static bool isBossAlive;
 
-    public int bossTotRegenDemons = 2;
-    public int midBossTotRegenDemons = 1;
-
     public static bool IsMidBossAlive { get => isMidBossAlive; private set => isMidBossAlive = value; }
     public static bool IsBossAlive { get => isBossAlive; private set => isBossAlive = value; }
 
