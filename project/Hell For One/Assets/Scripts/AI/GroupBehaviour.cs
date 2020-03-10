@@ -333,11 +333,11 @@ public class GroupBehaviour : MonoBehaviour {
                 Combat combat = demon.GetComponent<Combat>();
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
                     // TODO
-                    //combat.StartRecruit();
+                    combat.StartRecruit();
                 }
                 else {
                     // TODO
-                    //combat.StopRecruit();
+                    combat.StopRecruit();
                 }
             }
         }
@@ -351,7 +351,7 @@ public class GroupBehaviour : MonoBehaviour {
             if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
                 // TODO
-                //combat.StopRecruit();
+                combat.StopRecruit();
             }
         }
     }
