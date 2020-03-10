@@ -77,28 +77,28 @@ public class AttackCollider : MonoBehaviour
         {
             if (other.tag == "IdleCollider")
             {
-                switch (stats.type)
+                switch (stats.ThisUnitType)
                 {
                     case Stats.Type.Player:
-                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+                        if (targetRootStats.ThisUnitType == Stats.Type.Enemy || targetRootStats.ThisUnitType == Stats.Type.Boss)
                         {
                             ManagePlayerCollisions(targetRootStats, other);
                         }
                         break;
                     case Stats.Type.Ally:
-                        if (targetRootStats.type == Stats.Type.Enemy || targetRootStats.type == Stats.Type.Boss)
+                        if (targetRootStats.ThisUnitType == Stats.Type.Enemy || targetRootStats.ThisUnitType == Stats.Type.Boss)
                         {
                             ManageSimpleDemonCollisions(targetRootStats, other);
                         }
                         break;
                     case Stats.Type.Enemy:
-                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        if (targetRootStats.ThisUnitType == Stats.Type.Player || targetRootStats.ThisUnitType == Stats.Type.Ally)
                         {
                             ManageSimpleDemonCollisions(targetRootStats, other);
                         }
                         break;
                     case Stats.Type.Boss:
-                        if (targetRootStats.type == Stats.Type.Player || targetRootStats.type == Stats.Type.Ally)
+                        if (targetRootStats.ThisUnitType == Stats.Type.Player || targetRootStats.ThisUnitType == Stats.Type.Ally)
                         {
                             ManageBossCollisions(targetRootStats, other);
                         }
@@ -146,7 +146,7 @@ public class AttackCollider : MonoBehaviour
             }
 
             // We update Group aggro only for Ally Imps
-            if (stats.type == Stats.Type.Ally)
+            if (stats.ThisUnitType == Stats.Type.Ally)
             {
                 if (type != AttackColliderType.Ranged && demonBehaviour == null)
                 {
@@ -186,40 +186,47 @@ public class AttackCollider : MonoBehaviour
 
     private void ManageKnockBack(Stats targetRootStats)
     {
-        // If we can deal a knockback
-        if (Random.Range(1f, 101f) <= stats.KnockBackChance)
-        {
-            // If we are dealing a sweep attack (heavy attack)
-            if (isGroupAttacking)
+        KnockbackReceiver knockbackReceiver = targetRootStats.gameObject.GetComponent<KnockbackReceiver>();
+
+        if(knockbackReceiver != null) {
+            // If we can deal a knockback
+            if (Random.Range(1f, 101f) <= stats.KnockBackChance)
             {
-                // If we are hitting a non player that is not blocking
-                if (!targetRootStats.IsBlocking && targetRootStats.type != Stats.Type.Player)
+                // If we are dealing a sweep attack (heavy attack)
+                if (isGroupAttacking)
                 {
-                    targetRootStats.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
-                }
-                // If target is blocking we have to understand the angle to know if we have to deal a knockback or not
-                if (targetRootStats.IsBlocking)
-                {
-                    if (CheckAngle(targetRootStats.gameObject.transform))
+                    // If we are hitting a non player that is not blocking
+                    if (!targetRootStats.IsBlocking && targetRootStats.ThisUnitType != Stats.Type.Player)
                     {
-                        targetRootStats.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                        knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                    }
+                    // If target is blocking we have to understand the angle to know if we have to deal a knockback or not
+                    if (targetRootStats.IsBlocking)
+                    {
+                        if (CheckAngle(targetRootStats.gameObject.transform))
+                        {
+                            knockbackReceiver.TakeKnockBack(stats.KnockBackSize,this.transform.root,stats.KnockBackTime);
+                        }
+                    }
+                    // Player cannot block an heavy attack, he/she has to dodge it
+                    if (targetRootStats.ThisUnitType == Stats.Type.Player)
+                    {
+                        knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
                     }
                 }
-                // Player cannot block an heavy attack, he/she has to dodge it
-                if (targetRootStats.type == Stats.Type.Player)
+                // for any other attack we knockback only if the target is not blocking
+                if (!targetRootStats.IsBlocking)
                 {
-                    targetRootStats.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                    knockbackReceiver.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
                 }
             }
-            // for any other attack we knockback only if the target is not blocking
-            if (!targetRootStats.IsBlocking)
+            else
             {
-                targetRootStats.TakeKnockBack(stats.KnockBackSize, this.transform.root, stats.KnockBackTime);
+                Debug.Log("No KnockBack, probably the target is blocking");
             }
         }
-        else
-        {
-            //Debug.Log("No KnockBack, probably the target is blocking");
+        else {
+            Debug.LogError(this.transform.root.gameObject.name + " cannot find KnockbackReceiver in " + targetRootStats.gameObject.name);
         }
     }
 
@@ -443,7 +450,7 @@ public class AttackCollider : MonoBehaviour
     private void DealDamage(Stats targetRootStats)
     {
         // If the player or an Ally has to deal damage
-        if (stats.type == Stats.Type.Player || stats.type == Stats.Type.Ally)
+        if (stats.ThisUnitType == Stats.Type.Player || stats.ThisUnitType == Stats.Type.Ally)
         {
 
             float damage = 0f;
@@ -497,7 +504,7 @@ public class AttackCollider : MonoBehaviour
         }
 
         // If an Enemy or a Boss has to deal damage
-        if (stats.type == Stats.Type.Enemy || stats.type == Stats.Type.Boss)
+        if (stats.ThisUnitType == Stats.Type.Enemy || stats.ThisUnitType == Stats.Type.Boss)
         {
             if (type == AttackColliderType.Melee)
             {

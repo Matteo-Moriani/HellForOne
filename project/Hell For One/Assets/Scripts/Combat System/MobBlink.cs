@@ -39,7 +39,7 @@ public class MobBlink : MonoBehaviour
 
     private void OnBeenHit(Stats attackerStats)
     {
-        if(attackerStats.type == Stats.Type.Player) {
+        if(attackerStats.ThisUnitType == Stats.Type.Player) {
             if (blinkCR == null)
             {
                 blinkCR = StartCoroutine(BlinkCoroutine());

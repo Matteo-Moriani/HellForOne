@@ -125,7 +125,7 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public IEnumerator WaitAnimation(float time) {
-        if(GetComponent<Stats>().type == Stats.Type.Enemy) {
+        if(GetComponent<Stats>().ThisUnitType == Stats.Type.Enemy) {
             IsAnimating = true;
             yield return new WaitForSeconds(time);
             IsAnimating = false;

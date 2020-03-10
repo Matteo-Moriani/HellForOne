@@ -884,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e2f47d32945dd43808dc81880d700e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
+  thisUnitType: 3
   health: 750
   meleeDamage: 2
   rangedDamage: 1
@@ -1627,6 +1627,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.13
       objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.3179009
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -0.15894996
+      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767583, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_Enabled
@@ -1666,16 +1676,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.x
       value: 0.012294233
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1.3179009
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_Center.y
-      value: -0.15894996
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1948504900828473187, guid: 1575a07ee907ac1408830ce7afbfab0f, type: 3}

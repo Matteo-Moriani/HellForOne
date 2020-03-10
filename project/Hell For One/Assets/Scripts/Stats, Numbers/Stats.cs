@@ -8,7 +8,7 @@ public class Stats : MonoBehaviour
     #region fields
 
     /// <summary>
-    /// Useful to indicate the type of this unit
+    /// Used to indicate the type of this unit
     /// </summary>
     public enum Type
     {
@@ -19,12 +19,9 @@ public class Stats : MonoBehaviour
         None
     }
 
-    /// <summary>
-    /// The type of this unit
-    /// </summary>
     [SerializeField]
     [Tooltip("The type of this demon")]
-    public Type type = Type.None;
+    private Type thisUnitType = Type.None;
 
     /// <summary>
     /// Health of this unit
@@ -70,17 +67,6 @@ public class Stats : MonoBehaviour
     public float blockingBlockChance = 90f;
 
     /// <summary>
-    /// Probability bonus if this unit is blocking
-    /// </summary>
-    //[SerializeField]
-    //[Range(0f, 100f)]
-    //[Tooltip("This add to blockChance to increase the probability to block an attack. to stick to GDD it should be 15.0")]
-    //private float shieldBonusProbability = 15f;
-
-    //[SerializeField]
-    //private float supportingUnitsMultiplier = 0.95f;
-
-    /// <summary>
     /// Probability of this unit to deal a knockBack
     /// </summary>
     [SerializeField]
@@ -104,32 +90,18 @@ public class Stats : MonoBehaviour
     [SerializeField]
     private float aggro = 1f;
 
-    //[SerializeField]
-    //[Tooltip("How much aggro will be subtracted every aggroTime")]
-    //private int aggroDescreasingRateo = 1;
-
     [SerializeField]
     [Tooltip("How many seconds will pass before decreasing aggro")]
     private float aggroTime = 60.0f;
 
     //Used for aggro decreasing
     private DemonBehaviour demonBehaviour;
+    
     Coroutine aggroDecreasingCR = null;
 
     // -TODO- Manage Crisis
     [SerializeField]
     private int crisis = 0;
-
-    /// <summary>
-    /// Tells if we are processing a KnockBack
-    /// </summary>
-    private bool isProcessingKnockBack = false;
-    /// <summary>
-    /// Tells if this unit can process a KnockBack
-    /// </summary>
-    private bool canProcessKnockBack = true;
-    
-    private Coroutine knockBackCR = null;
 
     private bool isPushedAway = false;
 
@@ -160,6 +132,7 @@ public class Stats : MonoBehaviour
     private Coroutine deathCR;
 
     private CombatEventsManager combatEventsManager;
+    private KnockbackReceiver knockBackReceiver;
 
     #endregion
 
@@ -236,23 +209,45 @@ public class Stats : MonoBehaviour
     
     public bool IsDying { get => isDying; private set => isDying = value; }
 
+    /// <summary>
+    /// The type of this unit
+    /// </summary>
+    public Type ThisUnitType { get => thisUnitType; private set => thisUnitType = value; }
+
     #endregion
 
     #region methods
 
     private void Awake()
     {
-        combatEventsManager = GetComponent<CombatEventsManager>();
+        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        knockBackReceiver = this.gameObject.GetComponent<KnockbackReceiver>();
+        
     }
 
     private void OnEnable()
     {
-        combatEventsManager.onReincarnation += SetPlayerBaseHP;
+        if(combatEventsManager != null) {
+            combatEventsManager.onReincarnation += SetPlayerBaseHP;
+            combatEventsManager.onReincarnation += SetAsPlayer;
+        }
+
+        if(knockBackReceiver != null) { 
+            knockBackReceiver.RegisterOnStartKnockback(DisableMovement);
+            knockBackReceiver.RegisterOnEndKnockback(EnableMovement);
+        }
     }
 
     private void OnDisable()
     {
-        combatEventsManager.onReincarnation -= SetPlayerBaseHP;
+        if(combatEventsManager != null) {
+            combatEventsManager.onReincarnation -= SetPlayerBaseHP;
+            combatEventsManager.onReincarnation -= SetAsPlayer;
+        }
+        if(knockBackReceiver != null) { 
+            knockBackReceiver.UnRegisterOnStartKnockback(DisableMovement);
+            knockBackReceiver.UnRegisterOnEndKnockback(EnableMovement);
+        }
     }
 
     private void Start()
@@ -314,36 +309,24 @@ public class Stats : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Knockback this unit
-    /// </summary>
-    /// <param name="units">Knockback meters size</param>
-    /// <param name="attackerTransform">Transform of the unit that is causing the knockback</param>
-    public void TakeKnockBack(float units, Transform attackerTransform, float knockBackSpeed)
-    {
-        if (!isProcessingKnockBack && knockBackCR == null)
-            knockBackCR = StartCoroutine(TakeKnockBackCR(units, attackerTransform, knockBackSpeed));
-    }
-
-    private void ManageMovement(bool enable)
-    {
+    private void EnableMovement() {
         // If is processing a KnockBack the Player cannot move or dash
-        if (type == Stats.Type.Player)
+        if (ThisUnitType == Stats.Type.Player)
         {
             Controller controller = this.GetComponent<Controller>();
             Dash dash = this.GetComponent<Dash>();
 
-            controller.enabled = enable;
-            dash.enabled = enable;
+            controller.enabled = true;
+            dash.enabled = true;
         }
 
-        if (type == Stats.Type.Ally)
+        if (ThisUnitType == Stats.Type.Ally)
         {
             DemonMovement dm = GetComponent<DemonMovement>();
 
             if (dm != null)
             {
-                dm.CanMove = enable;
+                dm.CanMove = true;
             }
             else
             {
@@ -351,10 +334,36 @@ public class Stats : MonoBehaviour
             }
         }
     }
-    
+
+    private void DisableMovement() {
+        // If is processing a KnockBack the Player cannot move or dash
+        if (ThisUnitType == Stats.Type.Player)
+        {
+            Controller controller = this.GetComponent<Controller>();
+            Dash dash = this.GetComponent<Dash>();
+
+            controller.enabled = false;
+            dash.enabled = false;
+        }
+
+        if (ThisUnitType == Stats.Type.Ally)
+        {
+            DemonMovement dm = GetComponent<DemonMovement>();
+
+            if (dm != null)
+            {
+                dm.CanMove = false;
+            }
+            else
+            {
+                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");
+            }
+        }
+    }
+
     public bool CalculateBeenHitChance(bool isBlocking)
     {
-        switch (type)
+        switch (ThisUnitType)
         {
             case Stats.Type.Ally:
                 // Support buff removed, we don't need this part anymore
@@ -415,7 +424,7 @@ public class Stats : MonoBehaviour
             aggro = 1;
 
             // If an ally is dying...
-            if (type == Stats.Type.Ally)
+            if (ThisUnitType == Stats.Type.Ally)
             {
                 // ...we need to update his group
                 GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
@@ -482,7 +491,7 @@ public class Stats : MonoBehaviour
             }
 
             // if the player is dying...
-            if (type == Type.Player)
+            if (ThisUnitType == Type.Player)
             {
                 // It only works if Hat is the first child of Imp - don't understand this check
                 if (!GameObject.Find("Crown(Clone)"))
@@ -496,14 +505,14 @@ public class Stats : MonoBehaviour
             }
 
             // if the boss is dying...
-            if (type == Type.Boss)
+            if (ThisUnitType == Type.Boss)
             {
                 // Update EnemiesManager boss
                 EnemiesManager.Instance.BossKilled();
             }
 
             // if a littleEnemy is dying...
-            if (type == Type.Enemy)
+            if (ThisUnitType == Type.Enemy)
             {
                 // Update EnemiesManager littleEnemiesList
                 EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
@@ -525,63 +534,13 @@ public class Stats : MonoBehaviour
         health  = 2.0f;    
     }
 
+    private void SetAsPlayer() { 
+        thisUnitType = Type.Player;    
+    }
+
     #endregion
 
     #region Coroutines
-
-    private IEnumerator TakeKnockBackCR(float AttackerKnockBackSize, Transform attackerTransform, float attackerKnockBackTime)
-    {
-        // We are processing the KnockBack
-        isProcessingKnockBack = true;
-
-        float knockBackTimeCounter = 0f;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        Vector3 startingVelocity = rb.velocity;
-
-        if (type == Stats.Type.Player)
-        {
-            rb.interpolation = RigidbodyInterpolation.Extrapolate;
-        }
-
-        // The Player or Ally imps cannot move or dash if is processig KnockBack
-        ManageMovement(false);
-
-        // Calculate KnocKback direction 
-        Vector3 knockBackDirection = this.transform.position - attackerTransform.position;
-        knockBackDirection.y = 0.0f;
-        knockBackDirection = knockBackDirection.normalized;
-
-        // KnockBack lerp
-        do
-        {
-            // Use FixedDeltaTimeInstead?
-            knockBackTimeCounter += Time.fixedDeltaTime;
-
-            rb.velocity = knockBackDirection * (AttackerKnockBackSize / attackerKnockBackTime);
-
-            // We are using physics so we need to wait for FixedUpdate
-            yield return new WaitForFixedUpdate();
-        } while (knockBackTimeCounter <= attackerKnockBackTime);
-
-        // Player or Ally imps now can move or dash
-        ManageMovement(true);
-
-        rb.velocity = startingVelocity;
-
-        if (type == Stats.Type.Player)
-        {
-            rb.interpolation = RigidbodyInterpolation.None;
-        }
-
-        // We are done processing the KnockBack
-        isProcessingKnockBack = false;
-
-        yield return null;
-        knockBackCR = null;
-
-    }
 
     private IEnumerator AggroDecreasingCR()
     {
@@ -590,7 +549,7 @@ public class Stats : MonoBehaviour
         {
             yield return new WaitForSeconds(aggroTime);
             // only the player will reduce the aggro to everyone
-            if (type == Type.Player)
+            if (ThisUnitType == Type.Player)
             {
                 float maxAggro = 1;
                 GameObject[] groups = GameObject.FindGameObjectsWithTag("Group");

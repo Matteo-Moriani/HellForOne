@@ -192,10 +192,14 @@ public class Reincarnation : MonoBehaviour
                 rigidbody.useGravity = true;
             }
 
+            // TODO - I'm trying to use events for this
+            //        remove after testing
+            /*
             Stats stats = player.GetComponent<Stats>();
             if(stats != null) { 
-                stats.type = Stats.Type.Player;    
+                stats.Type1 = Stats.Type.Player;    
             }
+            */
 
             Dash dash = player.GetComponent<Dash>();
             if(dash != null) { 

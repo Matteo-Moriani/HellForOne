@@ -54,7 +54,7 @@ public class PushAway : MonoBehaviour
 
         if (demonStats != null)
         {
-            if (!demonStats.IsPushedAway && demonStats.type != Stats.Type.Player)
+            if (!demonStats.IsPushedAway && demonStats.ThisUnitType != Stats.Type.Player)
             {
                 demonStats.IsPushedAway = true;
 
@@ -65,7 +65,7 @@ public class PushAway : MonoBehaviour
                 Vector3 startingVelocity = demonRb.velocity;
 
                 // If pushed away Player cannot move or dash
-                if (demonStats.type == Stats.Type.Player)
+                if (demonStats.ThisUnitType == Stats.Type.Player)
                 {
                     Controller controller = demon.GetComponent<Controller>();
                     Dash dash = demon.GetComponent<Dash>();
@@ -81,7 +81,7 @@ public class PushAway : MonoBehaviour
                 }
 
                 // If pushed away ally imp cannot move
-                if (demonStats.type == Stats.Type.Ally)
+                if (demonStats.ThisUnitType == Stats.Type.Ally)
                 {
                     DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
                     if (demonMovement != null)
@@ -114,7 +114,7 @@ public class PushAway : MonoBehaviour
                 if (demon != null)
                 {
                     // Player can move again
-                    if (demonStats.type == Stats.Type.Player)
+                    if (demonStats.ThisUnitType == Stats.Type.Player)
                     {
                         Controller controller = demon.GetComponent<Controller>();
                         Dash dash = demon.GetComponent<Dash>();
@@ -135,7 +135,7 @@ public class PushAway : MonoBehaviour
                     }
 
                     // Ally can move again
-                    if (demonStats.type == Stats.Type.Ally)
+                    if (demonStats.ThisUnitType == Stats.Type.Ally)
                     {
                         DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
                         if (demonMovement != null)

@@ -131,7 +131,7 @@ public class BossBehavior : AbstractBoss
         // same target as before
         else {
             // check if the previous target has become the player
-            if(TargetDemon.GetComponent<Stats>().type == Stats.Type.Player)
+            if(TargetDemon.GetComponent<Stats>().ThisUnitType == Stats.Type.Player)
                 HUD.DeactivateAggroIcon();
         }
 

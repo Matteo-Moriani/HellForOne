@@ -1920,6 +1920,7 @@ GameObject:
   - component: {fileID: 9070523149192521393}
   - component: {fileID: 997803535561004161}
   - component: {fileID: 2163737102794420485}
+  - component: {fileID: 5845996516270484451}
   m_Layer: 13
   m_Name: PLAYER
   m_TagString: Player
@@ -2104,7 +2105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e2f47d32945dd43808dc81880d700e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  thisUnitType: 0
   health: 2
   meleeDamage: 2
   rangedDamage: 1.5
@@ -2376,6 +2377,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5018dca2b5a63ef448e2e5b8506ba440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5845996516270484451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6398173044429869191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5d0bba649a0c547be19a35e1f39ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6415446460922557405

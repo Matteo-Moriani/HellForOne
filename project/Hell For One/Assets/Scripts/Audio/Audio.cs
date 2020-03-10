@@ -60,7 +60,7 @@ public class Audio : MonoBehaviour
         dashAudioSource = gameObject.AddComponent<AudioSource>();
         AudioManager.Instance.SetAudioAudioSource(dashAudioSource,true,5f,500f,false);
         
-        if(stats.type == Stats.Type.Boss) {
+        if(stats.ThisUnitType == Stats.Type.Boss) {
             roarAudioSource = gameObject.AddComponent<AudioSource>();
             AudioManager.Instance.SetAudioAudioSource(roarAudioSource,true,10,500,false);
             roarAudioSource.outputAudioMixerGroup = AudioManager.Instance.RoarMixerGroup;
@@ -99,7 +99,7 @@ public class Audio : MonoBehaviour
     }
 
     private void PlayDeathSound() { 
-        AudioManager.Instance.PlayDeathSound(stats.type,deathAudioSource);    
+        AudioManager.Instance.PlayDeathSound(stats.ThisUnitType,deathAudioSource);    
     }
 
     private void PlayFootStep() { 

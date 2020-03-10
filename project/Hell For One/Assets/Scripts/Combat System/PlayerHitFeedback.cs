@@ -40,14 +40,14 @@ public class PlayerHitFeedback : MonoBehaviour
 
         if(bossRenderer) {
             startingColor = bossRenderer.material.GetColor("_EmissiveColor");
-            type = transform.root.GetComponent<Stats>().type;
+            type = transform.root.GetComponent<Stats>().ThisUnitType;
         }
     }
 
     private void OnBeenHit(Stats attackerStats)
     {
         // We blink only if receiving damage from the player
-        if (attackerStats.type == Stats.Type.Player && blinkCR == null)
+        if (attackerStats.ThisUnitType == Stats.Type.Player && blinkCR == null)
         {
             blinkCR = StartCoroutine(BlinkCoroutine(attackerStats));
         }

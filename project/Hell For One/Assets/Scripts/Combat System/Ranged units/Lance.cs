@@ -49,7 +49,7 @@ public class Lance : MonoBehaviour
         if (other.tag == "Demon")
         {
             stats = other.GetComponent<Stats>();
-            if (stats != null && (stats.type == Stats.Type.Boss || stats.type == Stats.Type.Enemy))
+            if (stats != null && (stats.ThisUnitType == Stats.Type.Boss || stats.ThisUnitType == Stats.Type.Enemy))
             {
                 deactivates = true;
             }

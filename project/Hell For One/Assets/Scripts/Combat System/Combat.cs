@@ -39,7 +39,7 @@ public class Combat : MonoBehaviour
         coolDownCounter = playerAttackCooldown;
 
         // Need this because boss has many children in his transform
-        if(stats.type == Stats.Type.Player || stats.type == Stats.Type.Ally) {
+        if(stats.ThisUnitType == Stats.Type.Player || stats.ThisUnitType == Stats.Type.Ally) {
             foreach (Transform child in transform)
             {
                 if (child.tag == "PlayerRangedTarget")
@@ -116,7 +116,7 @@ public class Combat : MonoBehaviour
     public void RangedAttack( GameObject target )
     {
         // If the palyer wants to range attack...
-        if(stats.type == Stats.Type.Player) { 
+        if(stats.ThisUnitType == Stats.Type.Player) { 
             if(coolDownCounter >= playerAttackCooldown) {
                 coolDownCounter = 0f;
                 if(rangeTarget != null) {
