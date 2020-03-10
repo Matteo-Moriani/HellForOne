@@ -159,14 +159,14 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    combat.PlayerAttack();
+                    //combat.PlayerAttack();
                 }
             }
 
             // Triangle (PS3) / Y (XBOX)
             if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
-                    combat.RangedAttack(null);
+                    //combat.RangedAttack(null);
                 }
             }
 
