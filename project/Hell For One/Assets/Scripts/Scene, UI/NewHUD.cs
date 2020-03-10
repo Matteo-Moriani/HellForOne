@@ -247,6 +247,14 @@ public class NewHUD : MonoBehaviour
                 dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
                 dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = true;
                 break;
+
+            // Recruit
+            case 4:
+                dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
+                dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
+                dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
+                dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = true;
+                break;
         }
     }
 
