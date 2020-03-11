@@ -161,17 +161,6 @@ public class GroupBehaviour : MonoBehaviour {
 
         foreach(GameObject demon in demons) {
             if(demon) {
-                //Combat combat = demon.GetComponent<Combat>();
-
-                //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-                //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
-
-                //if ( boss )
-                //    target = boss;
-                //else if ( enemies != null )
-                //    target = CameraManager.FindNearestEnemy( gameObject, enemies );
-                //else
-                //    return;
 
                 // TODO - Ally keep attacking when out of combat,
                 // I added this check to remove errors but need to 
@@ -179,7 +168,6 @@ public class GroupBehaviour : MonoBehaviour {
                 //if (combat.enabled)
                 if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
                     StartCoroutine(ActionAfterRandomDelay(demon, State.MeleeAttack));
-                    //combat.SingleAttack(target);
                 }
 
             }
@@ -253,18 +241,11 @@ public class GroupBehaviour : MonoBehaviour {
     public void RangeAttack() {
         if(!CheckDemons())
             return;
-
-        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-        //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
-
-        //if ( boss )
+        
         if(EnemiesManager.Instance.Boss != null) {
-            //target = boss;
             target = EnemiesManager.Instance.Boss;
         }
-        //else if ( enemies != null )
         else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
-            //target = CameraManager.FindNearestEnemy(gameObject, enemies);
             target = CameraManager.FindNearestEnemy(gameObject, EnemiesManager.Instance.LittleEnemiesList.ToArray());
         }
         else
@@ -273,7 +254,6 @@ public class GroupBehaviour : MonoBehaviour {
 
         foreach(GameObject demon in demons) {
             if(demon) {
-                //Combat combat = demon.GetComponent<Combat>();
 
                 // TODO - Ally keep attacking when out of combat,
                 // I added this check to remove errors but need to 
@@ -334,12 +314,10 @@ public class GroupBehaviour : MonoBehaviour {
         foreach(GameObject demon in demons) {
             if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
-                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
-                    // TODO
+                if(BattleEventsHandler.IsInBossBattle && demon.GetComponent<DemonMovement>().CanAct()) {
                     combat.StartRecruit();
                 }
                 else {
-                    // TODO
                     combat.StopRecruit();
                 }
             }
@@ -353,7 +331,6 @@ public class GroupBehaviour : MonoBehaviour {
         foreach(GameObject demon in demons) {
             if(demon) {
                 Combat combat = demon.GetComponent<Combat>();
-                // TODO
                 combat.StopRecruit();
             }
         }

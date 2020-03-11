@@ -275,16 +275,14 @@ public class DemonMovement : MonoBehaviour {
             case GroupBehaviour.State.Tank:
                 return true;
             case GroupBehaviour.State.RangeAttack:
-                if(inPosition)
-                    return true;
-                else
-                    return false;
             case GroupBehaviour.State.Support:
+            case GroupBehaviour.State.Recruit:
                 if(inPosition)
                     return true;
                 else
                     return false;
             default:
+                Debug.Log("NEW ORDER NOT YET ASSIGNED TO A POSITION!");
                 return false;
         }
     }

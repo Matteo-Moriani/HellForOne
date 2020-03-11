@@ -7,11 +7,7 @@ public class ChildrenObjectsManager : MonoBehaviour
     public GameObject circle;
     public GameObject crown;
     public GameObject spear;
-
-    private void Start()
-    {
-        
-    }
+    public GameObject shield;
 
     public void ActivateCircle() {
         circle.SetActive(true);

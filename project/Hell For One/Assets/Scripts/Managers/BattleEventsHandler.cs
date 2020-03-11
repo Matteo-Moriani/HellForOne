@@ -13,6 +13,7 @@ public class BattleEventsHandler : MonoBehaviour
     public static BattleEventsHandler Instance { get { return _instance; } }
 
     public static bool IsInBossBattle { get => isInBossBattle; private set => isInBossBattle = value; }
+    // TODO - there are no differences anymore between battles
     public static bool IsInRegularBattle { get => isInRegularBattle; private set => isInRegularBattle = value; }
 
     private void Awake()

@@ -145,17 +145,17 @@ public class CombatEventsManager : MonoBehaviour
 
     public void RaiseOnStartRecruit()
     {
-        if ( onStartSupport != null )
+        if (onStartRecruit != null )
         {
-            onStartSupport();
+            onStartRecruit();
         }
     }
 
     public void RaiseOnStopRecruit()
     {
-        if ( onStopSupport != null )
+        if (onStopRecruit != null )
         {
-            onStopSupport();
+            onStopRecruit();
         }
     }
 

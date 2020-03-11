@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class ImpAnimator : MonoBehaviour
 {
     private AnimationsManager animationsManager;
+    private ChildrenObjectsManager childrenObjectsManager;
 
     private Animator animator;
     private Animator Animator { get => animator; set => animator = value; }
@@ -64,7 +65,7 @@ public class ImpAnimator : MonoBehaviour
         animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         demonMovement = gameObject.GetComponent<DemonMovement>();
-        //groupBehaviour = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
+        childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
     }
 
     public void PlaySingleAttackAnimation() {
@@ -106,11 +107,13 @@ public class ImpAnimator : MonoBehaviour
 
     public void PlaySupportAnimation() {
         StopAnimations();
+        HideWeapons();
         animator.SetBool("isSupporting", true);
     }
 
     public void PlayRecruitAnimation() {
         StopAnimations();
+        HideWeapons();
         animator.SetBool("isRecruiting", true);
     }
 
@@ -163,6 +166,7 @@ public class ImpAnimator : MonoBehaviour
 
 
     public void StopAnimations() {
+        ShowWeapons();
         Animator.SetBool("isDying", false);
         Animator.SetBool("isMeleeAttacking", false);
         Animator.SetBool("isRangedAttacking", false);
@@ -172,5 +176,16 @@ public class ImpAnimator : MonoBehaviour
         Animator.SetBool("isSupporting", false);
         Animator.SetBool("isDashing", false);
         Animator.SetBool("isRecruiting", false);
+    }
+
+    // TODO - legare questi due metodi alla scelta dell'ordine e non alle loro animazioni
+    private void HideWeapons() {
+        childrenObjectsManager.spear.SetActive(false);
+        childrenObjectsManager.shield.SetActive(false);
+    }
+
+    private void ShowWeapons() {
+        childrenObjectsManager.spear.SetActive(true);
+        childrenObjectsManager.shield.SetActive(true);
     }
 }
