@@ -4,39 +4,15 @@ using System;
 using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour {
-    /// <summary>
-    /// Enum that lists the aviable groups
-    /// </summary>
-    public enum Group {
-        GroupAzure,
-        GroupPink,
-        GroupGreen,
-        GroupYellow,
-        None
-    }
-
-    [SerializeField]
-    [Tooltip("Field that indicate wich group this is")]
-    private Group thisGroupName = Group.None;
-
-    /// <summary>
-    /// Property that idicates wich group this is
-    /// </summary>
-    public Group ThisGroupName { get => thisGroupName; private set => thisGroupName = value; }
-
-    private Action<GameObject> onDemonJoined;
-
-    /// This script is attached to invisible gameobjects that manages the single group
-
-    public int maxNumDemons = 4;
-    private int demonsInGroup = 0;
+    
     public float rateo = 2f;
-    public Material groupColor;
     private Coroutine continuousAttack;
-    public GameObject healthBar;
-    private GroupHealthBar groupHealthBar;
+    
+    private bool impsAlreadyChecked = false;
 
-    #region 
+    private GroupManager groupManager;
+
+    #region FSM 
 
     // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)
     public enum State {
@@ -52,7 +28,6 @@ public class GroupBehaviour : MonoBehaviour {
     public State currentState;
     public State newState;
     public bool orderConfirmed = false;
-    public GameObject[] demons;
 
     public FSM groupFSM;
     // Used to know if the group is in combat or not (don't want to add a state in State enum cause it's simpler this way)
@@ -61,7 +36,7 @@ public class GroupBehaviour : MonoBehaviour {
     private GameObject target;
 
     public GameObject Target { get => target; set => target = value; }
-    public int DemonsInGroup { get => demonsInGroup; set => demonsInGroup = value; }
+    //public int DemonsInGroup { get => demonsInGroup; set => demonsInGroup = value; }
 
     #region Conditions
 
@@ -113,9 +88,9 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     private void ConfirmEffects() {
-        foreach(GameObject demon in demons) {
-            if(demon)
-                demon.GetComponent<SelectedUnitEffects>().ConfirmOrder();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp)
+                imp.GetComponent<SelectedUnitEffects>().ConfirmOrder();
         }
     }
 
@@ -132,7 +107,7 @@ public class GroupBehaviour : MonoBehaviour {
         groupAggro.UpdateGroupAggro();
 
         if(currentState == State.Tank)
-            groupAggro.GroupAggroValue = Mathf.Max(Mathf.CeilToInt((groupAggro.CalculateAverageAggro() / groupAggro.groups.Length) * groupAggro.TankMultiplier), groupAggro.GroupAggroValue);
+            groupAggro.GroupAggroValue = Mathf.Max(Mathf.CeilToInt((groupAggro.CalculateAverageAggro() / GroupsManager.Instance.Groups.Length) * groupAggro.TankMultiplier), groupAggro.GroupAggroValue);
         else if(currentState == State.MeleeAttack || currentState == State.RangeAttack)
             continuousAttack = StartCoroutine(AttackOneTime(rateo));
 
@@ -140,34 +115,22 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void MeleeAttack() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
 
-        //GameObject[] enemies = GameObject.FindGameObjectsWithTag( "LittleEnemy" );
-        //GameObject boss = GameObject.FindGameObjectWithTag( "Boss" );
-
-        //if ( boss )
         if(EnemiesManager.Instance.Boss != null) {
-            //target = boss;
             target = EnemiesManager.Instance.Boss;
         }
-        //else if ( enemies != null )
         else if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
-            //target = CameraManager.FindNearestEnemy(gameObject, enemies);
             target = CameraManager.FindNearestEnemy(gameObject, EnemiesManager.Instance.LittleEnemiesList.ToArray());
         }
         else
             return;
 
-        foreach(GameObject demon in demons) {
-            if(demon) {
-
-                // TODO - Ally keep attacking when out of combat,
-                // I added this check to remove errors but need to 
-                // be fixed
-                //if (combat.enabled)
-                if(demon.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
-                    StartCoroutine(ActionAfterRandomDelay(demon, State.MeleeAttack));
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                if(imp.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
+                    StartCoroutine(ActionAfterRandomDelay(imp, State.MeleeAttack));
                 }
 
             }
@@ -199,11 +162,11 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void StopAttack() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 combat.StopAttack();
             }
         }
@@ -211,11 +174,11 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void TankStayAction() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
 
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
                     combat.StartBlock();
@@ -228,18 +191,18 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void StopTank() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 combat.StopBlock();
             }
         }
     }
 
     public void RangeAttack() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
         
         if(EnemiesManager.Instance.Boss != null) {
@@ -252,27 +215,20 @@ public class GroupBehaviour : MonoBehaviour {
             return;
 
 
-        foreach(GameObject demon in demons) {
-            if(demon) {
-
-                // TODO - Ally keep attacking when out of combat,
-                // I added this check to remove errors but need to 
-                // be fixed
-                //if(combat.enabled) {
-                StartCoroutine(ActionAfterRandomDelay(demon, State.RangeAttack));
-                //combat.RangedAttack(target);
-                //}
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                StartCoroutine(ActionAfterRandomDelay(imp, State.RangeAttack));
             }
         }
     }
 
     public void StopRangeAttack() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
 
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 combat.StopRangedAttack();
             }
         }
@@ -281,11 +237,11 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void SupportStayAction() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
                     combat.StartSupport();
                 }
@@ -297,24 +253,24 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void StopSupport() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
 
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 combat.StopSupport();
             }
         }
     }
 
     public void RecruitStayAction() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
-                if(BattleEventsHandler.IsInBossBattle && demon.GetComponent<DemonMovement>().CanAct()) {
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
+                if(BattleEventsHandler.IsInBossBattle && imp.GetComponent<DemonMovement>().CanAct()) {
                     combat.StartRecruit();
                 }
                 else {
@@ -325,12 +281,12 @@ public class GroupBehaviour : MonoBehaviour {
     }
 
     public void StopRecruit() {
-        if(!CheckDemons())
+        if(!AllImpsFoundGroup())
             return;
 
-        foreach(GameObject demon in demons) {
-            if(demon) {
-                Combat combat = demon.GetComponent<Combat>();
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp) {
+                Combat combat = imp.GetComponent<Combat>();
                 combat.StopRecruit();
             }
         }
@@ -338,9 +294,9 @@ public class GroupBehaviour : MonoBehaviour {
 
     // TODO - Parametrize this
     public void UpdateSupportAggro() {
-        foreach(GameObject demon in demons) {
-            if(demon)
-                demon.GetComponent<Stats>().Aggro *= 1.08f;
+        foreach(GameObject imp in groupManager.Imps) {
+            if(imp)
+                imp.GetComponent<Stats>().Aggro *= 1.08f;
         }
     }
 
@@ -348,14 +304,17 @@ public class GroupBehaviour : MonoBehaviour {
 
     #endregion
 
-    //TODO To know if all demons found their group (can be improved by just setting a single boolean in a single gameobjact, without checking for all demons)
-    public bool CheckDemons() {
-        //GameObject[] allDemons = GameObject.FindGameObjectsWithTag( "Demon" );
-
-        //foreach ( GameObject go in allDemons )
-        foreach(GameObject go in AlliesManager.Instance.AlliesList) {
-            if(!go.GetComponent<DemonBehaviour>().groupFound)
-                return false;
+    public bool AllImpsFoundGroup()
+    {
+        if (!impsAlreadyChecked)
+        {
+            foreach (GameObject go in AlliesManager.Instance.AlliesList)
+            {
+                if (!go.GetComponent<DemonBehaviour>().groupFound)
+                    return false;
+            }
+            
+            impsAlreadyChecked = true;
         }
         return true;
     }
@@ -385,8 +344,19 @@ public class GroupBehaviour : MonoBehaviour {
         }
     }
 
-    private void Awake() {
-        groupHealthBar = healthBar.GetComponent<GroupHealthBar>();
+    private void Awake()
+    {
+        groupManager = this.gameObject.GetComponent<GroupManager>();
+    }
+
+    private void OnEnable()
+    {
+        AlliesManager.Instance.RegisterOnNewImpSpawned(OnNewImpSpawned);
+    }
+
+    private void OnDisable()
+    {
+        AlliesManager.Instance.UnregisterOnNewImpSpawned(OnNewImpSpawned);
     }
 
     void Start() {
@@ -394,8 +364,6 @@ public class GroupBehaviour : MonoBehaviour {
         newState = State.MeleeAttack;
         // Just to test
         inCombat = true;
-
-        demons = new GameObject[maxNumDemons];
 
         #region FSM
 
@@ -474,40 +442,7 @@ public class GroupBehaviour : MonoBehaviour {
 
         #endregion
     }
-
-    public bool IsEmpty() {
-        foreach(GameObject demon in demons) {
-            if(demon != null)
-                return false;
-        }
-        return true;
-    }
-
-    public int GetDemonsNumber() {
-        return DemonsInGroup;
-    }
-
-    public void SetDemonsNumber(int i) {
-        DemonsInGroup = i;
-        groupHealthBar.SetDemonsNumber(i);
-    }
-
-    //TODO to be improved
-    public GameObject GetRandomDemon() {
-        GameObject demon = null;
-
-        bool found = false;
-        while(!found) {
-            int index = UnityEngine.Random.Range(0, demons.Length);
-            if(demons[index] != null) {
-                demon = demons[index];
-                found = true;
-            }
-        }
-
-        return demon;
-    }
-
+        
     public IEnumerator AttackOneTime(float rateo) {
         while(true) {
             yield return new WaitForSeconds(rateo);
@@ -517,57 +452,9 @@ public class GroupBehaviour : MonoBehaviour {
                 RangeAttack();
         }
     }
-
-    /// <summary>
-    /// Add a demon to this group
-    /// </summary>
-    /// <param name="demon">The demon to add</param>
-    /// <returns>Returns true if the demon is added, false otherwise</returns>
-    public bool AddDemonToGroup(GameObject demon) {
-        int firstEmpty = -1;
-
-        for (int i = 0; i < demons.Length; i++)
-        {
-            if (!demons[i])
-            {
-                firstEmpty = i;
-                break;
-            }
-        }
-
-        if(firstEmpty >= 0) {
-            demons[firstEmpty] = demon;
-            SetDemonsNumber(GetDemonsNumber() + 1);
-
-            RaiseOnDemonJoined(demon);
-
-            return true;
-        }
-        else { 
-            return false;    
-        }
-    }
-
-    /// <summary>
-    /// Register a method to OnDemonJoined event
-    /// </summary>
-    /// <param name="method">The method to register</param>
-    public void RegisterOnDemonJoined(Action<GameObject> method) { 
-        onDemonJoined += method;        
-    }
-
-    /// <summary>
-    /// Unegister a method to OnDemonJoined event
-    /// </summary>
-    /// <param name="method">The method to register</param>
-    public void UnregisterOnDemonJoined(Action<GameObject> method)
+ 
+    private void OnNewImpSpawned()
     {
-        onDemonJoined -= method;
-    }
-
-    private void RaiseOnDemonJoined(GameObject demon) { 
-        if(onDemonJoined != null) { 
-            onDemonJoined(demon);    
-        }    
+        impsAlreadyChecked = false;
     }
 }

@@ -474,20 +474,22 @@ public class AttackCollider : MonoBehaviour
             int supportingDemons = 0;
 
             // Calculate all attacking and supporting demons
-            if (stats.Groups != null)
+            if (GroupsManager.Instance.Groups != null)
             {
-                foreach (GameObject group in stats.Groups)
+                foreach (GameObject group in GroupsManager.Instance.Groups)
                 {
                     GroupBehaviour gb = group.GetComponent<GroupBehaviour>();
-                    if (gb != null)
+                    GroupManager groupManager = group.GetComponent<GroupManager>();
+                    
+                    if (gb != null && groupManager != null)
                     {
                         if (gb.currentState == GroupBehaviour.State.MeleeAttack || gb.currentState == GroupBehaviour.State.RangeAttack)
                         {
-                            attackingDemons += gb.GetDemonsNumber();
+                            attackingDemons += groupManager.ImpsInGroupNumber;
                         }
                         if (gb.currentState == GroupBehaviour.State.Support)
                         {
-                            supportingDemons += gb.GetDemonsNumber();
+                            supportingDemons += groupManager.ImpsInGroupNumber;
                         }
                     }
                 }

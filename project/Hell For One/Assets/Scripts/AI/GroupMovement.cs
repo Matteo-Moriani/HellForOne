@@ -95,9 +95,9 @@ public class GroupMovement : MonoBehaviour {
     }
 
     private void PrepareDemonsToBattle(GameObject target) {
-        foreach(GameObject demon in GetComponent<GroupBehaviour>().demons) {
-            if(demon != null)
-                demon.GetComponent<DemonMovement>().PrepareForBattleWith(target);
+        foreach(GameObject imp in GetComponent<GroupManager>().Imps) {
+            if(imp != null)
+                imp.GetComponent<DemonMovement>().PrepareForBattleWith(target);
         }
     }
 

@@ -32,9 +32,11 @@ public class DemonBehaviour : MonoBehaviour
         {
             int freeSlots = 0;
 
-            GameObject[] demonsArray = group.GetComponent<GroupBehaviour>().demons;
-            GroupBehaviour groupBehaviour = group.GetComponent<GroupBehaviour>();
-            freeSlots = groupBehaviour.maxNumDemons - groupBehaviour.GetDemonsNumber();
+            GroupManager groupManager = group.GetComponent<GroupManager>();
+
+            GameObject[] demonsArray = groupManager.Imps;
+            
+            freeSlots = groupManager.MaxImpNumber - groupManager.ImpsInGroupNumber;
 
             if ( freeSlots > maxFreeSlots )
             {
@@ -45,7 +47,7 @@ public class DemonBehaviour : MonoBehaviour
         
         if ( bestGroup )
         {
-            if (bestGroup.GetComponent<GroupBehaviour>().AddDemonToGroup(this.gameObject)) {
+            if (bestGroup.GetComponent<GroupManager>().AddDemonToGroup(this.gameObject)) {
                 groupFound = true;
                 groupBelongingTo = bestGroup;
             }

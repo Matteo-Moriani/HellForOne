@@ -12,34 +12,34 @@ public class OutlineGroup : MonoBehaviour
     [Tooltip("The color to use to outline this group")]
     private Color color = Color.white;
 
-    private GroupBehaviour groupBehaviour;
+    private GroupManager groupManager;
     private bool isOutlined = false;
 
     private void Awake()
     {
-        groupBehaviour = this.gameObject.GetComponent<GroupBehaviour>();
+        groupManager = this.gameObject.GetComponent<GroupManager>();
     }
 
     private void OnEnable()
     {
         GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
-        groupBehaviour.RegisterOnDemonJoined(OnDemonJoined);
+        groupManager.RegisterOnImpJoined(OnDemonJoined);
     }
 
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
-        groupBehaviour.UnregisterOnDemonJoined(OnDemonJoined);
+        groupManager.UnregisterOnImpJoined(OnDemonJoined);
 
         outlineMaterial.SetColor("_OutlineColor", Color.white);
     }
 
     private void OnMostRappresentedGroupChanged()
     {
-        if (groupBehaviour != null)
+        if (groupManager != null)
         {
             // New most rappresented group
-            if (groupBehaviour.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange)
+            if (groupManager.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange)
             {
                 isOutlined = true;
 
@@ -49,7 +49,7 @@ public class OutlineGroup : MonoBehaviour
                     outlineMaterial.SetColor("_OutlineColor", color);
 
                     // Assign new material
-                    foreach (GameObject imp in groupBehaviour.demons)
+                    foreach (GameObject imp in groupManager.Imps)
                     {
                         if (imp != null)
                         {
@@ -79,7 +79,7 @@ public class OutlineGroup : MonoBehaviour
                     isOutlined = false;
 
                     // Assign default material
-                    foreach (GameObject imp in groupBehaviour.demons)
+                    foreach (GameObject imp in groupManager.Imps)
                     {
                         if (imp != null)
                         {
@@ -105,7 +105,7 @@ public class OutlineGroup : MonoBehaviour
     }
 
     private void OnDemonJoined(GameObject demon) { 
-        if(groupBehaviour.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange) { 
+        if(groupManager.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange) { 
             MaterialsManager materialsManager = demon.GetComponent<MaterialsManager>();
             
             if(materialsManager != null) {

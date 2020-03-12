@@ -24,37 +24,37 @@ public class GroupsInRangeDetector : MonoBehaviour
 
     private static event Action OnMostRappresentedGroupChanged;
 
-    private List<GroupBehaviour.Group> groupsInRange = new List<GroupBehaviour.Group>();
+    private List<GroupManager.Group> groupsInRange = new List<GroupManager.Group>();
 
-    private Dictionary<GroupBehaviour.Group, int> impsInRange = new Dictionary<GroupBehaviour.Group, int>();
+    private Dictionary<GroupManager.Group, int> impsInRange = new Dictionary<GroupManager.Group, int>();
 
-    private static GroupBehaviour.Group mostRappresentedGroupInRange = GroupBehaviour.Group.None;
+    private static GroupManager.Group mostRappresentedGroupInRange = GroupManager.Group.None;
 
     /// <summary>
     /// List that contains all the groups in range of this Imp
     /// </summary>
-    public List<GroupBehaviour.Group> GroupsInRange { get => groupsInRange; private set => groupsInRange = value; }
+    public List<GroupManager.Group> GroupsInRange { get => groupsInRange; private set => groupsInRange = value; }
 
     /// <summary>
     /// Dictionary that contains, for all groups, the number of imps in range
     /// </summary>
-    public Dictionary<GroupBehaviour.Group, int> ImpsInRange { get => impsInRange; private set => impsInRange = value; }
+    public Dictionary<GroupManager.Group, int> ImpsInRange { get => impsInRange; private set => impsInRange = value; }
 
     /// <summary>
     /// Current most rappresented group in range
     /// </summary>
-    public static GroupBehaviour.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
+    public static GroupManager.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
 
     private void Awake()
     {
-        mostRappresentedGroupInRange = GroupBehaviour.Group.None;    
+        mostRappresentedGroupInRange = GroupManager.Group.None;    
     }
 
     private void OnEnable()
     {
-        foreach (GroupBehaviour.Group group in (GroupBehaviour.Group[])Enum.GetValues(typeof(GroupBehaviour.Group)))
+        foreach (GroupManager.Group group in (GroupManager.Group[])Enum.GetValues(typeof(GroupManager.Group)))
         {
-            if (group != GroupBehaviour.Group.None)
+            if (group != GroupManager.Group.None)
             {
                 impsInRange.Add(group, 0);
             }
@@ -84,11 +84,11 @@ public class GroupsInRangeDetector : MonoBehaviour
     }
 
     private void UpdateMostRappresentedGroup() {
-        GroupBehaviour.Group mostRappresentedGroup = GroupBehaviour.Group.None;
+        GroupManager.Group mostRappresentedGroup = GroupManager.Group.None;
 
         int temp = 0;
 
-        foreach (KeyValuePair<GroupBehaviour.Group, int> item in impsInRange)
+        foreach (KeyValuePair<GroupManager.Group, int> item in impsInRange)
         {
 
             if (item.Value > temp)
@@ -119,33 +119,27 @@ public class GroupsInRangeDetector : MonoBehaviour
 
                     if (demonBehaviour != null)
                     {
-                        GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+                        GroupManager groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
 
-                        if (groupBehaviour != null)
+                        if (groupManager != null)
                         {
                             switch (action)
                             {
                                 case Actions.Add:
                                     // Update Groups in range
-                                    if (!groupsInRange.Contains(groupBehaviour.ThisGroupName))
+                                    if (!groupsInRange.Contains(groupManager.ThisGroupName))
                                     {
-                                        groupsInRange.Add(groupBehaviour.ThisGroupName);
-
-                                        // TODO - Debug for testing, remove this
-                                        //Debug.Log(groupBehaviour.ThisGroupName + " added to aviable groups for " + this.transform.root.gameObject.name);
+                                        groupsInRange.Add(groupManager.ThisGroupName);
                                     }
 
                                     // Update Imps in range
-                                    if (impsInRange[groupBehaviour.ThisGroupName] < 4)
+                                    if (impsInRange[groupManager.ThisGroupName] < 4)
                                     {
-                                        impsInRange[groupBehaviour.ThisGroupName]++;
-
-                                        // TODO - Debug for testing, remove this
-                                        //Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                        impsInRange[groupManager.ThisGroupName]++;
                                     }
                                     else
                                     {
-                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 4");
+                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupManager.ThisGroupName + " count but it is already 4");
                                     }
 
                                     UpdateMostRappresentedGroup();
@@ -153,27 +147,21 @@ public class GroupsInRangeDetector : MonoBehaviour
                                     break;
                                 case Actions.Remove:
                                     // Update Groups in range
-                                    if (groupsInRange.Contains(groupBehaviour.ThisGroupName))
+                                    if (groupsInRange.Contains(groupManager.ThisGroupName))
                                     {
-                                        if(impsInRange[groupBehaviour.ThisGroupName] == 1) {
-                                            groupsInRange.Remove(groupBehaviour.ThisGroupName);
+                                        if(impsInRange[groupManager.ThisGroupName] == 1) {
+                                            groupsInRange.Remove(groupManager.ThisGroupName);
                                         }
-                                        
-                                        // TODO - Debug for testing, remove this
-                                        //Debug.Log(groupBehaviour.ThisGroupName + " removed from aviable groups for " + this.transform.root.gameObject.name);
                                     }
 
                                     // Update Imps in range
-                                    if (impsInRange[groupBehaviour.ThisGroupName] > 0)
+                                    if (impsInRange[groupManager.ThisGroupName] > 0)
                                     {
-                                        impsInRange[groupBehaviour.ThisGroupName]--;
-
-                                        // TODO - Debug for testing, remove this
-                                        //Debug.Log(this.transform.root.name + " GroupInRangeDetector - ImpsInRange[" + groupBehaviour + "]:" + impsInRange[groupBehaviour.ThisGroupName]);
+                                        impsInRange[groupManager.ThisGroupName]--;
                                     }
                                     else
                                     {
-                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupBehaviour.ThisGroupName + " count but it is already 0");
+                                        Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupManager.ThisGroupName + " count but it is already 0");
                                     }
 
                                     UpdateMostRappresentedGroup();
@@ -200,30 +188,30 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// </summary>
     /// <param name="group">The group to check</param>
     /// <returns></returns>
-    public bool IsTheGroupInRange(GroupBehaviour.Group group)
+    public bool IsTheGroupInRange(GroupManager.Group group)
     {
         switch (group)
         {
-            case GroupBehaviour.Group.GroupAzure:
-                if (groupsInRange.Contains(GroupBehaviour.Group.GroupAzure))
+            case GroupManager.Group.GroupAzure:
+                if (groupsInRange.Contains(GroupManager.Group.GroupAzure))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.GroupGreen:
-                if (groupsInRange.Contains(GroupBehaviour.Group.GroupGreen))
+            case GroupManager.Group.GroupGreen:
+                if (groupsInRange.Contains(GroupManager.Group.GroupGreen))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.GroupPink:
-                if (groupsInRange.Contains(GroupBehaviour.Group.GroupPink))
+            case GroupManager.Group.GroupPink:
+                if (groupsInRange.Contains(GroupManager.Group.GroupPink))
                 {
                     return true;
                 }
                 break;
-            case GroupBehaviour.Group.GroupYellow:
-                if (groupsInRange.Contains(GroupBehaviour.Group.GroupYellow))
+            case GroupManager.Group.GroupYellow:
+                if (groupsInRange.Contains(GroupManager.Group.GroupYellow))
                 {
                     return true;
                 }
@@ -254,7 +242,7 @@ public class GroupsInRangeDetector : MonoBehaviour
     /// Decrease imps in range count for group
     /// </summary>
     /// <param name="group">The group to decrease</param>
-    public void DecreaseImpInRangeCount(GroupBehaviour.Group group) { 
+    public void DecreaseImpInRangeCount(GroupManager.Group group) { 
         if(impsInRange[group] > 0) {
             impsInRange[group]--;
         }

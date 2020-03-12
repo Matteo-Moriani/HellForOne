@@ -30,29 +30,29 @@ public class NewHUD : MonoBehaviour
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
-    public void ActivateAggroIcon( GroupBehaviour.Group group)
+    public void ActivateAggroIcon( GroupManager.Group group)
     {
         switch ( group )
         {
-            case GroupBehaviour.Group.GroupAzure:
+            case GroupManager.Group.GroupAzure:
                 aggroIconAzure.enabled = true;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupGreen:
+            case GroupManager.Group.GroupGreen:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = true;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupPink:
+            case GroupManager.Group.GroupPink:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = true;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupYellow:
+            case GroupManager.Group.GroupYellow:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
@@ -194,22 +194,22 @@ public class NewHUD : MonoBehaviour
         }
     }
 
-    public void ChangeGroupState(GroupBehaviour.Group group, int index)
+    public void ChangeGroupState(GroupManager.Group group, int index)
     {
         GroupBehaviour gb = null;
 
         switch ( group )
         {
-            case GroupBehaviour.Group.GroupAzure:
+            case GroupManager.Group.GroupAzure:
                 gb = groupAzure;
                 break;
-            case GroupBehaviour.Group.GroupPink:
+            case GroupManager.Group.GroupPink:
                 gb = groupPink;
                 break;
-            case GroupBehaviour.Group.GroupGreen:
+            case GroupManager.Group.GroupGreen:
                 gb = groupGreen;
                 break;
-            case GroupBehaviour.Group.GroupYellow:
+            case GroupManager.Group.GroupYellow:
                 gb = groupYellow;
                 break;
         }

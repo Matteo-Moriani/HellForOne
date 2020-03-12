@@ -111,7 +111,7 @@ public class BossBehavior : AbstractBoss
     {
         ResetTimer();
 
-        if ( DemonGroups.Length != 4 && !Player )
+        if (GroupsManager.Instance.Groups.Length != 4 && !Player )
             return false;
         
         if ( Random.Range( 0f, 1f ) < ChangeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)

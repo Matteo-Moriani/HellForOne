@@ -6,6 +6,8 @@ public class GroupSupport : MonoBehaviour
 {
     private GroupBehaviour groupBehaviour;
 
+    private GroupManager groupManager;
+
     private GroupAggro groupAggro;
     
     // Field serialized only for testing
@@ -24,13 +26,14 @@ public class GroupSupport : MonoBehaviour
     {
         groupBehaviour = GetComponent<GroupBehaviour>();
         groupAggro = GetComponent<GroupAggro>();
+        groupManager = GetComponent<GroupManager>();
     }
 
     public void AddSupportingUnit() { 
         supportingUnits++;
         
         // If supporting units excedes maxNumDemons or DemonsInGroup...
-        if(supportingUnits > groupBehaviour.maxNumDemons || supportingUnits > groupBehaviour.GetDemonsNumber()) { 
+        if(supportingUnits > groupManager.MaxImpNumber || supportingUnits > groupManager.ImpsInGroupNumber) { 
             // ...We undo the add
             supportingUnits--;
             Debug.Log("You were trying to set supporting units > maxNumDemons or > DemonsInGroup, check for error");
@@ -49,9 +52,9 @@ public class GroupSupport : MonoBehaviour
     public void UpdateSupportingUnits() { 
         supportingUnits = 0;
 
-        foreach(GameObject demon in groupBehaviour.demons) { 
-            if(demon != null) { 
-                Stats stats = demon.GetComponent<Stats>();
+        foreach(GameObject imp in groupManager.Imps) { 
+            if(imp != null) { 
+                Stats stats = imp.GetComponent<Stats>();
                 
                 if(stats != null){
                     if (stats.IsSupporting) { 

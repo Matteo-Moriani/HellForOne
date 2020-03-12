@@ -23,6 +23,8 @@ public class ImpAnimator : MonoBehaviour
 
     private CombatEventsManager combatEventsManager;
 
+    private Reincarnation reincarnation;
+
     private void OnEnable() {
         if(combatEventsManager != null) {
             combatEventsManager.onStartIdle += PlayIdleAnimation;
@@ -35,10 +37,12 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartSupport += PlaySupportAnimation;
             combatEventsManager.onStartRecruit += PlayRecruitAnimation;
             combatEventsManager.onStartDash += PlayDashAnimation;
-            BattleEventsManager.onBattleExit += PlayIdleAnimation;
-            BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
-            combatEventsManager.onReincarnation += StopBlockAnimation;
         }
+        if(reincarnation != null) { 
+            reincarnation.RegisterOnReincarnation(OnReincarnation);    
+        }
+        BattleEventsManager.onBattleExit += PlayIdleAnimation;
+        BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
     }
 
     private void OnDisable() {
@@ -53,10 +57,12 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.onStartSupport -= PlaySupportAnimation;
             combatEventsManager.onStartRecruit -= PlayRecruitAnimation;
             combatEventsManager.onStartDash -= PlayDashAnimation;
-            BattleEventsManager.onBattleExit -= PlayIdleAnimation;
-            BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
-            combatEventsManager.onReincarnation -= StopBlockAnimation;
         }
+        if(reincarnation != null) { 
+            reincarnation.UnregisterOnReincarnation(OnReincarnation);    
+        }
+        BattleEventsManager.onBattleExit -= PlayIdleAnimation;
+        BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
     }
 
     private void Awake() {
@@ -66,6 +72,7 @@ public class ImpAnimator : MonoBehaviour
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         demonMovement = gameObject.GetComponent<DemonMovement>();
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
+        reincarnation = this.gameObject.GetComponent<Reincarnation>();
     }
 
     public void PlaySingleAttackAnimation() {
@@ -124,6 +131,7 @@ public class ImpAnimator : MonoBehaviour
     }
 
     public void StopBlockAnimation() {
+        // TODO - fix this, it gives wrong behaviour when dying
         if(controller.ZMovement != 0 || controller.XMovement != 0) {
             StopAnimations();
             combatEventsManager.RaiseOnStartMoving();
@@ -164,7 +172,6 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.RaiseOnStartIdle();
     }
 
-
     public void StopAnimations() {
         ShowWeapons();
         Animator.SetBool("isDying", false);
@@ -187,5 +194,9 @@ public class ImpAnimator : MonoBehaviour
     private void ShowWeapons() {
         childrenObjectsManager.spear.SetActive(true);
         childrenObjectsManager.shield.SetActive(true);
+    }
+
+    private void OnReincarnation(GameObject player) { 
+        StopBlockAnimation();    
     }
 }

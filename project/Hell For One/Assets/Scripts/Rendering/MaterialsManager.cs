@@ -8,8 +8,8 @@ public class MaterialsManager : MonoBehaviour
 
     private Material defaultMaterial;
 
-    private CombatEventsManager combatEventsManager;
-
+    private Reincarnation reincarnation;
+ 
     /// <summary>
     /// Renderers of this GameObject
     /// </summary>
@@ -17,19 +17,19 @@ public class MaterialsManager : MonoBehaviour
 
     private void Awake()
     {
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        reincarnation = this.transform.root.gameObject.GetComponent<Reincarnation>();
         Renderers = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
         defaultMaterial = renderers[0].material;
     }
 
     private void OnEnable()
     {
-        combatEventsManager.onReincarnation += SetDefaultMaterial;
+        reincarnation.RegisterOnReincarnation(OnReincarnation);
     }
 
     private void OnDisable()
     {
-        combatEventsManager.onReincarnation += SetDefaultMaterial;
+        reincarnation.UnregisterOnReincarnation(OnReincarnation);
     }
 
     /// <summary>
@@ -53,5 +53,9 @@ public class MaterialsManager : MonoBehaviour
         {
             renderer.material = defaultMaterial;
         }
+    }
+
+    private void OnReincarnation(GameObject player) { 
+        SetDefaultMaterial();  
     }
 }

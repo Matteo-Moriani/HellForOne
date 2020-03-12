@@ -62,29 +62,29 @@ public class HUD : MonoBehaviour
         }
     }
 
-    public void ActivateAggroIcon( GroupBehaviour.Group group )
+    public void ActivateAggroIcon( GroupManager.Group group)
     {
         switch ( group )
         {
-            case GroupBehaviour.Group.GroupAzure:
+            case GroupManager.Group.GroupAzure:
                 aggroIconAzure.enabled = true;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupGreen:
+            case GroupManager.Group.GroupGreen:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = true;
                 aggroIconPink.enabled = false;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupPink:
+            case GroupManager.Group.GroupPink:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = true;
                 aggroIconYellow.enabled = false;
                 break;
-            case GroupBehaviour.Group.GroupYellow:
+            case GroupManager.Group.GroupYellow:
                 aggroIconAzure.enabled = false;
                 aggroIconGreen.enabled = false;
                 aggroIconPink.enabled = false;
@@ -215,7 +215,7 @@ public class HUD : MonoBehaviour
 
         switch ( tacticsManager.CurrentMostRappresentedGroup )
         {
-            case GroupBehaviour.Group.GroupAzure:
+            case GroupManager.Group.GroupAzure:
                 panelAzure.transform.localScale = enlargedScale;
                 panelAzure.transform.SetAsLastSibling();
                 panelAzure.transform.localPosition = panelPosition;
@@ -225,7 +225,7 @@ public class HUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case GroupBehaviour.Group.GroupPink:
+            case GroupManager.Group.GroupPink:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = enlargedScale;
@@ -235,7 +235,7 @@ public class HUD : MonoBehaviour
                 panelGreen.transform.localPosition = xCorrection * 2;
                 panelYellow.transform.localScale = defaultScale;
                 break;
-            case GroupBehaviour.Group.GroupGreen:
+            case GroupManager.Group.GroupGreen:
                 panelAzure.transform.localScale = defaultScale;
                 panelPink.transform.localScale = defaultScale;
                 panelPink.transform.localPosition = xCorrection;
@@ -245,7 +245,7 @@ public class HUD : MonoBehaviour
                 panelYellow.transform.localScale = defaultScale;
                 panelYellow.transform.localPosition = xCorrection * 3;
                 break;
-            case GroupBehaviour.Group.GroupYellow:
+            case GroupManager.Group.GroupYellow:
                 panelAzure.transform.localScale = defaultScale;
                 panelAzure.transform.localPosition = Vector3.zero;
                 panelPink.transform.localScale = defaultScale;

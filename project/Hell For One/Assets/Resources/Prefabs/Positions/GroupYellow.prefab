@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8435978056055178386}
+  - component: {fileID: 6719406191894709097}
   - component: {fileID: 114505785571255092}
   - component: {fileID: 8325787536396914807}
   - component: {fileID: 114553889596279180}
@@ -35,6 +36,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6719406191894709097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82ea2d33c6bb1c4b96c57ca3efb7c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisGroupName: 3
+  groupColor: {r: 1, g: 1, b: 0, a: 1}
+  groupColorMat: {fileID: 2100000, guid: cd01d5364614bd94992e33519cc65005, type: 2}
+  healthBar: {fileID: 0}
 --- !u!114 &114505785571255092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,16 +64,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd43b97818cfebc4ba442470f6bc7424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisGroupName: 3
-  maxNumDemons: 4
   rateo: 2
-  groupColor: {fileID: 2100000, guid: cd01d5364614bd94992e33519cc65005, type: 2}
-  healthBar: {fileID: 0}
   fsmReactionTime: 1
   currentState: 0
   newState: 0
   orderConfirmed: 0
-  demons: []
 --- !u!114 &8325787536396914807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,8 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783a93287cddeac43a6b10ee4b051a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangedDist: 6
-  distanceAllowed: 2.5
   player: {fileID: 0}
 --- !u!114 &114553889596279180
 MonoBehaviour:
@@ -84,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc855c1343d36745aed6b974c124396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groups: []
 --- !u!114 &4744940270589077485
 MonoBehaviour:
   m_ObjectHideFlags: 0

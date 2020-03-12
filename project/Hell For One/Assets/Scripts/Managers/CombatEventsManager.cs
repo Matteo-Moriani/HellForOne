@@ -60,9 +60,6 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnDeath();
     public event OnDeath onDeath;
 
-    public delegate void OnReincarnation();
-    public event OnReincarnation onReincarnation;
-
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
 
@@ -71,9 +68,6 @@ public class CombatEventsManager : MonoBehaviour
 
     public delegate void OnStartIdle();
     public event OnStartIdle onStartIdle;
-
-    //public delegate void OnStopAnimation();
-    //public event OnStopAnimation onStopAnimation;
 
     #endregion
 
@@ -221,12 +215,6 @@ public class CombatEventsManager : MonoBehaviour
         {
             onDeath();
         }
-    }
-
-    public void RaiseOnReincarnation() { 
-        if(onReincarnation != null) { 
-            onReincarnation();    
-        }    
     }
 
     public void RaiseOnStartMoving()

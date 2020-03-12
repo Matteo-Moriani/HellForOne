@@ -102,25 +102,25 @@ public class CanvasDebug : MonoBehaviour
 
         switch ( tacticsManager.CurrentMostRappresentedGroup )
         {
-            case GroupBehaviour.Group.GroupAzure:
+            case GroupManager.Group.GroupAzure:
                 groupAzureText.color = red;
                 groupPinkText.color = black;
                 groupGreenText.color = black;
                 groupYellowText.color = black;
                 break;
-            case GroupBehaviour.Group.GroupPink:
+            case GroupManager.Group.GroupPink:
                 groupAzureText.color = black;
                 groupPinkText.color = red;
                 groupGreenText.color = black;
                 groupYellowText.color = black;
                 break;
-            case GroupBehaviour.Group.GroupGreen:
+            case GroupManager.Group.GroupGreen:
                 groupAzureText.color = black;
                 groupPinkText.color = black;
                 groupGreenText.color = red;
                 groupYellowText.color = black;
                 break;
-            case GroupBehaviour.Group.GroupYellow:
+            case GroupManager.Group.GroupYellow:
                 groupAzureText.color = black;
                 groupPinkText.color = black;
                 groupGreenText.color = black;

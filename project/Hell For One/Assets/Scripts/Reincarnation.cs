@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 
+// TODO - implement reincarnation using events
 public class Reincarnation : MonoBehaviour
 {
     #region fields
@@ -15,9 +17,11 @@ public class Reincarnation : MonoBehaviour
 
     private Coroutine reicarnationCR = null;
 
-    private GameObjectSearcher gameObjectSearcher;
-    private CinemachineFreeLook cinemachineFreeLook;
-    private GameObject virtualCamera;
+    //private GameObjectSearcher gameObjectSearcher;
+    //private CinemachineFreeLook cinemachineFreeLook;
+    //private GameObject virtualCamera;
+
+    private Action<GameObject> OnReincarnation;
 
     #endregion
 
@@ -25,10 +29,13 @@ public class Reincarnation : MonoBehaviour
 
     void Start()
     {
-        player = gameObject;
-        gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
-        cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
-        virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
+        if(this.gameObject.tag == "Player") {
+            player = gameObject;
+        }
+        
+        //gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
+        //cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
+        //virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
     }
 
     public void Reincarnate()
@@ -109,7 +116,7 @@ public class Reincarnation : MonoBehaviour
         {
             if (AlliesManager.Instance.AlliesList.Count > 0)
             {
-                player = AlliesManager.Instance.AlliesList[Random.Range(0, AlliesManager.Instance.AlliesList.Count - 1)];
+                player = AlliesManager.Instance.AlliesList[UnityEngine.Random.Range(0, AlliesManager.Instance.AlliesList.Count - 1)];
 
                 if (player != null)
                 {
@@ -135,15 +142,14 @@ public class Reincarnation : MonoBehaviour
 
             DemonBehaviour demonBehaviour = player.GetComponent<DemonBehaviour>();
             if(demonBehaviour != null) {
-                GroupBehaviour groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+                /*
+                GroupManager groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
 
                 // Removing the player from group
-                if (groupBehaviour != null)
-                {
-                    int playerIndex = System.Array.IndexOf(groupBehaviour.demons, player);
-                    groupBehaviour.demons[playerIndex] = null;
-                    groupBehaviour.SetDemonsNumber(groupBehaviour.GetDemonsNumber() - 1);
+                if(groupManager != null) { 
+                    groupManager.RemoveImp(player);    
                 }
+                */
 
                 // Update group aggro
                 GroupAggro groupAggro  = demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>();
@@ -191,15 +197,6 @@ public class Reincarnation : MonoBehaviour
             if(rigidbody != null) {
                 rigidbody.useGravity = true;
             }
-
-            // TODO - I'm trying to use events for this
-            //        remove after testing
-            /*
-            Stats stats = player.GetComponent<Stats>();
-            if(stats != null) { 
-                stats.Type1 = Stats.Type.Player;    
-            }
-            */
 
             Dash dash = player.GetComponent<Dash>();
             if(dash != null) { 
@@ -250,9 +247,11 @@ public class Reincarnation : MonoBehaviour
 
             CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
             
-            if(combatEventsManager != null) { 
-                combatEventsManager.RaiseOnReincarnation();    
-            }
+            //RaiseOnReincarnation(player);
+
+            Reincarnation newPlayerReincarnation = player.GetComponent<Reincarnation>();
+
+            newPlayerReincarnation.RaiseOnReincarnation(player);
 
             // Activate groups in range detection
             // TODO - shouold this be activated after picking up the crown?
@@ -261,6 +260,28 @@ public class Reincarnation : MonoBehaviour
             if(groupsInRangeDetector != null) { 
                 groupsInRangeDetector.gameObject.SetActive(true);    
             }
+        }
+    }
+
+    /// <summary>
+    /// Register a method to OnReincarnation event
+    /// </summary>
+    /// <param name="method">The method to register</param>
+    public void RegisterOnReincarnation(Action<GameObject> method) { 
+        OnReincarnation += method;     
+    }
+
+    /// <summary>
+    /// Unregister a method to OnReincarnation event
+    /// </summary>
+    /// <param name="method">The method to unregister</param>
+    public void UnregisterOnReincarnation(Action<GameObject> method) { 
+        OnReincarnation -= method;    
+    }
+
+    private void RaiseOnReincarnation(GameObject player) { 
+        if(OnReincarnation != null) { 
+            OnReincarnation(player);    
         }
     }
 

@@ -76,6 +76,8 @@ public class Stats : MonoBehaviour
 
     //Used for aggro decreasing
     private DemonBehaviour demonBehaviour;
+
+    private Reincarnation reincarnation;
     
     Coroutine aggroDecreasingCR = null;
 
@@ -190,31 +192,30 @@ public class Stats : MonoBehaviour
     {
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
         knockBackReceiver = this.gameObject.GetComponent<KnockbackReceiver>();
-        
+        reincarnation = this.gameObject.GetComponent<Reincarnation>();
     }
 
     private void OnEnable()
     {
-        if(combatEventsManager != null) {
-            combatEventsManager.onReincarnation += SetPlayerBaseHP;
-            combatEventsManager.onReincarnation += SetAsPlayer;
-        }
-
         if(knockBackReceiver != null) { 
             knockBackReceiver.RegisterOnStartKnockback(DisableMovement);
             knockBackReceiver.RegisterOnEndKnockback(EnableMovement);
+        }
+
+        if(reincarnation != null) { 
+            reincarnation.RegisterOnReincarnation(OnReincarnation);
         }
     }
 
     private void OnDisable()
     {
-        if(combatEventsManager != null) {
-            combatEventsManager.onReincarnation -= SetPlayerBaseHP;
-            combatEventsManager.onReincarnation -= SetAsPlayer;
-        }
         if(knockBackReceiver != null) { 
             knockBackReceiver.UnRegisterOnStartKnockback(DisableMovement);
             knockBackReceiver.UnRegisterOnEndKnockback(EnableMovement);
+        }
+        if (reincarnation != null)
+        {
+            reincarnation.UnregisterOnReincarnation(OnReincarnation);
         }
     }
 
@@ -395,14 +396,10 @@ public class Stats : MonoBehaviour
             if (ThisUnitType == Stats.Type.Ally)
             {
                 // ...we need to update his group
-                GroupBehaviour gb = gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupBehaviour>();
-                if (gb != null)
+                GroupManager groupManager =  gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupManager>();
+                if (groupManager != null)
                 {
-                    gb.SetDemonsNumber(gb.GetDemonsNumber() - 1);
-
-                    // ...and remove him from his group
-                    int demonIndex = System.Array.IndexOf(gb.demons, this.gameObject);
-                    gb.demons[demonIndex] = null;
+                    groupManager.RemoveImp(this.gameObject);
                 }
 
                 // ...we need to update his group aggro
@@ -506,6 +503,11 @@ public class Stats : MonoBehaviour
         thisUnitType = Type.Player;    
     }
 
+    private void OnReincarnation(GameObject player) { 
+        SetAsPlayer();
+        SetPlayerBaseHP();
+    }
+    
     #endregion
 
     #region Coroutines
@@ -520,9 +522,9 @@ public class Stats : MonoBehaviour
             if (ThisUnitType == Type.Player)
             {
                 float maxAggro = 1;
-                GameObject[] groups = GameObject.FindGameObjectsWithTag("Group");
+                
 
-                foreach (GameObject group in groups)
+                foreach (GameObject group in GroupsManager.Instance.Groups)
                 {
                     if (maxAggro < group.GetComponent<GroupAggro>().GetAggro())
                         maxAggro = group.GetComponent<GroupAggro>().GetAggro();
@@ -531,12 +533,12 @@ public class Stats : MonoBehaviour
                     maxAggro = aggro;
 
                 // the max aggro group will have 10 as new value
-                foreach (GameObject group in groups)
+                foreach (GameObject group in GroupsManager.Instance.Groups)
                 {
-                    foreach (GameObject demon in group.GetComponent<GroupBehaviour>().demons)
+                    foreach (GameObject imp in group.GetComponent<GroupManager>().Imps)
                     {
-                        if (demon)
-                            demon.GetComponent<Stats>().LowerAggro(maxAggro / group.GetComponent<GroupBehaviour>().GetDemonsNumber() * 10);
+                        if (imp)
+                            imp.GetComponent<Stats>().LowerAggro(maxAggro / group.GetComponent<GroupManager>().ImpsInGroupNumber * 10);
                     }
 
                     group.GetComponent<GroupAggro>().UpdateGroupAggro();

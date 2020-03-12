@@ -8,6 +8,7 @@ public class PlayerInput : GeneralInput
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
+    private Reincarnation reincarnation;
     //private bool gameInPause = false;
     //public bool GameInPause { get => gameInPause; set => gameInPause = value; }
     private bool playing = true;
@@ -40,6 +41,7 @@ public class PlayerInput : GeneralInput
     private void Awake()
     {
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        reincarnation = this.gameObject.GetComponent<Reincarnation>();
         FindPauseScreen();
     }
 
@@ -65,14 +67,18 @@ public class PlayerInput : GeneralInput
         if ( combatEventsManager != null )
         {
             combatEventsManager.onDeath += OnDeath;
+            //combatEventsManager.onReincarnation += DisableOrders;
+            combatEventsManager.onStartSingleAttack += DisableLeftStick;
+            combatEventsManager.onStartRangedAttack += DisableLeftStick;
+            combatEventsManager.onStopSingleAttack += EnableLeftStick;
+            combatEventsManager.onStopRangedAttack += EnableLeftStick;
+        }
+        if(reincarnation != null) { 
+            reincarnation.RegisterOnReincarnation(OnReincarnation);   
         }
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
-        combatEventsManager.onReincarnation += DisableOrders;
-        combatEventsManager.onStartSingleAttack += DisableLeftStick;
-        combatEventsManager.onStartRangedAttack += DisableLeftStick;
-        combatEventsManager.onStopSingleAttack += EnableLeftStick;
-        combatEventsManager.onStopRangedAttack += EnableLeftStick;
+        
     }
 
     private void OnDisable()
@@ -81,14 +87,18 @@ public class PlayerInput : GeneralInput
         if ( combatEventsManager != null )
         {
             combatEventsManager.onDeath -= OnDeath;
+            //combatEventsManager.onReincarnation -= DisableOrders;
+            combatEventsManager.onStartSingleAttack -= DisableLeftStick;
+            combatEventsManager.onStartRangedAttack -= DisableLeftStick;
+            combatEventsManager.onStopSingleAttack -= EnableLeftStick;
+            combatEventsManager.onStopRangedAttack -= EnableLeftStick;
+        }
+        if(reincarnation != null) { 
+            reincarnation.UnregisterOnReincarnation(OnReincarnation);    
         }
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
-        combatEventsManager.onReincarnation -= DisableOrders;
-        combatEventsManager.onStartSingleAttack -= DisableLeftStick;
-        combatEventsManager.onStartRangedAttack -= DisableLeftStick;
-        combatEventsManager.onStopSingleAttack -= EnableLeftStick;
-        combatEventsManager.onStopRangedAttack -= EnableLeftStick;
+        
     }
 
     public void Start()
@@ -276,10 +286,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeUp = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeUp) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 0 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 0 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 0 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 0 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 0 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 0 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.MeleeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeUp = 0f;
@@ -330,10 +340,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeDown = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeDown) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 2 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 2 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 2 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 2 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 2 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 2 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.RangeAttack);
                             DpadInUse = false;
                             allGroupsOrderStartTimeDown = 0f;
@@ -375,10 +385,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeRight = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeRight) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 1 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 1 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 1 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 1 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 1 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 1 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Tank);
                             DpadInUse = false;
                             allGroupsOrderStartTimeRight = 0f;
@@ -420,10 +430,10 @@ public class PlayerInput : GeneralInput
                             allGroupsOrderStartTimeLeft = Time.time;
 
                         if((Time.time - allGroupsOrderStartTimeLeft) >= heldTime) {
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupAzure, 4 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupPink, 4 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupGreen, 4 );
-                            newHUD.ChangeGroupState( GroupBehaviour.Group.GroupYellow, 4 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 4 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 4 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 4 );
+                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 4 );
                             tacticsManager.AllGroupsOrder(GroupBehaviour.State.Recruit);
                             DpadInUse = false;
                             allGroupsOrderStartTimeLeft = 0f;
@@ -471,8 +481,7 @@ public class PlayerInput : GeneralInput
         //else
             //Debug.Log( name + " PlayerInput cannot find InputManager" );
     }
-
-
+    
     private void OnDeath()
     {
         this.enabled = false;
@@ -501,5 +510,9 @@ public class PlayerInput : GeneralInput
 
     public void EnableLeftStick() {
         Attacking = false;
+    }
+
+    private void OnReincarnation(GameObject player) { 
+        DisableOrders();    
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GroupAggro : MonoBehaviour
 {
-    public GameObject[] groups;
-    private GroupBehaviour groupBehaviour;
+    private GroupManager groupManager;
 
     private float groupAggroValue = 1;
     private float tankMultiplier = 1.5f;
@@ -15,11 +14,9 @@ public class GroupAggro : MonoBehaviour
     public float TankMultiplier { get => tankMultiplier; set => tankMultiplier = value; }
     public float GroupAggroValue { get => groupAggroValue; set => groupAggroValue = value; }
 
-    private void Start()
+    private void Awake()
     {
-        groupBehaviour = GetComponent<GroupBehaviour>();
-
-        groups = GameObject.FindGameObjectsWithTag( "Group" );
+        groupManager = GetComponent<GroupManager>();
     }
 
     public float GetAggro()
@@ -33,64 +30,64 @@ public class GroupAggro : MonoBehaviour
     {
         GroupAggroValue = 1;
 
-        if ( groupBehaviour == null )
-            groupBehaviour = GetComponent<GroupBehaviour>();
+        if (groupManager == null)
+            groupManager = GetComponent<GroupManager>();
 
-        if ( groupBehaviour != null )
+        if (groupManager != null)
         {
-            foreach ( GameObject demon in groupBehaviour.demons )
+            foreach (GameObject imp in groupManager.Imps)
             {
-                if ( demon != null )
+                if (imp != null)
                 {
-                    Stats stats = demon.GetComponent<Stats>();
+                    Stats stats = imp.GetComponent<Stats>();
 
-                    if ( stats != null )
+                    if (stats != null)
                     {
                         GroupAggroValue += stats.Aggro;
                     }
                     else
                     {
-                        Debug.Log( this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find stats in " + demon.name );
+                        Debug.Log(this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find stats in " + imp.name);
                     }
                 }
             }
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find GroupBehaviour" );
+            Debug.Log(this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find GroupBehaviour");
         }
     }
 
     public void ResetGroupAggro()
     {
-        GroupAggroValue = gameObject.GetComponent<GroupBehaviour>().GetDemonsNumber(); ;
+        GroupAggroValue = groupManager.ImpsInGroupNumber;
 
-        if ( groupBehaviour == null )
-            groupBehaviour = GetComponent<GroupBehaviour>();
+        if (groupManager == null)
+            groupManager = GetComponent<GroupManager>();
 
-        if ( groupBehaviour != null )
+        if (groupManager != null)
         {
-            foreach ( GameObject demon in groupBehaviour.demons )
+            foreach (GameObject imp in groupManager.Imps)
             {
-                Stats stats = demon.GetComponent<Stats>();
+                Stats stats = imp.GetComponent<Stats>();
 
-                if ( stats != null )
+                if (stats != null)
                 {
                     stats.Aggro = 0;
                 }
                 else
                 {
-                    Debug.Log( this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + demon.name );
+                    Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + imp.name);
                 }
             }
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour" );
+            Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour");
         }
     }
 
-    public void RaiseGroupAggro( float n )
+    public void RaiseGroupAggro(float n)
     {
         //if ( !shouldStayFixed )
         {
@@ -102,16 +99,16 @@ public class GroupAggro : MonoBehaviour
     {
         float totalAggro = 0;
 
-        if ( groups != null )
+        if (GroupsManager.Instance.Groups != null)
         {
-            foreach ( GameObject group in groups )
+            foreach (GameObject group in GroupsManager.Instance.Groups)
             {
                 totalAggro += group.GetComponent<GroupAggro>().GetAggro();
             }
         }
         else
         {
-            Debug.Log( this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups" );
+            Debug.Log(this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups");
         }
         return totalAggro;
     }

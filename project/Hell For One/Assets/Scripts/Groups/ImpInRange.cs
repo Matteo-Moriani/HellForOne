@@ -7,19 +7,29 @@ public class ImpInRange : MonoBehaviour
     private bool isImpInRange = false;
     private CombatEventsManager combatEventsManager;
 
+    private Reincarnation reincarnation;
+
     private void Awake()
     {
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        reincarnation = this.gameObject.GetComponent<Reincarnation>();
     }
 
     private void OnEnable()
     {
         if(combatEventsManager != null) {
             combatEventsManager.onDeath += OnDeath;
-            combatEventsManager.onReincarnation += OnReincarnation;
         }
         else {
             Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find CombatEventsManager");
+        }
+        if (reincarnation != null)
+        {
+            reincarnation.RegisterOnReincarnation(OnReincarnation);
+        }
+        else
+        {
+            Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find Reincarnation");
         }
     }
 
@@ -28,11 +38,18 @@ public class ImpInRange : MonoBehaviour
         if (combatEventsManager != null)
         {
             combatEventsManager.onDeath -= OnDeath;
-            combatEventsManager.onReincarnation -= OnReincarnation;
         }
         else
         {
             Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find CombatEventsManager");
+        }
+        if (reincarnation != null)
+        {
+            reincarnation.UnregisterOnReincarnation(OnReincarnation);
+        }
+        else
+        {
+            Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find Reincarnation");
         }
     }
 
@@ -54,23 +71,23 @@ public class ImpInRange : MonoBehaviour
         if (isImpInRange && (this.gameObject.tag != "Player" && this.gameObject.tag != "DeadPlayer")) { 
             DemonBehaviour demonBehaviour = this.gameObject.GetComponent<DemonBehaviour>();
             GameObject player = GameObject.FindWithTag("Player");
-            GroupBehaviour groupBehaviour = null;
+            GroupManager groupManager = null;
 
-            if(demonBehaviour != null) { 
-                groupBehaviour = demonBehaviour.groupBelongingTo.GetComponent<GroupBehaviour>();
+            if(demonBehaviour != null) {
+                groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
             }
             else {
                 Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find DemonBehaviour");
             }
 
-            if(groupBehaviour != null) {
+            if(groupManager != null) {
                 if(player != null) {
                     GroupsInRangeDetector groupsInRangeDetector = player.GetComponentInChildren<GroupsInRangeDetector>();
                     
                     if(groupsInRangeDetector != null) {
 
-                        if (groupsInRangeDetector.IsTheGroupInRange(groupBehaviour.ThisGroupName)) { 
-                            groupsInRangeDetector.DecreaseImpInRangeCount(groupBehaviour.ThisGroupName);
+                        if (groupsInRangeDetector.IsTheGroupInRange(groupManager.ThisGroupName)) { 
+                            groupsInRangeDetector.DecreaseImpInRangeCount(groupManager.ThisGroupName);
                             Debug.Log(this.transform.root.gameObject.name + " is dead before leaving the trigger and his group ImpsInRannge count is decreased");
                         }
                     }
@@ -88,7 +105,7 @@ public class ImpInRange : MonoBehaviour
         }    
     }
 
-    private void OnReincarnation() { 
+    private void OnReincarnation(GameObject player) { 
         this.enabled = false;    
     }
 }

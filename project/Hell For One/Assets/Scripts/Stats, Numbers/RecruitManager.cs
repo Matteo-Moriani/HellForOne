@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RecruitManager : MonoBehaviour
 {
-    private GroupBehaviour[] groups = new GroupBehaviour[ 4 ];
+    // TODO - Optimize
+    //private GroupBehaviour[] groups = new GroupBehaviour[ 4 ];
     private AllyDemonSpawnerTest allyDemonSpawnerTest;
     private bool timerStarted;
     private float timeWhenTimerStarted;
@@ -15,11 +16,14 @@ public class RecruitManager : MonoBehaviour
     public int CountImpsRecruiting()
     {
         int impsRecruiting = 0;
-        foreach ( GroupBehaviour groupBehaviour in groups )
+        foreach ( GameObject group in GroupsManager.Instance.Groups )
         {
+            GroupBehaviour groupBehaviour = group.GetComponent<GroupBehaviour>();
+            GroupManager groupManager = group.GetComponent<GroupManager>();
+
             if ( groupBehaviour.currentState == GroupBehaviour.State.Recruit )
             {
-                impsRecruiting += groupBehaviour.DemonsInGroup;
+                impsRecruiting += groupManager.ImpsInGroupNumber;
             }
         }
 
@@ -28,10 +32,10 @@ public class RecruitManager : MonoBehaviour
 
     void Awake()
     {
-        groups[ 0 ] = GameObject.Find( "GroupAzure" ).GetComponent<GroupBehaviour>();
-        groups[ 1 ] = GameObject.Find( "GroupPink" ).GetComponent<GroupBehaviour>();
-        groups[ 2 ] = GameObject.Find( "GroupGreen" ).GetComponent<GroupBehaviour>();
-        groups[ 3 ] = GameObject.Find( "GroupYellow" ).GetComponent<GroupBehaviour>();
+        //groups[ 0 ] = GameObject.Find( "GroupAzure" ).GetComponent<GroupBehaviour>();
+        //groups[ 1 ] = GameObject.Find( "GroupPink" ).GetComponent<GroupBehaviour>();
+        //groups[ 2 ] = GameObject.Find( "GroupGreen" ).GetComponent<GroupBehaviour>();
+        //groups[ 3 ] = GameObject.Find( "GroupYellow" ).GetComponent<GroupBehaviour>();
 
         allyDemonSpawnerTest = GameObject.Find( "AllyDemonSpawner" ).GetComponent<AllyDemonSpawnerTest>();
     }

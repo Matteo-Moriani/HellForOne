@@ -27,11 +27,11 @@ public class TacticsManager : MonoBehaviour
     //          remove this if the new solution works better
     //private Group[] groupsArray;
     
-    private Dictionary<GroupBehaviour.Group, GameObject> groupsDict = new Dictionary<GroupBehaviour.Group, GameObject>();
+    private Dictionary<GroupManager.Group, GameObject> groupsDict = new Dictionary<GroupManager.Group, GameObject>();
 
     [SerializeField]
     //private Group currentShowedGroup;
-    private GroupBehaviour.Group currentMostRappresentedGroup;
+    private GroupManager.Group currentMostRappresentedGroup;
 
     private int tacticsIndex = 0;
 
@@ -45,7 +45,7 @@ public class TacticsManager : MonoBehaviour
     /// <summary>
     /// Current most rappresented group in range
     /// </summary>
-    public GroupBehaviour.Group CurrentMostRappresentedGroup { get => currentMostRappresentedGroup; private set => currentMostRappresentedGroup = value; }
+    public GroupManager.Group CurrentMostRappresentedGroup { get => currentMostRappresentedGroup; private set => currentMostRappresentedGroup = value; }
 
     public void FillArrays()
     {
@@ -56,24 +56,9 @@ public class TacticsManager : MonoBehaviour
             tacticsIndex++;
         }
 
-        // TODO - used for HUD and rotate groups, remove this
-        /*
-        groupsArray = new GroupBehaviour.Group[ 4 ];
-        foreach ( GroupBehaviour.Group g in ( GroupBehaviour.Group[] ) Enum.GetValues( typeof( GroupBehaviour.Group ) ) )
+        foreach (GroupManager.Group g in (GroupManager.Group[])Enum.GetValues(typeof(GroupManager.Group)))
         {
-            if( g != GroupBehaviour.Group.None) {
-                groupsArray[groupsIndex] = g;
-                groupsIndex++;
-            }
-            else { 
-                Debug.Log(this.gameObject.name + " TacticsManager.FillArrays is ignoring GroupBehaviour.Group.None");    
-            }
-        }
-        */
-
-        foreach (GroupBehaviour.Group g in (GroupBehaviour.Group[])Enum.GetValues(typeof(GroupBehaviour.Group)))
-        {
-            if (g != GroupBehaviour.Group.None)
+            if (g != GroupManager.Group.None)
             {
                 groupsDict[g] = GameObject.Find(g.ToString());
             }
@@ -85,26 +70,9 @@ public class TacticsManager : MonoBehaviour
 
     }
 
-    // TODO - used for HUD and rotate groups, remove this
-    public int IncrementCircularArrayIndex( int index, int arrayLength )
+    private void AssignOrderToGroup( GroupBehaviour.State state, GroupManager.Group group )
     {
-        return (index + 1) % arrayLength;
-    }
-
-    // TODO - used for HUD and rotate groups, remove this
-    public int DecrementCircularArrayIndex( int index, int arrayLength )
-    {
-        return (index + arrayLength - 1) % arrayLength;
-    }
-
-    public void ConfirmOrder()
-    {
-        cross = true;
-    }
-
-    private void AssignOrderToGroup( GroupBehaviour.State state, GroupBehaviour.Group group )
-    {
-        if(group != GroupBehaviour.Group.None) {
+        if(group != GroupManager.Group.None) {
             // TODO - optimize this
             // GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
 
@@ -132,10 +100,10 @@ public class TacticsManager : MonoBehaviour
     /// <param name="state">The order to assing</param>
     public void AllGroupsOrder(GroupBehaviour.State state )
     {
-        AssignOrderToGroup( state, GroupBehaviour.Group.GroupAzure );
-        AssignOrderToGroup( state, GroupBehaviour.Group.GroupPink );
-        AssignOrderToGroup( state, GroupBehaviour.Group.GroupGreen );
-        AssignOrderToGroup( state, GroupBehaviour.Group.GroupYellow );
+        AssignOrderToGroup( state, GroupManager.Group.GroupAzure );
+        AssignOrderToGroup( state, GroupManager.Group.GroupPink );
+        AssignOrderToGroup( state, GroupManager.Group.GroupGreen );
+        AssignOrderToGroup( state, GroupManager.Group.GroupYellow );
     }
 
     // TODO - used for HUD and rotate groups, remove this 
@@ -170,7 +138,7 @@ public class TacticsManager : MonoBehaviour
         if (groupsInRangeDetector != null) {
             //canAssingOrder = groupsInRangeDetector.IsTheGroupInRange(currentShowedGroup);
 
-            canAssingOrder = GroupsInRangeDetector.MostRappresentedGroupInRange != GroupBehaviour.Group.None;
+            canAssingOrder = GroupsInRangeDetector.MostRappresentedGroupInRange != GroupManager.Group.None;
         }
         else
         {

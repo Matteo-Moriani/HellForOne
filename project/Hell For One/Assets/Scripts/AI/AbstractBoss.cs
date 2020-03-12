@@ -26,7 +26,6 @@ public abstract class AbstractBoss : MonoBehaviour {
     private float absMaxTargetDistFromCenter;       // around arena ray - 1
     
     // while these not
-    private GameObject[] demonGroups;
     private GameObject player;
     private float[] aggroValues;
     private float[] probability;
@@ -70,7 +69,6 @@ public abstract class AbstractBoss : MonoBehaviour {
     public bool IsWalking { get => isWalking; set => isWalking = value; }
     public bool IsInPosition { get => isIdle; set => isIdle = value; }
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
-    public GameObject[] DemonGroups { get => demonGroups; set => demonGroups = value; }
     public GameObject Player { get => player; set => player = value; }
     public float[] AggroValues { get => aggroValues; set => aggroValues = value; }
     public float[] Probability { get => probability; set => probability = value; }
@@ -124,8 +122,8 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public bool EnemiesAreDead() {
         int enemies = 0;
-        foreach(GameObject demonGroup in DemonGroups) {
-            enemies += demonGroup.GetComponent<GroupBehaviour>().GetDemonsNumber();
+        foreach(GameObject demonGroup in GroupsManager.Instance.Groups) {
+            enemies += demonGroup.GetComponent<GroupManager>().ImpsInGroupNumber;
         }
         if(GameObject.FindGameObjectWithTag("Player"))
             enemies += 1;
@@ -242,17 +240,10 @@ public abstract class AbstractBoss : MonoBehaviour {
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>();
         ArenaCenter = GameObject.FindWithTag("ArenaCenter");
 
-        // TODO - find a better way to do this
-        DemonGroups = new GameObject[GameObject.FindGameObjectsWithTag("Group").Length];
-        DemonGroups[0] = GameObject.Find("GroupAzure");
-        DemonGroups[1] = GameObject.Find("GroupPink");
-        DemonGroups[2] = GameObject.Find("GroupGreen");
-        DemonGroups[3] = GameObject.Find("GroupYellow");
-
         Player = GameObject.FindGameObjectWithTag("Player");
         Hp = Stats.health;
-        AggroValues = new float[DemonGroups.Length + 1];
-        Probability = new float[DemonGroups.Length + 2];
+        AggroValues = new float[GroupsManager.Instance.Groups.Length + 1];
+        Probability = new float[GroupsManager.Instance.Groups.Length + 2];
         Probability[0] = 0f;
         FaceCR = StartCoroutine(FaceEvery(FacingIntervall));
 
@@ -265,7 +256,7 @@ public abstract class AbstractBoss : MonoBehaviour {
         if(!ArenaCenter)
             ArenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
-        if(!DemonsReady && DemonGroups[0].GetComponent<GroupBehaviour>().CheckDemons()) {
+        if(!DemonsReady && GroupsManager.Instance.Groups[0].GetComponent<GroupBehaviour>().AllImpsFoundGroup()) {
             DemonsReady = true;
             StartCoroutine(MoveThroughFSM());
         }
@@ -367,11 +358,11 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public GameObject ClosestGroupTo(Vector3 position) {
 
-        GameObject closest = DemonGroups[0];
+        GameObject closest = GroupsManager.Instance.Groups[0];
         float minDist = float.MaxValue;
 
-        foreach(GameObject group in DemonGroups) {
-            if(group.GetComponent<GroupBehaviour>().IsEmpty() == false) {
+        foreach(GameObject group in GroupsManager.Instance.Groups) {
+            if(group.GetComponent<GroupManager>().IsEmpty() == false) {
                 if((group.transform.position - position).magnitude < minDist) {
                     minDist = (group.transform.position - position).magnitude;
                     closest = group;
@@ -384,9 +375,9 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public GameObject ChooseCentralTarget() {
         TargetGroup = ClosestGroupTo(ArenaCenter.transform.position);
-        foreach(GameObject demon in TargetGroup.GetComponent<GroupBehaviour>().demons) {
-            if(demon != null) {
-                return demon;
+        foreach(GameObject imp in TargetGroup.GetComponent<GroupManager>().Imps) {
+            if(imp != null) {
+                return imp;
             }
         }
 
@@ -395,7 +386,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     }
 
     public GameObject[] GetDemonGroups() {
-        return DemonGroups;
+        return GroupsManager.Instance.Groups;
     }
 
     public void ChangeTarget(GameObject newTarget) {
@@ -415,19 +406,19 @@ public abstract class AbstractBoss : MonoBehaviour {
     public void ChooseByAggro() {
         float totalAggro = 0f;
 
-        for(int i = 0; i < DemonGroups.Length; i++) {
+        for(int i = 0; i < GroupsManager.Instance.Groups.Length; i++) {
             float groupAggro = 0f;
             // if the group is empty, I give to the group a temporary value of zero
-            if(!DemonGroups[i].GetComponent<GroupBehaviour>().IsEmpty())
-                groupAggro = DemonGroups[i].GetComponent<GroupAggro>().GetAggro();
+            if(!GroupsManager.Instance.Groups[i].GetComponent<GroupManager>().IsEmpty())
+                groupAggro = GroupsManager.Instance.Groups[i].GetComponent<GroupAggro>().GetAggro();
             AggroValues[i] = groupAggro;
             totalAggro = totalAggro + groupAggro;
             Probability[i + 1] = totalAggro;
         }
 
-        AggroValues[DemonGroups.Length] = Player.GetComponent<Stats>().Aggro;
+        AggroValues[GroupsManager.Instance.Groups.Length] = Player.GetComponent<Stats>().Aggro;
         totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
-        Probability[DemonGroups.Length + 1] = totalAggro;
+        Probability[GroupsManager.Instance.Groups.Length + 1] = totalAggro;
 
         float random = Random.Range(0f, totalAggro);
 
@@ -439,8 +430,8 @@ public abstract class AbstractBoss : MonoBehaviour {
             if(random > Probability[i - 1] && random <= Probability[i]) {
                 // if i'm talking about a group (player probability is in the last slot of the array)
                 if(i < Probability.Length - 1) {
-                    TargetGroup = DemonGroups[i - 1];
-                    GameObject tempDemon = TargetGroup.GetComponent<GroupBehaviour>().GetRandomDemon();
+                    TargetGroup = GroupsManager.Instance.Groups[i - 1];
+                    GameObject tempDemon = TargetGroup.GetComponent<GroupManager>().GetRandomImp();
 
                     //check if the chosen demon is too far from center
                     if((tempDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter)
