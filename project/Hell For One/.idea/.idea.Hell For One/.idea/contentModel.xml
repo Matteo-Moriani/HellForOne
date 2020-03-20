@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\GitRepos\HellForOne\project\Hell For One" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="3DArt" t="Include">
+          <e p="3DAsset" t="Include">
+            <e p="Lava_Flowing_Shader" t="Include">
+              <e p="ReadMe.txt" t="Include" />
+              <e p="Scripts" t="Include">
+                <e p="ScrollingUVs_Layers.cs" t="Include" />
+              </e>
+              <e p="Shaders" t="Include">
+                <e p="Diffuse_Lava_Distort.shader" t="Include" />
+                <e p="Unlit_Lava_Distort.shader" t="Include" />
+                <e p="Unlit_Lava_Distort_Transparent.shader" t="Include" />
+                <e p="Unlit_Lava_Simple.shader" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="3DVFX" t="Include">
+            <e p="firewall2" t="Include">
+              <e p="FXFire" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="WFX_S Particle Add A8.shader" t="Include" />
+                </e>
+              </e>
+              <e p="Procedural fire" t="Include">
+                <e p="Shaders" t="Include">
+                  <e p="FireSphere.shader" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Editor" t="Include">
+          <e p="CreateCone.cs" t="Include" />
+          <e p="GameObjectSearcherCustomEditor.cs" t="Include" />
+          <e p="Instant Screenshot" t="Include">
+            <e p="ScreenshotTaker.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Materials" t="Include">
+          <e p="Outline.shader" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="ActiveBattle.cs" t="Include" />
+          <e p="Aggro" t="Include">
+            <e p="ImpAggro.cs" t="Include" />
+          </e>
+          <e p="AI" t="Include">
+            <e p="AbstractBoss.cs" t="Include" />
+            <e p="BossBehavior.cs" t="Include" />
+            <e p="BossPositions.cs" t="Include" />
+            <e p="CRBehaviorTree.cs" t="Include" />
+            <e p="DemonMovement.cs" t="Include" />
+            <e p="FSM.cs" t="Include" />
+            <e p="GlobalAttack.cs" t="Include" />
+            <e p="GroupBehaviour.cs" t="Include" />
+            <e p="GroupFinder.cs" t="Include" />
+            <e p="GroupMovement.cs" t="Include" />
+            <e p="GroupsFormation.cs" t="Include" />
+            <e p="LittleEnemyBehaviour.cs" t="Include" />
+            <e p="MeleePositionScript.cs" t="Include" />
+            <e p="MidBossBehavior.cs" t="Include" />
+            <e p="PushAway.cs" t="Include" />
+          </e>
+          <e p="AllyDemonSpawnerTest.cs" t="Include" />
+          <e p="Animations" t="Include">
+            <e p="AnimationsManager.cs" t="Include" />
+            <e p="BossAnimator.cs" t="Include" />
+            <e p="ImpAnimator.cs" t="Include" />
+            <e p="MidBossAnimator.cs" t="Include" />
+            <e p="MobAnimator.cs" t="Include" />
+            <e p="Spectator.cs" t="Include" />
+          </e>
+          <e p="Audio" t="Include">
+            <e p="Audio.cs" t="Include" />
+            <e p="AudioManager.cs" t="Include" />
+            <e p="MusicManager.cs" t="Include" />
+          </e>
+          <e p="BossDollyCamera.cs" t="Include" />
+          <e p="BossFaceRotations.cs" t="Include" />
+          <e p="ChildrenObjectsManager.cs" t="Include" />
+          <e p="Combat System" t="Include">
+            <e p="AllyBlink.cs" t="Include" />
+            <e p="AttackCollider.cs" t="Include" />
+            <e p="Combat.cs" t="Include" />
+            <e p="CombatManager.cs" t="Include" />
+            <e p="HFO_2.0_CombatSystem" t="Include">
+              <e p="Block.cs" t="Include" />
+              <e p="CombatSystemManager.cs" t="Include" />
+              <e p="EnvironmentalCombat.cs" t="Include" />
+              <e p="IdleCollider.cs" t="Include" />
+              <e p="IdleCombat.cs" t="Include" />
+              <e p="IdleCombatManager.cs" t="Include" />
+              <e p="KnockbackCaster.cs" t="Include" />
+              <e p="KnockbackReceiver.cs" t="Include" />
+              <e p="MagicCombat.cs" t="Include" />
+              <e p="NormalAttack.cs" t="Include" />
+              <e p="NormalCombat.cs" t="Include" />
+              <e p="NormalCombatCollider.cs" t="Include" />
+              <e p="NormalCombatManager.cs" t="Include" />
+              <e p="StunCaster.cs" t="Include" />
+              <e p="StunReceiver.cs" t="Include" />
+            </e>
+            <e p="LittleEnemyAutoAttackTest.cs" t="Include" />
+            <e p="MobBlink.cs" t="Include" />
+            <e p="PlayerHitFeedback.cs" t="Include" />
+            <e p="Ranged units" t="Include">
+              <e p="Lance.cs" t="Include" />
+              <e p="LanceAttackColliderManager.cs" t="Include" />
+              <e p="Lancer.cs" t="Include" />
+              <e p="ObjectsPooler.cs" t="Include" />
+            </e>
+          </e>
+          <e p="CrownArrow.cs" t="Include" />
+          <e p="DemonsDollyCamera.cs" t="Include" />
+          <e p="DollyCamera1.cs" t="Include" />
+          <e p="DollyTrackTargetMovement.cs" t="Include" />
+          <e p="Events" t="Include">
+            <e p="GameEvents.cs" t="Include" />
+          </e>
+          <e p="GameObjectSearcher.cs" t="Include" />
+          <e p="Groups" t="Include">
+            <e p="GroupCircle.cs" t="Include" />
+            <e p="GroupManager.cs" t="Include" />
+            <e p="GroupsInRangeDetector.cs" t="Include" />
+            <e p="GroupsManager.cs" t="Include" />
+            <e p="ImpInRange.cs" t="Include" />
+            <e p="OutlineGroup.cs" t="Include" />
+          </e>
+          <e p="Hat.cs" t="Include" />
+          <e p="Input" t="Include">
+            <e p="CameraInputAssign.cs" t="Include" />
+            <e p="Controller.cs" t="Include" />
+            <e p="Controls.cs" t="Include" />
+            <e p="Dash.cs" t="Include" />
+            <e p="GeneralInput.cs" t="Include" />
+            <e p="InputManager.cs" t="Include" />
+            <e p="InputTester.cs" t="Include" />
+            <e p="MenuInput.cs" t="Include" />
+            <e p="PlayerInput.cs" t="Include" />
+            <e p="PS4Controller.cs" t="Include" />
+            <e p="TacticsManager.cs" t="Include" />
+          </e>
+          <e p="LockCameraTargetManager.cs" t="Include" />
+          <e p="Managers" t="Include">
+            <e p="AlliesManager.cs" t="Include" />
+            <e p="BattleEventsHandler.cs" t="Include" />
+            <e p="BattleEventsManager.cs" t="Include" />
+            <e p="CombatEventsManager.cs" t="Include" />
+            <e p="EnemiesManager.cs" t="Include" />
+            <e p="LevelManager.cs" t="Include" />
+            <e p="Managers.cs" t="Include" />
+          </e>
+          <e p="NewCameraManager.cs" t="Include" />
+          <e p="Orders" t="Include">
+            <e p="Recruit.cs" t="Include" />
+            <e p="RecruitSpawner.cs" t="Include" />
+            <e p="Support.cs" t="Include" />
+          </e>
+          <e p="PlayerScriptedMovements.cs" t="Include" />
+          <e p="Reincarnation.cs" t="Include" />
+          <e p="Rendering" t="Include">
+            <e p="MaterialsManager.cs" t="Include" />
+          </e>
+          <e p="Scene, UI" t="Include">
+            <e p="BlackStripe.cs" t="Include" />
+            <e p="BossHealthBar.cs" t="Include" />
+            <e p="CameraManager.cs" t="Include" />
+            <e p="CanvasDebug.cs" t="Include" />
+            <e p="ControlsScript.cs" t="Include" />
+            <e p="Credits.cs" t="Include" />
+            <e p="FPSLimiter.cs" t="Include" />
+            <e p="GameOver.cs" t="Include" />
+            <e p="GroupHealthBar.cs" t="Include" />
+            <e p="HealthBarManager.cs" t="Include" />
+            <e p="HUD.cs" t="Include" />
+            <e p="LoadingScreen.cs" t="Include" />
+            <e p="Mana.cs" t="Include" />
+            <e p="Menu.cs" t="Include" />
+            <e p="NewHUD.cs" t="Include" />
+            <e p="Options.cs" t="Include" />
+            <e p="PauseScreen.cs" t="Include" />
+            <e p="ScreensManager.cs" t="Include" />
+            <e p="SelectedUnitEffects.cs" t="Include" />
+            <e p="TitleScreen.cs" t="Include" />
+          </e>
+          <e p="Stats, Numbers" t="Include">
+            <e p="GroupAggro.cs" t="Include" />
+            <e p="GroupSupport.cs" t="Include" />
+            <e p="RecruitManager.cs" t="Include" />
+            <e p="Stats.cs" t="Include" />
+          </e>
+          <e p="TimePlayerKillerTest.cs" t="Include" />
+          <e p="Triggers" t="Include">
+            <e p="BossFightTrigger.cs" t="Include" />
+            <e p="InvisibleWallsTrigger.cs" t="Include" />
+            <e p="LittleEnemiesFightTrigger.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="Surface_Outlined.shader" t="Include" />
+        </e>
+      </e>
+      <e p="Hell For One.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+    <e p="C:\Users\aless\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\aless\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Hell For One.1138560121.00" t="ExcludeRecursive" />
+  </component>
+</project>
