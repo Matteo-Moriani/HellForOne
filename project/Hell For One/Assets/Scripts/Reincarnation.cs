@@ -17,12 +17,30 @@ public class Reincarnation : MonoBehaviour
 
     private Coroutine reicarnationCR = null;
 
-    //private GameObjectSearcher gameObjectSearcher;
-    //private CinemachineFreeLook cinemachineFreeLook;
-    //private GameObject virtualCamera;
+    #endregion
 
-    private Action<GameObject> OnReincarnation;
+    #region Delegates and events
 
+    public delegate void OnReincarnation(GameObject newPlayer);
+    public event OnReincarnation onReincarnation;
+
+    public delegate void OnLateReincarnation(GameObject newPlayer);
+    public event OnLateReincarnation onLateReincarnation;
+    
+    #region Methods
+
+    private void RaiseOnReincarnation(GameObject newPlayer)
+    {
+        onReincarnation?.Invoke(newPlayer);
+    }
+
+    private void RaiseOnLateReincarnation(GameObject newPlayer)
+    {
+        onLateReincarnation?.Invoke(newPlayer);
+    }
+
+    #endregion
+        
     #endregion
 
     #region methods
@@ -32,10 +50,6 @@ public class Reincarnation : MonoBehaviour
         if(this.gameObject.tag == "Player") {
             player = gameObject;
         }
-        
-        //gameObjectSearcher = GameObject.FindGameObjectWithTag( "ChildrenSearcher" ).GetComponent<GameObjectSearcher>();
-        //cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
-        //virtualCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" );
     }
 
     public void Reincarnate()
@@ -138,33 +152,20 @@ public class Reincarnation : MonoBehaviour
         {
             player.tag = "Player";
             player.layer = LayerMask.NameToLayer( "Player" );
-            player.GetComponent<Stats>().health = 4f;
+            //player.GetComponent<Stats>().health = 4f;
 
-            DemonBehaviour demonBehaviour = player.GetComponent<DemonBehaviour>();
-            if(demonBehaviour != null) {
-                /*
-                GroupManager groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
-
-                // Removing the player from group
-                if(groupManager != null) { 
-                    groupManager.RemoveImp(player);    
-                }
-                */
-
-                // Update group aggro
-                GroupAggro groupAggro  = demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>();
-                if(groupAggro != null) { 
-                    groupAggro.UpdateGroupAggro();            
-                }
-
+            // TODO - Implement new GroupSupport
+            // NOTE - GroupFinder Reincarnation is already managed in GroupFInder
+            //GroupFinder groupFinder = player.GetComponent<GroupFinder>();
+            //if(groupFinder != null) {
                 // Update supporting units
-                GroupSupport groupSupport = demonBehaviour.groupBelongingTo.GetComponent<GroupSupport>();
-                if(groupSupport != null) { 
-                    groupSupport.UpdateSupportingUnits();    
-                }
+                //GroupSupport groupSupport = groupFinder.GroupBelongingTo.GetComponent<GroupSupport>();
+                //if(groupSupport != null) { 
+                    //groupSupport.UpdateSupportingUnits();    
+                //}
 
-                demonBehaviour.enabled = false;
-            }
+                //groupFinder.enabled = false;
+            //}
 
             NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
             if ( newCameraManager )
@@ -234,14 +235,7 @@ public class Reincarnation : MonoBehaviour
                 rb.useGravity = true;
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             }
-
-            // Reset Combat
-            Combat playerCombat = player.GetComponent<Combat>();
-            if (!player.GetComponent<Stats>().CombatIdle)
-            {
-                playerCombat.ResetCombat();
-            }
-
+            
             // Update allies list
             AlliesManager.Instance.ManagePlayerReincarnation(player);
 
@@ -252,6 +246,7 @@ public class Reincarnation : MonoBehaviour
             Reincarnation newPlayerReincarnation = player.GetComponent<Reincarnation>();
 
             newPlayerReincarnation.RaiseOnReincarnation(player);
+            newPlayerReincarnation.RaiseOnLateReincarnation(player);
 
             // Activate groups in range detection
             // TODO - shouold this be activated after picking up the crown?
@@ -260,28 +255,6 @@ public class Reincarnation : MonoBehaviour
             if(groupsInRangeDetector != null) { 
                 groupsInRangeDetector.gameObject.SetActive(true);    
             }
-        }
-    }
-
-    /// <summary>
-    /// Register a method to OnReincarnation event
-    /// </summary>
-    /// <param name="method">The method to register</param>
-    public void RegisterOnReincarnation(Action<GameObject> method) { 
-        OnReincarnation += method;     
-    }
-
-    /// <summary>
-    /// Unregister a method to OnReincarnation event
-    /// </summary>
-    /// <param name="method">The method to unregister</param>
-    public void UnregisterOnReincarnation(Action<GameObject> method) { 
-        OnReincarnation -= method;    
-    }
-
-    private void RaiseOnReincarnation(GameObject player) { 
-        if(OnReincarnation != null) { 
-            OnReincarnation(player);    
         }
     }
 

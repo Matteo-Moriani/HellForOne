@@ -3,48 +3,77 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MidBossAnimator : MonoBehaviour {
+
+    #region Fields
+
     private Animator animator;
     private AnimationsManager animationsManager;
     private MidBossBehavior myBehaviour;
-
-    public Animator Animator { get => animator; set => animator = value; }
-    int i = 0;
+    private Stats stats;
     
-
     private CombatEventsManager combatEventsManager;
     private float groupAttackSpeedMultiplier = 1f;
 
+    private NormalCombat normalCombat;
+    private MidBossBehavior midBossBehaviour;
+    
+    #endregion
+
+    #region Unity methods
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+        animationsManager = GetComponent<AnimationsManager>();
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        myBehaviour = gameObject.GetComponent<MidBossBehavior>();
+        stats = GetComponent<Stats>();
+        
+        normalCombat = GetComponentInChildren<NormalCombat>();
+        midBossBehaviour = GetComponent<MidBossBehavior>();
+    }
+    
     private void OnEnable() {
-        if(combatEventsManager != null) {
-            combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
-            combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
-            combatEventsManager.onStartIdle += PlayIdleAnimation;
-            combatEventsManager.onStartMoving += PlayMoveAnimation;
-            combatEventsManager.onDeath += PlayDeathAnimation;
-            combatEventsManager.onStopSingleAttack += StopAnimations;
-            combatEventsManager.onStopGroupAttack += StopAnimations;
+        if (stats != null)
+        {
+            stats.onDeath += OnDeath;
+        }
+        
+        if (normalCombat != null)
+        {
+            normalCombat.onStartNormalAttack += OnStartNormalAttack;
+            normalCombat.onStopNormalAttack += OnStopNormalAttack;
+        }
+
+        if (midBossBehaviour != null)
+        {
+            midBossBehaviour.onStartIdle += OnStartIdle;
+            midBossBehaviour.onStartMoving += OnStartMoving;
         }
     }
 
     private void OnDisable() {
-        if(combatEventsManager != null) {
-            combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
-            combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
-            combatEventsManager.onStartIdle -= PlayIdleAnimation;
-            combatEventsManager.onStartMoving -= PlayMoveAnimation;
-            combatEventsManager.onDeath -= PlayDeathAnimation;
-            combatEventsManager.onStopSingleAttack -= StopAnimations;
-            combatEventsManager.onStopGroupAttack -= StopAnimations;
+        if (stats != null)
+        {
+            stats.onDeath -= OnDeath;
+        }
+        
+        if (normalCombat != null)
+        {
+            normalCombat.onStartNormalAttack -= OnStartNormalAttack;
+            normalCombat.onStopNormalAttack -= OnStopNormalAttack;
+        }
+
+        if (midBossBehaviour != null)
+        {
+            midBossBehaviour.onStartIdle -= OnStartIdle;
+            midBossBehaviour.onStartMoving -= OnStartMoving;
         }
     }
     
-    private void Awake() {
-        Animator = GetComponent<Animator>();
-        animationsManager = GetComponent<AnimationsManager>();
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        myBehaviour = gameObject.GetComponent<MidBossBehavior>();
-    }
-    
+    #endregion
+
+    #region Methods
+
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isSingleAttacking", true);
@@ -73,14 +102,50 @@ public class MidBossAnimator : MonoBehaviour {
 
 
     public void StopAnimations() {
-        Animator.SetBool("isDying", false);
-        Animator.SetBool("isSingleAttacking", false);
-        Animator.SetBool("isGroupAttacking", false);
-        Animator.SetBool("isMoving", false);
-        Animator.SetBool("isIdle", false);
+        animator.SetBool("isDying", false);
+        animator.SetBool("isSingleAttacking", false);
+        animator.SetBool("isGroupAttacking", false);
+        animator.SetBool("isMoving", false);
+        animator.SetBool("isIdle", false);
     }
 
-    public IEnumerator WaitAttackAnimation(float totalTime, float moveTimePercentage) {
+    #endregion
+
+    #region Event handlers
+
+    private void OnDeath(Stats sender)
+    {
+        PlayDeathAnimation();
+    }
+    
+    private void OnStartMoving()
+    {
+        PlayMoveAnimation();
+    }
+
+    private void OnStartIdle()
+    {
+        PlayIdleAnimation();
+    }
+
+    private void OnStopNormalAttack(NormalCombat sender, NormalAttack normalattack)
+    {
+        StopAnimations();
+    }
+
+    private void OnStartNormalAttack(NormalCombat sender, NormalAttack normalattack)
+    {
+        if (normalattack.CanHitMultipleTargets)
+        {
+            PlayGroupAttackAnimation();
+        }
+    }
+
+    #endregion
+
+    #region Corotuines
+
+    private IEnumerator WaitAttackAnimation(float totalTime, float moveTimePercentage) {
         
         yield return new WaitForSeconds(totalTime * moveTimePercentage);
         // a metà attacco smetto di muovermi verso il player
@@ -92,6 +157,9 @@ public class MidBossAnimator : MonoBehaviour {
 
         yield return new WaitForSeconds(totalTime * (1 - moveTimePercentage));
         myBehaviour.FaceCRisActive = true;
-        combatEventsManager.RaiseOnStartIdle();
+        //combatEventsManager.RaiseOnStartIdle();
+        PlayIdleAnimation();
     }
+
+    #endregion
 }

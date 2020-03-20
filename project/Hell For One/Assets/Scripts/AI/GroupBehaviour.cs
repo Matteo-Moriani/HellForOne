@@ -3,15 +3,117 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class GroupBehaviour : MonoBehaviour {
+public class GroupBehaviour : MonoBehaviour
+{
+    [SerializeField]
+    private NormalAttack meleeAttack;
+
+    [SerializeField] 
+    private NormalAttack rangedAttack;
     
     public float rateo = 2f;
     private Coroutine continuousAttack;
     
     private bool impsAlreadyChecked = false;
-
+    private bool isSupportOrderGiven = false;
+    private bool isTankOrderGiven = false;
+    private bool isRecruitOrderGiven = false;
+    
     private GroupManager groupManager;
 
+    // TODO - Stuff missing
+    #region Delegates and events
+
+    // TODO - Rethink this, it works but it's not clean-------------------------------------------
+    
+    // TODO - This is used to update imp aggro and give right block chance for orders
+    public delegate void OnOrderChanged(GroupBehaviour sender, GroupBehaviour.State newState);
+    public event OnOrderChanged onOrderChanged;
+
+    // TODO - This is used only to assign right aggro to Tank state
+    // TODO - Do we need OrderGiven events for other orders too?
+    public delegate void OnTankOrderGiven(GroupBehaviour sender);
+    public event OnTankOrderGiven onTankOrderGiven;
+
+    //----------------------------------------------------------------------------------------------
+    
+    // TODO - Refactor this using an abstract class for orders--------------
+    
+    // Support
+    public delegate void OnStartSupportOrderGiven(GroupBehaviour sender);
+    public event OnStartSupportOrderGiven onStartSupportOrderGiven;
+
+    public delegate void OnStopSupportOrderGiven(GroupBehaviour sender);
+    public event OnStopSupportOrderGiven onStopSupportOrderGiven;
+    
+    // Tank
+    public delegate void OnStartTankOrderGiven(GroupBehaviour sender);
+    public event OnStartTankOrderGiven onStartTankOrderGiven;
+
+    public delegate void OnStopTankOrderGiven(GroupBehaviour sender);
+    public event OnStopTankOrderGiven onStopTankOrderGiven;
+    
+    // Recruit
+    public delegate void OnStartRecruitOrderGiven(GroupBehaviour sender);
+    public event OnStartRecruitOrderGiven onStartRecruitOrderGiven;
+
+    public delegate void OnStopRecruitOrderGiven(GroupBehaviour sender);
+    public event OnStopRecruitOrderGiven onStopRecruitOrderGiven;
+    
+    //-------------------------------------------------------------------------
+    
+    #region Methods
+
+    private void RaiseOnStopTankOrderGiven()
+    {
+        isTankOrderGiven = false;
+        onStopTankOrderGiven?.Invoke(this);
+    }
+    
+    private void RaiseOnStartTankOrderGiven()
+    {
+        isTankOrderGiven = true;
+        onStartTankOrderGiven?.Invoke(this);
+    }
+    
+    private void RaiseOnStopRecruitOrderGiven()
+    {
+        isRecruitOrderGiven = false;
+        onStopRecruitOrderGiven?.Invoke(this);
+    }
+    
+    private void RaiseOnStartRecruitOrderGiven()
+    {
+        isRecruitOrderGiven = true;
+        onStartRecruitOrderGiven?.Invoke(this);
+    }
+    
+    private void RaiseOnStopSupportOrderGiven()
+    {
+        isSupportOrderGiven = false;
+        onStopSupportOrderGiven?.Invoke(this);
+    }
+    
+    private void RaiseOnStartSupportOrderGiven()
+    {
+        isSupportOrderGiven = true;
+        onStartSupportOrderGiven?.Invoke(this);
+    }
+
+    private void RaiseOnOrderChanged(GroupBehaviour.State newState)
+    {
+        onOrderChanged?.Invoke(this, newState);   
+    }
+
+    private void RaiseOnTankOrderGiven()
+    {
+        onTankOrderGiven?.Invoke(this);
+    }
+
+    #endregion
+    
+    #endregion
+    
     #region FSM 
 
     // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)
@@ -102,16 +204,12 @@ public class GroupBehaviour : MonoBehaviour {
         currentState = newState;
         ConfirmEffects();
         orderConfirmed = false;
-
-        GroupAggro groupAggro = gameObject.GetComponent<GroupAggro>();
-        groupAggro.UpdateGroupAggro();
-
+        
         if(currentState == State.Tank)
-            groupAggro.GroupAggroValue = Mathf.Max(Mathf.CeilToInt((groupAggro.CalculateAverageAggro() / GroupsManager.Instance.Groups.Length) * groupAggro.TankMultiplier), groupAggro.GroupAggroValue);
+            // Tank aggro was previously calculated and assigned here
+            RaiseOnTankOrderGiven();
         else if(currentState == State.MeleeAttack || currentState == State.RangeAttack)
             continuousAttack = StartCoroutine(AttackOneTime(rateo));
-
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>().RaiseAggro(groupAggro.OrderGivenMultiplier);
     }
 
     public void MeleeAttack() {
@@ -137,18 +235,20 @@ public class GroupBehaviour : MonoBehaviour {
         }
     }
 
+    // TODO - all demons from the group attack at the same time
     IEnumerator ActionAfterRandomDelay(GameObject demon, State action) {
-
-        Combat combat = demon.GetComponent<Combat>();
-
-        if(combat.enabled && demon.GetComponent<DemonMovement>().CanAct()) {
+        NormalCombat normalCombat = demon.GetComponentInChildren<NormalCombat>();
+        
+        if(normalCombat.enabled && demon.GetComponent<DemonMovement>().CanAct()) {
 
             switch(action) {
                 case State.MeleeAttack:
-                    combat.SingleAttack(target);
+                    // TODO - event to Start/Stop attack
+                    normalCombat.StartNormalAttack(meleeAttack);
                     break;
                 case State.RangeAttack:
-                    combat.RangedAttack(target);
+                    // TODO - event to Start/Stop attack
+                    normalCombat.StartNormalAttack(rangedAttack,target);
                     break;
                 default:
                     break;
@@ -161,47 +261,48 @@ public class GroupBehaviour : MonoBehaviour {
 
     }
 
-    public void StopAttack() {
+    private void StopAttack() {
         if(!AllImpsFoundGroup())
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-                combat.StopAttack();
+                // TODO - event to Start/Stop attack
+                NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
+                normalCombat.StopNormalAttack(meleeAttack);
             }
         }
         StopCoroutine(continuousAttack);
     }
 
-    public void TankStayAction() {
+    private void TankStayAction() {
         if(!AllImpsFoundGroup())
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
-                    combat.StartBlock();
+                    if(!isTankOrderGiven)
+                        RaiseOnStartTankOrderGiven();
                 }
                 else {
-                    combat.StopBlock();
+                    if(isTankOrderGiven)
+                        RaiseOnStopTankOrderGiven();
                 }
             }
         }
     }
 
-    public void StopTank() {
+    private void StopTank() {
         if(!AllImpsFoundGroup())
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-                combat.StopBlock();
+                if(isTankOrderGiven)
+                    RaiseOnStopTankOrderGiven();
             }
         }
     }
 
-    public void RangeAttack() {
+    private void RangeAttack() {
         if(!AllImpsFoundGroup())
             return;
         
@@ -222,44 +323,51 @@ public class GroupBehaviour : MonoBehaviour {
         }
     }
 
-    public void StopRangeAttack() {
+    private void StopRangeAttack() {
         if(!AllImpsFoundGroup())
             return;
 
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-                combat.StopRangedAttack();
+                //Combat combat = imp.GetComponent<Combat>();
+                NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
+
+                //ombat.StopRangedAttack();
+                normalCombat.StopNormalAttack(meleeAttack);
             }
         }
 
         StopCoroutine(continuousAttack);
     }
 
-    public void SupportStayAction() {
+    private void SupportStayAction() {
         if(!AllImpsFoundGroup())
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
                 if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
-                    combat.StartSupport();
+                    if(!isSupportOrderGiven)
+                        RaiseOnStartSupportOrderGiven();
                 }
                 else {
-                    combat.StopSupport();
+                    if(isSupportOrderGiven)
+                        RaiseOnStopSupportOrderGiven();
                 }
             }
         }
     }
 
-    public void StopSupport() {
+    private void StopSupport() {
         if(!AllImpsFoundGroup())
             return;
 
         foreach(GameObject imp in groupManager.Imps) {
-            if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-                combat.StopSupport();
+            if(imp)
+            {
+                if (isSupportOrderGiven)
+                {
+                    RaiseOnStopSupportOrderGiven();
+                }
             }
         }
     }
@@ -269,12 +377,16 @@ public class GroupBehaviour : MonoBehaviour {
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
+                //Combat combat = imp.GetComponent<Combat>();
                 if(BattleEventsHandler.IsInBossBattle && imp.GetComponent<DemonMovement>().CanAct()) {
-                    combat.StartRecruit();
+                    //combat.StartRecruit();
+                    //if(!isRecruitOrderGiven)
+                        RaiseOnStartRecruitOrderGiven();
                 }
                 else {
-                    combat.StopRecruit();
+                    //combat.StopRecruit();
+                    //if(isRecruitOrderGiven)
+                        RaiseOnStopSupportOrderGiven();
                 }
             }
         }
@@ -286,23 +398,25 @@ public class GroupBehaviour : MonoBehaviour {
 
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                Combat combat = imp.GetComponent<Combat>();
-                combat.StopRecruit();
+                //Combat combat = imp.GetComponent<Combat>();
+                //ombat.StopRecruit();
+                //if(isRecruitOrderGiven)
+                    RaiseOnStopRecruitOrderGiven();
             }
         }
     }
 
+    // Managed in Support
     // TODO - Parametrize this
-    public void UpdateSupportAggro() {
-        foreach(GameObject imp in groupManager.Imps) {
-            if(imp)
-                imp.GetComponent<Stats>().Aggro *= 1.08f;
-        }
-    }
+    //private void UpdateSupportAggro() {
+    //    //RaiseOnSupportStayAction();
+    //}
 
     #endregion
 
     #endregion
+
+    #region Methods
 
     public bool AllImpsFoundGroup()
     {
@@ -310,7 +424,7 @@ public class GroupBehaviour : MonoBehaviour {
         {
             foreach (GameObject go in AlliesManager.Instance.AlliesList)
             {
-                if (!go.GetComponent<DemonBehaviour>().groupFound)
+                if (go && !go.GetComponent<GroupFinder>().GroupFound)
                     return false;
             }
             
@@ -318,7 +432,19 @@ public class GroupBehaviour : MonoBehaviour {
         }
         return true;
     }
+    
+    public void AssignOrder(GroupBehaviour.State newState)
+    {
+        if (groupFSM.current.stateName == newState.ToString()) return;
+        
+        this.newState = newState;
+        orderConfirmed = true;
+        
+        RaiseOnOrderChanged(newState);
+    }
 
+    #endregion
+    
     public FSMState GetCurrentFSMState(State state) {
         switch(state) {
             case State.MeleeAttack:
@@ -349,17 +475,16 @@ public class GroupBehaviour : MonoBehaviour {
         groupManager = this.gameObject.GetComponent<GroupManager>();
     }
 
-    private void OnEnable()
-    {
-        AlliesManager.Instance.RegisterOnNewImpSpawned(OnNewImpSpawned);
-    }
-
     private void OnDisable()
     {
-        AlliesManager.Instance.UnregisterOnNewImpSpawned(OnNewImpSpawned);
+        AlliesManager.Instance.onNewImpSpawned -= OnNewImpSpawned;
     }
 
     void Start() {
+        // TODO: I don't know why but RecruitSpawner.OnEnable is called before AlliesManager.Awake, so
+        //    if we need to register to AlliedManager events we need to do it in Start
+        AlliesManager.Instance.onNewImpSpawned += OnNewImpSpawned;
+        
         currentState = State.MeleeAttack;
         newState = State.MeleeAttack;
         // Just to test
@@ -397,7 +522,8 @@ public class GroupBehaviour : MonoBehaviour {
 
         supportState.enterActions.Add(GeneralEnterAction);
         supportState.stayActions.Add(SupportStayAction);
-        supportState.stayActions.Add(UpdateSupportAggro);
+        // Managed in support
+        //supportState.stayActions.Add(UpdateSupportAggro);
         supportState.exitActions.Add(StopSupport);
 
         recruitState.enterActions.Add(GeneralEnterAction);
@@ -453,7 +579,7 @@ public class GroupBehaviour : MonoBehaviour {
         }
     }
  
-    private void OnNewImpSpawned()
+    private void OnNewImpSpawned(GameObject newImp)
     {
         impsAlreadyChecked = false;
     }

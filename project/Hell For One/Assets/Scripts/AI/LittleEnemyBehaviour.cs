@@ -17,6 +17,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
     private Animator animator;
     private Collider targetCollider;
     private Collider myCollider;
+    private Stats stats;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
@@ -25,6 +26,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        stats = GetComponent<Stats>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         combat = GetComponent<Combat>();
@@ -34,12 +36,12 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
     private void OnEnable()
     {
-        combatEventsManager.onDeath += OnDeath;
+        stats.onDeath += OnDeath;
     }
 
     private void OnDisable()
     {
-        combatEventsManager.onDeath -= OnDeath;
+        stats.onDeath -= OnDeath;
     }
 
     private void Start()
@@ -136,14 +138,14 @@ public class LittleEnemyBehaviour : MonoBehaviour
 
         // TODO - Find a better bools
         // TODO - Understand why they doesn't attack the player
-        if(!animator.GetBool("isMeleeAttacking")) {
-            if(targetDemon.GetComponent<Stats>().ThisUnitType == Stats.Type.Ally) {
-                if(HorizDistFromTargetBorders(targetDemon) < attackRange)
-                    combat.PlayerAttack();
-            } else
-                combat.PlayerAttack();
+        //if(!animator.GetBool("isMeleeAttacking")) {
+            //if(targetDemon.GetComponent<Stats>().ThisUnitType == Stats.Type.Ally) {
+                //if(HorizDistFromTargetBorders(targetDemon) < attackRange)
+                    //combat.PlayerAttack();
+            //} else
+                //combat.PlayerAttack();
 
-        }
+        //}
     }
 
     public IEnumerator AttackOneTime(float rateo) {
@@ -153,7 +155,7 @@ public class LittleEnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void OnDeath() { 
+    private void OnDeath(Stats sender) { 
         StopAllCoroutines();
         agent.enabled = false;
         isAlive = false;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OutlineGroup : MonoBehaviour
 {
+    #region Fields
+
     [SerializeField]
     [Tooltip("The material to use to outline this group")]
     private Material outlineMaterial;
@@ -15,6 +17,10 @@ public class OutlineGroup : MonoBehaviour
     private GroupManager groupManager;
     private bool isOutlined = false;
 
+    #endregion
+
+    #region Unity methods
+
     private void Awake()
     {
         groupManager = this.gameObject.GetComponent<GroupManager>();
@@ -23,16 +29,22 @@ public class OutlineGroup : MonoBehaviour
     private void OnEnable()
     {
         GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
-        groupManager.RegisterOnImpJoined(OnDemonJoined);
+
+        groupManager.onImpJoined += OnImpJoined;
     }
 
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
-        groupManager.UnregisterOnImpJoined(OnDemonJoined);
+        
+        groupManager.onImpJoined -= OnImpJoined;
 
         outlineMaterial.SetColor("_OutlineColor", Color.white);
     }
+
+    #endregion
+
+    #region Event handlers
 
     private void OnMostRappresentedGroupChanged()
     {
@@ -104,7 +116,7 @@ public class OutlineGroup : MonoBehaviour
         }
     }
 
-    private void OnDemonJoined(GameObject demon) { 
+    private void OnImpJoined(GroupManager sender, GameObject demon) { 
         if(groupManager.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange) { 
             MaterialsManager materialsManager = demon.GetComponent<MaterialsManager>();
             
@@ -113,4 +125,6 @@ public class OutlineGroup : MonoBehaviour
             }
         }    
     }
+
+    #endregion
 }

@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class BossBehavior : AbstractBoss
 {
+    [SerializeField]
+    private NormalAttack swipeAttack;
+    
     // sum between single and group must be 1
     public float singleAttackProb = 0.6f;
     public float groupAttackProb = 0.4f;
@@ -171,43 +174,46 @@ public class BossBehavior : AbstractBoss
         return true;
     }
 
+    // TODO - now this boss can only swipe attack, we need to add magical attacks
     private void SingleAttack()
     {
-        if ( BossCombat == null )
+        if ( NormalCombat == null )
         {
-            BossCombat = GetComponent<Combat>();
+            NormalCombat = GetComponentInChildren<NormalCombat>();
             //if ( BossCombat == null )
-                //Debug.Log( "Boss Combat cannot be found" );
+            //Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( BossCombat != null) {
-            BossCombat.PlayerAttack();
+        if ( NormalCombat != null) {
+            NormalCombat.StopNormalAttack(swipeAttack);
         }
         IsAttacking = false;
     }
-
+    
+    // TODO - now this boss can only swipe attack, we need to add magical attacks
     private void GroupAttack()
     {
-        if ( BossCombat == null )
+        if ( NormalCombat == null )
         {
-            BossCombat = GetComponent<Combat>();
+            NormalCombat = GetComponentInChildren<NormalCombat>();
             //if ( BossCombat == null )
             //    Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( BossCombat != null) {
-            BossCombat.GroupAttack();
+        if ( NormalCombat != null) {
+            NormalCombat.StopNormalAttack(swipeAttack);
         }
         IsAttacking = false;
     }
 
+    // TODO - now this boss can only swipe attack, we need to add magical attacks
     private void GlobalAttack() {
-        if ( BossCombat == null )
+        if ( NormalCombat == null )
         {
-            BossCombat = GetComponent<Combat>();
+            NormalCombat = GetComponentInChildren<NormalCombat>();
             //if ( BossCombat == null )
             //    Debug.Log( "Boss Combat cannot be found" );
         }
-        if ( BossCombat != null) {
-            BossCombat.GlobalAttack();
+        if ( NormalCombat != null) {
+            NormalCombat.StopNormalAttack(swipeAttack);
         }
         IsAttacking = false;
     }

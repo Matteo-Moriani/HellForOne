@@ -46,11 +46,13 @@ public abstract class AbstractBoss : MonoBehaviour {
     private float btReactionTime = 0.05f;
     private Stats stats;
     private bool demonsReady = false;
-    private CombatEventsManager combatEventsManager;
     private AnimationsManager animationsManager;
     private float facingIntervall = 0.5f;
     private NewHUD newHud;
-    private Combat bossCombat;
+    
+    //private Combat bossCombat;
+    private NormalCombat normalCombat;
+    
     private GameObject targetGroup;
     private GameObject targetDemon;
     private bool isWalking = false;
@@ -59,11 +61,13 @@ public abstract class AbstractBoss : MonoBehaviour {
     private GameObjectSearcher searcher;
     private Coroutine faceCR;
     private bool faceCRisActive = true;
+    private CombatEventsManager combatEventsManager;
 
     #endregion
 
     #region properties
 
+    public CombatEventsManager CombatEventsManager { get => combatEventsManager; set => combatEventsManager = value; }
     public GameObject TargetGroup { get => targetGroup; set => targetGroup = value; }
     public GameObject TargetDemon { get => targetDemon; set => targetDemon = value; }
     public bool IsWalking { get => isWalking; set => isWalking = value; }
@@ -89,11 +93,13 @@ public abstract class AbstractBoss : MonoBehaviour {
     public float BtReactionTime { get => btReactionTime; set => btReactionTime = value; }
     public Stats Stats { get => stats; set => stats = value; }
     public bool DemonsReady { get => demonsReady; set => demonsReady = value; }
-    public CombatEventsManager CombatEventsManager { get => combatEventsManager; set => combatEventsManager = value; }
     public AnimationsManager AnimationsManager { get => animationsManager; set => animationsManager = value; }
     public float FacingIntervall { get => facingIntervall; set => facingIntervall = value; }
     public NewHUD HUD { get => newHud; set => newHud = value; }
-    public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
+
+    //public Combat BossCombat { get => bossCombat; set => bossCombat = value; }
+    public NormalCombat NormalCombat { get => normalCombat; protected set => normalCombat = value; }
+
     public float Speed { get => absSpeed; set => absSpeed = value; }
     public float RotSpeed { get => absRotSpeed; set => absRotSpeed = value; }
     public float StopDist { get => absStopDist; set => absStopDist = value; }
@@ -109,6 +115,30 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     #endregion
 
+    #region Delegates and events
+
+    public delegate void OnStartIdle();
+    public event OnStartIdle onStartIdle;
+
+    public delegate void OnStartMoving();
+    public event OnStartMoving onStartMoving;
+    
+    #region Methods
+
+    protected void RaiseOnStartIdle()
+    {
+        onStartIdle?.Invoke();
+    }
+
+    protected void RaiseOnStartMoving()
+    {
+        onStartMoving?.Invoke();
+    }
+    
+    #endregion
+    
+    #endregion
+    
     #region Finite State Machine
 
     public FSMState waitingState, fightingState, winState, deathState;
@@ -234,9 +264,9 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public void Awake() {
         Searcher = new GameObjectSearcher();
-        CombatEventsManager = GetComponent<CombatEventsManager>();
         AnimationsManager = GetComponent<AnimationsManager>();
         Stats = GetComponent<Stats>();
+        combatEventsManager = GetComponent<CombatEventsManager>();
         HUD = GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>();
         ArenaCenter = GameObject.FindWithTag("ArenaCenter");
 
@@ -272,7 +302,7 @@ public abstract class AbstractBoss : MonoBehaviour {
                 if(!IsWalking) {
                     IsWalking = true;
                     IsInPosition = false;
-                    CombatEventsManager.RaiseOnStartMoving();
+                    RaiseOnStartMoving();
 
                 }
 
@@ -284,7 +314,7 @@ public abstract class AbstractBoss : MonoBehaviour {
                 if(!IsInPosition) {
                     IsInPosition = true;
                     IsWalking = false;
-                    //CombatEventsManager.RaiseOnStartIdle();
+                    RaiseOnStartIdle();
                 }
             }
 
@@ -295,14 +325,14 @@ public abstract class AbstractBoss : MonoBehaviour {
     }
 
     public void OnEnable() {
-        CombatEventsManager.onDeath += OnDeath;
+        stats.onDeath += OnDeath;
     }
 
     public void OnDisable() {
-        CombatEventsManager.onDeath -= OnDeath;
+        stats.onDeath -= OnDeath;
     }
 
-    public void OnDeath() {
+    public void OnDeath(Stats sender) {
         StopAllCoroutines();
         HUD.DeactivateAggroIcon();
     }
@@ -317,9 +347,10 @@ public abstract class AbstractBoss : MonoBehaviour {
             CanWalk = false;
         }
         else if(type == TimerType.attack) {
-            CombatEventsManager.RaiseOnStartIdle();
+            //CombatEventsManager.RaiseOnStartIdle();
             // TODO - don't know why it doesn't work here
             //isAttacking = false;
+            RaiseOnStartIdle();
         }
 
     }
@@ -403,28 +434,31 @@ public abstract class AbstractBoss : MonoBehaviour {
         }
     }
 
+    // TODO - Optimize
     public void ChooseByAggro() {
         float totalAggro = 0f;
 
         for(int i = 0; i < GroupsManager.Instance.Groups.Length; i++) {
             float groupAggro = 0f;
             // if the group is empty, I give to the group a temporary value of zero
-            if(!GroupsManager.Instance.Groups[i].GetComponent<GroupManager>().IsEmpty())
-                groupAggro = GroupsManager.Instance.Groups[i].GetComponent<GroupAggro>().GetAggro();
+            if (!GroupsManager.Instance.Groups[i].GetComponent<GroupManager>().IsEmpty())
+                groupAggro = GroupsManager.Instance.Groups[i].GetComponent<GroupAggro>().GroupAggroValue;
             AggroValues[i] = groupAggro;
             totalAggro = totalAggro + groupAggro;
             Probability[i + 1] = totalAggro;
         }
 
-        AggroValues[GroupsManager.Instance.Groups.Length] = Player.GetComponent<Stats>().Aggro;
-        totalAggro = totalAggro + Player.GetComponent<Stats>().Aggro;
+        float playerAggro = Player.GetComponent<ImpAggro>().Aggro;
+        
+        AggroValues[GroupsManager.Instance.Groups.Length] = playerAggro;
+        totalAggro = totalAggro + playerAggro;
         Probability[GroupsManager.Instance.Groups.Length + 1] = totalAggro;
 
         float random = Random.Range(0f, totalAggro);
 
         // if I was pursuing the player, I won't choose him again
         if(PursueTimeout)
-            random = Random.Range(0f, totalAggro - Player.GetComponent<Stats>().Aggro);
+            random = Random.Range(0f, totalAggro - playerAggro);
 
         for(int i = 1; i < Probability.Length; i++) {
             if(random > Probability[i - 1] && random <= Probability[i]) {

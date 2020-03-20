@@ -21,6 +21,7 @@ public class NewHUD : MonoBehaviour
 
     private GameObject player;
     private CombatEventsManager playerCombatEventsManager;
+    private Stats playerStats;
 
     private int meleeIndex = 0;
     private int tankIndex = 1;
@@ -102,25 +103,17 @@ public class NewHUD : MonoBehaviour
         if ( player != null )
         {
             tacticsManager = player.GetComponent<TacticsManager>();
-            playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
+            
+            playerStats = player.GetComponent<Stats>();
 
-            if ( playerCombatEventsManager != null )
-            {
-                playerCombatEventsManager.onDeath += OnPlayerDeath;
-            }
-            else
-            {
-                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
-            }
+            playerStats.onDeath += OnDeath;
         }
         else
         {
             Debug.LogError( "HUD cannot find player" );
         }
 
-        GameObject[] groups = GameObject.FindGameObjectsWithTag( "Group" );
-
-        foreach ( GameObject go in groups )
+        foreach ( GameObject go in GroupsManager.Instance.Groups )
         {
             switch ( go.name )
             {
@@ -154,46 +147,14 @@ public class NewHUD : MonoBehaviour
 
     private void OnDisable()
     {
-        if ( playerCombatEventsManager != null )
-        {
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;
-        }
+        playerStats.onDeath -= OnDeath;
     }
 
-    void UpdateGroupsIcon()
+    private void OnDeath(Stats sender)
     {
-        foreach ( GroupBehaviour gb in groupBehaviours )
-        {
-            switch ( gb.currentState )
-            {
-                case GroupBehaviour.State.MeleeAttack:
-                    dict[ gb ].transform.GetChild(meleeIndex).GetComponent<Image>().enabled = true;
-                    dict[ gb ].transform.GetChild(tankIndex).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild(rangeIndex).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild(supportIndex).GetComponent<Image>().enabled = false;
-                    break;
-                case GroupBehaviour.State.RangeAttack:
-                    dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = true;
-                    dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = false;
-                    break;
-                case GroupBehaviour.State.Tank:
-                    dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = true;
-                    dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = false;
-                    break;
-                case GroupBehaviour.State.Support:
-                    dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-                    dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = true;
-                    break;
-            }
-        }
+        OnPlayerDeath();
     }
-
+    
     public void ChangeGroupState(GroupManager.Group group, int index)
     {
         GroupBehaviour gb = null;
@@ -257,7 +218,8 @@ public class NewHUD : MonoBehaviour
                 break;
         }
     }
-
+    
+    /*
     void Update()
     {
         //UpdateGroupsIcon();
@@ -311,29 +273,23 @@ public class NewHUD : MonoBehaviour
 
         //Canvas.ForceUpdateCanvases();
     }
+    */
 
     private void OnPlayerDeath()
     {
-        if ( playerCombatEventsManager != null )
-        {
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;
-        }
+        if(playerStats != null)
+            playerStats.onDeath -= OnDeath;
 
         player = GameObject.FindGameObjectWithTag( "Player" );
 
         if ( player != null )
         {
             tacticsManager = player.GetComponent<TacticsManager>();
-            playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
 
-            if ( playerCombatEventsManager != null )
-            {
-                playerCombatEventsManager.onDeath += OnPlayerDeath;
-            }
-            else
-            {
-                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
-            }
+            playerStats = player.GetComponent<Stats>();
+
+            if (playerStats != null)
+                playerStats.onDeath += OnDeath;
         }
         else
         {

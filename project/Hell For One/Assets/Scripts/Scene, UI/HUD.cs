@@ -25,82 +25,10 @@ public class HUD : MonoBehaviour
 
     private GameObject player;
     private CombatEventsManager playerCombatEventsManager;
+    private Stats playerStats;
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
-
-    /// <summary>
-    /// Used to update the health pool if imps die or join the horde
-    /// </summary>
-    public void ResizeHealthPool()
-    {
-        // An Imp died
-        if ( alliesManager.AlliesList.Count < impsCount - 1 )
-        {
-            impsCount = alliesManager.AlliesList.Count + 1;
-
-            for ( int i = alliesManager.AlliesList.Count; i < healthPool.transform.childCount; i++ )
-            {
-                healthPool.transform.GetChild( i + 1 ).gameObject.SetActive( false );
-            }
-
-            for ( int i = 0; i < alliesManager.AlliesList.Count; i++ )
-            {
-                healthPool.transform.GetChild( i ).gameObject.SetActive( true );
-            }
-        }
-
-        // An Imp joined
-        //if ( alliesManager.AlliesList.Count >= impsCount - 1 )
-        if ( alliesManager.AlliesList.Count >= impsCount )
-        {
-            impsCount = alliesManager.AlliesList.Count + 1;
-
-            for ( int i = 0; i < alliesManager.AlliesList.Count + 1; i++ )
-            {
-                healthPool.transform.GetChild( i ).gameObject.SetActive( true );
-            }
-        }
-    }
-
-    public void ActivateAggroIcon( GroupManager.Group group)
-    {
-        switch ( group )
-        {
-            case GroupManager.Group.GroupAzure:
-                aggroIconAzure.enabled = true;
-                aggroIconGreen.enabled = false;
-                aggroIconPink.enabled = false;
-                aggroIconYellow.enabled = false;
-                break;
-            case GroupManager.Group.GroupGreen:
-                aggroIconAzure.enabled = false;
-                aggroIconGreen.enabled = true;
-                aggroIconPink.enabled = false;
-                aggroIconYellow.enabled = false;
-                break;
-            case GroupManager.Group.GroupPink:
-                aggroIconAzure.enabled = false;
-                aggroIconGreen.enabled = false;
-                aggroIconPink.enabled = true;
-                aggroIconYellow.enabled = false;
-                break;
-            case GroupManager.Group.GroupYellow:
-                aggroIconAzure.enabled = false;
-                aggroIconGreen.enabled = false;
-                aggroIconPink.enabled = false;
-                aggroIconYellow.enabled = true;
-                break;
-        }
-    }
-
-    public void DeactivateAggroIcon()
-    {
-        aggroIconAzure.enabled = false;
-        aggroIconGreen.enabled = false;
-        aggroIconPink.enabled = false;
-        aggroIconYellow.enabled = false;
-    }
-
+    
     void Start()
     {
         GameObject panel = transform.GetChild( 0 ).gameObject;
@@ -136,13 +64,11 @@ public class HUD : MonoBehaviour
             tacticsManager = player.GetComponent<TacticsManager>();
             playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
 
-            if ( playerCombatEventsManager != null )
+            playerStats = player.GetComponent<Stats>();
+
+            if (playerStats != null)
             {
-                playerCombatEventsManager.onDeath += OnPlayerDeath;
-            }
-            else
-            {
-                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
+                playerStats.onDeath += OnDeath;
             }
         }
         else
@@ -186,10 +112,9 @@ public class HUD : MonoBehaviour
 
     private void OnDisable()
     {
-        if ( playerCombatEventsManager != null )
-        {
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;
-        }
+        if (playerStats != null)
+            playerStats.onDeath -= OnDeath;
+        
     }
 
     void Update()
@@ -261,10 +186,9 @@ public class HUD : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        if ( playerCombatEventsManager != null )
-        {
-            playerCombatEventsManager.onDeath -= OnPlayerDeath;
-        }
+        if (playerStats != null)
+            playerStats.onDeath -= OnDeath;
+        
 
         player = GameObject.FindGameObjectWithTag( "Player" );
 
@@ -273,18 +197,19 @@ public class HUD : MonoBehaviour
             tacticsManager = player.GetComponent<TacticsManager>();
             playerCombatEventsManager = player.GetComponent<CombatEventsManager>();
 
-            if ( playerCombatEventsManager != null )
-            {
-                playerCombatEventsManager.onDeath += OnPlayerDeath;
-            }
-            else
-            {
-                Debug.LogError( "HUD cannot find player's CombatEventsManager" );
-            }
+            playerStats = player.GetComponent<Stats>();
+
+            playerStats.onDeath += OnDeath;
         }
         else
         {
             Debug.LogError( "HUD cannot find player" );
         }
+    }
+
+    // TODO - Split player death managment in OnDeath and OnReincarnation/OnLateReincarnation
+    private void OnDeath(Stats sender)
+    {
+        OnPlayerDeath();
     }
 }

@@ -5,22 +5,36 @@ using UnityEngine.AI;
 
 public class MobAnimator : MonoBehaviour {
 
+    #region Fields
+
     private AnimationsManager animationsManager;
     private Animator animator;
-    private Animator Animator { get => animator; set => animator = value; }
+    private Stats stats;
+    
     private bool isAnimating = false;
-    public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
-
+    
     private float meleeSpeedMultiplier = 2.5f;
 
     private CombatEventsManager combatEventsManager;
     private NavMeshAgent agent;
+    
+    #endregion
 
+    #region Unity methods
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+        animationsManager = GetComponent<AnimationsManager>();
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        agent = GetComponent<NavMeshAgent>();
+        stats = GetComponent<Stats>();
+    }
+    
     private void OnEnable() {
         if(combatEventsManager != null) {
             combatEventsManager.onStartIdle += PlayIdleAnimation;
             combatEventsManager.onStartMoving += PlayMoveAnimation;
-            combatEventsManager.onDeath += PlayDeathAnimation;
+            stats.onDeath += OnDeath;
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
         }
     }
@@ -29,17 +43,14 @@ public class MobAnimator : MonoBehaviour {
         if(combatEventsManager != null) {
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
             combatEventsManager.onStartMoving -= PlayMoveAnimation;
-            combatEventsManager.onDeath -= PlayDeathAnimation;
+            stats.onDeath -= OnDeath;
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
         }
     }
+    
+    #endregion
 
-    private void Awake() {
-        Animator = GetComponent<Animator>();
-        animationsManager = GetComponent<AnimationsManager>();
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        agent = GetComponent<NavMeshAgent>();
-    }
+    #region Methods
 
     public void PlaySingleAttackAnimation() {
         StopAnimations();
@@ -66,6 +77,26 @@ public class MobAnimator : MonoBehaviour {
         animator.SetBool("isDying", true);
         StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Death").length));
     }
+    
+    public void StopAnimations() {
+        animator.SetBool("isDying", false);
+        animator.SetBool("isMeleeAttacking", false);
+        animator.SetBool("isMoving", false);
+        animator.SetBool("isIdle", false);
+    }
+
+    #endregion
+
+    #region Event handlers
+
+    private void OnDeath(Stats sender)
+    {
+        PlayDeathAnimation();
+    }
+
+    #endregion
+
+    #region Coroutines
 
     public IEnumerator WaitAnimation(float time) {
         if(GetComponent<Stats>().ThisUnitType == Stats.Type.Enemy) {
@@ -88,11 +119,5 @@ public class MobAnimator : MonoBehaviour {
 
     }
 
-
-    public void StopAnimations() {
-        Animator.SetBool("isDying", false);
-        Animator.SetBool("isMeleeAttacking", false);
-        Animator.SetBool("isMoving", false);
-        Animator.SetBool("isIdle", false);
-    }
+    #endregion
 }

@@ -1,101 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GroupAggro : MonoBehaviour
 {
+    #region Fields
+
     private GroupManager groupManager;
+    private GroupBehaviour groupBehaviour;
 
     private float groupAggroValue = 1;
     private float tankMultiplier = 1.5f;
-    private float orderGivenMultiplier = 1.2f;
 
-    public float OrderGivenMultiplier { get => orderGivenMultiplier; set => orderGivenMultiplier = value; }
-    public float TankMultiplier { get => tankMultiplier; set => tankMultiplier = value; }
-    public float GroupAggroValue { get => groupAggroValue; set => groupAggroValue = value; }
+    #endregion
+
+    #region Properties
+    
+    public float GroupAggroValue { get => groupAggroValue; private set => groupAggroValue = value; }
+
+    #endregion
+
+    #region Unity methods
 
     private void Awake()
     {
         groupManager = GetComponent<GroupManager>();
+        groupBehaviour = GetComponent<GroupBehaviour>();
     }
 
-    public float GetAggro()
+    private void OnEnable()
     {
-        return GroupAggroValue;
+        groupManager.onImpJoined += OnImpJoined;
+        groupManager.onImpRemoved += OnImpRemoved;
+
+        groupBehaviour.onTankOrderGiven += OnTankOrderGiven;
     }
 
-    // TODO -   Insert check if the group is supportin etc etc
-    //          in order to update group aggro properly
-    public void UpdateGroupAggro()
+    private void OnDisable()
     {
-        GroupAggroValue = 1;
+        groupManager.onImpJoined -= OnImpJoined;
+        groupManager.onImpRemoved -= OnImpRemoved;
 
-        if (groupManager == null)
-            groupManager = GetComponent<GroupManager>();
-
-        if (groupManager != null)
-        {
-            foreach (GameObject imp in groupManager.Imps)
-            {
-                if (imp != null)
-                {
-                    Stats stats = imp.GetComponent<Stats>();
-
-                    if (stats != null)
-                    {
-                        GroupAggroValue += stats.Aggro;
-                    }
-                    else
-                    {
-                        Debug.Log(this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find stats in " + imp.name);
-                    }
-                }
-            }
-        }
-        else
-        {
-            Debug.Log(this.transform.root.gameObject.name + " GroupAggro.ResetGroupAggro cannot find GroupBehaviour");
-        }
+        groupBehaviour.onTankOrderGiven -= OnTankOrderGiven;
     }
 
-    public void ResetGroupAggro()
-    {
-        GroupAggroValue = groupManager.ImpsInGroupNumber;
+    #endregion
 
-        if (groupManager == null)
-            groupManager = GetComponent<GroupManager>();
-
-        if (groupManager != null)
-        {
-            foreach (GameObject imp in groupManager.Imps)
-            {
-                Stats stats = imp.GetComponent<Stats>();
-
-                if (stats != null)
-                {
-                    stats.Aggro = 0;
-                }
-                else
-                {
-                    Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find stats in " + imp.name);
-                }
-            }
-        }
-        else
-        {
-            Debug.Log(this.transform.root.gameObject.name + " GuopAggro.ResetGroupAggro cannot find GroupBehaviour");
-        }
-    }
-
-    public void RaiseGroupAggro(float n)
-    {
-        //if ( !shouldStayFixed )
-        {
-            GroupAggroValue += n;
-        }
-    }
-
-    public float CalculateAverageAggro()
+    #region Methods
+     
+    // TODO - Check if we need Total aggro or average aggro
+    private float CalculateAverageAggro()
     {
         float totalAggro = 0;
 
@@ -103,13 +55,52 @@ public class GroupAggro : MonoBehaviour
         {
             foreach (GameObject group in GroupsManager.Instance.Groups)
             {
-                totalAggro += group.GetComponent<GroupAggro>().GetAggro();
+                totalAggro += group.GetComponent<GroupAggro>().GroupAggroValue;
             }
+            
+            return totalAggro / GroupsManager.Instance.Groups.Length;
         }
         else
         {
             Debug.Log(this.transform.root.gameObject.name + " GroupAggro.CalculateAverageAggro cannot find other groups");
         }
-        return totalAggro;
+
+        return -1;
     }
+
+    #endregion
+    
+    #region Event handlers
+
+    // NOTES for Aggro and Orders
+    // IF SUPPORT : Every single imp update his aggro every second (GroupBehaviour.OnSupportStayAction event)
+    // IF MELEE : Every hit will update imp and group aggro
+    // IF RANGED : Every hit will update imp and group aggro
+    // IF TANK : Aggro is fixed
+    // IF RECRUIT : not implemented yet
+    
+    private void OnImpAggroChanged(ImpAggro sender, float oldValue)
+    {
+        groupAggroValue -= oldValue;
+        groupAggroValue += sender.Aggro;
+    }
+
+    private void OnImpJoined(GroupManager sender, GameObject impJoined)
+    {
+        impJoined.GetComponent<ImpAggro>().onImpAggroChanged += OnImpAggroChanged;
+        groupAggroValue += impJoined.GetComponent<ImpAggro>().Aggro;
+    }
+
+    private void OnImpRemoved(GroupManager sender, GameObject impRemoved)
+    {
+        impRemoved.GetComponent<ImpAggro>().onImpAggroChanged -= OnImpAggroChanged;
+        groupAggroValue -= impRemoved.GetComponent<ImpAggro>().Aggro;
+    }
+
+    private void OnTankOrderGiven(GroupBehaviour sender)
+    {
+        groupAggroValue = Mathf.Max(Mathf.CeilToInt(CalculateAverageAggro() * tankMultiplier), groupAggroValue);
+    }
+
+    #endregion
 }

@@ -58,7 +58,7 @@ public class Lancer : MonoBehaviour
     /// </summary>
     /// <param name="target">The object target.</param>
     /// <returns>Returns true if the launch was successful, otherwise returns false.</returns>
-    public bool Launch( GameObject target )
+    public bool Launch( GameObject target)
     {
         float distance;
         float alpha;
@@ -105,6 +105,63 @@ public class Lancer : MonoBehaviour
 
         return true;
     }
+    
+    /// <summary>
+    /// It launches a lance to the target if the target is at a distance between minDistance and maxDistance.
+    /// </summary>
+    /// <param name="target">The object target.</param>
+    /// <returns>Returns true if the launch was successful, otherwise returns false.</returns>
+    public GameObject LaunchNewCombatSystem( GameObject target)
+    {
+        float distance;
+        float alpha;
+        if ( target == null )
+        {
+            //Debug.LogError( "Target cannot be null" );
+        }
+
+        distance = Vector3.Distance( transform.position, target.transform.position );
+        if ( distance < minDistance || distance > maxDistance )
+        {
+            return null;
+            
+            Debug.LogError("Distance error");
+        }
+
+        alpha = 0;
+
+        if (target.tag == "Boss" )
+        {
+            Vector3 targetPosFixed = target.transform.position + new Vector3( 0f, 1f, 0f );
+
+            if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), targetPosFixed, out alpha ) )
+            {
+                return null;
+                
+                Debug.LogError("Angle error");
+            }
+        }
+
+        else if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), target.transform.position, out alpha ) )
+        {
+            return null;
+            
+            Debug.LogError("Unknown error");
+        }
+
+        //transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
+        lance = lances.GetNotActiveObject();
+        lance.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        lance.transform.position = transform.position + spearLaunchPoint + RightComponent();
+        lance.transform.forward = new Vector3( target.transform.position.x, lance.transform.position.y, target.transform.position.z ) - lance.transform.position;
+        lance.transform.rotation = Quaternion.Euler( 90f - alpha, lance.transform.eulerAngles.y, 0 );
+        lance.SetActive( true );
+        
+        lance.GetComponent<Rigidbody>().AddForce( lance.transform.up * (speed), ForceMode.VelocityChange );
+        //lance = null;
+
+        return lance;
+    }
 
     /// <summary>
     /// Returns the angle range (with 0° corresponding to the ground) to launch an object from a position to another with a velocity that is "speed".
@@ -130,8 +187,10 @@ public class Lancer : MonoBehaviour
         if ( tempResult < 0 )
         {
             angle = 0;
+            
+            Debug.LogError(this.gameObject.name + " Lancer launch failed");
+            
             return false;
-
         }
 
         tempResult = Mathf.Sqrt( tempResult );

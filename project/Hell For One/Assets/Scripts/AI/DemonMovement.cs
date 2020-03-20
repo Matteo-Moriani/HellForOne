@@ -50,6 +50,30 @@ public class DemonMovement : MonoBehaviour {
 
     private Quaternion futureRotation;
 
+    #region Delegates and events
+
+    public delegate void OnStartMoving();
+    public event OnStartMoving onStartMoving;
+
+    public delegate void OnStartIdle();
+    public event OnStartIdle onStartIdle;
+
+    #region Methods
+
+    private void RaiseOnStartMoving()
+    {
+        onStartMoving?.Invoke();
+    }
+
+    private void RaiseOnStartIdle()
+    {
+        onStartIdle?.Invoke();
+    }
+
+    #endregion
+    
+    #endregion
+    
     private void OnEnable() {
         BattleEventsManager.onBossBattleExit += OnBossBattleExit;
         BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
@@ -85,8 +109,8 @@ public class DemonMovement : MonoBehaviour {
                 player = GameObject.FindGameObjectWithTag("Player");
 
             if(group == null) {
-                if(GetComponent<DemonBehaviour>().groupFound) {
-                    group = GetComponent<DemonBehaviour>().groupBelongingTo;
+                if(GetComponent<GroupFinder>().GroupFound) {
+                    group = GetComponent<GroupFinder>().GroupBelongingTo;
                     groupBehaviour = group.GetComponent<GroupBehaviour>();
                     groupMovement = group.GetComponent<GroupMovement>();
                     // it's my group that decides my target
@@ -291,7 +315,7 @@ public class DemonMovement : MonoBehaviour {
         if(agent.velocity.magnitude > movSpeedTreshold) {
             if(!isMoving) {
                 if(combatEventsManager != null) {
-                    combatEventsManager.RaiseOnStartMoving();
+                    RaiseOnStartMoving();
                 }
 
                 isMoving = true;
@@ -300,7 +324,7 @@ public class DemonMovement : MonoBehaviour {
         if(agent.velocity.magnitude <= movSpeedTreshold) {
             if(isMoving) {
                 if(combatEventsManager != null) {
-                    combatEventsManager.RaiseOnStartIdle();
+                    RaiseOnStartIdle();
                 }
                 isMoving = false;
             }

@@ -5,47 +5,40 @@ using UnityEngine;
 using UnityEngine.Experimental.Input;
 
 public class TacticsManager : MonoBehaviour
-{   
-    /*
-    public enum Group
-    {
-        GroupAzure,
-        GroupPink,
-        GroupGreen,
-        GroupYellow
-    }
-    */
+{
+    #region Fields
 
     [Header( "Input" )]
     private bool cross, square, triangle, circle, L1, R1, L2, R2, R3 = false;
 
     [SerializeField]
     private GroupBehaviour.State currentShowedState;
-    private GroupBehaviour.State[] tacticsArray;
     
-    // TODO -   Replaced with a dictionary in order to avoid a lot of GameObject.Find
-    //          remove this if the new solution works better
-    //private Group[] groupsArray;
+    private GroupBehaviour.State[] tacticsArray;
     
     private Dictionary<GroupManager.Group, GameObject> groupsDict = new Dictionary<GroupManager.Group, GameObject>();
 
     [SerializeField]
-    //private Group currentShowedGroup;
     private GroupManager.Group currentMostRappresentedGroup;
 
     private int tacticsIndex = 0;
 
-    // TODO - used for HUD and rotate groups, remove this
-    //private int groupsIndex = 0;
-
     private GroupsInRangeDetector groupsInRangeDetector;
 
-    public GroupBehaviour.State CurrentShowedState { get => currentShowedState; set => currentShowedState = value; }
-    
+    public GroupBehaviour.State CurrentShowedState { get => currentShowedState; private set => currentShowedState = value; }
+
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Current most rappresented group in range
     /// </summary>
     public GroupManager.Group CurrentMostRappresentedGroup { get => currentMostRappresentedGroup; private set => currentMostRappresentedGroup = value; }
+
+    #endregion
+    
+    #region Methods
 
     public void FillArrays()
     {
@@ -73,17 +66,10 @@ public class TacticsManager : MonoBehaviour
     private void AssignOrderToGroup( GroupBehaviour.State state, GroupManager.Group group )
     {
         if(group != GroupManager.Group.None) {
-            // TODO - optimize this
-            // GroupBehaviour groupBehaviour = GameObject.Find( group.ToString() ).GetComponent<GroupBehaviour>();
-
             GroupBehaviour groupBehaviour = groupsDict[group].GetComponent<GroupBehaviour>();
 
             if(groupBehaviour != null) {
-                if (groupBehaviour.groupFSM.current.stateName != state.ToString())
-                {
-                    groupBehaviour.newState = state;
-                    groupBehaviour.orderConfirmed = true;
-                }
+                groupBehaviour.AssignOrder(state);
             }
             else { 
                 Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find " + group.ToString() + " GroupBehaviour");    
@@ -105,26 +91,6 @@ public class TacticsManager : MonoBehaviour
         AssignOrderToGroup( state, GroupManager.Group.GroupGreen );
         AssignOrderToGroup( state, GroupManager.Group.GroupYellow );
     }
-
-    // TODO - used for HUD and rotate groups, remove this 
-    public void RotateRightGroups()
-    {
-        /*
-        groupsIndex = IncrementCircularArrayIndex( groupsIndex, groupsDict.Length );
-        CurrentShowedGroup = groupsDict[ groupsIndex ];
-        //Debug.Log( CurrentShowedGroup );
-        */
-    }
-
-    // TODO - used for HUD and rotate groups, remove this
-    public void RotateLeftGroups()
-    {
-        /*
-        groupsIndex = DecrementCircularArrayIndex( groupsIndex, groupsDict.Length );
-        CurrentShowedGroup = groupsDict[ groupsIndex ];
-        //Debug.Log( CurrentShowedState );
-        */
-    }
     
     /// <summary>
     /// Assing order state to the most rappresented group in range
@@ -136,14 +102,10 @@ public class TacticsManager : MonoBehaviour
         bool canAssingOrder = false;
 
         if (groupsInRangeDetector != null) {
-            //canAssingOrder = groupsInRangeDetector.IsTheGroupInRange(currentShowedGroup);
-
             canAssingOrder = GroupsInRangeDetector.MostRappresentedGroupInRange != GroupManager.Group.None;
         }
         else
         {
-            // Insert here code to manage oder assign to None group
-
             Debug.LogError(this.gameObject.name + " TacticsManager - cannot find GroupsInRangeDetector");
         }
 
@@ -153,6 +115,10 @@ public class TacticsManager : MonoBehaviour
 
         return canAssingOrder;
     }
+
+    #endregion
+
+    #region Unity methods
 
     private void Awake()
     {
@@ -178,7 +144,14 @@ public class TacticsManager : MonoBehaviour
         //CurrentShowedGroup = groupsDict[ groupsIndex ];
     }
 
+
+    #endregion
+
+    #region Events handler
+
     private void OnMostRappresentedGroupChanged() { 
         currentMostRappresentedGroup = GroupsInRangeDetector.MostRappresentedGroupInRange;
     }
+
+    #endregion
 }

@@ -23,7 +23,7 @@ public class AttackCollider : MonoBehaviour
 
     private Combat combat;
 
-    private DemonBehaviour demonBehaviour;
+    private GroupFinder groupFinder;
 
     public float meleeAggroModifier = 1.1f;
     public float rangeAggroModifier = 1.05f;
@@ -117,8 +117,8 @@ public class AttackCollider : MonoBehaviour
         switch (this.type)
         {
             case AttackColliderType.Melee:
-                if (!isGlobalAttacking && !isGroupAttacking)
-                    combat.StopAttack();
+                //if (!isGlobalAttacking && !isGroupAttacking)
+                    //combat.StopAttack();
                 break;
             case AttackColliderType.Ranged:
                 this.gameObject.SetActive(false);
@@ -148,25 +148,25 @@ public class AttackCollider : MonoBehaviour
             // We update Group aggro only for Ally Imps
             if (stats.ThisUnitType == Stats.Type.Ally)
             {
-                if (type != AttackColliderType.Ranged && demonBehaviour == null)
+                if (type != AttackColliderType.Ranged && groupFinder == null)
                 {
-                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();
+                    groupFinder = stats.gameObject.GetComponent<GroupFinder>();
                 }
 
                 // We need to update demonBehaviour every ranged attack because
                 // lances are pooled, so owner can change every time
                 if (type == AttackColliderType.Ranged)
                 {
-                    demonBehaviour = stats.gameObject.GetComponent<DemonBehaviour>();
+                    groupFinder = stats.gameObject.GetComponent<GroupFinder>();
                 }
 
-                if (demonBehaviour != null)
+                if (groupFinder != null)
                 {
-                    demonBehaviour.groupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro((aggroModifier - 1f) * stats.Aggro);
+                    //groupFinder.GroupBelongingTo.GetComponent<GroupAggro>().RaiseGroupAggro((aggroModifier - 1f) * stats.Aggro);
                 }
             }
 
-            stats.RaiseAggro(aggroModifier);
+            //stats.RaiseAggro(aggroModifier);
         }
         //else
         //{
@@ -192,7 +192,8 @@ public class AttackCollider : MonoBehaviour
         if (knockbackReceiver != null && knockbackCaster != null)
         {
             // If we can deal a knockback
-            if (Random.Range(1f, 101f) <= knockbackCaster.KnockBackChance)
+            //if (Random.Range(1f, 101f) <= knockbackCaster.KnockBackChance)
+            if(true)
             {
                 // For non player-target
                 if (targetRootStats.ThisUnitType != Stats.Type.Player)
@@ -203,27 +204,27 @@ public class AttackCollider : MonoBehaviour
                         // If we are hitting an unit that is not blocking
                         if (!targetRootStats.IsBlocking)
                         {
-                            knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
+                            //knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                         }
                         // If target is blocking we have to understand the angle to know if we have to deal a knockback or not
                         if (targetRootStats.IsBlocking)
                         {
                             if (CheckAngle(targetRootStats.gameObject.transform))
                             {
-                                knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
+                                //knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                             }
                         }
                     }
                     // for any other attack we knockback only if the target is not blocking
                     if (!targetRootStats.IsBlocking)
                     {
-                        knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
+                        //knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                     }
                 }
                 
                 if(targetRootStats.ThisUnitType == Stats.Type.Player) {
                     if (!isGlobalAttacking) { 
-                        knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
+                        //knockbackReceiver.TakeKnockBack(knockbackCaster.KnockBackSize, this.transform.root, knockbackCaster.KnockBackTime);
                     }
                 }
             }
@@ -291,12 +292,14 @@ public class AttackCollider : MonoBehaviour
         }
     }
 
+    
     private void ManageSimpleDemonCollisions(Stats targetRootStats, Collider other)
     {
         if (targetRootStats.IsBlocking)
         {
             if (CheckAngle(other.gameObject.transform.root))
             {
+                /*
                 if (targetRootStats.CalculateBeenHitChance(false))
                 {
                     ManageHit(targetRootStats);
@@ -309,9 +312,11 @@ public class AttackCollider : MonoBehaviour
 
                     return;
                 }
+                */
             }
             else
             {
+                /*
                 if (targetRootStats.CalculateBeenHitChance(true))
                 {
                     ManageHit(targetRootStats);
@@ -324,10 +329,12 @@ public class AttackCollider : MonoBehaviour
 
                     return;
                 }
+                */
             }
         }
         if (!targetRootStats.IsBlocking)
         {
+            /*
             if (targetRootStats.CalculateBeenHitChance(false))
             {
                 ManageHit(targetRootStats);
@@ -340,6 +347,7 @@ public class AttackCollider : MonoBehaviour
 
                 return;
             }
+            */
         }
     }
 
@@ -358,7 +366,9 @@ public class AttackCollider : MonoBehaviour
                 return;
             }
             */
-
+            
+    
+            /*
             // We will take care of global attack in another way
             if (!isGlobalAttacking)
             {
@@ -401,6 +411,8 @@ public class AttackCollider : MonoBehaviour
                     }
                 }
             }
+            */
+            /*
             if (isGlobalAttacking)
             {
                 // this is like CheckAngle, but now we are checking
@@ -440,9 +452,11 @@ public class AttackCollider : MonoBehaviour
                     }
                 }
             }
+            */
         }
         if (!targetRootStats.IsBlocking)
         {
+            /*
             // Calculate been hit chance without counting block bonus
             if (targetRootStats.CalculateBeenHitChance(false))
             {
@@ -458,8 +472,10 @@ public class AttackCollider : MonoBehaviour
 
                 return;
             }
+            */
         }
     }
+    
 
     private void DealDamage(Stats targetRootStats)
     {
@@ -504,11 +520,11 @@ public class AttackCollider : MonoBehaviour
             // Calculate damage
             if (type == AttackColliderType.Melee)
             {
-                damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.MeleeDamage;
+                //damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.MeleeDamage;
             }
             if (type == AttackColliderType.Ranged)
             {
-                damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.RangedDamage;
+                //damage = supportingDemons * (stats.SupportDamageBuffMultiplier / attackingDemons) + stats.RangedDamage;
             }
             if (type == AttackColliderType.None)
             {
@@ -524,11 +540,11 @@ public class AttackCollider : MonoBehaviour
         {
             if (type == AttackColliderType.Melee)
             {
-                targetRootStats.TakeHit(stats.MeleeDamage);
+                //targetRootStats.TakeHit(stats.MeleeDamage);
             }
             if (type == AttackColliderType.Ranged)
             {
-                targetRootStats.TakeHit(stats.RangedDamage);
+                //targetRootStats.TakeHit(stats.RangedDamage);
             }
             if (type == AttackColliderType.None)
             {

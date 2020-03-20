@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO - Dash now is active for all allies, optimize this and avoid using FixedUpdate
 public class Dash : MonoBehaviour
 {
     #region fields
     
-    public float dashSize = 4.0f;
-
-    [SerializeField]
-    [Tooltip("How often we can dash")]
-    private float dashCooldown = 1.0f;
-
-    [SerializeField]
-    private GameObject idleCollider;
-    
-    public float dashTime = 0.4f;
+    private float dashSize = 2.5f;
+    private float dashCooldown = 1f;
+    private float dashTime = 0.35f;
 
     private float cooldownCounter;
     private float dashTimeCounter;
@@ -42,6 +36,30 @@ public class Dash : MonoBehaviour
 
     #endregion
 
+    #region Delegates and events
+
+    public delegate void OnDashStart();
+    public event OnDashStart onDashStart;
+
+    public delegate void OnDashStop();
+    public event OnDashStop onDashStop;
+
+    #region Methods
+
+    private void RaiseOnDashStart()
+    {
+        onDashStart?.Invoke();
+    }
+
+    private void RaiseOnDashStop()
+    {
+        onDashStop?.Invoke();
+    }
+    
+    #endregion
+    
+    #endregion
+    
     #region methods
 
     private void Awake()
@@ -55,26 +73,10 @@ public class Dash : MonoBehaviour
 
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
     }
-
-    private void OnEnable()
-    {
-        combatEventsManager.onStartDash += OnDash;   
-    }
-
-    private void OnDisable()
-    {
-        combatEventsManager.onStartDash -= OnDash;
-    }
-
+    
     private void Start()
     {
         controller = this.GetComponent<Controller>();
-
-        if (idleCollider == null)
-        {
-            //Debug.Log("Dash.cs - Set idleCollider");
-        }
-
         rb = GetComponent<Rigidbody>();
     }
 
@@ -128,37 +130,20 @@ public class Dash : MonoBehaviour
                         cooldownCounter = 0.0f;
                         dashTimeCounter = 0.0f;
 
-                        // Disable idleCollider, player can't receive damage if is dashing
-                        idleCollider.SetActive(false);
-
                         // Set rb.interpolation to extrapolate, we need to be precise when moving the player
                         rb.interpolation = RigidbodyInterpolation.Extrapolate;
 
                         // We need to store the starting velocity
                         startingVelocity = rb.velocity;
+                        
+                        RaiseOnDashStart();
                     }
-                    
                     // Player desire to dash processed
                     playerWantsToDash = false;
                 }
-
-
+                
                 if (isDashing)
                 {
-                    /*
-                    // TODO - Remove this after testing
-                    // Used for logging
-                    if (startPosition == Vector3.zero) {
-                        startPosition = this.transform.position;
-                        Debug.Log("You started dashing at: " + this.transform.position);
-                    }
-                    */
-                    if (!eventAlreadyCalled) { 
-                        if(combatEventsManager != null) { 
-                            combatEventsManager.RaiseOnStartDash();    
-                        }    
-                    }
-
                     // Dash, will move the player for dashSize units in dashTime seconds
                     rb.velocity = moveDirection.normalized * (dashSize / dashTime);
 
@@ -167,11 +152,7 @@ public class Dash : MonoBehaviour
                     {
                         isDashing = false;
                         controller.enabled = true;
-
-                        // Now player can receive damage
-                        idleCollider.SetActive(true);
-
-
+                        
                         // We don't need the extra precision anymore
                         rb.interpolation = RigidbodyInterpolation.None;
 
@@ -181,18 +162,8 @@ public class Dash : MonoBehaviour
                         // Reset Dash direction
                         verticalDirection = 0f;
                         horizontalDirection = 0f;
-
-                        // Reset event bool
-                        eventAlreadyCalled = false;
-
-                        /*
-                        // TODO - Remove this after testing
-                        // Used for logging
-                        Debug.Log("You ended dashing at. " + this.transform.position);
-                        Debug.Log("You moved: " + Vector3.Distance(startPosition, this.transform.position));
-                        Debug.Log("You should have moved: " + dashSize);
-                        startPosition = Vector3.zero;
-                        */
+                        
+                        RaiseOnDashStop();
                     }
 
                     // If we count the time down the if condition we round up dash size
@@ -201,10 +172,6 @@ public class Dash : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnDash() { 
-        eventAlreadyCalled = true;    
     }
 
     #endregion

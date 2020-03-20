@@ -134,52 +134,12 @@ public class CombatManager : MonoBehaviour
 
     public void StartSupport()
     {
-        if ( stats.CombatIdle && !stats.IsSupporting )
-        {
-            stats.CombatIdle = false;
-            stats.IsSupporting = true;
-            GroupSupport gs = this.transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
-
-            if ( gs != null )
-            {
-                gs.AddSupportingUnit();
-                gs.StartUpdateSupportAggro();
-            }
-            //else
-            //{
-            //    Debug.Log( this.transform.root.name + " cannot find GroupSupport" );
-            //}
-
-        }
-        else
-        {
-            //Debug.Log( this.transform.root.gameObject.name + " CombatManager.StartSupport is trying to start supporting but is not idle or is already supporting" );
-        }
+        
     }
 
     public void StopSupport()
     {
-        if ( !stats.CombatIdle && stats.IsSupporting )
-        {
-            stats.IsSupporting = false;
-            stats.CombatIdle = true;
-
-            GroupSupport gs = transform.root.gameObject.GetComponent<DemonBehaviour>().groupBelongingTo.GetComponent<GroupSupport>();
-
-            if ( gs != null )
-            {
-                gs.RemoveSupportingUnit();
-                gs.StopUpdateSupportAggro();
-            }
-            //else
-            //{
-            //    Debug.Log( this.transform.root.name + " cannot find GroupSupport" );
-            //}
-        }
-        else
-        {
-            //Debug.Log( this.transform.root.gameObject.name + " CombatManader.StopSupport is trying to stop supporting but is idle or is not supporting" );
-        }
+        
     }
 
     public void StartRecruit()
@@ -249,31 +209,11 @@ public class CombatManager : MonoBehaviour
     }
 
     public void SingleAttack( GameObject target )
-    {   /*
-        // TODO - this check now is in GroupBehaviour
-        //if(target != null) {
-         //   if (transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) > maxMeleeDistance) { 
-                StopAttack();
-                return;
-            }
-        }
-        
-        if(target == null) { 
-            StopAttack();
-            return;
-        }
-        // ( !canAttack )
-        //    return;
-        */
+    {   
         if ( stats.CombatIdle )
         {
             attackCR = StartCoroutine( AttackCoroutine() );
         }
-        //else
-        //{
-        //    Debug.Log( this.transform.root.gameObject.name + " CombatManager.Attack is trying to attack but is not idle." );
-        //}
-
     }
 
     public void StopSingleAttack()
@@ -350,29 +290,11 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    // To avoid to perform actions before imps are at minimum distance
-    public IEnumerator WaitTillMinDistance( float distance, GameObject target )
-    {
-        if ( !target )
-            canAttack = false;
-
-        while
-            // horizontal distance of the parent game object to the target's borders
-            ( transform.root.gameObject.GetComponent<DemonMovement>().HorizDistFromTargetBorders( target ) > distance )
-        {
-            //((target.transform.position - gameObject.transform.position).magnitude > distance) {
-            canAttack = false;
-            yield return new WaitForSeconds( 1f );
-        }
-
-        canAttack = true;
-    }
-
     public void GroupAttack()
     {
         if ( stats.CombatIdle )
         {
-            attackCollider.transform.localScale = new Vector3( stats.GroupAttackSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
+            //attackCollider.transform.localScale = new Vector3( stats.GroupAttackSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
             attackCollider.GetComponent<AttackCollider>().isGroupAttacking = true;
             attackCR = StartCoroutine( AttackCoroutine() );
         }
@@ -440,7 +362,7 @@ public class CombatManager : MonoBehaviour
 
         AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
 
-        Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
+        //Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
         
         // If this is a regular attack we use regular attack delay
         if (!attackColliderComponent.isGroupAttacking) {
@@ -452,7 +374,7 @@ public class CombatManager : MonoBehaviour
             yield return new WaitForSeconds(groupAttackDelayInSeconds);    
         }
         
-        attackCollider.transform.localPosition = targetPosition;
+        //attackCollider.transform.localPosition = targetPosition;
 
         attackCollider.SetActive( true );
 
@@ -515,13 +437,13 @@ public class CombatManager : MonoBehaviour
         stats.CombatIdle = false;
 
         attackColliderComponent.isGlobalAttacking = true;
-        attackCollider.transform.localScale = new Vector3( stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize );
+        //attackCollider.transform.localScale = new Vector3( stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize );
 
         yield return new WaitForSeconds(globalAttackDelayInSeconds);
 
         attackCollider.SetActive( true );
 
-        yield return new WaitForSeconds( stats.GlobalAttackDuration );
+        //yield return new WaitForSeconds( stats.GlobalAttackDuration );
 
         attackCollider.transform.localScale = baseAttackColliderScale;
         attackColliderComponent.isGlobalAttacking = false;

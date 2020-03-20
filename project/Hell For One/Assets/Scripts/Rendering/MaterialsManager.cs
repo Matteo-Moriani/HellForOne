@@ -24,12 +24,12 @@ public class MaterialsManager : MonoBehaviour
 
     private void OnEnable()
     {
-        reincarnation.RegisterOnReincarnation(OnReincarnation);
+        reincarnation.onReincarnation += OnReincarnation;
     }
 
     private void OnDisable()
     {
-        reincarnation.UnregisterOnReincarnation(OnReincarnation);
+        reincarnation.onReincarnation -= OnReincarnation;
     }
 
     /// <summary>

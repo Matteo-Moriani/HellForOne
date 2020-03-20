@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// TODO - Refactor part 2
 public class AlliesManager : MonoBehaviour
 {
     /// <summary>
@@ -16,8 +17,11 @@ public class AlliesManager : MonoBehaviour
     /// </summary>
     public List<GameObject> AlliesList { get => alliesList; private set => alliesList = value; }
 
-    private Action OnNewImpSpawned;
-    private Action OnImpDied;
+    private int impMaxNumber = 16;
+    public int ImpMaxNumber { get => impMaxNumber; private set => impMaxNumber = value; }
+    
+    public delegate void OnNewImpSpawned(GameObject newImp);
+    public event OnNewImpSpawned onNewImpSpawned;
 
     private List<GameObject> alliesList;
 
@@ -41,6 +45,18 @@ public class AlliesManager : MonoBehaviour
 
     private void OnEnable()
     {
+        foreach (GameObject demon in alliesList)
+        {
+            if (demon != null)
+            {
+                Stats stats = demon.GetComponent<Stats>();
+                Reincarnation reincarnation = demon.GetComponent<Reincarnation>();
+
+                stats.onDeath += OnDeath;
+                reincarnation.onReincarnation += OnReincarnation;
+            }
+        }
+        
         BattleEventsManager.onBattleEnter += EnterBattle;
         BattleEventsManager.onBossBattleEnter += EnterBattle;
         BattleEventsManager.onBattleExit += ExitBattle;
@@ -70,53 +86,9 @@ public class AlliesManager : MonoBehaviour
             ally.GetComponent<Stats>().health = maxHealth;
         }  
     }
-    
-    /// <summary>
-    /// Register a method to OnNewImpSpawned event
-    /// </summary>
-    /// <param name="method">The method to register</param>
-    public void RegisterOnNewImpSpawned(Action method) { 
-        OnNewImpSpawned += method;    
-    }
 
-    /// <summary>
-    /// Unregister a method to OnNewImpSpawned event
-    /// </summary>
-    /// <param name="method">The method to unregister</param>
-    public void UnregisterOnNewImpSpawned(Action method) { 
-        OnNewImpSpawned -= method;    
-    }
-
-    private void RaiseOnNewImpSpawned() { 
-        if(OnNewImpSpawned != null) { 
-            OnNewImpSpawned();    
-        }    
-    }
-
-    /// <summary>
-    /// Register a method to OnImpDied event
-    /// </summary>
-    /// <param name="method">The method to register</param>
-    public void RegisterOnImpDied(Action method)
-    {
-        OnImpDied += method;
-    }
-
-    /// <summary>
-    /// Unregister a method to OnImpDied event
-    /// </summary>
-    /// <param name="method">The method to unregister</param>
-    public void UnregisterOnImpDied(Action method)
-    {
-        OnImpDied -= method;
-    }
-
-    private void RaiseOnImpDied()
-    {
-        if (OnImpDied != null)
-        {
-            OnImpDied();
-        }
+    private void RaiseOnNewImpSpawned(GameObject newImp) { 
+        onNewImpSpawned?.Invoke(newImp);     
     }
 
     /// <summary>
@@ -125,9 +97,13 @@ public class AlliesManager : MonoBehaviour
     /// <param name="demonToSpawn">The imp GameObject to spawn</param>
     /// <param name="spawnPosition">Spawn position for imp to spawn</param>
     public void SpawnAlly(GameObject demonToSpawn, Vector3 spawnPosition) {
+
+        if(alliesList.Count >= impMaxNumber) return;
+
         GameObject spawnedDemon = Instantiate(demonToSpawn, spawnPosition, Quaternion.identity);
         alliesList.Add(spawnedDemon);
 
+        /*
         // TODO - MANAGE ALLY COMPONENTS WHEN IN COMBAT AND IN OUT OF COMBAT
         if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
             spawnedDemon.GetComponent<Combat>().enabled = true;
@@ -135,29 +111,47 @@ public class AlliesManager : MonoBehaviour
         else {
             spawnedDemon.GetComponent<Combat>().enabled = false;
         }
+        */
 
-        RaiseOnNewImpSpawned();
+        spawnedDemon.GetComponent<Stats>().onDeath += OnDeath;
+        spawnedDemon.GetComponent<Reincarnation>().onReincarnation += OnReincarnation;
+        
+        RaiseOnNewImpSpawned(spawnedDemon);
     }
 
     public void ManagePlayerReincarnation(GameObject newPlayer) { 
-        if(newPlayer != null) { 
-            alliesList.Remove(newPlayer);
-            if(alliesList.Count == 0)
-                BattleEventsManager.RaiseOnGameOver();
-        }           
-    }
-
-    public void AllyKilled(GameObject deadAlly) { 
-        alliesList.Remove(deadAlly);
-
-        RaiseOnImpDied();
-
-        // TODO - Create a Game over manager
-        if(alliesList.Count == 0)
-            BattleEventsManager.RaiseOnGameOver();
+                  
     }
 
     private void GameOver() {
         SceneManager.LoadScene("Game Over Screen");
     }
+
+    #region Event handlers
+
+    private void OnDeath(Stats sender)
+    {
+        alliesList.Remove(sender.gameObject);
+
+        sender.onDeath -= OnDeath;
+        sender.gameObject.GetComponent<Reincarnation>().onReincarnation -= OnReincarnation;
+        
+        // TODO - Manage gameover better
+        if(alliesList.Count == 0)
+            BattleEventsManager.RaiseOnGameOver();
+    }
+
+    private void OnReincarnation(GameObject newPlayer)
+    {
+        if(newPlayer != null) { 
+            alliesList.Remove(newPlayer);
+            if(alliesList.Count == 0)
+                BattleEventsManager.RaiseOnGameOver();
+        }
+
+        newPlayer.GetComponent<Stats>().onDeath -= OnDeath;
+        newPlayer.GetComponent<Reincarnation>().onReincarnation -= OnReincarnation;
+    }
+
+    #endregion
 }

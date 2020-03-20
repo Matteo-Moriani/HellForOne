@@ -8,13 +8,7 @@ using UnityEngine;
 /// </summary>
 public class GroupManager : MonoBehaviour
 {
-    [SerializeField]
-    [Tooltip("Field that indicate wich group this is")]
-    private Group thisGroupName = Group.None;
-
-    [SerializeField]
-    [Tooltip("The color of this group")]
-    private Color groupColor = Color.white;
+    #region Fields
 
     /// <summary>
     /// Enum that lists the aviable groups
@@ -28,6 +22,21 @@ public class GroupManager : MonoBehaviour
         None
     }
 
+    [SerializeField]
+    [Tooltip("Field that indicate wich group this is")]
+    private Group thisGroupName = Group.None;
+
+    [SerializeField]
+    [Tooltip("The color of this group")]
+    private Color groupColor = Color.white;
+    
+    private GameObject[] imps;
+    
+    private int impsInGroupNumber = 0;
+    private int maxImpNumber = 4;
+    
+    #endregion
+    
     #region properties
 
     /// <summary>
@@ -52,17 +61,30 @@ public class GroupManager : MonoBehaviour
 
     #endregion
 
-    private Action<GameObject> OnImpJoined;
-    
-    [SerializeField]
-    [Tooltip("Here only for testing")]
-    private GameObject[] imps;
-    [SerializeField]
-    [Tooltip("Here only for testing")]
-    private int impsInGroupNumber = 0;
-    
-    private int maxImpNumber = 4;
+    #region Delegates and events
 
+    public delegate void OnImpJoined(GroupManager sender, GameObject impJoined);
+    public event OnImpJoined onImpJoined;
+
+    public delegate void OnImpRemoved(GroupManager sender, GameObject impRemoved);
+    public event OnImpRemoved onImpRemoved;
+    
+    #region Methods
+
+    private void RiseOnImpJoined(GameObject impJoined)
+    {
+        onImpJoined?.Invoke(this,impJoined);
+    }
+
+    private void RiseOnImpRemoved(GameObject impRemoved)
+    {
+        onImpRemoved?.Invoke(this,impRemoved);
+    }
+
+    #endregion
+    
+    #endregion
+    
     // TODO - optimize this
     public Material groupColorMat;
 
@@ -70,25 +92,17 @@ public class GroupManager : MonoBehaviour
     public GameObject healthBar;
     private GroupHealthBar groupHealthBar;
 
+    #region Unity methods
+
     private void Awake()
     {
         groupHealthBar = healthBar.GetComponent<GroupHealthBar>();
-    }
-
-    private void OnEnable()
-    {
-        RegisterOnImpJoined(OnImpJoinedLocalHandler);
-    }
-
-    private void OnDisable()
-    {
-        UnregisterOnImpJoined(OnImpJoinedLocalHandler);
-    }
-
-    private void Start()
-    {
         imps = new GameObject[maxImpNumber];
     }
+
+    #endregion
+
+    #region Methods
 
     /// <summary>
     /// Tells if this group is empty
@@ -126,10 +140,11 @@ public class GroupManager : MonoBehaviour
         return imp;
     }
 
+    // TODO - Merge this with group finder?
     /// <summary>
     /// Add a demon to this group
     /// </summary>
-    /// <param name="demon">The demon to add</param>
+    /// <param name="imp">The demon to add</param>
     /// <returns>Returns true if the demon is added, false otherwise</returns>
     public bool AddDemonToGroup(GameObject imp)
     {
@@ -155,8 +170,10 @@ public class GroupManager : MonoBehaviour
                 Debug.LogError(this.name + " " + this.gameObject.name + " is trying to increase impsInGroupNumber over maxImpNumber");    
             }
             
+            imp.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;
+            imp.GetComponent<Stats>().onLateDeath += OnLateDeath;
 
-            RaiseOnImpJoined(imp);
+            groupHealthBar.SetDemonsNumber(ImpsInGroupNumber);
 
             return true;
         }
@@ -166,15 +183,7 @@ public class GroupManager : MonoBehaviour
         }
     }
 
-    private void OnImpJoinedLocalHandler(GameObject imp) { 
-        Reincarnation reincarnation = imp.GetComponent<Reincarnation>();
-
-        reincarnation.RegisterOnReincarnation(RemoveImp);
-
-        groupHealthBar.SetDemonsNumber(ImpsInGroupNumber);
-    }
-
-    public void RemoveImp(GameObject imp) {
+    private void RemoveImp(GameObject imp) {
         if(impsInGroupNumber > 0) {
             impsInGroupNumber--;
             int impIndex = System.Array.IndexOf(imps, imp);
@@ -186,22 +195,25 @@ public class GroupManager : MonoBehaviour
             Debug.LogError(this.name + " " + this.gameObject.name + " is trying to decrease impsInGroupNumber but it's already zero" );   
         }
 
-        Reincarnation reincarnation = imp.GetComponent<Reincarnation>();
+        imp.GetComponent<Reincarnation>().onLateReincarnation -= OnLateReincarnation;
+        imp.GetComponent<Stats>().onLateDeath -= OnLateDeath;
+        
+        RiseOnImpRemoved(imp);
+    }
+    
+    #endregion
 
-        reincarnation.UnregisterOnReincarnation(RemoveImp);
+    #region Event handlers
+
+    private void OnLateDeath(Stats sender)
+    {
+        RemoveImp(sender.gameObject);
     }
 
-    public void RegisterOnImpJoined(Action<GameObject> method) { 
-        OnImpJoined += method;    
+    private void OnLateReincarnation(GameObject newPlayer)
+    {
+        RemoveImp(newPlayer);
     }
 
-    public void UnregisterOnImpJoined(Action<GameObject> method) { 
-        OnImpJoined -= method;   
-    }
-
-    private void RaiseOnImpJoined(GameObject imp) { 
-        if(OnImpJoined != null) { 
-            OnImpJoined(imp);
-        }    
-    }
+    #endregion
 }

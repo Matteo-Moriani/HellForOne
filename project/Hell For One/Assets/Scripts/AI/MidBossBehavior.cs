@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MidBossBehavior : AbstractBoss {
-
+public class MidBossBehavior : AbstractBoss
+{
+    [SerializeField]
+    private NormalAttack swipeAttack;
+    
     public float singleAttackProb = 0.7f;
     public float groupAttackProb = 0.3f;
 
@@ -135,22 +138,26 @@ public class MidBossBehavior : AbstractBoss {
         return true;
     }
 
+    // TODO - Mid boss now can only swipe attack, I left both methods if we need to add attacks
     private void SingleAttack() {
-        if(BossCombat == null) {
-            BossCombat = GetComponent<Combat>();
+        if(NormalCombat == null)
+        {
+            NormalCombat = GetComponentInChildren<NormalCombat>();
         }
-        if(BossCombat != null) {
-            BossCombat.PlayerAttack();
+        if(NormalCombat != null) {
+            NormalCombat.StartNormalAttack(swipeAttack);
         }
         IsAttacking = false;
     }
-
+    
+    // TODO - Mid boss now can only swipe attack, I left both methods if we need to add attacks
     private void GroupAttack() {
-        if(BossCombat == null) {
-            BossCombat = GetComponent<Combat>();
+        if(NormalCombat == null)
+        {
+            NormalCombat = GetComponentInChildren<NormalCombat>();
         }
-        if(BossCombat != null) {
-            BossCombat.GroupAttack();
+        if(NormalCombat != null) {
+            NormalCombat.StartNormalAttack(swipeAttack);
         }
         IsAttacking = false;
     }

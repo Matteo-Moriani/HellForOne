@@ -14,14 +14,7 @@ public class GroupsInRangeDetector : MonoBehaviour
     [SerializeField]
     [Tooltip("The range of this Imp's group detection")]
     private float detectionRange = 1.0f;
-
-    /// <summary>
-    /// Delegate for the OnMostRappresentedGroupChanged event
-    /// </summary>
-    //public delegate void OnMostRappresentedGroupChanged();
-
-    //private event OnMostRappresentedGroupChanged onMostRappresentedGroupChanged;
-
+    
     private static event Action OnMostRappresentedGroupChanged;
 
     private List<GroupManager.Group> groupsInRange = new List<GroupManager.Group>();
@@ -59,13 +52,6 @@ public class GroupsInRangeDetector : MonoBehaviour
                 impsInRange.Add(group, 0);
             }
         }
-
-        //RegisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
-    }
-
-    private void OnDisable()
-    {
-        //UnregisterOnMostRappresentedGroupChanged(PrintMostRappresentedGroup);
     }
 
     private void Start()
@@ -115,11 +101,11 @@ public class GroupsInRangeDetector : MonoBehaviour
 
             if(stats != null) {
                 if (!stats.IsDying) {
-                    DemonBehaviour demonBehaviour = other.gameObject.GetComponent<DemonBehaviour>();
+                    GroupFinder groupFinder = other.gameObject.GetComponent<GroupFinder>();
 
-                    if (demonBehaviour != null)
+                    if (groupFinder != null)
                     {
-                        GroupManager groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
+                        GroupManager groupManager = groupFinder.GroupBelongingTo.GetComponent<GroupManager>();
 
                         if (groupManager != null)
                         {
@@ -258,9 +244,4 @@ public class GroupsInRangeDetector : MonoBehaviour
             OnMostRappresentedGroupChanged();
         }
     }
-
-    // TODO - used for testing, remove this
-    //private void PrintMostRappresentedGroup() { 
-    //    Debug.Log("Most rappresented group: " + mostRappresentedGroupInRange.ToString());    
-    //}
 }

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PlayerInput : GeneralInput
 {
-
+    private Stats stats;
     private Dash dash;
     private Combat combat;
     private TacticsManager tacticsManager;
     private Reincarnation reincarnation;
+
+    private Block block;
     //private bool gameInPause = false;
     //public bool GameInPause { get => gameInPause; set => gameInPause = value; }
     private bool playing = true;
@@ -40,8 +42,10 @@ public class PlayerInput : GeneralInput
 
     private void Awake()
     {
+        stats = GetComponent<Stats>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         reincarnation = this.gameObject.GetComponent<Reincarnation>();
+        block = GetComponentInChildren<Block>();
         FindPauseScreen();
     }
 
@@ -63,18 +67,10 @@ public class PlayerInput : GeneralInput
 
     private void OnEnable()
     {
-        //    Managers.Instance.onPressPlayButton += GameStart;
-        if ( combatEventsManager != null )
-        {
-            combatEventsManager.onDeath += OnDeath;
-            //combatEventsManager.onReincarnation += DisableOrders;
-            combatEventsManager.onStartSingleAttack += DisableLeftStick;
-            combatEventsManager.onStartRangedAttack += DisableLeftStick;
-            combatEventsManager.onStopSingleAttack += EnableLeftStick;
-            combatEventsManager.onStopRangedAttack += EnableLeftStick;
-        }
-        if(reincarnation != null) { 
-            reincarnation.RegisterOnReincarnation(OnReincarnation);   
+        stats.onDeath += OnDeath;
+        
+        if(reincarnation != null) {
+            reincarnation.onReincarnation += OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
@@ -83,18 +79,11 @@ public class PlayerInput : GeneralInput
 
     private void OnDisable()
     {
-        //    Managers.Instance.onPressPlayButton -= GameStart;
-        if ( combatEventsManager != null )
+        stats.onDeath -= OnDeath;
+        
+        if(reincarnation != null)
         {
-            combatEventsManager.onDeath -= OnDeath;
-            //combatEventsManager.onReincarnation -= DisableOrders;
-            combatEventsManager.onStartSingleAttack -= DisableLeftStick;
-            combatEventsManager.onStartRangedAttack -= DisableLeftStick;
-            combatEventsManager.onStopSingleAttack -= EnableLeftStick;
-            combatEventsManager.onStopRangedAttack -= EnableLeftStick;
-        }
-        if(reincarnation != null) { 
-            reincarnation.UnregisterOnReincarnation(OnReincarnation);    
+            reincarnation.onReincarnation -= OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
         BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
@@ -185,7 +174,7 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    combat.StartBlock();
+                    block.StartBlock();
                 }
             }
 
@@ -194,7 +183,7 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    combat.StopBlock();
+                    block.StopBlock();
                 }
             }
 
@@ -203,7 +192,7 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    combat.StartBlock();
+                    block.StartBlock();
                 }
             }
 
@@ -212,7 +201,7 @@ public class PlayerInput : GeneralInput
             {
                 if ( combat != null )
                 {
-                    combat.StopBlock();
+                    block.StopBlock();
                 }
             }
 
@@ -405,9 +394,7 @@ public class PlayerInput : GeneralInput
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
                     if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
                         DpadInUse = true;
-                        //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 3 );
-                        //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Support, tacticsManager.CurrentShowedGroup);
-
+                        
                         bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
 
                         if (hasAssignedOrder)
@@ -482,7 +469,7 @@ public class PlayerInput : GeneralInput
             //Debug.Log( name + " PlayerInput cannot find InputManager" );
     }
     
-    private void OnDeath()
+    private void OnDeath(Stats sender)
     {
         this.enabled = false;
     }

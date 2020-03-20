@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class GroupsManager : MonoBehaviour
 {
-    private GameObject[] groups;
-    private static GroupsManager instance;
-
-    public GameObject[] Groups { get => groups; private set => groups = value; }
-    public static GroupsManager Instance { get => instance; private set => instance = value; }
+    public GameObject[] Groups { get; private set; }
+    public static GroupsManager Instance { get; private set; }
 
     private void Awake()
     {
-        if(instance != null && instance != this) { 
+        if(Instance != null && Instance != this) { 
             Destroy(this.gameObject);
         }
         else { 
-            instance = this;
+            Instance = this;
         }
 
         Groups = GameObject.FindGameObjectsWithTag("Group");

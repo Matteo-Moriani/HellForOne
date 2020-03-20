@@ -5,65 +5,38 @@ using UnityEngine.AI;
 
 public class ImpAnimator : MonoBehaviour
 {
-    private AnimationsManager animationsManager;
-    private ChildrenObjectsManager childrenObjectsManager;
+    #region Fields
 
-    private Animator animator;
-    private Animator Animator { get => animator; set => animator = value; }
-    //private GroupBehaviour groupBehaviour;
-
-    private Controller controller;
-    private DemonMovement demonMovement;
     private bool isAnimating = false;
-    public bool IsAnimating { get => isAnimating; set => isAnimating = value; }
-
+    
     private float meleeSpeedMultiplier = 2.5f;
     private float rangedSpeedMultiplier = 2.8f;
     private float dashSpeedMultiplier = 2f;
 
     private CombatEventsManager combatEventsManager;
-
     private Reincarnation reincarnation;
+    private Controller controller;
+    private DemonMovement demonMovement;
+    private AnimationsManager animationsManager;
+    private ChildrenObjectsManager childrenObjectsManager;
+    private Animator animator;
+    private NormalCombat normalCombat;
+    private Block block;
+    private Stats stats;
+    private Support support;
+    private Recruit recruit;
+    private Dash dash;
 
-    private void OnEnable() {
-        if(combatEventsManager != null) {
-            combatEventsManager.onStartIdle += PlayIdleAnimation;
-            combatEventsManager.onStartMoving += PlayMoveAnimation;
-            combatEventsManager.onDeath += PlayDeathAnimation;
-            combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
-            combatEventsManager.onStartRangedAttack += PlayRangedAttackAnimation;
-            combatEventsManager.onStartBlock += PlayBlockAnimation;
-            combatEventsManager.onStopBlock += StopBlockAnimation;
-            combatEventsManager.onStartSupport += PlaySupportAnimation;
-            combatEventsManager.onStartRecruit += PlayRecruitAnimation;
-            combatEventsManager.onStartDash += PlayDashAnimation;
-        }
-        if(reincarnation != null) { 
-            reincarnation.RegisterOnReincarnation(OnReincarnation);    
-        }
-        BattleEventsManager.onBattleExit += PlayIdleAnimation;
-        BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
-    }
+    #endregion
 
-    private void OnDisable() {
-        if(combatEventsManager != null) {
-            combatEventsManager.onStartIdle -= PlayIdleAnimation;
-            combatEventsManager.onStartMoving -= PlayMoveAnimation;
-            combatEventsManager.onDeath -= PlayDeathAnimation;
-            combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
-            combatEventsManager.onStartRangedAttack -= PlayRangedAttackAnimation;
-            combatEventsManager.onStartBlock -= PlayBlockAnimation;
-            combatEventsManager.onStopBlock -= StopBlockAnimation;
-            combatEventsManager.onStartSupport -= PlaySupportAnimation;
-            combatEventsManager.onStartRecruit -= PlayRecruitAnimation;
-            combatEventsManager.onStartDash -= PlayDashAnimation;
-        }
-        if(reincarnation != null) { 
-            reincarnation.UnregisterOnReincarnation(OnReincarnation);    
-        }
-        BattleEventsManager.onBattleExit -= PlayIdleAnimation;
-        BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
-    }
+    #region Properties
+
+    public Animator Animator { get => animator; private set => animator = value; }
+    public bool IsAnimating { get => isAnimating; private set => isAnimating = value; }
+
+    #endregion
+        
+    #region Unity methods
 
     private void Awake() {
         Animator = GetComponent<Animator>();
@@ -73,64 +46,170 @@ public class ImpAnimator : MonoBehaviour
         demonMovement = gameObject.GetComponent<DemonMovement>();
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
         reincarnation = this.gameObject.GetComponent<Reincarnation>();
+        normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
+        block = gameObject.GetComponentInChildren<Block>();
+        stats = GetComponent<Stats>();
+        support = GetComponent<Support>();
+        recruit = GetComponent<Recruit>();
+        dash = GetComponent<Dash>();
+    }
+    
+    private void OnEnable() {
+        if (dash != null)
+        {
+            dash.onDashStart += OnDashStart;
+        }
+
+        if (recruit != null)
+        {
+            recruit.onStartRecruit += OnStartRecruit;
+        }
+
+        if (support != null)
+        {
+            support.onStartSupport += OnStartSupport;
+        }
+
+        if (demonMovement != null)
+        {
+            demonMovement.onStartMoving += OnStartMoving;
+            demonMovement.onStartIdle += OnStartIdle;
+        }
+
+        if(reincarnation != null)
+        {
+            reincarnation.onReincarnation += OnReincarnation;
+        }
+
+        if (stats != null)
+        {
+            stats.onDeath += OnDeath;    
+        }
+
+        if (normalCombat != null)
+        {
+            normalCombat.onStartNormalAttack += OnStartNormalAttack;    
+        }
+
+        if (block != null)
+        {
+            block.onStartBlock += OnStartBlock;
+            block.onStopBlock += OnStopBlock;
+            block.onBlockSuccess += OnBlockSuccess;    
+        }
+        
+        BattleEventsManager.onBattleExit += PlayIdleAnimation;
+        BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
     }
 
-    public void PlaySingleAttackAnimation() {
+    private void OnDisable() {
+        if (dash != null)
+        {
+            dash.onDashStart -= OnDashStart;
+        }
+
+        if (recruit != null)
+        {
+            recruit.onStartRecruit -= OnStartRecruit;
+        }
+
+        if (support != null)
+        {
+            support.onStartSupport -= OnStartSupport;
+        }
+
+        if (demonMovement != null)
+        {
+            demonMovement.onStartMoving -= OnStartMoving;
+            demonMovement.onStartIdle -= OnStartIdle;
+        }
+
+        if(reincarnation != null)
+        {
+            reincarnation.onReincarnation -= OnReincarnation;
+        }
+
+        if (stats != null)
+        {
+            stats.onDeath -= OnDeath;    
+        }
+
+        if (normalCombat != null)
+        {
+            normalCombat.onStartNormalAttack -= OnStartNormalAttack;    
+        }
+
+        if (block != null)
+        {
+            block.onStartBlock -= OnStartBlock;
+            block.onStopBlock -= OnStopBlock;
+            block.onBlockSuccess -= OnBlockSuccess;    
+        }
+        
+        BattleEventsManager.onBattleExit -= PlayIdleAnimation;
+        BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isMeleeAttacking", true);
         StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / meleeSpeedMultiplier));
     }
 
-    public void PlayRangedAttackAnimation() {
+    private void PlayRangedAttackAnimation() {
         StopAnimations();
         animator.SetBool("isRangedAttacking", true);
         StartCoroutine(WaitRangedAnimation(animationsManager.GetAnimation("Goalie Throw").length / rangedSpeedMultiplier));
     }
 
-    public void PlayMoveAnimation() {
+    private void PlayMoveAnimation() {
         if(!animator.GetBool("isBlocking")) {
             StopAnimations();
             animator.SetBool("isMoving", true);
         }
     }
 
-    public void PlayIdleAnimation() {
+    private void PlayIdleAnimation() {
         if(!animator.GetBool("isBlocking")) {
             StopAnimations();
             animator.SetBool("isIdle", true);
         }
     }
 
-    public void PlayDeathAnimation() {
+    private void PlayDeathAnimation() {
         StopAnimations();
         animator.SetBool("isDying", true);
     }
 
-    public void PlayBlockAnimation() {
+    private void PlayBlockAnimation() {
         StopAnimations();
         animator.SetBool("isBlocking", true);
         
     }
 
-    public void PlaySupportAnimation() {
+    private void PlaySupportAnimation() {
         StopAnimations();
         HideWeapons();
         animator.SetBool("isSupporting", true);
     }
 
-    public void PlayRecruitAnimation() {
+    private void PlayRecruitAnimation() {
         StopAnimations();
         HideWeapons();
         animator.SetBool("isRecruiting", true);
     }
 
-    public void PlayDashAnimation() {
+    private void PlayDashAnimation() {
         StopAnimations();
         animator.SetBool("isDashing", true);
         StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Jump").length / dashSpeedMultiplier));
     }
 
-    public void StopBlockAnimation() {
+    private void StopBlockAnimation() {
         // TODO - fix this, it gives wrong behaviour when dying
         if(controller.ZMovement != 0 || controller.XMovement != 0) {
             StopAnimations();
@@ -141,38 +220,8 @@ public class ImpAnimator : MonoBehaviour
             combatEventsManager.RaiseOnStartIdle();
         }
     }
-
-    public IEnumerator WaitAnimation(float time) {
-        if(GetComponent<Stats>().ThisUnitType == Stats.Type.Enemy) {
-            IsAnimating = true;
-            yield return new WaitForSeconds(time);
-            IsAnimating = false;
-            combatEventsManager.RaiseOnStartIdle();
-        } else {
-            IsAnimating = true;
-            yield return new WaitForSeconds(time);
-            IsAnimating = false;
-            if(controller.ZMovement != 0 || controller.XMovement != 0)
-                combatEventsManager.RaiseOnStartMoving();
-            else
-                combatEventsManager.RaiseOnStartIdle();
-        }
-        
-    }
-
-    public IEnumerator WaitRangedAnimation(float time) {
-        IsAnimating = true;
-        GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
-        yield return new WaitForSeconds(time);
-        IsAnimating = false;
-        GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
-        if(controller.ZMovement != 0 || controller.XMovement != 0)
-            combatEventsManager.RaiseOnStartMoving();
-        else
-            combatEventsManager.RaiseOnStartIdle();
-    }
-
-    public void StopAnimations() {
+    
+    private void StopAnimations() {
         ShowWeapons();
         Animator.SetBool("isDying", false);
         Animator.SetBool("isMeleeAttacking", false);
@@ -196,7 +245,104 @@ public class ImpAnimator : MonoBehaviour
         childrenObjectsManager.shield.SetActive(true);
     }
 
-    private void OnReincarnation(GameObject player) { 
-        StopBlockAnimation();    
+    #endregion
+
+    #region Events handlers
+
+    private void OnStartIdle()
+    {
+        PlayIdleAnimation();
     }
+
+    private void OnStartMoving()
+    {
+        PlayMoveAnimation();
+    }
+
+    private void OnStartSupport(Support sender)
+    {
+        PlaySupportAnimation();
+    }
+    
+    private void OnStartRecruit(Recruit sender)
+    {
+        PlayRecruitAnimation();
+    }
+
+    private void OnDashStart()
+    {
+        PlayDashAnimation();
+    }
+    
+    private void OnDeath(Stats stats)
+    {
+        PlayDeathAnimation();
+    }
+
+    private void OnReincarnation(GameObject player) { 
+        StopAnimations();    
+    }
+    
+    private void OnStartNormalAttack(NormalCombat sender, NormalAttack normalAttack)
+    {
+        if (normalAttack.IsRanged)
+        {
+            PlayRangedAttackAnimation();
+        }
+        else
+        {
+            PlaySingleAttackAnimation();
+        }
+    }
+
+    private void OnStartBlock(Block sender)
+    {
+        PlayBlockAnimation();    
+    }
+
+    private void OnStopBlock(Block sender)
+    {
+        StopBlockAnimation();
+    }
+    
+    private void OnBlockSuccess(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    {
+        PlayBlockAnimation();
+    }
+
+    #endregion
+    
+    #region Coroutines
+
+    private IEnumerator WaitAnimation(float time) {
+        if(GetComponent<Stats>().ThisUnitType == Stats.Type.Enemy) {
+            IsAnimating = true;
+            yield return new WaitForSeconds(time);
+            IsAnimating = false;
+            combatEventsManager.RaiseOnStartIdle();
+        } else {
+            IsAnimating = true;
+            yield return new WaitForSeconds(time);
+            IsAnimating = false;
+            if(controller.ZMovement != 0 || controller.XMovement != 0)
+                combatEventsManager.RaiseOnStartMoving();
+            else
+                combatEventsManager.RaiseOnStartIdle();
+        }
+        
+    }
+
+    private IEnumerator WaitRangedAnimation(float time) {
+        IsAnimating = true;
+        GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
+        yield return new WaitForSeconds(time);
+        IsAnimating = false;
+        GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
+        if(controller.ZMovement != 0 || controller.XMovement != 0)
+            combatEventsManager.RaiseOnStartMoving();
+        else
+            combatEventsManager.RaiseOnStartIdle();
+    }
+
+    #endregion
 }

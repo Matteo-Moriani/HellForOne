@@ -4,11 +4,31 @@ using UnityEngine;
 
 public class BossAnimator : MonoBehaviour
 {
-    private Animator animator;
-    public Animator Animator { get => animator; set => animator = value; }
+    #region Fields
 
+    private Stats stats;
+    private Animator animator;
     private CombatEventsManager combatEventsManager;
 
+    #endregion
+
+    #region Properties
+
+    public Animator Animator { get => animator; private set => animator = value; }
+
+    #endregion
+
+    #region Unity methods
+
+    private void Awake()
+    {
+        Animator = GetComponent<Animator>();
+
+        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+
+        stats = GetComponent<Stats>();
+    }
+    
     private void OnEnable()
     {
         if(combatEventsManager != null) { 
@@ -17,7 +37,7 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartGlobalAttack += PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle += PlayIdleAnimation;
             combatEventsManager.onStartMoving += PlayMoveAnimation;
-            combatEventsManager.onDeath += PlayDeathAnimation;
+            stats.onDeath += OnDeath;
             combatEventsManager.onStopSingleAttack += StopAnimations;
             combatEventsManager.onStopGroupAttack += StopAnimations;
             combatEventsManager.onStopGlobalAttack += StopAnimations;
@@ -33,20 +53,17 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartGlobalAttack -= PlayGlobalAttackAnimation;
             combatEventsManager.onStartIdle -= PlayIdleAnimation;
             combatEventsManager.onStartMoving -= PlayMoveAnimation;
-            combatEventsManager.onDeath -= PlayDeathAnimation;
+            stats.onDeath -= OnDeath;
             combatEventsManager.onStopSingleAttack -= StopAnimations;
             combatEventsManager.onStopGroupAttack -= StopAnimations;
             combatEventsManager.onStopGlobalAttack -= StopAnimations;
         }
     }
     
-    private void Awake()
-    {
-        Animator = GetComponent<Animator>();
+    #endregion
 
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-    }
-    
+    #region Methods
+
     public void PlaySingleAttackAnimation() {
         StopAnimations();
         animator.SetBool("isSingleAttacking",true);    
@@ -86,4 +103,16 @@ public class BossAnimator : MonoBehaviour
         Animator.SetBool("isMoving", false);
         Animator.SetBool("isIdle", false);
     }
+
+    #endregion
+
+    #region Event handlers
+
+    private void OnDeath(Stats sender)
+    {
+        PlayDeathAnimation();
+    }
+
+    #endregion
+    
 }

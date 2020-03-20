@@ -57,8 +57,8 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnBeenHit(Stats attackerStats);
     public event OnBeenHit onBeenHit;
 
-    public delegate void OnDeath();
-    public event OnDeath onDeath;
+    //public delegate void OnDeath();
+    //public event OnDeath onDeath;
 
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
@@ -205,16 +205,6 @@ public class CombatEventsManager : MonoBehaviour
         if(onBeenHit != null) { 
             onBeenHit(attackerStats);    
         }    
-    }
-
-    public void RaiseOnDeath()
-    {
-        // We need to stop all animations here!
-
-        if (onDeath != null)
-        {
-            onDeath();
-        }
     }
 
     public void RaiseOnStartMoving()

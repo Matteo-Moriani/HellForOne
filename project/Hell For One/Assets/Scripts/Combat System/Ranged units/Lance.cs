@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class Lance : MonoBehaviour
     [SerializeField, Range(-1, 5), Tooltip("The lance remains active after a valid collision for this frame number.")]
     private int numberFrames;
 
+    [SerializeField] private float fixedDuration = 5f;
+    
     private int actualFrame;
     private bool deactivates;
     private Stats stats;
@@ -18,6 +21,14 @@ public class Lance : MonoBehaviour
     {
         deactivates = false;
         actualFrame = numberFrames;
+        StartCoroutine(DisableCoroutine());
+    }
+
+    private void OnDisable()
+    {
+        // TODO - if you manage to do the effect in OnTriggerEnter, reset Lance here or in Coroutine
+        
+        StopAllCoroutines();
     }
 
     private void Start()
@@ -44,21 +55,7 @@ public class Lance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Stats stats;
-
-        if (other.tag == "Demon")
-        {
-            stats = other.GetComponent<Stats>();
-            if (stats != null && (stats.ThisUnitType == Stats.Type.Boss || stats.ThisUnitType == Stats.Type.Enemy))
-            {
-                deactivates = true;
-            }
-        }
-        else if (!ignoredTags.Contains(other.tag))
-        {
-            deactivates = true;
-        }
-
+        // TODO - put here an effect to stick lances into target
     }
 
     /// <summary>
@@ -75,6 +72,15 @@ public class Lance : MonoBehaviour
         {
             stats = value;
         }
+    }
+
+    private IEnumerator DisableCoroutine()
+    {
+        yield return new WaitForSeconds(fixedDuration);
+        
+        deactivates = true;
+        
+        // TODO - if you manage to do the effect in OnTriggerEnter, reset Lance here or in OnDisable
     }
 
 }

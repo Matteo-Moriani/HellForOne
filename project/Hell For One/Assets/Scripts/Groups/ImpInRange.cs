@@ -4,28 +4,36 @@ using UnityEngine;
 
 public class ImpInRange : MonoBehaviour
 {
-    private bool isImpInRange = false;
-    private CombatEventsManager combatEventsManager;
+    #region Fields
 
+    private bool isImpInRange = false;
+    
+    private CombatEventsManager combatEventsManager;
+    private Stats stats;
     private Reincarnation reincarnation;
+
+    #endregion
+
+    #region Unity methods
 
     private void Awake()
     {
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
         reincarnation = this.gameObject.GetComponent<Reincarnation>();
+        stats = GetComponent<Stats>();
     }
 
     private void OnEnable()
     {
         if(combatEventsManager != null) {
-            combatEventsManager.onDeath += OnDeath;
+            stats.onDeath += OnDeath;
         }
         else {
             Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find CombatEventsManager");
         }
         if (reincarnation != null)
         {
-            reincarnation.RegisterOnReincarnation(OnReincarnation);
+            reincarnation.onReincarnation += OnReincarnation;
         }
         else
         {
@@ -37,7 +45,7 @@ public class ImpInRange : MonoBehaviour
     {
         if (combatEventsManager != null)
         {
-            combatEventsManager.onDeath -= OnDeath;
+            stats.onDeath -= OnDeath;
         }
         else
         {
@@ -45,7 +53,7 @@ public class ImpInRange : MonoBehaviour
         }
         if (reincarnation != null)
         {
-            reincarnation.UnregisterOnReincarnation(OnReincarnation);
+            reincarnation.onReincarnation -= OnReincarnation;
         }
         else
         {
@@ -55,26 +63,30 @@ public class ImpInRange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "GroupsInRangeDetector") { 
+        if(other.CompareTag("GroupsInRangeDetector")) { 
             isImpInRange = true;    
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "GroupsInRangeDetector") { 
+        if(other.CompareTag("GroupsInRangeDetector")) { 
             isImpInRange = false;    
         }
     }
+    
+    #endregion
+    
+    #region Event handlers
 
-    private void OnDeath() {
+    private void OnDeath(Stats sender) {
         if (isImpInRange && (this.gameObject.tag != "Player" && this.gameObject.tag != "DeadPlayer")) { 
-            DemonBehaviour demonBehaviour = this.gameObject.GetComponent<DemonBehaviour>();
+            GroupFinder groupFinder = this.gameObject.GetComponent<GroupFinder>();
             GameObject player = GameObject.FindWithTag("Player");
             GroupManager groupManager = null;
 
-            if(demonBehaviour != null) {
-                groupManager = demonBehaviour.groupBelongingTo.GetComponent<GroupManager>();
+            if(groupFinder != null) {
+                groupManager = groupFinder.GroupBelongingTo.GetComponent<GroupManager>();
             }
             else {
                 Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find DemonBehaviour");
@@ -108,4 +120,6 @@ public class ImpInRange : MonoBehaviour
     private void OnReincarnation(GameObject player) { 
         this.enabled = false;    
     }
+
+    #endregion
 }

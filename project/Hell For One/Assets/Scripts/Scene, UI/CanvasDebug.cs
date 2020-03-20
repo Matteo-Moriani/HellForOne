@@ -77,10 +77,10 @@ public class CanvasDebug : MonoBehaviour
         tacticC.text = groupGreen.currentState.ToString();
         tacticD.text = groupYellow.currentState.ToString();
 
-        aggroValueA.text = aggroA.GetAggro().ToString();
-        aggroValueB.text = aggroB.GetAggro().ToString();
-        aggroValueC.text = aggroC.GetAggro().ToString();
-        aggroValueD.text = aggroD.GetAggro().ToString();
+        aggroValueA.text = aggroA.GroupAggroValue.ToString();
+        aggroValueB.text = aggroB.GroupAggroValue.ToString();
+        aggroValueC.text = aggroC.GroupAggroValue.ToString();
+        aggroValueD.text = aggroD.GroupAggroValue.ToString();
 
         currentGroup.text = tacticsManager.CurrentMostRappresentedGroup.ToString();
         currentTactic.text = tacticsManager.CurrentShowedState.ToString();
@@ -90,7 +90,8 @@ public class CanvasDebug : MonoBehaviour
 
         regenCountdown.text = "New ally imp in: " + ( int ) allyDemonSpawnerTest.Countdown;
 
-        playerAggro.text = playerStats.Aggro.ToString();
+        // Note: Aggro is now in ImpAggro
+        //playerAggro.text = playerStats.Aggro.ToString();
 
         if ( bossBehaviour.TargetDemon && bossTargetGroup)
         {

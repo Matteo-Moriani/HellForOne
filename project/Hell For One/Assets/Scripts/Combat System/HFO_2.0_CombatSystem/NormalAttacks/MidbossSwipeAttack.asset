@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e686d4905e34549aa3c07a03b20dbe, type: 3}
+  m_Name: MidbossSwipeAttack
+  m_EditorClassIdentifier: 
+  hasDamageSupportBonus: 0
+  isRanged: 0
+  canHitMultipleTargets: 1
+  canBeBlocked: 1
+  causeStun: 0
+  causeStunWhenBlocked: 0
+  causeKnockback: 1
+  causeKnockbackWhenBlocked: 1
+  damage: 2
+  range: 2
+  aggroModifier: 0
+  sizeX: 2
+  sizeY: 1
+  sizeZ: 1
+  delayInSeconds: 1
+  durationInSeconds: 0.15

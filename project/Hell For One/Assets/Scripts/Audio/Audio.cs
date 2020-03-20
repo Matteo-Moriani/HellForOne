@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 
 public class Audio : MonoBehaviour
 {
+    #region Fields
+
     private AudioSource combatAudioSource;
     private AudioSource walkAudioSource;
     private AudioSource deathAudioSource;
@@ -15,34 +17,51 @@ public class Audio : MonoBehaviour
     private Stats stats;
 
     private CombatEventsManager combatEventsManager;
+    private NormalCombat normalCombat;
+    private Block block;
+    private IdleCombat idleCombat;
 
     private Coroutine walkCR;
 
     private Coroutine dashCr;
 
+    #endregion
+
+    #region Unity methods
+
     private void Awake()
     {
-        combatEventsManager = GetComponent<CombatEventsManager>();    
+        combatEventsManager = GetComponent<CombatEventsManager>();
+        stats = GetComponent<Stats>();
+        normalCombat = GetComponentInChildren<NormalCombat>();
+        block = GetComponentInChildren<Block>();
+        idleCombat = GetComponentInChildren<IdleCombat>();
     }
 
     private void OnEnable()
     {
-        combatEventsManager.onBeenHit += PlayHitClip;
-        combatEventsManager.onBlockedHit += PlayBlockClip;
+        block.onBlockFailed += OnBlockFailed;
+        block.onBlockSuccess += OnBlockSuccess;
+
+        idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+        
         combatEventsManager.onStartMoving += PlayFootStep;
         combatEventsManager.onStartIdle += StopFootStep;
-        combatEventsManager.onDeath += PlayDeathSound;
+        stats.onDeath += OnDeath;
         combatEventsManager.onStartDash += PlayDashClip;
         combatEventsManager.onStartGlobalAttack += PlayRoarClip;
     }
-
+    
     private void OnDisable()
     {
-        combatEventsManager.onBeenHit -= PlayHitClip;
-        combatEventsManager.onBlockedHit -= PlayBlockClip;
+        block.onBlockFailed += OnBlockFailed;
+        block.onBlockSuccess += OnBlockSuccess;
+
+        idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+        
         combatEventsManager.onStartMoving -= PlayFootStep;
         combatEventsManager.onStartIdle -= StopFootStep;
-        combatEventsManager.onDeath -= PlayDeathSound;
+        stats.onDeath -= OnDeath;
         combatEventsManager.onStartDash -= PlayDashClip;
         combatEventsManager.onStartGlobalAttack -= PlayRoarClip;
     }
@@ -72,6 +91,10 @@ public class Audio : MonoBehaviour
         dashAudioSource.outputAudioMixerGroup = AudioManager.Instance.DashMixerGroup;
     }
 
+    #endregion
+
+    #region Methods
+
     private void PlayRoarClip() { 
         AudioManager.Instance.PlayRandomRoarClip(roarAudioSource);    
     }
@@ -88,9 +111,8 @@ public class Audio : MonoBehaviour
             dashCr = null;
         }    
     }
-
-    // Stats here is not used
-    private void PlayHitClip(Stats stats) { 
+    
+    private void PlayHitClip() { 
         AudioManager.Instance.PlayRandomCombatAudioClip(AudioManager.CombatAudio.Hit,combatAudioSource);    
     }
 
@@ -116,6 +138,34 @@ public class Audio : MonoBehaviour
         }    
     }
 
+    #endregion
+
+    #region Event handlers
+    
+    private void OnNormalAttackBeingHit(IdleCombat sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    {
+        PlayHitClip();
+    }
+
+    private void OnBlockSuccess(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    {
+        PlayBlockClip();
+    }
+
+    private void OnBlockFailed(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    {
+        PlayHitClip();
+    }
+
+    private void OnDeath(Stats sender)
+    {
+        PlayDeathSound();
+    }
+
+    #endregion
+
+    #region Coroutines
+
     private IEnumerator walkCoroutine() {
         while (true) {
             yield return new WaitForSeconds(AudioManager.Instance.PlayRandomWalkClip(AudioManager.Size.Small, walkAudioSource));// + Random.Range(0,0.01f));
@@ -128,4 +178,6 @@ public class Audio : MonoBehaviour
         AudioManager.Instance.UnlockWalkAudio();
         StopDashClip();
     }
+
+    #endregion
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerHitFeedback : MonoBehaviour
 {
+    /*
     [SerializeField]
     private Material[] finalBossMaterials;
 
@@ -97,4 +98,5 @@ public class PlayerHitFeedback : MonoBehaviour
             bossRenderer.material.SetColor("_EmissiveColor", Color.black);
         }    
     }
+    */
 }

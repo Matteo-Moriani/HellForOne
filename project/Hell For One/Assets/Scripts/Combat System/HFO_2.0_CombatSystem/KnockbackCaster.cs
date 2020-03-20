@@ -5,10 +5,18 @@ using UnityEngine;
 public class KnockbackCaster : MonoBehaviour
 {
     [SerializeField]
-    [Range(0f, 100f)]
-    [Tooltip("Probability of this unit to deal a knockBack")]
-    private float knockBackChance = 0f;
+    private KnockbackValues values;
     
+    public KnockbackValues Values
+    {
+        get => values;
+        private set => values = value;
+    }
+}
+
+[CreateAssetMenu(fileName = "KnockbackValues", menuName = "CombatSystem/KnockbackValues", order = 1)]
+public class KnockbackValues : ScriptableObject
+{
     [SerializeField]
     [Tooltip("How far this unit will push a target when dealing a knockBack")]
     private float knockBackSize = 0f;
@@ -16,11 +24,7 @@ public class KnockbackCaster : MonoBehaviour
     [SerializeField]
     [Tooltip("How many seconds will take to go through knockBackSize")]
     private float knockBackTime = 5.0f;
-
-    /// <summary>
-    /// Probability of this unit to deal a knockBack
-    /// </summary>
-    public float KnockBackChance { get => knockBackChance; private set => knockBackChance = value; }
+    
     /// <summary>
     /// How far this unit will push a target when dealing a knockBack
     /// </summary>
