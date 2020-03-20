@@ -113,8 +113,8 @@ public class RecruitSpawner : MonoBehaviour
         {
             // TODO - Decouple This
             AlliesManager.Instance.SpawnAlly(impPrefab,SpawnPosition());
-            yield return new WaitForSeconds(2.0f);
-            //yield return new WaitForSeconds( -15 / 11 * recruitingUnits + 25);
+            //yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds( -15 / 11 * Recruit.RecruitingUnits + 25);
         }
     }
 
