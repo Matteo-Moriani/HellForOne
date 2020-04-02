@@ -17,7 +17,7 @@ public class NewCameraManager : MonoBehaviour
     GameObjectSearcher gameObjectSearcher;
 
     GameObject lockCameraPlayerTarget;
-    Controller controller;
+    PlayerController playerController;
 
     public bool IsLocked { get => isLocked; set => isLocked = value; }
     public GameObject Player { get => player; set => player = value; }
@@ -27,7 +27,7 @@ public class NewCameraManager : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag( "Player" );
         gameObjectSearcher.GetChildObject( Player.transform, "CameraTarget" );
         lockCameraPlayerTarget = gameObjectSearcher.GetFirstChildWithTag();
-        controller = player.GetComponent<Controller>();
+        playerController = player.GetComponent<PlayerController>();
     }
 
     public void PlayerReincarnated()
@@ -109,7 +109,7 @@ public class NewCameraManager : MonoBehaviour
         // When player is not moving has to face target 
         if ( IsLocked && target)
         {
-            if ( controller.ZMovement == 0f && controller.XMovement == 0f )
+            if ( playerController.ZMovement == 0f && playerController.XMovement == 0f )
             {
                 Vector3 targetDir = target.transform.position - player.transform.position;
                 Quaternion tr = Quaternion.LookRotation( targetDir );

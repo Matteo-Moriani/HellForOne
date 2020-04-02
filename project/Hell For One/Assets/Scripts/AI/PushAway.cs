@@ -67,11 +67,11 @@ public class PushAway : MonoBehaviour
                 // If pushed away Player cannot move or dash
                 if (demonStats.ThisUnitType == Stats.Type.Player)
                 {
-                    Controller controller = demon.GetComponent<Controller>();
+                    PlayerController playerController = demon.GetComponent<PlayerController>();
                     Dash dash = demon.GetComponent<Dash>();
-                    if (controller != null && dash != null)
+                    if (playerController != null && dash != null)
                     {
-                        controller.enabled = false;
+                        playerController.enabled = false;
                         dash.enabled = false;
                     }
                     //else
@@ -116,13 +116,13 @@ public class PushAway : MonoBehaviour
                     // Player can move again
                     if (demonStats.ThisUnitType == Stats.Type.Player)
                     {
-                        Controller controller = demon.GetComponent<Controller>();
+                        PlayerController playerController = demon.GetComponent<PlayerController>();
                         Dash dash = demon.GetComponent<Dash>();
-                        if (controller != null && dash != null)
+                        if (playerController != null && dash != null)
                         {
                             if (demon.tag == "Player")
                             {
-                                controller.enabled = true;
+                                playerController.enabled = true;
                                 dash.enabled = true;
                             }
                             else

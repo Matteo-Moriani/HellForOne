@@ -514,7 +514,7 @@ public class AttackCollider : MonoBehaviour
             // Avoid division by 0
             if (attackingDemons == 0)
             {
-                attackingDemons = stats.SupportDamageBuffMultiplier;
+                //attackingDemons = stats.SupportDamageBuffMultiplier;
             }
 
             // Calculate damage

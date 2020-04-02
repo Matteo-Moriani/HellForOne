@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 114825707946308418}
   - component: {fileID: 5830274381028926096}
   - component: {fileID: 114225741877727004}
-  - component: {fileID: 5471317392824937645}
   - component: {fileID: 6041742736364372495}
   m_Layer: 0
   m_Name: GroupAzure
@@ -96,19 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc855c1343d36745aed6b974c124396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5471317392824937645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415832991084274865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fb14c86142a04a4ba1f97ba5102f5d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  supportAggroMultiplier: 1.1
 --- !u!114 &6041742736364372495
 MonoBehaviour:
   m_ObjectHideFlags: 0

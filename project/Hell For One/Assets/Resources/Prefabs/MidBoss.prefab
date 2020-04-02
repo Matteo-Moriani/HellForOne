@@ -775,7 +775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8a95032361dfb4d84b374333739e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finalBossMaterials: []
 --- !u!1 &3329590975247750343
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,20 +887,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitType: 3
   health: 750
-  meleeDamage: 2
-  rangedDamage: 1
-  supportDamageBuffMultiplier: 3.5
-  attackRange: 1.6
-  attackDurationMultiplier: 1
-  groupAttackSize: 2.8
-  globalAttackSize: 10
-  globalAttackDuration: 1
-  attackingBlockChance: 60
-  supportingBlockChance: 30
-  blockingBlockChance: 90
-  aggro: 1
-  aggroTime: 60
-  crisis: 0
 --- !u!114 &8977525979598090604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,9 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94527331855c9fe468edb28b3ff61677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatManager: {fileID: 6910916706913776686}
-  target: {fileID: 0}
-  playerAttackCooldown: 0.5
 --- !u!114 &7176045817796361636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,6 +1487,11 @@ PrefabInstance:
       propertyPath: defaultScaleZ
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5793126985798412036, guid: 428676f7cc435ab40a5bbf728b93e19c,
+        type: 3}
+      propertyPath: defaultCollidersScale
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9072439992550893990, guid: 428676f7cc435ab40a5bbf728b93e19c,
         type: 3}
       propertyPath: knockBackSize
@@ -1617,21 +1604,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: singleAttackDelayInSeconds
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: groupAttackDelayInSeconds
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: attackDurationInSeconds
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1687,11 +1659,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767577, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1722,11 +1689,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.1
       objectReference: {fileID: 0}
-    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1948504900106496661, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1746,6 +1708,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: singleAttackDelayInSeconds
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: groupAttackDelayInSeconds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: attackDurationInSeconds
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504901866767578, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948504900828473199, guid: 1575a07ee907ac1408830ce7afbfab0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1948504901866767581, guid: 1575a07ee907ac1408830ce7afbfab0f,
         type: 3}
@@ -1807,18 +1794,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4963803257091083586}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6910916706913776686 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1948504901118015852, guid: 1575a07ee907ac1408830ce7afbfab0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4963803257091083586}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f4911ca496a9494493ed1d2fae425c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6910916706913776687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1948504901118015853, guid: 1575a07ee907ac1408830ce7afbfab0f,

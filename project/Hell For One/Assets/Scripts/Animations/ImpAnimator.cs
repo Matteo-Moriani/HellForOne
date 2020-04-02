@@ -15,7 +15,7 @@ public class ImpAnimator : MonoBehaviour
 
     private CombatEventsManager combatEventsManager;
     private Reincarnation reincarnation;
-    private Controller controller;
+    private PlayerController playerController;
     private DemonMovement demonMovement;
     private AnimationsManager animationsManager;
     private ChildrenObjectsManager childrenObjectsManager;
@@ -40,7 +40,7 @@ public class ImpAnimator : MonoBehaviour
 
     private void Awake() {
         Animator = GetComponent<Animator>();
-        controller = GetComponent<Controller>();
+        playerController = GetComponent<PlayerController>();
         animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         demonMovement = gameObject.GetComponent<DemonMovement>();
@@ -55,96 +55,58 @@ public class ImpAnimator : MonoBehaviour
     }
     
     private void OnEnable() {
-        if (dash != null)
-        {
-            dash.onDashStart += OnDashStart;
-        }
-
-        if (recruit != null)
-        {
-            recruit.onStartRecruit += OnStartRecruit;
-        }
-
-        if (support != null)
-        {
-            support.onStartSupport += OnStartSupport;
-        }
-
-        if (demonMovement != null)
-        {
-            demonMovement.onStartMoving += OnStartMoving;
-            demonMovement.onStartIdle += OnStartIdle;
-        }
-
-        if(reincarnation != null)
-        {
-            reincarnation.onReincarnation += OnReincarnation;
-        }
-
-        if (stats != null)
-        {
-            stats.onDeath += OnDeath;    
-        }
-
-        if (normalCombat != null)
-        {
-            normalCombat.onStartNormalAttack += OnStartNormalAttack;    
-        }
-
-        if (block != null)
-        {
-            block.onStartBlock += OnStartBlock;
-            block.onStopBlock += OnStopBlock;
-            block.onBlockSuccess += OnBlockSuccess;    
-        }
+        dash.onDashStart += OnDashStart;
         
+        if(recruit != null)
+            recruit.onStartRecruit += OnStartRecruit;
+        
+        if(support != null)
+            support.onStartSupport += OnStartSupport;
+        
+        demonMovement.onStartMoving += OnStartMoving;
+        demonMovement.onStartIdle += OnStartIdle;
+
+        playerController.onPlayerStartMoving += OnStartMoving;
+        playerController.onPlayerEndMoving += OnStartIdle;
+        
+        reincarnation.onReincarnation += OnReincarnation;
+        
+        stats.onDeath += OnDeath;    
+        
+        normalCombat.onStartNormalAttack += OnStartNormalAttack;    
+        
+        block.onStartBlock += OnStartBlock;
+        block.onStopBlock += OnStopBlock;
+        block.onBlockSuccess += OnBlockSuccess;
+
         BattleEventsManager.onBattleExit += PlayIdleAnimation;
         BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
     }
 
     private void OnDisable() {
-        if (dash != null)
-        {
-            dash.onDashStart -= OnDashStart;
-        }
-
-        if (recruit != null)
-        {
+        dash.onDashStart -= OnDashStart;
+        
+        if(recruit != null)
             recruit.onStartRecruit -= OnStartRecruit;
-        }
-
-        if (support != null)
-        {
+        
+        if(support != null)
             support.onStartSupport -= OnStartSupport;
-        }
+        
+        demonMovement.onStartMoving -= OnStartMoving;
+        demonMovement.onStartIdle -= OnStartIdle;
 
-        if (demonMovement != null)
-        {
-            demonMovement.onStartMoving -= OnStartMoving;
-            demonMovement.onStartIdle -= OnStartIdle;
-        }
-
-        if(reincarnation != null)
-        {
-            reincarnation.onReincarnation -= OnReincarnation;
-        }
-
-        if (stats != null)
-        {
-            stats.onDeath -= OnDeath;    
-        }
-
-        if (normalCombat != null)
-        {
-            normalCombat.onStartNormalAttack -= OnStartNormalAttack;    
-        }
-
-        if (block != null)
-        {
-            block.onStartBlock -= OnStartBlock;
-            block.onStopBlock -= OnStopBlock;
-            block.onBlockSuccess -= OnBlockSuccess;    
-        }
+        playerController.onPlayerStartMoving -= OnStartMoving;
+        playerController.onPlayerEndMoving -= OnStartIdle;
+        
+        reincarnation.onReincarnation -= OnReincarnation;
+        
+        stats.onDeath -= OnDeath;    
+        
+        normalCombat.onStartNormalAttack -= OnStartNormalAttack;    
+        
+        block.onStartBlock -= OnStartBlock;
+        block.onStopBlock -= OnStopBlock;
+        block.onBlockSuccess -= OnBlockSuccess;    
         
         BattleEventsManager.onBattleExit -= PlayIdleAnimation;
         BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
@@ -211,13 +173,15 @@ public class ImpAnimator : MonoBehaviour
 
     private void StopBlockAnimation() {
         // TODO - fix this, it gives wrong behaviour when dying
-        if(controller.ZMovement != 0 || controller.XMovement != 0) {
+        if(playerController.ZMovement != 0 || playerController.XMovement != 0) {
             StopAnimations();
-            combatEventsManager.RaiseOnStartMoving();
+            //combatEventsManager.RaiseOnStartMoving();
+            PlayMoveAnimation();
         }
         else {
             StopAnimations();
-            combatEventsManager.RaiseOnStartIdle();
+            //combatEventsManager.RaiseOnStartIdle();
+            PlayIdleAnimation();
         }
     }
     
@@ -319,15 +283,16 @@ public class ImpAnimator : MonoBehaviour
             IsAnimating = true;
             yield return new WaitForSeconds(time);
             IsAnimating = false;
-            combatEventsManager.RaiseOnStartIdle();
+            //combatEventsManager.RaiseOnStartIdle();
+            PlayIdleAnimation();
         } else {
             IsAnimating = true;
             yield return new WaitForSeconds(time);
             IsAnimating = false;
-            if(controller.ZMovement != 0 || controller.XMovement != 0)
-                combatEventsManager.RaiseOnStartMoving();
+            if(playerController.ZMovement != 0 || playerController.XMovement != 0)
+                PlayMoveAnimation();
             else
-                combatEventsManager.RaiseOnStartIdle();
+                PlayIdleAnimation();
         }
         
     }
@@ -338,10 +303,10 @@ public class ImpAnimator : MonoBehaviour
         yield return new WaitForSeconds(time);
         IsAnimating = false;
         GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
-        if(controller.ZMovement != 0 || controller.XMovement != 0)
-            combatEventsManager.RaiseOnStartMoving();
+        if(playerController.ZMovement != 0 || playerController.XMovement != 0)
+            PlayMoveAnimation();
         else
-            combatEventsManager.RaiseOnStartIdle();
+            PlayIdleAnimation();
     }
 
     #endregion

@@ -225,7 +225,8 @@ public class ImpAggro : MonoBehaviour
     #endregion
     
     #region Coroutines
-
+    
+    // TODO - Create a static event in ImpAggro to raise in this Coroutine in order to avoid imp . GetComponent
     private IEnumerator AggroDecreasing()
     {
         while (true)
@@ -236,6 +237,7 @@ public class ImpAggro : MonoBehaviour
 
             if (!(timer <= 0f)) continue;
             
+            // TODO - if only the player can lower aggro, then this coroutine should run only in player.
             // only the player will reduce the aggro to everyone
             if (type != Stats.Type.Player) continue;
 

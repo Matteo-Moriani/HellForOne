@@ -26,10 +26,8 @@ public class NormalAttack : ScriptableObject
     [SerializeField] private float range = 0f;
     [SerializeField] private float aggroModifier = 0f;
     
-    [SerializeField] private float sizeX = 0f;
-    [SerializeField] private float sizeY = 0f;
-    [SerializeField] private float sizeZ = 0f;
-
+    [SerializeField] private float size = 0f;
+    
     [SerializeField] private float delayInSeconds = 0f;
     [SerializeField] private float durationInSeconds = 0f;
     
@@ -79,22 +77,10 @@ public class NormalAttack : ScriptableObject
         private set => range = value;
     }
 
-    public float SizeX
+    public float Size
     {
-        get => sizeX;
-        private set => sizeX = value;
-    }
-    
-    public float SizeY
-    {
-        get => sizeY;
-        private set => sizeY = value;
-    }
-
-    public float SizeZ
-    {
-        get => sizeZ;
-        private set => sizeZ = value;
+        get => size;
+        private set => size = value;
     }
 
     public float DelayInSeconds

@@ -153,7 +153,7 @@ public class NormalCombatManager : MonoBehaviour
         var targetPosition =
             normalAttackGameObject.transform.localPosition + new Vector3(0.0f, 0.0f, normalAttack.Range);
         
-        normalAttackGameObject.transform.localScale = new Vector3( normalAttack.SizeX, normalAttack.SizeY, normalAttack.SizeZ);
+        normalAttackGameObject.transform.localScale = Vector3.one * normalAttack.Size;
 
         yield return new WaitForSeconds(normalAttack.DelayInSeconds);
 

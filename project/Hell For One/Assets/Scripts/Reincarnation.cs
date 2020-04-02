@@ -55,10 +55,10 @@ public class Reincarnation : MonoBehaviour
     public void Reincarnate()
     {if (player != null) {
             // Disable controller
-            Controller controller = player.GetComponent<Controller>();
-            if (controller != null)
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
             {
-                controller.enabled = false;
+                playerController.enabled = false;
             }
 
             // Disable Tactics Manager
@@ -204,9 +204,9 @@ public class Reincarnation : MonoBehaviour
                 dash.enabled = true;    
             }
 
-            Controller controller = player.GetComponent<Controller>();
-            if(controller != null) { 
-                controller.enabled = true;    
+            PlayerController playerController = player.GetComponent<PlayerController>();
+            if(playerController != null) { 
+                playerController.enabled = true;    
             }
 
             DemonMovement demonMovement = player.GetComponent<DemonMovement>();

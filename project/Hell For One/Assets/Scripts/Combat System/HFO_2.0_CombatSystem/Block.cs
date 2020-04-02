@@ -31,6 +31,8 @@ public class Block : MonoBehaviour
     // TODO - delete serializefield after testing
     [SerializeField]
     private int blockChance = 0;
+
+    private bool isBlocking = false;
     
     #endregion
     
@@ -122,18 +124,28 @@ public class Block : MonoBehaviour
 
     public void StartBlock()
     {
-        if (unitType == Stats.Type.Player)
-            blockChance = 100;
-        
-        RiseOnStartBlock();
+        if (!isBlocking)
+        {
+            isBlocking = true;
+            
+            if (unitType == Stats.Type.Player)
+                blockChance = 100;
+            
+            RiseOnStartBlock();    
+        }
     }
 
     public void StopBlock()
     {
-        if (unitType == Stats.Type.Player)
-            blockChance = 0;
+        if (isBlocking)
+        {
+            isBlocking = false;
+            
+            if (unitType == Stats.Type.Player)
+                blockChance = 0;
         
-        RiseOnStopBlock();
+            RiseOnStopBlock();
+        }
     }
 
     #endregion
@@ -200,6 +212,8 @@ public class Block : MonoBehaviour
     {
         if (Random.Range(0, 100) < blockChance)
         {
+            // TODO - Check angle for player
+            
             RiseOnBlockSuccess(normalAttack,attackerNormalCombat);
         }
         else

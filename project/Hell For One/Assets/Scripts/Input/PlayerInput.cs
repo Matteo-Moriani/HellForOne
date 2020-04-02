@@ -92,7 +92,7 @@ public class PlayerInput : GeneralInput
 
     public void Start()
     {
-        controller = this.gameObject.GetComponent<Controller>();
+        playerController = this.gameObject.GetComponent<PlayerController>();
         canGiveInput = true;
         NavigatingMenu = false;
         dash = GetComponent<Dash>();
@@ -121,9 +121,9 @@ public class PlayerInput : GeneralInput
             }
 
             // Left stick (PS3 & XBOX)
-            if ( controller != null && !Attacking)
+            if ( playerController != null && !Attacking)
             {
-                controller.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
+                playerController.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
             }
 
             // Circle (PS3) / B (XBOX) 
@@ -477,7 +477,7 @@ public class PlayerInput : GeneralInput
     private void OnBattlePreparation()
     {
         canGiveInput = false;
-        controller.PassXZValues( 0, 0 );
+        playerController.PassXZValues( 0, 0 );
     }
 
     private void OnBossBattleEnter()
@@ -490,8 +490,8 @@ public class PlayerInput : GeneralInput
     }
 
     public void DisableLeftStick() {
-        controller.XMovement = 0f;
-        controller.ZMovement = 0f;
+        playerController.XMovement = 0f;
+        playerController.ZMovement = 0f;
         Attacking = true;
     }
 

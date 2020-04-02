@@ -57,22 +57,7 @@ public class Lance : MonoBehaviour
     {
         // TODO - put here an effect to stick lances into target
     }
-
-    /// <summary>
-    /// Sets or gets the stats of the lancer.
-    /// </summary>
-    /// <value>The stats of the lancer.</value>
-    public Stats LancerStats
-    {
-        get
-        {
-            return stats;
-        }
-        set
-        {
-            stats = value;
-        }
-    }
+    
 
     private IEnumerator DisableCoroutine()
     {
@@ -82,5 +67,4 @@ public class Lance : MonoBehaviour
         
         // TODO - if you manage to do the effect in OnTriggerEnter, reset Lance here or in OnDisable
     }
-
 }

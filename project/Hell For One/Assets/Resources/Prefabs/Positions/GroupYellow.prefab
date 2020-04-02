@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 114505785571255092}
   - component: {fileID: 8325787536396914807}
   - component: {fileID: 114553889596279180}
-  - component: {fileID: 4744940270589077485}
   - component: {fileID: 2124712489196776506}
   m_Layer: 0
   m_Name: GroupYellow
@@ -96,19 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc855c1343d36745aed6b974c124396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4744940270589077485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415832991084274865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fb14c86142a04a4ba1f97ba5102f5d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  supportAggroMultiplier: 1.1
 --- !u!114 &2124712489196776506
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,11 +33,7 @@ public class Stats : MonoBehaviour
     [SerializeField]
     [Tooltip("Starting health of this demon")]
     public float health = 2f;
-
-    // TODO - Implement in support
-    [SerializeField]
-    private float supportDamageBuffMultiplier = 3.5f;
-
+    
     private Reincarnation reincarnation;
 
     // TODO - Refactor PushAway
@@ -76,9 +72,6 @@ public class Stats : MonoBehaviour
     public bool IsSupporting { get => isSupporting; set => isSupporting = value; }
     public bool IsRecruiting { get => isRecruiting; set => isRecruiting = value; }
     public bool IsPushedAway { get => isPushedAway; set => isPushedAway = value; }
-    // TODO - Refactor Support
-    public float SupportDamageBuffMultiplier { get => supportDamageBuffMultiplier; set => supportDamageBuffMultiplier = value; }
-    
     public bool IsDying { get => isDying; private set => isDying = value; }
 
     /// <summary>
@@ -174,7 +167,7 @@ public class Stats : MonoBehaviour
     public void TakeHit(float damage)
     {
         //combatEventsManager.RaiseOnBeenHit();
-
+        // TODO - remove after testing
         Debug.Log(gameObject.name + " took " + damage + " damage ");
         
         health -= damage;
@@ -189,11 +182,11 @@ public class Stats : MonoBehaviour
         // If is processing a KnockBack the Player cannot move or dash
         if (ThisUnitType == Stats.Type.Player)
         {
-            Controller controller = this.GetComponent<Controller>();
-            Dash dash = this.GetComponent<Dash>();
+            //PlayerController playerController = this.GetComponent<PlayerController>();
+           // Dash dash = this.GetComponent<Dash>();
 
-            controller.enabled = true;
-            dash.enabled = true;
+            //playerController.enabled = true;
+            //dash.enabled = true;
         }
 
         if (ThisUnitType == Stats.Type.Ally)
@@ -215,11 +208,11 @@ public class Stats : MonoBehaviour
         // If is processing a KnockBack the Player cannot move or dash
         if (ThisUnitType == Stats.Type.Player)
         {
-            Controller controller = this.GetComponent<Controller>();
-            Dash dash = this.GetComponent<Dash>();
+            //PlayerController playerController = this.GetComponent<PlayerController>();
+            //Dash dash = this.GetComponent<Dash>();
 
-            controller.enabled = false;
-            dash.enabled = false;
+            //playerController.enabled = false;
+            //dash.enabled = false;
         }
 
         if (ThisUnitType == Stats.Type.Ally)

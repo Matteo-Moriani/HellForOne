@@ -12,7 +12,7 @@ public class MenuInput : GeneralInput {
     }
 
     private void Awake() {
-        controller = gameObject.GetComponent<Controller>();
+        playerController = gameObject.GetComponent<PlayerController>();
         canGiveInput = true;
         CurrentScreen = rootScreen.GetComponent<Menu>();
     }

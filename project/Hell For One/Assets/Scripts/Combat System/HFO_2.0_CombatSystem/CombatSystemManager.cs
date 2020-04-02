@@ -14,47 +14,20 @@ public class CombatSystemManager : MonoBehaviour
 	[SerializeField]
 	public Material normalAttackMaterial;
 	
-	[SerializeField] [Tooltip("Position offset for idleCombatManager GameObject")]
-	private Vector3 combatSystemGameObjectsOffset = Vector3.zero;
+	//[SerializeField] [Tooltip("Position offset for idleCombatManager GameObject")]
+	//private Vector3 combatSystemGameObjectsOffset = Vector3.zero;
 
-	[SerializeField] 
-	private float defaultScaleX = 0.5f;
-	[SerializeField] 
-	private float defaultScaleY = 1f;
-	[SerializeField] 
-	private float defaultScaleZ = 0.5f;
+	[SerializeField] private float defaultCollidersScale = 1.0f;
 	
 	private static string combatSystemLayer = "CombatSystem";
 	
-	#endregion
-
-	#region Properties
-
-	public float DefaultScaleX
-	{
-		get => defaultScaleX;
-		private set => defaultScaleX = value;
-	}
-
-	public float DefaultScaleY
-	{
-		get => defaultScaleY;
-		private set => defaultScaleY = value;
-	}
-
-	public float DefaultScaleZ
-	{
-		get => defaultScaleZ;
-		private set => defaultScaleZ = value;
-	}
-
 	#endregion
 
 	#region Methods
 
 	public GameObject CreateCombatSystem_GO(Transform parent, string nameAndTag)
 	{
-		Vector3 gameObjectPosition = parent.position + combatSystemGameObjectsOffset;
+		Vector3 gameObjectPosition = parent.position + Vector3.up * defaultCollidersScale / 2;
 
 		GameObject currentGameObject = new GameObject();
 
@@ -88,7 +61,7 @@ public class CombatSystemManager : MonoBehaviour
 		currentGameObject.transform.localEulerAngles = Vector3.zero;
 
 		// Set default scale
-		currentGameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+		currentGameObject.transform.localScale = new Vector3(defaultCollidersScale, defaultCollidersScale, defaultCollidersScale);
 
 		// Set Layer
 		currentGameObject.layer = LayerMask.NameToLayer(combatSystemLayer);
@@ -96,22 +69,23 @@ public class CombatSystemManager : MonoBehaviour
 		// Rendering for testing
 		MeshRenderer rend = currentGameObject.AddComponent<MeshRenderer>();
 
+		// TODO - Remove mesh filter after testing.
 		// Mesh filter
 		MeshFilter filter = currentGameObject.AddComponent<MeshFilter>();
-		GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		filter.mesh = cube.GetComponent<MeshFilter>().mesh;
-		Destroy(cube);
-		GameObject.Destroy(cube);
+		GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		filter.mesh = sphere.GetComponent<MeshFilter>().mesh;
+		Destroy(sphere);
+		GameObject.Destroy(sphere);
 		
 
 		// Rigidbody
-		Rigidbody rb = currentGameObject.AddComponent<Rigidbody>();
-		rb.isKinematic = true;
-		rb.useGravity = false;
+		//Rigidbody rb = currentGameObject.AddComponent<Rigidbody>();
+		//rb.isKinematic = true;
+		//rb.useGravity = false;
 
 		// Collider
-		BoxCollider boxCollider = currentGameObject.AddComponent<BoxCollider>();
-		boxCollider.isTrigger = true;
+		SphereCollider sphereCollider = currentGameObject.AddComponent<SphereCollider>();
+		sphereCollider.isTrigger = true;
 
 		if (UnityEditorInternal.InternalEditorUtility.tags.Contains(nameAndTag))
 		{

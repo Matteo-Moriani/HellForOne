@@ -53,10 +53,8 @@ MonoBehaviour:
   idleMaterial: {fileID: 2100000, guid: c835e74b0d1c001488b029a206403e3c, type: 2}
   normalAttackMaterial: {fileID: 2100000, guid: 41baa949d3e73ce408446c64dbcc2482,
     type: 2}
-  combatSystemGameObjectsOffset: {x: 0, y: 0.5, z: 0}
-  defaultScaleX: 0.5
-  defaultScaleY: 1
-  defaultScaleZ: 0.5
+  combatSystemGameObjectsOffset: {x: 0, y: 0, z: 0}
+  defaultCollidersScale: 1
 --- !u!114 &4146399535324072433
 MonoBehaviour:
   m_ObjectHideFlags: 0
