@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // TODO - Dash now is active for all allies, optimize this and avoid using FixedUpdate
+// TODO - Look in Reincarnation
 public class Dash : MonoBehaviour
 {
     #region fields

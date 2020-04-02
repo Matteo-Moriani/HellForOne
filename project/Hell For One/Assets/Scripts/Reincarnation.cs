@@ -7,6 +7,7 @@ using Cinemachine;
 using UnityEngine.SceneManagement;
 
 // TODO - implement reincarnation using events
+// TODO - when events implementation is not possible, add/remove needed component in reincarnation 
 public class Reincarnation : MonoBehaviour
 {
     #region fields
