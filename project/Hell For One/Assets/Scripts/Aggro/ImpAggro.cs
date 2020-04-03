@@ -99,6 +99,7 @@ public class ImpAggro : MonoBehaviour
 
     private void Initialize()
     {
+        // TODO - these should be static
         groupAggros = new GroupAggro[GroupsManager.Instance.Groups.Length];
         groupManagers = new GroupManager[GroupsManager.Instance.Groups.Length];
         

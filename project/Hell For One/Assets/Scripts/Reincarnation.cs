@@ -27,6 +27,9 @@ public class Reincarnation : MonoBehaviour
 
     public delegate void OnLateReincarnation(GameObject newPlayer);
     public event OnLateReincarnation onLateReincarnation;
+
+    public delegate void OnPlayerReincarnated(GameObject newPlayer);
+    public static event OnPlayerReincarnated onPlayerReincarnated;
     
     #region Methods
 
@@ -38,6 +41,11 @@ public class Reincarnation : MonoBehaviour
     private void RaiseOnLateReincarnation(GameObject newPlayer)
     {
         onLateReincarnation?.Invoke(newPlayer);
+    }
+
+    private void RaiseOnPlayerReincarnated(GameObject newPlayer)
+    {
+        onPlayerReincarnated?.Invoke(newPlayer);
     }
 
     #endregion
@@ -153,31 +161,12 @@ public class Reincarnation : MonoBehaviour
         {
             player.tag = "Player";
             player.layer = LayerMask.NameToLayer( "Player" );
-            //player.GetComponent<Stats>().health = 4f;
-
-            // TODO - Implement new GroupSupport
-            // NOTE - GroupFinder Reincarnation is already managed in GroupFInder
-            //GroupFinder groupFinder = player.GetComponent<GroupFinder>();
-            //if(groupFinder != null) {
-                // Update supporting units
-                //GroupSupport groupSupport = groupFinder.GroupBelongingTo.GetComponent<GroupSupport>();
-                //if(groupSupport != null) { 
-                    //groupSupport.UpdateSupportingUnits();    
-                //}
-
-                //groupFinder.enabled = false;
-            //}
-
+            
             NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
             if ( newCameraManager )
             {
                 newCameraManager.Player = player;
                 newCameraManager.PlayerReincarnated();
-            }
-
-            Reincarnation reincarnation = player.GetComponent<Reincarnation>();
-            if(reincarnation != null) { 
-                reincarnation.enabled = true;    
             }
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
@@ -248,6 +237,7 @@ public class Reincarnation : MonoBehaviour
 
             newPlayerReincarnation.RaiseOnReincarnation(player);
             newPlayerReincarnation.RaiseOnLateReincarnation(player);
+            RaiseOnPlayerReincarnated(player);
 
             // Activate groups in range detection
             // TODO - shouold this be activated after picking up the crown?

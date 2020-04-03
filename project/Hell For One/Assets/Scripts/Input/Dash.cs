@@ -32,7 +32,6 @@ public class Dash : MonoBehaviour
 
     private Rigidbody rb;
     private PlayerController playerController;
-    private CombatEventsManager combatEventsManager;
     private Block block;
     private StunReceiver stunReceiver;
     private KnockbackReceiver knockbackReceiver;
@@ -79,8 +78,7 @@ public class Dash : MonoBehaviour
         isDashing = false;
         canDash = true;
         playerWantsToDash = false;
-
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
+        
         block = GetComponentInChildren<Block>();
         knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
         stunReceiver = GetComponentInChildren<StunReceiver>();

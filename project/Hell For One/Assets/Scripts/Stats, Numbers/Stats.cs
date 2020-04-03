@@ -6,10 +6,6 @@ using UnityEngine.AI;
 public class Stats : MonoBehaviour
 {
     #region fields
-
-    private IdleCombat idleCombat;
-    private Block block;
-    private KnockbackReceiver knockbackReceiver;
     
     /// <summary>
     /// Used to indicate the type of this unit
@@ -34,11 +30,10 @@ public class Stats : MonoBehaviour
     [Tooltip("Starting health of this demon")]
     public float health = 2f;
     
-    private Reincarnation reincarnation;
-
     // TODO - Refactor PushAway
     private bool isPushedAway = false;
 
+    // TODO - Delete these after deleting CombatManager
     /// <summary>
     /// Tells if this unit is Idle (not blocking)
     /// </summary>
@@ -66,7 +61,7 @@ public class Stats : MonoBehaviour
 
     #region properties
     
-    // TODO - Refactor orders
+    // TODO - Delete these after deleting CombatManager
     public bool CombatIdle { get => combatIdle; set => combatIdle = value; }
     public bool IsBlocking { get => isBlocking; set => isBlocking = value; }
     public bool IsSupporting { get => isSupporting; set => isSupporting = value; }
@@ -110,43 +105,34 @@ public class Stats : MonoBehaviour
     private void Awake()
     {
         combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
-        reincarnation = this.gameObject.GetComponent<Reincarnation>();
-        
-        idleCombat = this.gameObject.GetComponentInChildren<IdleCombat>();
-        block = this.gameObject.GetComponentInChildren<Block>();
-        knockbackReceiver = this.gameObject.GetComponentInChildren<KnockbackReceiver>();
     }
 
     private void OnEnable()
     {
-        if(knockbackReceiver != null) {
-            knockbackReceiver.onStartKnockback += OnStartKnockback;
-            knockbackReceiver.onEndKnockback += OnEndKnockback;
-        }
-
+        Reincarnation reincarnation = GetComponent<Reincarnation>();
         if(reincarnation != null)
             reincarnation.onReincarnation += OnReincarnation;
         
+        IdleCombat idleCombat = GetComponentInChildren<IdleCombat>();
         if (idleCombat != null)
             idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
         
+        Block block = GetComponentInChildren<Block>();
         if (block != null)
             block.onBlockFailed += OnBlockFailed;
     }
 
     private void OnDisable()
     {
-        if(knockbackReceiver != null) { 
-            knockbackReceiver.onStartKnockback += OnStartKnockback;
-            knockbackReceiver.onEndKnockback += OnEndKnockback;
-        }
-
+        Reincarnation reincarnation = GetComponent<Reincarnation>();
         if (reincarnation != null)
             reincarnation.onReincarnation -= OnReincarnation;
         
+        IdleCombat idleCombat = GetComponentInChildren<IdleCombat>();
         if (idleCombat != null)
             idleCombat.onNormalAttackBeingHit -= OnNormalAttackBeingHit;
         
+        Block block = GetComponentInChildren<Block>();
         if (block != null)
             block.onBlockFailed -= OnBlockFailed;
     }
@@ -166,7 +152,6 @@ public class Stats : MonoBehaviour
     
     public void TakeHit(float damage)
     {
-        //combatEventsManager.RaiseOnBeenHit();
         // TODO - remove after testing
         Debug.Log(gameObject.name + " took " + damage + " damage ");
         
@@ -177,59 +162,7 @@ public class Stats : MonoBehaviour
             ManageDeath();
         }
     }
-
-    private void EnableMovement() {
-        // If is processing a KnockBack the Player cannot move or dash
-        if (ThisUnitType == Stats.Type.Player)
-        {
-            //PlayerController playerController = this.GetComponent<PlayerController>();
-           // Dash dash = this.GetComponent<Dash>();
-
-            //playerController.enabled = true;
-            //dash.enabled = true;
-        }
-
-        if (ThisUnitType == Stats.Type.Ally)
-        {
-            DemonMovement dm = GetComponent<DemonMovement>();
-
-            if (dm != null)
-            {
-                dm.CanMove = true;
-            }
-            else
-            {
-                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");
-            }
-        }
-    }
-
-    private void DisableMovement() {
-        // If is processing a KnockBack the Player cannot move or dash
-        if (ThisUnitType == Stats.Type.Player)
-        {
-            //PlayerController playerController = this.GetComponent<PlayerController>();
-            //Dash dash = this.GetComponent<Dash>();
-
-            //playerController.enabled = false;
-            //dash.enabled = false;
-        }
-
-        if (ThisUnitType == Stats.Type.Ally)
-        {
-            DemonMovement dm = GetComponent<DemonMovement>();
-
-            if (dm != null)
-            {
-                dm.CanMove = false;
-            }
-            else
-            {
-                Debug.Log(this.transform.root.name + " ManageMovement cannot find DemonMovement ");
-            }
-        }
-    }
-
+    
     // TODO - Refactor death
     private void ManageDeath()
     {
@@ -307,16 +240,6 @@ public class Stats : MonoBehaviour
     #endregion
 
     #region EventHandlers
-
-    private void OnStartKnockback(KnockbackReceiver sender)
-    {
-        DisableMovement();
-    }
-
-    private void OnEndKnockback(KnockbackReceiver sender)
-    {
-        EnableMovement();
-    }
 
     private void OnBlockFailed(Block sender, NormalAttack normalAttack,NormalCombat attackerNormalCombat)
     {

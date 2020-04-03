@@ -398,20 +398,11 @@ public class GroupBehaviour : MonoBehaviour
 
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                //Combat combat = imp.GetComponent<Combat>();
-                //ombat.StopRecruit();
-                //if(isRecruitOrderGiven)
-                    RaiseOnStopRecruitOrderGiven();
+                RaiseOnStopRecruitOrderGiven();
             }
         }
     }
-
-    // Managed in Support
-    // TODO - Parametrize this
-    //private void UpdateSupportAggro() {
-    //    //RaiseOnSupportStayAction();
-    //}
-
+    
     #endregion
 
     #endregion
@@ -433,7 +424,7 @@ public class GroupBehaviour : MonoBehaviour
         return true;
     }
     
-    public void AssignOrder(GroupBehaviour.State newState)
+    private void AssignOrder(State newState)
     {
         if (groupFSM.current.stateName == newState.ToString()) return;
         
@@ -475,11 +466,18 @@ public class GroupBehaviour : MonoBehaviour
         groupManager = this.gameObject.GetComponent<GroupManager>();
     }
 
+    private void OnEnable()
+    {
+        TacticsManager.onTryOrderAssign += OnTryOrderAssign;
+    }
+
     private void OnDisable()
     {
         AlliesManager.Instance.onNewImpSpawned -= OnNewImpSpawned;
+        
+        TacticsManager.onTryOrderAssign -= OnTryOrderAssign;
     }
-
+    
     void Start() {
         // TODO: I don't know why but RecruitSpawner.OnEnable is called before AlliesManager.Awake, so
         //    if we need to register to AlliedManager events we need to do it in Start
@@ -569,7 +567,7 @@ public class GroupBehaviour : MonoBehaviour
         #endregion
     }
         
-    public IEnumerator AttackOneTime(float rateo) {
+    private IEnumerator AttackOneTime(float rateo) {
         while(true) {
             yield return new WaitForSeconds(rateo);
             if(currentState == State.MeleeAttack)
@@ -579,6 +577,12 @@ public class GroupBehaviour : MonoBehaviour
         }
     }
  
+    private void OnTryOrderAssign(State state, GroupManager.Group group)
+    {
+        if(groupManager.ThisGroupName == group || group == GroupManager.Group.All )
+            AssignOrder(state);
+    }
+    
     private void OnNewImpSpawned(GameObject newImp)
     {
         impsAlreadyChecked = false;

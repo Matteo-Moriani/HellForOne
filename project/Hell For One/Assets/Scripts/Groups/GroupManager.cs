@@ -19,6 +19,7 @@ public class GroupManager : MonoBehaviour
         GroupPink,
         GroupGreen,
         GroupYellow,
+        All,
         None
     }
 

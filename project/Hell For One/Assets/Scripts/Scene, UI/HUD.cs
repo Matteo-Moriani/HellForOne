@@ -138,7 +138,7 @@ public class HUD : MonoBehaviour
             }
         }
 
-        switch ( tacticsManager.CurrentMostRappresentedGroup )
+        switch ( tacticsManager.CurrentMostRepresentedGroup )
         {
             case GroupManager.Group.GroupAzure:
                 panelAzure.transform.localScale = enlargedScale;

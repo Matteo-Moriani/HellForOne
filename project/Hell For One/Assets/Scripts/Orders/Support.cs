@@ -157,24 +157,30 @@ public class Support : MonoBehaviour
 
     private void OnDeath(Stats sender)
     {
-        StopAllCoroutines();
+        if (isSupporting)
+        {
+            StopAllCoroutines();
 
-        groupBehaviour.onStartSupportOrderGiven -= OnStartSupportOrderGiven;
-        groupBehaviour.onStopSupportOrderGiven -= OnStopSupportOrderGiven;
+            groupBehaviour.onStartSupportOrderGiven -= OnStartSupportOrderGiven;
+            groupBehaviour.onStopSupportOrderGiven -= OnStopSupportOrderGiven;
 
-        supportingUnits--;
-        
+            supportingUnits--;
+        }
+
         enabled = false;
     }
 
     private void OnReincarnation(GameObject newplayer)
     {
-        StopAllCoroutines();
+        if (isSupporting)
+        {
+            StopAllCoroutines();
 
-        groupBehaviour.onStartSupportOrderGiven -= OnStartSupportOrderGiven;
-        groupBehaviour.onStopSupportOrderGiven -= OnStopSupportOrderGiven;
+            groupBehaviour.onStartSupportOrderGiven -= OnStartSupportOrderGiven;
+            groupBehaviour.onStopSupportOrderGiven -= OnStopSupportOrderGiven;
 
-        supportingUnits--;
+            supportingUnits--;    
+        }
         
         enabled = false;
     }

@@ -47,7 +47,7 @@ public class GroupsInRangeDetector : MonoBehaviour
     {
         foreach (GroupManager.Group group in (GroupManager.Group[])Enum.GetValues(typeof(GroupManager.Group)))
         {
-            if (group != GroupManager.Group.None)
+            if (group != GroupManager.Group.None && group != GroupManager.Group.All)
             {
                 impsInRange.Add(group, 0);
             }
@@ -76,7 +76,6 @@ public class GroupsInRangeDetector : MonoBehaviour
 
         foreach (KeyValuePair<GroupManager.Group, int> item in impsInRange)
         {
-
             if (item.Value > temp)
             {
                 temp = item.Value;

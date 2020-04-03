@@ -44,8 +44,7 @@ public class DemonMovement : MonoBehaviour {
 
     private bool inScriptedMovement = false;
     private bool playerNotified = false;
-
-    private CombatEventsManager combatEventsManager;
+    
     private NavMeshAgent agent;
 
     private Quaternion futureRotation;
@@ -73,16 +72,8 @@ public class DemonMovement : MonoBehaviour {
     #endregion
     
     #endregion
-    
-    private void OnEnable() {
-        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
-    }
 
-    private void OnDisable() {
-        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
-    }
+    #region Unity methods
 
     private void Awake() {
         stats = gameObject.GetComponent<Stats>();
@@ -93,18 +84,46 @@ public class DemonMovement : MonoBehaviour {
             
     }
 
+    private void OnEnable() {
+        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+        
+        KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
+        knockbackReceiver.onStartKnockback += OnStartKnockback;
+        knockbackReceiver.onEndKnockback += OnEndKnockback;
+        
+        GroupFinder groupFinder = GetComponent<GroupFinder>();
+        groupFinder.onGroupFound += OnGroupFound;
+
+        Reincarnation.onPlayerReincarnated += OnPlayerReincarnated;
+    }
+
+    private void OnDisable() {
+        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+        
+        KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
+        knockbackReceiver.onStartKnockback -= OnStartKnockback;
+        knockbackReceiver.onEndKnockback -= OnEndKnockback;
+        
+        GroupFinder groupFinder = GetComponent<GroupFinder>();
+        groupFinder.onGroupFound -= OnGroupFound;
+        
+        Reincarnation.onPlayerReincarnated += OnPlayerReincarnated;
+    }
+    
     void Start() {
         futureRotation = Quaternion.LookRotation(transform.forward);
         player = GameObject.FindGameObjectWithTag("Player");
         myCollider = GetComponent<Collider>();
-
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        
         agent = gameObject.GetComponent<NavMeshAgent>();
         agent.stoppingDistance = maxMeleeDist;
     }
 
     void FixedUpdate() {
         if(CanMove) {
+            /*
             if(!player)
                 player = GameObject.FindGameObjectWithTag("Player");
 
@@ -117,7 +136,8 @@ public class DemonMovement : MonoBehaviour {
                     target = groupMovement.Target;
                 }
             }
-            else if(target) {
+            */
+            if(target) {
                 if(target.CompareTag("Boss")) {
                     if(checkPositionCR == null)
                         checkPositionCR = StartCoroutine(CheckInPosition());
@@ -169,6 +189,47 @@ public class DemonMovement : MonoBehaviour {
         }
         ManageMovementEvents();
     }
+    
+    #endregion
+    
+    #region External events
+
+    private void OnPlayerReincarnated(GameObject newPlayer)
+    {
+        player = newPlayer;
+    }
+
+    private void OnGroupFound(GroupFinder sender)
+    {
+        group = sender.GroupBelongingTo;
+        groupBehaviour = sender.GroupBelongingTo.GetComponent<GroupBehaviour>();
+        groupMovement = sender.GroupBelongingTo.GetComponent<GroupMovement>();
+        target = groupMovement.Target;
+    }
+    
+    private void OnEndKnockback(KnockbackReceiver sender)
+    {
+        canMove = true;
+    }
+
+    private void OnStartKnockback(KnockbackReceiver sender)
+    {
+        canMove = false;
+    }
+    
+    private void OnBossBattleExit() {
+        StopCoroutine(checkPositionCR);
+        canMove = true;
+        checkPositionCR = null;
+    }
+
+    private void OnBossBattleEnter() {
+        PrepareForBattle();
+    }
+
+    #endregion
+
+    #region Methods
 
     private void CloseRangeMovement() {
         farFromEnemy = false;
@@ -178,7 +239,7 @@ public class DemonMovement : MonoBehaviour {
         Vector3 groupComponent = transform.position;
 
         // I move to the enemy only if I'm far from melee distance and close enough to my group
-        if(HorizDistFromTarget(group) <= groupMovement.HorizDistFromTargetBorders(target) + extraCohesion && group != null) {
+        if(HorizDistFromTarget(group) <= groupMovement.HorizDistFromTargetBorders(target) + extraCohesion) {
 
             Face(target);
             if(HorizDistFromTargetBorders(target) > maxMeleeDist) {
@@ -281,9 +342,7 @@ public class DemonMovement : MonoBehaviour {
         vectorToTarget.y = 0f;
         return Quaternion.LookRotation(vectorToTarget);
     }
-
     
-
     public void PrepareForBattleWith(GameObject target) {
         this.target = target;
         targetCollider = target.GetComponent<Collider>();
@@ -314,38 +373,37 @@ public class DemonMovement : MonoBehaviour {
     private void ManageMovementEvents() {
         if(agent.velocity.magnitude > movSpeedTreshold) {
             if(!isMoving) {
-                if(combatEventsManager != null) {
-                    RaiseOnStartMoving();
-                }
-
+                RaiseOnStartMoving();
+                    
                 isMoving = true;
             }
         }
         if(agent.velocity.magnitude <= movSpeedTreshold) {
             if(isMoving) {
-                if(combatEventsManager != null) {
-                    RaiseOnStartIdle();
-                }
+                RaiseOnStartIdle();
+                
                 isMoving = false;
             }
         }
-
     }
-
-    private void OnBossBattleExit() {
-        StopCoroutine(checkPositionCR);
-        canMove = true;
-        checkPositionCR = null;
-    }
-
-    private void OnBossBattleEnter() {
-        PrepareForBattle();
-    }
-
+    
     private void PrepareForBattle() {
         checkPositionCR = StartCoroutine(CheckInPosition());
         bossBehaviour = GameObject.FindGameObjectWithTag("Boss").GetComponent<AbstractBoss>();
     }
+
+    private bool CorrectRotation() {
+        faceActualDegreeError = Mathf.Abs(transform.rotation.eulerAngles.y - DirectionToTarget().eulerAngles.y);
+
+        if(faceActualDegreeError > faceAllowedDegreeError || faceActualDegreeError < 360f - faceAllowedDegreeError)
+            return false;
+        else
+            return true;
+    }
+    
+    #endregion
+
+    #region Coroutines
 
     private IEnumerator CheckInPosition() {
         while(true) {
@@ -358,12 +416,5 @@ public class DemonMovement : MonoBehaviour {
         }
     }
 
-    private bool CorrectRotation() {
-        faceActualDegreeError = Mathf.Abs(transform.rotation.eulerAngles.y - DirectionToTarget().eulerAngles.y);
-
-        if(faceActualDegreeError > faceAllowedDegreeError || faceActualDegreeError < 360f - faceAllowedDegreeError)
-            return false;
-        else
-            return true;
-    }
+    #endregion
 }
