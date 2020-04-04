@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 989031761093331458}
   - component: {fileID: 9072439992550893990}
   - component: {fileID: 8792780201520649838}
-  - component: {fileID: 6773303424144923524}
   - component: {fileID: 5343445664700864137}
   m_Layer: 0
   m_Name: CombatSystem
@@ -53,7 +52,6 @@ MonoBehaviour:
   idleMaterial: {fileID: 2100000, guid: c835e74b0d1c001488b029a206403e3c, type: 2}
   normalAttackMaterial: {fileID: 2100000, guid: 41baa949d3e73ce408446c64dbcc2482,
     type: 2}
-  combatSystemGameObjectsOffset: {x: 0, y: 0, z: 0}
   defaultCollidersScale: 1
 --- !u!114 &4146399535324072433
 MonoBehaviour:
@@ -116,18 +114,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb5d0bba649a0c547be19a35e1f39ccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6773303424144923524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303171415052686585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8ba881696e2e5046b01a62aad64d095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5343445664700864137

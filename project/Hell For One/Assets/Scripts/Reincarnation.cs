@@ -235,8 +235,17 @@ public class Reincarnation : MonoBehaviour
 
             Reincarnation newPlayerReincarnation = player.GetComponent<Reincarnation>();
 
+            // First handlers are called (stats or indipendent stuff)
             newPlayerReincarnation.RaiseOnReincarnation(player);
+            
+            // We add components specific to the Player
+            player.AddComponent<ImpMana>();
+            
+            // TODO - this is used when we need to access Stats.type, so it's better to create an event in stats to call when Stats.type changes
+            // Dipendent handlers
             newPlayerReincarnation.RaiseOnLateReincarnation(player);
+            
+            // Notify behaviours that player is changed
             RaiseOnPlayerReincarnated(player);
 
             // Activate groups in range detection

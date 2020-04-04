@@ -43,17 +43,8 @@ public class NormalCombat : MonoBehaviour
     public delegate void OnStopNormalAttack(NormalCombat sender, NormalAttack normalAttack);
     public event OnStopNormalAttack onStopNormalAttack;
 
-    // Used to apply bonus etc etc
-    public delegate void OnAwakeNormalAttack(NormalCombat sender, NormalAttack normalAttack);
-    public event OnAwakeNormalAttack onAwakeNormalAttack;
-
     #region Methods
-
-    private void RaiseOnAwakeNormalAttack(NormalAttack normalAttack)
-    {
-        onAwakeNormalAttack?.Invoke(this,normalAttack);
-    }
-
+    
     private void RaiseOnNormalAttackHit(NormalAttack normalAttack)
     {
         onNormalAttackHit?.Invoke(this,normalAttack);
@@ -111,9 +102,7 @@ public class NormalCombat : MonoBehaviour
             return;
 
         currentNormalAttack = normalAttack;
-        
-        RaiseOnAwakeNormalAttack(normalAttack);
-        
+
         normalCombatManager.StartNormalAttack(normalAttack);
         
         RaiseOnStartNormalAttack(normalAttack);

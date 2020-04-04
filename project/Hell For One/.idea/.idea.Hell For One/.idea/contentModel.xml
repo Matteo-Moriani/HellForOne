@@ -91,6 +91,11 @@
               <e p="Block.cs" t="Include" />
               <e p="CombatSystemManager.cs" t="Include" />
               <e p="EnvironmentalCombat.cs" t="Include" />
+              <e p="GroupAbilities" t="Include">
+                <e p="AbilitiesManager.cs" t="Include" />
+                <e p="Hammer.cs" t="Include" />
+                <e p="HammerManager.cs" t="Include" />
+              </e>
               <e p="IdleCollider.cs" t="Include" />
               <e p="IdleCombat.cs" t="Include" />
               <e p="IdleCombatManager.cs" t="Include" />
@@ -101,7 +106,6 @@
               <e p="NormalCombat.cs" t="Include" />
               <e p="NormalCombatCollider.cs" t="Include" />
               <e p="NormalCombatManager.cs" t="Include" />
-              <e p="StunCaster.cs" t="Include" />
               <e p="StunReceiver.cs" t="Include" />
             </e>
             <e p="LittleEnemyAutoAttackTest.cs" t="Include" />
@@ -189,6 +193,7 @@
           </e>
           <e p="Stats, Numbers" t="Include">
             <e p="GroupAggro.cs" t="Include" />
+            <e p="ImpMana.cs" t="Include" />
             <e p="RecruitManager.cs" t="Include" />
             <e p="Stats.cs" t="Include" />
           </e>

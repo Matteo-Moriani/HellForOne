@@ -1,48 +1,43 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Mana : MonoBehaviour
 {
-    private float manaPool;
-    private float maxMana = 100f;
     private Image manaBarIn;
-    private float chargeRate = 5f;
-    private bool isCharging = false;
 
-    public void ChargeMana()
-    {
-        Debug.Log( "Charging mana" );
-        isCharging = true;
-    }
-
-    public void StopChargeMana()
-    {
-        Debug.Log( "Stopped charging mana" );
-        isCharging = false;
-    }
+    #region Unity methods
 
     void Awake()
     {
         manaBarIn = transform.GetChild( 0 ).GetComponent<Image>();
     }
+    
+    private void OnEnable()
+    {
+        ImpMana.onManaPoolChanged += OnManaPoolChanged;
+    }
+
+    private void OnDisable()
+    {
+        ImpMana.onManaPoolChanged -= OnManaPoolChanged;
+    }
 
     void Start()
     {
-        manaPool = 50f;
+        manaBarIn.fillAmount = ImpMana.ManaPool / ImpMana.MaxMana;
     }
+    
+    #endregion
+    
+    #region External events handlers
 
-    void Update()
+    private void OnManaPoolChanged()
     {
-        manaBarIn.fillAmount = manaPool / maxMana;
-
-        if ( isCharging )
-        {
-            if (manaPool <= maxMana )
-            {
-                manaPool += chargeRate * Time.deltaTime;
-            }
-        }
+        manaBarIn.fillAmount = ImpMana.ManaPool / ImpMana.MaxMana;
     }
+
+    #endregion
 }

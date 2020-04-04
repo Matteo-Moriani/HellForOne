@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Linq;
 using UnityEngine;
 
 public class CombatSystemManager : MonoBehaviour
@@ -13,9 +10,6 @@ public class CombatSystemManager : MonoBehaviour
 	public Material idleMaterial;
 	[SerializeField]
 	public Material normalAttackMaterial;
-	
-	//[SerializeField] [Tooltip("Position offset for idleCombatManager GameObject")]
-	//private Vector3 combatSystemGameObjectsOffset = Vector3.zero;
 
 	[SerializeField] private float defaultCollidersScale = 1.0f;
 	

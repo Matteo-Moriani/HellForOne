@@ -156,6 +156,9 @@ public class Block : MonoBehaviour
     {
         Stats newPlayerStats = newPlayer.GetComponent<Stats>();
         unitType = newPlayerStats.ThisUnitType;
+
+        blockChance = 0;
+        
         StopBlock();
     }
 

@@ -225,15 +225,18 @@ public class PlayerInput : GeneralInput
             //}
 
             // LT + RT - HELD Down
-            if (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonHeldDown() )
+            if ( (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonDown()) 
+                 || 
+                 (InputManager.Instance.R1ButtonDown() && InputManager.Instance.L1ButtonHeldDown())
+                )
             {
-                mana.ChargeMana();
+                GetComponent<ImpMana>().StartActiveManaRecharge();
             }
 
             // LT + RT - Up
             if ( InputManager.Instance.R1ButtonUp() || InputManager.Instance.L1ButtonUp() )
             {
-                mana.StopChargeMana();
+                GetComponent<ImpMana>().StopActiveManaRecharge();
             }
 
             // DPad
