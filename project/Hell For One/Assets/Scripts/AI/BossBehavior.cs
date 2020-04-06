@@ -184,7 +184,7 @@ public class BossBehavior : AbstractBoss
             //Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopNormalAttack(swipeAttack);
+            NormalCombat.StopAttack(swipeAttack);
         }
         IsAttacking = false;
     }
@@ -199,7 +199,7 @@ public class BossBehavior : AbstractBoss
             //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopNormalAttack(swipeAttack);
+            NormalCombat.StopAttack(swipeAttack);
         }
         IsAttacking = false;
     }
@@ -213,7 +213,7 @@ public class BossBehavior : AbstractBoss
             //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopNormalAttack(swipeAttack);
+            NormalCombat.StopAttack(swipeAttack);
         }
         IsAttacking = false;
     }

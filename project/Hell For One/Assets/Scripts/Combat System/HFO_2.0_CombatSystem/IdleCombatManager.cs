@@ -18,14 +18,14 @@ public class IdleCombatManager : MonoBehaviour
     
     #region Delegates and events
 
-    public delegate void OnNormalAttackTry(IdleCombatManager sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat);
-    public event OnNormalAttackTry onNormalAttackTry;
+    public delegate void OnAttackTry(IdleCombatManager sender, Attack attack, NormalCombat attackerNormalCombat);
+    public event OnAttackTry onAttackTry;
 
     #region Methods
 
-    private void RaiseOnNormalAttackTry(NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackTry(Attack attack, NormalCombat attackerNormalCombat)
     {
-        onNormalAttackTry?.Invoke(this,normalAttack, attackerNormalCombat);
+        onAttackTry?.Invoke(this,attack, attackerNormalCombat);
     }
 
     #endregion
@@ -58,21 +58,21 @@ public class IdleCombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        idleCollider.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+        idleCollider.onAttackBeingHit += OnAttackBeingHit;
     }
 
     private void OnDisable()
     {
-        idleCollider.onNormalAttackBeingHit -= OnNormalAttackBeingHit;
+        idleCollider.onAttackBeingHit -= OnAttackBeingHit;
     }
 
     #endregion
 
     #region External events handlers
 
-    private void OnNormalAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, NormalAttack normalAttack)
+    private void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, Attack attack)
     {
-        RaiseOnNormalAttackTry(normalAttack, attackerNormalCombat);
+        RaiseOnAttackTry(attack, attackerNormalCombat);
     }
 
     #endregion

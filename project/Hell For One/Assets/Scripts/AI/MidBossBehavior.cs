@@ -145,7 +145,7 @@ public class MidBossBehavior : AbstractBoss
             NormalCombat = GetComponentInChildren<NormalCombat>();
         }
         if(NormalCombat != null) {
-            NormalCombat.StartNormalAttack(swipeAttack);
+            NormalCombat.StartAttack(swipeAttack);
         }
         IsAttacking = false;
     }
@@ -157,7 +157,7 @@ public class MidBossBehavior : AbstractBoss
             NormalCombat = GetComponentInChildren<NormalCombat>();
         }
         if(NormalCombat != null) {
-            NormalCombat.StartNormalAttack(swipeAttack);
+            NormalCombat.StartAttack(swipeAttack);
         }
         IsAttacking = false;
     }

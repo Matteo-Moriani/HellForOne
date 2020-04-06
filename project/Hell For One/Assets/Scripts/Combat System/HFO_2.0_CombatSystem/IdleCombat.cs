@@ -21,22 +21,22 @@ public class IdleCombat : MonoBehaviour
 
     #region Delegates and events
 
-    public delegate void OnNormalAttackTry(IdleCombat sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat);
-    public event OnNormalAttackTry onNormalAttackTry;
+    public delegate void OnAttackTry(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat);
+    public event OnAttackTry onAttackTry;
 
-    public delegate void OnNormalAttackBeingHit(IdleCombat sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat);
-    public event OnNormalAttackBeingHit onNormalAttackBeingHit;
+    public delegate void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat);
+    public event OnAttackBeingHit onAttackBeingHit;
     
     #region Methods
 
-    private void RaiseOnNormalAttackTry(NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackTry(Attack attack, NormalCombat attackerNormalCombat)
     {
-        onNormalAttackTry?.Invoke(this,normalAttack, attackerNormalCombat);
+        onAttackTry?.Invoke(this,attack, attackerNormalCombat);
     }
 
-    private void RaiseOnNormalAttackBeingHit(NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackBeingHit(Attack attack, NormalCombat attackerNormalCombat)
     {
-        onNormalAttackBeingHit?.Invoke(this,normalAttack, attackerNormalCombat);
+        onAttackBeingHit?.Invoke(this,attack, attackerNormalCombat);
     }
 
     #endregion
@@ -55,23 +55,23 @@ public class IdleCombat : MonoBehaviour
 
     private void OnEnable()
     {
-        idleCombatManager.onNormalAttackTry += OnNormalAttackTryHandler;
+        idleCombatManager.onAttackTry += OnAttackTryHandler;
     }
 
     private void OnDisable()
     {
-        idleCombatManager.onNormalAttackTry -= OnNormalAttackTryHandler;
+        idleCombatManager.onAttackTry -= OnAttackTryHandler;
     }
 
     #endregion
 
     #region Event handlers
 
-    private void OnNormalAttackTryHandler(IdleCombatManager sender,NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnAttackTryHandler(IdleCombatManager sender,Attack attack, NormalCombat attackerNormalCombat)
     {
-        if (!normalAttack.CanBeBlocked)
+        if (!attack.CanBeBlocked)
         {
-            RaiseOnNormalAttackBeingHit(normalAttack, attackerNormalCombat);
+            RaiseOnAttackBeingHit(attack, attackerNormalCombat);
             return;
         }
 
@@ -83,7 +83,7 @@ public class IdleCombat : MonoBehaviour
             Debug.LogError(this.name + " " + this.transform.root.gameObject.name + " is receiving a blockable NormalAttack but his CombatSystem does not have Block attached");
         }
         
-        RaiseOnNormalAttackTry(normalAttack, attackerNormalCombat);
+        RaiseOnAttackTry(attack, attackerNormalCombat);
     }
     
     #endregion

@@ -31,9 +31,35 @@ public class PlayerInput : GeneralInput
     private float allGroupsOrderStartTimeLeft, allGroupsOrderStartTimeRight, allGroupsOrderStartTimeUp, allGroupsOrderStartTimeDown = 0f;
     public float heldTime = 1f;
     private NewHUD newHUD;
-    private Mana mana;
 
+    #region Delegates and events
 
+    public delegate void OnXButtonDown();
+    public static event OnXButtonDown onXButtonDown;
+    
+    public delegate void OnXButtonUp();
+    public static event OnXButtonUp onXButtonUp;
+    
+    public delegate void OnXButtonHeldDown();
+    public static event OnXButtonHeldDown onXButtonHeldDown;
+
+    private void RaiseOnXButtonDown()
+    {
+        onXButtonDown?.Invoke();
+    }
+    
+    private void RaiseOnXButtonUp()
+    {
+        onXButtonUp?.Invoke();
+    }
+    
+    private void RaiseOnXButtonHeldDown()
+    {
+        onXButtonHeldDown?.Invoke();
+    }
+
+    #endregion
+    
     private IEnumerator DpadWait( float waitTime )
     {
         yield return new WaitForSeconds( waitTime );
@@ -100,7 +126,6 @@ public class PlayerInput : GeneralInput
         tacticsManager = GetComponent<TacticsManager>();
         CurrentScreen = pauseScreen.GetComponent<Menu>();
         newHUD = GameObject.Find( "HUD" ).GetComponent<NewHUD>();
-        mana = GameObject.FindGameObjectWithTag( "Mana" ).GetComponent<Mana>();
     }
 
     private void Update()
@@ -153,15 +178,20 @@ public class PlayerInput : GeneralInput
 
             }
 
-            // Square (PS3) / X (XBOX)
+            // X (XBOX)
             if ( InputManager.Instance.SquareButtonDown() && !NavigatingMenu )
             {
-                if ( combat != null )
-                {
-                    //combat.PlayerAttack();
-                }
+                RaiseOnXButtonDown();
             }
-
+            if ( InputManager.Instance.SquareButtonUp() && !NavigatingMenu )
+            {
+                RaiseOnXButtonUp();
+            }
+            if (InputManager.Instance.SquareButtonHeldDown() && !NavigatingMenu)
+            {
+                RaiseOnXButtonHeldDown();
+            }
+            
             // Triangle (PS3) / Y (XBOX)
             if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
                 if(combat != null) {

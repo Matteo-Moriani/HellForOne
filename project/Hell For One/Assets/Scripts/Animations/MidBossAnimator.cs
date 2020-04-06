@@ -40,8 +40,8 @@ public class MidBossAnimator : MonoBehaviour {
         
         if (normalCombat != null)
         {
-            normalCombat.onStartNormalAttack += OnStartNormalAttack;
-            normalCombat.onStopNormalAttack += OnStopNormalAttack;
+            normalCombat.onStartAttack += OnStartAttack;
+            normalCombat.onStopAttack += OnStopAttack;
         }
 
         if (midBossBehaviour != null)
@@ -59,8 +59,8 @@ public class MidBossAnimator : MonoBehaviour {
         
         if (normalCombat != null)
         {
-            normalCombat.onStartNormalAttack -= OnStartNormalAttack;
-            normalCombat.onStopNormalAttack -= OnStopNormalAttack;
+            normalCombat.onStartAttack -= OnStartAttack;
+            normalCombat.onStopAttack -= OnStopAttack;
         }
 
         if (midBossBehaviour != null)
@@ -128,14 +128,14 @@ public class MidBossAnimator : MonoBehaviour {
         PlayIdleAnimation();
     }
 
-    private void OnStopNormalAttack(NormalCombat sender, NormalAttack normalattack)
+    private void OnStopAttack(NormalCombat sender, Attack attack)
     {
         StopAnimations();
     }
 
-    private void OnStartNormalAttack(NormalCombat sender, NormalAttack normalattack)
+    private void OnStartAttack(NormalCombat sender, Attack attack)
     {
-        if (normalattack.CanHitMultipleTargets)
+        if (attack.CanHitMultipleTargets)
         {
             PlayGroupAttackAnimation();
         }

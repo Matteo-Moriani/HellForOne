@@ -9,29 +9,29 @@ public class NormalCombatManager : MonoBehaviour
 
     private CombatSystemManager combatSystemManager;
     private NormalCombat normalCombat;
-    private NormalCombatCollider normalCombatCollider;
+    private AttackCollider attackCollider;
     private GameObject currentLance;
     private Lancer lancer;
-    private NormalAttack currentNormalAttack;
+    private Attack currentAttack;
 
-    private GameObject normalAttackGameObject;
+    private GameObject attackGameObject;
 
-    private Vector3 normalAttackStartPosition;
+    private Vector3 attackGameObjectStartPosition;
 
-    private static readonly string normalAttackNameAndTag = "NormalAttack";
+    private static readonly string attackGameObjectNameAndTag = "Attack";
 
     private bool isIdle = true;
     
-    private Coroutine normalAttackCr = null;
+    private Coroutine attackCr = null;
 
     #region properties
 
     public NormalCombat NormalCombat { get => normalCombat; private set => normalCombat = value; }
 
-    public NormalAttack CurrentNormalAttack
+    public Attack CurrentAttack
     {
-        get => currentNormalAttack;
-        private set => currentNormalAttack = value;
+        get => currentAttack;
+        private set => currentAttack = value;
     }
 
     #endregion
@@ -40,8 +40,25 @@ public class NormalCombatManager : MonoBehaviour
 
     #region Delegates and events
 
-    public delegate void OnNormalAttackHit(NormalCombatManager sender, NormalAttack normalAttack);
-    public event OnNormalAttackHit onNormalAttackHit;
+    public delegate void OnAttackHit(NormalCombatManager sender, Attack attack);
+    public event OnAttackHit onAttackHit;
+
+    public delegate void OnStopAttack(NormalCombatManager sender, Attack attack);
+    public event OnStopAttack onStopAttack;
+
+    #region Methods
+
+    private void RaiseOnStopAttack(Attack attack)
+    {
+        onStopAttack?.Invoke(this,attack);
+    }
+
+    private void RaiseOnAttackHit(Attack attack)
+    {
+        onAttackHit?.Invoke(this,attack);
+    }
+
+    #endregion 
     
     #endregion
 
@@ -49,151 +66,155 @@ public class NormalCombatManager : MonoBehaviour
 
     private void Awake()
     {
-        combatSystemManager = transform.parent.GetComponent<CombatSystemManager>();
+        CreateAttackGameObject();
         
-        // Creating objects for collider
-        normalAttackGameObject = combatSystemManager.CreateCombatSystemCollider_GO(transform, normalAttackNameAndTag);
-        
-        // Rest collider's object scale
-        // Correct scale is managed by attacks
-        normalAttackGameObject.transform.localScale = Vector3.zero;
-        
-        // TODO - Remove Materials after testing
-        normalAttackGameObject.GetComponent<Renderer>().material = combatSystemManager.normalAttackMaterial;
-        
-        // Get collider's objects start position
-        normalAttackStartPosition = normalAttackGameObject.transform.localPosition;
-
-        // Assign collider logic to objects
-        normalCombatCollider = normalAttackGameObject.AddComponent<NormalCombatCollider>();
-
         normalCombat = GetComponentInParent<NormalCombat>();
         lancer = transform.root.gameObject.GetComponent<Lancer>();
     }
 
     private void OnEnable()
     {
-        normalCombatCollider.onNormalAttackHit += NormalCombatColliderOnNormalCombatHitHandler;
+        attackCollider.onAttackHit += AttackColliderOnAttackHitHandler;
     }
 
     private void OnDisable()
     {
-        normalCombatCollider.onNormalAttackHit -= NormalCombatColliderOnNormalCombatHitHandler;
+        attackCollider.onAttackHit -= AttackColliderOnAttackHitHandler;
     }
 
     #endregion
 
     #region Methods
 
-    // Used for melee attacks
-    public void StartNormalAttack(NormalAttack normalAttack)
+    private void CreateAttackGameObject()
     {
-        if (normalAttackCr == null && isIdle)
+        combatSystemManager = transform.parent.GetComponent<CombatSystemManager>();
+        
+        // Creating objects for collider
+        attackGameObject = combatSystemManager.CreateCombatSystemCollider_GO(transform, attackGameObjectNameAndTag);
+        
+        // Rest collider's object scale
+        // Correct scale is managed by attacks
+        attackGameObject.transform.localScale = Vector3.zero;
+        
+        // TODO - Remove Materials after testing
+        attackGameObject.GetComponent<Renderer>().material = combatSystemManager.normalAttackMaterial;
+        
+        // Get collider's objects start position
+        attackGameObjectStartPosition = attackGameObject.transform.localPosition;
+
+        // Assign collider logic to objects
+        attackCollider = attackGameObject.AddComponent<AttackCollider>();
+    }
+
+    // Used for melee attacks
+    public void StartAttack(Attack attack)
+    {
+        if (attackCr == null && isIdle)
         {
-            currentNormalAttack = normalAttack;
-            normalAttackCr = StartCoroutine(NormalAttackCoroutine(normalAttack));
+            currentAttack = attack;
+            attackCr = StartCoroutine(AttackCoroutine(attack));
         }
     }
 
     // Used for ranged attacks
-    public void StartNormalAttack(NormalAttack normalAttack, GameObject target)
+    public void StartAttackRanged(Attack attack, GameObject target)
     {
-        if (normalAttackCr != null || !isIdle || target == null) return;
+        if (attackCr != null || !isIdle || target == null) return;
         
-        currentNormalAttack = normalAttack;
-        normalAttackCr = StartCoroutine(NormalAttackCoroutine(normalAttack, target));
+        currentAttack = attack;
+        attackCr = StartCoroutine(AttackRangedCoroutine(attack, target));
     }
 
-    public void StopNormalAttack(NormalAttack normalAttack)
+    public void StopAttack(Attack attack)
     {
-        if (normalAttackCr != null && !isIdle)
+        if (attackCr != null && !isIdle)
         {
-            StopCoroutine(normalAttackCr);
-            normalAttackCr = null;
+            StopCoroutine(attackCr);
+            attackCr = null;
 
-            normalAttackGameObject.transform.localPosition = normalAttackStartPosition;
+            attackGameObject.transform.localPosition = attackGameObjectStartPosition;
             
-            normalCombatCollider.StopAttack();
+            attackCollider.StopAttack();
 
             isIdle = true;
-            //currentNormalAttack = null;
+            
+            RaiseOnStopAttack(attack);
         }
     }
-
-    #endregion
-
-    #region Internal events
-
-    private void RaiseOnNormalAttackHit(NormalAttack normalAttack)
-    {
-        onNormalAttackHit?.Invoke(this,normalAttack);
-    }
     
+    public void SetStatsType(Stats.Type newType)
+    {
+        attackCollider.SetStatsType(newType);     
+    }
+
     #endregion
 
     #region Events handler
 
-    private void NormalCombatColliderOnNormalCombatHitHandler(NormalCombatCollider sender)
+    private void AttackColliderOnAttackHitHandler(AttackCollider sender)
     {
-        if (!currentNormalAttack.CanHitMultipleTargets)
+        if (!currentAttack.CanHitMultipleTargets)
         { 
-            StopNormalAttack(currentNormalAttack);
+            StopAttack(currentAttack);
         }
-        RaiseOnNormalAttackHit(currentNormalAttack);
+        RaiseOnAttackHit(currentAttack);
     }
     
     #endregion
 
     #region Coroutines
 
-    private IEnumerator NormalAttackCoroutine(NormalAttack normalAttack)
+    private IEnumerator AttackCoroutine(Attack attack)
     {
         isIdle = false;
 
         var targetPosition =
-            normalAttackGameObject.transform.localPosition + new Vector3(0.0f, 0.0f, normalAttack.Range);
+            attackGameObject.transform.localPosition + new Vector3(0.0f, 0.0f, attack.Range);
         
-        normalAttackGameObject.transform.localScale = Vector3.one * normalAttack.Size;
+        //attackGameObject.transform.localScale = Vector3.one * attack.Size;
 
-        yield return new WaitForSeconds(normalAttack.DelayInSeconds);
+        yield return new WaitForSeconds(attack.DelayInSeconds);
 
-        normalAttackGameObject.transform.localPosition = targetPosition;
+        attackGameObject.transform.localPosition = targetPosition;
+
+        attackCollider.StartAttack();
         
-        normalCombatCollider.StartAttack();
+        attackGameObject.transform.localScale = Vector3.one * attack.Size;
 
-        yield return new WaitForSeconds(normalAttack.DurationInSeconds);
+        yield return new WaitForSeconds(attack.DurationInSeconds);
         
-        StopNormalAttack(normalAttack);
+        StopAttack(attack);
     }
     
-    private IEnumerator NormalAttackCoroutine(NormalAttack normalAttack, GameObject target)
+    private IEnumerator AttackRangedCoroutine(Attack attack, GameObject target)
     {
         if (target != null)
         {
             isIdle = false;
 
-            yield return new WaitForSeconds(normalAttack.DelayInSeconds);
+            yield return new WaitForSeconds(attack.DelayInSeconds);
 
             currentLance = lancer.LaunchNewCombatSystem(target);
 
-            NormalCombatCollider lanceNormalCombatCollider = currentLance.GetComponentInChildren<NormalCombatCollider>();
+            AttackCollider lanceAttackCollider = currentLance.GetComponentInChildren<AttackCollider>();
 
-            if (lanceNormalCombatCollider != null)
+            if (lanceAttackCollider != null)
             {
-                lanceNormalCombatCollider.ResetOnNormalAttackHit();
-                Destroy(lanceNormalCombatCollider);    
+                lanceAttackCollider.ResetOnAttackHit();
+                Destroy(lanceAttackCollider);    
             }
             
-            lanceNormalCombatCollider = currentLance.transform.GetChild(0).gameObject.AddComponent<NormalCombatCollider>();
-            lanceNormalCombatCollider.SetStatsType(transform.root.gameObject.GetComponent<Stats>().ThisUnitType);
-            lanceNormalCombatCollider.SetNormalCombatManager(this);
-            lanceNormalCombatCollider.StartAttack();
+            lanceAttackCollider = currentLance.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
+            lanceAttackCollider.SetStatsType(transform.root.gameObject.GetComponent<Stats>().ThisUnitType);
+            lanceAttackCollider.SetNormalCombatManager(this);
+            lanceAttackCollider.StartAttack();
             
-            lanceNormalCombatCollider.onNormalAttackHit += NormalCombatColliderOnNormalCombatHitHandler;
+            lanceAttackCollider.onAttackHit += AttackColliderOnAttackHitHandler;
             
             yield return new WaitForSeconds(5.0f);
             
-            StopNormalAttack(normalAttack);    
+            StopAttack(attack);    
         }
     }
 

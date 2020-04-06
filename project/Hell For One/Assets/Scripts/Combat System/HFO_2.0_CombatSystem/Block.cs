@@ -36,7 +36,6 @@ public class Block : MonoBehaviour
     
     #endregion
     
-    // TODO - Stuff missing
     #region Delegates and events
 
     public delegate void OnStartBlock(Block sender);
@@ -45,37 +44,32 @@ public class Block : MonoBehaviour
     public delegate void OnStopBlock(Block sender);
     public event OnStopBlock onStopBlock;
     
-    public delegate void OnBlockSuccess(Block sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat);
+    public delegate void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat);
     public event OnBlockSuccess onBlockSuccess;
 
-    public delegate void OnBlockFailed(Block sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat);
+    public delegate void OnBlockFailed(Block sender, Attack attack, NormalCombat attackerNormalCombat);
     public event OnBlockFailed onBlockFailed;
-
-    // TODO - Stuff missing
+    
     #region Methods
-
-    // TODO - implement for player
+    
     private void RiseOnStartBlock()
     {
         onStartBlock?.Invoke(this);
     }
-
-    // TODO - implement for player
+    
     private void RiseOnStopBlock()
     {
         onStopBlock?.Invoke(this);
     }
     
-    // TODO - register in knockback, stun, sound, animation
-    private void RiseOnBlockFailed(NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void RiseOnBlockFailed(Attack attack, NormalCombat attackerNormalCombat)
     {
-        onBlockFailed?.Invoke(this, normalAttack, attackerNormalCombat);
+        onBlockFailed?.Invoke(this, attack, attackerNormalCombat);
     }
     
-    // TODO - register in stats(?), knockback, stun, sound, animation
-    private void RiseOnBlockSuccess(NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void RiseOnBlockSuccess(Attack attack, NormalCombat attackerNormalCombat)
     {
-        onBlockSuccess?.Invoke(this, normalAttack, attackerNormalCombat);
+        onBlockSuccess?.Invoke(this, attack, attackerNormalCombat);
     }
 
     #endregion
@@ -94,7 +88,7 @@ public class Block : MonoBehaviour
     
     private void OnEnable()
     {
-        idleCombat.onNormalAttackTry += OnNormalAttackTry;
+        idleCombat.onAttackTry += OnAttackTry;
 
         if (groupFinder != null)
             groupFinder.onGroupFound += OnGroupFound;
@@ -107,7 +101,7 @@ public class Block : MonoBehaviour
 
     private void OnDisable()
     {
-        idleCombat.onNormalAttackTry -= OnNormalAttackTry;
+        idleCombat.onAttackTry -= OnAttackTry;
         
         if (groupFinder != null)
             groupFinder.onGroupFound -= OnGroupFound;
@@ -211,17 +205,17 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void OnNormalAttackTry(IdleCombat sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnAttackTry(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
     {
         if (Random.Range(0, 100) < blockChance)
         {
             // TODO - Check angle for player
             
-            RiseOnBlockSuccess(normalAttack,attackerNormalCombat);
+            RiseOnBlockSuccess(attack,attackerNormalCombat);
         }
         else
         {    
-            RiseOnBlockFailed(normalAttack, attackerNormalCombat);
+            RiseOnBlockFailed(attack, attackerNormalCombat);
         }
     }
 

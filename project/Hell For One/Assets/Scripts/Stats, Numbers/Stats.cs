@@ -115,7 +115,7 @@ public class Stats : MonoBehaviour
         
         IdleCombat idleCombat = GetComponentInChildren<IdleCombat>();
         if (idleCombat != null)
-            idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+            idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
         Block block = GetComponentInChildren<Block>();
         if (block != null)
@@ -130,7 +130,7 @@ public class Stats : MonoBehaviour
         
         IdleCombat idleCombat = GetComponentInChildren<IdleCombat>();
         if (idleCombat != null)
-            idleCombat.onNormalAttackBeingHit -= OnNormalAttackBeingHit;
+            idleCombat.onAttackBeingHit -= OnAttackBeingHit;
         
         Block block = GetComponentInChildren<Block>();
         if (block != null)
@@ -241,22 +241,22 @@ public class Stats : MonoBehaviour
 
     #region EventHandlers
 
-    private void OnBlockFailed(Block sender, NormalAttack normalAttack,NormalCombat attackerNormalCombat)
+    private void OnBlockFailed(Block sender, Attack attack,NormalCombat attackerNormalCombat)
     {
         // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(normalAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(normalAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+        if(attack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+            TakeHit(attack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
         else
-            TakeHit(normalAttack.Damage);
+            TakeHit(attack.Damage);
     }
 
-    private void OnNormalAttackBeingHit(IdleCombat sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
     {
         // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(normalAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(normalAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+        if(attack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+            TakeHit(attack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
         else
-            TakeHit(normalAttack.Damage);
+            TakeHit(attack.Damage);
     }
 
     private void OnReincarnation(GameObject player) 

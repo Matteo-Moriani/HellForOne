@@ -65,7 +65,7 @@ public class KnockbackReceiver : MonoBehaviour
         }
         if (idleCombat != null)
         {
-            idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+            idleCombat.onAttackBeingHit += OnAttackBeingHit;
         }
         else
         {
@@ -89,7 +89,7 @@ public class KnockbackReceiver : MonoBehaviour
         }
         if (idleCombat != null)
         {
-            idleCombat.onNormalAttackBeingHit -= OnNormalAttackBeingHit;
+            idleCombat.onAttackBeingHit -= OnAttackBeingHit;
         }
         else
         {
@@ -124,9 +124,9 @@ public class KnockbackReceiver : MonoBehaviour
         unitType = newPlayer.GetComponent<Stats>().ThisUnitType;
     }
 
-    private void OnBlockFailed(Block sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnBlockFailed(Block sender, Attack attack, NormalCombat attackerNormalCombat)
     {
-        if (normalAttack.CauseKnockback)
+        if (attack.CauseKnockback)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -137,9 +137,9 @@ public class KnockbackReceiver : MonoBehaviour
         }
     }
 
-    private void OnBlockSuccess(Block sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat)
     {
-        if (normalAttack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
+        if (attack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -150,9 +150,9 @@ public class KnockbackReceiver : MonoBehaviour
         }
     }
 
-    private void OnNormalAttackBeingHit(IdleCombat sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
     {
-        if (normalAttack.CauseKnockback)
+        if (attack.CauseKnockback)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 

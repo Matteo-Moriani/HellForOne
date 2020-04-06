@@ -26,13 +26,13 @@ public class IdleCollider : MonoBehaviour
     
     #region Delegates and events
 
-    public delegate void OnNormalAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, NormalAttack normalAttack);
-    public event OnNormalAttackBeingHit onNormalAttackBeingHit;
+    public delegate void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, Attack attack);
+    public event OnAttackBeingHit onAttackBeingHit;
 
     #region Methods
     
-    private void RaiseOnNormalAttackBeingHit(NormalCombat attackerNormalCombat, NormalAttack normalAttack) {
-        onNormalAttackBeingHit?.Invoke(this,attackerNormalCombat,normalAttack);
+    private void RaiseOnAttackBeingHit(NormalCombat attackerNormalCombat, Attack attack) {
+        onAttackBeingHit?.Invoke(this,attackerNormalCombat,attack);
     }
 
     #endregion
@@ -68,9 +68,9 @@ public class IdleCollider : MonoBehaviour
     
     #region Methods
     
-    public void NotifyOnNormalAttackBeingHit(NormalCombat attackerNormalCombat, NormalAttack normalAttack) { 
+    public void NotifyOnNormalAttackBeingHit(NormalCombat attackerNormalCombat, Attack attack) { 
         if(canBeDamaged)
-            RaiseOnNormalAttackBeingHit(attackerNormalCombat,normalAttack);    
+            RaiseOnAttackBeingHit(attackerNormalCombat,attack);    
     }
 
     #endregion

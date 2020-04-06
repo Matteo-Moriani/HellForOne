@@ -5,38 +5,61 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    #region Fields
-
-    private string hammerGameObjectNameAndTag = "Hammer";
+    private Renderer[] renderers;
     
-    private GameObject hammerManagerGameObject;
-    private HammerManager hammerManager;
-
-    #endregion
-    
-    #region Unity methods
-
     private void Awake()
     {
-        AbilitiesManager abilitiesManager = GetComponent<AbilitiesManager>();
-
-        hammerManagerGameObject = abilitiesManager.CreateAbility_GO(transform,hammerGameObjectNameAndTag);
-        hammerManager = hammerManagerGameObject.AddComponent<HammerManager>();
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
-    #endregion
-    
-    #region Methods
-
-    public void StartHammer()
+    private void OnEnable()
     {
+        GroupAbilities groupAbilities = GetComponentInParent<GroupAbilities>();
         
+        groupAbilities.onStartAbility += OnStartAbility;
+        groupAbilities.onStopAbility += OnStopAbility;
     }
 
-    public void StopHammer()
+    private void OnDisable()
     {
+        GroupAbilities groupAbilities = GetComponentInParent<GroupAbilities>();
         
+        groupAbilities.onStartAbility -= OnStartAbility;
+        groupAbilities.onStopAbility -= OnStopAbility;
     }
 
-    #endregion
+    private void OnStopAbility(AbilityAttack stoppedAbility)
+    {
+        if (stoppedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
+        {
+            foreach (var rend in renderers)
+            {
+                rend.enabled = false;
+                
+                transform.localPosition = Vector3.up;
+            }
+        }
+    }
+
+    private void OnStartAbility(AbilityAttack startedAbility)
+    {
+        if (startedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
+        {
+            foreach (var rend in renderers)
+            {
+                rend.enabled = true;
+
+                StartCoroutine(AnimationCoroutine(startedAbility));
+            }
+        }
+    }
+
+    private IEnumerator AnimationCoroutine(AbilityAttack startedAbility)
+    {
+        transform.localPosition = Vector3.up;
+        
+        yield return new WaitForSeconds(startedAbility.DelayInSeconds);
+
+        transform.localPosition = Vector3.forward * startedAbility.Range + Vector3.up;
+    }
 }

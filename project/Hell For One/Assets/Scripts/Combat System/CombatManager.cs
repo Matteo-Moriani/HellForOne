@@ -6,13 +6,13 @@ public class CombatManager : MonoBehaviour
 {
     #region fields
 
-    [SerializeField]
-    [Tooltip( "The AttackCollider of this unit used for combat" )]
-    private GameObject attackCollider;
+    //[SerializeField]
+    //[Tooltip( "The AttackCollider of this unit used for combat" )]
+    //private GameObject attackCollider;
 
-    [SerializeField]
-    [Tooltip( "The IdleCollider of this unit used for combat" )]
-    private GameObject idleCollider;
+    //[SerializeField]
+    //[Tooltip( "The IdleCollider of this unit used for combat" )]
+    //private GameObject idleCollider;
 
     [SerializeField]
     [Tooltip( "Reference to Lancer component, used for ranged attacks" )]
@@ -65,11 +65,11 @@ public class CombatManager : MonoBehaviour
             lancer = transform.root.gameObject.GetComponent<Lancer>();
         }
 
-        startPosition = attackCollider.transform.localPosition;
-        baseAttackColliderScale = attackCollider.transform.localScale;
+        //startPosition = attackCollider.transform.localPosition;
+        //baseAttackColliderScale = attackCollider.transform.localScale;
 
-        attackCollider.SetActive( false );
-        idleCollider.SetActive( true );
+        //attackCollider.SetActive( false );
+        //idleCollider.SetActive( true );
 
         combatEventsManager = transform.root.gameObject.GetComponent<CombatEventsManager>();
     }
@@ -96,14 +96,16 @@ public class CombatManager : MonoBehaviour
                 StopCoroutine( attackCR );
                 attackCR = null;
 
-                attackCollider.transform.localPosition = startPosition;
+                //attackCollider.transform.localPosition = startPosition;
 
+                /*
                 // Stop Sweep
                 if ( attackCollider.GetComponent<AttackCollider>().isGroupAttacking )
                 {
                     attackCollider.transform.localScale = baseAttackColliderScale;
                     attackCollider.GetComponent<AttackCollider>().isGroupAttacking = false;
                 }
+                */
             }
 
             // If we use Launch in RangedAttack we don't need to stop rangedAttacks
@@ -117,10 +119,10 @@ public class CombatManager : MonoBehaviour
                 StopCoroutine( globalAttackCR );
                 globalAttackCR = null;
 
-                attackCollider.transform.localScale = baseAttackColliderScale;
-                attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+                //attackCollider.transform.localScale = baseAttackColliderScale;
+                //attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
             }
-
+            /*
             // If AttackCollider is active we deactivate it
             if ( attackCollider.activeInHierarchy )
             {
@@ -129,6 +131,7 @@ public class CombatManager : MonoBehaviour
 
             // Now the demon is idle
             stats.CombatIdle = true;
+            */
         }
     }
 
@@ -223,8 +226,8 @@ public class CombatManager : MonoBehaviour
             StopCoroutine( attackCR );
             attackCR = null;
 
-            attackCollider.transform.localPosition = startPosition;
-            attackCollider.SetActive( false );
+            //attackCollider.transform.localPosition = startPosition;
+            //attackCollider.SetActive( false );
 
             stats.CombatIdle = true;
         }
@@ -295,7 +298,7 @@ public class CombatManager : MonoBehaviour
         if ( stats.CombatIdle )
         {
             //attackCollider.transform.localScale = new Vector3( stats.GroupAttackSize, attackCollider.transform.localScale.y, attackCollider.transform.localScale.z );
-            attackCollider.GetComponent<AttackCollider>().isGroupAttacking = true;
+            //attackCollider.GetComponent<AttackCollider>().isGroupAttacking = true;
             attackCR = StartCoroutine( AttackCoroutine() );
         }
         //else
@@ -311,10 +314,10 @@ public class CombatManager : MonoBehaviour
             StopCoroutine( attackCR );
             attackCR = null;
 
-            attackCollider.transform.localPosition = startPosition;
-            attackCollider.transform.localScale = baseAttackColliderScale;
-            attackCollider.GetComponent<AttackCollider>().isGroupAttacking = false;
-            attackCollider.SetActive( false );
+            //attackCollider.transform.localPosition = startPosition;
+            //attackCollider.transform.localScale = baseAttackColliderScale;
+            //attackCollider.GetComponent<AttackCollider>().isGroupAttacking = false;
+            //attackCollider.SetActive( false );
 
             stats.CombatIdle = true;
         }
@@ -344,9 +347,9 @@ public class CombatManager : MonoBehaviour
             StopCoroutine( globalAttackCR );
             globalAttackCR = null;
 
-            attackCollider.transform.localScale = baseAttackColliderScale;
-            attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
-            attackCollider.SetActive( false );
+            //attackCollider.transform.localScale = baseAttackColliderScale;
+            //attackCollider.GetComponent<AttackCollider>().isGlobalAttacking = false;
+            //attackCollider.SetActive( false );
 
             stats.CombatIdle = true;
         }
@@ -360,23 +363,23 @@ public class CombatManager : MonoBehaviour
     {
         stats.CombatIdle = false;
 
-        AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
+        //AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
 
         //Vector3 targetPosition = attackCollider.transform.localPosition + new Vector3( 0.0f, 0.0f, stats.AttackRange );
         
         // If this is a regular attack we use regular attack delay
-        if (!attackColliderComponent.isGroupAttacking) {
-            yield return new WaitForSeconds(singleAttackDelayInSeconds);
-        }
+        //if (!attackColliderComponent.isGroupAttacking) {
+        //    yield return new WaitForSeconds(singleAttackDelayInSeconds);
+        //}
 
         // If this is a group attack we use group attack delay
-        if (attackColliderComponent.isGroupAttacking) { 
-            yield return new WaitForSeconds(groupAttackDelayInSeconds);    
-        }
+        //if (attackColliderComponent.isGroupAttacking) { 
+        //    yield return new WaitForSeconds(groupAttackDelayInSeconds);    
+        //}
         
         //attackCollider.transform.localPosition = targetPosition;
 
-        attackCollider.SetActive( true );
+        //attackCollider.SetActive( true );
 
         yield return new WaitForSeconds( attackDurationInSeconds );
 
@@ -394,7 +397,7 @@ public class CombatManager : MonoBehaviour
             yield return null;
         }
         */
-
+        /*
         attackCollider.transform.localPosition = startPosition;
 
         if ( attackColliderComponent.isGroupAttacking )
@@ -404,7 +407,7 @@ public class CombatManager : MonoBehaviour
         }
 
         attackCollider.SetActive( false );
-
+        */
         stats.CombatIdle = true;
 
         StopSingleAttack();
@@ -431,25 +434,28 @@ public class CombatManager : MonoBehaviour
     }
 
     private IEnumerator GlobalAttackCoroutine()
-    {
-        AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
+    {    /*
+        //AttackCollider attackColliderComponent = attackCollider.GetComponent<AttackCollider>();
 
         stats.CombatIdle = false;
-
+            
         attackColliderComponent.isGlobalAttacking = true;
         //attackCollider.transform.localScale = new Vector3( stats.GlobalAttackSize, attackCollider.transform.localScale.y, stats.GlobalAttackSize );
 
         yield return new WaitForSeconds(globalAttackDelayInSeconds);
 
         attackCollider.SetActive( true );
-
+        */
         //yield return new WaitForSeconds( stats.GlobalAttackDuration );
 
+        yield return null;
+        /*
         attackCollider.transform.localScale = baseAttackColliderScale;
         attackColliderComponent.isGlobalAttacking = false;
         attackCollider.SetActive( false );
 
         stats.CombatIdle = true;
+        */
     }
 
     #endregion

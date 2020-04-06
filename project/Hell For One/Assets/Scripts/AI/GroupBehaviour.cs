@@ -244,11 +244,11 @@ public class GroupBehaviour : MonoBehaviour
             switch(action) {
                 case State.MeleeAttack:
                     // TODO - event to Start/Stop attack
-                    normalCombat.StartNormalAttack(meleeAttack);
+                    normalCombat.StartAttack(meleeAttack);
                     break;
                 case State.RangeAttack:
                     // TODO - event to Start/Stop attack
-                    normalCombat.StartNormalAttack(rangedAttack,target);
+                    normalCombat.StartAttackRanged(rangedAttack,target);
                     break;
                 default:
                     break;
@@ -268,7 +268,7 @@ public class GroupBehaviour : MonoBehaviour
             if(imp) {
                 // TODO - event to Start/Stop attack
                 NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
-                normalCombat.StopNormalAttack(meleeAttack);
+                normalCombat.StopAttack(meleeAttack);
             }
         }
         StopCoroutine(continuousAttack);
@@ -333,7 +333,7 @@ public class GroupBehaviour : MonoBehaviour
                 NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
 
                 //ombat.StopRangedAttack();
-                normalCombat.StopNormalAttack(meleeAttack);
+                normalCombat.StopAttack(meleeAttack);
             }
         }
 
@@ -464,6 +464,10 @@ public class GroupBehaviour : MonoBehaviour
     private void Awake()
     {
         groupManager = this.gameObject.GetComponent<GroupManager>();
+        currentState = State.MeleeAttack;
+        newState = State.MeleeAttack;
+        // Just to test
+        inCombat = true;
     }
 
     private void OnEnable()
@@ -482,11 +486,6 @@ public class GroupBehaviour : MonoBehaviour
         // TODO: I don't know why but RecruitSpawner.OnEnable is called before AlliesManager.Awake, so
         //    if we need to register to AlliedManager events we need to do it in Start
         AlliesManager.Instance.onNewImpSpawned += OnNewImpSpawned;
-        
-        currentState = State.MeleeAttack;
-        newState = State.MeleeAttack;
-        // Just to test
-        inCombat = true;
 
         #region FSM
 

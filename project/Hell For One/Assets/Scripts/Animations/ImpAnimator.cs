@@ -73,7 +73,7 @@ public class ImpAnimator : MonoBehaviour
         
         stats.onDeath += OnDeath;    
         
-        normalCombat.onStartNormalAttack += OnStartNormalAttack;    
+        normalCombat.onStartAttack += OnStartAttack;    
         
         block.onStartBlock += OnStartBlock;
         block.onStopBlock += OnStopBlock;
@@ -102,7 +102,7 @@ public class ImpAnimator : MonoBehaviour
         
         stats.onDeath -= OnDeath;    
         
-        normalCombat.onStartNormalAttack -= OnStartNormalAttack;    
+        normalCombat.onStartAttack -= OnStartAttack;    
         
         block.onStartBlock -= OnStartBlock;
         block.onStopBlock -= OnStopBlock;
@@ -247,9 +247,9 @@ public class ImpAnimator : MonoBehaviour
         StopAnimations();    
     }
     
-    private void OnStartNormalAttack(NormalCombat sender, NormalAttack normalAttack)
+    private void OnStartAttack(NormalCombat sender, Attack attack)
     {
-        if (normalAttack.IsRanged)
+        if (attack.IsRanged)
         {
             PlayRangedAttackAnimation();
         }
@@ -269,7 +269,7 @@ public class ImpAnimator : MonoBehaviour
         StopBlockAnimation();
     }
     
-    private void OnBlockSuccess(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackernormalcombat)
     {
         PlayBlockAnimation();
     }

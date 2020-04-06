@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class NormalCombatCollider : MonoBehaviour
+public class AttackCollider : MonoBehaviour
 {
     #region fields
 
@@ -13,8 +13,8 @@ public class NormalCombatCollider : MonoBehaviour
     
     private NormalCombatManager normalCombatManager;
 
-    public delegate void OnNormalAttackHit(NormalCombatCollider sender);
-    public event OnNormalAttackHit onNormalAttackHit;
+    public delegate void OnAttackHit(AttackCollider sender);
+    public event OnAttackHit onAttackHit;
 
     #endregion
 
@@ -56,9 +56,9 @@ public class NormalCombatCollider : MonoBehaviour
             return;
         }
         
-        targetIdleCollider.NotifyOnNormalAttackBeingHit(normalCombatManager.NormalCombat, normalCombatManager.CurrentNormalAttack);
+        targetIdleCollider.NotifyOnNormalAttackBeingHit(normalCombatManager.NormalCombat, normalCombatManager.CurrentAttack);
         
-        RaiseOnNormalAttackHit();
+        RaiseOnAttackHit();
     }
 
     #endregion
@@ -117,14 +117,14 @@ public class NormalCombatCollider : MonoBehaviour
 
     #region Events
 
-    public void ResetOnNormalAttackHit()
+    public void ResetOnAttackHit()
     {
-        onNormalAttackHit = null;
+        onAttackHit = null;
     }
     
-    private void RaiseOnNormalAttackHit()
+    private void RaiseOnAttackHit()
     {
-        onNormalAttackHit?.Invoke(this);
+        onAttackHit?.Invoke(this);
     }
 
     #endregion

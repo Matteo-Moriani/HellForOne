@@ -97,7 +97,7 @@ public class Lancer : MonoBehaviour
         lance.transform.forward = new Vector3( target.transform.position.x, lance.transform.position.y, target.transform.position.z ) - lance.transform.position;
         lance.transform.rotation = Quaternion.Euler( 90f - alpha, lance.transform.eulerAngles.y, 0 );
         lance.SetActive( true );
-        lance.GetComponentInChildren<AttackCollider>( true ).SetStats( lancerStats );
+        //lance.GetComponentInChildren<AttackCollider>( true ).SetStats( lancerStats );
 
 
         lance.GetComponent<Rigidbody>().AddForce( lance.transform.up * (speed), ForceMode.VelocityChange );

@@ -70,7 +70,7 @@ public class ImpAggro : MonoBehaviour
         reincarnation.onReincarnation += OnReincarnation;
         reincarnation.onLateReincarnation += OnLateReincarnation;
         stats.onDeath += OnDeath;
-        normalCombat.onNormalAttackHit += OnNormalAttackHit;
+        normalCombat.onAttackHit += OnAttackHit;
         // TODO - Test for player
         groupFinder.onGroupFound += OnGroupFound;
     }
@@ -80,7 +80,7 @@ public class ImpAggro : MonoBehaviour
         reincarnation.onReincarnation -= OnReincarnation;
         reincarnation.onLateReincarnation -= OnLateReincarnation;
         stats.onDeath -= OnDeath;
-        normalCombat.onNormalAttackHit -= OnNormalAttackHit;
+        normalCombat.onAttackHit -= OnAttackHit;
         // TODO - Test for player
         groupFinder.onGroupFound -= OnGroupFound;
     }
@@ -218,9 +218,14 @@ public class ImpAggro : MonoBehaviour
         }
     }
 
-    private void OnNormalAttackHit(NormalCombat sender, NormalAttack normalAttack)
+    private void OnAttackHit(NormalCombat sender, Attack attack)
     {
-        RaiseAggro(normalAttack.AggroModifier);
+        if(attack.GetType() == typeof(NormalAttack))
+            RaiseAggro(attack.AggroModifier);
+        else
+        {
+            Debug.LogError(this.transform.name + " " + this.name + " is trying to increase aggro of a not NormalAttack " );
+        }
     }
 
     #endregion

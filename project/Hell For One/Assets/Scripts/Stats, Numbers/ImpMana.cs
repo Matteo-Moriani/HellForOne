@@ -14,6 +14,8 @@ public class ImpMana : MonoBehaviour
     private static float currentManaRechargeRate;
     private static float manaPool = 50f;
 
+    private static GroupAbilities[] groupAbilitiesArray;
+    
     private Coroutine manaRechargeCr = null;
     
     #endregion
@@ -60,16 +62,39 @@ public class ImpMana : MonoBehaviour
         }
 
         currentManaRechargeRate = baseManaChargeRate;
+
+        groupAbilitiesArray = new GroupAbilities[4];
+        int i = 0;
+        foreach (GameObject group in GroupsManager.Instance.Groups)
+        {
+            groupAbilitiesArray[i] = group.GetComponentInChildren<GroupAbilities>();
+            i++;
+        }
     }
 
     private void OnEnable()
     {
         GetComponent<Stats>().onDeath += OnDeath;
+
+        foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
+        {
+            groupAbilities.onStartAbility += OnStartAbility;
+        }
     }
 
     private void OnDisable()
     {
         GetComponent<Stats>().onDeath -= OnDeath;
+        
+        foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
+        {
+            groupAbilities.onStartAbility -= OnStartAbility;
+        }
+    }
+
+    private static void OnStartAbility(AbilityAttack startedability)
+    {
+        manaPool -= startedability.ManaCost;
     }
 
     #endregion

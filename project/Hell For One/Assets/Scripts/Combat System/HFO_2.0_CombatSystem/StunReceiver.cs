@@ -118,9 +118,9 @@ public class StunReceiver : MonoBehaviour
         StopStun();
     }
 
-    private void OnBlockSuccess(Block sender, NormalAttack normalAttack, NormalCombat attackerNormalCombat)
+    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat)
     {
-        if (type == Stats.Type.Player && normalAttack.CauseStunWhenBlocked)
+        if (type == Stats.Type.Player && attack.CauseStunWhenBlocked)
         {
             StartStun();
         }

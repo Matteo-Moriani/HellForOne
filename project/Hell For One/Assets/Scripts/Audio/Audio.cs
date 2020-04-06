@@ -43,7 +43,7 @@ public class Audio : MonoBehaviour
         block.onBlockFailed += OnBlockFailed;
         block.onBlockSuccess += OnBlockSuccess;
 
-        idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+        idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
         combatEventsManager.onStartMoving += PlayFootStep;
         combatEventsManager.onStartIdle += StopFootStep;
@@ -57,7 +57,7 @@ public class Audio : MonoBehaviour
         block.onBlockFailed += OnBlockFailed;
         block.onBlockSuccess += OnBlockSuccess;
 
-        idleCombat.onNormalAttackBeingHit += OnNormalAttackBeingHit;
+        idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
         combatEventsManager.onStartMoving -= PlayFootStep;
         combatEventsManager.onStartIdle -= StopFootStep;
@@ -142,17 +142,17 @@ public class Audio : MonoBehaviour
 
     #region Event handlers
     
-    private void OnNormalAttackBeingHit(IdleCombat sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackernormalcombat)
     {
         PlayHitClip();
     }
 
-    private void OnBlockSuccess(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackernormalcombat)
     {
         PlayBlockClip();
     }
 
-    private void OnBlockFailed(Block sender, NormalAttack normalattack, NormalCombat attackernormalcombat)
+    private void OnBlockFailed(Block sender, Attack attack, NormalCombat attackernormalcombat)
     {
         PlayHitClip();
     }
