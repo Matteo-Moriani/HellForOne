@@ -5,11 +5,12 @@ using UnityEngine;
 public class Balista : MonoBehaviour
 {
     private Renderer[] renderers;
+    private float backOffset = 2.0f;
     
     private void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
-        transform.localPosition = Vector3.up * transform.localScale.y / 2;
+        transform.localPosition = Vector3.up * transform.localScale.y / 2 + (-Vector3.forward * backOffset);
     }
 
     private void OnEnable()
@@ -37,7 +38,7 @@ public class Balista : MonoBehaviour
                 rend.enabled = false;
             }
             
-            transform.localPosition = Vector3.up * transform.localScale.y / 2;
+            transform.localPosition = Vector3.up * transform.localScale.y / 2 + (-Vector3.forward * backOffset);
         }
     }
 
