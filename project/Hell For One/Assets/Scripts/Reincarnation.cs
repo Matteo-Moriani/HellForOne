@@ -174,9 +174,9 @@ public class Reincarnation : MonoBehaviour
                 playerInput.enabled = true;    
             }
             
-            Lancer lancer = player.GetComponent<Lancer>();
-            if(lancer != null) { 
-                lancer.enabled = true;    
+            ProjectileCaster projectileCaster = player.GetComponent<ProjectileCaster>();
+            if(projectileCaster != null) { 
+                projectileCaster.enabled = true;    
             }
 
             NavMeshAgent navMeshAgent = player.GetComponent<NavMeshAgent>();

@@ -10,8 +10,8 @@ public class NormalCombatManager : MonoBehaviour
     private CombatSystemManager combatSystemManager;
     private NormalCombat normalCombat;
     private AttackCollider attackCollider;
-    private GameObject currentLance;
-    private Lancer lancer;
+    private GameObject currentProjectile;
+    private ProjectileCaster projectileCaster;
     private Attack currentAttack;
 
     private GameObject attackGameObject;
@@ -69,7 +69,8 @@ public class NormalCombatManager : MonoBehaviour
         CreateAttackGameObject();
         
         normalCombat = GetComponentInParent<NormalCombat>();
-        lancer = transform.root.gameObject.GetComponent<Lancer>();
+        //projectileCaster = transform.root.gameObject.GetComponent<ProjectileCaster>();
+        projectileCaster = GetComponentInParent<ProjectileCaster>();
     }
 
     private void OnEnable()
@@ -195,22 +196,28 @@ public class NormalCombatManager : MonoBehaviour
 
             yield return new WaitForSeconds(attack.DelayInSeconds);
 
-            currentLance = lancer.LaunchNewCombatSystem(target);
+            currentProjectile = projectileCaster.LaunchNewCombatSystem(target,attack.GetPooler());
 
-            AttackCollider lanceAttackCollider = currentLance.GetComponentInChildren<AttackCollider>();
+            AttackCollider projectileAttackCollider = currentProjectile.GetComponentInChildren<AttackCollider>();
 
-            if (lanceAttackCollider != null)
+            if (projectileAttackCollider != null)
             {
-                lanceAttackCollider.ResetOnAttackHit();
-                Destroy(lanceAttackCollider);    
+                projectileAttackCollider.ResetOnAttackHit();
+                Destroy(projectileAttackCollider);    
             }
             
-            lanceAttackCollider = currentLance.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
-            lanceAttackCollider.SetStatsType(transform.root.gameObject.GetComponent<Stats>().ThisUnitType);
-            lanceAttackCollider.SetNormalCombatManager(this);
-            lanceAttackCollider.StartAttack();
+            projectileAttackCollider = currentProjectile.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
+
+            Stats stats = transform.root.gameObject.GetComponent<Stats>();
+            if(stats != null)
+                projectileAttackCollider.SetStatsType(transform.root.gameObject.GetComponent<Stats>().ThisUnitType);
+            else
+                projectileAttackCollider.SetStatsType(Stats.Type.Ally);
             
-            lanceAttackCollider.onAttackHit += AttackColliderOnAttackHitHandler;
+            projectileAttackCollider.SetNormalCombatManager(this);
+            projectileAttackCollider.StartAttack();
+            
+            projectileAttackCollider.onAttackHit += AttackColliderOnAttackHitHandler;
             
             yield return new WaitForSeconds(5.0f);
             

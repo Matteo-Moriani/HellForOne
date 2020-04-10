@@ -22,4 +22,23 @@ public class AbilityAttack : Attack
         get => abilityOrder;
         private set => abilityOrder = value;
     }
+    
+    #region Methods
+
+    public override ObjectsPooler GetPooler()
+    {
+        if (isRanged)
+        {
+            if (projectilePooler == null)
+            {
+                projectilePooler = GameObject.FindWithTag("AbilityProjectiles").GetComponent<ObjectsPooler>();
+            }
+
+            return projectilePooler;
+        }
+
+        return null;
+    }
+
+    #endregion
 }

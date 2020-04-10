@@ -113,10 +113,10 @@ public class GroupAbilities : MonoBehaviour
             accumulationVector /= groupManager.ImpsInGroupNumber;
 
             transform.position = accumulationVector;
-        
-            if(groupBehaviour.Target)
-                transform.LookAt(groupBehaviour.Target.transform);
         }
+        
+        if(groupBehaviour.Target)
+            transform.LookAt(groupBehaviour.Target.transform);
     }
 
     private void StartAbility()

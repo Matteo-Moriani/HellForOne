@@ -101,14 +101,17 @@ public class NormalCombat : MonoBehaviour
     
     public void StartAttackRanged(Attack attack, GameObject target)
     {
-        if(attack == null || target == null)
-            return;
+        if (attack.IsRanged)
+        {
+            if(attack == null || target == null)
+                return;
 
-        currentAttack = attack;
+            currentAttack = attack;
 
-        normalCombatManager.StartAttackRanged(attack,target);
+            normalCombatManager.StartAttackRanged(attack,target);
         
-        RaiseOnStartAttack(attack);    
+            RaiseOnStartAttack(attack);   
+        }
     }
     
     public void StopAttack(Attack attack)

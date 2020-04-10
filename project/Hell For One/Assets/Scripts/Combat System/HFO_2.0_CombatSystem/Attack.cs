@@ -4,28 +4,30 @@ public class Attack : ScriptableObject
 {
     #region Fields
 
-    [SerializeField] private bool hasDamageSupportBonus = false;
+    [SerializeField] protected bool hasDamageSupportBonus = false;
     
-    [SerializeField] private bool isRanged = false;
+    [SerializeField] protected bool isRanged = false;
     
-    [SerializeField] private bool canHitMultipleTargets = false;
+    [SerializeField] protected bool canHitMultipleTargets = false;
     
-    [SerializeField] private bool canBeBlocked = false;
+    [SerializeField] protected bool canBeBlocked = false;
     
-    [SerializeField] private bool causeStun = false;
-    [SerializeField] private bool causeStunWhenBlocked = false;
+    [SerializeField] protected bool causeStun = false;
+    [SerializeField] protected bool causeStunWhenBlocked = false;
 
-    [SerializeField] private bool causeKnockback = false;
-    [SerializeField] private bool causeKnockbackWhenBlocked = false;
+    [SerializeField] protected bool causeKnockback = false;
+    [SerializeField] protected bool causeKnockbackWhenBlocked = false;
     
-    [SerializeField] private float damage = 0f;
-    [SerializeField] private float range = 0f;
-    [SerializeField] private float aggroModifier = 0f;
+    [SerializeField] protected float damage = 0f;
+    [SerializeField] protected float range = 0f;
+    [SerializeField] protected float aggroModifier = 0f;
     
-    [SerializeField] private float size = 0f;
+    [SerializeField] protected float size = 0f;
     
-    [SerializeField] private float delayInSeconds = 0f;
-    [SerializeField] private float durationInSeconds = 0f;
+    [SerializeField] protected float delayInSeconds = 0f;
+    [SerializeField] protected float durationInSeconds = 0f;
+
+    protected ObjectsPooler projectilePooler;
     
     #endregion
 
@@ -113,6 +115,25 @@ public class Attack : ScriptableObject
     {
         get => hasDamageSupportBonus;
         private set => hasDamageSupportBonus = value;
+    }
+
+    #endregion
+
+    #region Methods
+
+    public virtual ObjectsPooler GetPooler()
+    {
+        if (isRanged)
+        {
+            if (projectilePooler == null)
+            {
+                projectilePooler = GameObject.FindWithTag("NormalProjectiles").GetComponent<ObjectsPooler>();
+            }
+
+            return projectilePooler;
+        }
+
+        return null;
     }
 
     #endregion

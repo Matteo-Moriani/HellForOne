@@ -10,6 +10,7 @@ public class Hammer : MonoBehaviour
     private void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
+        transform.localPosition = Vector3.up * transform.localScale.y / 2;
     }
 
     private void OnEnable()
@@ -35,9 +36,9 @@ public class Hammer : MonoBehaviour
             foreach (var rend in renderers)
             {
                 rend.enabled = false;
-                
-                transform.localPosition = Vector3.up;
             }
+            
+            transform.localPosition = Vector3.up * transform.localScale.y / 2;
         }
     }
 
@@ -56,10 +57,8 @@ public class Hammer : MonoBehaviour
 
     private IEnumerator AnimationCoroutine(AbilityAttack startedAbility)
     {
-        transform.localPosition = Vector3.up;
-        
         yield return new WaitForSeconds(startedAbility.DelayInSeconds);
 
-        transform.localPosition = Vector3.forward * startedAbility.Range + Vector3.up;
+        transform.localPosition = Vector3.forward * startedAbility.Range +  Vector3.up * transform.localScale.y / 2;
     }
 }

@@ -16,7 +16,7 @@ public class CombatManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip( "Reference to Lancer component, used for ranged attacks" )]
-    private Lancer lancer;
+    private ProjectileCaster projectileCaster;
 
     [SerializeField]
     private Stats stats;
@@ -60,9 +60,9 @@ public class CombatManager : MonoBehaviour
         if ( stats == null )
             stats = transform.root.gameObject.GetComponent<Stats>();
 
-        if ( lancer == null )
+        if ( projectileCaster == null )
         {
-            lancer = transform.root.gameObject.GetComponent<Lancer>();
+            projectileCaster = transform.root.gameObject.GetComponent<ProjectileCaster>();
         }
 
         //startPosition = attackCollider.transform.localPosition;
@@ -420,7 +420,7 @@ public class CombatManager : MonoBehaviour
 
         if (target != null)
         {
-            lancer.Launch(target);
+            //lancer.Launch(target);
         }
         //else
         //    Debug.Log(this.name + "Is trying a ranged attack to a null target");
