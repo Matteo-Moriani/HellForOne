@@ -145,7 +145,7 @@ public class NormalCombat : MonoBehaviour
 
     private void CombatManagerOnAttackHitHandler(GenericAttack attack, GenericIdle targetGenericIdle)
     {   
-        if(!attack.CanHitMultipleTargets)
+        if(!attack.CanHitMultipleTargets || targetGenericIdle.BlockMultipleTargetAttacks)
             StopAttack(attack);
         
         RaiseOnAttackHit(attack, targetGenericIdle);
