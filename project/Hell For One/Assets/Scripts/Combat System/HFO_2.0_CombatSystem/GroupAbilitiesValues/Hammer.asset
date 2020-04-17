@@ -18,12 +18,13 @@ MonoBehaviour:
   canBeBlocked: 0
   causeStun: 0
   causeStunWhenBlocked: 0
-  causeKnockback: 0
+  causeKnockback: 1
   causeKnockbackWhenBlocked: 0
   damage: 10
   range: 2
   aggroModifier: 0
-  size: 2
+  size: 1
   delayInSeconds: 1
-  durationInSeconds: 1
+  durationInSeconds: 5
   manaCost: 10
+  abilityOrder: 0

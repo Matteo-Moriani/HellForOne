@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class ProjectileCaster : MonoBehaviour
 {
-    //[SerializeField]
-    //private ObjectsPooler ProjectilesPooler;
-    
     [Space]
     
     [SerializeField, Min( 0 ), Tooltip( "The initial speed of the lance." )]
@@ -26,24 +23,9 @@ public class ProjectileCaster : MonoBehaviour
     
     [SerializeField]
     private GameObject projectilePosition;
-    
-    //private Vector3 spearLaunchPoint;
 
     private GameObject projectile;
-    
-    /*
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ProjectilesPooler = ProjectilesPooler.GetComponent<ObjectsPooler>();
-        
-        //spearLaunchPoint = spearPosition.transform.position;
-        
-        // TODO - Set positions properly
-        //spearLaunchPoint = new Vector3(0f, 0.7f, 0f);
-    }
-    */
-    
+
     public GameObject LaunchNewCombatSystem( GameObject target, ObjectsPooler projectilePooler)
     {
         float distance;
@@ -63,11 +45,11 @@ public class ProjectileCaster : MonoBehaviour
 
         alpha = 0;
 
+        // TODO - Generalize target
         if (target.tag == "Boss" )
         {
             Vector3 targetPosFixed = target.transform.position + new Vector3( 0f, 1f, 0f );
-
-            //if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), targetPosFixed, out alpha ) )
+            
             if ( !calculateAngle( projectilePosition.transform.position, targetPosFixed, out alpha ) )
             {
                 return null;
@@ -76,27 +58,19 @@ public class ProjectileCaster : MonoBehaviour
             }
         }
         
-        /*
-        else if ( !calculateAngle( transform.position + spearLaunchPoint + RightComponent(), target.transform.position, out alpha ) )
-        {
-            return null;
-            
-            Debug.LogError("Unknown error");
-        }
-        */
-
-        //transform.forward = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z) - transform.position;
         projectile = projectilePooler.GetNotActiveObject();
+        
         projectile.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        //projectile.transform.position = transform.position + spearLaunchPoint + RightComponent();
+        
         projectile.transform.position = projectilePosition.transform.position;
+        
         projectile.transform.forward = new Vector3( target.transform.position.x, projectile.transform.position.y, target.transform.position.z ) - projectile.transform.position;
         projectile.transform.rotation = Quaternion.Euler( 90f - alpha, projectile.transform.eulerAngles.y, 0 );
+        
         projectile.SetActive( true );
         
         projectile.GetComponent<Rigidbody>().AddForce( projectile.transform.up * (speed), ForceMode.VelocityChange );
-        //lance = null;
-
+        
         return projectile;
     }
 
@@ -148,9 +122,4 @@ public class ProjectileCaster : MonoBehaviour
         //Debug.Log( "x: " + x.ToString() + " alpha:" + angle.ToString() );
         return true;
     }
-    /*
-    private Vector3 RightComponent() {
-        return transform.right * 0.4f;
-    }
-    */
 }

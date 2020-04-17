@@ -11,6 +11,8 @@ public class IdleCombat : MonoBehaviour
 {
     #region Fields
 
+    [SerializeField] private GenericIdle genericIdle;
+    
     private GameObject idleCombatManagerGameObject;
     private IdleCombatManager idleCombatManager;
     private CombatSystemManager combatSystemManager;
@@ -19,22 +21,32 @@ public class IdleCombat : MonoBehaviour
 
     #endregion
 
+    #region Properties
+
+    public GenericIdle GenericIdle
+    {
+        get => genericIdle;
+        private set => genericIdle = value;
+    }
+
+    #endregion
+    
     #region Delegates and events
 
-    public delegate void OnAttackTry(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat);
+    public delegate void OnAttackTry(IdleCombat sender, GenericAttack attack, NormalCombat attackerNormalCombat);
     public event OnAttackTry onAttackTry;
 
-    public delegate void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat);
+    public delegate void OnAttackBeingHit(IdleCombat sender, GenericAttack attack, NormalCombat attackerNormalCombat);
     public event OnAttackBeingHit onAttackBeingHit;
-    
+
     #region Methods
 
-    private void RaiseOnAttackTry(Attack attack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackTry(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onAttackTry?.Invoke(this,attack, attackerNormalCombat);
     }
 
-    private void RaiseOnAttackBeingHit(Attack attack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackBeingHit(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onAttackBeingHit?.Invoke(this,attack, attackerNormalCombat);
     }
@@ -66,8 +78,8 @@ public class IdleCombat : MonoBehaviour
     #endregion
 
     #region Event handlers
-
-    private void OnAttackTryHandler(IdleCombatManager sender,Attack attack, NormalCombat attackerNormalCombat)
+    
+    private void OnAttackTryHandler(IdleCombatManager sender,GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         if (!attack.CanBeBlocked)
         {
@@ -85,6 +97,6 @@ public class IdleCombat : MonoBehaviour
         
         RaiseOnAttackTry(attack, attackerNormalCombat);
     }
-    
+
     #endregion
 }

@@ -153,7 +153,7 @@ public class Stats : MonoBehaviour
     public void TakeHit(float damage)
     {
         // TODO - remove after testing
-        Debug.Log(gameObject.name + " took " + damage + " damage ");
+        //Debug.Log(gameObject.name + " took " + damage + " damage ");
         
         health -= damage;
 
@@ -241,22 +241,22 @@ public class Stats : MonoBehaviour
 
     #region EventHandlers
 
-    private void OnBlockFailed(Block sender, Attack attack,NormalCombat attackerNormalCombat)
+    private void OnBlockFailed(Block sender, GenericAttack genericAttack,NormalCombat attackerNormalCombat)
     {
         // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(attack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(attack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+        if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+            TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
         else
-            TakeHit(attack.Damage);
+            TakeHit(genericAttack.Damage);
     }
 
-    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnAttackBeingHit(IdleCombat sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
         // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(attack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(attack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+        if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+            TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
         else
-            TakeHit(attack.Damage);
+            TakeHit(genericAttack.Damage);
     }
 
     private void OnReincarnation(GameObject player) 

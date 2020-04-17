@@ -128,12 +128,12 @@ public class MidBossAnimator : MonoBehaviour {
         PlayIdleAnimation();
     }
 
-    private void OnStopAttack(NormalCombat sender, Attack attack)
+    private void OnStopAttack(NormalCombat sender, GenericAttack attack)
     {
         StopAnimations();
     }
 
-    private void OnStartAttack(NormalCombat sender, Attack attack)
+    private void OnStartAttack(NormalCombat sender, GenericAttack attack)
     {
         if (attack.CanHitMultipleTargets)
         {

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class BossBehavior : AbstractBoss
 {
     [SerializeField]
-    private NormalAttack swipeAttack;
+    private EnemyAttack swipeAttack;
     
     // sum between single and group must be 1
     public float singleAttackProb = 0.6f;

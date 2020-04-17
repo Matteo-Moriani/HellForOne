@@ -87,26 +87,37 @@
             <e p="Combat.cs" t="Include" />
             <e p="CombatManager.cs" t="Include" />
             <e p="HFO_2.0_CombatSystem" t="Include">
-              <e p="AbilityAttack.cs" t="Include" />
-              <e p="Attack.cs" t="Include" />
               <e p="AttackCollider.cs" t="Include" />
               <e p="Block.cs" t="Include" />
               <e p="CombatSystemManager.cs" t="Include" />
-              <e p="EnvironmentalCombat.cs" t="Include" />
               <e p="GroupAbilities" t="Include">
                 <e p="Balista.cs" t="Include" />
                 <e p="GroupAbilities.cs" t="Include" />
                 <e p="Hammer.cs" t="Include" />
+                <e p="Shield.cs" t="Include" />
               </e>
               <e p="IdleCollider.cs" t="Include" />
               <e p="IdleCombat.cs" t="Include" />
               <e p="IdleCombatManager.cs" t="Include" />
               <e p="KnockbackCaster.cs" t="Include" />
               <e p="KnockbackReceiver.cs" t="Include" />
-              <e p="MagicCombat.cs" t="Include" />
-              <e p="NormalAttack.cs" t="Include" />
               <e p="NormalCombat.cs" t="Include" />
               <e p="NormalCombatManager.cs" t="Include" />
+              <e p="ScriptableObjects" t="Include">
+                <e p="Attack" t="Include">
+                  <e p="AbilityAttack.cs" t="Include" />
+                  <e p="AlliedAttack.cs" t="Include" />
+                  <e p="AlliedNormalAttack.cs" t="Include" />
+                  <e p="EnemyAttack.cs" t="Include" />
+                  <e p="EnemyNormalAttack.cs" t="Include" />
+                  <e p="GenericAttack.cs" t="Include" />
+                </e>
+                <e p="Idle" t="Include">
+                  <e p="AlliedIdle.cs" t="Include" />
+                  <e p="EnemyIdle.cs" t="Include" />
+                  <e p="GenericIdle.cs" t="Include" />
+                </e>
+              </e>
               <e p="StunReceiver.cs" t="Include" />
             </e>
             <e p="LittleEnemyAutoAttackTest.cs" t="Include" />

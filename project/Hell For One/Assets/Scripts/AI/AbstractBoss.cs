@@ -63,6 +63,9 @@ public abstract class AbstractBoss : MonoBehaviour {
     private bool faceCRisActive = true;
     private CombatEventsManager combatEventsManager;
 
+    protected StunReceiver stunReceiver;
+    protected bool isStunned = false;
+    
     #endregion
 
     #region properties
@@ -278,9 +281,14 @@ public abstract class AbstractBoss : MonoBehaviour {
         FaceCR = StartCoroutine(FaceEvery(FacingIntervall));
 
         FightingBT = FightingBTBuilder();
+
+        stunReceiver = GetComponentInChildren<StunReceiver>();
     }
 
     public void FixedUpdate() {
+        if (isStunned)
+            return;
+
         if(!Player)
             Player = GameObject.FindGameObjectWithTag("Player");
         if(!ArenaCenter)
@@ -326,13 +334,27 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public void OnEnable() {
         stats.onDeath += OnDeath;
+        stunReceiver.onStartStun += OnStartStun;
+        stunReceiver.onStopStun += OnStopStun;
     }
 
     public void OnDisable() {
         stats.onDeath -= OnDeath;
+        stunReceiver.onStartStun -= OnStartStun;
+        stunReceiver.onStopStun -= OnStopStun;
     }
 
-    public void OnDeath(Stats sender) {
+    protected virtual void OnStartStun()
+    {
+        isStunned = true;
+    }
+
+    protected virtual void OnStopStun()
+    {
+        isStunned = false;
+    }
+
+    private void OnDeath(Stats sender) {
         StopAllCoroutines();
         HUD.DeactivateAggroIcon();
     }

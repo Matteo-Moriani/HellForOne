@@ -6,8 +6,8 @@ using UnityEngine.AI;
 public class MidBossBehavior : AbstractBoss
 {
     [SerializeField]
-    private NormalAttack swipeAttack;
-    
+    private EnemyAttack swipeAttack;
+
     public float singleAttackProb = 0.7f;
     public float groupAttackProb = 0.3f;
 
@@ -24,7 +24,7 @@ public class MidBossBehavior : AbstractBoss
 
     private float singleAttackDuration;
     private float groupAttackDuration;
-
+    
     public override void InitializeValues() {
         Speed = speed;
         RotSpeed = rotSpeed;
@@ -140,25 +140,33 @@ public class MidBossBehavior : AbstractBoss
 
     // TODO - Mid boss now can only swipe attack, I left both methods if we need to add attacks
     private void SingleAttack() {
-        if(NormalCombat == null)
+        if (!isStunned)
         {
-            NormalCombat = GetComponentInChildren<NormalCombat>();
+            if(NormalCombat == null)
+            {
+                NormalCombat = GetComponentInChildren<NormalCombat>();
+            }
+            if(NormalCombat != null) {
+                NormalCombat.StartAttack(swipeAttack);
+            }    
         }
-        if(NormalCombat != null) {
-            NormalCombat.StartAttack(swipeAttack);
-        }
+        
         IsAttacking = false;
     }
     
     // TODO - Mid boss now can only swipe attack, I left both methods if we need to add attacks
     private void GroupAttack() {
-        if(NormalCombat == null)
+        if (!isStunned)
         {
-            NormalCombat = GetComponentInChildren<NormalCombat>();
+            if(NormalCombat == null)
+            {
+                NormalCombat = GetComponentInChildren<NormalCombat>();
+            }
+            if(NormalCombat != null) {
+                NormalCombat.StartAttack(swipeAttack);
+            }    
         }
-        if(NormalCombat != null) {
-            NormalCombat.StartAttack(swipeAttack);
-        }
+        
         IsAttacking = false;
     }
     

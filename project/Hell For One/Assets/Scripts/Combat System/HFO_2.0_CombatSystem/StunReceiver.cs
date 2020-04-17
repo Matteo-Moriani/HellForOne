@@ -54,17 +54,36 @@ public class StunReceiver : MonoBehaviour
         Transform root = transform.root;
         
         root.gameObject.GetComponent<Stats>().onDeath += OnDeath;
-        root.gameObject.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;
+
+        Reincarnation reincarnation = root.gameObject.GetComponent<Reincarnation>();
+
+        if (reincarnation)
+        {
+            root.gameObject.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;    
+        }
+        
         GetComponent<Block>().onBlockSuccess += OnBlockSuccess;
+
+        GetComponent<NormalCombat>().onAttackHit += OnAttackHit;
     }
 
     private void OnDisable()
     {
         Transform root = transform.root;
         
+        
         root.gameObject.GetComponent<Stats>().onDeath -= OnDeath;
-        root.gameObject.GetComponent<Reincarnation>().onLateReincarnation -= OnLateReincarnation;
+        
+        Reincarnation reincarnation = root.gameObject.GetComponent<Reincarnation>();
+
+        if (reincarnation)
+        {
+            root.gameObject.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;    
+        }
+        
         GetComponent<Block>().onBlockSuccess -= OnBlockSuccess;
+        
+        GetComponent<NormalCombat>().onAttackHit -= OnAttackHit;
     }
 
     private void Start()
@@ -76,16 +95,17 @@ public class StunReceiver : MonoBehaviour
 
     #region Methods
 
-    private void StartStun()
+    // TODO - set here stun duration
+    private void StartStun(float stunDuration)
     {
         if (isStunned) return;
         
         isStunned = true;
 
-        stunCr = StartCoroutine(StunCoroutine());
+        stunCr = StartCoroutine(StunCoroutine(stunDuration));
         
         // TODO - remove after testing
-        Debug.Log("Player " + transform.root.gameObject.name + " start stun");
+        Debug.Log( transform.root.gameObject.name + " start stun");
     }
 
     private void StopStun()
@@ -100,13 +120,21 @@ public class StunReceiver : MonoBehaviour
         stunCr = null;
         
         // TODO - remove after testing
-        Debug.Log("Player " + transform.root.gameObject.name + " stop stun");
+        Debug.Log( transform.root.gameObject.name + " stop stun");
     }
 
     #endregion
     
     #region External events handlers
 
+    private void OnAttackHit(GenericAttack genericAttack, GenericIdle targetidlevalues)
+    {
+        if (targetidlevalues.CauseStunWhenHit)
+        {
+            StartStun(targetidlevalues.AttackerStunDuration);
+        }
+    }
+    
     private void OnDeath(Stats sender)
     {    
         StopStun();
@@ -118,11 +146,11 @@ public class StunReceiver : MonoBehaviour
         StopStun();
     }
 
-    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (type == Stats.Type.Player && attack.CauseStunWhenBlocked)
+        if (type == Stats.Type.Player && genericAttack.CauseStunWhenBlocked)
         {
-            StartStun();
+            StartStun(stunDuration);
         }
     }
 
@@ -130,11 +158,11 @@ public class StunReceiver : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator StunCoroutine()
+    private IEnumerator StunCoroutine(float stunDuration)
     {
         RaiseOnStartStun();
         
-        yield return stunDelay;
+        yield return new WaitForSeconds(stunDuration);
         
         RaiseOnStopStun();
         

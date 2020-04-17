@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilityAttack", menuName = "CombatSystem/AbilityAttack", order = 1)]
-public class AbilityAttack : Attack
+public class AbilityAttack : AlliedAttack
 {
     [SerializeField]
     private int manaCost = 0;
 
     [SerializeField] 
     private GroupBehaviour.State abilityOrder = GroupBehaviour.State.MeleeAttack;
+
+    [SerializeField] private bool isOffensive = false;
     
     public int ManaCost
     {
@@ -22,7 +24,13 @@ public class AbilityAttack : Attack
         get => abilityOrder;
         private set => abilityOrder = value;
     }
-    
+
+    public bool IsOffensive
+    {
+        get => isOffensive;
+        private set => isOffensive = value;
+    }
+
     #region Methods
 
     public override ObjectsPooler GetPooler()

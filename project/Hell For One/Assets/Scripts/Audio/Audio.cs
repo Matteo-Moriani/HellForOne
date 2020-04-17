@@ -142,17 +142,17 @@ public class Audio : MonoBehaviour
 
     #region Event handlers
     
-    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackernormalcombat)
+    private void OnAttackBeingHit(IdleCombat sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
     {
         PlayHitClip();
     }
 
-    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackernormalcombat)
+    private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
     {
         PlayBlockClip();
     }
 
-    private void OnBlockFailed(Block sender, Attack attack, NormalCombat attackernormalcombat)
+    private void OnBlockFailed(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
     {
         PlayHitClip();
     }

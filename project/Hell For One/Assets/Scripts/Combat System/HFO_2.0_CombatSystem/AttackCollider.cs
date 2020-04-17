@@ -7,26 +7,29 @@ using UnityEngine;
 public class AttackCollider : MonoBehaviour
 {
     #region fields
-
-    private Stats.Type type;
+    
     private bool isAttacking = false;
     
     private NormalCombatManager normalCombatManager;
 
-    public delegate void OnAttackHit(AttackCollider sender);
+    public delegate void OnAttackHit(GenericIdle targetGenericIdle);
     public event OnAttackHit onAttackHit;
 
+    #region Methods
+
+    private void RaiseOnAttackHit(GenericIdle targetGenericIdle)
+    {
+        onAttackHit?.Invoke(targetGenericIdle);
+    }
+
+    #endregion
+    
     #endregion
 
     #region Unity methods
 
     private void Awake()
     {
-        Stats stats = transform.root.gameObject.GetComponent<Stats>();
-        
-        if(stats != null)
-            type = transform.root.gameObject.GetComponent<Stats>().ThisUnitType;
-        
         normalCombatManager = this.transform.parent.gameObject.GetComponent<NormalCombatManager>();
     }
 
@@ -41,56 +44,29 @@ public class AttackCollider : MonoBehaviour
         {
             return;
         }
-
-        var targetType = other.transform.root.gameObject.GetComponent<Stats>().ThisUnitType;
         
-        if (!IsLegitAttack(targetType))
-        {
-            return;
-        }
-
-        var targetIdleCollider = other.GetComponent<IdleCollider>();
+        IdleCollider targetIdleCollider = other.GetComponent<IdleCollider>();
         
         if (targetIdleCollider == null)
         {
             return;
         }
         
+        GenericIdle targetGenericIdle =
+            targetIdleCollider.ParentIdleCombatManager.ParentIdleCombat.GenericIdle;
+        
+        if(!normalCombatManager.CurrentAttack.IsLegitAttack(targetGenericIdle))
+            return;
+        
         targetIdleCollider.NotifyOnNormalAttackBeingHit(normalCombatManager.NormalCombat, normalCombatManager.CurrentAttack);
         
-        RaiseOnAttackHit();
+        RaiseOnAttackHit(targetGenericIdle);
     }
 
     #endregion
 
     #region Methods
-
-    private bool IsLegitAttack(Stats.Type targetType)
-    {
-        switch (type)
-        {
-            case Stats.Type.Player:
-                if (targetType == Stats.Type.Boss)
-                {
-                    return true;
-                }
-                break;
-            case Stats.Type.Ally:
-                if (targetType == Stats.Type.Boss)
-                {
-                    return true;
-                }
-                break;
-            case Stats.Type.Boss:
-                if (targetType == Stats.Type.Ally || targetType == Stats.Type.Player)
-                {
-                    return true;
-                }
-                break;
-        }
-        return false;
-    }
-
+    
     public void StartAttack()
     {
         isAttacking = true;
@@ -103,29 +79,15 @@ public class AttackCollider : MonoBehaviour
         transform.localScale = Vector3.zero;
     }
 
-    public void SetStatsType(Stats.Type newType)
-    {
-        type = newType;
-    }
-
     public void SetNormalCombatManager(NormalCombatManager newNormalCombatManager)
     {
         normalCombatManager = newNormalCombatManager;
     }
     
-    #endregion
-
-    #region Events
-
     public void ResetOnAttackHit()
     {
         onAttackHit = null;
     }
     
-    private void RaiseOnAttackHit()
-    {
-        onAttackHit?.Invoke(this);
-    }
-
     #endregion
 }

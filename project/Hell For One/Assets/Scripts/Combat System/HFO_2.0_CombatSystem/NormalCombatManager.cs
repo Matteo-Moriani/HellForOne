@@ -12,7 +12,7 @@ public class NormalCombatManager : MonoBehaviour
     private AttackCollider attackCollider;
     private GameObject currentProjectile;
     private ProjectileCaster projectileCaster;
-    private Attack currentAttack;
+    private GenericAttack currentAttack;
 
     private GameObject attackGameObject;
 
@@ -28,7 +28,7 @@ public class NormalCombatManager : MonoBehaviour
 
     public NormalCombat NormalCombat { get => normalCombat; private set => normalCombat = value; }
 
-    public Attack CurrentAttack
+    public GenericAttack CurrentAttack
     {
         get => currentAttack;
         private set => currentAttack = value;
@@ -40,22 +40,22 @@ public class NormalCombatManager : MonoBehaviour
 
     #region Delegates and events
 
-    public delegate void OnAttackHit(NormalCombatManager sender, Attack attack);
+    public delegate void OnAttackHit(GenericAttack attack, GenericIdle targetGenericIdle);
     public event OnAttackHit onAttackHit;
 
-    public delegate void OnStopAttack(NormalCombatManager sender, Attack attack);
+    public delegate void OnStopAttack(NormalCombatManager sender, GenericAttack attack);
     public event OnStopAttack onStopAttack;
 
     #region Methods
 
-    private void RaiseOnStopAttack(Attack attack)
+    private void RaiseOnStopAttack(GenericAttack attack)
     {
         onStopAttack?.Invoke(this,attack);
     }
 
-    private void RaiseOnAttackHit(Attack attack)
+    private void RaiseOnAttackHit(GenericAttack attack, GenericIdle targetGenericIdle)
     {
-        onAttackHit?.Invoke(this,attack);
+        onAttackHit?.Invoke(attack, targetGenericIdle);
     }
 
     #endregion 
@@ -69,7 +69,7 @@ public class NormalCombatManager : MonoBehaviour
         CreateAttackGameObject();
         
         normalCombat = GetComponentInParent<NormalCombat>();
-        //projectileCaster = transform.root.gameObject.GetComponent<ProjectileCaster>();
+        
         projectileCaster = GetComponentInParent<ProjectileCaster>();
     }
 
@@ -94,7 +94,7 @@ public class NormalCombatManager : MonoBehaviour
         // Creating objects for collider
         attackGameObject = combatSystemManager.CreateCombatSystemCollider_GO(transform, attackGameObjectNameAndTag);
         
-        // Rest collider's object scale
+        // Reset collider's object scale
         // Correct scale is managed by attacks
         attackGameObject.transform.localScale = Vector3.zero;
         
@@ -109,7 +109,7 @@ public class NormalCombatManager : MonoBehaviour
     }
 
     // Used for melee attacks
-    public void StartAttack(Attack attack)
+    public void StartAttack(GenericAttack attack)
     {
         if (attackCr == null && isIdle)
         {
@@ -119,7 +119,7 @@ public class NormalCombatManager : MonoBehaviour
     }
 
     // Used for ranged attacks
-    public void StartAttackRanged(Attack attack, GameObject target)
+    public void StartAttackRanged(GenericAttack attack, GameObject target)
     {
         if (attackCr != null || !isIdle || target == null) return;
         
@@ -127,7 +127,7 @@ public class NormalCombatManager : MonoBehaviour
         attackCr = StartCoroutine(AttackRangedCoroutine(attack, target));
     }
 
-    public void StopAttack(Attack attack)
+    public void StopAttack(GenericAttack attack)
     {
         if (attackCr != null && !isIdle)
         {
@@ -143,37 +143,31 @@ public class NormalCombatManager : MonoBehaviour
             RaiseOnStopAttack(attack);
         }
     }
-    
-    public void SetStatsType(Stats.Type newType)
-    {
-        attackCollider.SetStatsType(newType);     
-    }
 
     #endregion
 
     #region Events handler
 
-    private void AttackColliderOnAttackHitHandler(AttackCollider sender)
+    private void AttackColliderOnAttackHitHandler(GenericIdle targetGenericIdle)
     {
-        if (!currentAttack.CanHitMultipleTargets)
+        if (!currentAttack.CanHitMultipleTargets || targetGenericIdle.BlockMultipleTargetAttacks)
         { 
             StopAttack(currentAttack);
         }
-        RaiseOnAttackHit(currentAttack);
+        
+        RaiseOnAttackHit(currentAttack, targetGenericIdle);
     }
     
     #endregion
 
     #region Coroutines
 
-    private IEnumerator AttackCoroutine(Attack attack)
+    private IEnumerator AttackCoroutine(GenericAttack attack)
     {
         isIdle = false;
 
         var targetPosition =
             attackGameObject.transform.localPosition + new Vector3(0.0f, 0.0f, attack.Range);
-        
-        //attackGameObject.transform.localScale = Vector3.one * attack.Size;
 
         yield return new WaitForSeconds(attack.DelayInSeconds);
 
@@ -188,7 +182,7 @@ public class NormalCombatManager : MonoBehaviour
         StopAttack(attack);
     }
     
-    private IEnumerator AttackRangedCoroutine(Attack attack, GameObject target)
+    private IEnumerator AttackRangedCoroutine(GenericAttack attack, GameObject target)
     {
         if (target != null)
         {
@@ -208,13 +202,9 @@ public class NormalCombatManager : MonoBehaviour
             
             projectileAttackCollider = currentProjectile.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
 
-            Stats stats = transform.root.gameObject.GetComponent<Stats>();
-            if(stats != null)
-                projectileAttackCollider.SetStatsType(transform.root.gameObject.GetComponent<Stats>().ThisUnitType);
-            else
-                projectileAttackCollider.SetStatsType(Stats.Type.Ally);
-            
+            // TODO - Circular dependency, try to remove this.
             projectileAttackCollider.SetNormalCombatManager(this);
+            
             projectileAttackCollider.StartAttack();
             
             projectileAttackCollider.onAttackHit += AttackColliderOnAttackHitHandler;

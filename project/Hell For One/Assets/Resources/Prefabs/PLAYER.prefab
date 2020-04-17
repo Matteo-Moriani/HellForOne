@@ -2025,13 +2025,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a647f76d5639e44eb0b667285579f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilesPooler: {fileID: 0}
-  ratio: 1
   speed: 20
   minDistance: 0
   maxDistance: 30
   direct: 1
-  spearPosition: {fileID: 2110945901957857575}
+  projectilePosition: {fileID: 0}
 --- !u!114 &5985542193108116006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8512,6 +8510,18 @@ PrefabInstance:
       propertyPath: spearPosition
       value: 
       objectReference: {fileID: 2110945901957857575}
+    - target: {fileID: 4146399535324072433, guid: 428676f7cc435ab40a5bbf728b93e19c,
+        type: 3}
+      propertyPath: idleValues
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cb0fcb17dad5ac4cb804fd63445e2dd,
+        type: 2}
+    - target: {fileID: 4146399535324072433, guid: 428676f7cc435ab40a5bbf728b93e19c,
+        type: 3}
+      propertyPath: genericIdle
+      value: 
+      objectReference: {fileID: 11400000, guid: ed4c75ae67a9a944e9a5824a98f30a26,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 428676f7cc435ab40a5bbf728b93e19c, type: 3}
 --- !u!4 &4220991734791673675 stripped

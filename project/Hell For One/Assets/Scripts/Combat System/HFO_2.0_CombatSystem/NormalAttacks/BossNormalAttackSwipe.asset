@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e686d4905e34549aa3c07a03b20dbe, type: 3}
-  m_Name: MidbossSwipeAttack
+  m_Script: {fileID: 11500000, guid: 455c07696ee82734599512206958d4d6, type: 3}
+  m_Name: BossNormalAttackSwipe
   m_EditorClassIdentifier: 
   hasDamageSupportBonus: 0
   isRanged: 0
@@ -21,7 +21,7 @@ MonoBehaviour:
   causeKnockback: 1
   causeKnockbackWhenBlocked: 1
   damage: 2
-  range: 2
+  range: 1
   aggroModifier: 0
   size: 2
   delayInSeconds: 1

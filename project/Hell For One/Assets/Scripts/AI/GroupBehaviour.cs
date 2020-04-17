@@ -6,10 +6,10 @@ using UnityEngine;
 public class GroupBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private NormalAttack meleeAttack;
+    private AlliedAttack meleeAttack;
 
     [SerializeField] 
-    private NormalAttack rangedAttack;
+    private AlliedAttack rangedAttack;
     
     public float rateo = 2f;
     private Coroutine continuousAttack;

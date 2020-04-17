@@ -15,7 +15,7 @@ public class NormalCombat : MonoBehaviour
     private NormalCombatManager normalCombatManager;
     private GameObject normalCombatManagerGameObject;
 
-    private Attack currentAttack;
+    private GenericAttack currentAttack;
 
     private Reincarnation reincarnation;
 
@@ -23,28 +23,28 @@ public class NormalCombat : MonoBehaviour
 
     #region Delegates and events
     
-    public delegate void OnAttackHit(NormalCombat sender, Attack attack);
+    public delegate void OnAttackHit(GenericAttack attack, GenericIdle targetGenericIdle);
     public event OnAttackHit onAttackHit;
     
-    public delegate void OnStartAttack(NormalCombat sender, Attack attack);
+    public delegate void OnStartAttack(NormalCombat sender, GenericAttack attack);
     public event OnStartAttack onStartAttack;
     
-    public delegate void OnStopAttack(NormalCombat sender, Attack attack);
+    public delegate void OnStopAttack(NormalCombat sender, GenericAttack attack);
     public event OnStopAttack onStopAttack;
 
     #region Methods
     
-    private void RaiseOnAttackHit(Attack attack)
+    private void RaiseOnAttackHit(GenericAttack attack, GenericIdle targetGenericIdle)
     {
-        onAttackHit?.Invoke(this,attack);
+        onAttackHit?.Invoke(attack, targetGenericIdle);
     }
     
-    private void RaiseOnStartAttack(Attack attack)
+    private void RaiseOnStartAttack(GenericAttack attack)
     {
         onStartAttack?.Invoke(this,attack);
     }
     
-    private void RaiseOnStopAttack(Attack attack)
+    private void RaiseOnStopAttack(GenericAttack attack)
     {
         onStopAttack?.Invoke(this,attack);
     }
@@ -87,7 +87,7 @@ public class NormalCombat : MonoBehaviour
     
     #region Methods
     
-    public void StartAttack(Attack attack)
+    public void StartAttack(GenericAttack attack)
     {
         if(attack == null)
             return;
@@ -99,7 +99,7 @@ public class NormalCombat : MonoBehaviour
         RaiseOnStartAttack(attack);
     }
     
-    public void StartAttackRanged(Attack attack, GameObject target)
+    public void StartAttackRanged(GenericAttack attack, GameObject target)
     {
         if (attack.IsRanged)
         {
@@ -114,7 +114,7 @@ public class NormalCombat : MonoBehaviour
         }
     }
     
-    public void StopAttack(Attack attack)
+    public void StopAttack(GenericAttack attack)
     {
         if(attack == null)
             return;
@@ -124,11 +124,6 @@ public class NormalCombat : MonoBehaviour
         RaiseOnStopAttack(attack);
         
         currentAttack = null;
-    }
-
-    public void SetStatsType(Stats.Type newType)
-    {
-        normalCombatManager.SetStatsType(newType);   
     }
 
     #endregion
@@ -143,17 +138,17 @@ public class NormalCombat : MonoBehaviour
         }
     }
     
-    private void CombatManagerOnStopAttackHandler(NormalCombatManager sender, Attack attack)
+    private void CombatManagerOnStopAttackHandler(NormalCombatManager sender, GenericAttack attack)
     {
         StopAttack(attack);
     }
 
-    private void CombatManagerOnAttackHitHandler(NormalCombatManager sender, Attack attack)
+    private void CombatManagerOnAttackHitHandler(GenericAttack attack, GenericIdle targetGenericIdle)
     {   
         if(!attack.CanHitMultipleTargets)
             StopAttack(attack);
         
-        RaiseOnAttackHit(attack);
+        RaiseOnAttackHit(attack, targetGenericIdle);
     }
     
     #endregion

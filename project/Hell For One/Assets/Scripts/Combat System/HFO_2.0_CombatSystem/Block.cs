@@ -44,10 +44,10 @@ public class Block : MonoBehaviour
     public delegate void OnStopBlock(Block sender);
     public event OnStopBlock onStopBlock;
     
-    public delegate void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat);
+    public delegate void OnBlockSuccess(Block sender, GenericAttack attack, NormalCombat attackerNormalCombat);
     public event OnBlockSuccess onBlockSuccess;
 
-    public delegate void OnBlockFailed(Block sender, Attack attack, NormalCombat attackerNormalCombat);
+    public delegate void OnBlockFailed(Block sender, GenericAttack attack, NormalCombat attackerNormalCombat);
     public event OnBlockFailed onBlockFailed;
     
     #region Methods
@@ -62,12 +62,12 @@ public class Block : MonoBehaviour
         onStopBlock?.Invoke(this);
     }
     
-    private void RiseOnBlockFailed(Attack attack, NormalCombat attackerNormalCombat)
+    private void RiseOnBlockFailed(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onBlockFailed?.Invoke(this, attack, attackerNormalCombat);
     }
     
-    private void RiseOnBlockSuccess(Attack attack, NormalCombat attackerNormalCombat)
+    private void RiseOnBlockSuccess(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onBlockSuccess?.Invoke(this, attack, attackerNormalCombat);
     }
@@ -205,17 +205,17 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void OnAttackTry(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnAttackTry(IdleCombat sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
         if (Random.Range(0, 100) < blockChance)
         {
             // TODO - Check angle for player
             
-            RiseOnBlockSuccess(attack,attackerNormalCombat);
+            RiseOnBlockSuccess(genericAttack,attackerNormalCombat);
         }
         else
         {    
-            RiseOnBlockFailed(attack, attackerNormalCombat);
+            RiseOnBlockFailed(genericAttack, attackerNormalCombat);
         }
     }
 

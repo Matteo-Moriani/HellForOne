@@ -8230,6 +8230,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4146399535324072433, guid: 428676f7cc435ab40a5bbf728b93e19c,
+        type: 3}
+      propertyPath: idleValues
+      value: 
+      objectReference: {fileID: 11400000, guid: ed4c75ae67a9a944e9a5824a98f30a26,
+        type: 2}
+    - target: {fileID: 4146399535324072433, guid: 428676f7cc435ab40a5bbf728b93e19c,
+        type: 3}
+      propertyPath: genericIdle
+      value: 
+      objectReference: {fileID: 11400000, guid: ed4c75ae67a9a944e9a5824a98f30a26,
+        type: 2}
     - target: {fileID: 6773303424144923524, guid: 428676f7cc435ab40a5bbf728b93e19c,
         type: 3}
       propertyPath: m_Enabled
@@ -8260,6 +8272,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     - target: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8315,11 +8332,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e75f9edde83864d9e6480681e59b30, type: 3}
 --- !u!4 &1978037948829843763 stripped

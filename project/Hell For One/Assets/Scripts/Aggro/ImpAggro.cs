@@ -218,9 +218,9 @@ public class ImpAggro : MonoBehaviour
         }
     }
 
-    private void OnAttackHit(NormalCombat sender, Attack attack)
+    private void OnAttackHit(GenericAttack attack, GenericIdle targetGenericIdle)
     {
-        if(attack.GetType() == typeof(NormalAttack))
+        if(attack.CanRiseAggro(type))
             RaiseAggro(attack.AggroModifier);
         else
         {

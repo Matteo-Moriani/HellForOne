@@ -10,6 +10,7 @@ public class IdleCombatManager : MonoBehaviour
 
     private static string nameAndTag = "IdleCollider";
 
+    private IdleCombat parentIdleCombat;
     private GameObject idleColliderGameObject;
     private IdleCollider idleCollider;
     private CombatSystemManager combatSystemManager;
@@ -18,12 +19,12 @@ public class IdleCombatManager : MonoBehaviour
     
     #region Delegates and events
 
-    public delegate void OnAttackTry(IdleCombatManager sender, Attack attack, NormalCombat attackerNormalCombat);
+    public delegate void OnAttackTry(IdleCombatManager sender, GenericAttack attack, NormalCombat attackerNormalCombat);
     public event OnAttackTry onAttackTry;
 
     #region Methods
 
-    private void RaiseOnAttackTry(Attack attack, NormalCombat attackerNormalCombat)
+    private void RaiseOnAttackTry(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onAttackTry?.Invoke(this,attack, attackerNormalCombat);
     }
@@ -40,6 +41,12 @@ public class IdleCombatManager : MonoBehaviour
         private set => nameAndTag = value;
     }
 
+    public IdleCombat ParentIdleCombat
+    {
+        get => parentIdleCombat;
+        private set => parentIdleCombat = value;
+    }
+
     #endregion
 
     #region Unity methods
@@ -54,6 +61,8 @@ public class IdleCombatManager : MonoBehaviour
         idleColliderGameObject.GetComponent<Renderer>().material = combatSystemManager.idleMaterial;
 
         idleCollider = idleColliderGameObject.AddComponent<IdleCollider>();
+
+        parentIdleCombat = transform.parent.GetComponent<IdleCombat>();
     }
 
     private void OnEnable()
@@ -70,7 +79,7 @@ public class IdleCombatManager : MonoBehaviour
 
     #region External events handlers
 
-    private void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, Attack attack)
+    private void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, GenericAttack attack)
     {
         RaiseOnAttackTry(attack, attackerNormalCombat);
     }

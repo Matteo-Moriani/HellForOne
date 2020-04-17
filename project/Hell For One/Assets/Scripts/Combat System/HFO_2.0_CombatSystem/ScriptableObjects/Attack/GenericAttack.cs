@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Attack : ScriptableObject
+public class GenericAttack : ScriptableObject
 {
     #region Fields
 
@@ -123,17 +125,17 @@ public class Attack : ScriptableObject
 
     public virtual ObjectsPooler GetPooler()
     {
-        if (isRanged)
-        {
-            if (projectilePooler == null)
-            {
-                projectilePooler = GameObject.FindWithTag("NormalProjectiles").GetComponent<ObjectsPooler>();
-            }
-
-            return projectilePooler;
-        }
-
         return null;
+    }
+    
+    public virtual bool IsLegitAttack(GenericIdle targetIdleValues)
+    {
+        return false;
+    }
+
+    public virtual bool CanRiseAggro(Stats.Type unitType)
+    {
+        return false;
     }
 
     #endregion

@@ -9,8 +9,10 @@ public class IdleCollider : MonoBehaviour
 
     private static string nameAndTag = IdleCombatManager.NameAndTag;
     private bool canBeDamaged = true;
-
+    
+    // TODO - Bad design
     private Dash dash;
+    private IdleCombatManager parentIdleCombatManager;
     
     #endregion
 
@@ -22,16 +24,22 @@ public class IdleCollider : MonoBehaviour
         private set => nameAndTag = value;
     }
 
+    public IdleCombatManager ParentIdleCombatManager
+    {
+        get => parentIdleCombatManager;
+        private set => parentIdleCombatManager = value;
+    }
+
     #endregion
     
     #region Delegates and events
 
-    public delegate void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, Attack attack);
+    public delegate void OnAttackBeingHit(IdleCollider sender, NormalCombat attackerNormalCombat, GenericAttack attack);
     public event OnAttackBeingHit onAttackBeingHit;
 
     #region Methods
     
-    private void RaiseOnAttackBeingHit(NormalCombat attackerNormalCombat, Attack attack) {
+    private void RaiseOnAttackBeingHit(NormalCombat attackerNormalCombat, GenericAttack attack) {
         onAttackBeingHit?.Invoke(this,attackerNormalCombat,attack);
     }
 
@@ -44,6 +52,7 @@ public class IdleCollider : MonoBehaviour
     private void Awake()
     {
         dash = transform.root.gameObject.GetComponent<Dash>();
+        parentIdleCombatManager = transform.parent.GetComponent<IdleCombatManager>();
     }
 
     private void OnEnable()
@@ -68,7 +77,7 @@ public class IdleCollider : MonoBehaviour
     
     #region Methods
     
-    public void NotifyOnNormalAttackBeingHit(NormalCombat attackerNormalCombat, Attack attack) { 
+    public void NotifyOnNormalAttackBeingHit(NormalCombat attackerNormalCombat, GenericAttack attack) { 
         if(canBeDamaged)
             RaiseOnAttackBeingHit(attackerNormalCombat,attack);    
     }
@@ -76,12 +85,14 @@ public class IdleCollider : MonoBehaviour
     #endregion
 
     #region Event handlers
-
+    
+    // TODO - Bad design
     private void OnDashStart()
     {
         canBeDamaged = false;
     }
 
+    // TODO - Bad design
     private void OnDashStop()
     {
         canBeDamaged = true;

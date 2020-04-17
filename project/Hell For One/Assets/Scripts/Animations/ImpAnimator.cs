@@ -247,7 +247,7 @@ public class ImpAnimator : MonoBehaviour
         StopAnimations();    
     }
     
-    private void OnStartAttack(NormalCombat sender, Attack attack)
+    private void OnStartAttack(NormalCombat sender, GenericAttack attack)
     {
         if (attack.IsRanged)
         {
@@ -269,7 +269,7 @@ public class ImpAnimator : MonoBehaviour
         StopBlockAnimation();
     }
     
-    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackernormalcombat)
+    private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
     {
         PlayBlockAnimation();
     }

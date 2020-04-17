@@ -25,6 +25,8 @@ public class GroupAbilities : MonoBehaviour
     private GroupManager groupManager;
 
     private Transform parent;
+
+    private Coroutine abilityCr = null;
     
     #endregion
 
@@ -78,13 +80,8 @@ public class GroupAbilities : MonoBehaviour
 
     private void OnDisable()
     {
-        normalCombat.onStopAttack += OnStopAttack;
+        normalCombat.onStopAttack -= OnStopAttack;
         PlayerInput.onXButtonDown -= OnXButtonDown;
-    }
-
-    private void Start()
-    {
-        normalCombat.SetStatsType(Stats.Type.Ally);
     }
 
     private void Update()
@@ -113,6 +110,13 @@ public class GroupAbilities : MonoBehaviour
             accumulationVector /= groupManager.ImpsInGroupNumber;
 
             transform.position = accumulationVector;
+
+            // We want this object closer to the target
+            // TODO - parametrize or find better solution
+            //if (groupBehaviour.Target)
+            //{
+            //    transform.position += (groupBehaviour.Target.transform.position - transform.position).normalized * 0.8f;    
+            //}
         }
         
         if(groupBehaviour.Target)
@@ -121,22 +125,27 @@ public class GroupAbilities : MonoBehaviour
 
     private void StartAbility()
     {
-        if (!isPerformingAbility && GroupsInRangeDetector.MostRappresentedGroupInRange == groupManager.ThisGroupName)
+        if (!isPerformingAbility && GroupsInRangeDetector.MostRappresentedGroupInRange == groupManager.ThisGroupName && abilityCr == null)
         {
             isPerformingAbility = true;
 
             AbilityAttack abilityToStart = abilitiesDictionary[groupBehaviour.currentState];
-
+            
             if (ImpMana.ManaPool >= abilityToStart.ManaCost)
             {
-                if(abilityToStart.IsRanged)
-                    normalCombat.StartAttackRanged(abilityToStart,groupBehaviour.Target);
-                else
+                if (abilityToStart.IsOffensive)
                 {
-                    normalCombat.StartAttack(abilityToStart);    
+                    if(abilityToStart.IsRanged)
+                        normalCombat.StartAttackRanged(abilityToStart,groupBehaviour.Target);
+                    else
+                    {
+                        normalCombat.StartAttack(abilityToStart);    
+                    }    
                 }
-
+                
                 transform.SetParent(null);
+
+                abilityCr = StartCoroutine(AbilityCoroutine(abilityToStart));
                 
                 RaiseOnStartAbility(abilityToStart);   
             }
@@ -154,6 +163,8 @@ public class GroupAbilities : MonoBehaviour
             isPerformingAbility = false;
             
             transform.SetParent(parent);
+
+            abilityCr = null;
             
             RaiseOnStopAbility(abilityToStop);
         }
@@ -163,10 +174,11 @@ public class GroupAbilities : MonoBehaviour
 
     #region External events handlers
 
-    private void OnStopAttack(NormalCombat sender, Attack attack)
+    // TODO - Check if this can be removed
+    private void OnStopAttack(NormalCombat sender, GenericAttack genericAttack)
     {
-        if(attack.GetType() == typeof(AbilityAttack))
-            StopAbility((AbilityAttack)attack);
+        //if(attack.GetType() == typeof(AbilityAttack))
+        //    StopAbility((AbilityAttack)attack);
     }
     
     private void OnXButtonDown()
@@ -174,5 +186,16 @@ public class GroupAbilities : MonoBehaviour
         StartAbility();
     }
     
+    #endregion
+
+    #region Coroutines
+
+    private IEnumerator AbilityCoroutine(AbilityAttack ability)
+    {
+        yield return new WaitForSeconds(ability.DelayInSeconds + ability.DurationInSeconds);
+        
+        StopAbility(ability);
+    }
+
     #endregion
 }

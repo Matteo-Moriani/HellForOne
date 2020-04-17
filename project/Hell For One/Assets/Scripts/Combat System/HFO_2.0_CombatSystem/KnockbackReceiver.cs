@@ -124,9 +124,9 @@ public class KnockbackReceiver : MonoBehaviour
         unitType = newPlayer.GetComponent<Stats>().ThisUnitType;
     }
 
-    private void OnBlockFailed(Block sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnBlockFailed(Block sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (attack.CauseKnockback)
+        if (genericAttack.CauseKnockback)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -137,9 +137,9 @@ public class KnockbackReceiver : MonoBehaviour
         }
     }
 
-    private void OnBlockSuccess(Block sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (attack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
+        if (genericAttack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -150,9 +150,9 @@ public class KnockbackReceiver : MonoBehaviour
         }
     }
 
-    private void OnAttackBeingHit(IdleCombat sender, Attack attack, NormalCombat attackerNormalCombat)
+    private void OnAttackBeingHit(IdleCombat sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (attack.CauseKnockback)
+        if (genericAttack.CauseKnockback)
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -163,7 +163,6 @@ public class KnockbackReceiver : MonoBehaviour
         }
     }
     
-
     #endregion
     
     #region Coroutines
