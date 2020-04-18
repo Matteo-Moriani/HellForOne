@@ -49,9 +49,9 @@ public class Balista : MonoBehaviour
             foreach (var rend in renderers)
             {
                 rend.enabled = true;
-
-                StartCoroutine(AnimationCoroutine(startedAbility));
             }
+            
+            StartCoroutine(AnimationCoroutine(startedAbility));
         }
     }
 

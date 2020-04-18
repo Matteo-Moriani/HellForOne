@@ -110,17 +110,10 @@ public class GroupAbilities : MonoBehaviour
             accumulationVector /= groupManager.ImpsInGroupNumber;
 
             transform.position = accumulationVector;
-
-            // We want this object closer to the target
-            // TODO - parametrize or find better solution
-            //if (groupBehaviour.Target)
-            //{
-            //    transform.position += (groupBehaviour.Target.transform.position - transform.position).normalized * 0.8f;    
-            //}
+            
+            if(groupBehaviour.Target)
+                transform.LookAt(groupBehaviour.Target.transform);
         }
-        
-        if(groupBehaviour.Target)
-            transform.LookAt(groupBehaviour.Target.transform);
     }
 
     private void StartAbility()
@@ -133,21 +126,23 @@ public class GroupAbilities : MonoBehaviour
             
             if (ImpMana.ManaPool >= abilityToStart.ManaCost)
             {
-                if (abilityToStart.IsOffensive)
-                {
-                    if(abilityToStart.IsRanged)
-                        normalCombat.StartAttackRanged(abilityToStart,groupBehaviour.Target);
-                    else
-                    {
-                        normalCombat.StartAttack(abilityToStart);    
-                    }    
-                }
-                
+                // TODO - look if this order works
                 transform.SetParent(null);
-
-                abilityCr = StartCoroutine(AbilityCoroutine(abilityToStart));
                 
-                RaiseOnStartAbility(abilityToStart);   
+                abilityCr = StartCoroutine(abilityToStart.PerformAbility(normalCombat, groupBehaviour.Target,
+                    StopAbility));
+                
+                RaiseOnStartAbility(abilityToStart);  
+                
+                // TODO - 
+                // Create prefab with recruit ability imp
+                //    Normal combat
+                //    CombatSystemManager
+                //    ProjectileCaster
+                //    ImpAnimator
+                //    RecruitAbilityScript
+                //        Set Position in circonference at OnStartAbility
+                //        enable meshRenderer
             }
             else
             {
@@ -190,12 +185,12 @@ public class GroupAbilities : MonoBehaviour
 
     #region Coroutines
 
-    private IEnumerator AbilityCoroutine(AbilityAttack ability)
-    {
-        yield return new WaitForSeconds(ability.DelayInSeconds + ability.DurationInSeconds);
-        
-        StopAbility(ability);
-    }
+    //private IEnumerator AbilityCoroutine(AbilityAttack ability)
+    //{
+    //    yield return new WaitForSeconds(ability.DelayInSeconds + ability.DurationInSeconds);
+    //    
+    //    StopAbility(ability);
+    //}
 
     #endregion
 }

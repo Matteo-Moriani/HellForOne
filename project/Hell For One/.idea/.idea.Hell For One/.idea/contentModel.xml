@@ -94,6 +94,8 @@
                 <e p="Balista.cs" t="Include" />
                 <e p="GroupAbilities.cs" t="Include" />
                 <e p="Hammer.cs" t="Include" />
+                <e p="Horn.cs" t="Include" />
+                <e p="HornImp.cs" t="Include" />
                 <e p="Shield.cs" t="Include" />
               </e>
               <e p="IdleCollider.cs" t="Include" />
@@ -105,12 +107,17 @@
               <e p="NormalCombatManager.cs" t="Include" />
               <e p="ScriptableObjects" t="Include">
                 <e p="Attack" t="Include">
-                  <e p="AbilityAttack.cs" t="Include" />
                   <e p="AlliedAttack.cs" t="Include" />
                   <e p="AlliedNormalAttack.cs" t="Include" />
                   <e p="EnemyAttack.cs" t="Include" />
                   <e p="EnemyNormalAttack.cs" t="Include" />
                   <e p="GenericAttack.cs" t="Include" />
+                </e>
+                <e p="GroupAbilities" t="Include">
+                  <e p="AbilityAttack.cs" t="Include" />
+                  <e p="BalistaAbility.cs" t="Include" />
+                  <e p="HammerAbility.cs" t="Include" />
+                  <e p="HornAbility.cs" t="Include" />
                 </e>
                 <e p="Idle" t="Include">
                   <e p="AlliedIdle.cs" t="Include" />

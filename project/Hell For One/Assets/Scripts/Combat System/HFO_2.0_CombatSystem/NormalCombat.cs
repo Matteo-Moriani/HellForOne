@@ -113,7 +113,7 @@ public class NormalCombat : MonoBehaviour
             RaiseOnStartAttack(attack);   
         }
     }
-    
+
     public void StopAttack(GenericAttack attack)
     {
         if(attack == null)

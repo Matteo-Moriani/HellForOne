@@ -6,11 +6,13 @@ using UnityEngine;
 public class Hammer : MonoBehaviour
 {
     private Renderer[] renderers;
+    private NormalCombat parentNormalCombat;
     
     private void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
         transform.localPosition = Vector3.up * transform.localScale.y / 2;
+        transform.parent.GetComponent<NormalCombat>();
     }
 
     private void OnEnable()
