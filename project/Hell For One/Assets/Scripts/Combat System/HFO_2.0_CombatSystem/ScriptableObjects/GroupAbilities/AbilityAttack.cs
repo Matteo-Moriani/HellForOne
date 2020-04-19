@@ -26,7 +26,7 @@ public class AbilityAttack : AlliedAttack
 
     #region Methods
 
-    public override ObjectsPooler GetPooler()
+    protected override ObjectsPooler GetPooler()
     {
         if (isRanged)
         {

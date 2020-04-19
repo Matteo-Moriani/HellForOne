@@ -473,13 +473,17 @@ public class GroupBehaviour : MonoBehaviour
     private void OnEnable()
     {
         TacticsManager.onTryOrderAssign += OnTryOrderAssign;
+        
+        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
     }
-
+    
     private void OnDisable()
     {
         AlliesManager.Instance.onNewImpSpawned -= OnNewImpSpawned;
         
         TacticsManager.onTryOrderAssign -= OnTryOrderAssign;
+
+        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
     }
     
     void Start() {
@@ -580,6 +584,11 @@ public class GroupBehaviour : MonoBehaviour
     {
         if(groupManager.ThisGroupName == group || group == GroupManager.Group.All )
             AssignOrder(state);
+    }
+    
+    private void OnBossBattleEnter()
+    {
+        target = GameObject.FindWithTag("Boss");
     }
     
     private void OnNewImpSpawned(GameObject newImp)

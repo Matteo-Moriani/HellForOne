@@ -114,7 +114,10 @@ public class NormalCombatManager : MonoBehaviour
         if (attackCr == null && isIdle)
         {
             currentAttack = attack;
-            attackCr = StartCoroutine(AttackCoroutine(attack));
+
+            isIdle = false;
+            //attackCr = StartCoroutine(AttackCoroutine(attack));
+            attackCr = StartCoroutine(attack.PerformAttack(attackGameObject, StopAttack));
         }
     }
 
@@ -124,7 +127,10 @@ public class NormalCombatManager : MonoBehaviour
         if (attackCr != null || !isIdle || target == null) return;
         
         currentAttack = attack;
-        attackCr = StartCoroutine(AttackRangedCoroutine(attack, target));
+        isIdle = false;
+        //attackCr = StartCoroutine(AttackRangedCoroutine(attack, target));
+        attackCr = StartCoroutine(attack.PerformAttackRanged(target, projectileCaster, this, AttackColliderOnAttackHitHandler,
+            StopAttack));
     }
 
     public void StopAttack(GenericAttack attack)
@@ -162,6 +168,8 @@ public class NormalCombatManager : MonoBehaviour
 
     #region Coroutines
 
+    // I'm moving attack logic into attacks scriptable objects
+    /*
     private IEnumerator AttackCoroutine(GenericAttack attack)
     {
         isIdle = false;
@@ -181,7 +189,9 @@ public class NormalCombatManager : MonoBehaviour
         
         StopAttack(attack);
     }
+    */
     
+    /*
     private IEnumerator AttackRangedCoroutine(GenericAttack attack, GameObject target)
     {
         if (target != null)
@@ -214,6 +224,7 @@ public class NormalCombatManager : MonoBehaviour
             StopAttack(attack);    
         }
     }
+    */
 
     #endregion
 }

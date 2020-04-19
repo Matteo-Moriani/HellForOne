@@ -97,22 +97,25 @@ public class GroupAbilities : MonoBehaviour
     {
         if (!isPerformingAbility)
         {
-            Vector3 accumulationVector = Vector3.zero;
-
-            foreach (GameObject imp in groupManager.Imps)
+            if (groupManager.ImpsInGroupNumber > 0)
             {
-                if (imp != null)
+                Vector3 accumulationVector = Vector3.zero;
+
+                foreach (GameObject imp in groupManager.Imps)
                 {
-                    accumulationVector += imp.transform.position;
+                    if (imp != null)
+                    {
+                        accumulationVector += imp.transform.position;
+                    }
                 }
-            }
-
-            accumulationVector /= groupManager.ImpsInGroupNumber;
-
-            transform.position = accumulationVector;
             
-            if(groupBehaviour.Target)
-                transform.LookAt(groupBehaviour.Target.transform);
+                accumulationVector /= groupManager.ImpsInGroupNumber;
+
+                transform.position = accumulationVector;
+            
+                if(groupBehaviour.Target)
+                    transform.LookAt(groupBehaviour.Target.transform);
+            }
         }
     }
 

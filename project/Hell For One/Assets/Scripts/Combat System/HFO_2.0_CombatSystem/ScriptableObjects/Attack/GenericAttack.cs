@@ -1,7 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+// TODO - Implement a mechanism of initialization
 public class GenericAttack : ScriptableObject
 {
     #region Fields
@@ -123,12 +124,12 @@ public class GenericAttack : ScriptableObject
 
     #region Methods
 
-    public virtual ObjectsPooler GetPooler()
+    protected virtual ObjectsPooler GetPooler()
     {
         return null;
     }
     
-    public virtual bool IsLegitAttack(GenericIdle targetIdleValues)
+    protected virtual bool IsLegitAttack(GenericIdle targetIdleValues)
     {
         return false;
     }
@@ -136,6 +137,69 @@ public class GenericAttack : ScriptableObject
     public virtual bool CanRiseAggro(Stats.Type unitType)
     {
         return false;
+    }
+
+    // Override this to change attack logic in subclasses
+    public virtual IEnumerator PerformAttack(GameObject attackColliderGo, Action<GenericAttack> stopAction )
+    {
+        var targetPosition =
+            attackColliderGo.transform.localPosition + new Vector3(0.0f, 0.0f, this.range);
+
+        yield return new WaitForSeconds(this.DelayInSeconds);
+
+        attackColliderGo.transform.localPosition = targetPosition;
+
+        attackColliderGo.GetComponent<AttackCollider>().StartAttack();
+        
+        attackColliderGo.transform.localScale = Vector3.one * this.Size;
+
+        yield return new WaitForSeconds(this.DurationInSeconds);
+
+        stopAction(this);
+    }
+
+    // Override this to change ranged attack logic in subclasses
+    public virtual IEnumerator PerformAttackRanged(GameObject target, ProjectileCaster projectileCaster, NormalCombatManager normalCombatManager, AttackCollider.OnAttackHit hitAction, Action<GenericAttack> stopAction)
+    {
+        if (target != null)
+        {
+            yield return new WaitForSeconds(this.DelayInSeconds);
+
+            GameObject currentProjectile = projectileCaster.LaunchNewCombatSystem(target, this.GetPooler());
+
+            AttackCollider projectileAttackCollider = currentProjectile.GetComponentInChildren<AttackCollider>();
+
+            if (projectileAttackCollider != null)
+            {
+                projectileAttackCollider.ResetOnAttackHit();
+                Destroy(projectileAttackCollider);    
+            }
+            
+            projectileAttackCollider = currentProjectile.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
+
+            // TODO - Circular dependency, try to remove this.
+            projectileAttackCollider.SetNormalCombatManager(normalCombatManager);
+            
+            projectileAttackCollider.StartAttack();
+            
+            projectileAttackCollider.onAttackHit += hitAction;
+            
+            yield return new WaitForSeconds(5.0f);
+            
+            stopAction(this);    
+        }
+    }
+
+    public virtual IEnumerator ManageHit(GenericIdle targetGenericIdle, IdleCollider targetIdleCollider, NormalCombat attackerNormalCombat, Action<GenericIdle> hitAction)
+    {
+        if (this.IsLegitAttack(targetGenericIdle))
+        {
+            targetIdleCollider.NotifyOnNormalAttackBeingHit(attackerNormalCombat,this);
+
+            hitAction(targetGenericIdle);
+        }
+
+        yield break;
     }
 
     #endregion

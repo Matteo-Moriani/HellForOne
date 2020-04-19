@@ -7,6 +7,10 @@ public class BossBehavior : AbstractBoss
 {
     [SerializeField]
     private EnemyAttack swipeAttack;
+
+    [SerializeField] private EnemyAttack flameCircle;
+    [SerializeField] private EnemyAttack flameExplosion;
+    
     
     // sum between single and group must be 1
     public float singleAttackProb = 0.6f;
@@ -155,17 +159,17 @@ public class BossBehavior : AbstractBoss
 
             if(random < singleAttackProb) {
                 Timer1 = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
-                SingleAttack();
+                SwipeAttack();
                 normalAttacksCount++;
             } 
             else if(random >= singleAttackProb && random < singleAttackProb + groupAttackProb) {
                 Timer1 = StartCoroutine(Timer(groupAttackDuration, TimerType.attack));
-                GroupAttack();
+                FlameCircle();
                 normalAttacksCount++;
             }
             else {
                 Timer1 = StartCoroutine(Timer(globalAttackDuration, TimerType.attack));
-                GlobalAttack();
+                FlameExplosion();
                 normalAttacksCount = 0;
             }
 
@@ -175,7 +179,7 @@ public class BossBehavior : AbstractBoss
     }
 
     // TODO - now this boss can only swipe attack, we need to add magical attacks
-    private void SingleAttack()
+    private void SwipeAttack()
     {
         if ( NormalCombat == null )
         {
@@ -184,13 +188,13 @@ public class BossBehavior : AbstractBoss
             //Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopAttack(swipeAttack);
+            NormalCombat.StartAttack(swipeAttack);
         }
         IsAttacking = false;
     }
     
     // TODO - now this boss can only swipe attack, we need to add magical attacks
-    private void GroupAttack()
+    private void FlameCircle()
     {
         if ( NormalCombat == null )
         {
@@ -199,13 +203,13 @@ public class BossBehavior : AbstractBoss
             //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopAttack(swipeAttack);
+            NormalCombat.StartAttack(flameCircle);
         }
         IsAttacking = false;
     }
 
     // TODO - now this boss can only swipe attack, we need to add magical attacks
-    private void GlobalAttack() {
+    private void FlameExplosion() {
         if ( NormalCombat == null )
         {
             NormalCombat = GetComponentInChildren<NormalCombat>();
@@ -213,7 +217,7 @@ public class BossBehavior : AbstractBoss
             //    Debug.Log( "Boss Combat cannot be found" );
         }
         if ( NormalCombat != null) {
-            NormalCombat.StopAttack(swipeAttack);
+            NormalCombat.StartAttack(flameExplosion);
         }
         IsAttacking = false;
     }
