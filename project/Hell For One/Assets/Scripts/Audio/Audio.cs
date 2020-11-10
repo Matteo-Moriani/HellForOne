@@ -46,7 +46,7 @@ public class Audio : MonoBehaviour
         idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
         combatEventsManager.onStartMoving += PlayFootStep;
-        combatEventsManager.onStartIdle += StopFootStep;
+        combatEventsManager.onStopMoving += StopFootStep;
         stats.onDeath += OnDeath;
         combatEventsManager.onStartDash += PlayDashClip;
         combatEventsManager.onStartGlobalAttack += PlayRoarClip;
@@ -60,7 +60,7 @@ public class Audio : MonoBehaviour
         idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
         combatEventsManager.onStartMoving -= PlayFootStep;
-        combatEventsManager.onStartIdle -= StopFootStep;
+        combatEventsManager.onStopMoving -= StopFootStep;
         stats.onDeath -= OnDeath;
         combatEventsManager.onStartDash -= PlayDashClip;
         combatEventsManager.onStartGlobalAttack -= PlayRoarClip;

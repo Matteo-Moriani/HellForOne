@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DemonMovement : MonoBehaviour {
+public class AllyImpMovement : MonoBehaviour {
     [Range(0f, 1f)]
     public float facingSpeed = 0.1f;
 
@@ -54,8 +54,8 @@ public class DemonMovement : MonoBehaviour {
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
 
-    public delegate void OnStartIdle();
-    public event OnStartIdle onStartIdle;
+    public delegate void OnStopMoving();
+    public event OnStopMoving onStopMoving;
 
     #region Methods
 
@@ -64,9 +64,9 @@ public class DemonMovement : MonoBehaviour {
         onStartMoving?.Invoke();
     }
 
-    private void RaiseOnStartIdle()
+    private void RaiseOnStopMoving()
     {
-        onStartIdle?.Invoke();
+        onStopMoving?.Invoke();
     }
 
     #endregion
@@ -380,7 +380,7 @@ public class DemonMovement : MonoBehaviour {
         }
         if(agent.velocity.magnitude <= movSpeedTreshold) {
             if(isMoving) {
-                RaiseOnStartIdle();
+                RaiseOnStopMoving();
                 
                 isMoving = false;
             }

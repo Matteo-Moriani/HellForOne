@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,6 +18,9 @@ public class PlayerScriptedMovements : MonoBehaviour
     private bool alliesNotified = false;
     private float rotSpeed = 0.1f;
     private GameObject enemy;
+
+    public event Action OnScriptedMovementStart;
+    public event Action OnScriptedMovementEnd;
 
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
@@ -48,14 +52,14 @@ public class PlayerScriptedMovements : MonoBehaviour
                 combatEventsManager.RaiseOnStartMoving();
                 isMoving = true;
             }
-            //if((gameObject.transform.position - target).magnitude <= 0.5f && !alliesNotified)
             if(gameObject.transform.position.x - target.x < 0.1f && gameObject.transform.position.z - target.z < 0.1f && !alliesNotified)
             {
                 alliesNotified = true;
                 NotifyAllies(inScriptedMovement);
+                OnScriptedMovementEnd?.Invoke();
             }
             if(alliesInPosition == AlliesManager.Instance.AlliesList.Count){ 
-                combatEventsManager.RaiseOnStartIdle();
+                combatEventsManager.RaiseOnStopMoving();
                 BattleEventsManager.RaiseOnBossBattleEnter();
             }
 
@@ -66,6 +70,7 @@ public class PlayerScriptedMovements : MonoBehaviour
         agent.enabled = true;
         alliesNum = allies.AlliesList.Count;
         inScriptedMovement = true;
+        OnScriptedMovementStart?.Invoke();
         playerInput.InCutscene = true;
     }
 
@@ -89,8 +94,8 @@ public class PlayerScriptedMovements : MonoBehaviour
 
     private void NotifyAllies(bool scriptedMovement) {
         foreach (GameObject ally in allies.AlliesList) {
-            ally.GetComponent<DemonMovement>().InScriptedMovement = scriptedMovement;
-            ally.GetComponent<DemonMovement>().PlayerNotified = false;
+            ally.GetComponent<AllyImpMovement>().InScriptedMovement = scriptedMovement;
+            ally.GetComponent<AllyImpMovement>().PlayerNotified = false;
         }
     }
 

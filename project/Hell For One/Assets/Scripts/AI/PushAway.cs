@@ -83,7 +83,7 @@ public class PushAway : MonoBehaviour
                 // If pushed away ally imp cannot move
                 if (demonStats.ThisUnitType == Stats.Type.Ally)
                 {
-                    DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
+                    AllyImpMovement demonMovement = demon.GetComponent<AllyImpMovement>();
                     if (demonMovement != null)
                     {
                         demonMovement.CanMove = false;
@@ -137,7 +137,7 @@ public class PushAway : MonoBehaviour
                     // Ally can move again
                     if (demonStats.ThisUnitType == Stats.Type.Ally)
                     {
-                        DemonMovement demonMovement = demon.GetComponent<DemonMovement>();
+                        AllyImpMovement demonMovement = demon.GetComponent<AllyImpMovement>();
                         if (demonMovement != null)
                         {
                             demonMovement.CanMove = true;

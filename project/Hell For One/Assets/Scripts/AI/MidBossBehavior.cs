@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -24,7 +25,7 @@ public class MidBossBehavior : AbstractBoss
 
     private float singleAttackDuration;
     private float groupAttackDuration;
-    
+
     public override void InitializeValues() {
         Speed = speed;
         RotSpeed = rotSpeed;
@@ -35,7 +36,7 @@ public class MidBossBehavior : AbstractBoss
         MaxDistFromCenter = maxDistFromCenter;
         MaxTargetDistFromCenter = maxTargetDistFromCenter;
     }
-
+    
     void Start() {
         InitializeValues();
 
@@ -102,7 +103,7 @@ public class MidBossBehavior : AbstractBoss
         if(GroupsManager.Instance.Groups.Length != 4 && !Player)
             return false;
 
-        if(Random.Range(0f, 1f) < changeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter) {
+        if(UnityEngine.Random.Range(0f, 1f) < changeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter) {
             ChooseByAggro();
 
             PursueTimeout = false;
@@ -117,13 +118,13 @@ public class MidBossBehavior : AbstractBoss
 
         return true;
     }
-    
+
     public override bool ChooseAttack() {
         if(!IsAttacking) {
 
             IsAttacking = true;
 
-            float random = Random.Range(0f, singleAttackProb + groupAttackProb);
+            float random = UnityEngine.Random.Range(0f, singleAttackProb + groupAttackProb);
             if(random < singleAttackProb) {
                 Timer1 = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
                 SingleAttack();
@@ -150,7 +151,7 @@ public class MidBossBehavior : AbstractBoss
                 NormalCombat.StartAttack(swipeAttack);
             }    
         }
-        
+
         IsAttacking = false;
     }
     

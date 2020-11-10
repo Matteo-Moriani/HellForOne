@@ -227,7 +227,7 @@ public class GroupBehaviour : MonoBehaviour
 
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                if(imp.GetComponent<DemonMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
+                if(imp.GetComponent<AllyImpMovement>().HorizDistFromTargetBorders(target) < 1.5f) {
                     StartCoroutine(ActionAfterRandomDelay(imp, State.MeleeAttack));
                 }
 
@@ -239,7 +239,7 @@ public class GroupBehaviour : MonoBehaviour
     IEnumerator ActionAfterRandomDelay(GameObject demon, State action) {
         NormalCombat normalCombat = demon.GetComponentInChildren<NormalCombat>();
         
-        if(normalCombat.enabled && demon.GetComponent<DemonMovement>().CanAct()) {
+        if(normalCombat.enabled && demon.GetComponent<AllyImpMovement>().CanAct()) {
 
             switch(action) {
                 case State.MeleeAttack:
@@ -378,7 +378,7 @@ public class GroupBehaviour : MonoBehaviour
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
                 //Combat combat = imp.GetComponent<Combat>();
-                if(BattleEventsHandler.IsInBossBattle && imp.GetComponent<DemonMovement>().CanAct()) {
+                if(BattleEventsHandler.IsInBossBattle && imp.GetComponent<AllyImpMovement>().CanAct()) {
                     //combat.StartRecruit();
                     //if(!isRecruitOrderGiven)
                         RaiseOnStartRecruitOrderGiven();

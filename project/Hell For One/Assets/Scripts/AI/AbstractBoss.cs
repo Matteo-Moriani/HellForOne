@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CRBT;
 using UnityEngine;
@@ -11,7 +12,10 @@ public abstract class AbstractBoss : MonoBehaviour {
         pursue,
         attack
     }
-    
+
+    // must initialize every value of the list at the top of the this script
+    public abstract void InitializeValues();
+
     #region private fields
 
     // all these fields must be initialized in "InitializeValues()"
@@ -90,7 +94,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public Coroutine FightingCR { get => fightingCR; set => fightingCR = value; }
     public Coroutine Timer1 { get => timer1; set => timer1 = value; }
     public Coroutine AttackCR { get => attackCR; set => attackCR = value; }
-    public bool CanWalk { get => canWalk; set => canWalk = value; }
+    public bool CanMove { get => canWalk; set => canWalk = value; }
     public bool CanFace { get => canFace; set => canFace = value; }
     public float FsmReactionTime { get => fsmReactionTime; set => fsmReactionTime = value; }
     public float BtReactionTime { get => btReactionTime; set => btReactionTime = value; }
@@ -121,24 +125,20 @@ public abstract class AbstractBoss : MonoBehaviour {
     #region Delegates and events
 
     public delegate void OnStartIdle();
-    public event OnStartIdle onStartIdle;
+    public event OnStartIdle onStopMoving;
 
     public delegate void OnStartMoving();
     public event OnStartMoving onStartMoving;
-    
-    #region Methods
 
-    protected void RaiseOnStartIdle()
+    protected void RaiseOnStopMoving()
     {
-        onStartIdle?.Invoke();
+        onStopMoving?.Invoke();
     }
 
     protected void RaiseOnStartMoving()
     {
         onStartMoving?.Invoke();
     }
-    
-    #endregion
     
     #endregion
     
@@ -220,7 +220,7 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public bool WalkToTarget() {
         if(HorizDistFromTarget(TargetDemon) > StopDist) {
-            CanWalk = true;
+            CanMove = true;
             return true;
         }
         else {
@@ -253,7 +253,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public bool TargetNearArenaCenter() {
         if((ArenaCenter.transform.position - targetDemon.transform.position).magnitude > MaxTargetDistFromCenter && HorizDistFromTarget(ArenaCenter) > MaxDistFromCenter) {
             TargetFarFromCenter = true;
-            CanWalk = false;
+            CanMove = false;
             return false;
         }
         else
@@ -262,8 +262,8 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     #endregion
 
-    // must initialize every value of the list at the top of the this script
-    public abstract void InitializeValues();
+
+    #region Unity methods
 
     public void Awake() {
         Searcher = new GameObjectSearcher();
@@ -306,23 +306,21 @@ public abstract class AbstractBoss : MonoBehaviour {
                 if(CanFace)
                 Face(TargetDemon);
 
-            if(CanWalk) {
+            if(CanMove) {
                 if(!IsWalking) {
                     IsWalking = true;
                     IsInPosition = false;
                     RaiseOnStartMoving();
-
                 }
 
                 if(HorizDistFromTarget(TargetDemon) > StopDist)
                     transform.position += transform.forward * Speed * Time.deltaTime;
-
             }
             else {
                 if(!IsInPosition) {
                     IsInPosition = true;
                     IsWalking = false;
-                    RaiseOnStartIdle();
+                    RaiseOnStopMoving();
                 }
             }
 
@@ -342,6 +340,14 @@ public abstract class AbstractBoss : MonoBehaviour {
         stats.onDeath -= OnDeath;
         stunReceiver.onStartStun -= OnStartStun;
         stunReceiver.onStopStun -= OnStopStun;
+
+    }
+
+    #endregion
+
+    protected virtual void StopMoving()
+    {
+        CanMove = false;
     }
 
     protected virtual void OnStartStun()
@@ -366,13 +372,13 @@ public abstract class AbstractBoss : MonoBehaviour {
         TimerStillGoing1 = false;
         if(type == TimerType.pursue) {
             PursueTimeout = true;
-            CanWalk = false;
+            CanMove = false;
         }
         else if(type == TimerType.attack) {
             //CombatEventsManager.RaiseOnStartIdle();
             // TODO - don't know why it doesn't work here
             //isAttacking = false;
-            RaiseOnStartIdle();
+            RaiseOnStopMoving();
         }
 
     }
@@ -476,11 +482,11 @@ public abstract class AbstractBoss : MonoBehaviour {
         totalAggro = totalAggro + playerAggro;
         Probability[GroupsManager.Instance.Groups.Length + 1] = totalAggro;
 
-        float random = Random.Range(0f, totalAggro);
+        float random = UnityEngine.Random.Range(0f, totalAggro);
 
         // if I was pursuing the player, I won't choose him again
         if(PursueTimeout)
-            random = Random.Range(0f, totalAggro - playerAggro);
+            random = UnityEngine.Random.Range(0f, totalAggro - playerAggro);
 
         for(int i = 1; i < Probability.Length; i++) {
             if(random > Probability[i - 1] && random <= Probability[i]) {
