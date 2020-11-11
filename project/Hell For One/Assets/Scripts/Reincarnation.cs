@@ -199,7 +199,7 @@ public class Reincarnation : MonoBehaviour
                 playerController.enabled = true;    
             }
 
-            DemonMovement demonMovement = player.GetComponent<DemonMovement>();
+            AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();
             if(demonMovement != null) { 
                 demonMovement.enabled = false;    
             }

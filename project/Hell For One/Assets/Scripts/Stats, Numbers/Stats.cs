@@ -174,7 +174,7 @@ public class Stats : MonoBehaviour
             {
                 // TODO - Manage this inside DemonMovement with OnDeath event
                 // ...we need to disable his demonMovement.
-                DemonMovement demonMovement = this.gameObject.GetComponent<DemonMovement>();
+                AllyImpMovement demonMovement = this.gameObject.GetComponent<AllyImpMovement>();
 
                 if (demonMovement != null)
                 {

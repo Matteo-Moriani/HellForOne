@@ -122,7 +122,7 @@ public class NormalCombat : MonoBehaviour
         normalCombatManager.StopAttack(attack);
 
         RaiseOnStopAttack(attack);
-        
+
         currentAttack = null;
     }
 

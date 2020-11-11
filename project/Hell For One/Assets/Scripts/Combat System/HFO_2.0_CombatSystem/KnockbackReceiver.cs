@@ -139,7 +139,9 @@ public class KnockbackReceiver : MonoBehaviour
 
     private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (genericAttack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
+        if (genericAttack.CauseKnockbackWhenBlocked
+            //&& unitType == Stats.Type.Player
+            )
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 

@@ -66,8 +66,8 @@ public class CombatEventsManager : MonoBehaviour
     public delegate void OnStartDash();
     public event OnStartDash onStartDash;
 
-    public delegate void OnStartIdle();
-    public event OnStartIdle onStartIdle;
+    public delegate void OnStopMoving();
+    public event OnStopMoving onStopMoving;
 
     #endregion
 
@@ -215,11 +215,11 @@ public class CombatEventsManager : MonoBehaviour
         }
     }
 
-    public void RaiseOnStartIdle()
+    public void RaiseOnStopMoving()
     {
-        if (onStartIdle != null)
+        if (onStopMoving != null)
         {
-            onStartIdle();
+            onStopMoving();
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -121,7 +122,7 @@ public class BossBehavior : AbstractBoss
         if (GroupsManager.Instance.Groups.Length != 4 && !Player )
             return false;
         
-        if ( Random.Range( 0f, 1f ) < ChangeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)
+        if ( UnityEngine.Random.Range( 0f, 1f ) < ChangeTargetProb || !TargetDemon || PursueTimeout || TargetFarFromCenter)
         {
             // I always target the player after x non-player targets
             if(targetsCount >= targetsBeforePlayer) {
@@ -153,9 +154,9 @@ public class BossBehavior : AbstractBoss
             float random = 0f;
 
             if(normalAttacksCount < attacksBeforeGlobal)
-                random = Random.Range(0f, singleAttackProb + groupAttackProb);
+                random = UnityEngine.Random.Range(0f, singleAttackProb + groupAttackProb);
             else
-                random = Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
+                random = UnityEngine.Random.Range(0f, singleAttackProb + groupAttackProb + globalAttackProb);
 
             if(random < singleAttackProb) {
                 Timer1 = StartCoroutine(Timer(singleAttackDuration, TimerType.attack));
@@ -227,6 +228,4 @@ public class BossBehavior : AbstractBoss
             return true;
         return false;
     }
-
-    
 }

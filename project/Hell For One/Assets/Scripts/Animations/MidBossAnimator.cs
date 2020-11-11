@@ -10,12 +10,10 @@ public class MidBossAnimator : MonoBehaviour {
     private AnimationsManager animationsManager;
     private MidBossBehavior myBehaviour;
     private Stats stats;
-    
     private CombatEventsManager combatEventsManager;
-    private float groupAttackSpeedMultiplier = 1f;
-
     private NormalCombat normalCombat;
     private MidBossBehavior midBossBehaviour;
+    private bool moving = false;
     
     #endregion
 
@@ -41,13 +39,12 @@ public class MidBossAnimator : MonoBehaviour {
         if (normalCombat != null)
         {
             normalCombat.onStartAttack += OnStartAttack;
-            normalCombat.onStopAttack += OnStopAttack;
         }
 
         if (midBossBehaviour != null)
         {
-            midBossBehaviour.onStartIdle += OnStartIdle;
             midBossBehaviour.onStartMoving += OnStartMoving;
+            midBossBehaviour.onStopMoving += OnStopMoving;
         }
     }
 
@@ -60,53 +57,54 @@ public class MidBossAnimator : MonoBehaviour {
         if (normalCombat != null)
         {
             normalCombat.onStartAttack -= OnStartAttack;
-            normalCombat.onStopAttack -= OnStopAttack;
         }
 
         if (midBossBehaviour != null)
         {
-            midBossBehaviour.onStartIdle -= OnStartIdle;
             midBossBehaviour.onStartMoving -= OnStartMoving;
+            midBossBehaviour.onStopMoving -= OnStopMoving;
         }
     }
-    
+
+    private void Update()
+    {
+        if(moving)
+            PlayMoveAnimation();
+        else
+            SetAllBoolsToFalse();
+    }
+
     #endregion
 
     #region Methods
 
-    public void PlaySingleAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isSingleAttacking", true);
+    public void PlaySingleAttackAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("singleAttack");
     }
 
-    public void PlayGroupAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isGroupAttacking", true);
-        StartCoroutine(WaitAttackAnimation(animationsManager.GetAnimation("GroupAttack").length / groupAttackSpeedMultiplier, 0.4f));
+    public void PlayGroupAttackAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("groupAttack");
     }
 
-    public void PlayMoveAnimation() {
-        StopAnimations();
+    public void PlayMoveAnimation()
+    {
+        SetAllBoolsToFalse();
         animator.SetBool("isMoving", true);
     }
 
-    public void PlayIdleAnimation() {
-        StopAnimations();
-        animator.SetBool("isIdle", true);
+    public void PlayDeathAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("death");
     }
 
-    public void PlayDeathAnimation() {
-        StopAnimations();
-        animator.SetBool("isDying", true);
-    }
-
-
-    public void StopAnimations() {
-        animator.SetBool("isDying", false);
-        animator.SetBool("isSingleAttacking", false);
-        animator.SetBool("isGroupAttacking", false);
+    public void SetAllBoolsToFalse()
+    {
         animator.SetBool("isMoving", false);
-        animator.SetBool("isIdle", false);
     }
 
     #endregion
@@ -120,17 +118,12 @@ public class MidBossAnimator : MonoBehaviour {
     
     private void OnStartMoving()
     {
-        PlayMoveAnimation();
+        moving = true;
     }
 
-    private void OnStartIdle()
+    private void OnStopMoving()
     {
-        PlayIdleAnimation();
-    }
-
-    private void OnStopAttack(NormalCombat sender, GenericAttack attack)
-    {
-        StopAnimations();
+        moving = false;
     }
 
     private void OnStartAttack(NormalCombat sender, GenericAttack attack)
@@ -139,26 +132,6 @@ public class MidBossAnimator : MonoBehaviour {
         {
             PlayGroupAttackAnimation();
         }
-    }
-
-    #endregion
-
-    #region Corotuines
-
-    private IEnumerator WaitAttackAnimation(float totalTime, float moveTimePercentage) {
-        
-        yield return new WaitForSeconds(totalTime * moveTimePercentage);
-        // a metà attacco smetto di muovermi verso il player
-        myBehaviour.CanWalk = false;
-
-        // da quando inizia effettivamente l'attacco smetto con l'auto-tracking
-        myBehaviour.FaceCRisActive = false;
-        myBehaviour.CanFace = false;
-
-        yield return new WaitForSeconds(totalTime * (1 - moveTimePercentage));
-        myBehaviour.FaceCRisActive = true;
-        //combatEventsManager.RaiseOnStartIdle();
-        PlayIdleAnimation();
     }
 
     #endregion

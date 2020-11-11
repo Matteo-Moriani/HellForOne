@@ -9,12 +9,7 @@ public class BossAnimator : MonoBehaviour
     private Stats stats;
     private Animator animator;
     private CombatEventsManager combatEventsManager;
-
-    #endregion
-
-    #region Properties
-
-    public Animator Animator { get => animator; private set => animator = value; }
+    private bool moving = false;
 
     #endregion
 
@@ -22,10 +17,8 @@ public class BossAnimator : MonoBehaviour
 
     private void Awake()
     {
-        Animator = GetComponent<Animator>();
-
+        animator = GetComponent<Animator>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-
         stats = GetComponent<Stats>();
     }
     
@@ -35,12 +28,12 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
             combatEventsManager.onStartGlobalAttack += PlayGlobalAttackAnimation;
-            combatEventsManager.onStartIdle += PlayIdleAnimation;
-            combatEventsManager.onStartMoving += PlayMoveAnimation;
+            combatEventsManager.onStopMoving += OnStopMoving;
+            combatEventsManager.onStartMoving += OnStartMoving;
             stats.onDeath += OnDeath;
-            combatEventsManager.onStopSingleAttack += StopAnimations;
-            combatEventsManager.onStopGroupAttack += StopAnimations;
-            combatEventsManager.onStopGlobalAttack += StopAnimations;
+            combatEventsManager.onStopSingleAttack += SetAllBoolsToFalse;
+            combatEventsManager.onStopGroupAttack += SetAllBoolsToFalse;
+            combatEventsManager.onStopGlobalAttack += SetAllBoolsToFalse;
         }
     }
 
@@ -51,57 +44,54 @@ public class BossAnimator : MonoBehaviour
             combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
             combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
             combatEventsManager.onStartGlobalAttack -= PlayGlobalAttackAnimation;
-            combatEventsManager.onStartIdle -= PlayIdleAnimation;
-            combatEventsManager.onStartMoving -= PlayMoveAnimation;
+            combatEventsManager.onStopMoving -= OnStopMoving;
+            combatEventsManager.onStartMoving -= OnStartMoving;
             stats.onDeath -= OnDeath;
-            combatEventsManager.onStopSingleAttack -= StopAnimations;
-            combatEventsManager.onStopGroupAttack -= StopAnimations;
-            combatEventsManager.onStopGlobalAttack -= StopAnimations;
+            combatEventsManager.onStopSingleAttack -= SetAllBoolsToFalse;
+            combatEventsManager.onStopGroupAttack -= SetAllBoolsToFalse;
+            combatEventsManager.onStopGlobalAttack -= SetAllBoolsToFalse;
         }
     }
-    
+
+    private void Update()
+    {
+        if(moving)
+            PlayMoveAnimation();
+        else
+            SetAllBoolsToFalse();
+    }
+
     #endregion
 
     #region Methods
 
     public void PlaySingleAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isSingleAttacking",true);    
+        SetAllBoolsToFalse();
+        animator.SetTrigger("singleAttack");    
     }
 
     public void PlayGroupAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isGroupAttacking", true);
+        SetAllBoolsToFalse();
+        animator.SetTrigger("groupAttack");
     }
     
     public void PlayGlobalAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isGlobalAttacking", true);
+        SetAllBoolsToFalse();
+        animator.SetTrigger("globalAttack");
     }
 
     public void PlayMoveAnimation() {
-        StopAnimations();
+        SetAllBoolsToFalse();
         animator.SetBool("isMoving", true);
     }
 
-    public void PlayIdleAnimation() {
-        StopAnimations();
-        animator.SetBool("isIdle", true);
-    }
-
     public void PlayDeathAnimation() {
-        StopAnimations();
-        animator.SetBool("isDying", true);
+        SetAllBoolsToFalse();
+        animator.SetTrigger("death");
     }
 
-
-    public void StopAnimations() {
-        Animator.SetBool("isDying", false);
-        Animator.SetBool("isSingleAttacking", false);
-        Animator.SetBool("isGroupAttacking", false);
-        Animator.SetBool("isGlobalAttacking", false);
-        Animator.SetBool("isMoving", false);
-        Animator.SetBool("isIdle", false);
+    public void SetAllBoolsToFalse() {
+        animator.SetBool("isMoving", false);
     }
 
     #endregion
@@ -113,6 +103,16 @@ public class BossAnimator : MonoBehaviour
         PlayDeathAnimation();
     }
 
+    private void OnStartMoving()
+    {
+        moving = true;
+    }
+
+    private void OnStopMoving()
+    {
+        moving = false;
+    }
+
     #endregion
-    
+
 }
