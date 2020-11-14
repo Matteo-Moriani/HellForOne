@@ -29,6 +29,8 @@ public class Stats : MonoBehaviour
     [SerializeField]
     [Tooltip("Starting health of this demon")]
     public float health = 2f;
+
+    public GameObject deathEffect;
     
     // TODO - Refactor PushAway
     private bool isPushedAway = false;
@@ -149,6 +151,12 @@ public class Stats : MonoBehaviour
             }
         }
     }
+
+    public void BloodExplosion()
+    {
+        Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+        Destroy(gameObject);
+    }
     
     public void TakeHit(float damage)
     {
@@ -174,7 +182,7 @@ public class Stats : MonoBehaviour
             {
                 // TODO - Manage this inside DemonMovement with OnDeath event
                 // ...we need to disable his demonMovement.
-                AllyImpMovement demonMovement = this.gameObject.GetComponent<AllyImpMovement>();
+                AllyImpMovement demonMovement = gameObject.GetComponent<AllyImpMovement>();
 
                 if (demonMovement != null)
                 {
@@ -182,7 +190,7 @@ public class Stats : MonoBehaviour
                 }
 
                 // ...we nned to disable his NavMeshAgent.
-                NavMeshAgent navMeshAgent = this.GetComponent<NavMeshAgent>();
+                NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
 
                 if (navMeshAgent != null)
                 {
@@ -225,7 +233,8 @@ public class Stats : MonoBehaviour
             RaiseOnLateDeath();
  
             // TODO - disable components for death duration
-            deathCR = StartCoroutine(DeathTimer(deathDuration));
+            
+            // gameObject destory is now up to the animation event
         }
     }
 
@@ -266,14 +275,5 @@ public class Stats : MonoBehaviour
     }
 
     #endregion
-    
-    #region Coroutines
-    
-    private IEnumerator DeathTimer(float s)
-    {
-        yield return new WaitForSeconds(s);
-        Destroy(gameObject);
-    }
 
-    #endregion
 }
