@@ -101,9 +101,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2539685747220101991}
+  - {fileID: 5525657457911340748}
   - {fileID: 2724968085911406286}
   - {fileID: 1461153696199172655}
-  - {fileID: 5525657457911340748}
   - {fileID: 5433435495588386538}
   - {fileID: 1569087074893323564}
   - {fileID: 8259989808786157219}
@@ -208,20 +208,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 583539413283323319}
     m_Modifications:
-    - target: {fileID: 3934846825473467727, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869749105106764004, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1071785495935422839, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_Name
-      value: MovementDashTutorial
+      value: MovementTutorial
       objectReference: {fileID: 0}
     - target: {fileID: 1071785495935422839, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -266,7 +256,7 @@ PrefabInstance:
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -358,31 +348,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+    - target: {fileID: 1869749105106764004, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c9daf7b4365b2c441b7661ca574eace5,
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3934846825473467727, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_UseSpriteMesh
-      value: 0
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 99
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 37
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 15
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -397,8 +386,18 @@ PrefabInstance:
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_text
-      value: "The horde is ready to follow its leader! Move around with            and
-        \npress            to dash."
+      value: 'The horde is ready to follow its leader! Move around with            '
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c9daf7b4365b2c441b7661ca574eace5,
+        type: 3}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
@@ -540,12 +539,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 458
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8a847a6d4f8283b4ab6bb7f2c4cc4833,
-        type: 3}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -564,7 +557,7 @@ PrefabInstance:
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -581,6 +574,17 @@ PrefabInstance:
         Let''s ask for some help from the crowd by using the recruit order with          ,
         I''m sure someone will join us in the arena!'
       objectReference: {fileID: 0}
+    - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 190
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a847a6d4f8283b4ab6bb7f2c4cc4833,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &5433435495588386538 stripped
@@ -721,12 +725,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 360
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 88e344eef84a80343bae565e6dd82451,
-        type: 3}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -745,7 +743,7 @@ PrefabInstance:
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -763,6 +761,12 @@ PrefabInstance:
       propertyPath: m_fontStyle
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 88e344eef84a80343bae565e6dd82451,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &8259989808786157219 stripped
@@ -826,7 +830,7 @@ PrefabInstance:
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -903,12 +907,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 148
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: bf033d22f43b71d479fe6f2626dcac77,
-        type: 3}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -927,7 +925,7 @@ PrefabInstance:
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -940,6 +938,12 @@ PrefabInstance:
       value: "Oh, no! Those imps have been repeatedly attacked by the enemy! \n\nGive
         them the \"phalanx\" order by pressing         , so they will be more protected"
       objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bf033d22f43b71d479fe6f2626dcac77,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &1461153696199172655 stripped
@@ -955,16 +959,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 583539413283323319}
     m_Modifications:
-    - target: {fileID: 3934846825473467727, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1869749105106764004, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1071785495935422839, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_Name
@@ -1090,12 +1084,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -34
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+    - target: {fileID: 1869749105106764004, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 88e344eef84a80343bae565e6dd82451,
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3934846825473467727, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -1114,7 +1112,7 @@ PrefabInstance:
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -1134,6 +1132,17 @@ PrefabInstance:
       propertyPath: m_isRightToLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 198
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 88e344eef84a80343bae565e6dd82451,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &1569087074893323564 stripped
@@ -1152,7 +1161,7 @@ PrefabInstance:
     - target: {fileID: 1071785495935422839, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_Name
-      value: ReicarnationShieldTutorial
+      value: ReicarnationDashTutorial
       objectReference: {fileID: 0}
     - target: {fileID: 1071785495935422839, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -1274,31 +1283,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -31
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d514ba17ba4fff64c9b7e4f59d9dc825,
-        type: 3}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 188
+      value: 179
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 42
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 30
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -1312,8 +1315,19 @@ PrefabInstance:
         otherwise no one will be able to give orders!
 
 
-        (Oops, maybe I should have said him to use the shield with            ...)'
+        (Oops, maybe I should have said him to dodge with            ...)'
       objectReference: {fileID: 0}
+    - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d514ba17ba4fff64c9b7e4f59d9dc825,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &3544669471202103336 stripped
@@ -1377,7 +1391,7 @@ PrefabInstance:
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6775495027592808496, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -1454,26 +1468,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
-    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 6751589d4f2e306448b7ac680f7ab846,
-        type: 3}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 163
+      value: 159
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 44
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
         type: 3}
@@ -1490,8 +1498,14 @@ PrefabInstance:
       propertyPath: m_text
       value: "If they fight too close to each other, your imps are easy prey for the
         enemy.  \n\nApproach a group of imps and give them the \"range attack\" order
-        \ with        .    "
+        \ with        ."
       objectReference: {fileID: 0}
+    - target: {fileID: 8848619232289343550, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6751589d4f2e306448b7ac680f7ab846,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
 --- !u!224 &2724968085911406286 stripped
@@ -1616,6 +1630,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470527479145854570, guid: d5813a3ba90a9664faf5c02f33cb114e,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5813a3ba90a9664faf5c02f33cb114e, type: 3}
