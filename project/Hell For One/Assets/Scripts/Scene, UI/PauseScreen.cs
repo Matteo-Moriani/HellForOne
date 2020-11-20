@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PauseScreen : Menu
 {
+    // i don't know why they don't work if private or property
+    [HideInInspector]
     public GameObject controlsUI;
+    [HideInInspector]
     public GameObject optionsUI;
 
     public override void PressSelectedButton() {

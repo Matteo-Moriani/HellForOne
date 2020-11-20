@@ -181,7 +181,6 @@ public class KnockbackReceiver : MonoBehaviour
         float knockBackTimeCounter = 0f;
 
         Rigidbody rb = transform.root.gameObject.GetComponent<Rigidbody>();
-
         Vector3 startingVelocity = rb.velocity;
 
         if (type == Stats.Type.Player)

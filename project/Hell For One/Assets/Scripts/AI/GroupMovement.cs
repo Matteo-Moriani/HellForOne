@@ -25,14 +25,12 @@ public class GroupMovement : MonoBehaviour {
 
     private void OnEnable() {
         BattleEventsManager.onBattleExit += SetOutOfCombat;
-        BattleEventsManager.onBossBattleExit += SetOutOfCombat;
-        BattleEventsManager.onBossBattleEnter += SetVsBoss;
+        BattleEventsManager.onBattleEnter += SetVsBoss;
     }
 
     private void OnDisable() {
         BattleEventsManager.onBattleExit -= SetOutOfCombat;
-        BattleEventsManager.onBossBattleExit -= SetOutOfCombat;
-        BattleEventsManager.onBossBattleEnter -= SetVsBoss;
+        BattleEventsManager.onBattleEnter -= SetVsBoss;
     }
 
     private void Awake() {
@@ -123,35 +121,28 @@ public class GroupMovement : MonoBehaviour {
     }
 
     private void SearchTarget() {
-        if(EnemiesManager.Instance.LittleEnemiesList.Count != 0) {
+        
+        if(EnemiesManager.Instance.Boss != null) {
             // TODO - Testing new logic
-            Target = EnemiesManager.Instance.LittleEnemiesList[Random.Range(0, EnemiesManager.Instance.LittleEnemiesList.Count)];
+            // SetVsBoss();
+            Target = EnemiesManager.Instance.Boss;
             PrepareDemonsToBattle(Target);
-            haveTarget = true;
-            //Debug.Log("new target is " + target.name);
         }
         else {
-            if(EnemiesManager.Instance.Boss != null) {
-                // TODO - Testing new logic
-                // SetVsBoss();
-                Target = EnemiesManager.Instance.Boss;
+            // TODO - Testing new logic
+            // SetOutOfCombat();
+            if(player == null) {
+                player = GameObject.FindGameObjectWithTag("Player");
+            }
+            if(player != null) {
+                Target = player;
                 PrepareDemonsToBattle(Target);
             }
-            else {
-                // TODO - Testing new logic
-                // SetOutOfCombat();
-                if(player == null) {
-                    player = GameObject.FindGameObjectWithTag("Player");
-                }
-                if(player != null) {
-                    Target = player;
-                    PrepareDemonsToBattle(Target);
-                }
-                //else { 
-                //    Debug.Log(this.gameObject.name + "Cannot find Player");    
-                //}
-            }
+            //else { 
+            //    Debug.Log(this.gameObject.name + "Cannot find Player");    
+            //}
         }
+        
     }
 
     private void ChooseOutOfCombatPosition() {

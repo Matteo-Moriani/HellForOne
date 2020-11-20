@@ -99,7 +99,7 @@ public class PlayerInput : GeneralInput
             reincarnation.onReincarnation += OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
         
     }
 
@@ -112,7 +112,7 @@ public class PlayerInput : GeneralInput
             reincarnation.onReincarnation -= OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
         
     }
 

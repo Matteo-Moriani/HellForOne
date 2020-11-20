@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class BattleEventsManager : MonoBehaviour
 {
-    public delegate void OnBattleEnter();
-    public static event OnBattleEnter onBattleEnter;
-
-    public delegate void OnBattleExit();
-    public static event OnBattleExit onBattleExit;
-
     public delegate void OnBattlePreparation();
     public static event OnBattlePreparation onBattlePreparation;
 
     public delegate void OnGameOver();
     public static event OnGameOver onGameOver;
 
-    public delegate void OnBossBattleEnter();
-    public static event OnBossBattleEnter onBossBattleEnter;
+    public delegate void OnBattleEnter();
+    public static event OnBattleEnter onBattleEnter;
 
-    public delegate void OnBossBattleExit();
-    public static event OnBossBattleExit onBossBattleExit;
+    public delegate void OnBattleExit();
+    public static event OnBattleExit onBattleExit;
 
     private static BattleEventsManager _instance;
 
@@ -30,11 +24,17 @@ public class BattleEventsManager : MonoBehaviour
     {
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
             _instance = this;
+        }
+    }
+
+    public static void RaiseOnBattlePreparation() {
+        if(onBattlePreparation != null) {
+            onBattlePreparation();
         }
     }
 
@@ -46,25 +46,7 @@ public class BattleEventsManager : MonoBehaviour
 
     public static void RaiseOnBattleExit() { 
         if(onBattleExit != null) { 
-            onBattleExit();    
-        }   
-    }
-
-    public static void RaiseOnBattlePreparation() {
-        if(onBattlePreparation != null) {
-            onBattlePreparation();
-        }
-    }
-
-    public static void RaiseOnBossBattleEnter() { 
-        if(onBossBattleEnter != null) { 
-            onBossBattleEnter();    
-        }    
-    }
-
-    public static void RaiseOnBossBattleExit() { 
-        if(onBossBattleExit != null) { 
-            onBossBattleExit();
+            onBattleExit();
         }    
     }
 
