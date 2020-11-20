@@ -279,7 +279,7 @@ public class GroupBehaviour : MonoBehaviour
             return;
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
-                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
+                if(BattleEventsHandler.IsInBattle) {
                     if(!isTankOrderGiven)
                         RaiseOnStartTankOrderGiven();
                 }
@@ -340,37 +340,37 @@ public class GroupBehaviour : MonoBehaviour
         StopCoroutine(continuousAttack);
     }
 
-    private void SupportStayAction() {
-        if(!AllImpsFoundGroup())
-            return;
-        foreach(GameObject imp in groupManager.Imps) {
-            if(imp) {
-                if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
-                    if(!isSupportOrderGiven)
-                        RaiseOnStartSupportOrderGiven();
-                }
-                else {
-                    if(isSupportOrderGiven)
-                        RaiseOnStopSupportOrderGiven();
-                }
-            }
-        }
-    }
+    //private void SupportStayAction() {
+    //    if(!AllImpsFoundGroup())
+    //        return;
+    //    foreach(GameObject imp in groupManager.Imps) {
+    //        if(imp) {
+    //            if(BattleEventsHandler.IsInBossBattle || BattleEventsHandler.IsInRegularBattle) {
+    //                if(!isSupportOrderGiven)
+    //                    RaiseOnStartSupportOrderGiven();
+    //            }
+    //            else {
+    //                if(isSupportOrderGiven)
+    //                    RaiseOnStopSupportOrderGiven();
+    //            }
+    //        }
+    //    }
+    //}
 
-    private void StopSupport() {
-        if(!AllImpsFoundGroup())
-            return;
+    //private void StopSupport() {
+    //    if(!AllImpsFoundGroup())
+    //        return;
 
-        foreach(GameObject imp in groupManager.Imps) {
-            if(imp)
-            {
-                if (isSupportOrderGiven)
-                {
-                    RaiseOnStopSupportOrderGiven();
-                }
-            }
-        }
-    }
+    //    foreach(GameObject imp in groupManager.Imps) {
+    //        if(imp)
+    //        {
+    //            if (isSupportOrderGiven)
+    //            {
+    //                RaiseOnStopSupportOrderGiven();
+    //            }
+    //        }
+    //    }
+    //}
 
     public void RecruitStayAction() {
         if(!AllImpsFoundGroup())
@@ -378,7 +378,7 @@ public class GroupBehaviour : MonoBehaviour
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
                 //Combat combat = imp.GetComponent<Combat>();
-                if(BattleEventsHandler.IsInBossBattle && imp.GetComponent<AllyImpMovement>().CanAct()) {
+                if(BattleEventsHandler.IsInBattle && imp.GetComponent<AllyImpMovement>().CanAct()) {
                     //combat.StartRecruit();
                     //if(!isRecruitOrderGiven)
                         RaiseOnStartRecruitOrderGiven();
@@ -444,8 +444,8 @@ public class GroupBehaviour : MonoBehaviour
                 return tankState;
             case State.RangeAttack:
                 return rangeAttackState;
-            case State.Support:
-                return supportState;
+            //case State.Support:
+            //    return supportState;
             case State.Recruit:
                 return recruitState;
         }
@@ -473,13 +473,17 @@ public class GroupBehaviour : MonoBehaviour
     private void OnEnable()
     {
         TacticsManager.onTryOrderAssign += OnTryOrderAssign;
+        
+        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
     }
-
+    
     private void OnDisable()
     {
         AlliesManager.Instance.onNewImpSpawned -= OnNewImpSpawned;
         
         TacticsManager.onTryOrderAssign -= OnTryOrderAssign;
+
+        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
     }
     
     void Start() {
@@ -492,7 +496,7 @@ public class GroupBehaviour : MonoBehaviour
         FSMTransition t1 = new FSMTransition(MeleeOrderGiven);
         FSMTransition t2 = new FSMTransition(TankOrderGiven);
         FSMTransition t3 = new FSMTransition(RangeAttackOrderGiven);
-        FSMTransition t4 = new FSMTransition(SupportOrderGiven);
+        //FSMTransition t4 = new FSMTransition(SupportOrderGiven);
         FSMTransition t5 = new FSMTransition(Idle);
         FSMTransition t6 = new FSMTransition(EnterCombat);
         FSMTransition t7 = new FSMTransition(RecruitOrderGiven);
@@ -500,7 +504,7 @@ public class GroupBehaviour : MonoBehaviour
         meleeState = new FSMState(State.MeleeAttack.ToString());
         tankState = new FSMState(State.Tank.ToString());
         rangeAttackState = new FSMState(State.RangeAttack.ToString());
-        supportState = new FSMState(State.Support.ToString());
+        //supportState = new FSMState(State.Support.ToString());
         recruitState = new FSMState(State.Recruit.ToString());
         idleState = new FSMState();
 
@@ -517,11 +521,11 @@ public class GroupBehaviour : MonoBehaviour
         tankState.stayActions.Add(TankStayAction);
         tankState.exitActions.Add(StopTank);
 
-        supportState.enterActions.Add(GeneralEnterAction);
-        supportState.stayActions.Add(SupportStayAction);
+        //supportState.enterActions.Add(GeneralEnterAction);
+        //supportState.stayActions.Add(SupportStayAction);
         // Managed in support
         //supportState.stayActions.Add(UpdateSupportAggro);
-        supportState.exitActions.Add(StopSupport);
+        //supportState.exitActions.Add(StopSupport);
 
         recruitState.enterActions.Add(GeneralEnterAction);
         recruitState.stayActions.Add(RecruitStayAction);
@@ -529,32 +533,32 @@ public class GroupBehaviour : MonoBehaviour
 
         meleeState.AddTransition(t2, tankState);
         meleeState.AddTransition(t3, rangeAttackState);
-        meleeState.AddTransition(t4, supportState);
+        //meleeState.AddTransition(t4, supportState);
         meleeState.AddTransition(t5, idleState);
         meleeState.AddTransition(t7, recruitState);
 
         tankState.AddTransition(t1, meleeState);
         tankState.AddTransition(t3, rangeAttackState);
-        tankState.AddTransition(t4, supportState);
+        //tankState.AddTransition(t4, supportState);
         tankState.AddTransition(t5, idleState);
         tankState.AddTransition(t7, recruitState);
 
         rangeAttackState.AddTransition(t1, meleeState);
         rangeAttackState.AddTransition(t2, tankState);
-        rangeAttackState.AddTransition(t4, supportState);
+        //rangeAttackState.AddTransition(t4, supportState);
         rangeAttackState.AddTransition(t5, idleState);
         rangeAttackState.AddTransition(t7, recruitState);
 
-        supportState.AddTransition(t1, meleeState);
-        supportState.AddTransition(t2, tankState);
-        supportState.AddTransition(t3, rangeAttackState);
-        supportState.AddTransition(t5, idleState);
-        supportState.AddTransition(t7, recruitState);
+        //supportState.AddTransition(t1, meleeState);
+        //supportState.AddTransition(t2, tankState);
+        //supportState.AddTransition(t3, rangeAttackState);
+        //supportState.AddTransition(t5, idleState);
+        //supportState.AddTransition(t7, recruitState);
 
         recruitState.AddTransition(t1, meleeState);
         recruitState.AddTransition(t2, tankState);
         recruitState.AddTransition(t3, rangeAttackState);
-        recruitState.AddTransition(t4, supportState);
+        //recruitState.AddTransition(t4, supportState);
         recruitState.AddTransition(t5, idleState);
 
         idleState.AddTransition(t6, GetCurrentFSMState(currentState));
@@ -580,6 +584,11 @@ public class GroupBehaviour : MonoBehaviour
     {
         if(groupManager.ThisGroupName == group || group == GroupManager.Group.All )
             AssignOrder(state);
+    }
+    
+    private void OnBossBattleEnter()
+    {
+        target = GameObject.FindWithTag("Boss");
     }
     
     private void OnNewImpSpawned(GameObject newImp)

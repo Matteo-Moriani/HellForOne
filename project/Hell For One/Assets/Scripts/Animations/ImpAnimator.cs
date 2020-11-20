@@ -25,7 +25,8 @@ public class ImpAnimator : MonoBehaviour
     private PlayerScriptedMovements playerScriptedMovements;
     private bool isBlocking = false;
     private bool isRecruiting = false;
-    private bool isMoving = false;
+    private bool playerScriptedMovement = false;
+    private bool allyIsMoving = false;
 
     #endregion
 
@@ -64,8 +65,8 @@ public class ImpAnimator : MonoBehaviour
         } 
 
         dash.onDashStart += OnDashStart;
-        allyImpMovement.onStartMoving += OnStartMoving;
-        allyImpMovement.onStopMoving += OnStopMoving;
+        allyImpMovement.onStartMoving += OnAllyMovementStart;
+        allyImpMovement.onStopMoving += OnAllyMovementEnd;
         reincarnation.onReincarnation += OnReincarnation;
         stats.onDeath += OnDeath;    
         normalCombat.onStartAttack += OnStartAttack;  
@@ -73,9 +74,8 @@ public class ImpAnimator : MonoBehaviour
         block.onStopBlock += OnStopBlock;
         block.onBlockSuccess += OnBlockSuccess;
         BattleEventsManager.onBattleExit += SetAllBoolsToFalse;
-        BattleEventsManager.onBossBattleExit += SetAllBoolsToFalse;
-        playerScriptedMovements.OnScriptedMovementStart += OnStartMoving;
-        playerScriptedMovements.OnScriptedMovementEnd += OnStopMoving;
+        playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
+        playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
     }
 
     private void OnDisable() {
@@ -87,8 +87,8 @@ public class ImpAnimator : MonoBehaviour
         }
 
         dash.onDashStart -= OnDashStart;
-        allyImpMovement.onStartMoving -= OnStartMoving;
-        allyImpMovement.onStopMoving -= OnStopMoving;
+        allyImpMovement.onStartMoving -= OnAllyMovementStart;
+        allyImpMovement.onStopMoving -= OnAllyMovementEnd;
         reincarnation.onReincarnation -= OnReincarnation;
         stats.onDeath -= OnDeath;    
         normalCombat.onStartAttack -= OnStartAttack;    
@@ -96,9 +96,8 @@ public class ImpAnimator : MonoBehaviour
         block.onStopBlock -= OnStopBlock;
         block.onBlockSuccess -= OnBlockSuccess;    
         BattleEventsManager.onBattleExit -= SetAllBoolsToFalse;
-        BattleEventsManager.onBossBattleExit -= SetAllBoolsToFalse;
-        playerScriptedMovements.OnScriptedMovementStart -= OnStartMoving;
-        playerScriptedMovements.OnScriptedMovementEnd -= OnStopMoving;
+        playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
+        playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
     }
 
     private void Update()
@@ -106,7 +105,7 @@ public class ImpAnimator : MonoBehaviour
         // ordered by priority
         if(isBlocking)
             PlayBlockAnimation();
-        else if(playerController.ZMovement != 0f || playerController.XMovement != 0f || isMoving)
+        else if(playerController.ZMovement != 0f || playerController.XMovement != 0f || playerScriptedMovement || (allyIsMoving && stats.ThisUnitType == Stats.Type.Ally))
             PlayMoveAnimation();
         else if(isRecruiting)
             PlayRecruitAnimation();
@@ -254,14 +253,24 @@ public class ImpAnimator : MonoBehaviour
     }
 
     // i need this for allies
-    private void OnStartMoving()
+    private void OnAllyMovementStart()
     {
-        isMoving = true;
+        allyIsMoving = true;
     }
 
-    private void OnStopMoving()
+    private void OnAllyMovementEnd()
     {
-        isMoving = false;
+        allyIsMoving = false;
+    }
+
+    private void OnScriptedMovementStart()
+    {
+        playerScriptedMovement = true;
+    }
+
+    private void OnScriptedMovementEnd()
+    {
+        playerScriptedMovement = false;
     }
 
     #endregion

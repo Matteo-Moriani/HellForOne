@@ -95,7 +95,6 @@
                 <e p="GroupAbilities.cs" t="Include" />
                 <e p="Hammer.cs" t="Include" />
                 <e p="Horn.cs" t="Include" />
-                <e p="HornImp.cs" t="Include" />
                 <e p="Shield.cs" t="Include" />
               </e>
               <e p="IdleCollider.cs" t="Include" />
@@ -107,10 +106,15 @@
               <e p="NormalCombatManager.cs" t="Include" />
               <e p="ScriptableObjects" t="Include">
                 <e p="Attack" t="Include">
-                  <e p="AlliedAttack.cs" t="Include" />
-                  <e p="AlliedNormalAttack.cs" t="Include" />
-                  <e p="EnemyAttack.cs" t="Include" />
-                  <e p="EnemyNormalAttack.cs" t="Include" />
+                  <e p="Allies" t="Include">
+                    <e p="AlliedAttack.cs" t="Include" />
+                    <e p="AlliedNormalAttack.cs" t="Include" />
+                  </e>
+                  <e p="Enemies" t="Include">
+                    <e p="EnemyAttack.cs" t="Include" />
+                    <e p="EnemyMagicAttack.cs" t="Include" />
+                    <e p="EnemyNormalAttack.cs" t="Include" />
+                  </e>
                   <e p="GenericAttack.cs" t="Include" />
                 </e>
                 <e p="GroupAbilities" t="Include">

@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AbilityAttack", menuName = "CombatSystem/GroupAbilities/Horn", order = 1)]
 public class HornAbility : AbilityAttack
 {
-    public override ObjectsPooler GetPooler()
+    protected override ObjectsPooler GetPooler()
     {
         if (isRanged)
         {

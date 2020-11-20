@@ -9,20 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455c07696ee82734599512206958d4d6, type: 3}
-  m_Name: BossNormalAttackSwipe
+  m_Script: {fileID: 11500000, guid: 30fead49a4d98e3449d1d5e54ee31174, type: 3}
+  m_Name: FlameCircle
   m_EditorClassIdentifier: 
   hasDamageSupportBonus: 0
   isRanged: 0
-  canHitMultipleTargets: 1
-  canBeBlocked: 1
+  canHitMultipleTargets: 0
+  canBeBlocked: 0
   causeStun: 0
-  causeStunWhenBlocked: 1
+  causeStunWhenBlocked: 0
   causeKnockback: 1
-  causeKnockbackWhenBlocked: 1
+  causeKnockbackWhenBlocked: 0
   damage: 2
-  range: 1
+  range: 0
   aggroModifier: 0
-  size: 2
+  size: 10
   delayInSeconds: 1
-  durationInSeconds: 0.1
+  durationInSeconds: 10
+  hasSustainedDamage: 1
+  sustainedDamageRateMin: 2
+  sustainedDamageRateMax: 4

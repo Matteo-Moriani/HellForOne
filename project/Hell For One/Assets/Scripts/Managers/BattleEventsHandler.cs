@@ -6,15 +6,12 @@ public class BattleEventsHandler : MonoBehaviour
 {
     private GameObject spawner;
 
-    private static bool isInBossBattle = false;
-    private static bool isInRegularBattle = false;
+    private static bool isInBattle = false;
 
     private static BattleEventsHandler _instance;
     public static BattleEventsHandler Instance { get { return _instance; } }
 
-    public static bool IsInBossBattle { get => isInBossBattle; private set => isInBossBattle = value; }
-    // TODO - there are no differences anymore between battles
-    public static bool IsInRegularBattle { get => isInRegularBattle; private set => isInRegularBattle = value; }
+    public static bool IsInBattle { get => isInBattle; private set => isInBattle = value; }
 
     private void Awake()
     {
@@ -22,7 +19,7 @@ public class BattleEventsHandler : MonoBehaviour
 
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
@@ -32,74 +29,41 @@ public class BattleEventsHandler : MonoBehaviour
 
     private void Start()
     {
-        // This is here to start in an out of combat situation
-        //BattleEventsManager.RaiseOnBattleExit();
-        //BattleEventsManager.RaiseOnBossBattleExit();
-
         // TODO - Testing this to remove mob battle
         // find better solution
-        BattleEventsManager.RaiseOnBattleExit();
+        //BattleEventsManager.RaiseOnBattleExit();
     }
 
     private void OnEnable()
     {
-        BattleEventsManager.onBattleEnter += EnterRegularBattle;
-        BattleEventsManager.onBossBattleEnter += EnterBossBattle;
-
-        BattleEventsManager.onBattleExit += ExitRegularBattle;
-        BattleEventsManager.onBossBattleExit += ExitBossBattle;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        
+        BattleEventsManager.onBattleExit += OnBattleExit;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBattleEnter -= EnterRegularBattle;
-        BattleEventsManager.onBossBattleEnter -= EnterBossBattle;
-
-        BattleEventsManager.onBattleExit -= ExitRegularBattle;
-        BattleEventsManager.onBossBattleExit -= ExitBossBattle;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        
+        BattleEventsManager.onBattleExit -= OnBattleExit;
     }
 
     private void Update()
     {
-        if (IsInRegularBattle)
+        if (IsInBattle)
         {
-            if (EnemiesManager.Instance.LittleEnemiesList.Count == 0)
+            if (EnemiesManager.Instance.Boss == null)
             {
                 BattleEventsManager.RaiseOnBattleExit();
             }
         }
-
-
-        if (IsInBossBattle)
-        {
-            if (EnemiesManager.Instance.Boss == null)
-            {
-                BattleEventsManager.RaiseOnBossBattleExit();
-            }
-        }
     }
 
-    private void EnterRegularBattle()
+    private void OnBattleEnter()
     {   
-        if(!isInRegularBattle)
-            isInRegularBattle = true;
-        /*
-        if (!IsInRegularBattle)
+        if (!isInBattle)
         {
-            IsInRegularBattle = true;
-            if (spawner != null)
-            {
-                spawner.GetComponent<AllyDemonSpawnerTest>().enabled = true;
-            }
-        }
-        */
-    }
-
-    private void EnterBossBattle()
-    {   
-        if (!isInBossBattle)
-        {
-            IsInBossBattle = true;
+            IsInBattle = true;
             /*
             // TODO - Manage this in alliesManager
             if (spawner != null)
@@ -124,25 +88,7 @@ public class BattleEventsHandler : MonoBehaviour
         }
     }
 
-    private void ExitRegularBattle()
-    {
-        /*
-        if (IsInRegularBattle)
-        {
-            IsInRegularBattle = false;
-            if (spawner != null)
-            {
-                StopCoroutine(spawner.GetComponent<AllyDemonSpawnerTest>().SpawnAllyCR);
-                spawner.GetComponent<AllyDemonSpawnerTest>().enabled = false;
-            }
-        }
-        */
-        if (isInRegularBattle) {
-            isInRegularBattle = false;
-        }
-    }
-
-    private void ExitBossBattle()
+    private void OnBattleExit()
     {   /*
         if (isInBossBattle)
         {
@@ -154,8 +100,8 @@ public class BattleEventsHandler : MonoBehaviour
             }
         }
         */
-        if (isInBossBattle) {
-            isInBossBattle = false;
+        if (isInBattle) {
+            isInBattle = false;
         }
     }
 

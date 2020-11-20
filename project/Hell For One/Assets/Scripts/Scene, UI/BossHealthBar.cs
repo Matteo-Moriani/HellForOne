@@ -21,12 +21,12 @@ public class BossHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
     }
 
     // Update is called once per frame

@@ -52,22 +52,22 @@ public class Block : MonoBehaviour
     
     #region Methods
     
-    private void RiseOnStartBlock()
+    private void RaiseOnStartBlock()
     {
         onStartBlock?.Invoke(this);
     }
     
-    private void RiseOnStopBlock()
+    private void RaiseOnStopBlock()
     {
         onStopBlock?.Invoke(this);
     }
     
-    private void RiseOnBlockFailed(GenericAttack attack, NormalCombat attackerNormalCombat)
+    private void RaiseOnBlockFailed(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onBlockFailed?.Invoke(this, attack, attackerNormalCombat);
     }
     
-    private void RiseOnBlockSuccess(GenericAttack attack, NormalCombat attackerNormalCombat)
+    private void RaiseOnBlockSuccess(GenericAttack attack, NormalCombat attackerNormalCombat)
     {
         onBlockSuccess?.Invoke(this, attack, attackerNormalCombat);
     }
@@ -125,7 +125,7 @@ public class Block : MonoBehaviour
             if (unitType == Stats.Type.Player)
                 blockChance = 100;
             
-            RiseOnStartBlock();    
+            RaiseOnStartBlock();    
         }
     }
 
@@ -138,7 +138,7 @@ public class Block : MonoBehaviour
             if (unitType == Stats.Type.Player)
                 blockChance = 0;
         
-            RiseOnStopBlock();
+            RaiseOnStopBlock();
         }
     }
 
@@ -211,11 +211,11 @@ public class Block : MonoBehaviour
         {
             // TODO - Check angle for player
             
-            RiseOnBlockSuccess(genericAttack,attackerNormalCombat);
+            RaiseOnBlockSuccess(genericAttack,attackerNormalCombat);
         }
         else
         {    
-            RiseOnBlockFailed(genericAttack, attackerNormalCombat);
+            RaiseOnBlockFailed(genericAttack, attackerNormalCombat);
         }
     }
 

@@ -31,13 +31,13 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleExit += MidBossKilled;
+        BattleEventsManager.onBattleExit += MidBossKilled;
         BattleEventsManager.onBattlePreparation += InstantiatePosition;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleExit -= MidBossKilled;
+        BattleEventsManager.onBattleExit -= MidBossKilled;
         BattleEventsManager.onBattlePreparation -= InstantiatePosition;
     }
 
@@ -50,20 +50,16 @@ public class LevelManager : MonoBehaviour
         if (IsMidBossAlive) {
             IsMidBossAlive = false;
             IsBossAlive = true;
-            DestroyMidBossArenaCenter();
+            Destroy(midBossArenaCenter);
             Destroy(midBossFightScriptedPosition);
             ActivateBossArenaCenter();
             ActivateBoss();
-            BattleEventsManager.onBossBattleExit -= MidBossKilled;
+            BattleEventsManager.onBattleExit -= MidBossKilled;
         }
     }
 
     private void ActivateBossArenaCenter() { 
         bossArenaCenter.gameObject.SetActive(true);    
-    }
-
-    private void DestroyMidBossArenaCenter() { 
-        GameObject.Destroy(midBossArenaCenter);    
     }
 
     private void InstantiatePosition() {

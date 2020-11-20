@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AlliedAttack", menuName = "CombatSystem/AlliedAttack", order = 1)]
 public class AlliedAttack : GenericAttack
 {
-   public override ObjectsPooler GetPooler()
+   protected override ObjectsPooler GetPooler()
    {
       if (isRanged)
       {
@@ -20,7 +20,7 @@ public class AlliedAttack : GenericAttack
       return null;
    }
    
-   public override bool IsLegitAttack(GenericIdle targetIdleValues)
+   protected override bool IsLegitAttack(GenericIdle targetIdleValues)
    {
       if (typeof(EnemyIdle) == targetIdleValues.GetType())
       {

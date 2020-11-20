@@ -84,14 +84,14 @@ public class AllyDemonSpawnerTest : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
-        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        BattleEventsManager.onBattleExit += OnBattleExit;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
-        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
     }
 
     void Start()
@@ -108,7 +108,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         }
     }
 
-    private void OnBossBattleEnter() { 
+    private void OnBattleEnter() { 
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
         if(LevelManager.IsMidBossAlive) {
@@ -132,7 +132,7 @@ public class AllyDemonSpawnerTest : MonoBehaviour
         }
     }
 
-    private void OnBossBattleExit() { 
+    private void OnBattleExit() { 
         // After the boss battle we stop spawn allies
         if(spawnAllyCR != null) { 
             StopCoroutine(spawnAllyCR);
