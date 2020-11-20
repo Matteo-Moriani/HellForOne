@@ -21,16 +21,16 @@ public class GlobalAttack : MonoBehaviour
         boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StartFlamingAttack;
         //boss.GetComponent<CombatEventsManager>().onStartGlobalAttack += StopFlamingAttack;
 
-        for ( int i = 0; i < circles; i++ )
-        {
-            for ( int j = 0; j < particlesPerCircle; j++ )
-            {
-                flameCircleArray[ i, j ] = transform.GetChild( i ).gameObject.transform.GetChild( j ).gameObject;
-                ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
-                if ( particleSystem )
-                    particleSystem.Stop();
-            }
-        }
+        //for ( int i = 0; i < circles; i++ )
+        //{
+        //    for ( int j = 0; j < particlesPerCircle; j++ )
+        //    {
+        //        flameCircleArray[ i, j ] = transform.GetChild( i ).gameObject.transform.GetChild( j ).gameObject;
+        //        ParticleSystem particleSystem = flameCircleArray[ i, j ].GetComponent<ParticleSystem>();
+        //        if ( particleSystem )
+        //            particleSystem.Stop();
+        //    }
+        //}
     }
 
     private void OnDisable() {

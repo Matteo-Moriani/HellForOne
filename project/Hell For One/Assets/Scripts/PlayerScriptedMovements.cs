@@ -24,12 +24,12 @@ public class PlayerScriptedMovements : MonoBehaviour
 
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
-        BattleEventsManager.onBossBattleEnter += ScriptedMovementEnd;
+        BattleEventsManager.onBattleEnter += ScriptedMovementEnd;
     }
 
     public void OnDisable() {
         BattleEventsManager.onBattlePreparation -= MoveToScriptedPosition;
-        BattleEventsManager.onBossBattleEnter -= ScriptedMovementEnd;
+        BattleEventsManager.onBattleEnter -= ScriptedMovementEnd;
     }
 
     void Start()
@@ -60,7 +60,7 @@ public class PlayerScriptedMovements : MonoBehaviour
             }
             if(alliesInPosition == AlliesManager.Instance.AlliesList.Count){ 
                 combatEventsManager.RaiseOnStopMoving();
-                BattleEventsManager.RaiseOnBossBattleEnter();
+                BattleEventsManager.RaiseOnBattleEnter();
             }
 
         }        

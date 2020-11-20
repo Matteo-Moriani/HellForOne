@@ -17,7 +17,7 @@ public class PushAway : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (BattleEventsHandler.IsInBossBattle)
+        if (BattleEventsHandler.IsInBattle)
         {
             PushDemons();
         }

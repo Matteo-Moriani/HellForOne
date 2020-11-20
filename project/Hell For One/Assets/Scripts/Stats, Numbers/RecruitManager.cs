@@ -43,7 +43,7 @@ public class RecruitManager : MonoBehaviour
     void Update()
     {
         // Check if in Battle
-        if ( BattleEventsHandler.IsInBossBattle )
+        if ( BattleEventsHandler.IsInBattle )
         {
             // Imps can be spawned
             if ( CountImpsRecruiting() != 0 && AlliesManager.Instance.AlliesList.Count < 16 )

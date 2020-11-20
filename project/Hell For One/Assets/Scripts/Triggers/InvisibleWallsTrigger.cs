@@ -18,6 +18,8 @@ public class InvisibleWallsTrigger : MonoBehaviour
         arenaWallMidBossExit = GameObject.Find( "ArenaWallMidBossExit" );
         firewallBoss = GameObject.Find( "firewallBoss" );
         arenaWallBoss = GameObject.Find( "ArenaWallBoss" );
+
+        DisableArenaWallMidBoss();
     }
 
     private void DisableWallsBoss()
@@ -104,25 +106,17 @@ public class InvisibleWallsTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleExit += OpenInvisibleWalls;
-        BattleEventsManager.onBossBattleExit += DisableBossFlames;
-        BattleEventsManager.onBossBattleExit += DisableWallsBoss;
-        BattleEventsManager.onBossBattleExit += DisableFlameCircle;
-        BattleEventsManager.onBossBattleExit += DisableFirewallMidBoss;
         BattleEventsManager.onBattleExit += OpenInvisibleWalls;
+        BattleEventsManager.onBattleExit += DisableBossFlames;
+        BattleEventsManager.onBattleExit += DisableWallsBoss;
+        BattleEventsManager.onBattleExit += DisableFlameCircle;
         BattleEventsManager.onBattleExit += DisableFirewallMidBoss;
-        BattleEventsManager.onBattleExit += DisableArenaWallMidBoss;
-        BattleEventsManager.onBattleExit += DisableNormalFlames;
-        BattleEventsManager.onBattleExit += LetDemonsPassFlames;
-        BattleEventsManager.onBossBattleEnter += CloseInvisibleWalls;
-        BattleEventsManager.onBossBattleEnter += EnableArenaWallMidBoss;
-        BattleEventsManager.onBossBattleEnter += EnableFlameCircle;
-        BattleEventsManager.onBossBattleEnter += EnableBossFlames;
-        BattleEventsManager.onBossBattleEnter += EnableWallBoss;
-        BattleEventsManager.onBossBattleEnter += EnableFirewallMidBoss;
         BattleEventsManager.onBattleEnter += CloseInvisibleWalls;
-        BattleEventsManager.onBattleEnter += DisableFlameCircle;
-        BattleEventsManager.onBattleEnter += EnableNormalFlames;
+        BattleEventsManager.onBattleEnter += EnableArenaWallMidBoss;
+        BattleEventsManager.onBattleEnter += EnableFlameCircle;
+        BattleEventsManager.onBattleEnter += EnableBossFlames;
+        BattleEventsManager.onBattleEnter += EnableWallBoss;
+        BattleEventsManager.onBattleEnter += EnableFirewallMidBoss;
         DisableNormalFlames();
         DisableBossFlames();
     }

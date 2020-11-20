@@ -7,12 +7,12 @@ public class BlackStripe : MonoBehaviour
 {
     private void OnEnable() {
         BattleEventsManager.onBattlePreparation += BeginCutscene;
-        BattleEventsManager.onBossBattleEnter += EndCutscene;
+        BattleEventsManager.onBattleEnter += EndCutscene;
     }
 
     private void OnDisable() {
         BattleEventsManager.onBattlePreparation -= BeginCutscene;
-        BattleEventsManager.onBossBattleEnter -= EndCutscene;
+        BattleEventsManager.onBattleEnter -= EndCutscene;
     }
 
     private void BeginCutscene() {

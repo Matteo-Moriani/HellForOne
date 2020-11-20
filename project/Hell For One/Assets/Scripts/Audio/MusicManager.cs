@@ -20,10 +20,7 @@ public class MusicManager : MonoBehaviour
     private void OnEnable()
     {
         BattleEventsManager.onBattleExit += StartOutOfCombatMusic;
-        BattleEventsManager.onBossBattleExit += StartOutOfCombatMusic;
-
-        BattleEventsManager.onBattleEnter += StartCombatMusic;
-        BattleEventsManager.onBossBattleEnter += StartBossMusic;
+        BattleEventsManager.onBattleEnter += StartBossMusic;
 
         GameEvents.onPause += PauseMusic;
         GameEvents.onResume += ResumeMusic;
@@ -32,10 +29,7 @@ public class MusicManager : MonoBehaviour
     private void OnDisable()
     {
         BattleEventsManager.onBattleExit -= StartOutOfCombatMusic;
-        BattleEventsManager.onBossBattleExit -= StartOutOfCombatMusic;
-
-        BattleEventsManager.onBattleEnter -= StartCombatMusic;
-        BattleEventsManager.onBossBattleEnter -= StartBossMusic;
+        BattleEventsManager.onBattleEnter -= StartBossMusic;
 
         GameEvents.onPause -= PauseMusic;
         GameEvents.onResume -= ResumeMusic;

@@ -79,14 +79,14 @@ public class AllyImpMovement : MonoBehaviour {
         stats = gameObject.GetComponent<Stats>();
         positionTimer = Random.Range(2f, 3f);
 
-        if(BattleEventsHandler.IsInBossBattle)
+        if(BattleEventsHandler.IsInBattle)
             PrepareForBattle();
             
     }
 
     private void OnEnable() {
-        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleExit += OnBattleExit;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
         
         KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
         knockbackReceiver.onStartKnockback += OnStartKnockback;
@@ -99,8 +99,8 @@ public class AllyImpMovement : MonoBehaviour {
     }
 
     private void OnDisable() {
-        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
         
         KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
         knockbackReceiver.onStartKnockback -= OnStartKnockback;
@@ -217,13 +217,14 @@ public class AllyImpMovement : MonoBehaviour {
         canMove = false;
     }
     
-    private void OnBossBattleExit() {
-        StopCoroutine(checkPositionCR);
+    private void OnBattleExit() {
+        if(checkPositionCR != null)
+            StopCoroutine(checkPositionCR);
         canMove = true;
         checkPositionCR = null;
     }
 
-    private void OnBossBattleEnter() {
+    private void OnBattleEnter() {
         PrepareForBattle();
     }
 
@@ -409,9 +410,13 @@ public class AllyImpMovement : MonoBehaviour {
         while(true) {
             yield return new WaitForSeconds(positionTimer);
 
-            // I regroup if the boss is closer than me to my group center.
-            if(HorizDistFromTarget(group) > bossBehaviour.HorizDistFromTarget(group)) {
-                inPosition = false;
+            if(bossBehaviour != null)
+            {
+                // I regroup if the boss is closer than me to my group center.
+                if(HorizDistFromTarget(group) > bossBehaviour.HorizDistFromTarget(group))
+                {
+                    inPosition = false;
+                }
             }
         }
     }

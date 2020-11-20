@@ -38,8 +38,8 @@ public class RecruitSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleEnter += OnBossBattleEnter;
-        BattleEventsManager.onBossBattleExit += OnBossBattleExit;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        BattleEventsManager.onBattleExit += OnBattleExit;
     }
 
     private void OnNewImpSpawned(GameObject newImp)
@@ -49,8 +49,8 @@ public class RecruitSpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleEnter -= OnBossBattleEnter;
-        BattleEventsManager.onBossBattleExit -= OnBossBattleExit;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
         AlliesManager.Instance.onNewImpSpawned -= OnNewImpSpawned;
     }
 
@@ -123,7 +123,7 @@ public class RecruitSpawner : MonoBehaviour
         UnregisterToEvents(newplayer);
     }
 
-    private void OnBossBattleEnter() { 
+    private void OnBattleEnter() { 
         arenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
 
         if(LevelManager.IsMidBossAlive) {
@@ -138,7 +138,7 @@ public class RecruitSpawner : MonoBehaviour
         }
     }
 
-    private void OnBossBattleExit() {
+    private void OnBattleExit() {
         // And we spawn 3-4 allied Imps as reward
         //nt impNumber = AlliesManager.Instance.AlliesList.Count;
 

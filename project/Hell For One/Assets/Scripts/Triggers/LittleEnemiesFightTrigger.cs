@@ -4,36 +4,36 @@ using UnityEngine;
 
 public class LittleEnemiesFightTrigger : MonoBehaviour
 {
-    private bool isAlreadyInLittleEnemiesFight = false;
+    //private bool isAlreadyInLittleEnemiesFight = false;
 
-    private void OnEnable()
-    {
-        BattleEventsManager.onBattleExit += OnBattleExit;
-    }
+    //private void OnEnable()
+    //{
+    //    BattleEventsManager.onRegularBattleExit += OnBattleExit;
+    //}
 
-    private void OnDisable()
-    {
-        BattleEventsManager.onBattleExit -= OnBattleExit;
-    }
+    //private void OnDisable()
+    //{
+    //    BattleEventsManager.onRegularBattleExit -= OnBattleExit;
+    //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            if (!isAlreadyInLittleEnemiesFight)
-            {
-                isAlreadyInLittleEnemiesFight = true;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag == "Player")
+    //    {
+    //        if (!isAlreadyInLittleEnemiesFight)
+    //        {
+    //            isAlreadyInLittleEnemiesFight = true;
 
-                BattleEventsManager.RaiseOnBattleEnter();
-                Debug.Log("Player entered littleEnemies area");
+    //            BattleEventsManager.RaiseOnBattleEnter();
+    //            Debug.Log("Player entered littleEnemies area");
 
-                Destroy(this.gameObject);
-            }
-        }
-    }
+    //            Destroy(this.gameObject);
+    //        }
+    //    }
+    //}
 
-    private void OnBattleExit()
-    {
-        isAlreadyInLittleEnemiesFight = false;
-    }
+    //private void OnBattleExit()
+    //{
+    //    isAlreadyInLittleEnemiesFight = false;
+    //}
 }

@@ -10,13 +10,13 @@ public class HealthBarManager : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleEnter += ActivateHealthBar;
-        BattleEventsManager.onBossBattleExit += DeactivateHealthBar;
+        BattleEventsManager.onBattleEnter += ActivateHealthBar;
+        BattleEventsManager.onBattleExit += DeactivateHealthBar;
     }
 
     private void OnDisable() {
-        BattleEventsManager.onBossBattleEnter -= ActivateHealthBar;
-        BattleEventsManager.onBossBattleExit -= DeactivateHealthBar;
+        BattleEventsManager.onBattleEnter -= ActivateHealthBar;
+        BattleEventsManager.onBattleExit -= DeactivateHealthBar;
     }
 
     private void ActivateHealthBar() {

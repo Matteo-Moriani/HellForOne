@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class BossFightTrigger : MonoBehaviour
 {
-    private bool isAlreadyInBossFight = false;
+    private bool isAlreadyInBattle = false;
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleExit += onBossBattleExit;
+        BattleEventsManager.onBattleExit += OnBattleExit;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleExit -= onBossBattleExit;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
     }
 
     private void OnTriggerEnter( Collider other )
     {
         if ( other.tag == "Player" )
         {
-            if ( !isAlreadyInBossFight )
+            if ( !isAlreadyInBattle )
             {
-                isAlreadyInBossFight = true;
+                isAlreadyInBattle = true;
 
                 //BattleEventsManager.RaiseOnBossBattleEnter();
                 BattleEventsManager.RaiseOnBattlePreparation();
                 Debug.Log( "Player entered boss area" );
 
-                Destroy( this.gameObject );
+                Destroy(gameObject);
             }
         }
     }
 
-    private void onBossBattleExit()
+    private void OnBattleExit()
     {
-        isAlreadyInBossFight = false;
+        isAlreadyInBattle = false;
     }
 }
