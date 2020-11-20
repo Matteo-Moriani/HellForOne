@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BossAnimator : MonoBehaviour
 {
     #region Fields
 
-    private Stats stats;
     private Animator animator;
+    private BossBehavior myBehaviour;
+    private Stats stats;
     private CombatEventsManager combatEventsManager;
+    private NormalCombat normalCombat;
+    private BossBehavior bossBehaviour;
     private bool moving = false;
 
     #endregion
@@ -19,37 +20,48 @@ public class BossAnimator : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        myBehaviour = gameObject.GetComponent<BossBehavior>();
         stats = GetComponent<Stats>();
+
+        normalCombat = GetComponentInChildren<NormalCombat>();
+        bossBehaviour = GetComponent<BossBehavior>();
     }
-    
+
     private void OnEnable()
     {
-        if(combatEventsManager != null) { 
-            combatEventsManager.onStartSingleAttack += PlaySingleAttackAnimation;
-            combatEventsManager.onStartGroupAttack += PlayGroupAttackAnimation;
-            combatEventsManager.onStartGlobalAttack += PlayGlobalAttackAnimation;
-            combatEventsManager.onStopMoving += OnStopMoving;
-            combatEventsManager.onStartMoving += OnStartMoving;
+        if(stats != null)
+        {
             stats.onDeath += OnDeath;
-            combatEventsManager.onStopSingleAttack += SetAllBoolsToFalse;
-            combatEventsManager.onStopGroupAttack += SetAllBoolsToFalse;
-            combatEventsManager.onStopGlobalAttack += SetAllBoolsToFalse;
+        }
+
+        if(normalCombat != null)
+        {
+            normalCombat.onStartAttack += OnStartAttack;
+        }
+
+        if(bossBehaviour != null)
+        {
+            bossBehaviour.onStartMoving += OnStartMoving;
+            bossBehaviour.onStopMoving += OnStopMoving;
         }
     }
 
     private void OnDisable()
     {
-        if (combatEventsManager != null)
+        if(stats != null)
         {
-            combatEventsManager.onStartSingleAttack -= PlaySingleAttackAnimation;
-            combatEventsManager.onStartGroupAttack -= PlayGroupAttackAnimation;
-            combatEventsManager.onStartGlobalAttack -= PlayGlobalAttackAnimation;
-            combatEventsManager.onStopMoving -= OnStopMoving;
-            combatEventsManager.onStartMoving -= OnStartMoving;
             stats.onDeath -= OnDeath;
-            combatEventsManager.onStopSingleAttack -= SetAllBoolsToFalse;
-            combatEventsManager.onStopGroupAttack -= SetAllBoolsToFalse;
-            combatEventsManager.onStopGlobalAttack -= SetAllBoolsToFalse;
+        }
+
+        if(normalCombat != null)
+        {
+            normalCombat.onStartAttack -= OnStartAttack;
+        }
+
+        if(bossBehaviour != null)
+        {
+            bossBehaviour.onStartMoving -= OnStartMoving;
+            bossBehaviour.onStopMoving -= OnStopMoving;
         }
     }
 
@@ -65,32 +77,38 @@ public class BossAnimator : MonoBehaviour
 
     #region Methods
 
-    public void PlaySingleAttackAnimation() {
+    public void PlaySingleAttackAnimation()
+    {
         SetAllBoolsToFalse();
-        animator.SetTrigger("singleAttack");    
+        animator.SetTrigger("singleAttack");
     }
 
-    public void PlayGroupAttackAnimation() {
+    public void PlayGroupAttackAnimation()
+    {
         SetAllBoolsToFalse();
         animator.SetTrigger("groupAttack");
     }
-    
-    public void PlayGlobalAttackAnimation() {
+
+    public void PlayGlobalAttackAnimation()
+    {
         SetAllBoolsToFalse();
         animator.SetTrigger("globalAttack");
     }
 
-    public void PlayMoveAnimation() {
-        SetAllBoolsToFalse();
-        animator.SetBool("isMoving", true);
-    }
-
-    public void PlayDeathAnimation() {
+    public void PlayDeathAnimation()
+    {
         SetAllBoolsToFalse();
         animator.SetTrigger("death");
     }
 
-    public void SetAllBoolsToFalse() {
+    public void PlayMoveAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetBool("isMoving", true);
+    }
+
+    public void SetAllBoolsToFalse()
+    {
         animator.SetBool("isMoving", false);
     }
 
@@ -113,6 +131,23 @@ public class BossAnimator : MonoBehaviour
         moving = false;
     }
 
-    #endregion
+    private void OnStartAttack(NormalCombat sender, GenericAttack attack)
+    {
+        switch(attack.name)
+        {
+            case "BossNormalAttackSwipe":
+                PlaySingleAttackAnimation();
+                break;
+            case "FlameCircle":
+                PlayGroupAttackAnimation();
+                break;
+            case "FlameExplosion":
+                PlayGlobalAttackAnimation();
+                break;
+            default:
+                break;
+        }        
+    }
 
+    #endregion
 }

@@ -99,7 +99,7 @@ public class PlayerInput : GeneralInput
             reincarnation.onReincarnation += OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
-        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
         
     }
 
@@ -112,7 +112,7 @@ public class PlayerInput : GeneralInput
             reincarnation.onReincarnation -= OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
-        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
         
     }
 
@@ -513,7 +513,7 @@ public class PlayerInput : GeneralInput
         playerController.PassXZValues( 0, 0 );
     }
 
-    private void OnBossBattleEnter()
+    private void OnBattleEnter()
     {
         canGiveInput = true;
     }

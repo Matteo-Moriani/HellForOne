@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MidBossAnimator : MonoBehaviour {
 
     #region Fields
 
     private Animator animator;
-    private AnimationsManager animationsManager;
     private MidBossBehavior myBehaviour;
     private Stats stats;
     private CombatEventsManager combatEventsManager;
@@ -21,7 +18,6 @@ public class MidBossAnimator : MonoBehaviour {
 
     private void Awake() {
         animator = GetComponent<Animator>();
-        animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         myBehaviour = gameObject.GetComponent<MidBossBehavior>();
         stats = GetComponent<Stats>();
