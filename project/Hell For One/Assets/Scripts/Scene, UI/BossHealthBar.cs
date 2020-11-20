@@ -21,12 +21,12 @@ public class BossHealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class BossHealthBar : MonoBehaviour
         HealthBarInside.fillAmount = characterStats.health / maxHealth;
     }
 
-    private void OnBossBattleEnter() {
+    private void OnBattleEnter() {
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
         healthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;

@@ -474,7 +474,7 @@ public class GroupBehaviour : MonoBehaviour
     {
         TacticsManager.onTryOrderAssign += OnTryOrderAssign;
         
-        BattleEventsManager.onBattleEnter += OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
     }
     
     private void OnDisable()
@@ -483,7 +483,7 @@ public class GroupBehaviour : MonoBehaviour
         
         TacticsManager.onTryOrderAssign -= OnTryOrderAssign;
 
-        BattleEventsManager.onBattleEnter -= OnBossBattleEnter;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
     }
     
     void Start() {
@@ -586,7 +586,7 @@ public class GroupBehaviour : MonoBehaviour
             AssignOrder(state);
     }
     
-    private void OnBossBattleEnter()
+    private void OnBattleEnter()
     {
         target = GameObject.FindWithTag("Boss");
     }

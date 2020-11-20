@@ -23,10 +23,9 @@ public class BossFightTrigger : MonoBehaviour
             if ( !isAlreadyInBattle )
             {
                 isAlreadyInBattle = true;
-
-                //BattleEventsManager.RaiseOnBossBattleEnter();
+                
                 BattleEventsManager.RaiseOnBattlePreparation();
-                Debug.Log( "Player entered boss area" );
+                //Debug.Log( "Player entered boss area" );
 
                 Destroy(gameObject);
             }

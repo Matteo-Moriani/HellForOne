@@ -13,7 +13,6 @@ public class ImpAnimator : MonoBehaviour
     private Reincarnation reincarnation;
     private PlayerController playerController;
     private AllyImpMovement allyImpMovement;
-    private AnimationsManager animationsManager;
     private ChildrenObjectsManager childrenObjectsManager;
     private Animator animator;
     private NormalCombat normalCombat;
@@ -42,7 +41,6 @@ public class ImpAnimator : MonoBehaviour
     private void Awake() {
         Animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
-        animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
