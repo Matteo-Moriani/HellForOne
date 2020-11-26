@@ -57,30 +57,26 @@ public class AlliesManager : MonoBehaviour
             }
         }
         
-        BattleEventsManager.onBattleEnter += EnterBattle;
-        BattleEventsManager.onBossBattleEnter += EnterBattle;
-        BattleEventsManager.onBattleExit += ExitBattle;
-        BattleEventsManager.onBossBattleExit += ExitBattle;
-        BattleEventsManager.onGameOver += GameOver;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        BattleEventsManager.onBattleExit += OnBattleExit;
+        BattleEventsManager.onGameOver += OnGameOver;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBattleEnter -= EnterBattle;
-        BattleEventsManager.onBossBattleEnter -= EnterBattle;
-        BattleEventsManager.onBattleExit -= ExitBattle;
-        BattleEventsManager.onBossBattleExit -= ExitBattle;
-        BattleEventsManager.onGameOver -= GameOver;
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
+        BattleEventsManager.onGameOver -= OnGameOver;
     }
 
-    private void EnterBattle()
+    private void OnBattleEnter()
     {
         foreach(GameObject ally in alliesList) { 
             ally.GetComponent<Combat>().enabled = true;    
         }    
     }
 
-    private void ExitBattle() { 
+    private void OnBattleExit() { 
         foreach(GameObject ally in alliesList) { 
             ally.GetComponent<Combat>().enabled = false;
             ally.GetComponent<Stats>().health = maxHealth;
@@ -123,7 +119,7 @@ public class AlliesManager : MonoBehaviour
                   
     }
 
-    private void GameOver() {
+    private void OnGameOver() {
         SceneManager.LoadScene("Game Over Screen");
     }
 

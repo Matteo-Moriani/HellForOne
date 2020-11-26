@@ -5,17 +5,18 @@ using UnityEngine;
 public class Hat : MonoBehaviour
 {
     //private Rigidbody rb;
-    private BoxCollider bc;
+    private Collider collider;
     private bool onGround = false;
     private float fallingTime = 2f;
+    private Rigidbody rigidbody;
 
     void Awake()
     {
-        //rb = gameObject.GetComponent<Rigidbody>();
-        bc = GetComponent<BoxCollider>();
+        rigidbody = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
 
-        if(bc != null)
-            bc.enabled = false;
+        if(collider != null)
+            collider.enabled = false;
     }
 
     public void PlayerDied()
@@ -26,8 +27,8 @@ public class Hat : MonoBehaviour
 
         //rb = this.gameObject.AddComponent<Rigidbody>();
 
-        if(bc != null)
-            bc.enabled = true;
+        if(collider != null)
+            collider.enabled = true;
 
         StartCoroutine( Falling() );
     }
@@ -53,6 +54,10 @@ public class Hat : MonoBehaviour
             //collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
             collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
             Destroy( gameObject );
+        }
+        else if(collision.gameObject.transform.root.tag == "Boss" || collision.gameObject.transform.root.tag == "Demon")
+        {
+            rigidbody.AddForce(new Vector3(1f, 1f, 1f), ForceMode.Impulse);
         }
     }
 }

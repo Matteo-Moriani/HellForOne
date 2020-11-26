@@ -8,16 +8,11 @@ public class ImpAnimator : MonoBehaviour
     #region Fields
 
     private bool isAnimating = false;
-    
-    private float meleeSpeedMultiplier = 2.5f;
-    private float rangedSpeedMultiplier = 2.8f;
-    private float dashSpeedMultiplier = 2f;
 
     private CombatEventsManager combatEventsManager;
     private Reincarnation reincarnation;
     private PlayerController playerController;
-    private DemonMovement demonMovement;
-    private AnimationsManager animationsManager;
+    private AllyImpMovement allyImpMovement;
     private ChildrenObjectsManager childrenObjectsManager;
     private Animator animator;
     private NormalCombat normalCombat;
@@ -26,6 +21,11 @@ public class ImpAnimator : MonoBehaviour
     private Support support;
     private Recruit recruit;
     private Dash dash;
+    private PlayerScriptedMovements playerScriptedMovements;
+    private bool isBlocking = false;
+    private bool isRecruiting = false;
+    private bool playerScriptedMovement = false;
+    private bool allyIsMoving = false;
 
     #endregion
 
@@ -41,160 +41,144 @@ public class ImpAnimator : MonoBehaviour
     private void Awake() {
         Animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
-        animationsManager = GetComponent<AnimationsManager>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        demonMovement = gameObject.GetComponent<DemonMovement>();
+        allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
-        reincarnation = this.gameObject.GetComponent<Reincarnation>();
+        reincarnation = gameObject.GetComponent<Reincarnation>();
         normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
         block = gameObject.GetComponentInChildren<Block>();
         stats = GetComponent<Stats>();
         support = GetComponent<Support>();
         recruit = GetComponent<Recruit>();
         dash = GetComponent<Dash>();
+        playerScriptedMovements = GetComponent<PlayerScriptedMovements>();
     }
     
     private void OnEnable() {
-        dash.onDashStart += OnDashStart;
         
         if(recruit != null)
+        {
             recruit.onStartRecruit += OnStartRecruit;
-        
-        if(support != null)
-            support.onStartSupport += OnStartSupport;
-        
-        demonMovement.onStartMoving += OnStartMoving;
-        demonMovement.onStartIdle += OnStartIdle;
+            recruit.onStopRecruit += OnStopRecruit;
+        } 
 
-        playerController.onPlayerStartMoving += OnStartMoving;
-        playerController.onPlayerEndMoving += OnStartIdle;
-        
+        dash.onDashStart += OnDashStart;
+        allyImpMovement.onStartMoving += OnAllyMovementStart;
+        allyImpMovement.onStopMoving += OnAllyMovementEnd;
         reincarnation.onReincarnation += OnReincarnation;
-        
         stats.onDeath += OnDeath;    
-        
-        normalCombat.onStartAttack += OnStartAttack;    
-        
+        normalCombat.onStartAttack += OnStartAttack;  
         block.onStartBlock += OnStartBlock;
         block.onStopBlock += OnStopBlock;
         block.onBlockSuccess += OnBlockSuccess;
-
-        BattleEventsManager.onBattleExit += PlayIdleAnimation;
-        BattleEventsManager.onBossBattleExit += PlayIdleAnimation;
+        BattleEventsManager.onBattleExit += SetAllBoolsToFalse;
+        playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
+        playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
     }
 
     private void OnDisable() {
-        dash.onDashStart -= OnDashStart;
-        
-        if(recruit != null)
-            recruit.onStartRecruit -= OnStartRecruit;
-        
-        if(support != null)
-            support.onStartSupport -= OnStartSupport;
-        
-        demonMovement.onStartMoving -= OnStartMoving;
-        demonMovement.onStartIdle -= OnStartIdle;
 
-        playerController.onPlayerStartMoving -= OnStartMoving;
-        playerController.onPlayerEndMoving -= OnStartIdle;
-        
+        if(recruit != null)
+        {
+            recruit.onStartRecruit -= OnStartRecruit;
+            recruit.onStopRecruit -= OnStopRecruit;
+        }
+
+        dash.onDashStart -= OnDashStart;
+        allyImpMovement.onStartMoving -= OnAllyMovementStart;
+        allyImpMovement.onStopMoving -= OnAllyMovementEnd;
         reincarnation.onReincarnation -= OnReincarnation;
-        
         stats.onDeath -= OnDeath;    
-        
         normalCombat.onStartAttack -= OnStartAttack;    
-        
         block.onStartBlock -= OnStartBlock;
         block.onStopBlock -= OnStopBlock;
         block.onBlockSuccess -= OnBlockSuccess;    
-        
-        BattleEventsManager.onBattleExit -= PlayIdleAnimation;
-        BattleEventsManager.onBossBattleExit -= PlayIdleAnimation;
+        BattleEventsManager.onBattleExit -= SetAllBoolsToFalse;
+        playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
+        playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
+    }
+
+    private void Update()
+    {
+        // ordered by priority
+        if(isBlocking)
+            PlayBlockAnimation();
+        else if(playerController.ZMovement != 0f || playerController.XMovement != 0f || playerScriptedMovement || (allyIsMoving && stats.ThisUnitType == Stats.Type.Ally))
+            PlayMoveAnimation();
+        else if(isRecruiting)
+            PlayRecruitAnimation();
+        else
+            SetAllBoolsToFalse();
     }
 
     #endregion
 
     #region Methods
 
-    private void PlaySingleAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isMeleeAttacking", true);
-        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Standing Torch Melee Attack Stab").length / meleeSpeedMultiplier));
+    // loops: they are booleans
+    private void PlayMoveAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetBool("isMoving", true);
     }
 
-    private void PlayRangedAttackAnimation() {
-        StopAnimations();
-        animator.SetBool("isRangedAttacking", true);
-        StartCoroutine(WaitRangedAnimation(animationsManager.GetAnimation("Goalie Throw").length / rangedSpeedMultiplier));
-    }
-
-    private void PlayMoveAnimation() {
-        if(!animator.GetBool("isBlocking")) {
-            StopAnimations();
-            animator.SetBool("isMoving", true);
-        }
-    }
-
-    private void PlayIdleAnimation() {
-        if(!animator.GetBool("isBlocking")) {
-            StopAnimations();
-            animator.SetBool("isIdle", true);
-        }
-    }
-
-    private void PlayDeathAnimation() {
-        StopAnimations();
-        animator.SetBool("isDying", true);
-    }
-
-    private void PlayBlockAnimation() {
-        StopAnimations();
+    private void PlayBlockAnimation()
+    {
+        SetAllBoolsToFalse();
         animator.SetBool("isBlocking", true);
-        
     }
 
-    private void PlaySupportAnimation() {
-        StopAnimations();
-        HideWeapons();
-        animator.SetBool("isSupporting", true);
-    }
-
-    private void PlayRecruitAnimation() {
-        StopAnimations();
+    private void PlayRecruitAnimation()
+    {
+        SetAllBoolsToFalse();
         HideWeapons();
         animator.SetBool("isRecruiting", true);
     }
 
-    private void PlayDashAnimation() {
-        StopAnimations();
-        animator.SetBool("isDashing", true);
-        StartCoroutine(WaitAnimation(animationsManager.GetAnimation("Jump").length / dashSpeedMultiplier));
+    // single actions: they are triggers and they all start from idle and end to idle
+    private void PlaySingleAttackAnimation() {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("meleeAttack");
+    }
+
+    private void PlayRangedAttackAnimation() {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("rangedAttack");
+    }
+
+    private void PlayDashAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("dash");
+    }
+
+    private void PlayDeathAnimation() {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("death");
+    }
+
+    private void PlayParryAnimation()
+    {
+        SetAllBoolsToFalse();
+        animator.SetTrigger("parry");
     }
 
     private void StopBlockAnimation() {
         // TODO - fix this, it gives wrong behaviour when dying
         if(playerController.ZMovement != 0 || playerController.XMovement != 0) {
-            StopAnimations();
+            SetAllBoolsToFalse();
             //combatEventsManager.RaiseOnStartMoving();
             PlayMoveAnimation();
         }
         else {
-            StopAnimations();
-            //combatEventsManager.RaiseOnStartIdle();
-            PlayIdleAnimation();
+            SetAllBoolsToFalse();
         }
     }
     
-    private void StopAnimations() {
+    private void SetAllBoolsToFalse() {
         ShowWeapons();
-        Animator.SetBool("isDying", false);
-        Animator.SetBool("isMeleeAttacking", false);
-        Animator.SetBool("isRangedAttacking", false);
         Animator.SetBool("isMoving", false);
-        Animator.SetBool("isIdle", false);
         Animator.SetBool("isBlocking", false);
-        Animator.SetBool("isSupporting", false);
-        Animator.SetBool("isDashing", false);
         Animator.SetBool("isRecruiting", false);
     }
 
@@ -213,26 +197,6 @@ public class ImpAnimator : MonoBehaviour
 
     #region Events handlers
 
-    private void OnStartIdle()
-    {
-        PlayIdleAnimation();
-    }
-
-    private void OnStartMoving()
-    {
-        PlayMoveAnimation();
-    }
-
-    private void OnStartSupport(Support sender)
-    {
-        PlaySupportAnimation();
-    }
-    
-    private void OnStartRecruit(Recruit sender)
-    {
-        PlayRecruitAnimation();
-    }
-
     private void OnDashStart()
     {
         PlayDashAnimation();
@@ -244,7 +208,7 @@ public class ImpAnimator : MonoBehaviour
     }
 
     private void OnReincarnation(GameObject player) { 
-        StopAnimations();    
+        SetAllBoolsToFalse();    
     }
     
     private void OnStartAttack(NormalCombat sender, GenericAttack attack)
@@ -261,52 +225,50 @@ public class ImpAnimator : MonoBehaviour
 
     private void OnStartBlock(Block sender)
     {
-        PlayBlockAnimation();    
+        isBlocking = true;  
     }
 
     private void OnStopBlock(Block sender)
     {
-        StopBlockAnimation();
+        isBlocking = false;
     }
     
     private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
     {
-        PlayBlockAnimation();
+        // no need to do this if i'm blocking in the animation
+        if(!isBlocking)
+            PlayParryAnimation();
     }
 
-    #endregion
-    
-    #region Coroutines
-
-    private IEnumerator WaitAnimation(float time) {
-        if(GetComponent<Stats>().ThisUnitType == Stats.Type.Enemy) {
-            IsAnimating = true;
-            yield return new WaitForSeconds(time);
-            IsAnimating = false;
-            //combatEventsManager.RaiseOnStartIdle();
-            PlayIdleAnimation();
-        } else {
-            IsAnimating = true;
-            yield return new WaitForSeconds(time);
-            IsAnimating = false;
-            if(playerController.ZMovement != 0 || playerController.XMovement != 0)
-                PlayMoveAnimation();
-            else
-                PlayIdleAnimation();
-        }
-        
+    private void OnStartRecruit(Recruit sender)
+    {
+        isRecruiting = true;
     }
 
-    private IEnumerator WaitRangedAnimation(float time) {
-        IsAnimating = true;
-        GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
-        yield return new WaitForSeconds(time);
-        IsAnimating = false;
-        GetComponent<ChildrenObjectsManager>().spear.SetActive(true);
-        if(playerController.ZMovement != 0 || playerController.XMovement != 0)
-            PlayMoveAnimation();
-        else
-            PlayIdleAnimation();
+    private void OnStopRecruit(Recruit sender)
+    {
+        isRecruiting = false;
+    }
+
+    // i need this for allies
+    private void OnAllyMovementStart()
+    {
+        allyIsMoving = true;
+    }
+
+    private void OnAllyMovementEnd()
+    {
+        allyIsMoving = false;
+    }
+
+    private void OnScriptedMovementStart()
+    {
+        playerScriptedMovement = true;
+    }
+
+    private void OnScriptedMovementEnd()
+    {
+        playerScriptedMovement = false;
     }
 
     #endregion

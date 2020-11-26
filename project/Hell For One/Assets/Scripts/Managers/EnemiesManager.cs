@@ -28,12 +28,12 @@ public class EnemiesManager : MonoBehaviour
 
     private void OnEnable()
     {
-        BattleEventsManager.onBossBattleEnter += FindBoss;
+        BattleEventsManager.onBattleEnter += FindBoss;
     }
     
     private void OnDisable()
     {
-        BattleEventsManager.onBossBattleEnter -= FindBoss;
+        BattleEventsManager.onBattleEnter -= FindBoss;
     }
 
     private void FindBoss() { 

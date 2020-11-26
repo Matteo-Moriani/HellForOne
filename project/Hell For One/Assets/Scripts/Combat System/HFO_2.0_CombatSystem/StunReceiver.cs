@@ -103,9 +103,6 @@ public class StunReceiver : MonoBehaviour
         isStunned = true;
 
         stunCr = StartCoroutine(StunCoroutine(stunDuration));
-        
-        // TODO - remove after testing
-        Debug.Log( transform.root.gameObject.name + " start stun");
     }
 
     private void StopStun()
@@ -118,9 +115,6 @@ public class StunReceiver : MonoBehaviour
         
         StopCoroutine(stunCr);
         stunCr = null;
-        
-        // TODO - remove after testing
-        Debug.Log( transform.root.gameObject.name + " stop stun");
     }
 
     #endregion

@@ -139,7 +139,9 @@ public class KnockbackReceiver : MonoBehaviour
 
     private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        if (genericAttack.CauseKnockbackWhenBlocked && unitType == Stats.Type.Player)
+        if (genericAttack.CauseKnockbackWhenBlocked
+            //&& unitType == Stats.Type.Player
+            )
         {
             KnockbackCaster knockbackCaster = attackerNormalCombat.gameObject.GetComponent<KnockbackCaster>();
 
@@ -179,7 +181,6 @@ public class KnockbackReceiver : MonoBehaviour
         float knockBackTimeCounter = 0f;
 
         Rigidbody rb = transform.root.gameObject.GetComponent<Rigidbody>();
-
         Vector3 startingVelocity = rb.velocity;
 
         if (type == Stats.Type.Player)
