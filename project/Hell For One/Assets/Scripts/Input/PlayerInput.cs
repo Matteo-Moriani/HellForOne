@@ -156,6 +156,26 @@ public class PlayerInput : GeneralInput
             {
                 if ( NavigatingMenu )
                     CurrentScreen.Back();
+                if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.Tank );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 1 );
+                    }
+                }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.MeleeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 0 );
+                    }
+
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
                 else
                 {
                     if ( dash != null )
@@ -175,6 +195,15 @@ public class PlayerInput : GeneralInput
                 {
                     // TODO - dialogues
                 }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.RangeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 2 );
+                    }
+                }
 
             }
 
@@ -182,6 +211,16 @@ public class PlayerInput : GeneralInput
             if ( InputManager.Instance.SquareButtonDown() && !NavigatingMenu )
             {
                 RaiseOnXButtonDown();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.Recruit );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 4 );
+                    }
+                }
             }
             if ( InputManager.Instance.SquareButtonUp() && !NavigatingMenu )
             {
@@ -191,11 +230,20 @@ public class PlayerInput : GeneralInput
             {
                 RaiseOnXButtonHeldDown();
             }
-            
+
             // Triangle (PS3) / Y (XBOX)
-            if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
+            if (InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
                 if(combat != null) {
                     //combat.RangedAttack(null);
+                }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.MeleeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 0 );
+                    }
                 }
             }
 
@@ -281,18 +329,18 @@ public class PlayerInput : GeneralInput
                             if(fpsCounterInMenu == 0)
                                 CurrentScreen.PreviousButton();
                         }
-                        else if(combat != null && tacticsManager.isActiveAndEnabled) {
-                            DpadInUse = true;
+                        //else if(combat != null && tacticsManager.isActiveAndEnabled) {
+                        //    DpadInUse = true;
                             
-                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
-                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
+                        //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
+                        //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
 
-                            if (hasAssignedOrder) {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 0);
-                            }
+                        //    if (hasAssignedOrder) {
+                        //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 0);
+                        //    }
                             
-                            StartCoroutine(DpadWait(dpadWaitTime));
-                        }
+                        //    StartCoroutine(DpadWait(dpadWaitTime));
+                        //}
 
                     }
                 }
@@ -333,20 +381,20 @@ public class PlayerInput : GeneralInput
                             if(fpsCounterInMenu == 0)
                                 CurrentScreen.NextButton();
                         }
-                        else if(combat != null && tacticsManager.isActiveAndEnabled) {
-                            DpadInUse = true;
-                            //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
-                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
+                        //else if(combat != null && tacticsManager.isActiveAndEnabled) {
+                        //    DpadInUse = true;
+                        //    //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
+                        //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
 
-                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.RangeAttack);
+                        //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.RangeAttack);
 
-                            if (hasAssignedOrder)
-                            {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 2);
-                            }
+                        //    if (hasAssignedOrder)
+                        //    {
+                        //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 2);
+                        //    }
 
-                            StartCoroutine(DpadWait(dpadWaitTime));
-                        }
+                        //    StartCoroutine(DpadWait(dpadWaitTime));
+                        //}
 
                     }
                 }
@@ -380,20 +428,20 @@ public class PlayerInput : GeneralInput
 
                 // DPad RIGHT
                 if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
-                    if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
-                        DpadInUse = true;
-                        //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
-                        //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
+                    //if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
+                    //    DpadInUse = true;
+                    //    //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
+                    //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
 
-                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Tank);
+                    //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Tank);
 
-                        if (hasAssignedOrder)
-                        {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 1);
-                        }
+                    //    if (hasAssignedOrder)
+                    //    {
+                    //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 1);
+                    //    }
 
-                        StartCoroutine(DpadWait(dpadWaitTime));
-                    }
+                    //    StartCoroutine(DpadWait(dpadWaitTime));
+                    //}
                 }
 
                 //DPad HELD RIGHT
@@ -425,18 +473,18 @@ public class PlayerInput : GeneralInput
 
                 // DPad LEFT
                 if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
-                    if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
-                        DpadInUse = true;
+                    //if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
+                    //    DpadInUse = true;
                         
-                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
+                    //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
 
-                        if (hasAssignedOrder)
-                        {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 4);
-                        }
+                    //    if (hasAssignedOrder)
+                    //    {
+                    //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 4);
+                    //    }
 
-                        StartCoroutine(DpadWait(dpadWaitTime));
-                    }
+                    //    StartCoroutine(DpadWait(dpadWaitTime));
+                    //}
                 }
 
                 //DPad HELD LEFT
