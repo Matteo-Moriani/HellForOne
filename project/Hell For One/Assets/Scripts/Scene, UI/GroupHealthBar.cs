@@ -21,6 +21,8 @@ public class GroupHealthBar : MonoBehaviour
 
     public void SetDemonsNumber(int i) {
         demonsNum = i;
+        if (healthBarInside == null)
+            healthBarInside = gameObject.GetComponent<Image>();
         healthBarInside.fillAmount = demonsNum / maxDemons;
     }
     
