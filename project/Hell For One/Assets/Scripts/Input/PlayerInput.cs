@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerInput : GeneralInput
 {
@@ -42,6 +43,8 @@ public class PlayerInput : GeneralInput
 
     public delegate void OnXButtonHeldDown();
     public static event OnXButtonHeldDown onXButtonHeldDown;
+
+    public static event Action OnYButtonDown;
 
     private void RaiseOnXButtonDown()
     {
@@ -131,6 +134,11 @@ public class PlayerInput : GeneralInput
 
     private void Update()
     {
+        if ( Input.GetButtonDown( "XBoxY" ) )
+        {
+            OnYButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
 
         if ( InputManager.Instance != null && !InCutscene )
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -143,6 +144,16 @@ public class NewHUD : MonoBehaviour
         dict.Add( groupYellow, panelYellow );
 
         alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
+    }
+
+    private void OnYButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnEnable()
+    {
+        PlayerInput.OnYButtonDown += OnYButtonDown;
     }
 
     private void OnDisable()
