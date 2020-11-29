@@ -35,8 +35,8 @@ public class PlayerInput : GeneralInput
 
     #region Delegates and events
 
-    public delegate void OnXButtonDown();
-    public static event OnXButtonDown onXButtonDown;
+    public delegate void OnOLDXButtonDown();
+    public static event OnOLDXButtonDown onXButtonDown;
 
     public delegate void OnXButtonUp();
     public static event OnXButtonUp onXButtonUp;
@@ -45,6 +45,15 @@ public class PlayerInput : GeneralInput
     public static event OnXButtonHeldDown onXButtonHeldDown;
 
     public static event Action OnYButtonDown;
+    public static event Action OnXButtonDown;
+    public static event Action OnBButtonDown;
+    public static event Action OnAButtonDown;
+    public static event Action OnLTButtonHeldDown;
+    public static event Action OnLTButtonUp;
+    public static event Action OnLT_YButtonDown;
+    public static event Action OnLT_XButtonDown;
+    public static event Action OnLT_BButtonDown;
+    public static event Action OnLT_AButtonDown;
 
     private void RaiseOnXButtonDown()
     {
@@ -140,6 +149,59 @@ public class PlayerInput : GeneralInput
             // Registrarsi all'evento sia in NewHUD e TacticsManager
         }
 
+        if ( Input.GetButtonDown( "XBoxX" ) )
+        {
+            OnXButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonDown( "XBoxB" ) )
+        {
+            OnBButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonDown( "XBoxA" ) )
+        {
+            OnAButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonUp( "XBoxLT" ) )
+        {
+            OnLTButtonUp?.Invoke();
+        }
+
+        // TODO non funge per ora
+        if ( Input.GetButton( "XBoxLT" ) )
+        {
+            OnLTButtonHeldDown?.Invoke();
+
+            if ( Input.GetButtonDown( "XBoxY" ) )
+            {
+                OnLT_YButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxX" ) )
+            {
+                OnLT_XButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxB" ) )
+            {
+                OnLT_BButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxA" ) )
+            {
+                OnLT_AButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+        }
+
         if ( InputManager.Instance != null && !InCutscene )
         {
 
@@ -219,7 +281,7 @@ public class PlayerInput : GeneralInput
             // X (XBOX)
             if ( InputManager.Instance.SquareButtonDown() && !NavigatingMenu )
             {
-                RaiseOnXButtonDown();
+                //RaiseOnXButtonDown();
 
                 if ( combat != null && tacticsManager.isActiveAndEnabled )
                 {
