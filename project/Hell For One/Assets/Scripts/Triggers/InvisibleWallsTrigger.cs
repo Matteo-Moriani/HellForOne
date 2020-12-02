@@ -123,23 +123,23 @@ public class InvisibleWallsTrigger : MonoBehaviour
 
     public void OpenInvisibleWalls()
     {
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Player" ), true );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ) , LayerMask.NameToLayer( "InvisibleWalls" ) , true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ) , LayerMask.NameToLayer( "Player" ) , true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ) , LayerMask.NameToLayer( "InvisibleWalls" ) , true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ) , LayerMask.NameToLayer( "Demons" ) , true );
     }
 
     public void CloseInvisibleWalls()
     {
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ), LayerMask.NameToLayer( "InvisibleWalls" ), false );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Player" ), false );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), false );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Player" ) , LayerMask.NameToLayer( "InvisibleWalls" ) , false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ) , LayerMask.NameToLayer( "Player" ) , false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ) , LayerMask.NameToLayer( "InvisibleWalls" ) , false );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ) , LayerMask.NameToLayer( "Demons" ) , false );
     }
 
     public void EnableBossFlames()
     {
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag( "BossBattleFlames" ) )
+        foreach ( GameObject go in GameObject.FindGameObjectsWithTag( "BossBattleFlames" ) )
         {
             go.GetComponent<ParticleSystem>().Play();
         }
@@ -147,8 +147,8 @@ public class InvisibleWallsTrigger : MonoBehaviour
 
     public void LetDemonsPassFlames()
     {
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ), LayerMask.NameToLayer( "InvisibleWalls" ), true );
-        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ), LayerMask.NameToLayer( "Demons" ), true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "Demons" ) , LayerMask.NameToLayer( "InvisibleWalls" ) , true );
+        Physics.IgnoreLayerCollision( LayerMask.NameToLayer( "InvisibleWalls" ) , LayerMask.NameToLayer( "Demons" ) , true );
     }
 
     public void DisableBossFlames()

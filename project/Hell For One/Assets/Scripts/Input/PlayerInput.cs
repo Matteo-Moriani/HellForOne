@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerInput : GeneralInput
 {
@@ -34,32 +35,43 @@ public class PlayerInput : GeneralInput
 
     #region Delegates and events
 
-    public delegate void OnXButtonDown();
-    public static event OnXButtonDown onXButtonDown;
-    
+    public delegate void OnOLDXButtonDown();
+    public static event OnOLDXButtonDown onXButtonDown;
+
     public delegate void OnXButtonUp();
     public static event OnXButtonUp onXButtonUp;
-    
+
     public delegate void OnXButtonHeldDown();
     public static event OnXButtonHeldDown onXButtonHeldDown;
+
+    public static event Action OnYButtonDown;
+    public static event Action OnXButtonDown;
+    public static event Action OnBButtonDown;
+    public static event Action OnAButtonDown;
+    public static event Action OnLTButtonHeldDown;
+    public static event Action OnLTButtonUp;
+    public static event Action OnLT_YButtonDown;
+    public static event Action OnLT_XButtonDown;
+    public static event Action OnLT_BButtonDown;
+    public static event Action OnLT_AButtonDown;
 
     private void RaiseOnXButtonDown()
     {
         onXButtonDown?.Invoke();
     }
-    
+
     private void RaiseOnXButtonUp()
     {
         onXButtonUp?.Invoke();
     }
-    
+
     private void RaiseOnXButtonHeldDown()
     {
         onXButtonHeldDown?.Invoke();
     }
 
     #endregion
-    
+
     private IEnumerator DpadWait( float waitTime )
     {
         yield return new WaitForSeconds( waitTime );
@@ -94,26 +106,27 @@ public class PlayerInput : GeneralInput
     private void OnEnable()
     {
         stats.onDeath += OnDeath;
-        
-        if(reincarnation != null) {
+
+        if ( reincarnation != null )
+        {
             reincarnation.onReincarnation += OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation += OnBattlePreparation;
         BattleEventsManager.onBattleEnter += OnBattleEnter;
-        
+
     }
 
     private void OnDisable()
     {
         stats.onDeath -= OnDeath;
-        
-        if(reincarnation != null)
+
+        if ( reincarnation != null )
         {
             reincarnation.onReincarnation -= OnReincarnation;
         }
         BattleEventsManager.onBattlePreparation -= OnBattlePreparation;
         BattleEventsManager.onBattleEnter -= OnBattleEnter;
-        
+
     }
 
     public void Start()
@@ -130,6 +143,64 @@ public class PlayerInput : GeneralInput
 
     private void Update()
     {
+        if ( Input.GetButtonDown( "XBoxY" ) )
+        {
+            OnYButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonDown( "XBoxX" ) )
+        {
+            OnXButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonDown( "XBoxB" ) )
+        {
+            OnBButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonDown( "XBoxA" ) )
+        {
+            OnAButtonDown?.Invoke();
+            // Registrarsi all'evento sia in NewHUD e TacticsManager
+        }
+
+        if ( Input.GetButtonUp( "XBoxLT" ) )
+        {
+            OnLTButtonUp?.Invoke();
+        }
+
+        // TODO non funge per ora
+        if ( Input.GetButton( "XBoxLT" ) )
+        {
+            OnLTButtonHeldDown?.Invoke();
+
+            if ( Input.GetButtonDown( "XBoxY" ) )
+            {
+                OnLT_YButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxX" ) )
+            {
+                OnLT_XButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxB" ) )
+            {
+                OnLT_BButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+
+            if ( Input.GetButtonDown( "XBoxA" ) )
+            {
+                OnLT_AButtonDown?.Invoke();
+                // Registrarsi all'evento sia in NewHUD e TacticsManager
+            }
+        }
 
         if ( InputManager.Instance != null && !InCutscene )
         {
@@ -146,9 +217,9 @@ public class PlayerInput : GeneralInput
             }
 
             // Left stick (PS3 & XBOX)
-            if ( playerController != null && !Attacking)
+            if ( playerController != null && !Attacking )
             {
-                playerController.PassXZValues( InputManager.Instance.LeftStickHorizontal(), InputManager.Instance.LeftStickVertical() );
+                playerController.PassXZValues( InputManager.Instance.LeftStickHorizontal() , InputManager.Instance.LeftStickVertical() );
             }
 
             // Circle (PS3) / B (XBOX) 
@@ -156,11 +227,31 @@ public class PlayerInput : GeneralInput
             {
                 if ( NavigatingMenu )
                     CurrentScreen.Back();
+                if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.Tank );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 1 );
+                    }
+                }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.MeleeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 0 );
+                    }
+
+                    StartCoroutine( DpadWait( dpadWaitTime ) );
+                }
                 else
                 {
                     if ( dash != null )
                     {
-                        dash.TryDash( InputManager.Instance.LeftStickVertical(), InputManager.Instance.LeftStickHorizontal() );
+                        dash.TryDash( InputManager.Instance.LeftStickVertical() , InputManager.Instance.LeftStickHorizontal() );
                     }
                 }
 
@@ -175,27 +266,57 @@ public class PlayerInput : GeneralInput
                 {
                     // TODO - dialogues
                 }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.RangeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 2 );
+                    }
+                }
 
             }
 
             // X (XBOX)
             if ( InputManager.Instance.SquareButtonDown() && !NavigatingMenu )
             {
-                RaiseOnXButtonDown();
+                //RaiseOnXButtonDown();
+
+                if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.Recruit );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 4 );
+                    }
+                }
             }
             if ( InputManager.Instance.SquareButtonUp() && !NavigatingMenu )
             {
                 RaiseOnXButtonUp();
             }
-            if (InputManager.Instance.SquareButtonHeldDown() && !NavigatingMenu)
+            if ( InputManager.Instance.SquareButtonHeldDown() && !NavigatingMenu )
             {
                 RaiseOnXButtonHeldDown();
             }
-            
+
             // Triangle (PS3) / Y (XBOX)
-            if(InputManager.Instance.TriangleButtonDown() && !NavigatingMenu) {
-                if(combat != null) {
+            if ( InputManager.Instance.TriangleButtonDown() && !NavigatingMenu )
+            {
+                if ( combat != null )
+                {
                     //combat.RangedAttack(null);
+                }
+                else if ( combat != null && tacticsManager.isActiveAndEnabled )
+                {
+                    bool hasAssignedOrder = tacticsManager.AssignOrder( GroupBehaviour.State.MeleeAttack );
+
+                    if ( hasAssignedOrder )
+                    {
+                        newHUD.ChangeGroupState( tacticsManager.CurrentMostRepresentedGroup , 0 );
+                    }
                 }
             }
 
@@ -255,8 +376,8 @@ public class PlayerInput : GeneralInput
             //}
 
             // LT + RT - HELD Down
-            if ( (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonDown()) 
-                 || 
+            if ( (InputManager.Instance.R1ButtonHeldDown() && InputManager.Instance.L1ButtonDown())
+                 ||
                  (InputManager.Instance.R1ButtonDown() && InputManager.Instance.L1ButtonHeldDown())
                 )
             {
@@ -270,204 +391,229 @@ public class PlayerInput : GeneralInput
             }
 
             // DPad
-            if ( HasHat) {
+            if ( HasHat )
+            {
 
                 // DPad UP
-                if(InputManager.Instance.DpadVertical() > 0.7f) {
-                    if(!DpadInUse) {
+                if ( InputManager.Instance.DpadVertical() > 0.7f )
+                {
+                    if ( !DpadInUse )
+                    {
 
-                        if(NavigatingMenu) {
+                        if ( NavigatingMenu )
+                        {
                             dpadPressedInMenu = true;
-                            if(fpsCounterInMenu == 0)
+                            if ( fpsCounterInMenu == 0 )
                                 CurrentScreen.PreviousButton();
                         }
-                        else if(combat != null && tacticsManager.isActiveAndEnabled) {
-                            DpadInUse = true;
-                            
-                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
-                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
+                        //else if(combat != null && tacticsManager.isActiveAndEnabled) {
+                        //    DpadInUse = true;
 
-                            if (hasAssignedOrder) {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 0);
-                            }
-                            
-                            StartCoroutine(DpadWait(dpadWaitTime));
-                        }
+                        //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.MeleeAttack, tacticsManager.CurrentShowedGroup);
+                        //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.MeleeAttack);
+
+                        //    if (hasAssignedOrder) {
+                        //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 0);
+                        //    }
+
+                        //    StartCoroutine(DpadWait(dpadWaitTime));
+                        //}
 
                     }
                 }
 
                 //DPad HELD UP
-                if(InputManager.Instance.DpadVertical() > 0.7f) {
+                if ( InputManager.Instance.DpadVertical() > 0.7f )
+                {
                     dpadUpOld = InputManager.Instance.DpadVertical();
 
-                    if(combat != null && tacticsManager.isActiveAndEnabled && dpadUpOld != 0f) {
+                    if ( combat != null && tacticsManager.isActiveAndEnabled && dpadUpOld != 0f )
+                    {
                         DpadInUse = true;
 
-                        if(allGroupsOrderStartTimeUp == 0f)
+                        if ( allGroupsOrderStartTimeUp == 0f )
                             allGroupsOrderStartTimeUp = Time.time;
 
-                        if((Time.time - allGroupsOrderStartTimeUp) >= heldTime) {
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 0 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 0 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 0 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 0 );
-                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.MeleeAttack);
+                        if ( (Time.time - allGroupsOrderStartTimeUp) >= heldTime )
+                        {
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupAzure , 0 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupPink , 0 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupGreen , 0 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupYellow , 0 );
+                            tacticsManager.AllGroupsOrder( GroupBehaviour.State.MeleeAttack );
                             DpadInUse = false;
                             allGroupsOrderStartTimeUp = 0f;
                             dpadUpOld = 0f;
                         }
                     }
                 }
-                else if(0f <= InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() < 0.7f) {
+                else if ( 0f <= InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() < 0.7f )
+                {
                     dpadUpOld = 0f;
                     allGroupsOrderStartTimeUp = 0f;
                 }
 
                 // DPad DOWN
-                if(InputManager.Instance.DpadVertical() < -0.7f) {
-                    if(!DpadInUse) {
+                if ( InputManager.Instance.DpadVertical() < -0.7f )
+                {
+                    if ( !DpadInUse )
+                    {
 
-                        if(NavigatingMenu) {
+                        if ( NavigatingMenu )
+                        {
                             dpadPressedInMenu = true;
-                            if(fpsCounterInMenu == 0)
+                            if ( fpsCounterInMenu == 0 )
                                 CurrentScreen.NextButton();
                         }
-                        else if(combat != null && tacticsManager.isActiveAndEnabled) {
-                            DpadInUse = true;
-                            //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
-                            //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
+                        //else if(combat != null && tacticsManager.isActiveAndEnabled) {
+                        //    DpadInUse = true;
+                        //    //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 2 );
+                        //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.RangeAttack, tacticsManager.CurrentShowedGroup);
 
-                            bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.RangeAttack);
+                        //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.RangeAttack);
 
-                            if (hasAssignedOrder)
-                            {
-                                newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 2);
-                            }
+                        //    if (hasAssignedOrder)
+                        //    {
+                        //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 2);
+                        //    }
 
-                            StartCoroutine(DpadWait(dpadWaitTime));
-                        }
+                        //    StartCoroutine(DpadWait(dpadWaitTime));
+                        //}
 
                     }
                 }
 
                 //DPad HELD DOWN
-                if(InputManager.Instance.DpadVertical() < -0.7f) {
+                if ( InputManager.Instance.DpadVertical() < -0.7f )
+                {
                     dpadDownOld = InputManager.Instance.DpadVertical();
 
-                    if(combat != null && tacticsManager.isActiveAndEnabled && dpadDownOld != 0f) {
+                    if ( combat != null && tacticsManager.isActiveAndEnabled && dpadDownOld != 0f )
+                    {
                         DpadInUse = true;
 
-                        if(allGroupsOrderStartTimeDown == 0f)
+                        if ( allGroupsOrderStartTimeDown == 0f )
                             allGroupsOrderStartTimeDown = Time.time;
 
-                        if((Time.time - allGroupsOrderStartTimeDown) >= heldTime) {
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 2 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 2 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 2 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 2 );
-                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.RangeAttack);
+                        if ( (Time.time - allGroupsOrderStartTimeDown) >= heldTime )
+                        {
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupAzure , 2 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupPink , 2 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupGreen , 2 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupYellow , 2 );
+                            tacticsManager.AllGroupsOrder( GroupBehaviour.State.RangeAttack );
                             DpadInUse = false;
                             allGroupsOrderStartTimeDown = 0f;
                             dpadDownOld = 0f;
                         }
                     }
                 }
-                else if(-0.7f < InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() <= 0f) {
+                else if ( -0.7f < InputManager.Instance.DpadVertical() && InputManager.Instance.DpadVertical() <= 0f )
+                {
                     dpadDownOld = 0f;
                     allGroupsOrderStartTimeDown = 0f;
                 }
 
                 // DPad RIGHT
-                if(InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu) {
-                    if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
-                        DpadInUse = true;
-                        //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
-                        //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
+                if ( InputManager.Instance.DpadHorizontal() > 0.7f && !NavigatingMenu )
+                {
+                    //if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
+                    //    DpadInUse = true;
+                    //    //newHUD.ChangeGroupState( tacticsManager.CurrentShowedGroup, 1 );
+                    //    //tacticsManager.AssignOrderToGroup(GroupBehaviour.State.Tank, tacticsManager.CurrentShowedGroup);
 
-                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Tank);
+                    //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Tank);
 
-                        if (hasAssignedOrder)
-                        {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 1);
-                        }
+                    //    if (hasAssignedOrder)
+                    //    {
+                    //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 1);
+                    //    }
 
-                        StartCoroutine(DpadWait(dpadWaitTime));
-                    }
+                    //    StartCoroutine(DpadWait(dpadWaitTime));
+                    //}
                 }
 
                 //DPad HELD RIGHT
-                if(InputManager.Instance.DpadHorizontal() > 0.7f) {
+                if ( InputManager.Instance.DpadHorizontal() > 0.7f )
+                {
                     dpadRightOld = InputManager.Instance.DpadHorizontal();
 
-                    if(combat != null && tacticsManager.isActiveAndEnabled && dpadRightOld != 0f) {
+                    if ( combat != null && tacticsManager.isActiveAndEnabled && dpadRightOld != 0f )
+                    {
                         DpadInUse = true;
 
-                        if(allGroupsOrderStartTimeRight == 0f)
+                        if ( allGroupsOrderStartTimeRight == 0f )
                             allGroupsOrderStartTimeRight = Time.time;
 
-                        if((Time.time - allGroupsOrderStartTimeRight) >= heldTime) {
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 1 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 1 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 1 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 1 );
-                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.Tank);
+                        if ( (Time.time - allGroupsOrderStartTimeRight) >= heldTime )
+                        {
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupAzure , 1 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupPink , 1 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupGreen , 1 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupYellow , 1 );
+                            tacticsManager.AllGroupsOrder( GroupBehaviour.State.Tank );
                             DpadInUse = false;
                             allGroupsOrderStartTimeRight = 0f;
                             dpadRightOld = 0f;
                         }
                     }
                 }
-                else if(0f <= InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() < 0.7f) {
+                else if ( 0f <= InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() < 0.7f )
+                {
                     dpadRightOld = 0f;
                     allGroupsOrderStartTimeRight = 0f;
                 }
 
                 // DPad LEFT
-                if(InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu) {
-                    if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
-                        DpadInUse = true;
-                        
-                        bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
+                if ( InputManager.Instance.DpadHorizontal() < -0.7f && !NavigatingMenu )
+                {
+                    //if(combat != null && tacticsManager.isActiveAndEnabled && !DpadInUse) {
+                    //    DpadInUse = true;
 
-                        if (hasAssignedOrder)
-                        {
-                            newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 4);
-                        }
+                    //    bool hasAssignedOrder = tacticsManager.AssignOrder(GroupBehaviour.State.Recruit);
 
-                        StartCoroutine(DpadWait(dpadWaitTime));
-                    }
+                    //    if (hasAssignedOrder)
+                    //    {
+                    //        newHUD.ChangeGroupState(tacticsManager.CurrentMostRepresentedGroup, 4);
+                    //    }
+
+                    //    StartCoroutine(DpadWait(dpadWaitTime));
+                    //}
                 }
 
                 //DPad HELD LEFT
-                if(InputManager.Instance.DpadHorizontal() < -0.7f) {
+                if ( InputManager.Instance.DpadHorizontal() < -0.7f )
+                {
                     dpadLeftOld = InputManager.Instance.DpadHorizontal();
 
-                    if(combat != null && tacticsManager.isActiveAndEnabled && dpadLeftOld != 0f) {
+                    if ( combat != null && tacticsManager.isActiveAndEnabled && dpadLeftOld != 0f )
+                    {
                         DpadInUse = true;
 
-                        if(allGroupsOrderStartTimeLeft == 0f)
+                        if ( allGroupsOrderStartTimeLeft == 0f )
                             allGroupsOrderStartTimeLeft = Time.time;
 
-                        if((Time.time - allGroupsOrderStartTimeLeft) >= heldTime) {
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupAzure, 4 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupPink, 4 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupGreen, 4 );
-                            newHUD.ChangeGroupState(GroupManager.Group.GroupYellow, 4 );
-                            tacticsManager.AllGroupsOrder(GroupBehaviour.State.Recruit);
+                        if ( (Time.time - allGroupsOrderStartTimeLeft) >= heldTime )
+                        {
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupAzure , 4 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupPink , 4 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupGreen , 4 );
+                            newHUD.ChangeGroupState( GroupManager.Group.GroupYellow , 4 );
+                            tacticsManager.AllGroupsOrder( GroupBehaviour.State.Recruit );
                             DpadInUse = false;
                             allGroupsOrderStartTimeLeft = 0f;
                             dpadLeftOld = 0f;
                         }
                     }
                 }
-                else if(-0.7f < InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() <= 0f) {
+                else if ( -0.7f < InputManager.Instance.DpadHorizontal() && InputManager.Instance.DpadHorizontal() <= 0f )
+                {
                     dpadLeftOld = 0f;
                     allGroupsOrderStartTimeLeft = 0f;
                 }
 
             }
-            
+
 
             // Need in order to set an internal bool in input manager
             // Im looking for a better solution
@@ -483,26 +629,26 @@ public class PlayerInput : GeneralInput
             {
                 //if ( combat != null )
                 //{
-                    //if ( GameInPause && NavigatingMenu )
-                    //{
-                    //    CurrentScreen.GetComponent<PauseScreen>().Resume();
-                    //}
-                    //else
-                    //{
-                        CurrentScreen.gameObject.SetActive( true );
-                        //NavigatingMenu = true;
-                        CurrentScreen.GetComponent<PauseScreen>().Pause();
+                //if ( GameInPause && NavigatingMenu )
+                //{
+                //    CurrentScreen.GetComponent<PauseScreen>().Resume();
+                //}
+                //else
+                //{
+                CurrentScreen.gameObject.SetActive( true );
+                //NavigatingMenu = true;
+                CurrentScreen.GetComponent<PauseScreen>().Pause();
 
-                        GameEvents.RaiseOnPause();
-                    //}
+                GameEvents.RaiseOnPause();
+                //}
                 //}
             }
         }
         //else
-            //Debug.Log( name + " PlayerInput cannot find InputManager" );
+        //Debug.Log( name + " PlayerInput cannot find InputManager" );
     }
-    
-    private void OnDeath(Stats sender)
+
+    private void OnDeath( Stats sender )
     {
         this.enabled = false;
     }
@@ -510,7 +656,7 @@ public class PlayerInput : GeneralInput
     private void OnBattlePreparation()
     {
         canGiveInput = false;
-        playerController.PassXZValues( 0, 0 );
+        playerController.PassXZValues( 0 , 0 );
     }
 
     private void OnBattleEnter()
@@ -518,21 +664,25 @@ public class PlayerInput : GeneralInput
         canGiveInput = true;
     }
 
-    public void DisableOrders() {
+    public void DisableOrders()
+    {
         HasHat = false;
     }
 
-    public void DisableLeftStick() {
+    public void DisableLeftStick()
+    {
         playerController.XMovement = 0f;
         playerController.ZMovement = 0f;
         Attacking = true;
     }
 
-    public void EnableLeftStick() {
+    public void EnableLeftStick()
+    {
         Attacking = false;
     }
 
-    private void OnReincarnation(GameObject player) { 
-        DisableOrders();    
+    private void OnReincarnation( GameObject player )
+    {
+        DisableOrders();
     }
 }

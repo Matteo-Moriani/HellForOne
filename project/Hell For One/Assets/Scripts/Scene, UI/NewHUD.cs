@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NewHUD : MonoBehaviour
 {
-    private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross;
+    private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross, ordersIcons, specialAttacksIcons;
     private Image azureImage, pinkImage, greenImage, yellowImage, aggroIconAzure, aggroIconPink, aggroIconGreen, aggroIconYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
@@ -143,6 +144,75 @@ public class NewHUD : MonoBehaviour
         dict.Add( groupYellow, panelYellow );
 
         alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
+
+        ordersIcons = GameObject.Find( "IconeOrdini" );
+        specialAttacksIcons = GameObject.Find( "IconeAttacchiSpeciali" );
+    }
+
+    private void OnYButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnXButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnBButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnAButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnLTButtonHeldDown()
+    {
+        ordersIcons.GetComponent<Image>().enabled = false;
+        specialAttacksIcons.GetComponent<Image>().enabled = true;
+    }
+
+    private void OnLTButtonUp()
+    {
+        specialAttacksIcons.GetComponent<Image>().enabled = false;
+        ordersIcons.GetComponent<Image>().enabled = true;
+    }
+
+    private void OnLT_YButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnLT_XButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnLT_BButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnLT_AButtonDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnEnable()
+    {
+        PlayerInput.OnYButtonDown += OnYButtonDown;
+        PlayerInput.OnXButtonDown += OnXButtonDown;
+        PlayerInput.OnBButtonDown += OnBButtonDown;
+        PlayerInput.OnAButtonDown += OnAButtonDown;
+        PlayerInput.OnLTButtonHeldDown += OnLTButtonHeldDown;
+        PlayerInput.OnLTButtonUp += OnLTButtonUp;
+        PlayerInput.OnLT_YButtonDown += OnLT_YButtonDown;
+        PlayerInput.OnLT_XButtonDown += OnLT_XButtonDown;
+        PlayerInput.OnLT_BButtonDown += OnLT_BButtonDown;
+        PlayerInput.OnLT_AButtonDown += OnLT_AButtonDown;
     }
 
     private void OnDisable()
