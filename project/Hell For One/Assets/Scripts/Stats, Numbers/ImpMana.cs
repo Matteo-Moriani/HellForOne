@@ -8,11 +8,12 @@ public class ImpMana : MonoBehaviour
     #region Fields
     
     private static float maxMana = 100;
-    private static float baseManaChargeRate = 1.0f;
-    private static float activeManaChargeRate = 2.0f;
-    private static float rechargeTimer = 0;
+    private static float baseManaChargeRate = 1f;
+    private static float activeManaChargeRate = 2f;
+    private static float rechargeTimer = 0f;
     private static float currentManaRechargeRate;
-    private static float manaPool = 50f;
+    private static float manaPool = 45f;
+    private static List<ParticleSystem> _manaParticles = new List<ParticleSystem>();
 
     private static GroupAbilities[] groupAbilitiesArray;
     
@@ -41,14 +42,13 @@ public class ImpMana : MonoBehaviour
     public delegate void OnManaPoolChanged();
     public static event OnManaPoolChanged onManaPoolChanged;
 
-    #region Methods
-
+    public static event Action OnOneSegment;
+    public static event Action OnTwoSegments;
+    
     private void RaiseOnManaPoolChanged()
     {
         onManaPoolChanged?.Invoke();
     }
-
-    #endregion
     
     #endregion
     
@@ -56,6 +56,13 @@ public class ImpMana : MonoBehaviour
 
     private void Awake()
     {
+        ParticleSystem[] allParticles = GetComponentsInChildren<ParticleSystem>();
+        foreach(ParticleSystem p in allParticles)
+        {
+            if(p.gameObject.name == "ManaParticles")
+                _manaParticles.Add(p);
+        }
+
         if (manaRechargeCr == null)
         {
             manaRechargeCr = StartCoroutine(ManaRechargeCoroutine());
@@ -133,16 +140,36 @@ public class ImpMana : MonoBehaviour
             
             if (rechargeTimer >= 1.0f)
             {
-                rechargeTimer = 0;
+                rechargeTimer = 0f;
                 
                 if (manaPool < maxMana)
                 {
                     manaPool += currentManaRechargeRate;
                     RaiseOnManaPoolChanged();
                 }
+
+                if(manaPool == maxMana / 2f)
+                {
+                    OnOneSegment?.Invoke();
+                    PlayManaParticles();
+
+                }
+                else if(manaPool == maxMana)
+                {
+                    OnTwoSegments?.Invoke();
+                    PlayManaParticles();
+                }
             }
 
             yield return null;
+        }
+    }
+
+    private void PlayManaParticles()
+    {
+        foreach(ParticleSystem p in _manaParticles)
+        {
+            p.Play();
         }
     }
 
