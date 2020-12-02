@@ -89,6 +89,8 @@ MonoBehaviour:
   midBossFightScriptedPosition: {fileID: 0}
   bossArenaCenter: {fileID: 0}
   midBossArenaCenter: {fileID: 0}
+  crownPrefab: {fileID: 5078803927499094906, guid: b4bc367f1174bf34992053ac045b8f48,
+    type: 3}
 --- !u!82 &5243882901298306141
 AudioSource:
   m_ObjectHideFlags: 0
@@ -229,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f60b41aa233f549b691bf6a0832467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activateTutorial: 1
+  tutorialsEnabled: 0
   tutorialClosingDelay: 2
 --- !u!1001 &3634641815870829150
 PrefabInstance:
