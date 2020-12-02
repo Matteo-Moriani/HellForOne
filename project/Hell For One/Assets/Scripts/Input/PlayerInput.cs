@@ -35,6 +35,7 @@ public class PlayerInput : GeneralInput
 
     #region Delegates and events
 
+    //TODO togliere
     public delegate void OnOLDXButtonDown();
     public static event OnOLDXButtonDown onXButtonDown;
 
@@ -43,6 +44,11 @@ public class PlayerInput : GeneralInput
 
     public delegate void OnXButtonHeldDown();
     public static event OnXButtonHeldDown onXButtonHeldDown;
+
+
+
+
+
 
     public static event Action OnYButtonDown;
     public static event Action OnXButtonDown;
@@ -58,6 +64,13 @@ public class PlayerInput : GeneralInput
     private bool rtPressed;
     private bool _ltPressed;
 
+
+
+
+
+
+
+    // TODO togli
     private void RaiseOnXButtonDown()
     {
         onXButtonDown?.Invoke();

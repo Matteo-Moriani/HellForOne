@@ -59,8 +59,11 @@ public class GroupBehaviour : MonoBehaviour
 
     public delegate void OnStopRecruitOrderGiven(GroupBehaviour sender);
     public event OnStopRecruitOrderGiven onStopRecruitOrderGiven;
-    
+
     //-------------------------------------------------------------------------
+
+    //public static event OnRealOrderChanged();
+    public static event Action OnRealOrderChanged;
     
     #region Methods
 
@@ -110,10 +113,15 @@ public class GroupBehaviour : MonoBehaviour
         onTankOrderGiven?.Invoke(this);
     }
 
+    private void RaiseOnRealOrderChanged()
+    {
+        OnRealOrderChanged?.Invoke();
+    }
+
     #endregion
-    
+
     #endregion
-    
+
     #region FSM 
 
     // Useful to distinguish between States in game as Tactics for group and FSMState (e.g. Idle not present here since it's not in game)

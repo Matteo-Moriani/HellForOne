@@ -33,10 +33,18 @@ public class NewHUD : MonoBehaviour
     private int recruitIndex = 4;
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
+    public GroupBehaviour.State GroupAzureCurrentState { get => groupAzureCurrentState; set => groupAzureCurrentState = value; }
+    public GroupBehaviour.State GroupPinkCurrentState { get => groupPinkCurrentState; set => groupPinkCurrentState = value; }
+    public GroupBehaviour.State GroupGreenCurrentState { get => groupGreenCurrentState; set => groupGreenCurrentState = value; }
+    public GroupBehaviour.State GroupYellowCurrentState { get => groupYellowCurrentState; set => groupYellowCurrentState = value; }
+
     private Image UpOn, DownOn, RightOn, LeftOn;
 
     // To decouple with currentState of GroupBehaviour
-    private GroupBehaviour.State groupAzureCurrentState
+    private GroupBehaviour.State groupAzureCurrentState;
+    private GroupBehaviour.State groupPinkCurrentState;
+    private GroupBehaviour.State groupGreenCurrentState;
+    private GroupBehaviour.State groupYellowCurrentState;
 
 
     public void ActivateAggroIcon( GroupManager.Group group)
@@ -168,6 +176,11 @@ public class NewHUD : MonoBehaviour
         DownOn = GameObject.Find( "DownON" ).GetComponent<Image>();
         RightOn = GameObject.Find( "RightON" ).GetComponent<Image>();
         LeftOn = GameObject.Find( "LeftON" ).GetComponent<Image>();
+
+        GroupAzureCurrentState = groupAzure.currentState;
+        GroupPinkCurrentState = groupPink.currentState;
+        GroupGreenCurrentState = groupGreen.currentState;
+        GroupYellowCurrentState = groupYellow.currentState;
     }
 
     // TODO: in ognuno di questi va aggiunto un metodo per il feedback se si prova ad assegnare un ordine quando non si hanno gruppi in range
