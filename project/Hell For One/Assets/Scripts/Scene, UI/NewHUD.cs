@@ -10,11 +10,13 @@ public class NewHUD : MonoBehaviour
     private Image azureImage, pinkImage, greenImage, yellowImage, aggroIconAzure, aggroIconPink, aggroIconGreen, aggroIconYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
+    private GroupManager groupAzureManager, groupPinkManager, groupGreenManager, groupYellowManager;
     private TacticsManager tacticsManager;
     private Vector3 defaultScale = new Vector3( 1f, 1f, 1f );
     private Vector3 enlargedScale = new Vector3( 1.5f, 1.5f, 1f );
     private GroupBehaviour[] groupBehaviours = new GroupBehaviour[ 4 ];
     private Dictionary<GroupBehaviour, GameObject> dict = new Dictionary<GroupBehaviour, GameObject>();
+    private Dictionary<GroupBehaviour, GroupManager> groupDict = new Dictionary<GroupBehaviour, GroupManager>();
     private AlliesManager alliesManager;
     private Vector3 groupPanelCorrectionVector = new Vector3( +36.25f, -22.50f, 0f );
     private Vector2 panelPosition = new Vector2( -36.25f, 22.33f );
@@ -31,6 +33,11 @@ public class NewHUD : MonoBehaviour
     private int recruitIndex = 4;
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
+    private Image UpOn, DownOn, RightOn, LeftOn;
+
+    // To decouple with currentState of GroupBehaviour
+    private GroupBehaviour.State groupAzureCurrentState
+
 
     public void ActivateAggroIcon( GroupManager.Group group)
     {
@@ -120,15 +127,19 @@ public class NewHUD : MonoBehaviour
             {
                 case "GroupAzure":
                     groupAzure = go.GetComponent<GroupBehaviour>();
+                    groupAzureManager = go.GetComponent<GroupManager>();
                     break;
                 case "GroupPink":
                     groupPink = go.GetComponent<GroupBehaviour>();
+                    groupPinkManager = go.GetComponent<GroupManager>();
                     break;
                 case "GroupGreen":
                     groupGreen = go.GetComponent<GroupBehaviour>();
+                    groupGreenManager = go.GetComponent<GroupManager>();
                     break;
                 case "GroupYellow":
                     groupYellow = go.GetComponent<GroupBehaviour>();
+                    groupYellowManager = go.GetComponent<GroupManager>();
                     break;
             }
         }
@@ -143,30 +154,41 @@ public class NewHUD : MonoBehaviour
         dict.Add( groupGreen, panelGreen );
         dict.Add( groupYellow, panelYellow );
 
+        groupDict.Add( groupAzure , groupAzureManager );
+        groupDict.Add( groupPink , groupPinkManager );
+        groupDict.Add( groupGreen , groupGreenManager );
+        groupDict.Add( groupYellow , groupYellowManager );
+
         alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
 
         ordersIcons = GameObject.Find( "IconeOrdini" );
         specialAttacksIcons = GameObject.Find( "IconeAttacchiSpeciali" );
+
+        UpOn = GameObject.Find( "UpON" ).GetComponent<Image>();
+        DownOn = GameObject.Find( "DownON" ).GetComponent<Image>();
+        RightOn = GameObject.Find( "RightON" ).GetComponent<Image>();
+        LeftOn = GameObject.Find( "LeftON" ).GetComponent<Image>();
     }
 
+    // TODO: in ognuno di questi va aggiunto un metodo per il feedback se si prova ad assegnare un ordine quando non si hanno gruppi in range
     private void OnYButtonDown()
     {
-        throw new NotImplementedException();
+        ChangeSpecificGroupHUDOrder(GroupBehaviour.State.MeleeAttack);
     }
 
     private void OnXButtonDown()
     {
-        throw new NotImplementedException();
+        ChangeSpecificGroupHUDOrder( GroupBehaviour.State.Recruit );
     }
 
     private void OnBButtonDown()
     {
-        throw new NotImplementedException();
+        ChangeSpecificGroupHUDOrder( GroupBehaviour.State.Tank );
     }
 
     private void OnAButtonDown()
     {
-        throw new NotImplementedException();
+        ChangeSpecificGroupHUDOrder( GroupBehaviour.State.RangeAttack );
     }
 
     private void OnLTButtonHeldDown()
@@ -183,22 +205,22 @@ public class NewHUD : MonoBehaviour
 
     private void OnLT_YButtonDown()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void OnLT_XButtonDown()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void OnLT_BButtonDown()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void OnLT_AButtonDown()
     {
-        throw new NotImplementedException();
+        
     }
 
     private void OnEnable()
@@ -288,7 +310,167 @@ public class NewHUD : MonoBehaviour
                 break;
         }
     }
-    
+
+    public void ChangeGroupHUDOrder(GroupBehaviour groupBehaviour)
+    {
+        switch ( groupBehaviour.currentState )
+        {
+            case GroupBehaviour.State.MeleeAttack:
+
+                UpOn.enabled = true;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+
+                UpOn.color = groupDict[groupBehaviour].GroupColor;
+                break;
+
+            case GroupBehaviour.State.RangeAttack:
+
+                UpOn.enabled = false;
+                DownOn.enabled = true;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+
+                DownOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+
+            case GroupBehaviour.State.Tank:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = true;
+                LeftOn.enabled = false;
+
+                RightOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+
+            case GroupBehaviour.State.Recruit:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = true;
+
+                LeftOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+        }
+    }
+
+    private void ChangeSpecificGroupHUDOrderColor(GroupBehaviour groupBehaviour, GroupBehaviour.State state )
+    {
+        switch ( state )
+        {
+            case GroupBehaviour.State.MeleeAttack:
+
+                UpOn.enabled = true;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+
+                UpOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+
+            case GroupBehaviour.State.RangeAttack:
+
+                UpOn.enabled = false;
+                DownOn.enabled = true;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+
+                DownOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+
+            case GroupBehaviour.State.Tank:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = true;
+                LeftOn.enabled = false;
+
+                RightOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+
+            case GroupBehaviour.State.Recruit:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = true;
+
+                LeftOn.color = groupDict[ groupBehaviour ].GroupColor;
+                break;
+        }
+    } 
+
+    public void ChangeSpecificGroupHUDOrder(GroupBehaviour.State state)
+    {
+        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        {
+            case GroupManager.Group.None:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+                break;
+
+            case GroupManager.Group.GroupAzure:
+
+                ChangeSpecificGroupHUDOrderColor( groupAzure, state );
+                break;
+
+            case GroupManager.Group.GroupGreen:
+
+                ChangeSpecificGroupHUDOrderColor( groupGreen, state );
+                break;
+
+            case GroupManager.Group.GroupPink:
+
+                ChangeSpecificGroupHUDOrderColor( groupPink, state );
+                break;
+
+            case GroupManager.Group.GroupYellow:
+
+                ChangeSpecificGroupHUDOrderColor( groupYellow, state );
+                break;
+        }
+    }
+
+    void Update()
+    {
+        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        {
+            case GroupManager.Group.None:
+
+                UpOn.enabled = false;
+                DownOn.enabled = false;
+                RightOn.enabled = false;
+                LeftOn.enabled = false;
+                break;
+
+            case GroupManager.Group.GroupAzure:
+
+                ChangeGroupHUDOrder( groupAzure );
+                break;
+
+            case GroupManager.Group.GroupGreen:
+
+                ChangeGroupHUDOrder( groupGreen );
+                break;
+
+            case GroupManager.Group.GroupPink:
+
+                ChangeGroupHUDOrder( groupPink );
+                break;
+
+            case GroupManager.Group.GroupYellow:
+
+                ChangeGroupHUDOrder( groupYellow );
+                break;
+        }
+    }
+
     /*
     void Update()
     {

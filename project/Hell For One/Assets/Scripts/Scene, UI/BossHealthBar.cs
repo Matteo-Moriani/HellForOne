@@ -8,6 +8,7 @@ public class BossHealthBar : MonoBehaviour
     private Image healthBarInside;
     private float maxHealth;
     private Stats characterStats;
+    private TMPro.TextMeshProUGUI bossName;
 
     public Image HealthBarInside { get => healthBarInside; set => healthBarInside = value; }
 
@@ -17,6 +18,7 @@ public class BossHealthBar : MonoBehaviour
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
         HealthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;
+        bossName = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     private void OnEnable()
@@ -36,6 +38,7 @@ public class BossHealthBar : MonoBehaviour
     }
 
     private void OnBattleEnter() {
+        bossName.enabled = true;
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
         healthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;

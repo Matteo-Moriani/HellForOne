@@ -59,6 +59,7 @@ public class GroupManager : MonoBehaviour
     /// Number of imps in this group
     /// </summary>
     public int ImpsInGroupNumber { get => impsInGroupNumber; private set => impsInGroupNumber = value; }
+    public Color GroupColor { get => groupColor; set => groupColor = value; }
 
     #endregion
 

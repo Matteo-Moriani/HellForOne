@@ -55,6 +55,9 @@ public class PlayerInput : GeneralInput
     public static event Action OnLT_BButtonDown;
     public static event Action OnLT_AButtonDown;
 
+    private bool rtPressed;
+    private bool _ltPressed;
+
     private void RaiseOnXButtonDown()
     {
         onXButtonDown?.Invoke();
@@ -172,9 +175,16 @@ public class PlayerInput : GeneralInput
             OnLTButtonUp?.Invoke();
         }
 
-        // TODO non funge per ora
-        if ( Input.GetButton( "XBoxLT" ) )
+        if ( Input.GetAxisRaw( "XBoxLT" ) <= 0.1f && _ltPressed )
         {
+            _ltPressed = false;
+            OnLTButtonUp?.Invoke();
+        }
+
+        // TODO non funge per ora
+        if ( Input.GetAxisRaw( "XBoxLT" ) >= 0.9f && !_ltPressed )
+        {
+            _ltPressed = true;
             OnLTButtonHeldDown?.Invoke();
 
             if ( Input.GetButtonDown( "XBoxY" ) )
