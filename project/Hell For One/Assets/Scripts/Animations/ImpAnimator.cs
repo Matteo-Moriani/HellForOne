@@ -184,13 +184,19 @@ public class ImpAnimator : MonoBehaviour
 
     // TODO - legare questi due metodi alla scelta dell'ordine e non alle loro animazioni
     private void HideWeapons() {
-        childrenObjectsManager.spear.SetActive(false);
-        childrenObjectsManager.shield.SetActive(false);
+        if(gameObject.tag != "Player")
+        {
+            childrenObjectsManager.spear.SetActive(false);
+            childrenObjectsManager.shield.SetActive(false);
+        }
     }
 
     private void ShowWeapons() {
-        childrenObjectsManager.spear.SetActive(true);
-        childrenObjectsManager.shield.SetActive(true);
+        if(gameObject.tag != "Player")
+        {
+            childrenObjectsManager.spear.SetActive(true);
+            childrenObjectsManager.shield.SetActive(true);
+        }
     }
 
     #endregion

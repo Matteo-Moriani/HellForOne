@@ -50,14 +50,15 @@ public class Hat : MonoBehaviour
         {
             onGround = false;
             collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
-            //collision.gameObject.transform.root.Find("Crown").gameObject.SetActive(true);
-            //collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().scepter.SetActive(true);
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().shield.SetActive(false);
             collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
             Destroy( gameObject );
         }
         else if(collision.gameObject.transform.root.tag == "Boss" || collision.gameObject.transform.root.tag == "Demon")
         {
-            rigidbody.AddForce(new Vector3(1f, 1f, 1f), ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(2f, 1f, 2f), ForceMode.Impulse);
         }
     }
 }

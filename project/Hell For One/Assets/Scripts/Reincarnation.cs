@@ -56,7 +56,7 @@ public class Reincarnation : MonoBehaviour
 
     void Start()
     {
-        if(this.gameObject.tag == "Player") {
+        if(gameObject.tag == "Player") {
             player = gameObject;
         }
     }
