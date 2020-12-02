@@ -257,13 +257,13 @@ public class PlayerInput : GeneralInput
 
                     StartCoroutine( DpadWait( dpadWaitTime ) );
                 }
-                else
-                {
-                    if ( dash != null )
-                    {
-                        dash.TryDash( InputManager.Instance.LeftStickVertical() , InputManager.Instance.LeftStickHorizontal() );
-                    }
-                }
+                //else
+                //{
+                //    if ( dash != null )
+                //    {
+                //        dash.TryDash( InputManager.Instance.LeftStickVertical() , InputManager.Instance.LeftStickHorizontal() );
+                //    }
+                //}
 
             }
 
@@ -348,22 +348,10 @@ public class PlayerInput : GeneralInput
                 }
             }
 
-            // R1 (PS3) / RB (XBOX) - Down
+            // R1 (PS3) / RB (XBOX)
             if ( InputManager.Instance.R1ButtonDown() && !NavigatingMenu )
             {
-                if ( combat != null )
-                {
-                    block.StartBlock();
-                }
-            }
-
-            // R1 (PS3) / RB (XOBX) - Up
-            if ( InputManager.Instance.R1ButtonUp() && !NavigatingMenu )
-            {
-                if ( combat != null )
-                {
-                    block.StopBlock();
-                }
+                dash?.TryDash(InputManager.Instance.LeftStickVertical(), InputManager.Instance.LeftStickHorizontal());
             }
 
             //// L2 (PS3) / LT (XBOX) - Down

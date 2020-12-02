@@ -8,6 +8,9 @@ using UnityEngine;
 public class Dash : MonoBehaviour
 {
     #region fields
+
+    [SerializeField]
+    private GameObject _dashParticle;
     
     private float dashSize = 2.5f;
     private float dashCooldown = 1f;
@@ -149,8 +152,9 @@ public class Dash : MonoBehaviour
     {
         if (!playerWantsToDash) {
             playerWantsToDash = true;
-            this.verticalDirection = desiredVerticalDirection;
-            this.horizontalDirection = desiredHorizontalDirection;
+            verticalDirection = desiredVerticalDirection;
+            horizontalDirection = desiredHorizontalDirection;
+            _dashParticle.GetComponent<ParticleSystem>().Play();
         }
     }
 
