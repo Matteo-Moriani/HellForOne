@@ -42,6 +42,26 @@
             <e p="ScreenshotTaker.cs" t="Include" />
           </e>
         </e>
+        <e p="EffectExamples" t="Include">
+          <e p="Magic Effects" t="Include">
+            <e p="Shaders" t="Include">
+              <e p="Ice.shader" t="Include" />
+            </e>
+          </e>
+          <e p="Misc Effects" t="Include">
+            <e p="Prefabs" t="Include">
+              <e p="Readme_Dissolve_Respawn_.txt" t="Include" />
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="SpawnEffect.cs" t="Include" />
+            </e>
+            <e p="Shaders" t="Include">
+              <e p="Dissolve.shader" t="Include" />
+              <e p="FireFly.shader" t="Include" />
+              <e p="Respawn.shader" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="Materials" t="Include">
           <e p="Outline.shader" t="Include" />
         </e>
@@ -52,10 +72,10 @@
           </e>
           <e p="AI" t="Include">
             <e p="AbstractBoss.cs" t="Include" />
+            <e p="AllyImpMovement.cs" t="Include" />
             <e p="BossBehavior.cs" t="Include" />
             <e p="BossPositions.cs" t="Include" />
             <e p="CRBehaviorTree.cs" t="Include" />
-            <e p="DemonMovement.cs" t="Include" />
             <e p="FSM.cs" t="Include" />
             <e p="GlobalAttack.cs" t="Include" />
             <e p="GroupBehaviour.cs" t="Include" />
@@ -148,6 +168,11 @@
           <e p="Events" t="Include">
             <e p="GameEvents.cs" t="Include" />
           </e>
+          <e p="FactoryBasedCombatSystem" t="Include">
+            <e p="ScriptableObjects" t="Include">
+              <e p="AttackFactory.cs" t="Include" />
+            </e>
+          </e>
           <e p="GameObjectSearcher.cs" t="Include" />
           <e p="Groups" t="Include">
             <e p="GroupCircle.cs" t="Include" />
@@ -180,6 +205,7 @@
             <e p="EnemiesManager.cs" t="Include" />
             <e p="LevelManager.cs" t="Include" />
             <e p="Managers.cs" t="Include" />
+            <e p="TutorialManager.cs" t="Include" />
           </e>
           <e p="NewCameraManager.cs" t="Include" />
           <e p="Orders" t="Include">
@@ -213,6 +239,8 @@
             <e p="ScreensManager.cs" t="Include" />
             <e p="SelectedUnitEffects.cs" t="Include" />
             <e p="TitleScreen.cs" t="Include" />
+            <e p="TutorialScreensBehaviour.cs" t="Include" />
+            <e p="UiUtils.cs" t="Include" />
           </e>
           <e p="Stats, Numbers" t="Include">
             <e p="GroupAggro.cs" t="Include" />
@@ -236,7 +264,7 @@
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
-    <e p="C:\Users\aless\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\aless\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Hell For One.1138560121.00" t="ExcludeRecursive" />
+    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.2\resharper-host\local\Transient\Rider\v202\SolutionCaches\_Hell For One.1138560121.00" t="ExcludeRecursive" />
   </component>
 </project>
