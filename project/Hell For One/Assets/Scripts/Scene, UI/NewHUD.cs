@@ -236,6 +236,27 @@ public class NewHUD : MonoBehaviour
         
     }
 
+    // Firma useless
+    private void OnGroupAzureOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
+    {
+        groupAzureCurrentState = groupAzure.currentState;
+    }
+
+    private void OnGroupPinkOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
+    {
+        groupPinkCurrentState = groupPink.currentState;
+    }
+
+    private void OnGroupGreenOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
+    {
+        groupGreenCurrentState = groupGreen.currentState;
+    }
+
+    private void OnGroupYellowOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
+    {
+        groupYellowCurrentState = groupYellow.currentState;
+    }
+
     private void OnEnable()
     {
         PlayerInput.OnYButtonDown += OnYButtonDown;
@@ -248,11 +269,31 @@ public class NewHUD : MonoBehaviour
         PlayerInput.OnLT_XButtonDown += OnLT_XButtonDown;
         PlayerInput.OnLT_BButtonDown += OnLT_BButtonDown;
         PlayerInput.OnLT_AButtonDown += OnLT_AButtonDown;
+
+        groupAzure.onOrderChanged += OnGroupAzureOrderChanged;
+        groupPink.onOrderChanged += OnGroupPinkOrderChanged;
+        groupGreen.onOrderChanged += OnGroupGreenOrderChanged;
+        groupYellow.onOrderChanged += OnGroupYellowOrderChanged;
     }
 
     private void OnDisable()
     {
         playerStats.onDeath -= OnDeath;
+        PlayerInput.OnYButtonDown -= OnYButtonDown;
+        PlayerInput.OnXButtonDown -= OnXButtonDown;
+        PlayerInput.OnBButtonDown -= OnBButtonDown;
+        PlayerInput.OnAButtonDown -= OnAButtonDown;
+        PlayerInput.OnLTButtonHeldDown -= OnLTButtonHeldDown;
+        PlayerInput.OnLTButtonUp -= OnLTButtonUp;
+        PlayerInput.OnLT_YButtonDown -= OnLT_YButtonDown;
+        PlayerInput.OnLT_XButtonDown -= OnLT_XButtonDown;
+        PlayerInput.OnLT_BButtonDown -= OnLT_BButtonDown;
+        PlayerInput.OnLT_AButtonDown -= OnLT_AButtonDown;
+
+        groupAzure.onOrderChanged -= OnGroupAzureOrderChanged;
+        groupPink.onOrderChanged -= OnGroupPinkOrderChanged;
+        groupGreen.onOrderChanged -= OnGroupGreenOrderChanged;
+        groupYellow.onOrderChanged -= OnGroupYellowOrderChanged;
     }
 
     private void OnDeath(Stats sender)
@@ -324,9 +365,9 @@ public class NewHUD : MonoBehaviour
         }
     }
 
-    public void ChangeGroupHUDOrder(GroupBehaviour groupBehaviour)
+    public void ChangeGroupHUDOrder(GroupBehaviour.State state, GroupBehaviour groupBehaviour)
     {
-        switch ( groupBehaviour.currentState )
+        switch ( state )
         {
             case GroupBehaviour.State.MeleeAttack:
 
@@ -464,22 +505,22 @@ public class NewHUD : MonoBehaviour
 
             case GroupManager.Group.GroupAzure:
 
-                ChangeGroupHUDOrder( groupAzure );
+                ChangeGroupHUDOrder( GroupAzureCurrentState, groupAzure );
                 break;
 
             case GroupManager.Group.GroupGreen:
 
-                ChangeGroupHUDOrder( groupGreen );
+                ChangeGroupHUDOrder( groupGreenCurrentState, groupGreen );
                 break;
 
             case GroupManager.Group.GroupPink:
 
-                ChangeGroupHUDOrder( groupPink );
+                ChangeGroupHUDOrder( GroupPinkCurrentState, groupPink );
                 break;
 
             case GroupManager.Group.GroupYellow:
 
-                ChangeGroupHUDOrder( groupYellow );
+                ChangeGroupHUDOrder( groupYellowCurrentState, groupYellow );
                 break;
         }
     }

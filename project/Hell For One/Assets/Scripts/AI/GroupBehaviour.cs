@@ -62,7 +62,6 @@ public class GroupBehaviour : MonoBehaviour
 
     //-------------------------------------------------------------------------
 
-    //public static event OnRealOrderChanged();
     public static event Action OnRealOrderChanged;
     
     #region Methods
