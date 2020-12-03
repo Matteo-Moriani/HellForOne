@@ -44,6 +44,8 @@ public class ImpMana : MonoBehaviour
 
     public static event Action OnOneSegment;
     public static event Action OnTwoSegments;
+
+    // TODO Mancano gli eventi per il consumo delle barre
     
     private void RaiseOnManaPoolChanged()
     {
