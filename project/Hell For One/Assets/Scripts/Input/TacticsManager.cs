@@ -21,6 +21,7 @@ public class TacticsManager : MonoBehaviour
     /// Current most rappresented group in range
     /// </summary>
     public GroupManager.Group CurrentMostRepresentedGroup { get => currentMostRepresentedGroup; private set => currentMostRepresentedGroup = value; }
+    public bool CanAssignOrder { get => canAssignOrder; set => canAssignOrder = value; }
 
     #endregion
 
@@ -53,7 +54,7 @@ public class TacticsManager : MonoBehaviour
     /// <param name="state">The order to assing</param>
     public void AllGroupsOrder(GroupBehaviour.State state )
     {
-        if(canAssignOrder)
+        if(CanAssignOrder)
             AssignOrderToGroup( state, GroupManager.Group.All );
     }
     
@@ -66,7 +67,7 @@ public class TacticsManager : MonoBehaviour
     {
         bool hasAssignedOrder = false;
 
-        if (canAssignOrder)
+        if (CanAssignOrder)
         {
             if (GroupsInRangeDetector.MostRappresentedGroupInRange != GroupManager.Group.None && GroupsInRangeDetector.MostRappresentedGroupInRange != GroupManager.Group.All) {
                 AssignOrderToGroup(state, GroupsInRangeDetector.MostRappresentedGroupInRange);
@@ -88,6 +89,11 @@ public class TacticsManager : MonoBehaviour
         StunReceiver stunReceiver = GetComponentInChildren<StunReceiver>();
         stunReceiver.onStartStun += OnStartStun;
         stunReceiver.onStopStun += OnStopStun;
+
+        PlayerInput.OnYButtonDown += OnYButtonDown;
+        PlayerInput.OnXButtonDown += OnXButtonDown;
+        PlayerInput.OnBButtonDown += OnBButtonDown;
+        PlayerInput.OnAButtonDown += OnAButtonDown;
     }
 
     private void OnDisable()
@@ -97,6 +103,11 @@ public class TacticsManager : MonoBehaviour
         StunReceiver stunReceiver = GetComponentInChildren<StunReceiver>();
         stunReceiver.onStartStun -= OnStartStun;
         stunReceiver.onStopStun -= OnStopStun;
+
+        PlayerInput.OnYButtonDown -= OnYButtonDown;
+        PlayerInput.OnYButtonDown -= OnXButtonDown;
+        PlayerInput.OnYButtonDown -= OnBButtonDown;
+        PlayerInput.OnYButtonDown -= OnAButtonDown;
     }
 
     #endregion
@@ -105,17 +116,36 @@ public class TacticsManager : MonoBehaviour
 
     private void OnStopStun()
     {
-        canAssignOrder = true;
+        CanAssignOrder = true;
     }
 
     private void OnStartStun()
     {
-        canAssignOrder = false;
+        CanAssignOrder = false;
     }
     
     private void OnMostRappresentedGroupChanged() { 
         currentMostRepresentedGroup = GroupsInRangeDetector.MostRappresentedGroupInRange;
     }
 
+    private void OnYButtonDown()
+    {
+        AssignOrder( GroupBehaviour.State.MeleeAttack );
+    }
+
+    private void OnXButtonDown()
+    {
+        AssignOrder( GroupBehaviour.State.Recruit );
+    }
+
+    private void OnBButtonDown()
+    {
+        AssignOrder( GroupBehaviour.State.Tank );
+    }
+
+    private void OnAButtonDown()
+    {
+        AssignOrder( GroupBehaviour.State.RangeAttack );
+    }
     #endregion
 }

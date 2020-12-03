@@ -36,6 +36,7 @@ public class PlayerInput : GeneralInput
 
     #region Delegates and events
 
+    //TODO togliere
     public delegate void OnOLDXButtonDown();
     public static event OnOLDXButtonDown onXButtonDown;
 
@@ -44,6 +45,11 @@ public class PlayerInput : GeneralInput
 
     public delegate void OnXButtonHeldDown();
     public static event OnXButtonHeldDown onXButtonHeldDown;
+
+
+
+
+
 
     public static event Action OnYButtonDown;
     public static event Action OnXButtonDown;
@@ -56,6 +62,16 @@ public class PlayerInput : GeneralInput
     public static event Action OnLT_BButtonDown;
     public static event Action OnLT_AButtonDown;
 
+    private bool rtPressed;
+    private bool _ltPressed;
+
+
+
+
+
+
+
+    // TODO togli
     private void RaiseOnXButtonDown()
     {
         onXButtonDown?.Invoke();
@@ -173,9 +189,16 @@ public class PlayerInput : GeneralInput
             OnLTButtonUp?.Invoke();
         }
 
-        // TODO non funge per ora
-        if ( Input.GetButton( "XBoxLT" ) )
+        if ( Input.GetAxisRaw( "XBoxLT" ) <= 0.1f && _ltPressed )
         {
+            _ltPressed = false;
+            OnLTButtonUp?.Invoke();
+        }
+
+        // TODO non funge per ora
+        if ( Input.GetAxisRaw( "XBoxLT" ) >= 0.9f && !_ltPressed )
+        {
+            _ltPressed = true;
             OnLTButtonHeldDown?.Invoke();
 
             if ( Input.GetButtonDown( "XBoxY" ) )
@@ -248,13 +271,13 @@ public class PlayerInput : GeneralInput
 
                     StartCoroutine( DpadWait( dpadWaitTime ) );
                 }
-                else
-                {
-                    if ( dash != null )
-                    {
-                        dash.TryDash( InputManager.Instance.LeftStickVertical() , InputManager.Instance.LeftStickHorizontal() );
-                    }
-                }
+                //else
+                //{
+                //    if ( dash != null )
+                //    {
+                //        dash.TryDash( InputManager.Instance.LeftStickVertical() , InputManager.Instance.LeftStickHorizontal() );
+                //    }
+                //}
 
             }
 
@@ -339,22 +362,10 @@ public class PlayerInput : GeneralInput
                 }
             }
 
-            // R1 (PS3) / RB (XBOX) - Down
+            // R1 (PS3) / RB (XBOX)
             if ( InputManager.Instance.R1ButtonDown() && !NavigatingMenu )
             {
-                if ( combat != null )
-                {
-                    block.StartBlock();
-                }
-            }
-
-            // R1 (PS3) / RB (XOBX) - Up
-            if ( InputManager.Instance.R1ButtonUp() && !NavigatingMenu )
-            {
-                if ( combat != null )
-                {
-                    block.StopBlock();
-                }
+                dash?.TryDash(InputManager.Instance.LeftStickVertical(), InputManager.Instance.LeftStickHorizontal());
             }
 
             //// L2 (PS3) / LT (XBOX) - Down

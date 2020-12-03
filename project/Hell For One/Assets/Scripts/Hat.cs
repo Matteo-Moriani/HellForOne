@@ -6,8 +6,8 @@ public class Hat : MonoBehaviour
 {
     //private Rigidbody rb;
     private Collider collider;
-    private bool onGround = false;
-    private float fallingTime = 2f;
+    private bool minFallTimePassed = false;
+    private float fallingTime = 1f;
     private Rigidbody rigidbody;
 
     void Awake()
@@ -39,25 +39,34 @@ public class Hat : MonoBehaviour
     public IEnumerator Falling()
     {
         yield return new WaitForSeconds( fallingTime );
-        onGround = true;
-        transform.GetChild( 0 ).gameObject.SetActive( true );
+        minFallTimePassed = true;
+        //transform.GetChild( 0 ).gameObject.SetActive( true );
     }
 
     public void OnCollisionEnter( Collision collision )
     {
-        // If player touches the hat while on the ground
-        if ( onGround && collision.gameObject.transform.root.tag == "Player" )
+        if(minFallTimePassed && collision.gameObject.layer == LayerMask.NameToLayer("Walkable"))
         {
-            onGround = false;
+            ParticleSystem[] particles = transform.root.GetComponentsInChildren<ParticleSystem>();
+            foreach (ParticleSystem particle in particles)
+            {
+                particle.Play();
+            }
+        }
+        // If player touches the hat while on the ground
+        else if ( minFallTimePassed && collision.gameObject.transform.root.tag == "Player" )
+        {
+            minFallTimePassed = false;
             collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
-            //collision.gameObject.transform.root.Find("Crown").gameObject.SetActive(true);
-            //collision.gameObject.transform.root.GetComponent<TacticsManager>().enabled = true;
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().scepter.SetActive(true);
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
+            collision.gameObject.GetComponent<ChildrenObjectsManager>().shield.SetActive(false);
             collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
             Destroy( gameObject );
         }
         else if(collision.gameObject.transform.root.tag == "Boss" || collision.gameObject.transform.root.tag == "Demon")
         {
-            rigidbody.AddForce(new Vector3(1f, 1f, 1f), ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(2f, 1f, 2f), ForceMode.Impulse);
         }
     }
 }

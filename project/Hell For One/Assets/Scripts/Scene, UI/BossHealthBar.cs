@@ -6,17 +6,22 @@ using UnityEngine.UI;
 public class BossHealthBar : MonoBehaviour
 {
     private Image healthBarInside;
+    private Image healthBarOutside;
     private float maxHealth;
     private Stats characterStats;
+    private TMPro.TextMeshProUGUI bossName;
 
     public Image HealthBarInside { get => healthBarInside; set => healthBarInside = value; }
+    public Image HealthBarOutside { get => healthBarOutside; set => healthBarOutside = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        HealthBarInside = gameObject.GetComponent<Image>();
+        HealthBarInside = GameObject.Find( "BossBarIn" ).GetComponent<Image>();
+        HealthBarOutside = GameObject.Find( "BossHealthBarOut" ).GetComponent<Image>();
         maxHealth = characterStats.health;
+        bossName = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     private void OnEnable()
@@ -36,8 +41,11 @@ public class BossHealthBar : MonoBehaviour
     }
 
     private void OnBattleEnter() {
+        bossName.enabled = true;
+        HealthBarInside.enabled = true;
+        HealthBarOutside.enabled = true;
         characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        healthBarInside = gameObject.GetComponent<Image>();
+        //healthBarInside = gameObject.GetComponent<Image>();
         maxHealth = characterStats.health;
     }
 }

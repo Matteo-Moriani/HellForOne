@@ -206,7 +206,7 @@ public class Stats : MonoBehaviour
                 if (!GameObject.Find("Crown(Clone)"))
                 {
                     // TODO - change someway this
-                    GameObject crown = Instantiate(Resources.Load("Prefabs/Crown"), transform.position + new Vector3(0, 5, 0), Quaternion.identity) as GameObject;
+                    GameObject crown = Instantiate(LevelManager.Instance.GetCrown(), transform.position + new Vector3(0, 5, 0), Quaternion.identity);
                     crown.GetComponent<Hat>().PlayerDied();
                 }
                 

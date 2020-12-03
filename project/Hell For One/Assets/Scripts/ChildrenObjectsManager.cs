@@ -8,6 +8,7 @@ public class ChildrenObjectsManager : MonoBehaviour
     public GameObject crown;
     public GameObject spear;
     public GameObject shield;
+    public GameObject scepter;
 
     public void ActivateCircle() {
         circle.SetActive(true);

@@ -22,12 +22,30 @@ public class LevelManager : MonoBehaviour
     private GameObject bossArenaCenter;
     [SerializeField]
     private GameObject midBossArenaCenter;
+    [SerializeField]
+    private GameObject crownPrefab;
 
     private static bool isMidBossAlive;
     private static bool isBossAlive;
 
     public static bool IsMidBossAlive { get => isMidBossAlive; private set => isMidBossAlive = value; }
     public static bool IsBossAlive { get => isBossAlive; private set => isBossAlive = value; }
+
+    private static LevelManager _instance;
+
+    public static LevelManager Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     private void OnEnable()
     {
@@ -83,5 +101,10 @@ public class LevelManager : MonoBehaviour
 
     private void ActivateBoss() { 
         boss.gameObject.SetActive(true);   
+    }
+
+    public GameObject GetCrown()
+    {
+        return crownPrefab;
     }
 }
