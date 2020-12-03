@@ -471,20 +471,28 @@ public class NewHUD : MonoBehaviour
 
             case GroupManager.Group.GroupAzure:
 
+                groupAzureCurrentState = state;
+
                 ChangeSpecificGroupHUDOrderColor( groupAzure, state );
-                break;
-
-            case GroupManager.Group.GroupGreen:
-
-                ChangeSpecificGroupHUDOrderColor( groupGreen, state );
                 break;
 
             case GroupManager.Group.GroupPink:
 
+                GroupPinkCurrentState = state;
+
                 ChangeSpecificGroupHUDOrderColor( groupPink, state );
                 break;
 
+            case GroupManager.Group.GroupGreen:
+
+                groupGreenCurrentState = state;
+
+                ChangeSpecificGroupHUDOrderColor( groupGreen, state );
+                break;
+
             case GroupManager.Group.GroupYellow:
+
+                groupYellowCurrentState = state;
 
                 ChangeSpecificGroupHUDOrderColor( groupYellow, state );
                 break;
@@ -493,6 +501,7 @@ public class NewHUD : MonoBehaviour
 
     void Update()
     {
+        // To show the tactics of the most represented group on the HUD
         switch ( tacticsManager.CurrentMostRepresentedGroup )
         {
             case GroupManager.Group.None:
