@@ -88,31 +88,31 @@ public class NewHUD : MonoBehaviour
 
     void Start()
     {
-        GameObject panel = transform.GetChild( 0 ).gameObject;
-        panelAzure = panel.transform.GetChild( 0 ).gameObject;
-        panelPink = panel.transform.GetChild( 1 ).gameObject;
-        panelGreen = panel.transform.GetChild( 2 ).gameObject;
-        panelYellow = panel.transform.GetChild( 3 ).gameObject;
-        OrdersCross = transform.GetChild( 1 ).gameObject;
+        //GameObject panel = transform.GetChild( 0 ).gameObject;
+        //panelAzure = panel.transform.GetChild( 0 ).gameObject;
+        //panelPink = panel.transform.GetChild( 1 ).gameObject;
+        //panelGreen = panel.transform.GetChild( 2 ).gameObject;
+        //panelYellow = panel.transform.GetChild( 3 ).gameObject;
+        //OrdersCross = transform.GetChild( 1 ).gameObject;
 
-        azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconAzure = panelAzure.transform.GetChild( panelAzure.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconPink = panelPink.transform.GetChild( panelPink.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconGreen = panelGreen.transform.GetChild( panelGreen.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        aggroIconYellow = panelYellow.transform.GetChild( panelYellow.transform.childCount - 1 ).gameObject.GetComponent<Image>();
+        //azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        //aggroIconAzure = panelAzure.transform.GetChild( panelAzure.transform.childCount - 1 ).gameObject.GetComponent<Image>();
+        //pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        //aggroIconPink = panelPink.transform.GetChild( panelPink.transform.childCount - 1 ).gameObject.GetComponent<Image>();
+        //greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        //aggroIconGreen = panelGreen.transform.GetChild( panelGreen.transform.childCount - 1 ).gameObject.GetComponent<Image>();
+        //yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
+        //aggroIconYellow = panelYellow.transform.GetChild( panelYellow.transform.childCount - 1 ).gameObject.GetComponent<Image>();
 
-        aggroIconAzure.enabled = false;
-        aggroIconPink.enabled = false;
-        aggroIconGreen.enabled = false;
-        aggroIconYellow.enabled = false;
+        //aggroIconAzure.enabled = false;
+        //aggroIconPink.enabled = false;
+        //aggroIconGreen.enabled = false;
+        //aggroIconYellow.enabled = false;
 
-        meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
-        rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
-        tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
-        supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
+        //meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
+        //rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
+        //tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
+        //supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
 
         player = GameObject.FindGameObjectWithTag( "Player" );
 
