@@ -12,8 +12,9 @@ public class ImpMana : MonoBehaviour
     private static float activeManaChargeRate = 2f;
     private static float rechargeTimer = 0f;
     private static float currentManaRechargeRate;
-    private static float manaPool = 45f;
+    private static float manaPool = 45f;            // public and 45 to debug faster
     private static List<ParticleSystem> _manaParticles = new List<ParticleSystem>();
+    private static bool inBattle = false;
 
     private static GroupAbilities[] groupAbilitiesArray;
     
@@ -39,25 +40,19 @@ public class ImpMana : MonoBehaviour
     
     #region Delegates and events
 
-    public delegate void OnManaPoolChanged();
-    public static event OnManaPoolChanged onManaPoolChanged;
-
+    public static event Action OnManaPoolChanged;
     public static event Action OnOneSegment;
     public static event Action OnTwoSegments;
 
     // TODO Mancano gli eventi per il consumo delle barre
-    
-    private void RaiseOnManaPoolChanged()
-    {
-        onManaPoolChanged?.Invoke();
-    }
-    
+        
     #endregion
     
     #region Unity methods
 
     private void Awake()
     {
+        _manaParticles.Clear();
         ParticleSystem[] allParticles = GetComponentsInChildren<ParticleSystem>();
         foreach(ParticleSystem p in allParticles)
         {
@@ -84,6 +79,8 @@ public class ImpMana : MonoBehaviour
     private void OnEnable()
     {
         GetComponent<Stats>().onDeath += OnDeath;
+        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        BattleEventsManager.onBattleExit += OnBattleExit;
 
         foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
         {
@@ -94,16 +91,18 @@ public class ImpMana : MonoBehaviour
     private void OnDisable()
     {
         GetComponent<Stats>().onDeath -= OnDeath;
-        
+        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        BattleEventsManager.onBattleExit -= OnBattleExit;
+
         foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
         {
             groupAbilities.onStartAbility -= OnStartAbility;
         }
     }
 
-    private static void OnStartAbility(AbilityAttack startedability)
+    private static void OnStartAbility(AbilityAttack startedAbility)
     {
-        manaPool -= startedability.ManaCost;
+        manaPool -= startedAbility.ManaCost;
     }
 
     #endregion
@@ -127,39 +126,55 @@ public class ImpMana : MonoBehaviour
     private void OnDeath(Stats sender)
     {
         StopAllCoroutines();
-        this.enabled = false;
+        enabled = false;
     }
     
     #endregion
     
     #region Coroutines
 
-    private IEnumerator ManaRechargeCoroutine()
+    private static IEnumerator ManaRechargeCoroutine()
     {
+        bool firstSegmentActivated = false;
+        bool secondSegmentActivated = false;
+
         while (true)
         {
-            rechargeTimer += Time.deltaTime;
-            
-            if (rechargeTimer >= 1.0f)
+            if(inBattle)
             {
-                rechargeTimer = 0f;
-                
-                if (manaPool < maxMana)
-                {
-                    manaPool += currentManaRechargeRate;
-                    RaiseOnManaPoolChanged();
-                }
+                rechargeTimer += Time.deltaTime;
 
-                if(manaPool == maxMana / 2f)
+                if(rechargeTimer >= 1.0f)
                 {
-                    OnOneSegment?.Invoke();
-                    PlayManaParticles();
+                    rechargeTimer = 0f;
 
-                }
-                else if(manaPool == maxMana)
-                {
-                    OnTwoSegments?.Invoke();
-                    PlayManaParticles();
+                    if(manaPool < maxMana / 2f)
+                    {
+                        manaPool += currentManaRechargeRate;
+                        OnManaPoolChanged?.Invoke();
+                        firstSegmentActivated = false;
+                        secondSegmentActivated = false;
+                        StopManaParticles();
+                    }
+                    else if(manaPool < maxMana)
+                    {
+                        manaPool += currentManaRechargeRate;
+                        OnManaPoolChanged?.Invoke();
+                        secondSegmentActivated = false;
+                    }
+
+                    if(manaPool >= maxMana / 2f && !firstSegmentActivated)
+                    {
+                        OnOneSegment?.Invoke();
+                        PlayManaParticles();
+                        firstSegmentActivated = true;
+                    }
+                    else if(manaPool == maxMana && !secondSegmentActivated)
+                    {
+                        OnTwoSegments?.Invoke();
+                        PlayManaParticles();
+                        secondSegmentActivated = true;
+                    }
                 }
             }
 
@@ -167,12 +182,32 @@ public class ImpMana : MonoBehaviour
         }
     }
 
-    private void PlayManaParticles()
+    private static void PlayManaParticles()
     {
         foreach(ParticleSystem p in _manaParticles)
         {
             p.Play();
         }
+    }
+
+    private static void StopManaParticles()
+    {
+        foreach(ParticleSystem p in _manaParticles)
+        {
+            if(p.isPlaying)
+                p.Stop();
+        }
+    }
+
+    private void OnBattleEnter()
+    {
+        inBattle = true;
+    }
+
+    private void OnBattleExit()
+    {
+        inBattle = false;
+        manaPool = 0f;
     }
 
     #endregion

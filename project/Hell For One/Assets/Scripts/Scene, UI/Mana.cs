@@ -19,12 +19,12 @@ public class Mana : MonoBehaviour
 
     private void OnEnable()
     {
-        ImpMana.onManaPoolChanged += OnManaPoolChanged;
+        ImpMana.OnManaPoolChanged += OnManaPoolChanged;
     }
 
     private void OnDisable()
     {
-        ImpMana.onManaPoolChanged -= OnManaPoolChanged;
+        ImpMana.OnManaPoolChanged -= OnManaPoolChanged;
     }
 
     void Start()
