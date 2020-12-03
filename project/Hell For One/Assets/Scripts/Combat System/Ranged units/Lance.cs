@@ -48,7 +48,6 @@ public class Lance : MonoBehaviour
         // TODO - put here an effect to stick lances into target
     }
     
-
     private IEnumerator DisableCoroutine()
     {
         yield return new WaitForSeconds(fixedDuration);

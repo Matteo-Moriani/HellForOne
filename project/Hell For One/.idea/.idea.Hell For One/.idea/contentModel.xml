@@ -90,6 +90,7 @@
           <e p="Animations" t="Include">
             <e p="AnimationsManager.cs" t="Include" />
             <e p="BossAnimator.cs" t="Include" />
+            <e p="EnemyAnimator.cs" t="Include" />
             <e p="ImpAnimator.cs" t="Include" />
             <e p="MidBossAnimator.cs" t="Include" />
             <e p="Spectator.cs" t="Include" />
@@ -169,8 +170,19 @@
             <e p="GameEvents.cs" t="Include" />
           </e>
           <e p="FactoryBasedCombatSystem" t="Include">
+            <e p="AttackCollider.cs" t="Include" />
+            <e p="Block.cs" t="Include" />
+            <e p="CombatSystem.cs" t="Include" />
+            <e p="Dash.cs" t="Include" />
+            <e p="HitboxCollider.cs" t="Include" />
+            <e p="HitPoints.cs" t="Include" />
+            <e p="ProjectileMovement.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
-              <e p="AttackFactory.cs" t="Include" />
+              <e p="Attacks" t="Include">
+                <e p="AttackFactory.cs" t="Include" />
+                <e p="MeleeAttackFactory.cs" t="Include" />
+                <e p="RangedAttackFactory.cs" t="Include" />
+              </e>
             </e>
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
@@ -186,7 +198,6 @@
           <e p="Input" t="Include">
             <e p="CameraInputAssign.cs" t="Include" />
             <e p="Controls.cs" t="Include" />
-            <e p="Dash.cs" t="Include" />
             <e p="GeneralInput.cs" t="Include" />
             <e p="InputManager.cs" t="Include" />
             <e p="InputTester.cs" t="Include" />
@@ -195,6 +206,9 @@
             <e p="PlayerInput.cs" t="Include" />
             <e p="PS4Controller.cs" t="Include" />
             <e p="TacticsManager.cs" t="Include" />
+          </e>
+          <e p="Interfaces" t="Include">
+            <e p="IGroupOrdersObserver.cs" t="Include" />
           </e>
           <e p="LockCameraTargetManager.cs" t="Include" />
           <e p="Managers" t="Include">
@@ -208,9 +222,12 @@
             <e p="TutorialManager.cs" t="Include" />
           </e>
           <e p="NewCameraManager.cs" t="Include" />
-          <e p="Orders" t="Include">
+          <e p="OrdersSystem" t="Include">
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
+            <e p="ScriptableObjects" t="Include">
+              <e p="Oder.cs" t="Include" />
+            </e>
             <e p="Support.cs" t="Include" />
           </e>
           <e p="PlayerScriptedMovements.cs" t="Include" />
@@ -253,6 +270,13 @@
             <e p="BossFightTrigger.cs" t="Include" />
             <e p="InvisibleWallsTrigger.cs" t="Include" />
             <e p="LittleEnemiesFightTrigger.cs" t="Include" />
+          </e>
+          <e p="Utils" t="Include">
+            <e p="IdManager.cs" t="Include" />
+            <e p="ObjectPooling" t="Include">
+              <e p="Pooler.cs" t="Include" />
+              <e p="PoolersManager.cs" t="Include" />
+            </e>
           </e>
         </e>
         <e p="Shaders" t="Include">

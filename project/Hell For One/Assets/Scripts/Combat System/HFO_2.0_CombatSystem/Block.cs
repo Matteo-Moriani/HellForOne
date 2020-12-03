@@ -186,7 +186,7 @@ public class Block : MonoBehaviour
         switch (newState)
         {
             case GroupBehaviour.State.MeleeAttack:
-                blockChance =blockValues.MeleeBlockChance;
+                blockChance = blockValues.MeleeBlockChance;
                 break;
             case GroupBehaviour.State.Tank:
                 blockChance = blockValues.TankBlockChance;

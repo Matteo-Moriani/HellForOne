@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
+using FactoryBasedCombatSystem;
 using UnityEngine.SceneManagement;
 
 // TODO - implement reincarnation using events

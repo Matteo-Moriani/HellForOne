@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FactoryBasedCombatSystem;
 using UnityEngine;
 
 public class IdleCollider : MonoBehaviour
@@ -59,8 +60,8 @@ public class IdleCollider : MonoBehaviour
     {
         if (dash != null)
         {
-            dash.onDashStart += OnDashStart;
-            dash.onDashStop += OnDashStop;    
+            dash.OnStartDash += OnDashStart;
+            dash.OnStopDash += OnDashStop;    
         }
     }
 
@@ -68,8 +69,8 @@ public class IdleCollider : MonoBehaviour
     {
         if (dash != null)
         {
-            dash.onDashStart -= OnDashStart;
-            dash.onDashStop -= OnDashStop;    
+            dash.OnStartDash -= OnDashStart;
+            dash.OnStopDash -= OnDashStop;    
         }
     }
 
