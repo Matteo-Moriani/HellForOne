@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Managers : MonoBehaviour
+public class ManagersDontDestroyOnLoad : MonoBehaviour
 {
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class Managers : MonoBehaviour
             onPressPlayButton();
     }
 
-    private static Managers instance;
+    private static ManagersDontDestroyOnLoad instance;
 
-    public static Managers Instance {
+    public static ManagersDontDestroyOnLoad Instance {
         get {
             return instance;
         }

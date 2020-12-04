@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FactoryBasedCombatSystem.ScriptableObjects;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using FactoryBasedCombatSystem.ScriptableObjects.Units;
 using UnityEngine;
-using UnityEngine.UI;
+
 using Utils;
-using Random = UnityEngine.Random;
 
 namespace FactoryBasedCombatSystem
 {
@@ -13,31 +12,12 @@ namespace FactoryBasedCombatSystem
     {
         #region Fields
     
-        //[SerializeField] private Unit unitType;
-        
+        [SerializeField] private Unit unitType;
         [SerializeField] private Transform projectileAnchor;
-
-        [Header("Stats")]
-        //[SerializeField] private BuffableStats unitBuffableStats;
-
-        // [SerializeField] private float unitBaseAttackMultiplier = 1f;
-        // [SerializeField] private float unitMinAttackMultiplier = .1f;
-        // [SerializeField] private float unitMaxAttackMultiplier = 10f;
-        //
-        // [SerializeField] private float unitBaseAttackAlliesHealing = 0.0f;
-        // [SerializeField] private float unitMinAttackAlliesHealing = 0.0f;
-        // [SerializeField] private float unitMaxAttackAlliesHealing = 0.0f;
         
-        // private AttackDamage _unitAttackDamageMultiplier;
-        // private WeakSpotBonusDamageMultiplier _unitWeakSpotBonusDamageMultiplier;
-        // private AttackAlliesHealing _unitAttackAlliesHealing;
-        // private readonly Defence _unitDefence = new Defence(0f,-10f,10f);
-
-        // TODO - Use ID system
-        // private byte _currentMaxId = 0;
-        //
         private readonly Dictionary<int,Coroutine> _activeAttacks = new Dictionary<int, Coroutine>(); 
-        private HitboxCollider _hitboxCollider;
+        
+        private HitboxCollider[] _hitboxColliders;
         
         #endregion
 
@@ -64,17 +44,23 @@ namespace FactoryBasedCombatSystem
 
         private void Awake()
         {
-            _hitboxCollider = GetComponentInChildren<HitboxCollider>();
+            _hitboxColliders = GetComponentsInChildren<HitboxCollider>();
         }
 
         private void OnEnable()
         {
-            _hitboxCollider.OnBeingHit += OnBeingHit;
+            foreach (HitboxCollider hitboxCollider in _hitboxColliders)
+            {
+                hitboxCollider.OnBeingHit += OnBeingHit;   
+            }
         }
 
         private void OnDisable()
         {
-            _hitboxCollider.OnBeingHit -= OnBeingHit;
+            foreach (HitboxCollider hitboxCollider in _hitboxColliders)
+            {
+                hitboxCollider.OnBeingHit -= OnBeingHit;   
+            }
         }
 
         #endregion
@@ -141,6 +127,11 @@ namespace FactoryBasedCombatSystem
         // TODO :- Animation events
         public void OnAttackAnimationDeactivateAttack() => OnDeactivateAttack?.Invoke();
 
+        private void OnBeingHit(Attack attack, CombatSystem attackerCombatSystem)
+        {
+            throw new NotImplementedException();
+        }
+        
         public void OnHit(Attack attack)
         {
             throw new NotImplementedException();
@@ -161,12 +152,7 @@ namespace FactoryBasedCombatSystem
             // attack.NotifyUnitHit(colliderHit, transform, transform.root, colliderHit.transform.root, _networkIdentity);
             // colliderHit.NotifyHit(unitHitData);
         }
-        
-        private void OnBeingHit()
-        {
-            throw new NotImplementedException();
-        }
-        
+
         // private void OnBeingHit(AttackUnitHitData hitData)
         // {
         //     hitData.ProcessedDamage.ApplyMultiplierModifier(hitData.ColliderHit.damageMultiplier > 1.0f ? hitData.WeakSpotDamageMultiplier : 1);

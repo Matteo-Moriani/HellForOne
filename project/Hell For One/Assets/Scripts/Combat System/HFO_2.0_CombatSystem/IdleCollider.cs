@@ -58,20 +58,20 @@ public class IdleCollider : MonoBehaviour
 
     private void OnEnable()
     {
-        if (dash != null)
-        {
-            dash.OnStartDash += OnDashStart;
-            dash.OnStopDash += OnDashStop;    
-        }
+        // if (dash != null)
+        // {
+        //     dash.OnStartDash += OnDashStart;
+        //     dash.OnStopDash += OnDashStop;    
+        // }
     }
 
     private void OnDisable()
     {
-        if (dash != null)
-        {
-            dash.OnStartDash -= OnDashStart;
-            dash.OnStopDash -= OnDashStop;    
-        }
+        // if (dash != null)
+        // {
+        //     dash.OnStartDash -= OnDashStart;
+        //     dash.OnStopDash -= OnDashStop;    
+        // }
     }
 
     #endregion

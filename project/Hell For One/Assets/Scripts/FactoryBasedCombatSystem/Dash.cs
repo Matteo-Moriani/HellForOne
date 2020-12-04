@@ -9,7 +9,7 @@ namespace FactoryBasedCombatSystem
     public class Dash : MonoBehaviour
     {
         #region fields
-    
+
         private float dashSize = 2.5f;
         private float dashCooldown = 1f;
         private float dashTime = 0.35f;
@@ -33,7 +33,6 @@ namespace FactoryBasedCombatSystem
 
         private Rigidbody rb;
         private PlayerController playerController;
-        private Block block;
         private StunReceiver stunReceiver;
         private KnockbackReceiver knockbackReceiver;
 
@@ -62,8 +61,7 @@ namespace FactoryBasedCombatSystem
             isDashing = false;
             canDash = true;
             playerWantsToDash = false;
-        
-            block = GetComponentInChildren<Block>();
+            
             knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
             stunReceiver = GetComponentInChildren<StunReceiver>();
         
@@ -74,8 +72,6 @@ namespace FactoryBasedCombatSystem
 
         private void OnEnable()
         {
-            block.onStartBlock += OnStartBlock;
-            block.onStopBlock += OnStopBlock;
             stunReceiver.onStartStun += OnStartStun;
             stunReceiver.onStopStun += OnStopStun;
             knockbackReceiver.onStartKnockback += OnStartKnockback;
@@ -83,9 +79,7 @@ namespace FactoryBasedCombatSystem
         }
 
         private void OnDisable()
-        {    
-            block.onStartBlock -= OnStartBlock;
-            block.onStopBlock -= OnStopBlock;
+        {
             stunReceiver.onStartStun -= OnStartStun;
             stunReceiver.onStopStun -= OnStopStun;
             knockbackReceiver.onStartKnockback -= OnStartKnockback;
@@ -257,16 +251,6 @@ namespace FactoryBasedCombatSystem
         }
 
         private void OnStartStun()
-        {
-            DisableDash();
-        }
-
-        private void OnStopBlock(Block sender)
-        {
-            EnableDash();
-        }
-
-        private void OnStartBlock(Block sender)
         {
             DisableDash();
         }

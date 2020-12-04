@@ -62,6 +62,39 @@
             </e>
           </e>
         </e>
+        <e p="Imported Packages" t="Include">
+          <e p="JMO Assets" t="Include">
+            <e p="Cartoon FX" t="Include">
+              <e p="CartoonFX Free.txt" t="Include" />
+              <e p="Demo" t="Include">
+                <e p="Assets" t="Include">
+                  <e p="CFX_AutoStopLoopedEffect.cs" t="Include" />
+                  <e p="CFX_Demo_New.cs" t="Include" />
+                  <e p="CFX_Demo_RandomDir.cs" t="Include" />
+                  <e p="CFX_Demo_RandomDirectionTranslate.cs" t="Include" />
+                  <e p="CFX_Demo_RotateCamera.cs" t="Include" />
+                  <e p="CFX_Demo_Translate.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="CFX_AutoDestructShuriken.cs" t="Include" />
+                <e p="CFX_AutoRotate.cs" t="Include" />
+                <e p="CFX_LightFlicker.cs" t="Include" />
+                <e p="CFX_LightIntensityFade.cs" t="Include" />
+              </e>
+              <e p="Shaders" t="Include">
+                <e p="CFX3 Multiply Color.shader" t="Include" />
+                <e p="CFXM_MobileParticleAdd_Alpha8.shader" t="Include" />
+              </e>
+            </e>
+            <e p="Cartoon FX Easy Editor" t="Include">
+              <e p="CartoonFX Easy Editor Readme.txt" t="Include" />
+              <e p="Editor" t="Include">
+                <e p="CFXEasyEditor.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
         <e p="Materials" t="Include">
           <e p="Outline.shader" t="Include" />
         </e>
@@ -183,6 +216,9 @@
                 <e p="MeleeAttackFactory.cs" t="Include" />
                 <e p="RangedAttackFactory.cs" t="Include" />
               </e>
+              <e p="Units" t="Include">
+                <e p="Unit.cs" t="Include" />
+              </e>
             </e>
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
@@ -198,6 +234,7 @@
           <e p="Input" t="Include">
             <e p="CameraInputAssign.cs" t="Include" />
             <e p="Controls.cs" t="Include" />
+            <e p="Dash.cs" t="Include" />
             <e p="GeneralInput.cs" t="Include" />
             <e p="InputManager.cs" t="Include" />
             <e p="InputTester.cs" t="Include" />
@@ -208,6 +245,10 @@
             <e p="TacticsManager.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
+            <e p="ActionBlocksSystem" t="Include">
+              <e p="IActionsBlockObserver.cs" t="Include" />
+              <e p="IActionsBlockSubject.cs" t="Include" />
+            </e>
             <e p="IGroupOrdersObserver.cs" t="Include" />
           </e>
           <e p="LockCameraTargetManager.cs" t="Include" />
@@ -218,7 +259,10 @@
             <e p="CombatEventsManager.cs" t="Include" />
             <e p="EnemiesManager.cs" t="Include" />
             <e p="LevelManager.cs" t="Include" />
-            <e p="Managers.cs" t="Include" />
+            <e p="ManagersDontDestroyOnLoad.cs" t="Include" />
+            <e p="OnUnitManagers" t="Include">
+              <e p="UnitActionsBlockManager.cs" t="Include" />
+            </e>
             <e p="TutorialManager.cs" t="Include" />
           </e>
           <e p="NewCameraManager.cs" t="Include" />
@@ -265,6 +309,7 @@
             <e p="RecruitManager.cs" t="Include" />
             <e p="Stats.cs" t="Include" />
           </e>
+          <e p="TacticChangeParticles.cs" t="Include" />
           <e p="TimePlayerKillerTest.cs" t="Include" />
           <e p="Triggers" t="Include">
             <e p="BossFightTrigger.cs" t="Include" />
@@ -272,6 +317,7 @@
             <e p="LittleEnemiesFightTrigger.cs" t="Include" />
           </e>
           <e p="Utils" t="Include">
+            <e p="ActionLock.cs" t="Include" />
             <e p="IdManager.cs" t="Include" />
             <e p="ObjectPooling" t="Include">
               <e p="Pooler.cs" t="Include" />

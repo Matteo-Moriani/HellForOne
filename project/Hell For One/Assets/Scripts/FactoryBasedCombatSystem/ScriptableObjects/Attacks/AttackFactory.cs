@@ -113,7 +113,10 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             stopAction(id);
         }
-        
+
+        // TODO :- Stop attack using notify hit (a bool maybe)
+        public abstract void NotifyHit();
+
         #region Abstract members
 
         protected abstract IEnumerator InnerDoAttack(CombatSystem ownerCombatSystem, Transform target);
