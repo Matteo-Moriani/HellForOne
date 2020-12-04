@@ -33,8 +33,18 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [Header("Common")]
         [SerializeField, Min(0f)] private float damage;
         [SerializeField, Min(0f)] private float colliderRadius;
+        
         [SerializeField] private bool blockable;
         [SerializeField] private bool canBeMultiple;
+
+        [Header("Knockback")]
+        [SerializeField] private bool dealsKnockback;
+        [SerializeField] private bool dealKnockbackWhenBlocked;
+        
+        [Header("Stun")]
+        [SerializeField] private bool dealsStun;
+        [SerializeField] private bool dealsStunWhenBlocked;
+        [SerializeField, Min(0f)] private float stunTime;
         
         [Header("Splash Damage")]
         [SerializeField] private bool splashDamage;
@@ -80,6 +90,36 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             private set => blockable = value;
         }
 
+        public bool DealsStun
+        {
+            get => dealsStun;
+            private set => dealsStun = value;
+        }
+
+        public bool DealsStunWhenBlocked
+        {
+            get => dealsStunWhenBlocked;
+            private set => dealsStunWhenBlocked = value;
+        }
+
+        public float StunTime
+        {
+            get => stunTime;
+            private set => stunTime = value;
+        }
+
+        public bool DealsKnockback
+        {
+            get => dealsKnockback;
+            private set => dealsKnockback = value;
+        }
+
+        public bool DealKnockbackWhenBlocked
+        {
+            get => dealKnockbackWhenBlocked;
+            private set => dealKnockbackWhenBlocked = value;
+        }
+
         #endregion
     }
     
@@ -89,7 +129,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
     public abstract class Attack
     {
-        protected bool StartAttack { get; private set;}
+        protected bool InAnimationAttackTime { get; private set;}
+        protected bool HasHit { get; private set; }
 
         public IEnumerator DoAttack(int id, CombatSystem ownerCombatSystem, Action<int> stopAction, Transform target = null)
         {
@@ -100,13 +141,18 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             Dispose(id,ownerCombatSystem,stopAction);
         }
 
-        protected virtual void Setup(CombatSystem ownerCombatSystem)
+        private void Setup(CombatSystem ownerCombatSystem)
         {
+            InAnimationAttackTime = false;
+            HasHit = false;
+            
             ownerCombatSystem.OnActivateAttack += OnActivateAttack;
             ownerCombatSystem.OnDeactivateAttack += OnDeactivateAttack;
+            ownerCombatSystem.OnBlockedHitDealt += NotifyHit;
+            ownerCombatSystem.OnDamageHitDealt += NotifyHit;
         }
 
-        protected virtual void Dispose(int id, CombatSystem ownerCombatSystem, Action<int> stopAction)
+        private void Dispose(int id, CombatSystem ownerCombatSystem, Action<int> stopAction)
         {
             ownerCombatSystem.OnActivateAttack -= OnActivateAttack;
             ownerCombatSystem.OnDeactivateAttack -= OnDeactivateAttack;
@@ -115,7 +161,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         }
 
         // TODO :- Stop attack using notify hit (a bool maybe)
-        public abstract void NotifyHit();
+        private void NotifyHit() => HasHit = true;
 
         #region Abstract members
 
@@ -126,9 +172,9 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
         #region Event handlers
 
-        private void OnDeactivateAttack() => StartAttack = false;
+        private void OnDeactivateAttack() => InAnimationAttackTime = false;
 
-        private void OnActivateAttack() => StartAttack = true;
+        private void OnActivateAttack() => InAnimationAttackTime = true;
 
         #endregion
     }

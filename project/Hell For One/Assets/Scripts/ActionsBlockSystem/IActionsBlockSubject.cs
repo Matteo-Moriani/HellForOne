@@ -1,7 +1,6 @@
 ﻿using System;
-using Managers.OnUnitManagers;
 
-namespace Interfaces.ActionBlocksSystem
+namespace ActionsBlockSystem
 {
     public interface IActionsBlockSubject
     {

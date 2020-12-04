@@ -99,6 +99,12 @@
           <e p="Outline.shader" t="Include" />
         </e>
         <e p="Scripts" t="Include">
+          <e p="ActionsBlockSystem" t="Include">
+            <e p="ActionLock.cs" t="Include" />
+            <e p="IActionsBlockObserver.cs" t="Include" />
+            <e p="IActionsBlockSubject.cs" t="Include" />
+            <e p="UnitActionsBlockManager.cs" t="Include" />
+          </e>
           <e p="ActiveBattle.cs" t="Include" />
           <e p="Aggro" t="Include">
             <e p="ImpAggro.cs" t="Include" />
@@ -209,6 +215,7 @@
             <e p="Dash.cs" t="Include" />
             <e p="HitboxCollider.cs" t="Include" />
             <e p="HitPoints.cs" t="Include" />
+            <e p="Knockback.cs" t="Include" />
             <e p="ProjectileMovement.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
               <e p="Attacks" t="Include">
@@ -220,6 +227,7 @@
                 <e p="Unit.cs" t="Include" />
               </e>
             </e>
+            <e p="Stun.cs" t="Include" />
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
           <e p="Groups" t="Include">
@@ -245,10 +253,6 @@
             <e p="TacticsManager.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
-            <e p="ActionBlocksSystem" t="Include">
-              <e p="IActionsBlockObserver.cs" t="Include" />
-              <e p="IActionsBlockSubject.cs" t="Include" />
-            </e>
             <e p="IGroupOrdersObserver.cs" t="Include" />
           </e>
           <e p="LockCameraTargetManager.cs" t="Include" />
@@ -260,9 +264,6 @@
             <e p="EnemiesManager.cs" t="Include" />
             <e p="LevelManager.cs" t="Include" />
             <e p="ManagersDontDestroyOnLoad.cs" t="Include" />
-            <e p="OnUnitManagers" t="Include">
-              <e p="UnitActionsBlockManager.cs" t="Include" />
-            </e>
             <e p="TutorialManager.cs" t="Include" />
           </e>
           <e p="NewCameraManager.cs" t="Include" />
@@ -270,12 +271,15 @@
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
-              <e p="Oder.cs" t="Include" />
+              <e p="Order.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />
           </e>
           <e p="PlayerScriptedMovements.cs" t="Include" />
           <e p="Reincarnation.cs" t="Include" />
+          <e p="ReincarnationSystem" t="Include">
+            <e p="IReincarnationObserver.cs" t="Include" />
+          </e>
           <e p="Rendering" t="Include">
             <e p="MaterialsManager.cs" t="Include" />
           </e>
@@ -317,7 +321,6 @@
             <e p="LittleEnemiesFightTrigger.cs" t="Include" />
           </e>
           <e p="Utils" t="Include">
-            <e p="ActionLock.cs" t="Include" />
             <e p="IdManager.cs" t="Include" />
             <e p="ObjectPooling" t="Include">
               <e p="Pooler.cs" t="Include" />

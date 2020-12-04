@@ -57,18 +57,15 @@ namespace FactoryBasedCombatSystem.ScriptableObjects
     {
         protected override IEnumerator InnerDoAttack(CombatSystem ownerCombatSystem, Transform target)
         {
-            // TODO :- check if it's ok to break like this
             if(target == null) yield break;
 
-            while (!StartAttack) yield return null;
+            while (!InAnimationAttackTime) yield return null;
 
             GameObject projectile = PoolersManager.Instance.TryGetPooler(data.ProjectilePrefab).GetPooledObject(data.DestroyTime);
             
             AttackCollider projectileAttackCollider = projectile.GetComponentInChildren<AttackCollider>();
             projectileAttackCollider.Initialize(this,ownerCombatSystem.transform.root,ownerCombatSystem);
             projectileAttackCollider.SetSize(data.ColliderRadius);
-            
-            projectile.SetActive(true);
 
             ProjectileMovement projectileMovement = projectile.GetComponent<ProjectileMovement>();
             
@@ -86,17 +83,16 @@ namespace FactoryBasedCombatSystem.ScriptableObjects
 
             while (timer <= data.DestroyTime)
             {
-                if (projectileAttackCollider.HasHit)
+                if (HasHit)
                 {
                     projectileMovement.Stop();
 
-                    if (data.SplashDamage)
-                    {
-                        projectileAttackCollider.gameObject.transform.localScale = Vector3.one * data.SplashDamageRadius;
+                    if (!data.SplashDamage) yield break;
                     
-                        yield return new WaitForSeconds(0.2f);
-                    }
+                    projectileAttackCollider.gameObject.transform.localScale = Vector3.one * data.SplashDamageRadius;
                     
+                    yield return new WaitForSeconds(0.2f);
+
                     yield break;
                 }
 

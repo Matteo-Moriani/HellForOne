@@ -26,12 +26,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             AttackCollider attackCollider = ownerCombatSystem.GetComponentInChildren<AttackCollider>();
             Transform attackColliderTransform = attackCollider.transform;
             
-            while (!StartAttack) yield return null;
+            while (!InAnimationAttackTime) yield return null;
 
             attackColliderTransform.position += Vector3.forward * data.Range;
             attackColliderTransform.localScale = Vector3.one * data.ColliderRadius;
 
-            while (StartAttack && !attackCollider.HasHit) yield return null;
+            while (InAnimationAttackTime && !HasHit) yield return null;
 
             attackColliderTransform.position -= Vector3.forward * data.Range;
             attackColliderTransform.localScale = Vector3.zero;

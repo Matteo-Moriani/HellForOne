@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using Interfaces.ActionBlocksSystem;
 using UnityEngine;
 
-namespace Managers.OnUnitManagers
+namespace ActionsBlockSystem
 {
     // TODO - Manage interrupts
     public class UnitActionsBlockManager : MonoBehaviour
     {
         public enum UnitAction
         {
-            ReceiveDamage
+            ReceiveDamage,
+            Dash,
+            Move,
+            GiveOrders,
+            UseAbilities,
+            ChargeMana,
+            Attack
         }
         
         private readonly Dictionary<UnitAction, List<IActionsBlockObserver>> _observers = new Dictionary<UnitAction, List<IActionsBlockObserver>>();

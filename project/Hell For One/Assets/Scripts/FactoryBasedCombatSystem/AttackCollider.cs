@@ -19,19 +19,19 @@ namespace FactoryBasedCombatSystem
         public Attack CurrentAttack
         {
             get => _currentAttack;
-            set => _currentAttack = value;
+            private set => _currentAttack = value;
         }
 
         public Transform CurrentOwner
         {
             get => _currentOwner;
-            set => _currentOwner = value;
+            private set => _currentOwner = value;
         }
 
         public CombatSystem OwnerCombatSystem
         {
             get => _ownerCombatSystem;
-            set => _ownerCombatSystem = value;
+            private set => _ownerCombatSystem = value;
         }
 
         #endregion
@@ -47,18 +47,18 @@ namespace FactoryBasedCombatSystem
             _ownerCombatSystem = null;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.transform.root == _currentOwner) return;
-            
-            if (other.gameObject.layer != LayerMask.NameToLayer("CombatSystem")) return;
-
-            HitboxCollider targetHitboxCollider = other.GetComponent<HitboxCollider>();
-            
-            if(targetHitboxCollider == null) return;
-
-            // TODO :- Do something
-        }
+        // private void OnTriggerEnter(Collider other)
+        // {
+        //     if (other.transform.root == _currentOwner) return;
+        //     
+        //     if (other.gameObject.layer != LayerMask.NameToLayer("CombatSystem")) return;
+        //
+        //     HitboxCollider targetHitboxCollider = other.GetComponent<HitboxCollider>();
+        //     
+        //     if(targetHitboxCollider == null) return;
+        //
+        //     // TODO :- Do something
+        // }
 
         #endregion
         

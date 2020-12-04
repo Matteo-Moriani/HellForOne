@@ -1,4 +1,4 @@
-﻿namespace Utils
+﻿namespace ActionsBlockSystem
 {
     public class ActionLock
     {

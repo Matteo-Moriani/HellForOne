@@ -50,10 +50,7 @@ namespace Utils.ObjectPooling
             }
         }
 
-        public List<GameObject> GetPooledObjects()
-        {
-            return _pooledObjects;
-        }
+        public List<GameObject> GetPooledObjects() => _pooledObjects;
 
         /// <summary>
         /// Returns an inactive object in this pooler.
@@ -64,31 +61,16 @@ namespace Utils.ObjectPooling
         {
             GameObject pooled = FindInactive();
 
-            if (pooled != null)
-            {
-                RaiseOnGetPooledObject(this,pooled);
-                
-                return pooled;
-            }
-            else
+            if (pooled == null)
             {
                 GenerateObjects();
 
                 pooled = FindInactive();
-
-                RaiseOnGetPooledObject(this,pooled);
-                
-                return pooled;
             }
-        }
-
-        public void DeactivatePooledObject(GameObject pooled)
-        {
-            if(!_pooledObjects.Contains(pooled))
-                return;
             
-            pooled.transform.position = Vector3.zero;
-            pooled.SetActive(false);
+            RaiseOnGetPooledObject(this,pooled);
+                
+            return pooled;
         }
         
         /// <summary>
@@ -101,26 +83,30 @@ namespace Utils.ObjectPooling
         {
             GameObject pooled = FindInactive();
 
-            if (pooled != null)
-            {
-                RaiseOnGetPooledObject(this,pooled);
-
-                StartCoroutine(PooledObjectLifetime(pooled, timeToLive));
-                
-                return pooled;
-            }
-            else
+            if (pooled == null)
             {
                 GenerateObjects();
 
                 pooled = FindInactive();
+            }
+            
+            RaiseOnGetPooledObject(this,pooled);
+            
+            StartCoroutine(PooledObjectLifetime(pooled, timeToLive));
+            
+            pooled.SetActive(true);
+            
+            return pooled;
+        }
 
-                RaiseOnGetPooledObject(this,pooled);
-                
-                StartCoroutine(PooledObjectLifetime(pooled, timeToLive));
-                
-                return pooled;
-            }    
+        public void DeactivatePooledObject(GameObject pooled)
+        {
+            if(!_pooledObjects.Contains(pooled))
+                return;
+            
+            pooled.transform.position = Vector3.zero;
+            pooled.transform.SetParent(transform);
+            pooled.SetActive(false);
         }
 
         private GameObject FindInactive()
