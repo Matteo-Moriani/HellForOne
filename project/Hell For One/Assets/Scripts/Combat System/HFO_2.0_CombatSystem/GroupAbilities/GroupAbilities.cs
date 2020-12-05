@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class GroupAbilities : MonoBehaviour
@@ -75,13 +76,13 @@ public class GroupAbilities : MonoBehaviour
     private void OnEnable()
     {
         normalCombat.onStopAttack += OnStopAttack;
-        PlayerInput.onXButtonDown += OnXButtonDown;
+        //PlayerInput.onXButtonDown += OnXButtonDown;
     }
 
     private void OnDisable()
     {
         normalCombat.onStopAttack -= OnStopAttack;
-        PlayerInput.onXButtonDown -= OnXButtonDown;
+        //PlayerInput.onXButtonDown -= OnXButtonDown;
     }
 
     private void Update()

@@ -21,12 +21,10 @@ public class ImpAggro : MonoBehaviour
     private GroupAggro[] groupAggros;
     private GroupManager[] groupManagers;
     private Reincarnation reincarnation;
-    private CombatEventsManager combatEventsManager;
     private NormalCombat normalCombat;
     private GroupFinder groupFinder;
     private Stats stats;
-    private Support support;
-    
+
     Coroutine aggroDecreasingCr = null;
     
     #endregion
@@ -59,10 +57,10 @@ public class ImpAggro : MonoBehaviour
     {
         stats = gameObject.GetComponent<Stats>();
         reincarnation = gameObject.GetComponent<Reincarnation>();
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
+        //combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
         groupFinder = gameObject.GetComponent<GroupFinder>();
-        support = GetComponent<Support>();
+        //support = GetComponent<Support>();
     }
 
     private void OnEnable()

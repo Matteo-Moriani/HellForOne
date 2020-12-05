@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class Hat : MonoBehaviour
@@ -9,30 +10,30 @@ public class Hat : MonoBehaviour
     private bool minFallTimePassed = false;
     private float fallingTime = 1f;
     private Rigidbody rigidbody;
-
+    
     void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
-
+    
         if(collider != null)
             collider.enabled = false;
     }
-
+    
     public void PlayerDied()
     {
         //if ( !rb )
         //    rb = gameObject.GetComponent<Rigidbody>();
         //rb.constraints = RigidbodyConstraints.None;
-
+    
         //rb = this.gameObject.AddComponent<Rigidbody>();
-
+    
         if(collider != null)
             collider.enabled = true;
-
+    
         StartCoroutine( Falling() );
     }
-
+    
     /// <summary>
     /// To avoid get picked while falling
     /// </summary>
@@ -42,7 +43,7 @@ public class Hat : MonoBehaviour
         minFallTimePassed = true;
         //transform.GetChild( 0 ).gameObject.SetActive( true );
     }
-
+    
     public void OnCollisionEnter( Collision collision )
     {
         if(minFallTimePassed && collision.gameObject.layer == LayerMask.NameToLayer("Walkable"))
@@ -61,7 +62,9 @@ public class Hat : MonoBehaviour
             collision.gameObject.GetComponent<ChildrenObjectsManager>().scepter.SetActive(true);
             collision.gameObject.GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
             collision.gameObject.GetComponent<ChildrenObjectsManager>().shield.SetActive(false);
-            collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
+            
+            //collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
+            
             Destroy( gameObject );
         }
         else if(collision.gameObject.transform.root.tag == "Boss" || collision.gameObject.transform.root.tag == "Demon")

@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
 using FactoryBasedCombatSystem;
+using Player;
 using UnityEngine.SceneManagement;
 
-// TODO - implement reincarnation using events
-// TODO - when events implementation is not possible, add/remove needed component in reincarnation 
+// TODO - we have to refactor this mess
 public class Reincarnation : MonoBehaviour
 {
     #region fields
@@ -63,12 +63,14 @@ public class Reincarnation : MonoBehaviour
     }
 
     public void Reincarnate()
-    {if (player != null) {
+    {
+        if (player != null) 
+        {
             // Disable controller
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            if (playerController != null)
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
             {
-                playerController.enabled = false;
+                playerMovement.enabled = false;
             }
 
             // Disable Tactics Manager
@@ -163,12 +165,12 @@ public class Reincarnation : MonoBehaviour
             player.tag = "Player";
             player.layer = LayerMask.NameToLayer( "Player" );
             
-            NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
-            if ( newCameraManager )
-            {
-                newCameraManager.Player = player;
-                newCameraManager.PlayerReincarnated();
-            }
+            // NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
+            // if ( newCameraManager )
+            // {
+            //     newCameraManager.Player = player;
+            //     newCameraManager.PlayerReincarnated();
+            // }
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
             if(playerInput != null) { 
@@ -195,9 +197,9 @@ public class Reincarnation : MonoBehaviour
                 dash.enabled = true;    
             }
 
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            if(playerController != null) { 
-                playerController.enabled = true;    
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if(playerMovement != null) { 
+                playerMovement.enabled = true;    
             }
 
             AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();

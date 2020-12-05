@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,20 +19,20 @@ public class PlayerScriptedMovements : MonoBehaviour
     private bool alliesNotified = false;
     private float rotSpeed = 0.1f;
     private GameObject enemy;
-
+    
     public event Action OnScriptedMovementStart;
     public event Action OnScriptedMovementEnd;
-
+    
     public void OnEnable() {
         BattleEventsManager.onBattlePreparation += MoveToScriptedPosition;
         BattleEventsManager.onBattleEnter += ScriptedMovementEnd;
     }
-
+    
     public void OnDisable() {
         BattleEventsManager.onBattlePreparation -= MoveToScriptedPosition;
         BattleEventsManager.onBattleEnter -= ScriptedMovementEnd;
     }
-
+    
     void Start()
     {
         allies = AlliesManager.Instance;
@@ -40,7 +41,7 @@ public class PlayerScriptedMovements : MonoBehaviour
         target = gameObject.transform.position;
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
     }
-
+    
     // TODO - a questo punto conviene far partire l'evento da qualche altra parte a attivare questo script dall'evento
     private void FixedUpdate() {
         if(inScriptedMovement) {
@@ -62,43 +63,46 @@ public class PlayerScriptedMovements : MonoBehaviour
                 combatEventsManager.RaiseOnStopMoving();
                 BattleEventsManager.RaiseOnBattleEnter();
             }
-
+    
         }        
     }
-
+    
     void MoveToScriptedPosition() {
         agent.enabled = true;
         alliesNum = allies.AlliesList.Count;
         inScriptedMovement = true;
         OnScriptedMovementStart?.Invoke();
-        playerInput.InCutscene = true;
-    }
 
+        //playerInput.InCutscene = true;
+        
+    }
+    
     void ScriptedMovementEnd() {
         agent.enabled = false;
         inScriptedMovement = false;
         alliesNotified = false;
         NotifyAllies(inScriptedMovement);
         alliesInPosition = 0;
-        playerInput.InCutscene = false;
+        
+        //playerInput.InCutscene = false;
     }
-
+    
     public void SetTargetPosition(Vector3 position) {
         target = position;
     }
-
+    
     public void NotifyInPosition() {
         alliesInPosition++;
         //Debug.Log("allies in position: " + alliesInPosition);
     }
-
+    
     private void NotifyAllies(bool scriptedMovement) {
         foreach (GameObject ally in allies.AlliesList) {
             ally.GetComponent<AllyImpMovement>().InScriptedMovement = scriptedMovement;
             ally.GetComponent<AllyImpMovement>().PlayerNotified = false;
         }
     }
-
+    
     public void Face(GameObject target) {
         Vector3 targetPosition = target.transform.position;
         Vector3 vectorToTarget = targetPosition - transform.position;
