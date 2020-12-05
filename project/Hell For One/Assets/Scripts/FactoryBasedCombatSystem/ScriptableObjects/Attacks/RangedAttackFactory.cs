@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 using Utils.ObjectPooling;
 
-namespace FactoryBasedCombatSystem.ScriptableObjects
+namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 {
     [CreateAssetMenu(menuName = ("CombatSystem/Attacks/MeleeAttack"),fileName = "MeleeAttack", order = 1)]
     public class RangedAttackFactory : AttackFactory<RangedAttack,RangedAttackData> { }
@@ -55,17 +54,17 @@ namespace FactoryBasedCombatSystem.ScriptableObjects
 
     public class RangedAttack : Attack<RangedAttackData>
     {
-        protected override IEnumerator InnerDoAttack(CombatSystem ownerCombatSystem, Transform target)
+        protected override IEnumerator InnerDoAttack(int id, CombatSystem ownerCombatSystem, Transform target)
         {
             if(target == null) yield break;
 
-            while (!InAnimationAttackTime) yield return null;
+            while (!AnimationStates[id]) yield return null;
 
-            GameObject projectile = PoolersManager.Instance.TryGetPooler(data.ProjectilePrefab).GetPooledObject(data.DestroyTime);
+            GameObject projectile = PoolersManager.Instance.TryGetPooler(data.ProjectilePrefab).GetPooledObject(true,data.DestroyTime);
             
             AttackCollider projectileAttackCollider = projectile.GetComponentInChildren<AttackCollider>();
-            projectileAttackCollider.Initialize(this,ownerCombatSystem.transform.root,ownerCombatSystem);
-            projectileAttackCollider.SetSize(data.ColliderRadius);
+            projectileAttackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
+            projectileAttackCollider.SetRadius(data.ColliderRadius);
 
             ProjectileMovement projectileMovement = projectile.GetComponent<ProjectileMovement>();
             
@@ -83,15 +82,15 @@ namespace FactoryBasedCombatSystem.ScriptableObjects
 
             while (timer <= data.DestroyTime)
             {
-                if (HasHit)
+                if (HasHit[id])
                 {
                     projectileMovement.Stop();
 
                     if (!data.SplashDamage) yield break;
+
+                    projectileAttackCollider.SetRadius(data.SplashDamageRadius);
                     
-                    projectileAttackCollider.gameObject.transform.localScale = Vector3.one * data.SplashDamageRadius;
-                    
-                    yield return new WaitForSeconds(0.2f);
+                    yield return new WaitForSeconds(data.SplashDamageTime);
 
                     yield break;
                 }
@@ -100,5 +99,9 @@ namespace FactoryBasedCombatSystem.ScriptableObjects
                 yield return null;
             }
         }
+
+        protected override void InnerSetup(int id, CombatSystem ownerCombatSystem, Transform target) { }
+
+        protected override void InnerDispose(int id, CombatSystem ownerCombatSystem) { }
     }
 }

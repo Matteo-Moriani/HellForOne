@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
@@ -33,13 +34,15 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [Header("Common")]
         [SerializeField, Min(0f)] private float damage;
         [SerializeField, Min(0f)] private float colliderRadius;
-        
         [SerializeField] private bool blockable;
         [SerializeField] private bool canBeMultiple;
+        [SerializeField] private bool canDamageMultipleUnits;
 
         [Header("Knockback")]
         [SerializeField] private bool dealsKnockback;
         [SerializeField] private bool dealKnockbackWhenBlocked;
+        [SerializeField, Min(0f)] private float knockbackDuration;
+        [SerializeField, Min(0f)] private float knockbackSize;
         
         [Header("Stun")]
         [SerializeField] private bool dealsStun;
@@ -49,6 +52,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [Header("Splash Damage")]
         [SerializeField] private bool splashDamage;
         [SerializeField, Min(0f)] private float splashDamageRadius;
+        [SerializeField, Min(0f)] private float splashDamageTime;
 
         #endregion
 
@@ -120,6 +124,30 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             private set => dealKnockbackWhenBlocked = value;
         }
 
+        public float KnockbackDuration
+        {
+            get => knockbackDuration;
+            private set => knockbackDuration = value;
+        }
+
+        public float KnockbackSize
+        {
+            get => knockbackSize;
+            private set => knockbackSize = value;
+        }
+
+        public float SplashDamageTime
+        {
+            get => splashDamageTime;
+            private set => splashDamageTime = value;
+        }
+
+        public bool CanDamageMultipleUnits
+        {
+            get => canDamageMultipleUnits;
+            private set => canDamageMultipleUnits = value;
+        }
+
         #endregion
     }
     
@@ -129,52 +157,53 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
     public abstract class Attack
     {
-        protected bool InAnimationAttackTime { get; private set;}
-        protected bool HasHit { get; private set; }
+        protected Dictionary<int, bool> HasHit { get; private set; } = new Dictionary<int, bool>();
+        protected Dictionary<int, bool> AnimationStates { get; private set; } = new Dictionary<int, bool>();
 
         public IEnumerator DoAttack(int id, CombatSystem ownerCombatSystem, Action<int> stopAction, Transform target = null)
         {
-            Setup(ownerCombatSystem);
+            Setup(id,ownerCombatSystem, target);
             
-            yield return InnerDoAttack(ownerCombatSystem, target);
+            yield return InnerDoAttack(id,ownerCombatSystem, target);
             
             Dispose(id,ownerCombatSystem,stopAction);
         }
 
-        private void Setup(CombatSystem ownerCombatSystem)
+        public void SafeStop(int id, CombatSystem ownerCombatSystem, Action<int> stopAction) =>
+            Dispose(id, ownerCombatSystem, stopAction);
+
+        private void Setup(int id, CombatSystem ownerCombatSystem, Transform target)
         {
-            InAnimationAttackTime = false;
-            HasHit = false;
+            InnerSetup(id,ownerCombatSystem,target);
             
-            ownerCombatSystem.OnActivateAttack += OnActivateAttack;
-            ownerCombatSystem.OnDeactivateAttack += OnDeactivateAttack;
-            ownerCombatSystem.OnBlockedHitDealt += NotifyHit;
-            ownerCombatSystem.OnDamageHitDealt += NotifyHit;
+            AnimationStates.Add(id,false); 
+
+            HasHit.Add(id,false);
         }
 
         private void Dispose(int id, CombatSystem ownerCombatSystem, Action<int> stopAction)
         {
-            ownerCombatSystem.OnActivateAttack -= OnActivateAttack;
-            ownerCombatSystem.OnDeactivateAttack -= OnDeactivateAttack;
+            InnerDispose(id,ownerCombatSystem);
+
+            AnimationStates.Remove(id);
+
+            HasHit.Remove(id);
 
             stopAction(id);
         }
 
-        // TODO :- Stop attack using notify hit (a bool maybe)
-        private void NotifyHit() => HasHit = true;
+        public void ActivateAttack(int id) => AnimationStates[id] = true;
+
+        public void DeactivateAttack(int id) => AnimationStates[id] = false;
+
+        public void NotifyHit(int id) => HasHit[id] = true;
 
         #region Abstract members
 
-        protected abstract IEnumerator InnerDoAttack(CombatSystem ownerCombatSystem, Transform target);
+        protected abstract IEnumerator InnerDoAttack(int id, CombatSystem ownerCombatSystem, Transform target);
         public abstract AttackData GetData();
-
-        #endregion
-
-        #region Event handlers
-
-        private void OnDeactivateAttack() => InAnimationAttackTime = false;
-
-        private void OnActivateAttack() => InAnimationAttackTime = true;
+        protected abstract void InnerSetup(int id, CombatSystem ownerCombatSystem, Transform target);
+        protected abstract void InnerDispose(int id, CombatSystem ownerCombatSystem);
 
         #endregion
     }

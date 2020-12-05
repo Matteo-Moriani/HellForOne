@@ -1,16 +1,20 @@
-﻿using FactoryBasedCombatSystem.ScriptableObjects;
+﻿using System;
+using FactoryBasedCombatSystem.ScriptableObjects;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 
 namespace FactoryBasedCombatSystem
 {
+    [RequireComponent(typeof(SphereCollider))]
     public class AttackCollider : MonoBehaviour
     {
         #region Fields
 
         private Attack _currentAttack;
-        private Transform _currentOwner;
         private CombatSystem _ownerCombatSystem;
+        private SphereCollider _sphereCollider;
+        
+        private int _currentId;
         
         #endregion
 
@@ -22,53 +26,48 @@ namespace FactoryBasedCombatSystem
             private set => _currentAttack = value;
         }
 
-        public Transform CurrentOwner
-        {
-            get => _currentOwner;
-            private set => _currentOwner = value;
-        }
-
         public CombatSystem OwnerCombatSystem
         {
             get => _ownerCombatSystem;
             private set => _ownerCombatSystem = value;
         }
 
+        public int CurrentId
+        {
+            get => _currentId;
+            private set => _currentId = value;
+        }
+
         #endregion
 
         #region Unity Methods
+
+        private void Awake() => _sphereCollider = GetComponent<SphereCollider>();
 
         private void OnDisable()
         {
             transform.localScale = Vector3.zero;
             
             _currentAttack = null;
-            _currentOwner = null;
             _ownerCombatSystem = null;
+            _currentId = -int.MaxValue;
+            _sphereCollider.radius = 0f;
         }
-
-        // private void OnTriggerEnter(Collider other)
-        // {
-        //     if (other.transform.root == _currentOwner) return;
-        //     
-        //     if (other.gameObject.layer != LayerMask.NameToLayer("CombatSystem")) return;
-        //
-        //     HitboxCollider targetHitboxCollider = other.GetComponent<HitboxCollider>();
-        //     
-        //     if(targetHitboxCollider == null) return;
-        //
-        //     // TODO :- Do something
-        // }
 
         #endregion
+
+        #region Methods
+
+        public void SetRadius(float newRadius) => _sphereCollider.radius = newRadius;
         
-        public void SetSize(float size) => transform.localScale = Vector3.one * size;
-        
-        public void Initialize(Attack attack, Transform ownerTransform, CombatSystem ownerCombatSystem)
+        public void Initialize(int id, float radius, Attack attack, Transform ownerTransform, CombatSystem ownerCombatSystem)
         {
             _currentAttack = attack;
-            _currentOwner = ownerTransform;
             _ownerCombatSystem = ownerCombatSystem;
+            _currentId = id;
+            _sphereCollider.radius = radius;
         }
+
+        #endregion
     }
 }

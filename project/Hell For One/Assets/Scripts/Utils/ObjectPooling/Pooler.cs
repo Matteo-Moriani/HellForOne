@@ -53,11 +53,11 @@ namespace Utils.ObjectPooling
         public List<GameObject> GetPooledObjects() => _pooledObjects;
 
         /// <summary>
-        /// Returns an inactive object in this pooler.
-        /// If there is none inactive objects, it expands the pooler
+        /// Get an object in this pooler
         /// </summary>
-        /// <returns>The inactive object</returns>
-        public GameObject GetPooledObject()
+        /// <param name="startsActive">Activate pooled object on get</param>
+        /// <returns>The pooled object</returns>
+        public GameObject GetPooledObject(bool startsActive)
         {
             GameObject pooled = FindInactive();
 
@@ -69,17 +69,20 @@ namespace Utils.ObjectPooling
             }
             
             RaiseOnGetPooledObject(this,pooled);
-                
+            
+            pooled.SetActive(startsActive);
+            
             return pooled;
         }
-        
+
         /// <summary>
         /// Get a pooled object and starts a coroutine that
         /// deactivate the pooled object after timeToLive seconds
         /// </summary>
+        /// <param name="startsActive">Activate pooled object on get</param>
         /// <param name="timeToLive">Liftetime of the object</param>
         /// <returns>The pooled object</returns>
-        public GameObject GetPooledObject(float timeToLive)
+        public GameObject GetPooledObject(bool startsActive, float timeToLive)
         {
             GameObject pooled = FindInactive();
 
@@ -94,7 +97,7 @@ namespace Utils.ObjectPooling
             
             StartCoroutine(PooledObjectLifetime(pooled, timeToLive));
             
-            pooled.SetActive(true);
+            pooled.SetActive(startsActive);
             
             return pooled;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Utils.ObjectPooling;
 
 namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 {
@@ -11,30 +13,65 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
     public class MeleeAttackData : AttackData
     {
         [SerializeField] private float range;
-
+        [SerializeField] private GameObject attackPrefab;
+        
         public float Range
         {
             get => range;
             private set => range = value;
         }
+
+        public GameObject AttackPrefab
+        {
+            get => attackPrefab;
+            private set => attackPrefab = value;
+        }
     }
 
     public class MeleeAttack : Attack<MeleeAttackData>
     { 
-        protected override IEnumerator InnerDoAttack(CombatSystem ownerCombatSystem, Transform target)
+        private readonly Dictionary<int,GameObject> _attackGameObjects = new Dictionary<int, GameObject>();
+        
+        protected override IEnumerator InnerDoAttack(int id,CombatSystem ownerCombatSystem, Transform target)
         {
-            AttackCollider attackCollider = ownerCombatSystem.GetComponentInChildren<AttackCollider>();
-            Transform attackColliderTransform = attackCollider.transform;
+            while (!AnimationStates[id]) yield return null;
+
+            _attackGameObjects[id].SetActive(true);
+            _attackGameObjects[id].transform.position += Vector3.forward * data.Range;
+
+            while (AnimationStates[id])
+            {
+                if(!HasHit[id]) continue;
+                
+                if(!data.CanDamageMultipleUnits) break;
+
+                if(!data.SplashDamage) continue;
+
+                float timer = 0f;
+                _attackGameObjects[id].GetComponentInChildren<AttackCollider>().SetRadius(data.SplashDamageRadius);
+                
+                while (timer < data.SplashDamageTime)
+                {
+                    yield return null;
+                    timer += Time.deltaTime;
+                }
+            }
+        }
+
+        protected override void InnerSetup(int id, CombatSystem ownerCombatSystem, Transform target)
+        {
+            GameObject attackGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject(false);
             
-            while (!InAnimationAttackTime) yield return null;
+            AttackCollider attackCollider = attackGameObject.GetComponentInChildren<AttackCollider>();
+            attackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
+            
+            _attackGameObjects.Add(id,attackGameObject);
+        }
 
-            attackColliderTransform.position += Vector3.forward * data.Range;
-            attackColliderTransform.localScale = Vector3.one * data.ColliderRadius;
-
-            while (InAnimationAttackTime && !HasHit) yield return null;
-
-            attackColliderTransform.position -= Vector3.forward * data.Range;
-            attackColliderTransform.localScale = Vector3.zero;
+        protected override void InnerDispose(int id, CombatSystem ownerCombatSystem)
+        {
+            PoolersManager.Instance.TryGetPooler(data.AttackPrefab).DeactivatePooledObject(_attackGameObjects[id]);
+            _attackGameObjects.Remove(id);
         }
     }
 }

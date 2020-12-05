@@ -16,7 +16,7 @@ namespace FactoryBasedCombatSystem
         
         #region Delegates and events
 
-        internal event Action<Attack,CombatSystem, Vector3> OnHitboxColliderHit;
+        internal event Action<int,Attack,CombatSystem,Vector3> OnHitboxColliderHit;
 
         #endregion
 
@@ -27,16 +27,14 @@ namespace FactoryBasedCombatSystem
         private void OnTriggerEnter(Collider other)
         {
             if(!_hitboxLock.CanDoAction()) return;
-            
-            if (other.gameObject.layer != LayerMask.NameToLayer("CombatSystem")) return;
 
             AttackCollider attackerAttackCollider = other.GetComponent<AttackCollider>();
             
             if(attackerAttackCollider) return;
 
-            if(attackerAttackCollider.CurrentOwner == transform.root) return;
+            if(attackerAttackCollider.OwnerCombatSystem.transform.root == transform.root) return;
             
-            OnHitboxColliderHit?.Invoke(attackerAttackCollider.CurrentAttack,attackerAttackCollider.OwnerCombatSystem,_collider.ClosestPoint(other.transform.position));
+            OnHitboxColliderHit?.Invoke(attackerAttackCollider.CurrentId,attackerAttackCollider.CurrentAttack,attackerAttackCollider.OwnerCombatSystem,_collider.ClosestPoint(other.transform.position));
         }
 
         #endregion

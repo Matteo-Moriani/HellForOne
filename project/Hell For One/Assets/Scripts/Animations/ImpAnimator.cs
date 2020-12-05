@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using FactoryBasedCombatSystem;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -63,7 +62,7 @@ public class ImpAnimator : MonoBehaviour
             recruit.onStopRecruit += OnStopRecruit;
         } 
 
-        dash.OnStartDash += OnDashStart;
+        dash.onDashStart += OnDashStart;
         allyImpMovement.onStartMoving += OnAllyMovementStart;
         allyImpMovement.onStopMoving += OnAllyMovementEnd;
         reincarnation.onReincarnation += OnReincarnation;
@@ -85,7 +84,7 @@ public class ImpAnimator : MonoBehaviour
             recruit.onStopRecruit -= OnStopRecruit;
         }
 
-        dash.OnStartDash -= OnDashStart;
+        dash.onDashStart -= OnDashStart;
         allyImpMovement.onStartMoving -= OnAllyMovementStart;
         allyImpMovement.onStopMoving -= OnAllyMovementEnd;
         reincarnation.onReincarnation -= OnReincarnation;
