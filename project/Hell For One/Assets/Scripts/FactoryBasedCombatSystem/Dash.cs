@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using ActionsBlockSystem;
+using Player;
 using UnityEngine;
 
 // TODO - Dash now is active for all allies, optimize this and avoid using FixedUpdate
@@ -35,7 +36,7 @@ namespace FactoryBasedCombatSystem
         Vector3 _startingVelocity;
 
         private Rigidbody _rb;
-        private PlayerController _playerController;
+        private PlayerMovement _playerMovement;
         private StunReceiver _stunReceiver;
         private KnockbackReceiver _knockbackReceiver;
 
@@ -91,7 +92,7 @@ namespace FactoryBasedCombatSystem
 
         private void Start()
         {
-            _playerController = this.GetComponent<PlayerController>();
+            _playerMovement = this.GetComponent<PlayerMovement>();
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -140,7 +141,7 @@ namespace FactoryBasedCombatSystem
             // We done dashing
             _isDashing = false;
             // TODO - Manage OnDash in PlayerController
-            _playerController.enabled = true;
+            _playerMovement.enabled = true;
                         
             // We don't need the extra precision anymore
             _rb.interpolation = RigidbodyInterpolation.None;
@@ -201,7 +202,7 @@ namespace FactoryBasedCombatSystem
 
             // TODO - Manage OnDash in PlayerController
             // Disable controller, player can't move if is dashing
-            _playerController.enabled = false;
+            _playerMovement.enabled = false;
 
             // Reset time counters
             _cooldownCounter = 0.0f;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ public class ImpAnimator : MonoBehaviour
 
     private CombatEventsManager combatEventsManager;
     private Reincarnation reincarnation;
-    private PlayerController playerController;
+    private PlayerMovement _playerMovement;
     private AllyImpMovement allyImpMovement;
     private ChildrenObjectsManager childrenObjectsManager;
     private Animator animator;
@@ -20,7 +21,7 @@ public class ImpAnimator : MonoBehaviour
     private Stats stats;
     private Support support;
     private Recruit recruit;
-    private Dash dash;
+    //private Dash dash;
     private PlayerScriptedMovements playerScriptedMovements;
     private bool isBlocking = false;
     private bool isRecruiting = false;
@@ -40,7 +41,7 @@ public class ImpAnimator : MonoBehaviour
 
     private void Awake() {
         Animator = GetComponent<Animator>();
-        playerController = GetComponent<PlayerController>();
+        _playerMovement = GetComponent<PlayerMovement>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
         allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
@@ -50,7 +51,7 @@ public class ImpAnimator : MonoBehaviour
         stats = GetComponent<Stats>();
         support = GetComponent<Support>();
         recruit = GetComponent<Recruit>();
-        dash = GetComponent<Dash>();
+        //dash = GetComponent<Dash>();
         playerScriptedMovements = GetComponent<PlayerScriptedMovements>();
     }
     
@@ -62,7 +63,7 @@ public class ImpAnimator : MonoBehaviour
             recruit.onStopRecruit += OnStopRecruit;
         } 
 
-        dash.onDashStart += OnDashStart;
+        //dash.onDashStart += OnDashStart;
         allyImpMovement.onStartMoving += OnAllyMovementStart;
         allyImpMovement.onStopMoving += OnAllyMovementEnd;
         reincarnation.onReincarnation += OnReincarnation;
@@ -84,7 +85,7 @@ public class ImpAnimator : MonoBehaviour
             recruit.onStopRecruit -= OnStopRecruit;
         }
 
-        dash.onDashStart -= OnDashStart;
+        //dash.onDashStart -= OnDashStart;
         allyImpMovement.onStartMoving -= OnAllyMovementStart;
         allyImpMovement.onStopMoving -= OnAllyMovementEnd;
         reincarnation.onReincarnation -= OnReincarnation;
@@ -100,15 +101,15 @@ public class ImpAnimator : MonoBehaviour
 
     private void Update()
     {
-        // ordered by priority
-        if(isBlocking)
-            PlayBlockAnimation();
-        else if(playerController.ZMovement != 0f || playerController.XMovement != 0f || playerScriptedMovement || (allyIsMoving && stats.ThisUnitType == Stats.Type.Ally))
-            PlayMoveAnimation();
-        else if(isRecruiting)
-            PlayRecruitAnimation();
-        else
-            SetAllBoolsToFalse();
+        // // ordered by priority
+        // if(isBlocking)
+        //     PlayBlockAnimation();
+        // else if(_playerMovement.ZMovement != 0f || _playerMovement.XMovement != 0f || playerScriptedMovement || (allyIsMoving && stats.ThisUnitType == Stats.Type.Ally))
+        //     PlayMoveAnimation();
+        // else if(isRecruiting)
+        //     PlayRecruitAnimation();
+        // else
+        //     SetAllBoolsToFalse();
     }
 
     #endregion
@@ -165,14 +166,14 @@ public class ImpAnimator : MonoBehaviour
 
     private void StopBlockAnimation() {
         // TODO - fix this, it gives wrong behaviour when dying
-        if(playerController.ZMovement != 0 || playerController.XMovement != 0) {
-            SetAllBoolsToFalse();
-            //combatEventsManager.RaiseOnStartMoving();
-            PlayMoveAnimation();
-        }
-        else {
-            SetAllBoolsToFalse();
-        }
+        // if(_playerMovement.ZMovement != 0 || _playerMovement.XMovement != 0) {
+        //     SetAllBoolsToFalse();
+        //     //combatEventsManager.RaiseOnStartMoving();
+        //     PlayMoveAnimation();
+        // }
+        // else {
+        //     SetAllBoolsToFalse();
+        // }
     }
     
     private void SetAllBoolsToFalse() {

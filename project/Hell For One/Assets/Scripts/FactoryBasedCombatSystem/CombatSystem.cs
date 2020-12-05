@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ActionsBlockSystem;
+using Animations;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using FactoryBasedCombatSystem.ScriptableObjects.Units;
 using UnityEngine;
@@ -20,9 +21,10 @@ namespace FactoryBasedCombatSystem
         private readonly Queue<int> _toActivate = new Queue<int>();
         private readonly Queue<int> _toDeactivate = new Queue<int>();
         
-
         private HitboxCollider[] _hitboxColliders;
         private Block _block;
+        private AnimationEventsHooks _animationEventsHooks;
+        
         private readonly ActionLock _combatSystemLock = new ActionLock();
 
         #endregion
@@ -56,6 +58,7 @@ namespace FactoryBasedCombatSystem
         {
             _hitboxColliders = GetComponentsInChildren<HitboxCollider>();
             _block = GetComponent<Block>();
+            _animationEventsHooks = transform.root.GetComponent<AnimationEventsHooks>();
         }
 
         private void OnEnable()
@@ -64,6 +67,9 @@ namespace FactoryBasedCombatSystem
             {
                 hitboxCollider.OnHitboxColliderHit += OnHitboxColliderHit;
             }
+
+            _animationEventsHooks.OnAttackAnimationActivateAttack += OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationDeactivateAttack += OnAttackAnimationDeactivateAttack;
         }
 
         private void OnDisable()
@@ -72,6 +78,9 @@ namespace FactoryBasedCombatSystem
             {
                 hitboxCollider.OnHitboxColliderHit -= OnHitboxColliderHit;
             }
+            
+            _animationEventsHooks.OnAttackAnimationActivateAttack -= OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationDeactivateAttack -= OnAttackAnimationDeactivateAttack;
         }
 
         #endregion
@@ -106,13 +115,13 @@ namespace FactoryBasedCombatSystem
 
         #region Event handlers
 
-        public void OnAttackAnimationActivateAttack()
+        private void OnAttackAnimationActivateAttack()
         {
             int id = _toActivate.Dequeue();
             _activeAttacks[id].Item1.ActivateAttack(id);
         }
 
-        public void OnAttackAnimationDeactivateAttack()
+        private void OnAttackAnimationDeactivateAttack()
         {
             int id = _toDeactivate.Dequeue();
             _activeAttacks[id].Item1.DeactivateAttack(id);

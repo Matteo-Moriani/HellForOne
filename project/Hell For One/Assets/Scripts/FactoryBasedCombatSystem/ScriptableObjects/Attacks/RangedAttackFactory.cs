@@ -5,7 +5,7 @@ using Utils.ObjectPooling;
 
 namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 {
-    [CreateAssetMenu(menuName = ("CombatSystem/Attacks/MeleeAttack"),fileName = "MeleeAttack", order = 1)]
+    [CreateAssetMenu(menuName = ("CombatSystem/Attacks/RangedAttack"),fileName = "RangedAttack", order = 1)]
     public class RangedAttackFactory : AttackFactory<RangedAttack,RangedAttackData> { }
 
     [Serializable]

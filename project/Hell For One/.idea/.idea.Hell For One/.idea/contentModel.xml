@@ -127,6 +127,7 @@
           </e>
           <e p="AllyDemonSpawnerTest.cs" t="Include" />
           <e p="Animations" t="Include">
+            <e p="AnimationEventsHooks.cs" t="Include" />
             <e p="AnimationsManager.cs" t="Include" />
             <e p="BossAnimator.cs" t="Include" />
             <e p="EnemyAnimator.cs" t="Include" />
@@ -242,13 +243,10 @@
           <e p="Input" t="Include">
             <e p="CameraInputAssign.cs" t="Include" />
             <e p="Controls.cs" t="Include" />
-            <e p="Dash.cs" t="Include" />
             <e p="GeneralInput.cs" t="Include" />
             <e p="InputManager.cs" t="Include" />
             <e p="InputTester.cs" t="Include" />
             <e p="MenuInput.cs" t="Include" />
-            <e p="PlayerController.cs" t="Include" />
-            <e p="PlayerInput.cs" t="Include" />
             <e p="PS4Controller.cs" t="Include" />
             <e p="TacticsManager.cs" t="Include" />
           </e>
@@ -274,6 +272,10 @@
               <e p="Order.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="PlayerInput.cs" t="Include" />
+            <e p="PlayerMovement.cs" t="Include" />
           </e>
           <e p="PlayerScriptedMovements.cs" t="Include" />
           <e p="Reincarnation.cs" t="Include" />

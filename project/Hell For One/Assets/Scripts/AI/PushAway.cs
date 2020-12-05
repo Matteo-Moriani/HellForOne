@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using FactoryBasedCombatSystem;
+using Player;
 using UnityEngine;
 
 public class PushAway : MonoBehaviour
@@ -68,11 +69,11 @@ public class PushAway : MonoBehaviour
                 // If pushed away Player cannot move or dash
                 if (demonStats.ThisUnitType == Stats.Type.Player)
                 {
-                    PlayerController playerController = demon.GetComponent<PlayerController>();
+                    PlayerMovement playerMovement = demon.GetComponent<PlayerMovement>();
                     Dash dash = demon.GetComponent<Dash>();
-                    if (playerController != null && dash != null)
+                    if (playerMovement != null && dash != null)
                     {
-                        playerController.enabled = false;
+                        playerMovement.enabled = false;
                         dash.enabled = false;
                     }
                     //else
@@ -117,13 +118,13 @@ public class PushAway : MonoBehaviour
                     // Player can move again
                     if (demonStats.ThisUnitType == Stats.Type.Player)
                     {
-                        PlayerController playerController = demon.GetComponent<PlayerController>();
+                        PlayerMovement playerMovement = demon.GetComponent<PlayerMovement>();
                         Dash dash = demon.GetComponent<Dash>();
-                        if (playerController != null && dash != null)
+                        if (playerMovement != null && dash != null)
                         {
                             if (demon.tag == "Player")
                             {
-                                playerController.enabled = true;
+                                playerMovement.enabled = true;
                                 dash.enabled = true;
                             }
                             else

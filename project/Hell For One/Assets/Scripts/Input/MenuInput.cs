@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class MenuInput : GeneralInput {
@@ -12,7 +13,7 @@ public class MenuInput : GeneralInput {
     }
 
     private void Awake() {
-        playerController = gameObject.GetComponent<PlayerController>();
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
         canGiveInput = true;
         CurrentScreen = rootScreen.GetComponent<Menu>();
     }
