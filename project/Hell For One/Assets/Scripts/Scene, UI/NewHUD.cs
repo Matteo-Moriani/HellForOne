@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
+using OrdersSystem;
 using Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -460,7 +462,7 @@ public class NewHUD : MonoBehaviour
 
     public void ChangeSpecificGroupHUDOrder(GroupBehaviour.State state)
     {
-        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
         {
             case GroupManager.Group.None:
 
@@ -503,7 +505,7 @@ public class NewHUD : MonoBehaviour
     void Update()
     {
         // To show the tactics of the most represented group on the HUD
-        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
         {
             case GroupManager.Group.None:
 

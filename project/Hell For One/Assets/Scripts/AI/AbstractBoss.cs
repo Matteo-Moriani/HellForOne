@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using CRBT;
 using UnityEngine;
 using UnityEngine.AI;

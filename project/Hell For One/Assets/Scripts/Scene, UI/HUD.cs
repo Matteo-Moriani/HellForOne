@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AI;
+using OrdersSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -138,7 +140,7 @@ public class HUD : MonoBehaviour
             }
         }
 
-        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
         {
             case GroupManager.Group.GroupAzure:
                 panelAzure.transform.localScale = enlargedScale;

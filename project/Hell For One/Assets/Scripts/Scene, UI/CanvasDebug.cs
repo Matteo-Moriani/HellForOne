@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AI;
+using OrdersSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,7 +84,7 @@ public class CanvasDebug : MonoBehaviour
         aggroValueC.text = aggroC.GroupAggroValue.ToString();
         aggroValueD.text = aggroD.GroupAggroValue.ToString();
 
-        currentGroup.text = tacticsManager.CurrentMostRepresentedGroup.ToString();
+        currentGroup.text = GroupsInRangeDetector.MostRappresentedGroupInRange.ToString();
         //currentTactic.text = tacticsManager.CurrentShowedState.ToString();
 
         if ( !tacticsManager )
@@ -101,7 +103,7 @@ public class CanvasDebug : MonoBehaviour
                 bossTargetGroup.text = "Boss target:    " + bossBehaviour.TargetGroup.name;
         }
 
-        switch ( tacticsManager.CurrentMostRepresentedGroup )
+        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
         {
             case GroupManager.Group.GroupAzure:
                 groupAzureText.color = red;

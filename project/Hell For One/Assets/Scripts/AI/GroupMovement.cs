@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -185,6 +186,7 @@ public class GroupMovement : MonoBehaviour {
     }
 
     // TODO - questa cosa andrebbe fatta invece che negli update solo quando viene dato un nuovo ordine
+    // Probabilmente non andrebbe proprio fatto...
     public void ChooseTargetPosition() {
         switch(gb.currentState) {
             case GroupBehaviour.State.MeleeAttack:

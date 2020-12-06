@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AbilityAttack", menuName = "CombatSystem/GroupAbilities/GenericAbility", order = 1)]
