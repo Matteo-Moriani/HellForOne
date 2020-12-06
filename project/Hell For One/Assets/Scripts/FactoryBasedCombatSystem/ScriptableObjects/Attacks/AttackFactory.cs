@@ -19,7 +19,11 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
          [SerializeField]
          private TAttackData data;
 
-         public override Attack GetAttack() => new TAttack { data = this.data};
+         public override Attack GetAttack() => new TAttack
+         {
+             data = this.data, 
+             name = this.name
+         };
      }
 
      #endregion
@@ -157,6 +161,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
     public abstract class Attack
     {
+        public string name;
+        
         protected Dictionary<int, bool> HasHit { get; private set; } = new Dictionary<int, bool>();
         protected Dictionary<int, bool> AnimationStates { get; private set; } = new Dictionary<int, bool>();
 

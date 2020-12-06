@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using AI.Imp;
+using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 
 public class GroupBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private AlliedAttack meleeAttack;
+    private AttackFactory meleeAttack;
 
     [SerializeField] 
-    private AlliedAttack rangedAttack;
+    private AttackFactory rangedAttack;
     
     public float rateo = 2f;
     private Coroutine continuousAttack;
@@ -244,40 +247,21 @@ public class GroupBehaviour : MonoBehaviour
 
     // TODO - all demons from the group attack at the same time
     IEnumerator ActionAfterRandomDelay(GameObject demon, State action) {
-        NormalCombat normalCombat = demon.GetComponentInChildren<NormalCombat>();
+        ImpCombatBehaviour impCombatBehaviour = demon.GetComponentInChildren<ImpCombatBehaviour>();
         
-        if(normalCombat.enabled && demon.GetComponent<AllyImpMovement>().CanAct()) {
-
-            switch(action) {
-                case State.MeleeAttack:
-                    // TODO - event to Start/Stop attack
-                    normalCombat.StartAttack(meleeAttack);
-                    break;
-                case State.RangeAttack:
-                    // TODO - event to Start/Stop attack
-                    normalCombat.StartAttackRanged(rangedAttack,target);
-                    break;
-                default:
-                    break;
-
-            }
-
-            float randomDelay = UnityEngine.Random.Range(0f, 0.5f);
-            yield return new WaitForSeconds(randomDelay);
+        if(impCombatBehaviour.enabled && demon.GetComponent<AllyImpMovement>().CanAct()) 
+        {
+            impCombatBehaviour.Attack();
         }
 
+        float randomDelay = UnityEngine.Random.Range(0f, 0.5f);
+        yield return new WaitForSeconds(randomDelay);
     }
 
     private void StopAttack() {
         if(!AllImpsFoundGroup())
             return;
-        foreach(GameObject imp in groupManager.Imps) {
-            if(imp) {
-                // TODO - event to Start/Stop attack
-                NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
-                normalCombat.StopAttack(meleeAttack);
-            }
-        }
+        
         StopCoroutine(continuousAttack);
     }
 
@@ -337,10 +321,10 @@ public class GroupBehaviour : MonoBehaviour
         foreach(GameObject imp in groupManager.Imps) {
             if(imp) {
                 //Combat combat = imp.GetComponent<Combat>();
-                NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
+                //NormalCombat normalCombat = imp.GetComponentInChildren<NormalCombat>();
 
                 //ombat.StopRangedAttack();
-                normalCombat.StopAttack(meleeAttack);
+                //normalCombat.StopAttack(meleeAttack);
             }
         }
 

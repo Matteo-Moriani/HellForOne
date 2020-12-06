@@ -59,63 +59,63 @@ namespace FactoryBasedCombatSystem
 
         private void Awake()
         {
-            _cooldownCounter = 0.0f;
-            _dashTimeCounter = 0.0f;
-
-            _isDashing = false;
-            _canDash = true;
-            _playerWantsToDash = false;
-            
-            _knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
-            _stunReceiver = GetComponentInChildren<StunReceiver>();
-        
-            _mainCameraTransform = Camera.main.transform;
-        
-            _dashCrWait = new WaitForFixedUpdate();
+            // _cooldownCounter = 0.0f;
+            // _dashTimeCounter = 0.0f;
+            //
+            // _isDashing = false;
+            // _canDash = true;
+            // _playerWantsToDash = false;
+            //
+            // _knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
+            // _stunReceiver = GetComponentInChildren<StunReceiver>();
+            //
+            // _mainCameraTransform = Camera.main.transform;
+            //
+            // _dashCrWait = new WaitForFixedUpdate();
         }
 
         private void OnEnable()
         {
-            _stunReceiver.onStartStun += OnStartStun;
-            _stunReceiver.onStopStun += OnStopStun;
-            _knockbackReceiver.onStartKnockback += OnStartKnockback;
-            _knockbackReceiver.onEndKnockback += OnEndKnockback;
+            // _stunReceiver.onStartStun += OnStartStun;
+            // _stunReceiver.onStopStun += OnStopStun;
+            // _knockbackReceiver.onStartKnockback += OnStartKnockback;
+            // _knockbackReceiver.onEndKnockback += OnEndKnockback;
         }
 
         private void OnDisable()
         {
-            _stunReceiver.onStartStun -= OnStartStun;
-            _stunReceiver.onStopStun -= OnStopStun;
-            _knockbackReceiver.onStartKnockback -= OnStartKnockback;
-            _knockbackReceiver.onEndKnockback -= OnEndKnockback;
+            // _stunReceiver.onStartStun -= OnStartStun;
+            // _stunReceiver.onStopStun -= OnStopStun;
+            // _knockbackReceiver.onStartKnockback -= OnStartKnockback;
+            // _knockbackReceiver.onEndKnockback -= OnEndKnockback;
         }
 
         private void Start()
         {
-            _playerMovement = this.GetComponent<PlayerMovement>();
-            _rb = GetComponent<Rigidbody>();
+            // _playerMovement = this.GetComponent<PlayerMovement>();
+            // _rb = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
         {
             // Update the cooldown counter
-            if (_cooldownCounter <= _dashCooldown)
-            {
-                _cooldownCounter += Time.deltaTime;
-            }
-        
-            if (_playerWantsToDash)
-            {
-                _playerWantsToDash = false;
-                if (_canDash)
-                {
-                    if (_dashCr == null)
-                    {
-                        _playerWantsToDash = false;
-                        _dashCr = StartCoroutine(DashCoroutine());    
-                    }        
-                }
-            }
+            // if (_cooldownCounter <= _dashCooldown)
+            // {
+            //     _cooldownCounter += Time.deltaTime;
+            // }
+            //
+            // if (_playerWantsToDash)
+            // {
+            //     _playerWantsToDash = false;
+            //     if (_canDash)
+            //     {
+            //         if (_dashCr == null)
+            //         {
+            //             _playerWantsToDash = false;
+            //             _dashCr = StartCoroutine(DashCoroutine());    
+            //         }        
+            //     }
+            // }
         }
     
         #endregion

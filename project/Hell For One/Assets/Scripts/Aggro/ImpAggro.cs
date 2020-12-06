@@ -58,7 +58,10 @@ public class ImpAggro : MonoBehaviour
         stats = gameObject.GetComponent<Stats>();
         reincarnation = gameObject.GetComponent<Reincarnation>();
         //combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
+        
+        // TODO :- Register to CombatSystem events
+        //normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
+        
         groupFinder = gameObject.GetComponent<GroupFinder>();
         //support = GetComponent<Support>();
     }
@@ -68,7 +71,10 @@ public class ImpAggro : MonoBehaviour
         reincarnation.onReincarnation += OnReincarnation;
         reincarnation.onLateReincarnation += OnLateReincarnation;
         stats.onDeath += OnDeath;
-        normalCombat.onAttackHit += OnAttackHit;
+
+        // TODO :- Register to CombatSystem events
+        //normalCombat.onAttackHit += OnAttackHit;
+        
         // TODO - Test for player
         groupFinder.onGroupFound += OnGroupFound;
     }

@@ -27,10 +27,12 @@ namespace FactoryBasedCombatSystem
         private void OnTriggerEnter(Collider other)
         {
             if(!_hitboxLock.CanDoAction()) return;
-
+            
+            if (other.gameObject.layer != LayerMask.NameToLayer("AttackColliders")) return;
+            
             AttackCollider attackerAttackCollider = other.GetComponent<AttackCollider>();
             
-            if(attackerAttackCollider) return;
+            if(attackerAttackCollider == null) return;
 
             if(attackerAttackCollider.OwnerCombatSystem.transform.root == transform.root) return;
             
@@ -45,7 +47,7 @@ namespace FactoryBasedCombatSystem
 
         public void Unblock() => _hitboxLock.RemoveLock();
 
-        public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.ReceiveDamage;
+        public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.BeingHit;
 
         #endregion
     }

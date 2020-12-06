@@ -261,8 +261,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     }
 
     #endregion
-
-
+    
     #region Unity methods
 
     public void Awake() {

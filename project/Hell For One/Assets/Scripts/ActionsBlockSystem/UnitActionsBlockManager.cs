@@ -9,7 +9,7 @@ namespace ActionsBlockSystem
     {
         public enum UnitAction
         {
-            ReceiveDamage,
+            BeingHit,
             Dash,
             Move,
             GiveOrders,

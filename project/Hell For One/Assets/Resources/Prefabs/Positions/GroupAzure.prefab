@@ -64,8 +64,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd43b97818cfebc4ba442470f6bc7424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeAttack: {fileID: 11400000, guid: 37790356906d0754d8de59657bbf0ac2, type: 2}
-  rangedAttack: {fileID: 11400000, guid: d4bafaab463c2824994156d83db2abbf, type: 2}
+  meleeAttack: {fileID: 11400000, guid: 4747af04f47934b47acb1805d2ce11e4, type: 2}
+  rangedAttack: {fileID: 11400000, guid: ba6cc36f91088da4a938e2d6c893ed25, type: 2}
   rateo: 2
   fsmReactionTime: 1
   currentState: 0
@@ -121,6 +121,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GroupAbilities
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167685952300405521, guid: 1fe6ea016a16c5e4ca8fddc30c870ff0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8544631815004773458, guid: 1fe6ea016a16c5e4ca8fddc30c870ff0,
         type: 3}

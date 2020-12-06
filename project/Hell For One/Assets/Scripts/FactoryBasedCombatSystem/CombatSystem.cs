@@ -41,7 +41,7 @@ namespace FactoryBasedCombatSystem
 
         #region Events
 
-        public event Action OnStartAttack;
+        public event Action<Attack> OnStartAttack;
         public event Action OnStopAttack;
         
         public event Action<Attack,CombatSystem,Vector3> OnDamageHitDealt;
@@ -97,7 +97,7 @@ namespace FactoryBasedCombatSystem
             _toActivate.Enqueue(id);
             _toDeactivate.Enqueue(id);
             
-            OnStartAttack?.Invoke();
+            OnStartAttack?.Invoke(attack);
         }
 
         private void StopAttack(int id)
@@ -119,12 +119,16 @@ namespace FactoryBasedCombatSystem
         {
             int id = _toActivate.Dequeue();
             _activeAttacks[id].Item1.ActivateAttack(id);
+            
+            Debug.Log("OnAttackAnimationActivateAttack: " + id);
         }
 
         private void OnAttackAnimationDeactivateAttack()
         {
             int id = _toDeactivate.Dequeue();
             _activeAttacks[id].Item1.DeactivateAttack(id);
+            
+            Debug.Log("OnAttackAnimationDeactivateAttack: " + id);
         }
         
         private void OnHitboxColliderHit(int id, Attack attackerAttack, CombatSystem attackerCombatSystem, Vector3 contactPoint)

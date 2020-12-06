@@ -88,9 +88,9 @@ public class AllyImpMovement : MonoBehaviour {
         BattleEventsManager.onBattleExit += OnBattleExit;
         BattleEventsManager.onBattleEnter += OnBattleEnter;
         
-        KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
-        knockbackReceiver.onStartKnockback += OnStartKnockback;
-        knockbackReceiver.onEndKnockback += OnEndKnockback;
+        // KnockbackReceiver knockbackReceiver = GetComponentInChildren<KnockbackReceiver>();
+        // knockbackReceiver.onStartKnockback += OnStartKnockback;
+        // knockbackReceiver.onEndKnockback += OnEndKnockback;
         
         GroupFinder groupFinder = GetComponent<GroupFinder>();
         groupFinder.onGroupFound += OnGroupFound;
@@ -294,7 +294,8 @@ public class AllyImpMovement : MonoBehaviour {
         }
     }
 
-    public float HorizDistFromTargetBorders(GameObject target) {
+    public float HorizDistFromTargetBorders(GameObject target)
+    {
         if(!targetCollider)
             targetCollider = target.GetComponent<Collider>();
         Vector3 closestPoint = targetCollider.ClosestPoint(myCollider.ClosestPoint(target.transform.position));
