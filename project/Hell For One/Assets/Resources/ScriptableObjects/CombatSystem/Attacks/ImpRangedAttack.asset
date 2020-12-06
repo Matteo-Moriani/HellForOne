@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ImpRangedAttack
   m_EditorClassIdentifier: 
   data:
-    damage: 0
-    colliderRadius: 0
+    damage: 1
+    colliderRadius: 1
     blockable: 0
-    canBeMultiple: 0
+    canBeMultiple: 1
     canDamageMultipleUnits: 0
     dealsKnockback: 0
     dealKnockbackWhenBlocked: 0
@@ -28,9 +28,10 @@ MonoBehaviour:
     splashDamage: 0
     splashDamageRadius: 0
     splashDamageTime: 0
-    projectilePrefab: {fileID: 0}
-    destroyTime: 0
-    projectileSpeed: 0
+    projectilePrefab: {fileID: 3997527124753824698, guid: e19db49224fd94b41807c4589a0ac6ed,
+      type: 3}
+    destroyTime: 2
+    projectileSpeed: 5
     minDistance: 0
-    maxDistance: 0
-    stopsOnHit: 0
+    maxDistance: 30
+    stopsOnHit: 1
