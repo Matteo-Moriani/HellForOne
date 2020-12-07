@@ -62,8 +62,11 @@ namespace Player
             float xComponent = _moveDirection.normalized.x * speed;
             float zComponent = _moveDirection.normalized.z * speed;
             float yComponent = Mathf.Clamp(_rb.velocity.y - 9.8f * Time.fixedDeltaTime,-53,0) ;
-    
-            _rb.velocity = new Vector3(xComponent,yComponent,zComponent);
+
+            Vector3 movementDirection = new Vector3(xComponent, yComponent, zComponent);
+            Vector3 horizontalMovement = new Vector3(movementDirection.x, 0f, movementDirection.z);
+            _rb.velocity = movementDirection;
+            _rb.MoveRotation(Quaternion.LookRotation(horizontalMovement.magnitude > 0 ?  horizontalMovement : transform.forward));
         }
 
         #endregion
@@ -105,6 +108,5 @@ namespace Player
         }
         
         #endregion
-        
     }
 }

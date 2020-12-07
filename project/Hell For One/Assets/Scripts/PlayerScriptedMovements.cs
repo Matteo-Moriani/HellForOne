@@ -59,7 +59,7 @@ public class PlayerScriptedMovements : MonoBehaviour
                 NotifyAllies(inScriptedMovement);
                 OnScriptedMovementEnd?.Invoke();
             }
-            if(alliesInPosition == AlliesManager.Instance.AlliesList.Count){ 
+            if(Vector3.Distance(transform.position,target) <= 0.1f){ 
                 combatEventsManager.RaiseOnStopMoving();
                 BattleEventsManager.RaiseOnBattleEnter();
             }
@@ -97,10 +97,10 @@ public class PlayerScriptedMovements : MonoBehaviour
     }
     
     private void NotifyAllies(bool scriptedMovement) {
-        foreach (GameObject ally in allies.AlliesList) {
-            ally.GetComponent<AllyImpMovement>().InScriptedMovement = scriptedMovement;
-            ally.GetComponent<AllyImpMovement>().PlayerNotified = false;
-        }
+        // foreach (GameObject ally in allies.AlliesList) {
+        //     ally.GetComponent<AllyImpMovement>().InScriptedMovement = scriptedMovement;
+        //     ally.GetComponent<AllyImpMovement>().PlayerNotified = false;
+        // }
     }
     
     public void Face(GameObject target) {

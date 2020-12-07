@@ -119,9 +119,9 @@ public class Stats : MonoBehaviour
         if (idleCombat != null)
             idleCombat.onAttackBeingHit += OnAttackBeingHit;
         
-        Block block = GetComponentInChildren<Block>();
-        if (block != null)
-            block.onBlockFailed += OnBlockFailed;
+        // Block block = GetComponentInChildren<Block>();
+        // if (block != null)
+        //     block.onBlockFailed += OnBlockFailed;
     }
 
     private void OnDisable()
@@ -134,9 +134,9 @@ public class Stats : MonoBehaviour
         if (idleCombat != null)
             idleCombat.onAttackBeingHit -= OnAttackBeingHit;
         
-        Block block = GetComponentInChildren<Block>();
-        if (block != null)
-            block.onBlockFailed -= OnBlockFailed;
+        // Block block = GetComponentInChildren<Block>();
+        // if (block != null)
+        //     block.onBlockFailed -= OnBlockFailed;
     }
 
     private void Start()
@@ -182,12 +182,12 @@ public class Stats : MonoBehaviour
             {
                 // TODO - Manage this inside DemonMovement with OnDeath event
                 // ...we need to disable his demonMovement.
-                AllyImpMovement demonMovement = gameObject.GetComponent<AllyImpMovement>();
+                //AllyImpMovement demonMovement = gameObject.GetComponent<AllyImpMovement>();
 
-                if (demonMovement != null)
-                {
-                    demonMovement.enabled = false;
-                }
+                // if (demonMovement != null)
+                // {
+                //     demonMovement.enabled = false;
+                // }
 
                 // ...we nned to disable his NavMeshAgent.
                 NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
@@ -250,22 +250,22 @@ public class Stats : MonoBehaviour
 
     #region EventHandlers
 
-    private void OnBlockFailed(Block sender, GenericAttack genericAttack,NormalCombat attackerNormalCombat)
-    {
-        // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
-        else
-            TakeHit(genericAttack.Damage);
-    }
+    // private void OnBlockFailed(Block sender, GenericAttack genericAttack,NormalCombat attackerNormalCombat)
+    // {
+    //     // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
+    //     if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+    //         TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+    //     else
+    //         TakeHit(genericAttack.Damage);
+    // }
 
     private void OnAttackBeingHit(IdleCombat sender, GenericAttack genericAttack, NormalCombat attackerNormalCombat)
     {
-        // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
-        if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
-            TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
-        else
-            TakeHit(genericAttack.Damage);
+        // // TODO - AlliesList.Count is not #attackingUnits, take in account other orders too
+        // if(genericAttack.HasDamageSupportBonus && thisUnitType == Type.Boss)
+        //     TakeHit(genericAttack.Damage + Support.SupportingUnits * (3.5f / (AlliesManager.Instance.AlliesList.Count - Support.SupportingUnits - Recruit.RecruitingUnits)));
+        // else
+        //     TakeHit(genericAttack.Damage);
     }
 
     private void OnReincarnation(GameObject player) 

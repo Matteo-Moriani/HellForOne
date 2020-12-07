@@ -111,19 +111,32 @@
           </e>
           <e p="AI" t="Include">
             <e p="AbstractBoss.cs" t="Include" />
-            <e p="AllyImpMovement.cs" t="Include" />
+            <e p="AiUtils.cs" t="Include" />
             <e p="BossBehavior.cs" t="Include" />
             <e p="BossPositions.cs" t="Include" />
             <e p="CRBehaviorTree.cs" t="Include" />
             <e p="FSM.cs" t="Include" />
             <e p="GlobalAttack.cs" t="Include" />
             <e p="GroupBehaviour.cs" t="Include" />
-            <e p="GroupFinder.cs" t="Include" />
-            <e p="GroupMovement.cs" t="Include" />
-            <e p="GroupsFormation.cs" t="Include" />
+            <e p="Imp" t="Include">
+              <e p="AllyImpMovement.cs" t="Include" />
+              <e p="GroupFinder.cs" t="Include" />
+              <e p="GroupMeanPosition.cs" t="Include" />
+              <e p="GroupMovement.cs" t="Include" />
+              <e p="GroupsFormation.cs" t="Include" />
+              <e p="ImpCombatBehaviour.cs" t="Include" />
+              <e p="ImpGroupAi.cs" t="Include" />
+              <e p="PushAway.cs" t="Include" />
+            </e>
             <e p="MeleePositionScript.cs" t="Include" />
             <e p="MidBossBehavior.cs" t="Include" />
-            <e p="PushAway.cs" t="Include" />
+            <e p="Movement" t="Include">
+              <e p="ContextGroupFormation.cs" t="Include" />
+              <e p="ContextObstacleAvoidance.cs" t="Include" />
+              <e p="ContextSeek.cs" t="Include" />
+              <e p="ContextSteering.cs" t="Include" />
+              <e p="ContextSteeringUtilities.cs" t="Include" />
+            </e>
           </e>
           <e p="AllyDemonSpawnerTest.cs" t="Include" />
           <e p="Animations" t="Include">
@@ -150,7 +163,6 @@
             <e p="CombatManager.cs" t="Include" />
             <e p="HFO_2.0_CombatSystem" t="Include">
               <e p="AttackCollider.cs" t="Include" />
-              <e p="Block.cs" t="Include" />
               <e p="CombatSystemManager.cs" t="Include" />
               <e p="GroupAbilities" t="Include">
                 <e p="Balista.cs" t="Include" />
@@ -249,10 +261,6 @@
             <e p="InputTester.cs" t="Include" />
             <e p="MenuInput.cs" t="Include" />
             <e p="PS4Controller.cs" t="Include" />
-            <e p="TacticsManager.cs" t="Include" />
-          </e>
-          <e p="Interfaces" t="Include">
-            <e p="IGroupOrdersObserver.cs" t="Include" />
           </e>
           <e p="LockCameraTargetManager.cs" t="Include" />
           <e p="Managers" t="Include">
@@ -266,14 +274,6 @@
             <e p="TutorialManager.cs" t="Include" />
           </e>
           <e p="NewCameraManager.cs" t="Include" />
-          <e p="OrdersSystem" t="Include">
-            <e p="Recruit.cs" t="Include" />
-            <e p="RecruitSpawner.cs" t="Include" />
-            <e p="ScriptableObjects" t="Include">
-              <e p="Order.cs" t="Include" />
-            </e>
-            <e p="Support.cs" t="Include" />
-          </e>
           <e p="Player" t="Include">
             <e p="PlayerInput.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
@@ -317,6 +317,18 @@
             <e p="Stats.cs" t="Include" />
           </e>
           <e p="TacticChangeParticles.cs" t="Include" />
+          <e p="TacticsSystem" t="Include">
+            <e p="Interfaces" t="Include">
+              <e p="IGroupOrdersObserver.cs" t="Include" />
+            </e>
+            <e p="Recruit.cs" t="Include" />
+            <e p="RecruitSpawner.cs" t="Include" />
+            <e p="ScriptableObjects" t="Include">
+              <e p="Tactic.cs" t="Include" />
+            </e>
+            <e p="Support.cs" t="Include" />
+            <e p="TacticsManager.cs" t="Include" />
+          </e>
           <e p="TimePlayerKillerTest.cs" t="Include" />
           <e p="Triggers" t="Include">
             <e p="BossFightTrigger.cs" t="Include" />

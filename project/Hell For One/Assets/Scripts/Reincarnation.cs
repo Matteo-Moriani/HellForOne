@@ -13,7 +13,7 @@ public class Reincarnation : MonoBehaviour
 {
     #region fields
 
-    private static GameObject player;
+    public static GameObject player;
 
     private bool playerIsReincarnated = false;
 
@@ -55,9 +55,9 @@ public class Reincarnation : MonoBehaviour
 
     #region methods
 
-    void Start()
+    void Awake()
     {
-        if(gameObject.tag == "Player") {
+        if(gameObject.CompareTag("Player")) {
             player = gameObject;
         }
     }
@@ -202,10 +202,10 @@ public class Reincarnation : MonoBehaviour
                 playerMovement.enabled = true;    
             }
 
-            AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();
-            if(demonMovement != null) { 
-                demonMovement.enabled = false;    
-            }
+            // AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();
+            // if(demonMovement != null) { 
+            //     demonMovement.enabled = false;    
+            // }
 
             NavMeshObstacle navMeshObstacle = player.GetComponent<NavMeshObstacle>();
             if(navMeshObstacle != null) { 

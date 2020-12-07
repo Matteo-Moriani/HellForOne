@@ -1,7 +1,7 @@
 ﻿using System;
 using Interfaces;
-using OrdersSystem.ScriptableObjects;
 using ReincarnationSystem;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -35,9 +35,9 @@ namespace FactoryBasedCombatSystem
 
         public void BecomeLeader() => SetBlockChance(0f);
 
-        public void OnOrderGiven(Order newOrder) { }
+        public void OnOrderGiven(Tactic newTactic) { }
 
-        public void OnOrderAssigned(Order newOrder) => SetBlockChance(newOrder.BlockChance);
+        public void OnOrderAssigned(Tactic newTactic) => SetBlockChance(newTactic.TacticBlockChance);
 
         #endregion
     }

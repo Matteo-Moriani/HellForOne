@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AI;
+using Groups;
 using Player;
 using UnityEngine;
 
@@ -20,10 +21,10 @@ public class GroupAbilities : MonoBehaviour
     
     private bool isPerformingAbility = false;
     
-    private Dictionary<GroupBehaviour.State, AbilityAttack> abilitiesDictionary = new Dictionary<GroupBehaviour.State, AbilityAttack>();
+    //private Dictionary<GroupBehaviour.State, AbilityAttack> abilitiesDictionary = new Dictionary<GroupBehaviour.State, AbilityAttack>();
 
     private NormalCombat normalCombat;
-    private GroupBehaviour groupBehaviour;
+    //private GroupBehaviour groupBehaviour;
     private GroupManager groupManager;
 
     private Transform parent;
@@ -60,14 +61,14 @@ public class GroupAbilities : MonoBehaviour
 
     private void Awake()
     {
-        abilitiesDictionary[GroupBehaviour.State.MeleeAttack] = meleeAbility;
-        abilitiesDictionary[GroupBehaviour.State.RangeAttack] = rangedAbility;
-        abilitiesDictionary[GroupBehaviour.State.Recruit] = recruitAbility;
-        abilitiesDictionary[GroupBehaviour.State.Tank] = tankAbility;
+        // abilitiesDictionary[GroupBehaviour.State.MeleeAttack] = meleeAbility;
+        // abilitiesDictionary[GroupBehaviour.State.RangeAttack] = rangedAbility;
+        // abilitiesDictionary[GroupBehaviour.State.Recruit] = recruitAbility;
+        // abilitiesDictionary[GroupBehaviour.State.Tank] = tankAbility;
 
         normalCombat = GetComponent<NormalCombat>();
 
-        groupBehaviour = transform.root.GetComponent<GroupBehaviour>();
+        //groupBehaviour = transform.root.GetComponent<GroupBehaviour>();
 
         groupManager = transform.root.GetComponent<GroupManager>();
 
@@ -97,77 +98,77 @@ public class GroupAbilities : MonoBehaviour
 
     private void SetPosition()
     {
-        if (!isPerformingAbility)
-        {
-            if (groupManager.ImpsInGroupNumber > 0)
-            {
-                Vector3 accumulationVector = Vector3.zero;
-
-                foreach (GameObject imp in groupManager.Imps)
-                {
-                    if (imp != null)
-                    {
-                        accumulationVector += imp.transform.position;
-                    }
-                }
-            
-                accumulationVector /= groupManager.ImpsInGroupNumber;
-
-                transform.position = accumulationVector;
-            
-                if(groupBehaviour.Target)
-                    transform.LookAt(groupBehaviour.Target.transform);
-            }
-        }
+        // if (!isPerformingAbility)
+        // {
+        //     if (groupManager.ImpsInGroupNumber > 0)
+        //     {
+        //         Vector3 accumulationVector = Vector3.zero;
+        //
+        //         foreach (GameObject imp in groupManager.Imps)
+        //         {
+        //             if (imp != null)
+        //             {
+        //                 accumulationVector += imp.transform.position;
+        //             }
+        //         }
+        //     
+        //         accumulationVector /= groupManager.ImpsInGroupNumber;
+        //
+        //         transform.position = accumulationVector;
+        //     
+        //         // if(groupBehaviour.Target)
+        //         //     transform.LookAt(groupBehaviour.Target.transform);
+        //     }
+        // }
     }
 
     private void StartAbility()
     {
-        if (!isPerformingAbility && GroupsInRangeDetector.MostRappresentedGroupInRange == groupManager.ThisGroupName && abilityCr == null)
-        {
-            isPerformingAbility = true;
-
-            AbilityAttack abilityToStart = abilitiesDictionary[groupBehaviour.currentState];
-            
-            if (ImpMana.ManaPool >= abilityToStart.ManaCost)
-            {
-                // TODO - look if this order works
-                transform.SetParent(null);
-                
-                abilityCr = StartCoroutine(abilityToStart.PerformAbility(normalCombat, groupBehaviour.Target,
-                    StopAbility));
-                
-                RaiseOnStartAbility(abilityToStart);  
-                
-                // TODO - 
-                // Create prefab with recruit ability imp
-                //    Normal combat
-                //    CombatSystemManager
-                //    ProjectileCaster
-                //    ImpAnimator
-                //    RecruitAbilityScript
-                //        Set Position in circonference at OnStartAbility
-                //        enable meshRenderer
-            }
-            else
-            {
-                StopAbility(abilityToStart);
-            }
-        }
+        // if (!isPerformingAbility && GroupsInRangeDetector.MostRappresentedGroupInRange == groupManager.ThisGroupName && abilityCr == null)
+        // {
+        //     isPerformingAbility = true;
+        //
+        //     AbilityAttack abilityToStart = abilitiesDictionary[groupBehaviour.currentState];
+        //     
+        //     if (ImpMana.ManaPool >= abilityToStart.ManaCost)
+        //     {
+        //         // TODO - look if this order works
+        //         transform.SetParent(null);
+        //         
+        //         abilityCr = StartCoroutine(abilityToStart.PerformAbility(normalCombat, groupBehaviour.Target,
+        //             StopAbility));
+        //         
+        //         RaiseOnStartAbility(abilityToStart);  
+        //         
+        //         // TODO - 
+        //         // Create prefab with recruit ability imp
+        //         //    Normal combat
+        //         //    CombatSystemManager
+        //         //    ProjectileCaster
+        //         //    ImpAnimator
+        //         //    RecruitAbilityScript
+        //         //        Set Position in circonference at OnStartAbility
+        //         //        enable meshRenderer
+        //     }
+        //     else
+        //     {
+        //         StopAbility(abilityToStart);
+        //     }
+        // }
     }
 
     private void StopAbility(AbilityAttack abilityToStop)
     {
-        if (isPerformingAbility)
-        {
-            isPerformingAbility = false;
-            
-            transform.SetParent(parent);
-
-            abilityCr = null;
-            
-            RaiseOnStopAbility(abilityToStop);
-        }
+        // if (isPerformingAbility)
+        // {
+        //     isPerformingAbility = false;
+        //     
+        //     transform.SetParent(parent);
+        //
+        //     abilityCr = null;
+        //     
+        //     RaiseOnStopAbility(abilityToStop);
+        // }
     }
 
     #endregion

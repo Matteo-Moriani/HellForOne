@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Groups;
 using UnityEngine;
 
 public class OutlineGroup : MonoBehaviour
@@ -30,14 +31,14 @@ public class OutlineGroup : MonoBehaviour
     {
         GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
 
-        groupManager.onImpJoined += OnImpJoined;
+        groupManager.OnImpJoined += OnImpJoined;
     }
 
     private void OnDisable()
     {
         GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
         
-        groupManager.onImpJoined -= OnImpJoined;
+        groupManager.OnImpJoined -= OnImpJoined;
 
         outlineMaterial.SetColor("_OutlineColor", Color.white);
     }
@@ -61,7 +62,7 @@ public class OutlineGroup : MonoBehaviour
                     outlineMaterial.SetColor("_OutlineColor", color);
 
                     // Assign new material
-                    foreach (GameObject imp in groupManager.Imps)
+                    foreach (Transform imp in groupManager.Imps)
                     {
                         if (imp != null)
                         {
@@ -91,7 +92,7 @@ public class OutlineGroup : MonoBehaviour
                     isOutlined = false;
 
                     // Assign default material
-                    foreach (GameObject imp in groupManager.Imps)
+                    foreach (Transform imp in groupManager.Imps)
                     {
                         if (imp != null)
                         {

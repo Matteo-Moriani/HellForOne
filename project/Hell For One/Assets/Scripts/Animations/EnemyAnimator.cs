@@ -47,11 +47,11 @@ public abstract class EnemyAnimator : MonoBehaviour
             myBehaviour.onStopMoving += OnStopMoving;
         }
 
-        if(stunReceiver != null)
-        {
-            stunReceiver.onStartStun += OnStartStun;
-            stunReceiver.onStopStun += OnStopStun;
-        }
+        // if(stunReceiver != null)
+        // {
+        //     stunReceiver.onStartStun += OnStartStun;
+        //     stunReceiver.onStopStun += OnStopStun;
+        // }
     }
 
     private void OnDisable()
@@ -72,11 +72,11 @@ public abstract class EnemyAnimator : MonoBehaviour
             myBehaviour.onStopMoving -= OnStopMoving;
         }
 
-        if(stunReceiver != null)
-        {
-            stunReceiver.onStartStun -= OnStartStun;
-            stunReceiver.onStopStun -= OnStopStun;
-        }
+        // if(stunReceiver != null)
+        // {
+        //     stunReceiver.onStartStun -= OnStartStun;
+        //     stunReceiver.onStopStun -= OnStopStun;
+        // }
     }
 
     private void Update()

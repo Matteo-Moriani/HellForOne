@@ -82,10 +82,10 @@ public class ImpMana : MonoBehaviour
         BattleEventsManager.onBattleEnter += OnBattleEnter;
         BattleEventsManager.onBattleExit += OnBattleExit;
 
-        foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
-        {
-            groupAbilities.onStartAbility += OnStartAbility;
-        }
+        // foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
+        // {
+        //     groupAbilities.onStartAbility += OnStartAbility;
+        // }
     }
 
     private void OnDisable()
@@ -94,15 +94,15 @@ public class ImpMana : MonoBehaviour
         BattleEventsManager.onBattleEnter -= OnBattleEnter;
         BattleEventsManager.onBattleExit -= OnBattleExit;
 
-        foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
-        {
-            groupAbilities.onStartAbility -= OnStartAbility;
-        }
+        // foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
+        // {
+        //     groupAbilities.onStartAbility -= OnStartAbility;
+        // }
     }
 
     private static void OnStartAbility(AbilityAttack startedAbility)
     {
-        manaPool -= startedAbility.ManaCost;
+        //manaPool -= startedAbility.ManaCost;
     }
 
     #endregion

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
-using OrdersSystem;
-using OrdersSystem.ScriptableObjects;
+using AI.Movement;
+using CRBT;
+using Groups;
+using TacticsSystem;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Imp
@@ -12,19 +15,19 @@ namespace AI.Imp
 
         [SerializeField] private GroupManager.Group group;
         [SerializeField] private float fsmReactionTime = 0.2f;
-        [SerializeField] private Order startOrder;
+        [SerializeField] private Tactic startTactic;
 
         private GroupManager _groupManager;
         
-        private Order _activeOrder;
-        private Transform _target;
+        private Tactic _activeTactic;
+        private readonly AiUtils.TargetData _target = new AiUtils.TargetData();
         private bool _inBattle;
 
         #endregion
 
         #region Events
 
-        public event Action<Order> OnOrderChanged;
+        public event Action<Tactic> OnOrderChanged;
 
         #endregion
         
@@ -34,12 +37,14 @@ namespace AI.Imp
         {
             _groupManager = GetComponent<GroupManager>();
             
-            _activeOrder = startOrder;
+            _activeTactic = startTactic;
         }
 
         private void OnEnable()
         {
             TacticsManager.OnTryOrderAssign += OnTryOrderAssign;
+
+            _groupManager.OnImpJoined += OnImpJoined;
             
             BattleEventsManager.onBattleEnter += OnBattleEnter;
             BattleEventsManager.onBattleExit += OnBattleExit;
@@ -48,6 +53,8 @@ namespace AI.Imp
         private void OnDisable()
         {
             TacticsManager.OnTryOrderAssign -= OnTryOrderAssign;
+            
+            _groupManager.OnImpJoined -= OnImpJoined;
             
             BattleEventsManager.onBattleEnter -= OnBattleEnter;
             BattleEventsManager.onBattleExit -= OnBattleExit;
@@ -64,10 +71,13 @@ namespace AI.Imp
             outOfCombat.AddTransition(battleEnter,inCombat);
             inCombat.AddTransition(battleExit,outOfCombat);
             
-            inCombat.enterActions.Add( () => _target = GameObject.FindWithTag("Boss").transform);
-            inCombat.stayActions.Add(ExecuteOrder);
-            inCombat.exitActions.Add(() => _target = null);
+            // TODO :- Replace FindWithTag!
             
+            inCombat.enterActions.Add(SetBoss);
+            inCombat.stayActions.Add(ExecuteOrder);
+            
+            outOfCombat.enterActions.Add(SetPlayer);
+
             FSM groupFsm = new FSM(outOfCombat);
             StartCoroutine(FsmStayAlive(groupFsm));
         }
@@ -76,15 +86,15 @@ namespace AI.Imp
 
         #region FSM actions
 
+        private void SetPlayer() => _target.SetTarget(Reincarnation.player.transform);
+
+        private void SetBoss() => _target.SetTarget(GameObject.FindWithTag("Boss").transform);
+
         private void ExecuteOrder()
         {
-            foreach (GameObject groupManagerImp in _groupManager.Imps)
+            foreach (Transform groupManagerImp in _groupManager.Imps)
             {
-                AllyImpMovement allyImpMovement = groupManagerImp.GetComponent<AllyImpMovement>();
-                
-                if(!allyImpMovement.CanAct()) return;
-                
-                // TODO :- Execute order call
+                _activeTactic.ExecuteOrder();
             }
         }
 
@@ -92,13 +102,18 @@ namespace AI.Imp
         
         #region Event handlers
 
-        private void OnTryOrderAssign(Order newOrder, GroupManager.Group targetGroup)
+        private void OnImpJoined(GroupManager sender, GameObject impJoined)
+        {
+            impJoined.GetComponent<ContextSteering>().SetTarget(_target);
+        }
+        
+        private void OnTryOrderAssign(Tactic newTactic, GroupManager.Group targetGroup)
         {
             if(targetGroup != this.group) return;
 
-            _activeOrder = newOrder;
+            _activeTactic = newTactic;
             
-            OnOrderChanged?.Invoke(_activeOrder);
+            OnOrderChanged?.Invoke(_activeTactic);
         }
 
         private void OnBattleEnter() => _inBattle = true;

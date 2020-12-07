@@ -1,19 +1,20 @@
 ﻿using System;
 using ActionsBlockSystem;
-using OrdersSystem.ScriptableObjects;
+using Groups;
 using Player;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
-namespace OrdersSystem
+namespace TacticsSystem
 {
     public class TacticsManager : MonoBehaviour, IActionsBlockObserver
     {
         #region Fields
 
-        [SerializeField] private Order aButtonOrder;
-        [SerializeField] private Order bButtonOrder;
-        [SerializeField] private Order xButtonOrder;
-        [SerializeField] private Order yButtonOrder;
+        [SerializeField] private Tactic aButtonTactic;
+        [SerializeField] private Tactic bButtonTactic;
+        [SerializeField] private Tactic xButtonTactic;
+        [SerializeField] private Tactic yButtonTactic;
 
         private GroupManager.Group _currentMostRepresentedGroup;
 
@@ -23,7 +24,7 @@ namespace OrdersSystem
 
         #region Delegates and events
     
-        public static event Action<Order,GroupManager.Group> OnTryOrderAssign;
+        public static event Action<Tactic,GroupManager.Group> OnTryOrderAssign;
 
         #endregion
         
@@ -49,7 +50,7 @@ namespace OrdersSystem
         
         #region Methods
         
-        private bool AssignOrder(Order order)
+        private bool AssignOrder(Tactic tactic)
         {
             if (!_orderAssignLock.CanDoAction()) 
                 return false;
@@ -58,7 +59,7 @@ namespace OrdersSystem
                 GroupsInRangeDetector.MostRappresentedGroupInRange == GroupManager.Group.All) 
                 return false;
 
-            OnTryOrderAssign?.Invoke(order, GroupsInRangeDetector.MostRappresentedGroupInRange);
+            OnTryOrderAssign?.Invoke(tactic, GroupsInRangeDetector.MostRappresentedGroupInRange);
 
             return true;
         }
@@ -67,20 +68,24 @@ namespace OrdersSystem
 
         #region Events handler
 
-        private void OnYButtonDown() => AssignOrder(yButtonOrder);
+        private void OnYButtonDown() => AssignOrder(yButtonTactic);
 
-        private void OnXButtonDown() => AssignOrder(xButtonOrder);
+        private void OnXButtonDown() => AssignOrder(xButtonTactic);
 
-        private void OnBButtonDown() => AssignOrder(bButtonOrder);
+        private void OnBButtonDown() => AssignOrder(bButtonTactic);
 
-        private void OnAButtonDown() => AssignOrder(aButtonOrder);
+        private void OnAButtonDown() => AssignOrder(aButtonTactic);
         
         #endregion
+
+        #region Interfaces
 
         public void Block() => _orderAssignLock.AddLock();
 
         public void Unblock() => _orderAssignLock.RemoveLock();
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.GiveOrders;
+
+        #endregion
     }
 }

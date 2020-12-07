@@ -13,15 +13,21 @@ public class ImpAnimator : MonoBehaviour
     private CombatEventsManager combatEventsManager;
     private Reincarnation reincarnation;
     private PlayerMovement _playerMovement;
-    private AllyImpMovement allyImpMovement;
+    
+    //private AllyImpMovement allyImpMovement;
+    
     private ChildrenObjectsManager childrenObjectsManager;
     private Animator animator;
     private NormalCombat normalCombat;
-    private Block block;
+    
+    //private Block block;
+    
     private Stats stats;
     private Support support;
     private Recruit recruit;
+    
     //private Dash dash;
+    
     private PlayerScriptedMovements playerScriptedMovements;
     private bool isBlocking = false;
     private bool isRecruiting = false;
@@ -43,11 +49,15 @@ public class ImpAnimator : MonoBehaviour
         Animator = GetComponent<Animator>();
         _playerMovement = GetComponent<PlayerMovement>();
         combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
+        
+        //allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
+        
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
         reincarnation = gameObject.GetComponent<Reincarnation>();
         normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
-        block = gameObject.GetComponentInChildren<Block>();
+        
+        //block = gameObject.GetComponentInChildren<Block>();
+        
         stats = GetComponent<Stats>();
         support = GetComponent<Support>();
         recruit = GetComponent<Recruit>();
@@ -57,21 +67,24 @@ public class ImpAnimator : MonoBehaviour
     
     private void OnEnable() {
         
-        if(recruit != null)
-        {
-            recruit.onStartRecruit += OnStartRecruit;
-            recruit.onStopRecruit += OnStopRecruit;
-        } 
+        // if(recruit != null)
+        // {
+        //     recruit.onStartRecruit += OnStartRecruit;
+        //     recruit.onStopRecruit += OnStopRecruit;
+        // } 
 
         //dash.onDashStart += OnDashStart;
-        allyImpMovement.onStartMoving += OnAllyMovementStart;
-        allyImpMovement.onStopMoving += OnAllyMovementEnd;
+        // allyImpMovement.onStartMoving += OnAllyMovementStart;
+        // allyImpMovement.onStopMoving += OnAllyMovementEnd;
+        
         reincarnation.onReincarnation += OnReincarnation;
         stats.onDeath += OnDeath;    
         normalCombat.onStartAttack += OnStartAttack;  
-        block.onStartBlock += OnStartBlock;
-        block.onStopBlock += OnStopBlock;
-        block.onBlockSuccess += OnBlockSuccess;
+        
+        // block.onStartBlock += OnStartBlock;
+        // block.onStopBlock += OnStopBlock;
+        // block.onBlockSuccess += OnBlockSuccess;
+        
         BattleEventsManager.onBattleExit += SetAllBoolsToFalse;
         playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
         playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
@@ -79,21 +92,25 @@ public class ImpAnimator : MonoBehaviour
 
     private void OnDisable() {
 
-        if(recruit != null)
-        {
-            recruit.onStartRecruit -= OnStartRecruit;
-            recruit.onStopRecruit -= OnStopRecruit;
-        }
+        // if(recruit != null)
+        // {
+        //     recruit.onStartRecruit -= OnStartRecruit;
+        //     recruit.onStopRecruit -= OnStopRecruit;
+        // }
 
         //dash.onDashStart -= OnDashStart;
-        allyImpMovement.onStartMoving -= OnAllyMovementStart;
-        allyImpMovement.onStopMoving -= OnAllyMovementEnd;
+        
+        // allyImpMovement.onStartMoving -= OnAllyMovementStart;
+        // allyImpMovement.onStopMoving -= OnAllyMovementEnd;
+        
         reincarnation.onReincarnation -= OnReincarnation;
         stats.onDeath -= OnDeath;    
         normalCombat.onStartAttack -= OnStartAttack;    
-        block.onStartBlock -= OnStartBlock;
-        block.onStopBlock -= OnStopBlock;
-        block.onBlockSuccess -= OnBlockSuccess;    
+        
+        // block.onStartBlock -= OnStartBlock;
+        // block.onStopBlock -= OnStopBlock;
+        // block.onBlockSuccess -= OnBlockSuccess;    
+        
         BattleEventsManager.onBattleExit -= SetAllBoolsToFalse;
         playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
         playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
@@ -230,22 +247,22 @@ public class ImpAnimator : MonoBehaviour
         }
     }
 
-    private void OnStartBlock(Block sender)
-    {
-        isBlocking = true;  
-    }
-
-    private void OnStopBlock(Block sender)
-    {
-        isBlocking = false;
-    }
-    
-    private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
-    {
-        // no need to do this if i'm blocking in the animation
-        if(!isBlocking)
-            PlayParryAnimation();
-    }
+    // private void OnStartBlock(Block sender)
+    // {
+    //     isBlocking = true;  
+    // }
+    //
+    // private void OnStopBlock(Block sender)
+    // {
+    //     isBlocking = false;
+    // }
+    //
+    // private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
+    // {
+    //     // no need to do this if i'm blocking in the animation
+    //     if(!isBlocking)
+    //         PlayParryAnimation();
+    // }
 
     private void OnStartRecruit(Recruit sender)
     {

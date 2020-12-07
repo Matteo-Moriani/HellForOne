@@ -81,21 +81,21 @@ public class IdleCombat : MonoBehaviour
     
     private void OnAttackTryHandler(IdleCombatManager sender,GenericAttack attack, NormalCombat attackerNormalCombat)
     {
-        if (!attack.CanBeBlocked)
-        {
-            RaiseOnAttackBeingHit(attack, attackerNormalCombat);
-            return;
-        }
-
-        var block = gameObject.GetComponent<Block>();
-
-        if (block == null)
-        {
-            return;
-            Debug.LogError(this.name + " " + this.transform.root.gameObject.name + " is receiving a blockable NormalAttack but his CombatSystem does not have Block attached");
-        }
-        
-        RaiseOnAttackTry(attack, attackerNormalCombat);
+        // if (!attack.CanBeBlocked)
+        // {
+        //     RaiseOnAttackBeingHit(attack, attackerNormalCombat);
+        //     return;
+        // }
+        //
+        // var block = gameObject.GetComponent<Block>();
+        //
+        // if (block == null)
+        // {
+        //     return;
+        //     Debug.LogError(this.name + " " + this.transform.root.gameObject.name + " is receiving a blockable NormalAttack but his CombatSystem does not have Block attached");
+        // }
+        //
+        // RaiseOnAttackTry(attack, attackerNormalCombat);
     }
 
     #endregion

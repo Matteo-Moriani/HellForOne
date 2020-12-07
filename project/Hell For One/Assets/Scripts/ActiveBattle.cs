@@ -26,10 +26,10 @@ public class ActiveBattle : MonoBehaviour
                 wall.GetComponent<Collider>().isTrigger = false;
             }
 
-            foreach(GameObject group in GameObject.FindGameObjectsWithTag("Group"))
-            {
-                group.GetComponent<GroupMovement>().ChooseTarget();
-            }
+            // foreach(GameObject group in GameObject.FindGameObjectsWithTag("Group"))
+            // {
+            //     group.GetComponent<GroupMovement>().ChooseTarget();
+            // }
 
             foreach(GameObject enemy in enemies)
             {

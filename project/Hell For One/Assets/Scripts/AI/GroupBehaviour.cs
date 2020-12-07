@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections;
-using AI.Imp;
-using OrdersSystem;
-using OrdersSystem.ScriptableObjects;
-using UnityEngine;
-
-namespace AI
-{
-    public class GroupBehaviour : MonoBehaviour
-    {
+﻿// using System;
+// using System.Collections;
+// using AI.Imp;
+// using OrdersSystem;
+// using OrdersSystem.ScriptableObjects;
+// using UnityEngine;
+//
+// namespace AI
+// {
+//     public class GroupBehaviour : MonoBehaviour
+//     {
     //     public float rateo = 2f;
     //     private Coroutine continuousAttack;
     //
@@ -568,5 +568,5 @@ namespace AI
     //     {
     //         impsAlreadyChecked = false;
     //     }
-    }
-}
+//     }
+// }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Aggro;
 using AI;
 using CRBT;
+using Groups;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -157,7 +159,7 @@ public abstract class AbstractBoss : MonoBehaviour {
     public bool EnemiesAreDead() {
         int enemies = 0;
         foreach(GameObject demonGroup in GroupsManager.Instance.Groups) {
-            enemies += demonGroup.GetComponent<GroupManager>().ImpsInGroupNumber;
+            enemies += demonGroup.GetComponent<GroupManager>().Imps.Count;
         }
         if(GameObject.FindGameObjectWithTag("Player"))
             enemies += 1;
@@ -286,60 +288,60 @@ public abstract class AbstractBoss : MonoBehaviour {
     }
 
     public void FixedUpdate() {
-        if (isStunned)
-            return;
-
-        if(!Player)
-            Player = GameObject.FindGameObjectWithTag("Player");
-        if(!ArenaCenter)
-            ArenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
-
-        if(!DemonsReady && GroupsManager.Instance.Groups[0].GetComponent<GroupBehaviour>().AllImpsFoundGroup()) {
-            DemonsReady = true;
-            StartCoroutine(MoveThroughFSM());
-        }
-
-        if(TargetDemon && !IsAttacking && Stats.health > 0) {
-            if(!IsInPosition)
-                Face(TargetDemon);
-            else
-                if(CanFace)
-                Face(TargetDemon);
-
-            if(CanMove) {
-                if(!IsWalking) {
-                    IsWalking = true;
-                    IsInPosition = false;
-                    RaiseOnStartMoving();
-                }
-
-                if(HorizDistFromTarget(TargetDemon) > StopDist)
-                    transform.position += transform.forward * Speed * Time.deltaTime;
-            }
-            else {
-                if(!IsInPosition) {
-                    IsInPosition = true;
-                    IsWalking = false;
-                    RaiseOnStopMoving();
-                }
-            }
-
-        }
-        else if(!EnemiesAreDead()) {
-            ChooseTarget();
-        }
+        // if (isStunned)
+        //     return;
+        //
+        // if(!Player)
+        //     Player = GameObject.FindGameObjectWithTag("Player");
+        // if(!ArenaCenter)
+        //     ArenaCenter = GameObject.FindGameObjectWithTag("ArenaCenter");
+        //
+        // if(!DemonsReady && GroupsManager.Instance.Groups[0].GetComponent<GroupBehaviour>().AllImpsFoundGroup()) {
+        //     DemonsReady = true;
+        //     StartCoroutine(MoveThroughFSM());
+        // }
+        //
+        // if(TargetDemon && !IsAttacking && Stats.health > 0) {
+        //     if(!IsInPosition)
+        //         Face(TargetDemon);
+        //     else
+        //         if(CanFace)
+        //         Face(TargetDemon);
+        //
+        //     if(CanMove) {
+        //         if(!IsWalking) {
+        //             IsWalking = true;
+        //             IsInPosition = false;
+        //             RaiseOnStartMoving();
+        //         }
+        //
+        //         if(HorizDistFromTarget(TargetDemon) > StopDist)
+        //             transform.position += transform.forward * Speed * Time.deltaTime;
+        //     }
+        //     else {
+        //         if(!IsInPosition) {
+        //             IsInPosition = true;
+        //             IsWalking = false;
+        //             RaiseOnStopMoving();
+        //         }
+        //     }
+        //
+        // }
+        // else if(!EnemiesAreDead()) {
+        //     ChooseTarget();
+        // }
     }
 
     public void OnEnable() {
         stats.onDeath += OnDeath;
-        stunReceiver.onStartStun += OnStartStun;
-        stunReceiver.onStopStun += OnStopStun;
+        // stunReceiver.onStartStun += OnStartStun;
+        // stunReceiver.onStopStun += OnStopStun;
     }
 
     public void OnDisable() {
         stats.onDeath -= OnDeath;
-        stunReceiver.onStartStun -= OnStartStun;
-        stunReceiver.onStopStun -= OnStopStun;
+        // stunReceiver.onStartStun -= OnStartStun;
+        // stunReceiver.onStopStun -= OnStopStun;
 
     }
 
@@ -362,7 +364,7 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     private void OnDeath(Stats sender) {
         StopAllCoroutines();
-        HUD.DeactivateAggroIcon();
+        //HUD.DeactivateAggroIcon();
     }
 
     public IEnumerator Timer(float s, TimerType type) {
@@ -434,9 +436,9 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public GameObject ChooseCentralTarget() {
         TargetGroup = ClosestGroupTo(ArenaCenter.transform.position);
-        foreach(GameObject imp in TargetGroup.GetComponent<GroupManager>().Imps) {
+        foreach(Transform imp in TargetGroup.GetComponent<GroupManager>().Imps) {
             if(imp != null) {
-                return imp;
+                return imp.gameObject;
             }
         }
 
@@ -464,50 +466,50 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     // TODO - Optimize
     public void ChooseByAggro() {
-        float totalAggro = 0f;
-
-        for(int i = 0; i < GroupsManager.Instance.Groups.Length; i++) {
-            float groupAggro = 0f;
-            // if the group is empty, I give to the group a temporary value of zero
-            if (!GroupsManager.Instance.Groups[i].GetComponent<GroupManager>().IsEmpty())
-                groupAggro = GroupsManager.Instance.Groups[i].GetComponent<GroupAggro>().GroupAggroValue;
-            AggroValues[i] = groupAggro;
-            totalAggro = totalAggro + groupAggro;
-            Probability[i + 1] = totalAggro;
-        }
-
-        float playerAggro = Player.GetComponent<ImpAggro>().Aggro;
-        
-        AggroValues[GroupsManager.Instance.Groups.Length] = playerAggro;
-        totalAggro = totalAggro + playerAggro;
-        Probability[GroupsManager.Instance.Groups.Length + 1] = totalAggro;
-
-        float random = UnityEngine.Random.Range(0f, totalAggro);
-
-        // if I was pursuing the player, I won't choose him again
-        if(PursueTimeout)
-            random = UnityEngine.Random.Range(0f, totalAggro - playerAggro);
-
-        for(int i = 1; i < Probability.Length; i++) {
-            if(random > Probability[i - 1] && random <= Probability[i]) {
-                // if i'm talking about a group (player probability is in the last slot of the array)
-                if(i < Probability.Length - 1) {
-                    TargetGroup = GroupsManager.Instance.Groups[i - 1];
-                    GameObject tempDemon = TargetGroup.GetComponent<GroupManager>().GetRandomImp();
-
-                    //check if the chosen demon is too far from center
-                    if((tempDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter)
-                        tempDemon = ChooseCentralTarget();
-
-                    ChangeTarget(tempDemon);
-                }
-                else {
-                    ChangeTarget(Player);
-                }
-
-                break;
-            }
-        }
+        // float totalAggro = 0f;
+        //
+        // for(int i = 0; i < GroupsManager.Instance.Groups.Length; i++) {
+        //     float groupAggro = 0f;
+        //     // if the group is empty, I give to the group a temporary value of zero
+        //     if (!GroupsManager.Instance.Groups[i].GetComponent<GroupManager>().IsEmpty())
+        //         groupAggro = GroupsManager.Instance.Groups[i].GetComponent<GroupAggro>().GroupAggroValue;
+        //     AggroValues[i] = groupAggro;
+        //     totalAggro = totalAggro + groupAggro;
+        //     Probability[i + 1] = totalAggro;
+        // }
+        //
+        // float playerAggro = Player.GetComponent<ImpAggro>().Aggro;
+        //
+        // AggroValues[GroupsManager.Instance.Groups.Length] = playerAggro;
+        // totalAggro = totalAggro + playerAggro;
+        // Probability[GroupsManager.Instance.Groups.Length + 1] = totalAggro;
+        //
+        // float random = UnityEngine.Random.Range(0f, totalAggro);
+        //
+        // // if I was pursuing the player, I won't choose him again
+        // if(PursueTimeout)
+        //     random = UnityEngine.Random.Range(0f, totalAggro - playerAggro);
+        //
+        // for(int i = 1; i < Probability.Length; i++) {
+        //     if(random > Probability[i - 1] && random <= Probability[i]) {
+        //         // if i'm talking about a group (player probability is in the last slot of the array)
+        //         if(i < Probability.Length - 1) {
+        //             TargetGroup = GroupsManager.Instance.Groups[i - 1];
+        //             GameObject tempDemon = TargetGroup.GetComponent<GroupManager>().GetRandomImp();
+        //
+        //             //check if the chosen demon is too far from center
+        //             if((tempDemon.transform.position - ArenaCenter.transform.position).magnitude > MaxDistFromCenter || TargetFarFromCenter)
+        //                 tempDemon = ChooseCentralTarget();
+        //
+        //             ChangeTarget(tempDemon);
+        //         }
+        //         else {
+        //             ChangeTarget(Player);
+        //         }
+        //
+        //         break;
+        //     }
+        // }
     }
 
 }

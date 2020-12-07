@@ -39,31 +39,31 @@ public class Shield : MonoBehaviour
 
     private void OnStopAbility(AbilityAttack stoppedAbility)
     {
-        if (stoppedAbility.AbilityOrder == GroupBehaviour.State.Tank)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = false;
-            }
-            
-            transform.localPosition = Vector3.zero;
-            
-            idleCollider.gameObject.layer = LayerMask.NameToLayer("IgnoreAll");
-        }
+        // if (stoppedAbility.AbilityOrder == GroupBehaviour.State.Tank)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = false;
+        //     }
+        //     
+        //     transform.localPosition = Vector3.zero;
+        //     
+        //     idleCollider.gameObject.layer = LayerMask.NameToLayer("IgnoreAll");
+        // }
     }
 
     private void OnStartAbility(AbilityAttack startedAbility)
     {
-        if (startedAbility.AbilityOrder == GroupBehaviour.State.Tank)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = true;
-            }
-
-            transform.localPosition =  Vector3.forward * forwardOffset;
-            
-            idleCollider.gameObject.layer = LayerMask.NameToLayer("CombatSystem");
-        }
+        // if (startedAbility.AbilityOrder == GroupBehaviour.State.Tank)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = true;
+        //     }
+        //
+        //     transform.localPosition =  Vector3.forward * forwardOffset;
+        //     
+        //     idleCollider.gameObject.layer = LayerMask.NameToLayer("CombatSystem");
+        // }
     }
 }

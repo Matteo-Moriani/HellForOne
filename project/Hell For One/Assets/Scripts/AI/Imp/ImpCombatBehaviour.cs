@@ -2,7 +2,7 @@
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using Interfaces;
-using OrdersSystem.ScriptableObjects;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Imp
@@ -27,12 +27,12 @@ namespace AI.Imp
                 _combatSystem.StartAttack(_currentAttack);
         }
 
-        public void OnOrderGiven(Order newOrder) { }
+        public void OnOrderGiven(Tactic newTactic) { }
 
-        public void OnOrderAssigned(Order newOrder)
+        public void OnOrderAssigned(Tactic newTactic)
         {
-            if(newOrder.OrderAttack != null)
-                _currentAttack = newOrder.OrderAttack.GetAttack();    
+            if(newTactic.TacticAttack != null)
+                _currentAttack = newTactic.TacticAttack.GetAttack();    
         }
     }
 }
