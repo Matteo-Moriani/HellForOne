@@ -15,6 +15,8 @@ namespace AI.Movement
         [SerializeField] private bool debug = false;
 
         private ContextSteering _contextSteering;
+
+        private LayerMask _layerMask;
         
         private InterestMap _lastFrameInterest;
         private DangerMap _lastFrameDanger;
@@ -22,6 +24,7 @@ namespace AI.Movement
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
+            _layerMask = LayerMask.GetMask("Player", "InvisibleWalls");
         }
         
         private void Start()
@@ -66,12 +69,14 @@ namespace AI.Movement
             dangerMap.DebugMap(transform.position);
         }
 
+        public void SetLayerMask(LayerMask newLayerMask) => _layerMask = newLayerMask;
+
         private bool TestDirection(out RaycastHit hitInfo, int i) => 
             Physics.Raycast(
                 transform.position, 
                 ContextMap.defaultDirections[_contextSteering.SteeringResolution][i], out hitInfo, 
                 lookAhead, 
-                LayerMask.GetMask("InvisibleWalls","Player"), 
+                _layerMask, 
                 QueryTriggerInteraction.Collide
             );
     }

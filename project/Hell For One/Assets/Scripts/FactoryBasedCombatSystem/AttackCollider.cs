@@ -46,8 +46,6 @@ namespace FactoryBasedCombatSystem
 
         private void OnDisable()
         {
-            transform.localScale = Vector3.zero;
-            
             _currentAttack = null;
             _ownerCombatSystem = null;
             _currentId = -int.MaxValue;

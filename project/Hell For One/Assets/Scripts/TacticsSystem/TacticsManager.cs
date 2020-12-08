@@ -11,10 +11,10 @@ namespace TacticsSystem
     {
         #region Fields
 
-        [SerializeField] private Tactic aButtonTactic;
-        [SerializeField] private Tactic bButtonTactic;
-        [SerializeField] private Tactic xButtonTactic;
-        [SerializeField] private Tactic yButtonTactic;
+        [SerializeField] private TacticFactory aButtonTactic;
+        [SerializeField] private TacticFactory bButtonTactic;
+        [SerializeField] private TacticFactory xButtonTactic;
+        [SerializeField] private TacticFactory yButtonTactic;
 
         private GroupManager.Group _currentMostRepresentedGroup;
 
@@ -24,7 +24,7 @@ namespace TacticsSystem
 
         #region Delegates and events
     
-        public static event Action<Tactic,GroupManager.Group> OnTryOrderAssign;
+        public static event Action<TacticFactory,GroupManager.Group> OnTryOrderAssign;
 
         #endregion
         
@@ -50,7 +50,7 @@ namespace TacticsSystem
         
         #region Methods
         
-        private bool AssignOrder(Tactic tactic)
+        private bool AssignOrder(TacticFactory tactic)
         {
             if (!_orderAssignLock.CanDoAction()) 
                 return false;

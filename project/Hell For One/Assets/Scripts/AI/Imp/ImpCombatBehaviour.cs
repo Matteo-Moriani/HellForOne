@@ -31,8 +31,8 @@ namespace AI.Imp
 
         public void OnOrderAssigned(Tactic newTactic)
         {
-            if(newTactic.TacticAttack != null)
-                _currentAttack = newTactic.TacticAttack.GetAttack();    
+            // if(newTactic.TacticAttack != null)
+            //     _currentAttack = newTactic.TacticAttack.GetAttack();    
         }
     }
 }

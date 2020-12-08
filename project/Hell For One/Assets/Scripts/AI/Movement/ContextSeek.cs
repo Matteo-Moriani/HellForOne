@@ -16,8 +16,7 @@ namespace AI.Movement
         private ContextSteering _contextSteering;
 
         private InterestMap _lastFrameInterest;
-        private DangerMap _lastFrameDanger;
-        
+
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
@@ -28,7 +27,6 @@ namespace AI.Movement
         private void Start()
         {
             _lastFrameInterest = new InterestMap(0f, _contextSteering.SteeringResolution);
-            _lastFrameDanger = new DangerMap(0f, _contextSteering.SteeringResolution);
         }
         
         public override void GetMaps(out DangerMap dangerMap, out InterestMap interestMap)
@@ -39,7 +37,7 @@ namespace AI.Movement
             if (_contextSteering.TargetData == null) return;
 
             Vector3 toTarget = _contextSteering.TargetData.GetDirectionToTarget(_mTransform);
-            float distance = _contextSteering.TargetData.GetTransformDistanceFromTarget(transform);
+            float distance = _contextSteering.TargetData.GetColliderDistanceFromTarget(transform);
 
             for (int i = 0; i < ContextMap.defaultDirections[_contextSteering.SteeringResolution].Length; i++)
             {
@@ -58,5 +56,7 @@ namespace AI.Movement
             interestMap.DebugMap(transform.position);
             dangerMap.DebugMap(transform.position);
         }
+
+        public void SetStoppingDistance(float d) => stoppingDistance = d;
     }
 }

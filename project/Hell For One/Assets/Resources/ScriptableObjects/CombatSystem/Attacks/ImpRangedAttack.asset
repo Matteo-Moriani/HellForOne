@@ -16,7 +16,7 @@ MonoBehaviour:
     damage: 1
     colliderRadius: 1
     blockable: 0
-    canBeMultiple: 1
+    canBeMultiple: 0
     canDamageMultipleUnits: 0
     dealsKnockback: 0
     dealKnockbackWhenBlocked: 0
@@ -31,7 +31,8 @@ MonoBehaviour:
     projectilePrefab: {fileID: 3997527124753824698, guid: e19db49224fd94b41807c4589a0ac6ed,
       type: 3}
     destroyTime: 2
-    projectileSpeed: 5
+    projectileSpeed: 15
+    projectileRotation: 0
     minDistance: 0
     maxDistance: 30
     stopsOnHit: 1

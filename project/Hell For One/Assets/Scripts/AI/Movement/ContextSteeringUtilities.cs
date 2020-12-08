@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ActionsBlockSystem;
 using UnityEngine;
 
 namespace AI.Movement
@@ -129,9 +130,6 @@ namespace AI.Movement
             float interestLoseRateo,
             float dangerLoseRateo)
         {
-            // finalInterest = currentInterest;
-            // finalDanger = currentDanger;
-            
             InterestMap combinedInterest = interestMaps[0];
             DangerMap combinedDanger = dangerMaps[0];
 
@@ -149,44 +147,15 @@ namespace AI.Movement
 
             finalInterest = combinedInterest;
             finalDanger = combinedDanger;
-
-            // for (int i = 0; i < finalInterest.Map.Length; i++)
-            // {
-            //     // if(!Mathf.Approximately(Vector3.Dot(combinedInterest.Map[i],finalInterest.Map[i]),1f))
-            //     //     Debug.Log("Interest Error: " + i);
-            //     
-            //     finalInterest.Map[i] = combinedInterest.Map[i].magnitude >= finalInterest.Map[i].magnitude
-            //         ? combinedInterest.Map[i]
-            //         : finalInterest.Map[i] * interestLoseRateo;
-            //         // : combinedInterest.Map[i].magnitude < finalInterest.Map[i].magnitude 
-            //         //     ? finalInterest.Map[i] * 0.99f 
-            //         //     : finalInterest.Map[i];
-            //     
-            //     finalInterest.Map[i] = Vector3.ClampMagnitude(finalInterest.Map[i], 1);
-            // }
-            //
-            // for (int i = 0; i < finalDanger.Map.Length; i++)
-            // {
-            //     finalDanger.Map[i] = combinedDanger.Map[i].magnitude >= finalDanger.Map[i].magnitude
-            //         ? combinedDanger.Map[i]
-            //         : finalDanger.Map[i] * dangerLoseRateo; 
-            //         // : combinedDanger.Map[i].magnitude < finalDanger.Map[i].magnitude 
-            //         //     ? finalDanger.Map[i] * 0.99f 
-            //         //     : finalDanger.Map[i];
-            //
-            //     finalDanger.Map[i] = Vector3.ClampMagnitude(finalDanger.Map[i], 1);
-            // }
         }
         
         public static Vector3 CalculateDirection(InterestMap interestMap, DangerMap dangerMap)
         {
             Vector3[][] safeDirections = new Vector3[interestMap.Map.Length][];
             
-            //Dictionary<int,List<Vector3>> safeDirections = new Dictionary<int, List<Vector3>>();
             int r = 0;
             int c = 0;
-            //safeDirections.Add(listPtr,new List<Vector3>());
-            
+
             for (int i = 0; i < interestMap.Map.Length; i++)
             {
                 if (IsSafeDirection(interestMap.Map[i], dangerMap.Map[i]))
@@ -210,19 +179,6 @@ namespace AI.Movement
                 FirstOrDefault();
 
             return directions != null && directions.Length > 0 ? directions.Aggregate((acc, next) => acc + next).normalized : Vector3.zero;
-
-            // Vector3 finalDirection = Vector3.zero;
-            //
-            // for (int i = 0; i < interestMap.Map.Length; i++)
-            // {
-            //     if (!IsSafeDirection(interestMap.Map[i],dangerMap.Map[i]))
-            //         continue;
-            //     
-            //     if(interestMap.Map[i].magnitude > finalDirection.magnitude)
-            //         finalDirection = interestMap.Map[i];
-            // }
-            //
-            // return finalDirection;
         }
 
         private static bool IsSafeDirection(Vector3 interest, Vector3 danger) => interest.magnitude > danger.magnitude;
@@ -256,18 +212,18 @@ namespace AI.Movement
 
     public abstract class ContextSteeringBehaviour : MonoBehaviour
     {
-        public bool IsActive { private set; get; } = true;
-
         public abstract void GetMaps(out DangerMap dangerMap, out InterestMap interestMap);
 
-        public void ActivateBehaviour()
+        private ActionLock _steeringBehaviourLock = new ActionLock();
+        
+        public ActionLock SteeringBehaviourLock
         {
-            IsActive = true;
+            get => _steeringBehaviourLock;
+            private set => _steeringBehaviourLock = value;
         }
 
-        public void DeactivateBehaviour()
-        {
-            IsActive = false;
-        }
+        public void ActivateBehaviour() => _steeringBehaviourLock.RemoveLock();
+
+        public void DeactivateBehaviour() => _steeringBehaviourLock.AddLock();
     }
 }

@@ -36,8 +36,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             while (!AnimationStates[id]) yield return null;
 
-            _attackGameObjects[id].SetActive(true);
-            _attackGameObjects[id].transform.position += Vector3.forward * data.Range;
+            Debug.Log("AnimationOK");
+            
+            AttackCollider attackCollider = _attackGameObjects[id].GetComponentInChildren<AttackCollider>();
+            attackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
+            
+            _attackGameObjects[id].transform.position = ownerCombatSystem.transform.position + (ownerCombatSystem.transform.forward * data.Range);
 
             while (AnimationStates[id])
             {
@@ -63,11 +67,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
         protected override void InnerSetup(int id, CombatSystem ownerCombatSystem, Transform target)
         {
-            GameObject attackGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject(false);
-            
-            AttackCollider attackCollider = attackGameObject.GetComponentInChildren<AttackCollider>();
-            attackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
-            
+            GameObject attackGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject();
             _attackGameObjects.Add(id,attackGameObject);
         }
 

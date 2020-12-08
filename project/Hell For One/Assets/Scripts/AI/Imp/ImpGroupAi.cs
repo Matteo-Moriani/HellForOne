@@ -15,11 +15,11 @@ namespace AI.Imp
 
         [SerializeField] private GroupManager.Group group;
         [SerializeField] private float fsmReactionTime = 0.2f;
-        [SerializeField] private Tactic startTactic;
+        [SerializeField] private TacticFactory startTactic;
 
         private GroupManager _groupManager;
         
-        private Tactic _activeTactic;
+        private TacticFactory _activeTactic;
         private readonly AiUtils.TargetData _target = new AiUtils.TargetData();
         private bool _inBattle;
 
@@ -27,7 +27,7 @@ namespace AI.Imp
 
         #region Events
 
-        public event Action<Tactic> OnOrderChanged;
+        public event Action<TacticFactory> OnOrderChanged;
 
         #endregion
         
@@ -70,9 +70,7 @@ namespace AI.Imp
             
             outOfCombat.AddTransition(battleEnter,inCombat);
             inCombat.AddTransition(battleExit,outOfCombat);
-            
-            // TODO :- Replace FindWithTag!
-            
+
             inCombat.enterActions.Add(SetBoss);
             inCombat.stayActions.Add(ExecuteOrder);
             
@@ -86,15 +84,15 @@ namespace AI.Imp
 
         #region FSM actions
 
-        private void SetPlayer() => _target.SetTarget(Reincarnation.player.transform);
+        private void SetPlayer() => _target.SetTarget(GameObject.FindWithTag("Player").transform);
 
         private void SetBoss() => _target.SetTarget(GameObject.FindWithTag("Boss").transform);
 
         private void ExecuteOrder()
         {
-            foreach (Transform groupManagerImp in _groupManager.Imps)
+            foreach (ImpAi groupManagerImp in _groupManager.Imps.Values)
             {
-                _activeTactic.ExecuteOrder();
+                groupManagerImp.ExecuteTactic(_activeTactic);
             }
         }
 
@@ -107,7 +105,7 @@ namespace AI.Imp
             impJoined.GetComponent<ContextSteering>().SetTarget(_target);
         }
         
-        private void OnTryOrderAssign(Tactic newTactic, GroupManager.Group targetGroup)
+        private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
         {
             if(targetGroup != this.group) return;
 

@@ -436,7 +436,7 @@ public abstract class AbstractBoss : MonoBehaviour {
 
     public GameObject ChooseCentralTarget() {
         TargetGroup = ClosestGroupTo(ArenaCenter.transform.position);
-        foreach(Transform imp in TargetGroup.GetComponent<GroupManager>().Imps) {
+        foreach(Transform imp in TargetGroup.GetComponent<GroupManager>().Imps.Keys) {
             if(imp != null) {
                 return imp.gameObject;
             }

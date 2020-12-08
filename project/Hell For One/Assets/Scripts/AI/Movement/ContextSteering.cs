@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ActionsBlockSystem;
 using CRBT;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace AI.Movement
 {
-    public class ContextSteering : MonoBehaviour, IReincarnationObserver
+    public class ContextSteering : MonoBehaviour, IReincarnationObserver, IActionsBlockObserver
     {
         #region Fields
         
@@ -35,17 +36,11 @@ namespace AI.Movement
         
         private AiUtils.TargetData _targetData;
         
-        private Rigidbody _rigidbody;
-
-        private int _movementLocks = 0;
-        private bool _stop = false;
-
-        private CombatSystem _combatSystem;
-        private HitPoints _hitPoints;
-
-        public event Action OnStartMove;
-        public event Action OnStopMove;
+        private readonly ActionLock _movementLock = new ActionLock();
         
+        private Rigidbody _rigidbody;
+        private CombatSystem _combatSystem;
+
         #endregion
 
         #region Properties
@@ -71,29 +66,15 @@ namespace AI.Movement
             _delegates = GetComponents<ContextSteeringBehaviour>();
             _rigidbody = GetComponent<Rigidbody>();
             _combatSystem = GetComponentInChildren<CombatSystem>();
-            _hitPoints = GetComponent<HitPoints>();
 
             _lastFrameInterest = new InterestMap(0f,steeringResolution);
             _lastFrameDanger = new DangerMap(0f,steeringResolution);
             _lastFrameDirection = transform.forward;
         }
 
-        private void OnEnable()
-        {
-            _combatSystem.OnStartAttack += OnStartAttack;
-            _combatSystem.OnStopAttack += OnStopAttack;
-        }
-
-        private void OnDisable()
-        {
-            _combatSystem.OnStartAttack -= OnStartAttack;
-            _combatSystem.OnStopAttack -= OnStopAttack;
-        }
-
         private void FixedUpdate()
         {
-            if (_stop)
-                return;
+            if (!_movementLock.CanDoAction()) return;
 
             GetMapsFromDelegates();
 
@@ -150,7 +131,7 @@ namespace AI.Movement
         {
             foreach (ContextSteeringBehaviour t in _delegates)
             {
-                if(!t.IsActive) continue;
+                if(!t.SteeringBehaviourLock.CanDoAction()) continue;
 
                 t.GetMaps(out DangerMap tempDanger, out InterestMap tempInterest);
                 
@@ -158,56 +139,31 @@ namespace AI.Movement
                 _interestMaps.Add(tempInterest);
             }
         }
-        
-        private void UnlockMovement()
-        {
-            _movementLocks--;
-            
-            if(_movementLocks > 0)
-                return;
-            
-            _stop = false;
-        }
 
-        private void LockMovement()
-        {
-            _movementLocks++;
-            
-            if(_movementLocks > 1)
-                return;
-            
-            _stop = true;
-
-            _rigidbody.velocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
-
-            OnStopMove?.Invoke();
-        }
-        
         #endregion
 
         #region Event handlers
-
-        private void OnStartAttack(Attack attack)
-        {
-            LockMovement();
-        }
-
-        private void OnStopAttack()
-        {
-            UnlockMovement();
-        }
         
-        private void OnZeroHp()
-        {
-            LockMovement();
-        }
-
         #endregion
 
         #region Interfaces
 
         public void BecomeLeader() => this.enabled = false;
+
+        public void Block()
+        {
+            if (_movementLock.CanDoAction())
+            {
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.angularVelocity = Vector3.zero;
+            }
+            
+            _movementLock.AddLock();
+        }
+
+        public void Unblock() => _movementLock.RemoveLock();
+
+        public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
         #endregion
     }

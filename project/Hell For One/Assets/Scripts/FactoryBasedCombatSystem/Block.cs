@@ -37,7 +37,7 @@ namespace FactoryBasedCombatSystem
 
         public void OnOrderGiven(Tactic newTactic) { }
 
-        public void OnOrderAssigned(Tactic newTactic) => SetBlockChance(newTactic.TacticBlockChance);
+        public void OnOrderAssigned(Tactic newTactic) => SetBlockChance(newTactic.GetData().TacticBlockChance);
 
         #endregion
     }

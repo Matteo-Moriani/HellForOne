@@ -79,6 +79,9 @@ namespace AI.Movement
             dangerMap.DebugMap(transform.position);
         }
         
+        public void SetStoppingDistance(float d) => stoppingDistance = d;
+        public void SetCloseness(float c) => closeness = c;
+        
         private void OnGroupFound(Transform groupTransform)
         {
             _groupManager = groupTransform.GetComponent<GroupManager>();

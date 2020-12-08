@@ -124,12 +124,16 @@
               <e p="GroupMeanPosition.cs" t="Include" />
               <e p="GroupMovement.cs" t="Include" />
               <e p="GroupsFormation.cs" t="Include" />
+              <e p="ImpAi.cs" t="Include" />
               <e p="ImpCombatBehaviour.cs" t="Include" />
               <e p="ImpGroupAi.cs" t="Include" />
               <e p="PushAway.cs" t="Include" />
             </e>
             <e p="MeleePositionScript.cs" t="Include" />
             <e p="MidBossBehavior.cs" t="Include" />
+            <e p="MonoBT" t="Include">
+              <e p="MonoBehaviourTree.cs" t="Include" />
+            </e>
             <e p="Movement" t="Include">
               <e p="ContextGroupFormation.cs" t="Include" />
               <e p="ContextObstacleAvoidance.cs" t="Include" />
@@ -324,7 +328,8 @@
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
-              <e p="Tactic.cs" t="Include" />
+              <e p="MeleeAttackTacticFactory.cs" t="Include" />
+              <e p="TacticFactory.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />
             <e p="TacticsManager.cs" t="Include" />

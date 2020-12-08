@@ -62,7 +62,7 @@ public class OutlineGroup : MonoBehaviour
                     outlineMaterial.SetColor("_OutlineColor", color);
 
                     // Assign new material
-                    foreach (Transform imp in groupManager.Imps)
+                    foreach (Transform imp in groupManager.Imps.Keys)
                     {
                         if (imp != null)
                         {
@@ -92,7 +92,7 @@ public class OutlineGroup : MonoBehaviour
                     isOutlined = false;
 
                     // Assign default material
-                    foreach (Transform imp in groupManager.Imps)
+                    foreach (Transform imp in groupManager.Imps.Keys)
                     {
                         if (imp != null)
                         {

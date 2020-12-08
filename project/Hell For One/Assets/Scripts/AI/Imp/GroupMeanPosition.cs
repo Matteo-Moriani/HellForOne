@@ -26,7 +26,7 @@ namespace AI.Imp
         {
             _groupMeanPosition = Vector3.zero;
             
-            foreach (Transform imp in _groupManager.Imps)
+            foreach (Transform imp in _groupManager.Imps.Keys)
             {
                 _groupMeanPosition += imp.transform.position;
             }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AI.Imp;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -25,16 +27,12 @@ namespace Groups
             None
         }
 
-        [SerializeField]
-        [Tooltip("Field that indicate wich group this is")]
-        private Group thisGroupName = Group.None;
+        [SerializeField] [Tooltip("Field that indicate wich group this is")] private Group thisGroupName = Group.None;
 
-        [SerializeField]
-        [Tooltip("The color of this group")]
-        private Color groupColor = Color.white;
+        [SerializeField] [Tooltip("The color of this group")] private Color groupColor = Color.white;
     
-        private List<Transform> _imps = new List<Transform>();
-        
+        private Dictionary<Transform,ImpAi> _imps = new Dictionary<Transform, ImpAi>();
+
         private int maxImpNumber = 4;
     
         #endregion
@@ -49,7 +47,7 @@ namespace Groups
         /// <summary>
         /// Imps in this group
         /// </summary>
-        public List<Transform> Imps { get => _imps; private set => _imps = value; }
+        public Dictionary<Transform,ImpAi> Imps { get => _imps; private set => _imps = value; }
         
         public Color GroupColor { get => groupColor; set => groupColor = value; }
         public Material groupColorMat;
@@ -67,13 +65,13 @@ namespace Groups
         
         public bool IsEmpty() => _imps.Count == 0;
         
-        public Transform GetRandomImp() => _imps[Random.Range(0, _imps.Count)];
+        public Transform GetRandomImp() => _imps.Keys.ToList()[Random.Range(0,_imps.Keys.Count)];
         
         public bool AddDemonToGroup(Transform imp)
         {
             if (_imps.Count >= maxImpNumber) return false;
             
-            _imps.Add(imp);
+            _imps.Add(imp,imp.GetComponent<ImpAi>());
 
             // TODO :- Check if this is needed
             imp.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;

@@ -57,7 +57,7 @@ namespace Utils.ObjectPooling
         /// </summary>
         /// <param name="startsActive">Activate pooled object on get</param>
         /// <returns>The pooled object</returns>
-        public GameObject GetPooledObject(bool startsActive)
+        public GameObject GetPooledObject()
         {
             GameObject pooled = FindInactive();
 
@@ -70,7 +70,7 @@ namespace Utils.ObjectPooling
             
             RaiseOnGetPooledObject(this,pooled);
             
-            pooled.SetActive(startsActive);
+            pooled.SetActive(true);
             
             return pooled;
         }
@@ -82,7 +82,7 @@ namespace Utils.ObjectPooling
         /// <param name="startsActive">Activate pooled object on get</param>
         /// <param name="timeToLive">Liftetime of the object</param>
         /// <returns>The pooled object</returns>
-        public GameObject GetPooledObject(bool startsActive, float timeToLive)
+        public GameObject GetPooledObject(float timeToLive)
         {
             GameObject pooled = FindInactive();
 
@@ -97,7 +97,7 @@ namespace Utils.ObjectPooling
             
             StartCoroutine(PooledObjectLifetime(pooled, timeToLive));
             
-            pooled.SetActive(startsActive);
+            pooled.SetActive(true);
             
             return pooled;
         }

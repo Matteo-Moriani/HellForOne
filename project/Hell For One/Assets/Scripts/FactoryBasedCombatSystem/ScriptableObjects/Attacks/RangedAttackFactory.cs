@@ -17,6 +17,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         
         [SerializeField, Min(0f)] private float destroyTime;
         [SerializeField, Min(0f)] private float projectileSpeed;
+        [SerializeField, Min(0f)] private float projectileRotation;
         [SerializeField, Min(0f)] private float minDistance;
         [SerializeField, Min(0f)] private float maxDistance;
         [SerializeField] private bool stopsOnHit;
@@ -50,6 +51,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             get => destroyTime;
             private set => destroyTime = value;
         }
+
+        public float ProjectileRotation
+        {
+            get => projectileRotation;
+            private set => projectileRotation = value;
+        }
     }
 
     public class RangedAttack : Attack<RangedAttackData>
@@ -60,23 +67,16 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             while (!AnimationStates[id]) yield return null;
 
-            GameObject projectile = PoolersManager.Instance.TryGetPooler(data.ProjectilePrefab).GetPooledObject(true,data.DestroyTime);
+            GameObject projectile = PoolersManager.Instance.TryGetPooler(data.ProjectilePrefab).GetPooledObject(data.DestroyTime);
+            projectile.transform.position = ownerCombatSystem.ProjectileAnchor.position;
+            projectile.transform.rotation = ownerCombatSystem.ProjectileAnchor.rotation;
             
             AttackCollider projectileAttackCollider = projectile.GetComponentInChildren<AttackCollider>();
             projectileAttackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
             projectileAttackCollider.SetRadius(data.ColliderRadius);
 
             ProjectileMovement projectileMovement = projectile.GetComponent<ProjectileMovement>();
-            
-            if(!
-                projectileMovement.TryLaunch(
-                    target,
-                    ownerCombatSystem.ProjectileAnchor,
-                    data.MinDistance,
-                    data.MaxDistance,
-                    data.ProjectileSpeed)
-            ) yield break;
-
+            projectileMovement.Launch(target,ownerCombatSystem.ProjectileAnchor,data.MinDistance,data.MaxDistance,data.ProjectileSpeed);
             
             float timer = 0.0f;
 
