@@ -36,8 +36,6 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             while (!AnimationStates[id]) yield return null;
 
-            Debug.Log("AnimationOK");
-            
             AttackCollider attackCollider = _attackGameObjects[id].GetComponentInChildren<AttackCollider>();
             attackCollider.Initialize(id,data.ColliderRadius,this,ownerCombatSystem.transform.root,ownerCombatSystem);
             

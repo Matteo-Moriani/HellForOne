@@ -1,19 +1,20 @@
 ﻿using System;
-using Interfaces;
 using ReincarnationSystem;
+using TacticsSystem.Interfaces;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace FactoryBasedCombatSystem
 {
-    public class Block : MonoBehaviour, IReincarnationObserver, IGroupOrdersObserver
+    public class Block : MonoBehaviour, IReincarnationObserver, ITacticsObserver
     {
         #region Fields
 
         [SerializeField, Range(0f, 99f)] private float startingBlockChance;
         
         private float _blockChance;
+        private ITacticsObserver _tacticsObserverImplementation;
 
         #endregion
 
@@ -34,10 +35,9 @@ namespace FactoryBasedCombatSystem
         #region Interfaces
 
         public void BecomeLeader() => SetBlockChance(0f);
-
-        public void OnOrderGiven(Tactic newTactic) { }
-
-        public void OnOrderAssigned(Tactic newTactic) => SetBlockChance(newTactic.GetData().TacticBlockChance);
+        public void StartTactic(Tactic newTactic) => SetBlockChance(newTactic.GetData().TacticBlockChance);
+        
+        public void EndTactic() => SetBlockChance(0f);
 
         #endregion
     }

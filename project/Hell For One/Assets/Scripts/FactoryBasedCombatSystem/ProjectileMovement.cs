@@ -46,8 +46,6 @@ namespace FactoryBasedCombatSystem
         {
         }
 
-        //_rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-
         private float CalculateAngle(float distance, float speed) => 
             0.5f * Mathf.Rad2Deg * Mathf.Asin(Mathf.Clamp((Physics.gravity.magnitude * distance) / (speed * speed), -1f, 1f));
 

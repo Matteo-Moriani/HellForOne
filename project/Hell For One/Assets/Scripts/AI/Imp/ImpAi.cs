@@ -5,8 +5,8 @@ namespace AI.Imp
 {
     public class ImpAi : MonoBehaviour
     {
-        private TacticFactory _activeTactic;
-        private Tactic _tacticInstance;
+        private TacticFactory _activeTactic = null;
+        private Tactic _tacticInstance = null;
         
         public void ExecuteTactic(TacticFactory tactic)
         {

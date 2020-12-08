@@ -17,9 +17,8 @@ namespace FactoryBasedCombatSystem
         [SerializeField] private Unit unitType;
         [SerializeField] private Transform projectileAnchor;
 
-        private readonly Dictionary<int, Tuple<Attack,Coroutine>> _activeAttacks = new Dictionary<int, Tuple<Attack,Coroutine>>();
-        private readonly Queue<int> _toActivate = new Queue<int>();
-        private readonly Queue<int> _toDeactivate = new Queue<int>();
+        private readonly Dictionary<Attack, Dictionary<int,Coroutine>> _activeAttacks = new Dictionary<Attack, Dictionary<int,Coroutine>>();
+        private Tuple<Attack, int> _toActivate;
         
         private HitboxCollider[] _hitboxColliders;
         private Block _block;
@@ -89,22 +88,31 @@ namespace FactoryBasedCombatSystem
         
         public void StartAttack(Attack attack, Transform target = null)
         {
-            if (_activeAttacks.Keys.Count > 0 && !attack.GetData().CanBeMultiple) return;
+            if(!_combatSystemLock.CanDoAction()) return;
+            
+            if(_toActivate != null) return;
+            
+            if (_activeAttacks.ContainsKey(attack) && !attack.GetData().CanBeMultiple) return;
 
             int id = IdManager.Instance.GetId();
-
-            _activeAttacks.Add(id, new Tuple<Attack, Coroutine>(attack,StartCoroutine(attack.DoAttack(id, this, StopAttack, target))));
-            _toActivate.Enqueue(id);
-            _toDeactivate.Enqueue(id);
             
+            if(!_activeAttacks.ContainsKey(attack))
+                _activeAttacks.Add(attack,new Dictionary<int, Coroutine>());
+            
+            _activeAttacks[attack].Add(id, StartCoroutine(attack.DoAttack(id, this, StopAttack, target)));
+            _toActivate = new Tuple<Attack, int>(attack,id);
+
             OnStartAttack?.Invoke(attack);
         }
 
-        private void StopAttack(int id)
+        private void StopAttack(Attack attack,int id)
         {
-            StopCoroutine(_activeAttacks[id].Item2);
+            StopCoroutine(_activeAttacks[attack][id]);
 
-            _activeAttacks.Remove(id);
+            _activeAttacks[attack].Remove(id);
+
+            if (_activeAttacks[attack].Keys.Count == 0)
+                _activeAttacks.Remove(attack);
 
             IdManager.Instance.FreeId(id);
 
@@ -115,20 +123,13 @@ namespace FactoryBasedCombatSystem
 
         #region Event handlers
 
-        private void OnAttackAnimationActivateAttack()
-        {
-            int id = _toActivate.Dequeue();
-            _activeAttacks[id].Item1.ActivateAttack(id);
-            
-            Debug.Log("OnAttackAnimationActivateAttack: " + id);
-        }
+        private void OnAttackAnimationActivateAttack() => _toActivate.Item1.ActivateAttack(_toActivate.Item2);
 
         private void OnAttackAnimationDeactivateAttack()
         {
-            int id = _toDeactivate.Dequeue();
-            _activeAttacks[id].Item1.DeactivateAttack(id);
+            _toActivate.Item1.DeactivateAttack(_toActivate.Item2);
             
-            Debug.Log("OnAttackAnimationDeactivateAttack: " + id);
+            _toActivate = null;
         }
         
         private void OnHitboxColliderHit(int id, Attack attackerAttack, CombatSystem attackerCombatSystem, Vector3 contactPoint)
@@ -148,7 +149,7 @@ namespace FactoryBasedCombatSystem
                 attackerCombatSystem.OnDamageHitDealt?.Invoke(attackerAttack,this,contactPoint);
             }
             
-            attackerCombatSystem._activeAttacks[id].Item1.NotifyHit(id);
+            attackerAttack.NotifyHit(id);
         }
 
         #endregion
@@ -157,13 +158,13 @@ namespace FactoryBasedCombatSystem
 
         public void Block()
         {
-            foreach (KeyValuePair<int,Tuple<Attack,Coroutine>> item in _activeAttacks)
+            foreach (Attack item in _activeAttacks.Keys)
             {
-                item.Value.Item1.SafeStop(item.Key,this,StopAttack);    
+                foreach (int id in _activeAttacks[item].Keys)
+                {
+                    item.SafeStop(id,this,StopAttack);   
+                }
             }
-            
-            _toActivate.Clear();
-            _toDeactivate.Clear();
             _activeAttacks.Clear();
             
             _combatSystemLock.AddLock();

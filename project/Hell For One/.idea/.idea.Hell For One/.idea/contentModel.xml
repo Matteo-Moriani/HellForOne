@@ -219,6 +219,10 @@
               <e p="ProjectileCaster.cs" t="Include" />
             </e>
           </e>
+          <e p="CooldownSystem" t="Include">
+            <e p="Cooldowns.cs" t="Include" />
+            <e p="ICooldown.cs" t="Include" />
+          </e>
           <e p="CrownArrow.cs" t="Include" />
           <e p="DemonsDollyCamera.cs" t="Include" />
           <e p="DollyCamera1.cs" t="Include" />
@@ -323,12 +327,12 @@
           <e p="TacticChangeParticles.cs" t="Include" />
           <e p="TacticsSystem" t="Include">
             <e p="Interfaces" t="Include">
-              <e p="IGroupOrdersObserver.cs" t="Include" />
+              <e p="ITacticsObserver.cs" t="Include" />
             </e>
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
-              <e p="MeleeAttackTacticFactory.cs" t="Include" />
+              <e p="OffensiveTacticFactory.cs" t="Include" />
               <e p="TacticFactory.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />

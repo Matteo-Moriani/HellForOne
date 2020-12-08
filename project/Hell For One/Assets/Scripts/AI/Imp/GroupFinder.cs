@@ -15,7 +15,6 @@ namespace AI.Imp
         private Reincarnation reincarnation;
     
         private GameObject groupBelongingTo;
-        private bool groupFound = false;
 
         #endregion
 
@@ -25,12 +24,6 @@ namespace AI.Imp
         {
             get => groupBelongingTo;
             private set => groupBelongingTo = value;
-        }
-    
-        public bool GroupFound
-        {
-            get => groupFound;
-            private set => groupFound = value;
         }
 
         #endregion
@@ -51,7 +44,7 @@ namespace AI.Imp
 
         private void Start()
         {
-            StartCoroutine(FindGroupCoroutine());
+            FindGroup();
         }
 
         private void OnEnable()
@@ -73,18 +66,26 @@ namespace AI.Imp
         // Balances group entering too
         private void FindGroup()
         {
+            int lowest = int.MaxValue;
+            GroupManager bestGroup = null;
+                
             foreach ( GameObject group in GroupsManager.Instance.Groups )
             {
                 GroupManager groupManager = group.GetComponent<GroupManager>();
 
-                if (!groupManager.AddDemonToGroup(transform)) continue;
+                if (groupManager.Imps.Keys.Count >= lowest) continue;
                 
-                groupBelongingTo = group;
-                gameObject.GetComponent<ChildrenObjectsManager>().ActivateCircle();
-                OnGroupFound?.Invoke(groupBelongingTo.transform);
-                    
-                break;
+                bestGroup = groupManager;
+                lowest = groupManager.Imps.Keys.Count;
             }
+
+            if (bestGroup == null) return;
+                
+            bestGroup.AddDemonToGroup(transform);
+            
+            groupBelongingTo = bestGroup.gameObject;
+            gameObject.GetComponent<ChildrenObjectsManager>().ActivateCircle();
+            OnGroupFound?.Invoke(groupBelongingTo.transform);
         }
 
         #endregion
@@ -101,19 +102,6 @@ namespace AI.Imp
         {
             enabled = false;
             StopAllCoroutines();
-        }
-
-        #endregion
-
-        #region Coroutines
-
-        private IEnumerator FindGroupCoroutine()
-        {
-            while (!groupFound)
-            {
-                FindGroup();
-                yield return null;
-            }
         }
 
         #endregion

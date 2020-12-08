@@ -166,7 +166,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         protected Dictionary<int, bool> HasHit { get; private set; } = new Dictionary<int, bool>();
         protected Dictionary<int, bool> AnimationStates { get; private set; } = new Dictionary<int, bool>();
 
-        public IEnumerator DoAttack(int id, CombatSystem ownerCombatSystem, Action<int> stopAction, Transform target = null)
+        public IEnumerator DoAttack(int id, CombatSystem ownerCombatSystem, Action<Attack,int> stopAction, Transform target = null)
         {
             Setup(id,ownerCombatSystem, target);
             
@@ -175,7 +175,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             Dispose(id,ownerCombatSystem,stopAction);
         }
 
-        public void SafeStop(int id, CombatSystem ownerCombatSystem, Action<int> stopAction) =>
+        public void SafeStop(int id, CombatSystem ownerCombatSystem, Action<Attack,int> stopAction) =>
             Dispose(id, ownerCombatSystem, stopAction);
 
         private void Setup(int id, CombatSystem ownerCombatSystem, Transform target)
@@ -187,7 +187,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             HasHit.Add(id,false);
         }
 
-        private void Dispose(int id, CombatSystem ownerCombatSystem, Action<int> stopAction)
+        private void Dispose(int id, CombatSystem ownerCombatSystem, Action<Attack,int> stopAction)
         {
             InnerDispose(id,ownerCombatSystem);
 
@@ -195,7 +195,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             HasHit.Remove(id);
 
-            stopAction(id);
+            stopAction(this,id);
         }
 
         public void ActivateAttack(int id) => AnimationStates[id] = true;

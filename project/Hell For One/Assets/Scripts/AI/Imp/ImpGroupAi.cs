@@ -12,8 +12,7 @@ namespace AI.Imp
     public class ImpGroupAi : MonoBehaviour
     {
         #region Fields
-
-        [SerializeField] private GroupManager.Group group;
+        
         [SerializeField] private float fsmReactionTime = 0.2f;
         [SerializeField] private TacticFactory startTactic;
 
@@ -107,7 +106,7 @@ namespace AI.Imp
         
         private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
         {
-            if(targetGroup != this.group) return;
+            if(targetGroup != _groupManager.ThisGroupName) return;
 
             _activeTactic = newTactic;
             

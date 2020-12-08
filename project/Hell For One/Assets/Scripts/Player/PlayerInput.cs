@@ -56,9 +56,6 @@ namespace Player
             if ( Input.GetButtonDown( "XBoxA" ) )
                 OnAButtonDown?.Invoke();
 
-            if ( Input.GetButtonUp( "XBoxLT" ) )
-                OnLTButtonUp?.Invoke();
-
             if ( Input.GetAxisRaw( "XBoxLT" ) <= 0.1f && _ltPressed )
             {
                 _ltPressed = false;
