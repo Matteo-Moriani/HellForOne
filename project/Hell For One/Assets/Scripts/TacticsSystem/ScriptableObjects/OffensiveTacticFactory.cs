@@ -45,22 +45,10 @@ namespace TacticsSystem.ScriptableObjects
         private Attack _attackInstance;
         private BehaviourTree _tacticBehaviourTree;
 
-        private bool _setUp = false;
-        
         public override void ExecuteTactic(ImpAi imp)
         {
             if (_impAi == null)
                 _impAi = imp;
-
-            if (!_setUp)
-            {
-                foreach (ITacticsObserver tacticsObserver in imp.GetComponentsInChildren<ITacticsObserver>())
-                {
-                    tacticsObserver.StartTactic(this);
-                }
-
-                _setUp = true;
-            }
 
             if (_tacticBehaviourTree == null)
             {

@@ -10,10 +10,11 @@ using Utils;
 namespace FactoryBasedCombatSystem
 {
     [RequireComponent(typeof(Block))]
-    public class CombatSystem : MonoBehaviour, IActionsBlockObserver
+    public class CombatSystem : MonoBehaviour, IActionsBlockObserver, IActionsBlockSubject
     {
         #region Fields
 
+        [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
         [SerializeField] private Unit unitType;
         [SerializeField] private Transform projectileAnchor;
 
@@ -102,6 +103,7 @@ namespace FactoryBasedCombatSystem
             _activeAttacks[attack].Add(id, StartCoroutine(attack.DoAttack(id, this, StopAttack, target)));
             _toActivate = new Tuple<Attack, int>(attack,id);
 
+            OnBlockEvent?.Invoke(actionBlocks);
             OnStartAttack?.Invoke(attack);
         }
 
@@ -116,6 +118,7 @@ namespace FactoryBasedCombatSystem
 
             IdManager.Instance.FreeId(id);
 
+            OnUnblockEvent?.Invoke(actionBlocks);
             OnStopAttack?.Invoke();
         }
 
@@ -123,7 +126,10 @@ namespace FactoryBasedCombatSystem
 
         #region Event handlers
 
-        private void OnAttackAnimationActivateAttack() => _toActivate.Item1.ActivateAttack(_toActivate.Item2);
+        private void OnAttackAnimationActivateAttack()
+        {
+            _toActivate.Item1.ActivateAttack(_toActivate.Item2);
+        }
 
         private void OnAttackAnimationDeactivateAttack()
         {
@@ -156,6 +162,9 @@ namespace FactoryBasedCombatSystem
 
         #region Interfaces
 
+        public event Action<UnitActionsBlockManager.UnitAction[]> OnBlockEvent;
+        public event Action<UnitActionsBlockManager.UnitAction[]> OnUnblockEvent;
+        
         public void Block()
         {
             foreach (Attack item in _activeAttacks.Keys)

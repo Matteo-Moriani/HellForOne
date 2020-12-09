@@ -141,6 +141,7 @@
               <e p="MonoBehaviourTree.cs" t="Include" />
             </e>
             <e p="Movement" t="Include">
+              <e p="ContextArenaMovement.cs" t="Include" />
               <e p="ContextGroupFormation.cs" t="Include" />
               <e p="ContextObstacleAvoidance.cs" t="Include" />
               <e p="ContextSeek.cs" t="Include" />
@@ -256,6 +257,7 @@
             <e p="ScriptableObjects" t="Include">
               <e p="Attacks" t="Include">
                 <e p="AttackFactory.cs" t="Include" />
+                <e p="BossMeleeAttackFactory.cs" t="Include" />
                 <e p="MeleeAttackFactory.cs" t="Include" />
                 <e p="RangedAttackFactory.cs" t="Include" />
               </e>

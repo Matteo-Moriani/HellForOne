@@ -43,9 +43,11 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             while (AnimationStates[id])
             {
+                yield return null;
+                
                 if (HasHit[id])
                 {
-                    if(!data.CanDamageMultipleUnits) break;
+                    if(!data.CanDamageMultipleUnits) yield break;
 
                     if(!data.SplashDamage) continue;
 
@@ -58,8 +60,6 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
                         timer += Time.deltaTime;
                     }    
                 }
-
-                yield return null;
             }
         }
 

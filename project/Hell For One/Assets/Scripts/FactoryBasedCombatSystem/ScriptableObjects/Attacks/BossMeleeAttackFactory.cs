@@ -43,23 +43,22 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             while (AnimationStates[id])
             {
-                if (HasHit[id])
-                {
-                    if(!data.CanDamageMultipleUnits) break;
-
-                    if(!data.SplashDamage) continue;
-
-                    float timer = 0f;
-                    _attackGameObjects[id].GetComponentInChildren<AttackCollider>().SetRadius(data.SplashDamageRadius);
-                
-                    while (timer < data.SplashDamageTime)
-                    {
-                        yield return null;
-                        timer += Time.deltaTime;
-                    }    
-                }
-
                 yield return null;
+
+                if (!HasHit[id]) continue;
+                
+                if(!data.CanDamageMultipleUnits) yield break;
+
+                if(!data.SplashDamage) continue;
+
+                float timer = 0f;
+                _attackGameObjects[id].GetComponentInChildren<AttackCollider>().SetRadius(data.SplashDamageRadius);
+                
+                while (timer < data.SplashDamageTime)
+                {
+                    yield return null;
+                    timer += Time.deltaTime;
+                }
             }
         }
 

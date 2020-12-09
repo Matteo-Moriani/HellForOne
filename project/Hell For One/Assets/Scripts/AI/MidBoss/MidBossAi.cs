@@ -187,8 +187,6 @@ namespace AI.MidBoss
                 OrderByDescending(aggro => aggro.CurrentAggro)
                 .FirstOrDefault();
 
-            Debug.Log(selected != null);
-            
             if (selected == null)
                 return false;
 

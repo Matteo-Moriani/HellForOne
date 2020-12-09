@@ -228,9 +228,23 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         private void Setup(int id, CombatSystem ownerCombatSystem, Transform target)
         {
             InnerSetup(id,ownerCombatSystem,target);
-            
-            AnimationStates.Add(id,false); 
 
+            if (AnimationStates.ContainsKey(id))
+            {
+                Debug.Log(ownerCombatSystem.transform.root.name);
+
+                foreach (var VARIABLE in AnimationStates)
+                {
+                    Debug.Log(VARIABLE.Key + " " + VARIABLE.Value);
+                }
+                
+                foreach (var VARIABLE in HasHit)
+                {
+                    Debug.Log(VARIABLE.Key + " " + VARIABLE.Value);
+                }
+            }
+
+            AnimationStates.Add(id,false);
             HasHit.Add(id,false);
         }
 
@@ -239,15 +253,25 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             InnerDispose(id,ownerCombatSystem);
 
             AnimationStates.Remove(id);
-
             HasHit.Remove(id);
 
             stopAction(this,id);
         }
 
-        public void ActivateAttack(int id) => AnimationStates[id] = true;
+        public void ActivateAttack(int id)
+        {
+            AnimationStates[id] = true;
+        }
 
-        public void DeactivateAttack(int id) => AnimationStates[id] = false;
+
+        public void DeactivateAttack(int id)
+        {
+            // If the attack hits before animation deactivation,
+            // We already have destroyed this key
+            if (!AnimationStates.ContainsKey(id)) return;
+            
+            AnimationStates[id] = false;
+        }
 
         public void NotifyHit(int id) => HasHit[id] = true;
 

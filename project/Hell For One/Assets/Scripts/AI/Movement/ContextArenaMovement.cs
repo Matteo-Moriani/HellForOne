@@ -6,7 +6,7 @@ namespace AI.Movement
 {
     public class ContextArenaMovement : ContextSteeringBehaviour
     {
-        [SerializeField] private float maxDistanceFromCenter;
+        [SerializeField] private float k;
         
         [SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
         [SerializeField] [Range(0, 1f)] private float dangerLoseRateo = 0.99f;
@@ -44,7 +44,10 @@ namespace AI.Movement
                 float dot = Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
                     toDesiredPosition);
                 if (dot >= 0)
-                    interestMap.InsertValue(i, Mathf.Min((distance * distance) / maxDistanceFromCenter,dot), (int)_contextSteering.SteeringResolution/8);
+                {
+                    interestMap.InsertValue(i, Mathf.Min((distance * distance) / k,dot), (int)_contextSteering.SteeringResolution/8);
+                    dangerMap.InsertValue(dangerMap.GetOppositeDirection(i),Mathf.Min((distance * distance) / k,dot),(int)_contextSteering.SteeringResolution/8);
+                }
             }
 
             interestMap = (InterestMap) ContextMap.Combine(interestMap, _lastFrameInterest, interestLoseRateo);

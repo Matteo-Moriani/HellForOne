@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 3160524411156427702}
   - component: {fileID: 8346818928052594762}
   - component: {fileID: 682081896416238348}
+  - component: {fileID: 324633236233819492}
   m_Layer: 0
   m_Name: FactoryBasedCombatSystem
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ee4fd494d0405d9ea59b1f2b75e764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionBlocks: 02000000
   unitType: {fileID: 0}
   projectileAnchor: {fileID: 0}
 --- !u!114 &682081896416238348
@@ -118,3 +120,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionBlocks: 010000000200000003000000040000000500000006000000
+--- !u!114 &324633236233819492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8755480068690682224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988704e3fc96432e94d6ac8fc66c9355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingBlockChance: 0
