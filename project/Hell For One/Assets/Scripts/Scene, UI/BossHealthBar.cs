@@ -9,12 +9,18 @@ using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour
 {
+    #region Fields
+
     [SerializeField] private Image healthBarInside;
     [SerializeField] private Image healthBarOutside;
     [SerializeField] private TMPro.TextMeshProUGUI bossName;
     
     private float _bossStartHp;
     private HitPoints _bossHitPoints;
+
+    #endregion
+
+    #region Unity Methods
 
     private void Start() => DeactivateHealthBar();
 
@@ -30,6 +36,10 @@ public class BossHealthBar : MonoBehaviour
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
     }
 
+    #endregion
+
+    #region Methods
+
     private void DeactivateHealthBar()
     {
         healthBarInside.enabled = false;
@@ -44,21 +54,31 @@ public class BossHealthBar : MonoBehaviour
         bossName.enabled = true;
     }
 
-    private void OnGlobalEndBattle(ArenaManager obj) => DeactivateHealthBar();
+    #endregion
+
+    #region Event handlers
 
     private void OnGlobalStartBattle(ArenaManager obj)
     {
         ActivateHealthBar();
 
-        _bossHitPoints = obj.Boss.GetComponent<HitPoints>();
-        //maxHealth = _bossHitPoints;
-
         bossName.text = obj.Boss.gameObject.name;
+        
+        _bossHitPoints = obj.Boss.GetComponent<HitPoints>();
+        _bossHitPoints.OnHpChanged += OnHpChanged;
+        _bossStartHp = _bossHitPoints.StartingHp;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGlobalEndBattle(ArenaManager obj)
     {
-        //HealthBarInside.fillAmount = characterStats.health / maxHealth;
+        DeactivateHealthBar();
+        
+        _bossHitPoints.OnHpChanged -= OnHpChanged;
+        _bossHitPoints = null;
+        _bossStartHp = 0f;
     }
+
+    private void OnHpChanged(float obj) => healthBarInside.fillAmount = obj / _bossStartHp;
+
+    #endregion
 }

@@ -803,6 +803,7 @@ GameObject:
   - component: {fileID: 1678576078909968141}
   - component: {fileID: 3311669744832881273}
   - component: {fileID: 5133916121839084895}
+  - component: {fileID: 7999695030709912728}
   m_Layer: 0
   m_Name: Nazil
   m_TagString: Boss
@@ -1107,6 +1108,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4e397c7ac04b2bae9a44a27ce134d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7999695030709912728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00bd2d4b9d2b4e02913a531f1adf81e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHp: 1000
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0
