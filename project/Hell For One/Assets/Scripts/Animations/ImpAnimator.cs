@@ -1,298 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Managers;
-using Player;
+﻿using System;
+using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class ImpAnimator : MonoBehaviour
+namespace Animations
 {
-    #region Fields
-
-    private bool isAnimating = false;
-    
-    private Reincarnation reincarnation;
-    private PlayerMovement _playerMovement;
-    
-    //private AllyImpMovement allyImpMovement;
-    
-    private ChildrenObjectsManager childrenObjectsManager;
-    private Animator animator;
-    private NormalCombat normalCombat;
-    
-    //private Block block;
-    
-    private Stats stats;
-    private Support support;
-    private Recruit recruit;
-    
-    //private Dash dash;
-    
-    private PlayerScriptedMovements playerScriptedMovements;
-    private bool isBlocking = false;
-    private bool isRecruiting = false;
-    private bool playerScriptedMovement = false;
-    private bool allyIsMoving = false;
-
-    #endregion
-
-    #region Properties
-
-    public Animator Animator { get => animator; private set => animator = value; }
-    public bool IsAnimating { get => isAnimating; private set => isAnimating = value; }
-
-    #endregion
-        
-    #region Unity methods
-
-    private void Awake() {
-        Animator = GetComponent<Animator>();
-        _playerMovement = GetComponent<PlayerMovement>();
-
-        //allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
-        
-        childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
-        reincarnation = gameObject.GetComponent<Reincarnation>();
-        normalCombat = gameObject.GetComponentInChildren<NormalCombat>();
-        
-        //block = gameObject.GetComponentInChildren<Block>();
-        
-        stats = GetComponent<Stats>();
-        support = GetComponent<Support>();
-        recruit = GetComponent<Recruit>();
-        //dash = GetComponent<Dash>();
-        playerScriptedMovements = GetComponent<PlayerScriptedMovements>();
-    }
-    
-    private void OnEnable() {
-        
-        // if(recruit != null)
-        // {
-        //     recruit.onStartRecruit += OnStartRecruit;
-        //     recruit.onStopRecruit += OnStopRecruit;
-        // } 
-
-        //dash.onDashStart += OnDashStart;
-        // allyImpMovement.onStartMoving += OnAllyMovementStart;
-        // allyImpMovement.onStopMoving += OnAllyMovementEnd;
-        
-        reincarnation.onReincarnation += OnReincarnation;
-        stats.onDeath += OnDeath;    
-        normalCombat.onStartAttack += OnStartAttack;  
-        
-        // block.onStartBlock += OnStartBlock;
-        // block.onStopBlock += OnStopBlock;
-        // block.onBlockSuccess += OnBlockSuccess;
-        
-        // GameEventsManager.OnBattleExit += SetAllBoolsToFalse;
-        // playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
-        // playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
-    }
-
-    private void OnDisable() {
-
-        // if(recruit != null)
-        // {
-        //     recruit.onStartRecruit -= OnStartRecruit;
-        //     recruit.onStopRecruit -= OnStopRecruit;
-        // }
-
-        //dash.onDashStart -= OnDashStart;
-        
-        // allyImpMovement.onStartMoving -= OnAllyMovementStart;
-        // allyImpMovement.onStopMoving -= OnAllyMovementEnd;
-        
-        reincarnation.onReincarnation -= OnReincarnation;
-        stats.onDeath -= OnDeath;    
-        normalCombat.onStartAttack -= OnStartAttack;    
-        
-        // block.onStartBlock -= OnStartBlock;
-        // block.onStopBlock -= OnStopBlock;
-        // block.onBlockSuccess -= OnBlockSuccess;    
-        
-        //GameEventsManager.OnBattleExit -= SetAllBoolsToFalse;
-        // playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
-        // playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
-    }
-
-    private void Update()
+    public class ImpAnimator : MonoBehaviour
     {
-        // // ordered by priority
-        // if(isBlocking)
-        //     PlayBlockAnimation();
-        // else if(_playerMovement.ZMovement != 0f || _playerMovement.XMovement != 0f || playerScriptedMovement || (allyIsMoving && stats.ThisUnitType == Stats.Type.Ally))
-        //     PlayMoveAnimation();
-        // else if(isRecruiting)
-        //     PlayRecruitAnimation();
-        // else
-        //     SetAllBoolsToFalse();
-    }
+        private Animator _animator;
+        private CombatSystem _combatSystem;
+        
+        private Vector3 _lastFramePosition;
 
-    #endregion
-
-    #region Methods
-
-    // loops: they are booleans
-    private void PlayMoveAnimation()
-    {
-        SetAllBoolsToFalse();
-        animator.SetBool("isMoving", true);
-    }
-
-    private void PlayBlockAnimation()
-    {
-        SetAllBoolsToFalse();
-        animator.SetBool("isBlocking", true);
-    }
-
-    private void PlayRecruitAnimation()
-    {
-        SetAllBoolsToFalse();
-        HideWeapons();
-        animator.SetBool("isRecruiting", true);
-    }
-
-    // single actions: they are triggers and they all start from idle and end to idle
-    private void PlaySingleAttackAnimation() {
-        SetAllBoolsToFalse();
-        animator.SetTrigger("meleeAttack");
-    }
-
-    private void PlayRangedAttackAnimation() {
-        SetAllBoolsToFalse();
-        animator.SetTrigger("rangedAttack");
-    }
-
-    private void PlayDashAnimation()
-    {
-        SetAllBoolsToFalse();
-        animator.SetTrigger("dash");
-    }
-
-    private void PlayDeathAnimation() {
-        SetAllBoolsToFalse();
-        animator.SetTrigger("death");
-    }
-
-    private void PlayParryAnimation()
-    {
-        SetAllBoolsToFalse();
-        animator.SetTrigger("parry");
-    }
-
-    private void StopBlockAnimation() {
-        // TODO - fix this, it gives wrong behaviour when dying
-        // if(_playerMovement.ZMovement != 0 || _playerMovement.XMovement != 0) {
-        //     SetAllBoolsToFalse();
-        //     //combatEventsManager.RaiseOnStartMoving();
-        //     PlayMoveAnimation();
-        // }
-        // else {
-        //     SetAllBoolsToFalse();
-        // }
-    }
-    
-    private void SetAllBoolsToFalse() {
-        ShowWeapons();
-        Animator.SetBool("isMoving", false);
-        Animator.SetBool("isBlocking", false);
-        Animator.SetBool("isRecruiting", false);
-    }
-
-    // TODO - legare questi due metodi alla scelta dell'ordine e non alle loro animazioni
-    private void HideWeapons() {
-        if(gameObject.tag != "Player")
+        private void Awake()
         {
-            childrenObjectsManager.spear.SetActive(false);
-            childrenObjectsManager.shield.SetActive(false);
-        }
-    }
+            _animator = GetComponent<Animator>();
+            _combatSystem = GetComponentInChildren<CombatSystem>();
 
-    private void ShowWeapons() {
-        if(gameObject.tag != "Player")
+            _lastFramePosition = transform.position;
+        }
+
+        private void OnEnable()
         {
-            childrenObjectsManager.spear.SetActive(true);
-            childrenObjectsManager.shield.SetActive(true);
+            _combatSystem.OnStartAttack += OnStartAttack;
+            _combatSystem.OnBlockedHitReceived += OnBlockedHitReceived;
         }
-    }
 
-    #endregion
-
-    #region Events handlers
-
-    private void OnDashStart()
-    {
-        PlayDashAnimation();
-    }
-    
-    private void OnDeath(Stats stats)
-    {
-        PlayDeathAnimation();
-    }
-
-    private void OnReincarnation(GameObject player) { 
-        SetAllBoolsToFalse();    
-    }
-    
-    private void OnStartAttack(NormalCombat sender, GenericAttack attack)
-    {
-        if (attack.IsRanged)
+        private void OnDisable()
         {
-            PlayRangedAttackAnimation();
+            _combatSystem.OnStartAttack -= OnStartAttack;
+            _combatSystem.OnBlockedHitReceived -= OnBlockedHitReceived;
         }
-        else
+
+        private void Update()
         {
-            PlaySingleAttackAnimation();
+            _animator.SetBool("isMoving",IsMoving());
+
+            _lastFramePosition = transform.position;
         }
+
+        private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3) =>
+            _animator.SetTrigger("parry");
+
+        private void OnStartAttack(Attack attack) => _animator.SetTrigger(attack.name);
+
+        private bool IsMoving() => Vector3.Distance(transform.position, _lastFramePosition) >= 0.01f;
     }
-
-    // private void OnStartBlock(Block sender)
-    // {
-    //     isBlocking = true;  
-    // }
-    //
-    // private void OnStopBlock(Block sender)
-    // {
-    //     isBlocking = false;
-    // }
-    //
-    // private void OnBlockSuccess(Block sender, GenericAttack genericAttack, NormalCombat attackernormalcombat)
-    // {
-    //     // no need to do this if i'm blocking in the animation
-    //     if(!isBlocking)
-    //         PlayParryAnimation();
-    // }
-
-    private void OnStartRecruit(Recruit sender)
-    {
-        isRecruiting = true;
-    }
-
-    private void OnStopRecruit(Recruit sender)
-    {
-        isRecruiting = false;
-    }
-
-    // i need this for allies
-    private void OnAllyMovementStart()
-    {
-        allyIsMoving = true;
-    }
-
-    private void OnAllyMovementEnd()
-    {
-        allyIsMoving = false;
-    }
-
-    private void OnScriptedMovementStart()
-    {
-        playerScriptedMovement = true;
-    }
-
-    private void OnScriptedMovementEnd()
-    {
-        playerScriptedMovement = false;
-    }
-
-    #endregion
 }
