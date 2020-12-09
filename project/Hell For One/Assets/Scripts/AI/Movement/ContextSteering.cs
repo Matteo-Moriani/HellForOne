@@ -20,9 +20,6 @@ namespace AI.Movement
         [SerializeField] private float angularSpeed = 5f;
         [SerializeField] [Range(0f,1f)] private float newDirectionWeight = 0.25f;
         [SerializeField] private float linearTolerance = 0.8f;
-        [SerializeField] [Range(0f,1f)] private float velocityCutOff = 0.1f;
-        [SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
-        [SerializeField] [Range(0, 1f)] private float dangerLoseRateo = 0.99f;
         [SerializeField] private bool debug = false;
 
         private ContextSteeringBehaviour[] _delegates;
@@ -78,11 +75,7 @@ namespace AI.Movement
 
             GetMapsFromDelegates();
 
-            ContextMap.Combine(
-                out InterestMap currentInterest, out DangerMap currentDanger, 
-                _interestMaps, _dangerMaps,
-                _lastFrameInterest,_lastFrameDanger,
-                interestLoseRateo,dangerLoseRateo);
+            ContextMap.Combine(out InterestMap currentInterest, out DangerMap currentDanger, _interestMaps, _dangerMaps);
 
             Vector3 finalDirection = ContextMap.CalculateDirection(currentInterest, currentDanger);
             Vector3 slerpDirection = Vector3.Slerp(_lastFrameDirection, finalDirection, newDirectionWeight).normalized;

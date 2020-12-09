@@ -1026,11 +1026,12 @@ MonoBehaviour:
   searchPlayerDuration: 10
   attackFactories:
   - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
+  - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
   targetChangingRateo: 5
-  maxFacingTolerance: 0.99
-  minFacingTolerance: 0.5
-  adaptiveFacingTolerance: 0
-  facingToleranceDecreasingRateo: 0.01
+  maxFacingTolerance: 0.8
+  minFacingTolerance: 0.25
+  adaptiveFacingTolerance: 1
+  facingToleranceDecreasingRateo: 0.1
 --- !u!114 &8309526910234773333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fd969e1f0f425a970e7c21634d3671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 2
+  attackCooldown: 5
 --- !u!114 &5692087650184848165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1056,15 +1057,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11dca176d7b46bdb087927edbc8b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steeringResolution: 32
+  steeringResolution: 64
   linearSpeed: 3
   angularSpeed: 2.5
-  newDirectionWeight: 0.25
+  newDirectionWeight: 0.1
   linearTolerance: 0.8
-  velocityCutOff: 0.1
-  interestLoseRateo: 0.99
-  dangerLoseRateo: 0.99
-  debug: 0
+  debug: 1
 --- !u!114 &1678576078909968141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,8 +1075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b26190b98c407cb25c10c9a921f1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistance: 2
-  k: 1
+  stoppingDistance: 0.5
   interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
   debug: 0
@@ -1094,10 +1091,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803be5a1d86549da9c91053baef196c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 1
+  k: 100
   interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
-  debug: 1
+  debug: 0
 --- !u!114 &5133916121839084895
 MonoBehaviour:
   m_ObjectHideFlags: 0

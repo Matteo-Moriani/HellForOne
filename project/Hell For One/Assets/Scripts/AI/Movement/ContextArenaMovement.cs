@@ -45,12 +45,12 @@ namespace AI.Movement
                     toDesiredPosition);
                 if (dot >= 0)
                 {
-                    interestMap.InsertValue(i, Mathf.Min((distance * distance) / k,dot), (int)_contextSteering.SteeringResolution/8);
+                    //interestMap.InsertValue(i, Mathf.Min((distance * distance) / k,dot), (int)_contextSteering.SteeringResolution/8);
                     dangerMap.InsertValue(dangerMap.GetOppositeDirection(i),Mathf.Min((distance * distance) / k,dot),(int)_contextSteering.SteeringResolution/8);
                 }
             }
 
-            interestMap = (InterestMap) ContextMap.Combine(interestMap, _lastFrameInterest, interestLoseRateo);
+            //interestMap = (InterestMap) ContextMap.Combine(interestMap, _lastFrameInterest, interestLoseRateo);
             dangerMap = (DangerMap) ContextMap.Combine(dangerMap, _lastFrameDanger, dangerLoseRateo);
             
             _lastFrameInterest = interestMap;

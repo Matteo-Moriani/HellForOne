@@ -125,12 +125,7 @@ namespace AI.Movement
             return currentMap;
         }
 
-        public static void Combine(
-            out InterestMap finalInterest, out DangerMap finalDanger, 
-            List<InterestMap> interestMaps, List<DangerMap> dangerMaps, 
-            InterestMap currentInterest, DangerMap currentDanger,
-            float interestLoseRateo,
-            float dangerLoseRateo)
+        public static void Combine(out InterestMap finalInterest, out DangerMap finalDanger, List<InterestMap> interestMaps, List<DangerMap> dangerMaps)
         {
             InterestMap combinedInterest = interestMaps[0];
             DangerMap combinedDanger = dangerMaps[0];

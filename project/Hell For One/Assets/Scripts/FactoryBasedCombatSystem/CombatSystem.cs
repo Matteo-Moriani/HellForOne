@@ -102,7 +102,7 @@ namespace FactoryBasedCombatSystem
             
             _activeAttacks[attack].Add(id, StartCoroutine(attack.DoAttack(id, this, StopAttack, target)));
             _toActivate = new Tuple<Attack, int>(attack,id);
-
+            
             OnBlockEvent?.Invoke(actionBlocks);
             OnStartAttack?.Invoke(attack);
         }
@@ -117,8 +117,7 @@ namespace FactoryBasedCombatSystem
                 _activeAttacks.Remove(attack);
 
             IdManager.Instance.FreeId(id);
-
-            OnUnblockEvent?.Invoke(actionBlocks);
+            
             OnStopAttack?.Invoke();
         }
 
@@ -136,6 +135,8 @@ namespace FactoryBasedCombatSystem
             _toActivate.Item1.DeactivateAttack(_toActivate.Item2);
             
             _toActivate = null;
+            
+            OnUnblockEvent?.Invoke(actionBlocks);
         }
         
         private void OnHitboxColliderHit(int id, Attack attackerAttack, CombatSystem attackerCombatSystem, Vector3 contactPoint)
