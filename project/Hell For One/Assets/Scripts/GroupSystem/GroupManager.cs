@@ -5,7 +5,7 @@ using AI.Imp;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Groups
+namespace GroupSystem
 {
     /// <summary>
     /// Class that manages the group mechanic

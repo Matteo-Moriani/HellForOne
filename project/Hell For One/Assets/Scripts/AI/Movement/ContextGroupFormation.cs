@@ -1,6 +1,6 @@
 ﻿using System;
 using AI.Imp;
-using Groups;
+using GroupSystem;
 using UnityEngine;
 
 namespace AI.Movement
@@ -50,11 +50,14 @@ namespace AI.Movement
             dangerMap = new DangerMap(0f, _contextSteering.SteeringResolution);
 
             if(_groupManager == null) return;
-
-            float step = 360f / Enum.GetValues(typeof(GroupManager.Group)).Length;
+            
+            // Group Number (4) hardcoded.
+            // Group enum has 6 values so we can't use it
+            float step = 360f / 4;
+            
             Vector3 targetPosition = _contextSteering.TargetData.Target.position + 
                                      Quaternion.Euler(0f, step * (int) _groupManager.ThisGroupName, 0f) *
-                                    (_contextSteering.TargetData.Target.forward * closeness);
+                                    (Vector3.forward * closeness);
             
             Vector3 toDesiredPosition = (targetPosition - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, targetPosition);

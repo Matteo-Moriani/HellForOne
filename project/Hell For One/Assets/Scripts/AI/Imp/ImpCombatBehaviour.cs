@@ -1,4 +1,5 @@
 ﻿using System;
+using ActionsBlockSystem;
 using CooldownSystem;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
@@ -16,9 +17,13 @@ namespace AI.Imp
     /// </summary>
     public class ImpCombatBehaviour : MonoBehaviour, ICooldown, ITacticsObserver
     {
+        [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
+        
         private CombatSystem _combatSystem;
         private Cooldowns _cooldowns;
 
+        private readonly ActionLock _combatSystemLock = new ActionLock();
+        
         private Attack _currentAttack;
         private float _currentCooldown;
 

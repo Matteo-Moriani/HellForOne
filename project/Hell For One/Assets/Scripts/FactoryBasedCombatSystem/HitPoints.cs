@@ -9,6 +9,8 @@ namespace FactoryBasedCombatSystem
 
         private float _currentHp;
 
+        public event Action OnDeath;
+        
         private void Awake()
         {
             _currentHp = startingHp;

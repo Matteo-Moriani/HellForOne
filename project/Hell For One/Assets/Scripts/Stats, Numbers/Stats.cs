@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -57,8 +58,6 @@ public class Stats : MonoBehaviour
     private float deathDuration = 1f;
     private Coroutine deathCR;
 
-    private CombatEventsManager combatEventsManager;
-    
     #endregion
 
     #region properties
@@ -103,11 +102,6 @@ public class Stats : MonoBehaviour
     #endregion
     
     #region methods
-
-    private void Awake()
-    {
-        combatEventsManager = this.gameObject.GetComponent<CombatEventsManager>();
-    }
 
     private void OnEnable()
     {
@@ -178,59 +172,59 @@ public class Stats : MonoBehaviour
             IsDying = true;
 
             // If an ally is dying...
-            if (ThisUnitType == Stats.Type.Ally)
-            {
-                // TODO - Manage this inside DemonMovement with OnDeath event
-                // ...we need to disable his demonMovement.
-                //AllyImpMovement demonMovement = gameObject.GetComponent<AllyImpMovement>();
-
-                // if (demonMovement != null)
-                // {
-                //     demonMovement.enabled = false;
-                // }
-
-                // ...we nned to disable his NavMeshAgent.
-                NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
-
-                if (navMeshAgent != null)
-                {
-                    navMeshAgent.enabled = false;
-                }
-            }
-
-            // TODO - Manage player death with OnDeath event
-            // if the player is dying...
-            if (ThisUnitType == Type.Player)
-            {
-                // It only works if Hat is the first child of Imp - don't understand this check
-                if (!GameObject.Find("Crown(Clone)"))
-                {
-                    // TODO - change someway this
-                    GameObject crown = Instantiate(LevelManager.Instance.GetCrown(), transform.position + new Vector3(0, 5, 0), Quaternion.identity);
-                    crown.GetComponent<Hat>().PlayerDied();
-                }
-                
-                GetComponent<Reincarnation>().Reincarnate();
-            }
-
-            // TODO - Manage Boss death with OnDeath event
-            // if the boss is dying...
-            if (ThisUnitType == Type.Boss)
-            {
-                // Update EnemiesManager boss
-                EnemiesManager.Instance.BossKilled();
-            }
-
-            // TODO - Remove LittleEnemy logic
-            // if a littleEnemy is dying...
-            if (ThisUnitType == Type.Enemy)
-            {
-                // Update EnemiesManager littleEnemiesList
-                EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
-            }
-
-            RaiseOnDeath();
-            RaiseOnLateDeath();
+            // if (ThisUnitType == Stats.Type.Ally)
+            // {
+            //     // TODO - Manage this inside DemonMovement with OnDeath event
+            //     // ...we need to disable his demonMovement.
+            //     //AllyImpMovement demonMovement = gameObject.GetComponent<AllyImpMovement>();
+            //
+            //     // if (demonMovement != null)
+            //     // {
+            //     //     demonMovement.enabled = false;
+            //     // }
+            //
+            //     // ...we nned to disable his NavMeshAgent.
+            //     NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+            //
+            //     if (navMeshAgent != null)
+            //     {
+            //         navMeshAgent.enabled = false;
+            //     }
+            // }
+            //
+            // // TODO - Manage player death with OnDeath event
+            // // if the player is dying...
+            // if (ThisUnitType == Type.Player)
+            // {
+            //     // It only works if Hat is the first child of Imp - don't understand this check
+            //     if (!GameObject.Find("Crown(Clone)"))
+            //     {
+            //         // TODO - change someway this
+            //         GameObject crown = Instantiate(LevelManager.Instance.GetCrown(), transform.position + new Vector3(0, 5, 0), Quaternion.identity);
+            //         crown.GetComponent<Hat>().PlayerDied();
+            //     }
+            //     
+            //     GetComponent<Reincarnation>().Reincarnate();
+            // }
+            //
+            // // TODO - Manage Boss death with OnDeath event
+            // // if the boss is dying...
+            // if (ThisUnitType == Type.Boss)
+            // {
+            //     // Update EnemiesManager boss
+            //     EnemiesManager.Instance.BossKilled();
+            // }
+            //
+            // // TODO - Remove LittleEnemy logic
+            // // if a littleEnemy is dying...
+            // if (ThisUnitType == Type.Enemy)
+            // {
+            //     // Update EnemiesManager littleEnemiesList
+            //     EnemiesManager.Instance.LittleEnemyKilled(this.gameObject);
+            // }
+            //
+            // RaiseOnDeath();
+            // RaiseOnLateDeath();
  
             // TODO - disable components for death duration
             

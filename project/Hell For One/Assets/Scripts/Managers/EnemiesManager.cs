@@ -1,95 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ArenaSystem;
 using UnityEngine;
 
-public class EnemiesManager : MonoBehaviour
+namespace Managers
 {
-    public List<GameObject> littleEnemiesList;
-
-    private GameObject boss;
-
-    private static EnemiesManager _instance;
-
-    public static EnemiesManager Instance { get { return _instance; } }
-    public List<GameObject> LittleEnemiesList { get => littleEnemiesList; private set => littleEnemiesList = value; }
-    public GameObject Boss { get => boss; private set => boss = value; }
-
-    private void Awake()
+    public class EnemiesManager : MonoBehaviour
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
-    }
+        private ArenaBoss _currentBoss;
 
-    private void OnEnable()
-    {
-        BattleEventsManager.onBattleEnter += FindBoss;
-    }
-    
-    private void OnDisable()
-    {
-        BattleEventsManager.onBattleEnter -= FindBoss;
-    }
-
-    private void FindBoss() { 
-        Boss = GameObject.FindGameObjectWithTag("Boss");
+        private static EnemiesManager _instance;
         
-        // TODO - Manage better this.
-        BossBehavior bossBehaviour = boss.GetComponent<BossBehavior>();
-
-        if(bossBehaviour != null) { 
-            bossBehaviour.enabled = true;    
+        public ArenaBoss CurrentBoss 
+        {   
+            get => _currentBoss; 
+            private set => _currentBoss = value; 
         }
 
-        MidBossBehavior midBossBehavior = boss.GetComponent<MidBossBehavior>();
-
-        if(midBossBehavior != null) { 
-            midBossBehavior.enabled = true;    
-        }
-    }
-
-    public void LittleEnemyKilled(GameObject littleEnemy) { 
-        LittleEnemiesList.Remove(littleEnemy);       
-    }
-
-    public void BossKilled() { 
-        Boss = null;    
-    }
-
-    /*
-    public void AddEnemy(GameObject enemy) {
-        if (!littleEnemiesList.Contains(enemy))
+        public static EnemiesManager Instance
         {
-            littleEnemiesList.Add(enemy);
+            get => _instance;
+            private set => _instance = value;
         }
-        else
-        {
-            // TODO - Im not 100% sure about this
-            // Need to test
-            //Destroy(enemy);
 
-            // Need to find a way to manage this
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
         }
+
+        private void OnEnable()
+        {
+            ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+        }
+
+        private void OnDisable()
+        {
+            ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
+        }
+
+        private void OnGlobalStartBattle(ArenaManager instance) => _currentBoss = instance.Boss;
+    
+        private void OnGlobalEndBattle(ArenaManager instance) => _currentBoss = null;
     }
-
-    public void AddBoss(GameObject boss) {
-        if (this.boss == null)
-        {
-            this.boss = boss;    
-        }
-        else
-        {
-            // TODO - Im not 100% sure about this
-            // Need to test
-            //Destroy(boss);
-
-            // Need to find a way to manage this
-        }
-    }
-    */
 }

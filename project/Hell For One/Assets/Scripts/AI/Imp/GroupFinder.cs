@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Groups;
+using GroupSystem;
 using UnityEngine;
 
 // TODO - Merge this into GroupManager?

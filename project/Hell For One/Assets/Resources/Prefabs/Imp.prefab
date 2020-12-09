@@ -730,7 +730,6 @@ GameObject:
   - component: {fileID: 6542592131629019941}
   - component: {fileID: 859236636117726381}
   - component: {fileID: 394698130004195905}
-  - component: {fileID: 395050982539173071}
   - component: {fileID: 3702270970669862575}
   - component: {fileID: 1172605104724893249}
   - component: {fileID: 474679381212470201}
@@ -794,8 +793,8 @@ Rigidbody:
   m_GameObject: {fileID: 2749467006459795368}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 1
+  m_Drag: 0.1
+  m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -946,18 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6336b83341fcc9a4597eb5b3771af7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &395050982539173071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2749467006459795368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae8ddc252492a274f86bcc010752ab9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3702270970669862575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901ad37ea79c63a43acaf9bbb6085a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alliesInPosition: 0
+  actionBlocks: 
 --- !u!114 &216746108433097118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,6 +1131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888cba6e4d3e4f558f752538c09957be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionBlocks: 
 --- !u!114 &7568869478104569807
 MonoBehaviour:
   m_ObjectHideFlags: 0

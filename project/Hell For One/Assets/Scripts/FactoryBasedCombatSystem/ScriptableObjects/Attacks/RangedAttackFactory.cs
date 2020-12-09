@@ -18,8 +18,6 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [SerializeField, Min(0f)] private float destroyTime;
         [SerializeField, Min(0f)] private float projectileSpeed;
         [SerializeField, Min(0f)] private float projectileRotation;
-        [SerializeField, Min(0f)] private float minDistance;
-        [SerializeField, Min(0f)] private float maxDistance;
         [SerializeField] private bool stopsOnHit;
         
         public GameObject ProjectilePrefab
@@ -32,18 +30,6 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             get => projectileSpeed;
             private set => projectileSpeed = value;
-        }
-
-        public float MinDistance
-        {
-            get => minDistance;
-            private set => minDistance = value;
-        }
-
-        public float MaxDistance
-        {
-            get => maxDistance;
-            private set => maxDistance = value;
         }
 
         public float DestroyTime

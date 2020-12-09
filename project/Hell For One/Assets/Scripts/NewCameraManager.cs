@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Managers;
 using Player;
 
 public class NewCameraManager : MonoBehaviour
@@ -147,26 +148,26 @@ public class NewCameraManager : MonoBehaviour
         //else if ( Input.GetButtonDown( "R3" ) && !isLocked )
         else if ( InputManager.Instance.RightStickButtonDown() && !IsLocked )
         {
-            if ( EnemiesManager.Instance.Boss == null && EnemiesManager.Instance.LittleEnemiesList != null )
-            {
-                target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
-                if ( target )
-                {
-                    FindPlayer();
-                    IsLocked = true;
-                    cinemachineVirtualCameraLock.gameObject.SetActive( true );
-                    //cinemachineVirtualCameraLock.enabled = true;
-                    cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
-                    cinemachineFreeLook.gameObject.SetActive( false );
-                    //cinemachineFreeLook.enabled = false;
-                    cinemachineVirtualCameraLock.LookAt = target.transform;
-                    cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
-                }
-            }
+            // if ( EnemiesManager.Instance.CurrentBoss == null && EnemiesManager.Instance.LittleEnemiesList != null )
+            // {
+            //     target = FindNearestEnemy( gameObject, EnemiesManager.Instance.littleEnemiesList.ToArray() );
+            //     if ( target )
+            //     {
+            //         FindPlayer();
+            //         IsLocked = true;
+            //         cinemachineVirtualCameraLock.gameObject.SetActive( true );
+            //         //cinemachineVirtualCameraLock.enabled = true;
+            //         cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = false;
+            //         cinemachineFreeLook.gameObject.SetActive( false );
+            //         //cinemachineFreeLook.enabled = false;
+            //         cinemachineVirtualCameraLock.LookAt = target.transform;
+            //         cinemachineVirtualCameraLock.Follow = lockCameraPlayerTarget.transform;
+            //     }
+            // }
             //else if ( boss != null )
-            else if ( EnemiesManager.Instance.Boss != null )
+            if ( EnemiesManager.Instance.CurrentBoss != null )
             {
-                target = EnemiesManager.Instance.Boss;
+                target = EnemiesManager.Instance.CurrentBoss.gameObject;
                 if ( target )
                 {
                     FindPlayer();

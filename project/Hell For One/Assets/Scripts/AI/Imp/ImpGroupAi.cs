@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using AI.Movement;
+using ArenaSystem;
 using CRBT;
-using Groups;
+using GroupSystem;
+using Managers;
 using TacticsSystem;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
@@ -26,7 +28,7 @@ namespace AI.Imp
 
         #region Events
 
-        public event Action<TacticFactory> OnOrderChanged;
+        public event Action<TacticFactory> OnTacticChanged;
 
         #endregion
         
@@ -45,8 +47,8 @@ namespace AI.Imp
 
             _groupManager.OnImpJoined += OnImpJoined;
             
-            BattleEventsManager.onBattleEnter += OnBattleEnter;
-            BattleEventsManager.onBattleExit += OnBattleExit;
+            ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         }
 
         private void OnDisable()
@@ -55,8 +57,8 @@ namespace AI.Imp
             
             _groupManager.OnImpJoined -= OnImpJoined;
             
-            BattleEventsManager.onBattleEnter -= OnBattleEnter;
-            BattleEventsManager.onBattleExit -= OnBattleExit;
+            ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
         }
 
         private void Start()
@@ -69,8 +71,8 @@ namespace AI.Imp
             
             outOfCombat.AddTransition(battleEnter,inCombat);
             inCombat.AddTransition(battleExit,outOfCombat);
-
-            inCombat.enterActions.Add(SetBoss);
+            
+            inCombat.enterActions.Add(() => OnTacticChanged?.Invoke(_activeTactic));
             inCombat.stayActions.Add(ExecuteOrder);
             
             outOfCombat.enterActions.Add(SetPlayer);
@@ -84,8 +86,6 @@ namespace AI.Imp
         #region FSM actions
 
         private void SetPlayer() => _target.SetTarget(GameObject.FindWithTag("Player").transform);
-
-        private void SetBoss() => _target.SetTarget(GameObject.FindWithTag("Boss").transform);
 
         private void ExecuteOrder()
         {
@@ -110,13 +110,20 @@ namespace AI.Imp
 
             _activeTactic = newTactic;
             
-            OnOrderChanged?.Invoke(_activeTactic);
+            OnTacticChanged?.Invoke(_activeTactic);
         }
 
-        private void OnBattleEnter() => _inBattle = true;
+        private void OnGlobalStartBattle(ArenaManager arenaManager)
+        {
+            _inBattle = true;
+            _target.SetTarget(arenaManager.Boss.transform);    
+        }
 
-        private void OnBattleExit() => _inBattle = false;
-        
+        private void OnGlobalEndBattle(ArenaManager arenaManager)
+        {
+            _inBattle = true;
+        }
+
         #endregion
 
         #region Coroutines

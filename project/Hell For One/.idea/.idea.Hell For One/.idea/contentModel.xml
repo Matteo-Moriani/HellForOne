@@ -106,8 +106,9 @@
             <e p="UnitActionsBlockManager.cs" t="Include" />
           </e>
           <e p="ActiveBattle.cs" t="Include" />
-          <e p="Aggro" t="Include">
-            <e p="ImpAggro.cs" t="Include" />
+          <e p="AggroSystem" t="Include">
+            <e p="GroupAggro.cs" t="Include" />
+            <e p="PlayerAggro.cs" t="Include" />
           </e>
           <e p="AI" t="Include">
             <e p="AbstractBoss.cs" t="Include" />
@@ -130,6 +131,11 @@
               <e p="PushAway.cs" t="Include" />
             </e>
             <e p="MeleePositionScript.cs" t="Include" />
+            <e p="MidBoss" t="Include">
+              <e p="MidBossAi.cs" t="Include" />
+              <e p="MidBossCombatBehaviour.cs" t="Include" />
+            </e>
+            <e p="MidBossAi.cs" t="Include" />
             <e p="MidBossBehavior.cs" t="Include" />
             <e p="MonoBT" t="Include">
               <e p="MonoBehaviourTree.cs" t="Include" />
@@ -152,6 +158,11 @@
             <e p="MidBossAnimator.cs" t="Include" />
             <e p="RefactorImpAnimator.cs" t="Include" />
             <e p="Spectator.cs" t="Include" />
+          </e>
+          <e p="ArenaSystem" t="Include">
+            <e p="ArenaBoss.cs" t="Include" />
+            <e p="ArenaManager.cs" t="Include" />
+            <e p="IArenaObserver.cs" t="Include" />
           </e>
           <e p="Audio" t="Include">
             <e p="Audio.cs" t="Include" />
@@ -237,6 +248,9 @@
             <e p="Dash.cs" t="Include" />
             <e p="HitboxCollider.cs" t="Include" />
             <e p="HitPoints.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IDeathObserver.cs" t="Include" />
+            </e>
             <e p="Knockback.cs" t="Include" />
             <e p="ProjectileMovement.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
@@ -252,7 +266,7 @@
             <e p="Stun.cs" t="Include" />
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
-          <e p="Groups" t="Include">
+          <e p="GroupSystem" t="Include">
             <e p="GroupCircle.cs" t="Include" />
             <e p="GroupManager.cs" t="Include" />
             <e p="GroupsInRangeDetector.cs" t="Include" />
@@ -273,9 +287,6 @@
           <e p="LockCameraTargetManager.cs" t="Include" />
           <e p="Managers" t="Include">
             <e p="AlliesManager.cs" t="Include" />
-            <e p="BattleEventsHandler.cs" t="Include" />
-            <e p="BattleEventsManager.cs" t="Include" />
-            <e p="CombatEventsManager.cs" t="Include" />
             <e p="EnemiesManager.cs" t="Include" />
             <e p="LevelManager.cs" t="Include" />
             <e p="ManagersDontDestroyOnLoad.cs" t="Include" />
@@ -319,7 +330,6 @@
             <e p="UiUtils.cs" t="Include" />
           </e>
           <e p="Stats, Numbers" t="Include">
-            <e p="GroupAggro.cs" t="Include" />
             <e p="ImpMana.cs" t="Include" />
             <e p="RecruitManager.cs" t="Include" />
             <e p="Stats.cs" t="Include" />

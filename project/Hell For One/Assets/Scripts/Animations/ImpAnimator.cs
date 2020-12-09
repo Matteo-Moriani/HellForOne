@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Player;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,8 +10,7 @@ public class ImpAnimator : MonoBehaviour
     #region Fields
 
     private bool isAnimating = false;
-
-    private CombatEventsManager combatEventsManager;
+    
     private Reincarnation reincarnation;
     private PlayerMovement _playerMovement;
     
@@ -48,8 +48,7 @@ public class ImpAnimator : MonoBehaviour
     private void Awake() {
         Animator = GetComponent<Animator>();
         _playerMovement = GetComponent<PlayerMovement>();
-        combatEventsManager = gameObject.GetComponent<CombatEventsManager>();
-        
+
         //allyImpMovement = gameObject.GetComponent<AllyImpMovement>();
         
         childrenObjectsManager = gameObject.GetComponent<ChildrenObjectsManager>();
@@ -85,9 +84,9 @@ public class ImpAnimator : MonoBehaviour
         // block.onStopBlock += OnStopBlock;
         // block.onBlockSuccess += OnBlockSuccess;
         
-        BattleEventsManager.onBattleExit += SetAllBoolsToFalse;
-        playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
-        playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
+        // GameEventsManager.OnBattleExit += SetAllBoolsToFalse;
+        // playerScriptedMovements.OnScriptedMovementStart += OnScriptedMovementStart;
+        // playerScriptedMovements.OnScriptedMovementEnd += OnScriptedMovementEnd;
     }
 
     private void OnDisable() {
@@ -111,9 +110,9 @@ public class ImpAnimator : MonoBehaviour
         // block.onStopBlock -= OnStopBlock;
         // block.onBlockSuccess -= OnBlockSuccess;    
         
-        BattleEventsManager.onBattleExit -= SetAllBoolsToFalse;
-        playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
-        playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
+        //GameEventsManager.OnBattleExit -= SetAllBoolsToFalse;
+        // playerScriptedMovements.OnScriptedMovementStart -= OnScriptedMovementStart;
+        // playerScriptedMovements.OnScriptedMovementEnd -= OnScriptedMovementEnd;
     }
 
     private void Update()

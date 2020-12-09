@@ -101,7 +101,7 @@ public class Reincarnation : MonoBehaviour
             CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
             if (cameraManager != null)
             {
-                cameraManager.player = null;
+                //cameraManager.player = null;
             }
 
             PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
@@ -232,7 +232,7 @@ public class Reincarnation : MonoBehaviour
             // Update allies list
             AlliesManager.Instance.ManagePlayerReincarnation(player);
 
-            CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
+            //CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
             
             //RaiseOnReincarnation(player);
 

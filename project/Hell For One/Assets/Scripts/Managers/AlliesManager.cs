@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -57,31 +58,29 @@ public class AlliesManager : MonoBehaviour
             }
         }
         
-        BattleEventsManager.onBattleEnter += OnBattleEnter;
-        BattleEventsManager.onBattleExit += OnBattleExit;
-        BattleEventsManager.onGameOver += OnGameOver;
+        // GameEventsManager.OnBattleEnter += OnBattleEnter;
+        // GameEventsManager.OnBattleExit += OnBattleExit;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBattleEnter -= OnBattleEnter;
-        BattleEventsManager.onBattleExit -= OnBattleExit;
-        BattleEventsManager.onGameOver -= OnGameOver;
+        // GameEventsManager.OnBattleEnter -= OnBattleEnter;
+        // GameEventsManager.OnBattleExit -= OnBattleExit;
     }
 
-    private void OnBattleEnter()
-    {
-        foreach(GameObject ally in alliesList) { 
-            ally.GetComponent<Combat>().enabled = true;    
-        }    
-    }
-
-    private void OnBattleExit() { 
-        foreach(GameObject ally in alliesList) { 
-            ally.GetComponent<Combat>().enabled = false;
-            ally.GetComponent<Stats>().health = maxHealth;
-        }  
-    }
+    // private void OnBattleEnter()
+    // {
+    //     foreach(GameObject ally in alliesList) { 
+    //         ally.GetComponent<Combat>().enabled = true;    
+    //     }    
+    // }
+    //
+    // private void OnBattleExit() { 
+    //     foreach(GameObject ally in alliesList) { 
+    //         ally.GetComponent<Combat>().enabled = false;
+    //         ally.GetComponent<Stats>().health = maxHealth;
+    //     }  
+    // }
 
     private void RaiseOnNewImpSpawned(GameObject newImp) { 
         onNewImpSpawned?.Invoke(newImp);     
@@ -131,18 +130,12 @@ public class AlliesManager : MonoBehaviour
 
         sender.onDeath -= OnDeath;
         sender.gameObject.GetComponent<Reincarnation>().onReincarnation -= OnReincarnation;
-        
-        // TODO - Manage gameover better
-        if(alliesList.Count == 0)
-            BattleEventsManager.RaiseOnGameOver();
     }
 
     private void OnReincarnation(GameObject newPlayer)
     {
         if(newPlayer != null) { 
             alliesList.Remove(newPlayer);
-            if(alliesList.Count == 0)
-                BattleEventsManager.RaiseOnGameOver();
         }
 
         newPlayer.GetComponent<Stats>().onDeath -= OnDeath;

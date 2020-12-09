@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaSystem;
+using GroupSystem;
+using Managers;
 using UnityEngine;
 
 public class ImpMana : MonoBehaviour
@@ -79,8 +82,8 @@ public class ImpMana : MonoBehaviour
     private void OnEnable()
     {
         GetComponent<Stats>().onDeath += OnDeath;
-        BattleEventsManager.onBattleEnter += OnBattleEnter;
-        BattleEventsManager.onBattleExit += OnBattleExit;
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
 
         // foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
         // {
@@ -91,8 +94,9 @@ public class ImpMana : MonoBehaviour
     private void OnDisable()
     {
         GetComponent<Stats>().onDeath -= OnDeath;
-        BattleEventsManager.onBattleEnter -= OnBattleEnter;
-        BattleEventsManager.onBattleExit -= OnBattleExit;
+        
+        ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
 
         // foreach (GroupAbilities groupAbilities in groupAbilitiesArray)
         // {
@@ -199,12 +203,12 @@ public class ImpMana : MonoBehaviour
         }
     }
 
-    private void OnBattleEnter()
+    private void OnGlobalStartBattle(ArenaManager arenaManager)
     {
         inBattle = true;
     }
 
-    private void OnBattleExit()
+    private void OnGlobalEndBattle(ArenaManager arenaManager)
     {
         inBattle = false;
         manaPool = 0f;

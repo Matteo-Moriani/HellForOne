@@ -12,6 +12,11 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
          public abstract Attack GetAttack();
      }
 
+     public abstract class BossAttackFactory : ScriptableObject
+     {
+         public abstract BossAttack GetAttack();
+     }
+
      public abstract class AttackFactory<TAttack, TAttackData> : AttackFactory
      where TAttack : Attack<TAttackData>, new()
      where TAttackData : AttackData
@@ -26,12 +31,26 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
          };
      }
 
+     public abstract class BossAttackFactory<TAttack, TAttackData> : BossAttackFactory
+         where TAttack : BossAttack<TAttackData>, new()
+         where TAttackData : BossAttackData
+     { 
+         [SerializeField]
+         private TAttackData data;
+
+         public override BossAttack GetAttack() => new TAttack
+         {
+             data = this.data, 
+             name = this.name
+         };    
+     }
+
      #endregion
 
      #region Attack data
 
      [Serializable]
-    public abstract class AttackData
+     public abstract class AttackData
     {
         #region Fields
         
@@ -58,6 +77,10 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [SerializeField, Min(0f)] private float splashDamageRadius;
         [SerializeField, Min(0f)] private float splashDamageTime;
 
+        [Header("AI")] 
+        [SerializeField, Min(0f)] private float minDistance;
+        [SerializeField, Min(0f)] private float maxDistance;
+        
         #endregion
 
         #region Properties
@@ -152,9 +175,33 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             private set => canDamageMultipleUnits = value;
         }
 
+        public float MinDistance
+        {
+            get => minDistance;
+            private set => minDistance = value;
+        }
+
+        public float MaxDistance
+        {
+            get => maxDistance;
+            private set => maxDistance = value;
+        }
+
         #endregion
     }
-    
+
+     [Serializable]
+     public abstract class BossAttackData : AttackData
+     {
+         [SerializeField] [Range(0f,100f)] private float attackProbability;
+
+         public float AttackProbability
+         {
+             get => attackProbability;
+             private set => attackProbability = value;
+         }
+     }
+
     #endregion
 
     #region Attacks
@@ -214,12 +261,27 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         #endregion
     }
 
+    public abstract class BossAttack : Attack
+    {
+        public abstract BossAttackData GetBossAttackData();
+    }
+
     public abstract class Attack<TData> : Attack 
         where TData : AttackData
     {
         public TData data;
 
         public override AttackData GetData() => data;
+    }
+
+    public abstract class BossAttack<TData> : BossAttack
+        where TData : BossAttackData
+    {
+        public TData data;
+
+        public override AttackData GetData() => data;
+
+        public override BossAttackData GetBossAttackData() => data;
     }
 
     #endregion

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Groups;
+using GroupSystem;
 using UnityEngine;
 
 namespace AI.Imp
@@ -32,6 +32,8 @@ namespace AI.Imp
             }
 
             _groupMeanPosition /= _groupManager.Imps.Count;
+
+            transform.position = _groupMeanPosition;
         }
     }
 }

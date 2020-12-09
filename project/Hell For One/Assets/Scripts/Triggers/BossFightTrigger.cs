@@ -1,39 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Managers;
 using UnityEngine;
 
-public class BossFightTrigger : MonoBehaviour
+namespace Triggers
 {
-    private bool isAlreadyInBattle = false;
-
-    private void OnEnable()
+    public class BossFightTrigger : MonoBehaviour
     {
-        BattleEventsManager.onBattleExit += OnBattleExit;
-    }
-
-    private void OnDisable()
-    {
-        BattleEventsManager.onBattleExit -= OnBattleExit;
-    }
-
-    private void OnTriggerEnter( Collider other )
-    {
-        if ( other.tag == "Player" )
-        {
-            if ( !isAlreadyInBattle )
-            {
-                isAlreadyInBattle = true;
-                
-                BattleEventsManager.RaiseOnBattlePreparation();
-                //Debug.Log( "Player entered boss area" );
-
-                Destroy(gameObject);
-            }
-        }
-    }
-
-    private void OnBattleExit()
-    {
-        isAlreadyInBattle = false;
+        // private bool isAlreadyInBattle = false;
+        //
+        // private void OnEnable()
+        // {
+        //     GameEventsManager.OnBattleExit += OnBattleExit;
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     GameEventsManager.OnBattleExit -= OnBattleExit;
+        // }
+        //
+        // private void OnTriggerEnter( Collider other )
+        // {
+        //     if ( other.tag == "Player" )
+        //     {
+        //         if ( !isAlreadyInBattle )
+        //         {
+        //             isAlreadyInBattle = true;
+        //         
+        //             GameEventsManager.RaiseOnBattlePreparation();
+        //             //Debug.Log( "Player entered boss area" );
+        //
+        //             Destroy(gameObject);
+        //         }
+        //     }
+        // }
+        //
+        // private void OnBattleExit()
+        // {
+        //     isAlreadyInBattle = false;
+        // }
     }
 }

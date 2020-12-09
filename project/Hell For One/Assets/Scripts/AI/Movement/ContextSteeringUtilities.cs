@@ -117,7 +117,9 @@ namespace AI.Movement
             {
                 currentMap.Map[i] = currentMap.Map[i].magnitude >= lastMap.Map[i].magnitude
                     ? currentMap.Map[i]
-                    : lastMap.Map[i] * loseRateo;
+                    : (lastMap.Map[i] * loseRateo).magnitude > (currentMap.Map[i]).magnitude 
+                        ? lastMap.Map[i] * loseRateo 
+                        : currentMap.Map[i];
             }
 
             return currentMap;

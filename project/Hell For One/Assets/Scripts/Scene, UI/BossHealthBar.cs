@@ -1,51 +1,64 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using ArenaSystem;
+using FactoryBasedCombatSystem;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour
 {
-    private Image healthBarInside;
-    private Image healthBarOutside;
-    private float maxHealth;
-    private Stats characterStats;
-    private TMPro.TextMeshProUGUI bossName;
+    [SerializeField] private Image healthBarInside;
+    [SerializeField] private Image healthBarOutside;
+    [SerializeField] private TMPro.TextMeshProUGUI bossName;
+    
+    private float _bossStartHp;
+    private HitPoints _bossHitPoints;
 
-    public Image HealthBarInside { get => healthBarInside; set => healthBarInside = value; }
-    public Image HealthBarOutside { get => healthBarOutside; set => healthBarOutside = value; }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        HealthBarInside = GameObject.Find( "BossBarIn" ).GetComponent<Image>();
-        HealthBarOutside = GameObject.Find( "BossHealthBarOut" ).GetComponent<Image>();
-        maxHealth = characterStats.health;
-        bossName = GetComponentInChildren<TMPro.TextMeshProUGUI>();
-    }
+    private void Start() => DeactivateHealthBar();
 
     private void OnEnable()
     {
-        BattleEventsManager.onBattleEnter += OnBattleEnter;
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
     }
 
     private void OnDisable()
     {
-        BattleEventsManager.onBattleEnter -= OnBattleEnter;
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
+    }
+
+    private void DeactivateHealthBar()
+    {
+        healthBarInside.enabled = false;
+        healthBarOutside.enabled = false;
+        bossName.enabled = false;    
+    }
+
+    private void ActivateHealthBar()
+    {
+        healthBarInside.enabled = true;
+        healthBarOutside.enabled = true;
+        bossName.enabled = true;
+    }
+
+    private void OnGlobalEndBattle(ArenaManager obj) => DeactivateHealthBar();
+
+    private void OnGlobalStartBattle(ArenaManager obj)
+    {
+        ActivateHealthBar();
+
+        _bossHitPoints = obj.Boss.GetComponent<HitPoints>();
+        //maxHealth = _bossHitPoints;
+
+        bossName.text = obj.Boss.gameObject.name;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HealthBarInside.fillAmount = characterStats.health / maxHealth;
-    }
-
-    private void OnBattleEnter() {
-        bossName.enabled = true;
-        HealthBarInside.enabled = true;
-        HealthBarOutside.enabled = true;
-        characterStats = GameObject.FindGameObjectWithTag("Boss").GetComponent<Stats>();
-        //healthBarInside = gameObject.GetComponent<Image>();
-        maxHealth = characterStats.health;
+        //HealthBarInside.fillAmount = characterStats.health / maxHealth;
     }
 }
