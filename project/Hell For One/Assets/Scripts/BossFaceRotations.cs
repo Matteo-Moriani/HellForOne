@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using AI.MidBoss;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,12 +24,17 @@ public class BossFaceRotations : MonoBehaviour
 
     private void OnEnable()
     {
+        MidBossAi.OnBossTargetChanged += OnBossTargetChanged;
+    }
+
+    private void OnBossTargetChanged( Transform transform )
+    {
         
     }
 
     private void OnDisable()
     {
-        
+        MidBossAi.OnBossTargetChanged -= OnBossTargetChanged;
     }
 
     void Update()
