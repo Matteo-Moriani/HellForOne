@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
-using AI.Movement;
 using ArenaSystem;
 using CRBT;
 using GroupSystem;
-using Managers;
 using TacticsSystem;
 using TacticsSystem.ScriptableObjects;
-using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 
 namespace AI.Imp

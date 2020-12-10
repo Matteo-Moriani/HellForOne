@@ -97,7 +97,7 @@ namespace TacticsSystem
             
             if(_heldDownCr != null) return;
 
-            StartCoroutine(HeldDownCoroutine(tacticFactory));
+            _heldDownCr = StartCoroutine(HeldDownCoroutine(tacticFactory));
         }
 
         private void StopHeldDown()
