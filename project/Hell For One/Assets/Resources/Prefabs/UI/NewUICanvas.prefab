@@ -2383,6 +2383,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2631865162272379385, guid: df7ee8c8457848c409d8e9aeab9dddf3,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316813580250725795, guid: df7ee8c8457848c409d8e9aeab9dddf3,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0.39
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df7ee8c8457848c409d8e9aeab9dddf3, type: 3}
 --- !u!224 &1331977476826163722 stripped
@@ -3044,7 +3054,7 @@ PrefabInstance:
     - target: {fileID: 1262366696794302639, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1262366696794302639, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
@@ -3055,7 +3065,7 @@ PrefabInstance:
     - target: {fileID: 1840685648471647708, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 324417317079665253, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
@@ -3098,11 +3108,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6977553493515905930}
     m_Modifications:
-    - target: {fileID: 2907300144545647643, guid: 996b51d2778e44043bb28bd6739dd963,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3637670352721260205, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
       propertyPath: m_Name
@@ -3251,12 +3256,22 @@ PrefabInstance:
     - target: {fileID: 2173893891595137255, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907300144545647643, guid: 996b51d2778e44043bb28bd6739dd963,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907300144545647643, guid: 996b51d2778e44043bb28bd6739dd963,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 3637670352867736546, guid: 996b51d2778e44043bb28bd6739dd963,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 996b51d2778e44043bb28bd6739dd963, type: 3}
