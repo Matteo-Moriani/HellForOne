@@ -20,6 +20,16 @@ public class BossFaceRotations : MonoBehaviour
         bossFaceActive = false;
     }
 
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
     void Update()
     {
         if ( bossFaceActive )
