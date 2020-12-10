@@ -7,6 +7,7 @@ using GroupSystem;
 using Managers;
 using TacticsSystem;
 using TacticsSystem.ScriptableObjects;
+using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 
 namespace AI.Imp
@@ -29,6 +30,7 @@ namespace AI.Imp
         #region Events
 
         public event Action<TacticFactory> OnTacticChanged;
+        public static event Action<TacticFactory,GroupManager.Group> OnTacticChangedGlobal;
 
         public AiUtils.TargetData Target => _target;
 
@@ -114,6 +116,7 @@ namespace AI.Imp
             _activeTactic = newTactic;
             
             OnTacticChanged?.Invoke(_activeTactic);
+            OnTacticChangedGlobal?.Invoke(newTactic,targetGroup);
         }
 
         private void OnGlobalStartBattle(ArenaManager arenaManager)
