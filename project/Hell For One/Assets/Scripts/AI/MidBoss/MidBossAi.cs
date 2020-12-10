@@ -66,6 +66,12 @@ namespace AI.MidBoss
 
         #endregion
 
+        #region Delegates and events
+
+        public static event Action<Transform> OnBossTargetChanged;
+
+        #endregion
+        
         #region Unity methods
 
         private void Awake()
@@ -180,8 +186,20 @@ namespace AI.MidBoss
         /// <returns></returns>
         private bool TryChooseByAggro()
         {
-            // TODO :- Do a weighted probability like in attack choice
+            if (PlayerAggro.ReadAggro() >= Random.Range(1f, 100f))
+            {
+                _currentTargetStillValid = true;
             
+                // TODO :- create a player manager, this will lead to errors
+                _targetData.SetTarget(GameObject.FindWithTag("Player").transform);
+
+                _contextSteering.SetTarget(_targetData);
+
+                OnBossTargetChanged?.Invoke(_targetData.Target);
+                
+                return true;
+            }
+
             GroupAggro selected = _groupAggros
                 .Where(aggro => aggro.CurrentAggro > 0 && Random.Range(1f, 100f) <= aggro.CurrentAggro).
                 OrderByDescending(aggro => aggro.CurrentAggro)
@@ -196,6 +214,8 @@ namespace AI.MidBoss
 
             _contextSteering.SetTarget(_targetData);
 
+            OnBossTargetChanged?.Invoke(_targetData.Target);
+            
             return true;
         }
 

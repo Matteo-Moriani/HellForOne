@@ -1,5 +1,4 @@
-﻿using System;
-using AI.Imp;
+﻿using AI.Imp;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 

@@ -26,6 +26,12 @@ namespace Player
         public static event Action OnXButtonDown;
         public static event Action OnBButtonDown;
         public static event Action OnAButtonDown;
+        
+        public static event Action OnYButtonUp;
+        public static event Action OnXButtonUp;
+        public static event Action OnBButtonUp;
+        public static event Action OnAButtonUp;
+        
         public static event Action OnLTButtonHeldDown;
         public static event Action OnLTButtonUp;
         public static event Action OnLTButtonDown;
@@ -55,7 +61,19 @@ namespace Player
             
             if ( Input.GetButtonDown( "XBoxA" ) )
                 OnAButtonDown?.Invoke();
+            
+            if(Input.GetButtonUp("XBoxY"))
+                OnYButtonUp?.Invoke();
 
+            if(Input.GetButtonUp("XBoxX"))
+                OnXButtonUp?.Invoke();
+            
+            if(Input.GetButtonUp("XBoxB"))
+                OnBButtonUp?.Invoke();
+            
+            if(Input.GetButtonUp("XBoxA"))
+                OnAButtonUp?.Invoke();
+            
             if ( Input.GetAxisRaw( "XBoxLT" ) <= 0.1f && _ltPressed )
             {
                 _ltPressed = false;

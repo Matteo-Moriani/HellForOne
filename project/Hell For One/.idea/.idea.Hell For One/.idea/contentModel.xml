@@ -108,6 +108,7 @@
           <e p="ActiveBattle.cs" t="Include" />
           <e p="AggroSystem" t="Include">
             <e p="GroupAggro.cs" t="Include" />
+            <e p="IPlayerAggroSubject.cs" t="Include" />
             <e p="PlayerAggro.cs" t="Include" />
           </e>
           <e p="AI" t="Include">
@@ -342,6 +343,7 @@
             <e p="Interfaces" t="Include">
               <e p="ITacticsObserver.cs" t="Include" />
             </e>
+            <e p="PlayerTactics.cs" t="Include" />
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
@@ -349,7 +351,6 @@
               <e p="TacticFactory.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />
-            <e p="TacticsManager.cs" t="Include" />
           </e>
           <e p="TimePlayerKillerTest.cs" t="Include" />
           <e p="Triggers" t="Include">

@@ -47,7 +47,7 @@ namespace AI.Imp
 
         private void OnEnable()
         {
-            TacticsManager.OnTryOrderAssign += OnTryOrderAssign;
+            PlayerTactics.OnTryOrderAssign += OnTryOrderAssign;
 
             _groupManager.OnImpJoined += OnImpJoined;
             
@@ -57,7 +57,7 @@ namespace AI.Imp
 
         private void OnDisable()
         {
-            TacticsManager.OnTryOrderAssign -= OnTryOrderAssign;
+            PlayerTactics.OnTryOrderAssign -= OnTryOrderAssign;
             
             _groupManager.OnImpJoined -= OnImpJoined;
             
@@ -111,7 +111,7 @@ namespace AI.Imp
         
         private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
         {
-            if(targetGroup != _groupManager.ThisGroupName) return;
+            if(targetGroup != _groupManager.ThisGroupName && targetGroup != GroupManager.Group.All) return;
 
             _activeTactic = newTactic;
             
