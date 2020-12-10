@@ -750,6 +750,7 @@ GameObject:
   - component: {fileID: 1124541650442215430}
   - component: {fileID: 4613806977879812153}
   - component: {fileID: 7748032596501927921}
+  - component: {fileID: 267928145558347997}
   m_Layer: 9
   m_Name: Imp
   m_TagString: Demon
@@ -793,7 +794,7 @@ Rigidbody:
   m_GameObject: {fileID: 2749467006459795368}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 10
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -1133,7 +1134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11dca176d7b46bdb087927edbc8b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steeringResolution: 32
+  steeringResolution: 8
   linearSpeed: 2
   angularSpeed: 5
   newDirectionWeight: 0.1
@@ -1151,10 +1152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daadce64dc7493f8eae4149e7637a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAhead: 0.2
-  interestLoseRateo: 0
+  lookAhead: 2
+  interestLoseRateo: 0.125
   dangerLoseRateo: 0.9
-  k: 1
+  k: 100
   debug: 0
 --- !u!114 &807936851740615262
 MonoBehaviour:
@@ -1210,6 +1211,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHp: 2
+--- !u!114 &267928145558347997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7aa4381af994f9f8c1a22405edb5ff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAhead: 0.2
+  interestLoseRateo: 0
+  dangerLoseRateo: 0.9
+  k: 1
+  debug: 0
 --- !u!1 &2843260327687979986
 GameObject:
   m_ObjectHideFlags: 0

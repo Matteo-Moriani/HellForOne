@@ -1,10 +1,8 @@
-﻿using System;
-using AI.Imp;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AI.Movement
 {
-    public class ContextObstacleAvoidance : ContextSteeringBehaviour
+    public class ContextAlliesAvoidance : ContextSteeringBehaviour
     {
         [SerializeField] private float lookAhead = 5f;
         
@@ -29,7 +27,7 @@ namespace AI.Movement
             _capsuleCollider = GetComponent<CapsuleCollider>();
             _collider = GetComponent<Collider>();
             
-            _layerMask = LayerMask.GetMask("Player", "InvisibleWalls");
+            _layerMask = LayerMask.GetMask("AlliesAvoidance");
         }
         
         private void Start()
