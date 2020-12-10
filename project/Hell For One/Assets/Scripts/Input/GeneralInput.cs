@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public abstract class GeneralInput : MonoBehaviour
@@ -13,7 +14,7 @@ public abstract class GeneralInput : MonoBehaviour
     public float dpadWaitTime = 0.2f;
     private bool dpadInUse = false;
     public bool DpadInUse { get => dpadInUse; set => dpadInUse = value; }
-    public PlayerController playerController;
+    public PlayerMovement playerMovement;
     public bool canGiveInput;
 
 }

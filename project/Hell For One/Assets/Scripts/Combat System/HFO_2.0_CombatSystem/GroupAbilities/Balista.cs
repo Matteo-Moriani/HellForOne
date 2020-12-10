@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 
 public class Balista : MonoBehaviour
@@ -31,28 +32,28 @@ public class Balista : MonoBehaviour
 
     private void OnStopAbility(AbilityAttack stoppedAbility)
     {
-        if (stoppedAbility.AbilityOrder == GroupBehaviour.State.RangeAttack)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = false;
-            }
-            
-            transform.localPosition = Vector3.up * transform.localScale.y / 2 + (-Vector3.forward * backOffset);
-        }
+        // if (stoppedAbility.AbilityOrder == GroupBehaviour.State.RangeAttack)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = false;
+        //     }
+        //     
+        //     transform.localPosition = Vector3.up * transform.localScale.y / 2 + (-Vector3.forward * backOffset);
+        // }
     }
 
     private void OnStartAbility(AbilityAttack startedAbility)
     {
-        if (startedAbility.AbilityOrder == GroupBehaviour.State.RangeAttack)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = true;
-            }
-            
-            StartCoroutine(AnimationCoroutine(startedAbility));
-        }
+        // if (startedAbility.AbilityOrder == GroupBehaviour.State.RangeAttack)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = true;
+        //     }
+        //     
+        //     StartCoroutine(AnimationCoroutine(startedAbility));
+        // }
     }
 
     private IEnumerator AnimationCoroutine(AbilityAttack startedAbility)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MobBlink : MonoBehaviour
 {
     SkinnedMeshRenderer[] renderers;
-    CombatEventsManager combatEventsManager;
+    //CombatEventsManager combatEventsManager;
 
     Coroutine blinkCR;
 
@@ -17,20 +17,20 @@ public class MobBlink : MonoBehaviour
     [SerializeField]
     private float blinkDuration = 0.1f;
 
-    private void Awake()
-    {
-        combatEventsManager = this.GetComponent<CombatEventsManager>();
-    }
-
-    private void OnEnable()
-    {
-        combatEventsManager.onBeenHit += OnBeenHit;
-    }
-
-    private void OnDisable()
-    {
-        combatEventsManager.onBeenHit -= OnBeenHit;
-    }
+    // private void Awake()
+    // {
+    //     combatEventsManager = this.GetComponent<CombatEventsManager>();
+    // }
+    //
+    // private void OnEnable()
+    // {
+    //     combatEventsManager.onBeenHit += OnBeenHit;
+    // }
+    //
+    // private void OnDisable()
+    // {
+    //     combatEventsManager.onBeenHit -= OnBeenHit;
+    // }
 
     private void Start()
     {

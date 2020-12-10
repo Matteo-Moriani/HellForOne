@@ -161,33 +161,35 @@ public class GenericAttack : ScriptableObject
     // Override this to change ranged attack logic in subclasses
     public virtual IEnumerator PerformAttackRanged(GameObject target, ProjectileCaster projectileCaster, NormalCombatManager normalCombatManager, AttackCollider.OnAttackHit hitAction, Action<GenericAttack> stopAction)
     {
-        if (target != null)
-        {
-            yield return new WaitForSeconds(this.DelayInSeconds);
+        // if (target != null)
+        // {
+        //     yield return new WaitForSeconds(this.DelayInSeconds);
+        //
+        //     GameObject currentProjectile = projectileCaster.LaunchNewCombatSystem(target, this.GetPooler());
+        //
+        //     AttackCollider projectileAttackCollider = currentProjectile.GetComponentInChildren<AttackCollider>();
+        //
+        //     if (projectileAttackCollider != null)
+        //     {
+        //         projectileAttackCollider.ResetOnAttackHit();
+        //         Destroy(projectileAttackCollider);    
+        //     }
+        //     
+        //     projectileAttackCollider = currentProjectile.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
+        //
+        //     // TODO - Circular dependency, try to remove this.
+        //     projectileAttackCollider.SetNormalCombatManager(normalCombatManager);
+        //     
+        //     projectileAttackCollider.StartAttack();
+        //     
+        //     projectileAttackCollider.onAttackHit += hitAction;
+        //     
+        //     yield return new WaitForSeconds(5.0f);
+        //     
+        //     stopAction(this);    
+        // }
 
-            GameObject currentProjectile = projectileCaster.LaunchNewCombatSystem(target, this.GetPooler());
-
-            AttackCollider projectileAttackCollider = currentProjectile.GetComponentInChildren<AttackCollider>();
-
-            if (projectileAttackCollider != null)
-            {
-                projectileAttackCollider.ResetOnAttackHit();
-                Destroy(projectileAttackCollider);    
-            }
-            
-            projectileAttackCollider = currentProjectile.transform.GetChild(0).gameObject.AddComponent<AttackCollider>();
-
-            // TODO - Circular dependency, try to remove this.
-            projectileAttackCollider.SetNormalCombatManager(normalCombatManager);
-            
-            projectileAttackCollider.StartAttack();
-            
-            projectileAttackCollider.onAttackHit += hitAction;
-            
-            yield return new WaitForSeconds(5.0f);
-            
-            stopAction(this);    
-        }
+        yield return null;
     }
 
     public virtual IEnumerator ManageHit(GenericIdle targetGenericIdle, IdleCollider targetIdleCollider, NormalCombat attackerNormalCombat, Action<GenericIdle> hitAction)

@@ -26,7 +26,7 @@ public class Options : Menu {
     }
 
     public void ShowOrdersCross(bool b) {
-        GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>().OrdersCross.SetActive(b);
+        //GameObject.FindGameObjectWithTag("HUD").GetComponent<NewHUD>().OrdersCross.SetActive(b);
     }
 
     public void InvertXCameraAxis() {

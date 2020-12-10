@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2722592708441254789}
   - component: {fileID: 2722592708440156485}
   - component: {fileID: 2388960478666326899}
-  - component: {fileID: 135311711}
   m_Layer: 0
   m_Name: SM_Rock3_LOD1
   m_TagString: Untagged
@@ -93,22 +92,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300002, guid: 5d82efc7252929644b674e05ade54cb6, type: 3}
---- !u!54 &135311711
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2722592708438161283}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2722592708438161285
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +104,6 @@ GameObject:
   - component: {fileID: 2722592708441254791}
   - component: {fileID: 2722592708440156487}
   - component: {fileID: 3278360434853491361}
-  - component: {fileID: 364407683}
   m_Layer: 0
   m_Name: SM_Rock3_LOD0
   m_TagString: Untagged
@@ -202,22 +184,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 5d82efc7252929644b674e05ade54cb6, type: 3}
---- !u!54 &364407683
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2722592708438161285}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2722592708438161287
 GameObject:
   m_ObjectHideFlags: 0

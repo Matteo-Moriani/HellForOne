@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AI;
 using UnityEngine;
 
 public class Hammer : MonoBehaviour
@@ -33,28 +34,28 @@ public class Hammer : MonoBehaviour
 
     private void OnStopAbility(AbilityAttack stoppedAbility)
     {
-        if (stoppedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = false;
-            }
-            
-            transform.localPosition = Vector3.up * transform.localScale.y / 2;
-        }
+        // if (stoppedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = false;
+        //     }
+        //     
+        //     transform.localPosition = Vector3.up * transform.localScale.y / 2;
+        // }
     }
 
     private void OnStartAbility(AbilityAttack startedAbility)
     {
-        if (startedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
-        {
-            foreach (var rend in renderers)
-            {
-                rend.enabled = true;
-
-                StartCoroutine(AnimationCoroutine(startedAbility));
-            }
-        }
+        // if (startedAbility.AbilityOrder == GroupBehaviour.State.MeleeAttack)
+        // {
+        //     foreach (var rend in renderers)
+        //     {
+        //         rend.enabled = true;
+        //
+        //         StartCoroutine(AnimationCoroutine(startedAbility));
+        //     }
+        // }
     }
 
     private IEnumerator AnimationCoroutine(AbilityAttack startedAbility)

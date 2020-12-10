@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
+using FactoryBasedCombatSystem;
+using Player;
 using UnityEngine.SceneManagement;
 
-// TODO - implement reincarnation using events
-// TODO - when events implementation is not possible, add/remove needed component in reincarnation 
+// TODO - we have to refactor this mess
 public class Reincarnation : MonoBehaviour
 {
     #region fields
 
-    private static GameObject player;
+    public static GameObject player;
 
     private bool playerIsReincarnated = false;
 
@@ -54,20 +55,22 @@ public class Reincarnation : MonoBehaviour
 
     #region methods
 
-    void Start()
+    void Awake()
     {
-        if(gameObject.tag == "Player") {
+        if(gameObject.CompareTag("Player")) {
             player = gameObject;
         }
     }
 
     public void Reincarnate()
-    {if (player != null) {
+    {
+        if (player != null) 
+        {
             // Disable controller
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            if (playerController != null)
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
             {
-                playerController.enabled = false;
+                playerMovement.enabled = false;
             }
 
             // Disable Tactics Manager
@@ -98,7 +101,7 @@ public class Reincarnation : MonoBehaviour
             CameraManager cameraManager = Camera.main.GetComponent<CameraManager>();
             if (cameraManager != null)
             {
-                cameraManager.player = null;
+                //cameraManager.player = null;
             }
 
             PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
@@ -162,12 +165,12 @@ public class Reincarnation : MonoBehaviour
             player.tag = "Player";
             player.layer = LayerMask.NameToLayer( "Player" );
             
-            NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
-            if ( newCameraManager )
-            {
-                newCameraManager.Player = player;
-                newCameraManager.PlayerReincarnated();
-            }
+            // NewCameraManager newCameraManager = Camera.main.GetComponent<NewCameraManager>();
+            // if ( newCameraManager )
+            // {
+            //     newCameraManager.Player = player;
+            //     newCameraManager.PlayerReincarnated();
+            // }
 
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
             if(playerInput != null) { 
@@ -194,15 +197,15 @@ public class Reincarnation : MonoBehaviour
                 dash.enabled = true;    
             }
 
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            if(playerController != null) { 
-                playerController.enabled = true;    
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if(playerMovement != null) { 
+                playerMovement.enabled = true;    
             }
 
-            AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();
-            if(demonMovement != null) { 
-                demonMovement.enabled = false;    
-            }
+            // AllyImpMovement demonMovement = player.GetComponent<AllyImpMovement>();
+            // if(demonMovement != null) { 
+            //     demonMovement.enabled = false;    
+            // }
 
             NavMeshObstacle navMeshObstacle = player.GetComponent<NavMeshObstacle>();
             if(navMeshObstacle != null) { 
@@ -229,7 +232,7 @@ public class Reincarnation : MonoBehaviour
             // Update allies list
             AlliesManager.Instance.ManagePlayerReincarnation(player);
 
-            CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
+            //CombatEventsManager combatEventsManager = player.GetComponent<CombatEventsManager>();
             
             //RaiseOnReincarnation(player);
 

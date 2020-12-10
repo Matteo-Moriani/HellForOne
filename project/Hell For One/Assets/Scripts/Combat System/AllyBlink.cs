@@ -5,7 +5,7 @@ using UnityEngine;
 public class AllyBlink : MonoBehaviour
 {
     SkinnedMeshRenderer[] renderers;
-    CombatEventsManager combatEventsManager;
+    //CombatEventsManager combatEventsManager;
 
     Coroutine blinkCR;
 
@@ -19,18 +19,18 @@ public class AllyBlink : MonoBehaviour
 
     private void Awake()
     {
-        combatEventsManager = this.GetComponent<CombatEventsManager>();
+        //combatEventsManager = this.GetComponent<CombatEventsManager>();
     }
 
-    private void OnEnable()
-    {
-        combatEventsManager.onBeenHit += OnBeenHit;
-    }
-
-    private void OnDisable()
-    {
-        combatEventsManager.onBeenHit -= OnBeenHit;    
-    }
+    // private void OnEnable()
+    // {
+    //     combatEventsManager.onBeenHit += OnBeenHit;
+    // }
+    //
+    // private void OnDisable()
+    // {
+    //     combatEventsManager.onBeenHit -= OnBeenHit;    
+    // }
 
     private void Start()
     {

@@ -15,7 +15,7 @@ public class TitleScreen : Menu {
                 // TODO - cambiare tramite index, rivedi il tutorial
                 SceneManager.LoadScene("Demo");
                 // TODO - capire se funziona
-                Managers.Instance.RaiseOnPressPlayButton();
+                ManagersDontDestroyOnLoad.Instance.RaiseOnPressPlayButton();
                 break;
             // CREDITS
             case 1:

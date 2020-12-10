@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8435978056055178386}
   - component: {fileID: 1217450829493259624}
-  - component: {fileID: 114660412348658804}
-  - component: {fileID: 7278565163453889771}
   - component: {fileID: 114924279363889158}
   - component: {fileID: 4971615192014887850}
+  - component: {fileID: 4122112882863430360}
+  - component: {fileID: 4543947756392293159}
   m_Layer: 0
   m_Name: GroupPink
   m_TagString: Group
@@ -51,39 +51,6 @@ MonoBehaviour:
   thisGroupName: 1
   groupColor: {r: 0.972549, g: 0, b: 1, a: 1}
   groupColorMat: {fileID: 2100000, guid: 7ae70f86ba977b04ba49bf9bc67beaf7, type: 2}
-  healthBar: {fileID: 0}
---- !u!114 &114660412348658804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415832991084274865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd43b97818cfebc4ba442470f6bc7424, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeAttack: {fileID: 11400000, guid: 37790356906d0754d8de59657bbf0ac2, type: 2}
-  rangedAttack: {fileID: 11400000, guid: d4bafaab463c2824994156d83db2abbf, type: 2}
-  rateo: 2
-  fsmReactionTime: 1
-  currentState: 0
-  newState: 0
-  orderConfirmed: 0
---- !u!114 &7278565163453889771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415832991084274865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 783a93287cddeac43a6b10ee4b051a45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!114 &114924279363889158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +77,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMaterial: {fileID: 2100000, guid: 62e9ae933d1aba44480808585a200d66, type: 2}
   color: {r: 0.972549, g: 0, b: 1, a: 1}
+--- !u!114 &4122112882863430360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cf47760dae4d2b98e9bd57d70259b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4543947756392293159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415832991084274865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc65e838f86241c7a9170b87e8f47c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fsmReactionTime: 0.2
+  startTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
 --- !u!1001 &8502805007748162752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GroupAbilities
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167685952300405521, guid: 1fe6ea016a16c5e4ca8fddc30c870ff0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8544631815004773458, guid: 1fe6ea016a16c5e4ca8fddc30c870ff0,
         type: 3}
