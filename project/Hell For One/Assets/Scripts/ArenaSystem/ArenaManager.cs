@@ -51,9 +51,9 @@ namespace ArenaSystem
             
             foreach (IArenaObserver observer in other.GetComponentsInChildren<IArenaObserver>())
                 _observersState.Add(observer,false);
-            
-            foreach (IArenaObserver observersStateKey in _observersState.Keys)
-                observersStateKey.PrepareBattle(this);
+
+            for (int i = 0; i < _observersState.Keys.Count; i++)
+                _observersState.Keys.ToArray()[i].PrepareBattle(this);
 
             OnSetupBattle?.Invoke();
             OnGlobalSetupBattle?.Invoke(this);
