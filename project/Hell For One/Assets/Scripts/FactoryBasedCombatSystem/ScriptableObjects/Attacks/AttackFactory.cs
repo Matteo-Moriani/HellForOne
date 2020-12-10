@@ -229,23 +229,10 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             InnerSetup(id,ownerCombatSystem,target);
 
-            if (AnimationStates.ContainsKey(id))
-            {
-                Debug.Log(ownerCombatSystem.transform.root.name);
-
-                foreach (var VARIABLE in AnimationStates)
-                {
-                    Debug.Log(VARIABLE.Key + " " + VARIABLE.Value);
-                }
-                
-                foreach (var VARIABLE in HasHit)
-                {
-                    Debug.Log(VARIABLE.Key + " " + VARIABLE.Value);
-                }
-            }
-
-            AnimationStates.Add(id,false);
-            HasHit.Add(id,false);
+            if(!AnimationStates.ContainsKey(id))
+                AnimationStates.Add(id,false);
+            if(!HasHit.ContainsKey(id))
+                HasHit.Add(id,false);
         }
 
         private void Dispose(int id, CombatSystem ownerCombatSystem, Action<Attack,int> stopAction)
@@ -260,6 +247,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
         public void ActivateAttack(int id)
         {
+            if(!AnimationStates.ContainsKey(id)) return;
+            
             AnimationStates[id] = true;
         }
 

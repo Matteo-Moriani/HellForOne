@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ActionsBlockSystem;
 using Animations;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
@@ -168,13 +169,18 @@ namespace FactoryBasedCombatSystem
         
         public void Block()
         {
-            foreach (Attack item in _activeAttacks.Keys)
+            Attack[] tempAttacks = _activeAttacks.Keys.ToArray();
+            
+            foreach (Attack item in tempAttacks)
             {
-                foreach (int id in _activeAttacks[item].Keys)
+                int[] tempIds = _activeAttacks[item].Keys.ToArray();
+                
+                foreach (int id in tempIds)
                 {
                     item.SafeStop(id,this,StopAttack);   
                 }
             }
+
             _activeAttacks.Clear();
             
             _combatSystemLock.AddLock();
