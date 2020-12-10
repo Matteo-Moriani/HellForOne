@@ -200,10 +200,34 @@ namespace AI.MidBoss
                 return true;
             }
 
-            GroupAggro selected = _groupAggros
-                .Where(aggro => aggro.CurrentAggro > 0 && Random.Range(1f, 100f) <= aggro.CurrentAggro).
-                OrderByDescending(aggro => aggro.CurrentAggro)
-                .FirstOrDefault();
+            GroupAggro selected = null;
+            
+            float probabilitySum = _groupAggros.Aggregate(0f, (sum, next) => sum + next.CurrentAggro);
+            
+            float diceThrow = Random.Range(1f, probabilitySum);
+            
+            float temp = 0f;
+            
+            foreach (GroupAggro groupAggro in _groupAggros.OrderByDescending(aggro => aggro.CurrentAggro))
+            {
+                float groupProbability = groupAggro.CurrentAggro;
+                
+                if (!(diceThrow >= temp && diceThrow <= temp + groupProbability))
+                {
+                    temp += groupProbability;
+                    
+                    continue;
+                }
+
+                selected = groupAggro;
+                
+                break;
+            }
+            
+            // GroupAggro selected = _groupAggros
+            //     .Where(aggro => aggro.CurrentAggro > 0 && Random.Range(1f, 100f) <= aggro.CurrentAggro).
+            //     OrderByDescending(aggro => aggro.CurrentAggro)
+            //     .FirstOrDefault();
 
             if (selected == null)
                 return false;
@@ -238,7 +262,7 @@ namespace AI.MidBoss
             
             float probabilitySum = _currentAttacksInRange.Aggregate(0f, (sum, next) => sum + next.GetBossAttackData().AttackProbability);
 
-            float diceThrow = Random.Range(0f, probabilitySum);
+            float diceThrow = Random.Range(1f, probabilitySum);
 
             float temp = 0f;
             
