@@ -16,7 +16,8 @@ namespace AI.Movement
 
         private ContextSteering _contextSteering;
         private CapsuleCollider _capsuleCollider;
-        
+        private Collider _collider;
+
         private LayerMask _layerMask;
         
         private InterestMap _lastFrameInterest;
@@ -26,6 +27,7 @@ namespace AI.Movement
         {
             _contextSteering = GetComponent<ContextSteering>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
+            _collider = GetComponent<Collider>();
             
             _layerMask = LayerMask.GetMask("Player", "InvisibleWalls", "AlliesAvoidance");
         }
@@ -51,7 +53,7 @@ namespace AI.Movement
 
                 float dot = Mathf.Abs(Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
                     forward));
-                float distance = Vector3.Distance(hitInfo.transform.position, transform.position);
+                float distance = Vector3.Distance(hitInfo.point, _collider.ClosestPoint(hitInfo.point));
                 
                 dangerMap.InsertValue(i,Mathf.Min(k / (distance * distance),dot),(int)_contextSteering.SteeringResolution/8);
                 interestMap.InsertValue(interestMap.GetOppositeDirection(i),Mathf.Min(k / (distance * distance),dot),(int)_contextSteering.SteeringResolution/8);

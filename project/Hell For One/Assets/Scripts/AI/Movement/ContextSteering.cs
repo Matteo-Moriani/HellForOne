@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using ActionsBlockSystem;
+using AI.Imp;
 using CRBT;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using GroupSystem;
 using ReincarnationSystem;
 using UnityEngine;
 
 namespace AI.Movement
 {
-    public class ContextSteering : MonoBehaviour, IReincarnationObserver, IActionsBlockObserver
+    public class ContextSteering : MonoBehaviour, IReincarnationObserver, IActionsBlockObserver, IGroupObserver
     {
         #region Fields
         
@@ -84,8 +86,17 @@ namespace AI.Movement
 
             if(finalDirection.magnitude > 0)
                 _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(slerpDirection),Time.fixedDeltaTime*angularSpeed));
-            else if(_targetData != null && _targetData.Target != null)
-                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation((_targetData.Target.position - transform.position).normalized),Time.fixedDeltaTime*angularSpeed));      
+            else if (_targetData != null && _targetData.Target != null)
+                // _rigidbody.MoveRotation(
+                //     Quaternion.Lerp(
+                //         transform.rotation,Quaternion.LookRotation(
+                //             Vector3.Slerp(
+                //                 transform.forward,_targetData.GetDirectionToTarget(transform),newDirectionWeight).normalized
+                //             ) ,Time.fixedDeltaTime*angularSpeed
+                //         )
+                //     );
+                //
+                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(_targetData.GetDirectionToTarget(transform)),Time.fixedDeltaTime * angularSpeed));
             
             _rigidbody.velocity = dot >= linearTolerance && finalDirection.magnitude > 0f
                 ? slerpDirection * linearSpeed
@@ -158,6 +169,8 @@ namespace AI.Movement
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
+        public void JoinGroup(ImpGroupAi impGroupAi) => _targetData = impGroupAi.Target;
+        
         #endregion
     }
 }

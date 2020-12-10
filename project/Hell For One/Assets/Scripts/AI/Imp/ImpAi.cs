@@ -1,21 +1,27 @@
-﻿using System;
+﻿using CRBT;
+using GroupSystem;
 using TacticsSystem.Interfaces;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Imp
 {
-    public class ImpAi : MonoBehaviour
+    public class ImpAi : MonoBehaviour, IGroupObserver
     {
+        private AiUtils.TargetData _currentTargetData;
+        
         private TacticFactory _activeTactic = null;
         private Tactic _tacticInstance = null;
 
         private ITacticsObserver[] _observers;
 
-        private void Awake()
+        public AiUtils.TargetData CurrentTargetData
         {
-            _observers = GetComponentsInChildren<ITacticsObserver>();
+            get => _currentTargetData;
+            private set => _currentTargetData = value;
         }
+
+        private void Awake() => _observers = GetComponentsInChildren<ITacticsObserver>();
 
         public void ExecuteTactic(TacticFactory tactic)
         {
@@ -32,5 +38,7 @@ namespace AI.Imp
             
             _tacticInstance.ExecuteTactic(this);
         }
+
+        public void JoinGroup(ImpGroupAi impGroupAi) => _currentTargetData = impGroupAi.Target;
     }
 }

@@ -30,6 +30,8 @@ namespace AI.Imp
 
         public event Action<TacticFactory> OnTacticChanged;
 
+        public AiUtils.TargetData Target => _target;
+
         #endregion
         
         #region Unity Methods
@@ -101,7 +103,8 @@ namespace AI.Imp
 
         private void OnImpJoined(GroupManager sender, GameObject impJoined)
         {
-            impJoined.GetComponent<ContextSteering>().SetTarget(_target);
+            foreach (IGroupObserver groupObserver in impJoined.GetComponentsInChildren<IGroupObserver>())
+                groupObserver.JoinGroup(this);
         }
         
         private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)

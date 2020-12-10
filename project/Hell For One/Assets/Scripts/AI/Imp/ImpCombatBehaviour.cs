@@ -17,14 +17,9 @@ namespace AI.Imp
     /// </summary>
     public class ImpCombatBehaviour : MonoBehaviour, ICooldown, ITacticsObserver
     {
-        [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
-        
         private CombatSystem _combatSystem;
         private Cooldowns _cooldowns;
 
-        private readonly ActionLock _combatSystemLock = new ActionLock();
-        
-        private Attack _currentAttack;
         private float _currentCooldown;
 
         private void Awake()
@@ -33,13 +28,11 @@ namespace AI.Imp
             _combatSystem = GetComponentInChildren<CombatSystem>();
         }
         
-        public void Attack(Transform target = null)
+        public void Attack(Attack attack, Transform target = null)
         {
-            if(_currentAttack == null) return;
-            
             if(!_cooldowns.TryAbility(this)) return;
             
-            _combatSystem.StartAttack(_currentAttack,target);
+            _combatSystem.StartAttack(attack,target);
         }
 
         public float GetCooldown() => _currentCooldown;
@@ -53,15 +46,10 @@ namespace AI.Imp
             if(newTactic.GetType() != typeof(OffensiveTactic)) return;
 
             OffensiveTacticData data = ((OffensiveTactic) newTactic).GetOffensiveTacticData();
-
-            _currentAttack = data.TacticAttack.GetAttack();
+            
             _currentCooldown = data.AttackRateo;
         }
 
-        public void EndTactic()
-        {
-            _currentAttack = null;
-            _currentCooldown = 0f;
-        }
+        public void EndTactic() => _currentCooldown = 0f;
     }
 }

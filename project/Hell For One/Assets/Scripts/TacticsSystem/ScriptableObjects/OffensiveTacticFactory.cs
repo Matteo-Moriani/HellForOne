@@ -4,7 +4,6 @@ using Ai.MonoBT;
 using AI.Movement;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
-using TacticsSystem.Interfaces;
 using UnityEngine;
 
 namespace TacticsSystem.ScriptableObjects
@@ -18,6 +17,7 @@ namespace TacticsSystem.ScriptableObjects
     [Serializable]
     public class OffensiveTacticData : TacticData
     {
+        [SerializeField, Range(0f, 1f)] private float facingTolerance;
         [SerializeField] private float stoppingDistance;
         [SerializeField] private float attackRateo;
 
@@ -32,6 +32,12 @@ namespace TacticsSystem.ScriptableObjects
             get => attackRateo;
             private set => attackRateo = value;
         }
+
+        public float FacingTolerance
+        {
+            get => facingTolerance;
+            private set => facingTolerance = value;
+        }
     }
 
     public class OffensiveTactic : Tactic<OffensiveTacticData>
@@ -40,7 +46,7 @@ namespace TacticsSystem.ScriptableObjects
         private ContextGroupFormation _contextGroupFormation;
         private ContextObstacleAvoidance _contextObstacleAvoidance;        
         
-        private CombatSystem _combatSystem;
+        private ImpCombatBehaviour _impCombatBehaviour;
         private ImpAi _impAi;
         private Attack _attackInstance;
         private BehaviourTree _tacticBehaviourTree;
@@ -50,12 +56,22 @@ namespace TacticsSystem.ScriptableObjects
             if (_impAi == null)
                 _impAi = imp;
 
+            if (_impCombatBehaviour == null)
+                _impCombatBehaviour = _impAi.GetComponent<ImpCombatBehaviour>();
+
+            if (_attackInstance == null)
+                _attackInstance = data.TacticAttack.GetAttack();
+
             if (_tacticBehaviourTree == null)
             {
                 BtAction setMovement = new BtAction(SetMovement);
+                
+                BtCondition isFacingTarget = new BtCondition(IsFacingTarget);
+                BtCondition inAttackRange = new BtCondition(InAttackRange);
+                
                 BtAction attack = new BtAction(Attack);
                 
-                BtSequence meleeAttack = new BtSequence(new IBtTask[]{setMovement,attack});
+                BtSequence meleeAttack = new BtSequence(new IBtTask[]{setMovement,isFacingTarget,inAttackRange,attack});
                 
                 _tacticBehaviourTree = new BehaviourTree(meleeAttack);
             }
@@ -63,6 +79,17 @@ namespace TacticsSystem.ScriptableObjects
             _tacticBehaviourTree.Run();
         }
 
+        private bool IsFacingTarget() => 
+            Vector3.Dot(_impAi.CurrentTargetData.GetDirectionToTarget(_impAi.transform), _impAi.transform.forward) >= data.FacingTolerance;
+
+        private bool InAttackRange()
+        {
+            float distance = _impAi.CurrentTargetData.GetColliderDistanceFromTarget(_impAi.transform);
+
+            return distance >= _attackInstance.GetData().MinDistance &&
+                   distance <= _attackInstance.GetData().MaxDistance;
+        }
+        
         private bool SetMovement()
         {
             if (_contextGroupFormation == null)
@@ -76,7 +103,7 @@ namespace TacticsSystem.ScriptableObjects
 
         private bool Attack()
         {
-            _impAi.GetComponent<ImpCombatBehaviour>().Attack(GameObject.FindWithTag("Boss").transform);
+            _impCombatBehaviour.Attack(_attackInstance,_impAi.CurrentTargetData.Target);
 
             return true;
         }
