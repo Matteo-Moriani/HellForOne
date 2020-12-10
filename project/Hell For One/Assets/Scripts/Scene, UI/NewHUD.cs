@@ -17,7 +17,7 @@ public class NewHUD : MonoBehaviour
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     //private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
     private GroupManager groupAzureManager, groupPinkManager, groupGreenManager, groupYellowManager;
-    private TacticsManager tacticsManager;
+    private PlayerTactics playerTactics;
     private Vector3 defaultScale = new Vector3( 1f , 1f , 1f );
     private Vector3 enlargedScale = new Vector3( 1.5f , 1.5f , 1f );
     //private GroupBehaviour[] groupBehaviours = new GroupBehaviour[ 4 ];
@@ -135,7 +135,7 @@ public class NewHUD : MonoBehaviour
 
         if ( player != null )
         {
-            tacticsManager = player.GetComponent<TacticsManager>();
+            playerTactics = player.GetComponent<PlayerTactics>();
 
             playerStats = player.GetComponent<Stats>();
 
