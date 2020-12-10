@@ -44,13 +44,15 @@ public class ImpMana : MonoBehaviour
     #region Delegates and events
 
     public static event Action OnManaPoolChanged;
-    public static event Action OnOneSegment;
-    public static event Action OnTwoSegments;
+    public static event Action OnOneSegmentCharged;
+    public static event Action OnTwoSegmentsCharged;
+    public static event Action OnOneSegmentUsed;
+    public static event Action OnTwoSegmentsUsed;
 
     // TODO Mancano gli eventi per il consumo delle barre
-        
+
     #endregion
-    
+
     #region Unity methods
 
     private void Awake()
@@ -169,13 +171,13 @@ public class ImpMana : MonoBehaviour
 
                     if(manaPool >= maxMana / 2f && !firstSegmentActivated)
                     {
-                        OnOneSegment?.Invoke();
+                        OnOneSegmentCharged?.Invoke();
                         PlayManaParticles();
                         firstSegmentActivated = true;
                     }
                     else if(manaPool == maxMana && !secondSegmentActivated)
                     {
-                        OnTwoSegments?.Invoke();
+                        OnTwoSegmentsCharged?.Invoke();
                         PlayManaParticles();
                         secondSegmentActivated = true;
                     }
@@ -212,6 +214,32 @@ public class ImpMana : MonoBehaviour
     {
         inBattle = false;
         manaPool = 0f;
+    }
+
+    public bool TrySpendSegments(int segments)
+    {
+        if(segments == 1)
+        {
+            if(manaPool >= 50f)
+            {
+                manaPool -= 50f;
+                OnOneSegmentUsed?.Invoke();
+                return true;
+            }
+            return false;
+        }
+        else if(segments == 2)
+        {
+            if(manaPool == 100f)
+            {
+                manaPool = 0f;
+                OnTwoSegmentsUsed?.Invoke();
+                return true;
+            }
+            return false;
+        }
+        else
+            return true;
     }
 
     #endregion
