@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FactoryBasedCombatSystem;
+using GroupSystem;
 using UnityEngine;
 
 namespace ArenaSystem
@@ -52,6 +53,11 @@ namespace ArenaSystem
             foreach (IArenaObserver observer in other.GetComponentsInChildren<IArenaObserver>())
                 _observersState.Add(observer,false);
 
+            foreach (GameObject group in GroupsManager.Instance.Groups)
+            foreach (Transform impsKey in group.GetComponent<GroupManager>().Imps.Keys)
+            foreach (IArenaObserver componentsInChild in impsKey.GetComponentsInChildren<IArenaObserver>())
+                _observersState.Add(componentsInChild,false);   
+            
             for (int i = 0; i < _observersState.Keys.Count; i++)
                 _observersState.Keys.ToArray()[i].PrepareBattle(this);
 

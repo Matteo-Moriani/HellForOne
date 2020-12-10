@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
 using System.Collections.Generic;
+using ArenaSystem;
 using UnityEngine;
 using UnityEngine.AI;
 using Cinemachine;
@@ -104,7 +105,7 @@ public class Reincarnation : MonoBehaviour
                 //cameraManager.player = null;
             }
 
-            PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
+            ScriptedMovements playerScriptedMovements = player.GetComponent<ScriptedMovements>();
             if(playerScriptedMovements != null) {
                 playerScriptedMovements.enabled = false;
             }
@@ -212,7 +213,7 @@ public class Reincarnation : MonoBehaviour
                 navMeshObstacle.enabled = true;    
             }
 
-            PlayerScriptedMovements playerScriptedMovements = player.GetComponent<PlayerScriptedMovements>();
+            ScriptedMovements playerScriptedMovements = player.GetComponent<ScriptedMovements>();
             if(playerScriptedMovements != null) {
                 playerScriptedMovements.enabled = true;
             }

@@ -167,7 +167,10 @@
           <e p="ArenaSystem" t="Include">
             <e p="ArenaBoss.cs" t="Include" />
             <e p="ArenaManager.cs" t="Include" />
+            <e p="ArenaWallBehaviour.cs" t="Include" />
             <e p="IArenaObserver.cs" t="Include" />
+            <e p="ScriptedMovements.cs" t="Include" />
+            <e p="SpectatorsBehaviour.cs" t="Include" />
           </e>
           <e p="Audio" t="Include">
             <e p="Audio.cs" t="Include" />
@@ -293,6 +296,7 @@
           </e>
           <e p="LockCameraTargetManager.cs" t="Include" />
           <e p="Managers" t="Include">
+            <e p="AggroFacesManager.cs" t="Include" />
             <e p="AlliesManager.cs" t="Include" />
             <e p="EnemiesManager.cs" t="Include" />
             <e p="LevelManager.cs" t="Include" />
@@ -304,7 +308,6 @@
             <e p="PlayerInput.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
           </e>
-          <e p="PlayerScriptedMovements.cs" t="Include" />
           <e p="Reincarnation.cs" t="Include" />
           <e p="ReincarnationSystem" t="Include">
             <e p="IReincarnationObserver.cs" t="Include" />
@@ -327,6 +330,7 @@
             <e p="LoadingScreen.cs" t="Include" />
             <e p="Mana.cs" t="Include" />
             <e p="Menu.cs" t="Include" />
+            <e p="NewAggroFace.cs" t="Include" />
             <e p="NewHUD.cs" t="Include" />
             <e p="Options.cs" t="Include" />
             <e p="PauseScreen.cs" t="Include" />
