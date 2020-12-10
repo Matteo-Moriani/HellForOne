@@ -663,7 +663,7 @@ public class NewHUD : MonoBehaviour
 
         if ( player != null )
         {
-            tacticsManager = player.GetComponent<TacticsManager>();
+            tacticsManager = player.GetComponent<PlayerTactics>();
 
             playerStats = player.GetComponent<Stats>();
 
