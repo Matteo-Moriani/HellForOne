@@ -1684,7 +1684,7 @@ MonoBehaviour:
   fpsCounterInMenu: 0
   dpadPressedInMenu: 0
   dpadWaitTime: 0.2
-  playerController: {fileID: 0}
+  playerMovement: {fileID: 0}
   canGiveInput: 0
   rootScreen: {fileID: 4963774796192184628}
 --- !u!1 &6977553494313978201
@@ -3054,7 +3054,7 @@ PrefabInstance:
     - target: {fileID: 1262366696794302639, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1262366696794302639, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
@@ -3065,8 +3065,14 @@ PrefabInstance:
     - target: {fileID: 1840685648471647708, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1840685648471647708, guid: 9427b85ea2008f14badf3438d4957534,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f936ef2c548c7f7438a1fecf84089054,
+        type: 3}
     - target: {fileID: 324417317079665253, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
