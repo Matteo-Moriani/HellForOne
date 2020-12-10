@@ -11,6 +11,10 @@ namespace ArenaSystem
     {
         [SerializeField] private ArenaBoss arenaBoss;
         [SerializeField] private Transform playerStartPosition;
+        [SerializeField] private Transform group0StartPosition;
+        [SerializeField] private Transform group1StartPosition;
+        [SerializeField] private Transform group2StartPosition;
+        [SerializeField] private Transform group3StartPosition;
         
         private readonly Dictionary<IArenaObserver,bool> _observersState = new Dictionary<IArenaObserver, bool>();
         
@@ -32,6 +36,30 @@ namespace ArenaSystem
         {
             get => playerStartPosition;
             private set => playerStartPosition = value;
+        }
+
+        public Transform Group0StartPosition
+        {
+            get => group0StartPosition;
+            private set => group0StartPosition = value;
+        }
+
+        public Transform Group1StartPosition
+        {
+            get => group1StartPosition;
+            private set => group1StartPosition = value;
+        }
+
+        public Transform Group2StartPosition
+        {
+            get => group2StartPosition;
+            private set => group2StartPosition = value;
+        }
+
+        public Transform Group3StartPosition
+        {
+            get => group3StartPosition;
+            private set => group3StartPosition = value;
         }
 
         private void Awake()
