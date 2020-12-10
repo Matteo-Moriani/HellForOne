@@ -1224,10 +1224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7aa4381af994f9f8c1a22405edb5ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAhead: 0.2
-  interestLoseRateo: 0
+  lookAhead: 0.5
+  interestLoseRateo: 0.125
   dangerLoseRateo: 0.9
-  k: 1
+  k: 0.5
   debug: 0
 --- !u!195 &4020880470274259458
 NavMeshAgent:
@@ -2849,7 +2849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203586517037424775}
-  - component: {fileID: 928799898113971267}
+  - component: {fileID: 9177399979642089132}
   m_Layer: 16
   m_Name: AlliesAvoidance
   m_TagString: Untagged
@@ -2871,8 +2871,8 @@ Transform:
   m_Father: {fileID: 2749467006459795380}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &928799898113971267
-SphereCollider:
+--- !u!136 &9177399979642089132
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2881,8 +2881,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7584345059865767712
 GameObject:
