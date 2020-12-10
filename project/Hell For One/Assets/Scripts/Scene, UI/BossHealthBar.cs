@@ -52,6 +52,8 @@ public class BossHealthBar : MonoBehaviour
         healthBarInside.enabled = true;
         healthBarOutside.enabled = true;
         bossName.enabled = true;
+
+        healthBarInside.fillAmount = 1f;
     }
 
     #endregion
