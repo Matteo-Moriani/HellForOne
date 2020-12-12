@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class KnockbackCaster : MonoBehaviour
 {
-    [SerializeField]
     private KnockbackValues values;
     
     public KnockbackValues Values

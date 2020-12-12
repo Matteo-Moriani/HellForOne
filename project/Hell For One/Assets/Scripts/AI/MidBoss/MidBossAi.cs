@@ -16,7 +16,7 @@ namespace AI.MidBoss
 {
     public class MidBossAi : MonoBehaviour
     {
-         #region Fields
+        #region Fields
 
         [Header("Ai")] 
         [SerializeField] private float fsmResolution = 1.0f;
