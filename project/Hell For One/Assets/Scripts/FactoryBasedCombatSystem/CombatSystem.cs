@@ -69,8 +69,8 @@ namespace FactoryBasedCombatSystem
                 hitboxCollider.OnHitboxColliderHit += OnHitboxColliderHit;
             }
 
-            _animationEventsHooks.OnAttackAnimationActivateAttack += OnAttackAnimationActivateAttack;
-            _animationEventsHooks.OnAttackAnimationDeactivateAttack += OnAttackAnimationDeactivateAttack;
+            _animationEventsHooks.OnAttackAnimationStart += OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationEnd += OnAttackAnimationDeactivateAttack;
         }
 
         private void OnDisable()
@@ -80,8 +80,8 @@ namespace FactoryBasedCombatSystem
                 hitboxCollider.OnHitboxColliderHit -= OnHitboxColliderHit;
             }
             
-            _animationEventsHooks.OnAttackAnimationActivateAttack -= OnAttackAnimationActivateAttack;
-            _animationEventsHooks.OnAttackAnimationDeactivateAttack -= OnAttackAnimationDeactivateAttack;
+            _animationEventsHooks.OnAttackAnimationStart -= OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationEnd -= OnAttackAnimationDeactivateAttack;
         }
 
         #endregion

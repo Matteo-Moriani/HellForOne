@@ -30,8 +30,6 @@ public class Stats : MonoBehaviour
     [SerializeField]
     [Tooltip("Starting health of this demon")]
     public float health = 2f;
-
-    public GameObject deathEffect;
     
     // TODO - Refactor PushAway
     private bool isPushedAway = false;
@@ -144,12 +142,6 @@ public class Stats : MonoBehaviour
                 deathDuration = death.length;    
             }
         }
-    }
-
-    public void BloodExplosion()
-    {
-        Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
-        Destroy(gameObject);
     }
     
     public void TakeHit(float damage)

@@ -5,10 +5,12 @@ namespace Animations
 {
     public class AnimationEventsHooks : MonoBehaviour
     {
-        public event Action OnAttackAnimationActivateAttack;
-        public event Action OnAttackAnimationDeactivateAttack;
+        public event Action OnAttackAnimationStart;
+        public event Action OnAttackAnimationEnd;
+        public event Action OnDeathAnimationEnd;
 
-        public void OnAttackAnimationStart() => OnAttackAnimationActivateAttack?.Invoke();
-        public void OnAttackAnimationEnd() => OnAttackAnimationDeactivateAttack?.Invoke();
+        public void RaiseOnAttackAnimationStart() => OnAttackAnimationStart?.Invoke();
+        public void RaiseOnAttackAnimationEnd() => OnAttackAnimationEnd?.Invoke();
+        public void RaiseOnDeathAnimationEnd() => OnDeathAnimationEnd?.Invoke();
     }
 }
