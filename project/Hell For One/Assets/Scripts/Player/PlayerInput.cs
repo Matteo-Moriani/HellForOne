@@ -39,8 +39,10 @@ namespace Player
         public static event Action OnLT_XButtonDown;
         public static event Action OnLT_BButtonDown;
         public static event Action OnLT_AButtonDown;
+        
         public static event Action<Vector2> OnMoveInput;
-        public static event Action<Vector2> OnRotateInput; 
+        public static event Action<Vector2> OnRotateInput;
+        public static event Action OnDashInputDown;
 
         #endregion
         
@@ -85,6 +87,9 @@ namespace Player
                 _ltPressed = true;
                 OnLTButtonDown?.Invoke();
             }
+            
+            if(Input.GetButtonDown("XBoxRb"))
+                OnDashInputDown?.Invoke();
 
             // TODO non funge per ora
             if ( Input.GetAxisRaw( "XBoxLT" ) >= 0.9f && _ltPressed )
