@@ -47,7 +47,7 @@ namespace ArenaSystem
         {
             OnBlockEvent?.Invoke(actionBlocks);
 
-            switch (GetComponent<GroupFinder>().GroupBelongingTo.GetComponent<GroupManager>().ThisGroupName)
+            switch (GetComponent<GroupFinder>().ImpGroup.ThisGroupName)
             {
                 case GroupManager.Group.GroupAzure:
                     StartCoroutine(ScriptedMovement(subject.Group0StartPosition.position, subject));

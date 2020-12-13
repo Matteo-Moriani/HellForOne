@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ArenaSystem
 {
-    public class ArenaBoss : MonoBehaviour, IDeathObserver
+    public class ArenaBoss : MonoBehaviour, IHitPointsObserver
     {
         [SerializeField] private ArenaManager arenaManager;
         
@@ -16,6 +16,6 @@ namespace ArenaSystem
             private set => arenaManager = value;
         }
 
-        void IDeathObserver.OnDeath() => OnBossDeath?.Invoke();
+        void IHitPointsObserver.OnZeroHp() => OnBossDeath?.Invoke();
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 
 namespace Animations
 {
-    public class ImpAnimator : MonoBehaviour
+    public class ImpAnimator : MonoBehaviour, IHitPointsObserver
     {
         private Animator _animator;
         private CombatSystem _combatSystem;
@@ -45,5 +46,6 @@ namespace Animations
         private void OnStartAttack(Attack attack) => _animator.SetTrigger(attack.name);
 
         private bool IsMoving() => Vector3.Distance(transform.position, _lastFramePosition) >= 0.01f;
+        public void OnZeroHp() => _animator.SetTrigger("death");
     }
 }

@@ -793,8 +793,6 @@ GameObject:
   - component: {fileID: 5690379529839465985}
   - component: {fileID: 8122182276196674175}
   - component: {fileID: 2719086958053748107}
-  - component: {fileID: 3744381273705489735}
-  - component: {fileID: 8309526910234773333}
   - component: {fileID: 1983988169948088861}
   - component: {fileID: 6651345304826874435}
   - component: {fileID: 1539842444360151768}
@@ -806,6 +804,9 @@ GameObject:
   - component: {fileID: 7999695030709912728}
   - component: {fileID: 3766466113209584079}
   - component: {fileID: 8296387653840295818}
+  - component: {fileID: 6559132906998886420}
+  - component: {fileID: 3775555733103775608}
+  - component: {fileID: 8355443379104447877}
   m_Layer: 0
   m_Name: Nazil
   m_TagString: Boss
@@ -956,42 +957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac33205fecbbb4d40bff4dff8ee43eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3744381273705489735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3329590975247750343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0594a7b3cd9e764db0983b6285c4f89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fsmResolution: 1
-  behaviourTreeResolution: 0.2
-  searchPlayerDuration: 10
-  attackFactories:
-  - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
-  - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
-  targetChangingRateo: 5
-  maxFacingTolerance: 0.8
-  minFacingTolerance: 0.25
-  adaptiveFacingTolerance: 1
-  facingToleranceDecreasingRateo: 0.1
---- !u!114 &8309526910234773333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3329590975247750343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6fd969e1f0f425a970e7c21634d3671, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackCooldown: 5
 --- !u!114 &1983988169948088861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,6 +1085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHp: 1000
+  deathActionBlocks: 000000000200000006000000
 --- !u!114 &3766466113209584079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,6 +1113,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathEffect: {fileID: 6681190241383932175}
+--- !u!114 &6559132906998886420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a107091d658c30b408b993489a514ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 3
+--- !u!114 &3775555733103775608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ecc8b4bfe3de1479efcd56a9cef0fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fsmResolution: 1
+  behaviourTreeResolution: 0.1
+  searchPlayerDuration: 10
+  attackFactories:
+  - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
+  - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
+  targetChangingRateo: 5
+  maxFacingTolerance: 0.99
+  minFacingTolerance: 0.1
+  adaptiveFacingTolerance: 1
+  facingToleranceDecreasingRateo: 0.1
+--- !u!114 &8355443379104447877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859befefde934d4d9b994a842fb50239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfterSeconds: 2
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0

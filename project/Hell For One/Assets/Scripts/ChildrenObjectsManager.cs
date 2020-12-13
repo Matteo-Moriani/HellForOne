@@ -14,7 +14,7 @@ public class ChildrenObjectsManager : MonoBehaviour
 
     public void ActivateCircle() {
         circle.SetActive(true);
-        circle.GetComponent<MeshRenderer>().material = gameObject.GetComponent<GroupFinder>().GroupBelongingTo.GetComponent<GroupManager>().groupColorMat;
+        circle.GetComponent<MeshRenderer>().material = gameObject.GetComponent<GroupFinder>().ImpGroup.groupColorMat;
     }
 
     public void DeactivateCircle() {

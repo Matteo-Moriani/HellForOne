@@ -106,7 +106,7 @@ namespace GroupSystem
 
                         if (groupFinder != null)
                         {
-                            GroupManager groupManager = groupFinder.GroupBelongingTo.GetComponent<GroupManager>();
+                            GroupManager groupManager = groupFinder.ImpGroup;
 
                             if (groupManager != null)
                             {

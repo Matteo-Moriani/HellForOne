@@ -25,6 +25,8 @@ namespace AI.Imp
         private void Update()
         {
             _groupMeanPosition = Vector3.zero;
+         
+            if(_groupManager.Imps.Count == 0) return;
             
             foreach (Transform imp in _groupManager.Imps.Keys)
             {

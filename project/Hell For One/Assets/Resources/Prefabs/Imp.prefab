@@ -753,6 +753,8 @@ GameObject:
   - component: {fileID: 4020880470274259458}
   - component: {fileID: 1963892402678586017}
   - component: {fileID: 1006710001074835653}
+  - component: {fileID: 7548461242970270283}
+  - component: {fileID: 2785643380656835421}
   m_Layer: 9
   m_Name: Imp
   m_TagString: Demon
@@ -849,6 +851,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionBlocks: 
+  duration: 0
+  size: 0
+  cooldown: 0
 --- !u!114 &4364288494851231950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,8 +904,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitType: 2
   health: 2
-  deathEffect: {fileID: 4848229517056299951, guid: a0e201c8406746843ae7b528c083a3e8,
-    type: 3}
 --- !u!114 &859236636117726381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,6 +1207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHp: 2
+  deathActionBlocks: 00000000020000000600000001000000030000000400000005000000
 --- !u!114 &267928145558347997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,6 +1273,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathEffect: {fileID: 3430898082117347846}
+--- !u!114 &7548461242970270283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859befefde934d4d9b994a842fb50239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfterSeconds: 2
+--- !u!114 &2785643380656835421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7320b24f754ae48de30238a21511e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2843260327687979986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3899,15 +3928,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e75f9edde83864d9e6480681e59b30, type: 3}
---- !u!4 &1978037948829843763 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
-    type: 3}
-  m_PrefabInstance: {fileID: 5473588070435102664}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1978037948829490451 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5802167189291188955, guid: b9e75f9edde83864d9e6480681e59b30,
+    type: 3}
+  m_PrefabInstance: {fileID: 5473588070435102664}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1978037948829843763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
     type: 3}
   m_PrefabInstance: {fileID: 5473588070435102664}
   m_PrefabAsset: {fileID: 0}

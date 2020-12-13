@@ -46,6 +46,9 @@ namespace CRBT
 
             public float GetColliderDistanceFromTarget(Transform agentTransform)
             {
+                if (_target == null)
+                    return float.MaxValue;
+                
                 Collider agentCollider = agentTransform.GetComponent<Collider>();
                 Collider targetCollider = _target.GetComponent<Collider>();
 

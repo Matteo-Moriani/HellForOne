@@ -85,7 +85,7 @@ namespace GroupSystem
                 GroupManager groupManager = null;
 
                 if(groupFinder != null) {
-                    groupManager = groupFinder.GroupBelongingTo.GetComponent<GroupManager>();
+                    groupManager = groupFinder.ImpGroup;
                 }
                 else {
                     Debug.LogError(this.transform.root.gameObject.name + " " + this.name + " cannot find DemonBehaviour");

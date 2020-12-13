@@ -31,7 +31,7 @@ public class DeathParticlesBehaviour : MonoBehaviour
         GetComponent<AnimationEventsHooks>().OnDeathAnimationEnd -= OnDeathAnimationEnd;
     }
 
-    public void OnDeathAnimationEnd()
+    private void OnDeathAnimationEnd()
     {
         foreach(ParticleSystem p in _particleSystems)
         {

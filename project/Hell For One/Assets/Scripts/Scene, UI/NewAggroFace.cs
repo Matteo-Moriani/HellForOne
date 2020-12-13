@@ -1,8 +1,6 @@
-﻿using AI.MidBoss;
-using ArenaSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using ArenaSystem;
+using AI.Boss;
+using FactoryBasedCombatSystem;
 using UnityEngine;
 
 /// <summary>
@@ -14,53 +12,58 @@ public class NewAggroFace : MonoBehaviour
     private Vector3 cameraPosition;
     private Vector3 rotateDirection;
     private Quaternion lookRotation;
-    private Transform impTargetedTransform;
+    private Transform _impTargetedTransform;
     private Vector3 aggroFacePosition;
-    private bool inBattle = false;
+    
+    private bool _inBattle;
 
     private void OnEnable()
     {
-        MidBossAi.OnBossTargetChanged += OnBossTargetChanged;
+        BossAi.OnBossTargetChanged += OnBossTargetChanged;
+        
         ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+
+        ImpDeath.OnImpDeath += OnImpDeath;
     }
 
     private void OnDisable()
     {
-        MidBossAi.OnBossTargetChanged -= OnBossTargetChanged;
+        BossAi.OnBossTargetChanged -= OnBossTargetChanged;
+        
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
-    }
-
-    private void OnGlobalEndBattle( ArenaManager obj )
-    {
-        inBattle = false;
-
-        aggroFacePosition = new Vector3( 0f , -100f , 0f );
-        gameObject.transform.position = aggroFacePosition;
-    }
-
-    private void OnBossTargetChanged( Transform targetTransform )
-    {
-        if ( !inBattle )
-        {
-            // First imp targeted in the fight
-            inBattle = true;
-        }
-
-        impTargetedTransform = targetTransform;
+        ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+        
+        ImpDeath.OnImpDeath -= OnImpDeath;
     }
 
     void Update()
     {
-        if ( inBattle )
-        {
-            // 1.825f is the height where the AggroFace should be
-            aggroFacePosition = impTargetedTransform.position + new Vector3( 0f , 1.825f , 0f );
-            gameObject.transform.position = aggroFacePosition;
-        }
+        if(!_inBattle) return;
+
+        aggroFacePosition = _impTargetedTransform != null
+            ? _impTargetedTransform.position + new Vector3(0f, 1.825f, 0f)
+            : new Vector3(0f, -100f, 0f);
+        
+        transform.position = aggroFacePosition;
         
         cameraPosition = Camera.main.transform.position;
         rotateDirection = (cameraPosition - transform.position).normalized;
         lookRotation = Quaternion.LookRotation( rotateDirection );
         transform.rotation = Quaternion.Slerp( transform.rotation , lookRotation , 1 );
     }
+
+    private void OnImpDeath(Transform deadImp) => _impTargetedTransform = null;
+
+    private void OnGlobalStartBattle(ArenaManager obj) => _inBattle = true;
+    
+    private void OnGlobalEndBattle( ArenaManager obj )
+    {
+        _inBattle = false;
+
+        aggroFacePosition = new Vector3( 0f , -100f , 0f );
+        gameObject.transform.position = aggroFacePosition;
+    }
+
+    private void OnBossTargetChanged( Transform targetTransform ) => _impTargetedTransform = targetTransform;
 }

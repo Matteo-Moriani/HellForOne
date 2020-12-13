@@ -27,7 +27,7 @@ namespace GroupSystem
             None
         }
 
-        [SerializeField] [Tooltip("Field that indicate wich group this is")] private Group thisGroupName = Group.None;
+        [SerializeField] [Tooltip("Field that indicate which group this is")] private Group thisGroupName = Group.None;
 
         [SerializeField] [Tooltip("The color of this group")] private Color groupColor = Color.white;
     
@@ -67,40 +67,31 @@ namespace GroupSystem
         
         public Transform GetRandomImp() => _imps.Keys.ToList()[Random.Range(0,_imps.Keys.Count)];
         
-        public bool AddDemonToGroup(Transform imp)
+        public void AddDemonToGroup(Transform imp)
         {
-            if (_imps.Count >= maxImpNumber) return false;
+            if (_imps.Count >= maxImpNumber) return;
             
             _imps.Add(imp,imp.GetComponent<ImpAi>());
 
             // TODO :- Check if this is needed
             imp.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;
-            imp.GetComponent<Stats>().onLateDeath += OnLateDeath;
 
             OnImpJoined?.Invoke(this,imp.gameObject);
-            
-            return true;
         }
 
-        private void RemoveImp(Transform imp)
+        public void RemoveImp(Transform imp)
         {
             _imps.Remove(imp);
 
             imp.GetComponent<Reincarnation>().onLateReincarnation -= OnLateReincarnation;
-            imp.GetComponent<Stats>().onLateDeath -= OnLateDeath;
-        
+
             OnImpRemoved?.Invoke(imp.gameObject);
         }
     
         #endregion
 
         #region Event handlers
-
-        private void OnLateDeath(Stats sender)
-        {
-            RemoveImp(sender.transform);
-        }
-
+        
         private void OnLateReincarnation(GameObject newPlayer)
         {
             RemoveImp(newPlayer.transform);
