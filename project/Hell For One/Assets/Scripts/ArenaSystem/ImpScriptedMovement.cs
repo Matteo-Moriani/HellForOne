@@ -3,12 +3,13 @@ using System.Collections;
 using ActionsBlockSystem;
 using AI.Imp;
 using GroupSystem;
+using ReincarnationSystem;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace ArenaSystem
 {
-    public class ImpScriptedMovement : MonoBehaviour, IArenaObserver, IActionsBlockSubject
+    public class ImpScriptedMovement : MonoBehaviour, IArenaObserver, IActionsBlockSubject, IReincarnationObserver
     {
         [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
     
@@ -80,6 +81,16 @@ namespace ArenaSystem
         
         }
 
+        // Leader needs ScriptedMovements
+        // This is very ugly, but is fast
+        public void StartLeader()
+        {
+            gameObject.AddComponent<ScriptedMovements>();
+            Destroy(this);
+        }
+
+        public void StopLeader() { }
+        
         #endregion
     }
 }
