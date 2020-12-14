@@ -170,12 +170,10 @@ namespace AI.Movement
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
-        public void JoinGroup(ImpGroupAi impGroupAi) => _targetData = impGroupAi.Target;
-        
-        #endregion
-
         public void JoinGroup(GroupManager groupManager) => _targetData = groupManager.GetComponent<ImpGroupAi>().Target;
 
         public void LeaveGroup(GroupManager groupManager) => _targetData = null;
+        
+        #endregion
     }
 }

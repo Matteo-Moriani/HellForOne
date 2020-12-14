@@ -115,7 +115,7 @@ namespace AI.Imp
 
         private void OnGlobalEndBattle(ArenaManager arenaManager)
         {
-            _inBattle = true;
+            _inBattle = false;
         }
 
         #endregion
