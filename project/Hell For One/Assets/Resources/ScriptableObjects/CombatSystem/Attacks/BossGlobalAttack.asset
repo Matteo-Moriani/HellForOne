@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4879365a7494404b4dd415441a433a8, type: 3}
-  m_Name: BossGroupAttack
+  m_Script: {fileID: 11500000, guid: 88e5f2f7e3f3d1c4b90d3965f6c93ee9, type: 3}
+  m_Name: BossGlobalAttack
   m_EditorClassIdentifier: 
   data:
     damage: 1
-    colliderRadius: 1
+    colliderRadius: 2
     blockable: 1
     canBeMultiple: 0
     canDamageMultipleUnits: 1
-    dealsKnockback: 1
-    dealKnockbackWhenBlocked: 1
-    knockbackDuration: 0.25
-    knockbackSize: 2.5
+    dealsKnockback: 0
+    dealKnockbackWhenBlocked: 0
+    knockbackDuration: 0
+    knockbackSize: 0
     dealsStun: 0
     dealsStunWhenBlocked: 0
     stunTime: 0
@@ -29,8 +29,8 @@ MonoBehaviour:
     splashDamageRadius: 0
     splashDamageTime: 0
     minDistance: 0
-    maxDistance: 2
-    attackProbability: 0
-    range: 1.5
-    attackPrefab: {fileID: 1247065853603126990, guid: ff3046ff3111f4f46b8e1f86a5e736b8,
+    maxDistance: Infinity
+    attackProbability: 100
+    attackPrefab: {fileID: 3030460436739687917, guid: fd05b1c7268ad784393b4fbcd734d4a9,
       type: 3}
+    maxDistVariation: 2

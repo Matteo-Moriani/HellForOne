@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AI.Imp;
+using GroupSystem;
+using ReincarnationSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,71 +9,99 @@ using Utils.ObjectPooling;
 
 namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 {
-    [CreateAssetMenu(menuName = ("CombatSystem/Attacks/BossMeleeAttack"), fileName = "BossMeleeAttack", order = 1)]
-    public class BossEnvironmentalAttackFactory : BossAttackFactory<BossMeleeAttack, BossMeleeAttackData> { }
+    [CreateAssetMenu(menuName = ("CombatSystem/Attacks/BossEnvironmentalAttack"), fileName = "BossEnvironmentalAttack", order = 1)]
+    public class BossEnvironmentalAttackFactory : BossAttackFactory<BossEnvironmentalAttack, BossEnvironmentalAttackData> { }
 
     [Serializable]
     public class BossEnvironmentalAttackData : BossAttackData
     {
-        [SerializeField] private float range;
         [SerializeField] private GameObject attackPrefab;
+        [SerializeField] private float maxDistVariation = 2f;
+        [SerializeField] private float duration = 5f;
 
-        public float Range
-        {
-            get => range;
-            private set => range = value;
-        }
+        // 5 colonne di fuoco: una sul player e 4 sui gruppi
 
         public GameObject AttackPrefab
         {
             get => attackPrefab;
             private set => attackPrefab = value;
         }
+        public float MaxDistVariation { get => maxDistVariation; set => maxDistVariation = value; }
+        public float Duration { get => duration; set => duration = value; }
     }
 
-    public class BossEnvironmentalAttack : BossAttack<BossMeleeAttackData>
+    public class BossEnvironmentalAttack : BossAttack<BossEnvironmentalAttackData>
     {
-        private readonly Dictionary<int, GameObject> _attackGameObjects = new Dictionary<int, GameObject>();
+        private readonly Dictionary<int, List<GameObject>> _attackGameObjects = new Dictionary<int, List<GameObject>>();
 
         protected override IEnumerator InnerDoAttack(int id, CombatSystem ownerCombatSystem, Transform target)
         {
+            CapsuleCollider bossCollider = ownerCombatSystem.GetComponentInChildren<CapsuleCollider>();
+
+            foreach(GameObject g in _attackGameObjects[id])
+            {
+                g.transform.position += (ownerCombatSystem.transform.position - g.transform.position).normalized * UnityEngine.Random.Range(-data.MaxDistVariation, data.MaxDistVariation);
+
+                if((ownerCombatSystem.transform.position - g.transform.position).magnitude < bossCollider.radius + data.ColliderRadius)
+                {
+                    g.transform.position += (ownerCombatSystem.transform.position - g.transform.position).normalized * (bossCollider.radius + data.ColliderRadius);
+                }
+            }
+
             while(!AnimationStates[id]) yield return null;
 
-            AttackCollider attackCollider = _attackGameObjects[id].GetComponentInChildren<AttackCollider>();
-            attackCollider.Initialize(id, data.ColliderRadius, this, ownerCombatSystem.transform.root, ownerCombatSystem);
-
-            _attackGameObjects[id].transform.position = ownerCombatSystem.transform.position + (ownerCombatSystem.transform.forward * data.Range);
-
-            while(AnimationStates[id])
+            // sul vettore/retta che collega boss a gruppo e player, istanzio la colonna sopra il gruppo più o meno un valore casuale
+            foreach(GameObject g in _attackGameObjects[id])
             {
+                g.GetComponentInChildren<AttackCollider>().Initialize(id, data.ColliderRadius, this, ownerCombatSystem.transform.root, ownerCombatSystem);
+                g.GetComponent<EnvironmentalAttackBehaviour>().Activate();
+            }
+
+            float timer = 0f;
+
+            while(timer < data.Duration)
+            {
+                timer += Time.deltaTime;
                 yield return null;
 
                 if(!HasHit[id]) continue;
+                if(!data.CanDamageMultipleUnits) break;
+            }
 
-                if(!data.CanDamageMultipleUnits) yield break;
-
-                if(!data.SplashDamage) continue;
-
-                float timer = 0f;
-                _attackGameObjects[id].GetComponentInChildren<AttackCollider>().SetRadius(data.SplashDamageRadius);
-
-                while(timer < data.SplashDamageTime)
-                {
-                    yield return null;
-                    timer += Time.deltaTime;
-                }
+            foreach(GameObject g in _attackGameObjects[id])
+            {
+                g.GetComponent<EnvironmentalAttackBehaviour>().Deactivate();
             }
         }
 
         protected override void InnerSetup(int id, CombatSystem ownerCombatSystem, Transform target)
         {
-            GameObject attackGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject();
-            _attackGameObjects.Add(id, attackGameObject);
+            _attackGameObjects.Add(id, new List<GameObject>());
+
+            GameObject playerTargetedGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject();
+            playerTargetedGameObject.transform.position = ReincarnationManager.Instance.CurrentLeader.transform.position;
+            _attackGameObjects[id].Add(playerTargetedGameObject);
+
+            List<Vector3> groupPositions = new List<Vector3>();
+            foreach(GameObject group in GroupsManager.Instance.Groups)
+            {
+                groupPositions.Add(group.GetComponent<GroupMeanPosition>().MeanPosition);
+            }
+
+            foreach(Vector3 position in groupPositions)
+            {
+                GameObject groupTargetedGameObject = PoolersManager.Instance.TryGetPooler(data.AttackPrefab).GetPooledObject();
+                groupTargetedGameObject.transform.position = position;
+                _attackGameObjects[id].Add(groupTargetedGameObject);
+            }
         }
 
         protected override void InnerDispose(int id, CombatSystem ownerCombatSystem)
         {
-            PoolersManager.Instance.TryGetPooler(data.AttackPrefab).DeactivatePooledObject(_attackGameObjects[id]);
+            foreach(GameObject g in _attackGameObjects[id])
+            {
+                PoolersManager.Instance.TryGetPooler(data.AttackPrefab).DeactivatePooledObject(g);
+            }
             _attackGameObjects.Remove(id);
         }
     }
