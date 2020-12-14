@@ -53,7 +53,7 @@ public class NewAggroFace : MonoBehaviour
             ? null 
             : _impTargetedTransform;
 
-    private void OnGlobalEndBattle( ArenaManager obj ) => transform.position = new Vector3( 0f , -100f , 0f );
+    private void OnGlobalEndBattle(ArenaManager obj) => _impTargetedTransform = null;
 
     private void OnBossTargetChanged( Transform targetTransform ) => _impTargetedTransform = targetTransform;
 }

@@ -7,6 +7,7 @@ using Ai.MonoBT;
 using AI.Movement;
 using ArenaSystem;
 using CRBT;
+using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using GroupSystem;
 using ReincarnationSystem;
@@ -15,7 +16,7 @@ using Random = UnityEngine.Random;
 
 namespace AI.Boss
 {
-    public class BossAi : MonoBehaviour
+    public class BossAi : MonoBehaviour, IHitPointsObserver
     {
         #region Fields
 
@@ -364,8 +365,13 @@ namespace AI.Boss
 
         private void OnStartBattle() => _inCombat = true;
         private void OnStartBossAttack() => _lastAttackDone = false;
-
         private void OnStopBossAttack() => _lastAttackDone = true;
+
+        #endregion
+
+        #region Interfaces
+
+        public void OnZeroHp() => StopAllCoroutines();
 
         #endregion
 
@@ -406,6 +412,6 @@ namespace AI.Boss
             }
         }
 
-        #endregion   
+        #endregion
     }
 }
