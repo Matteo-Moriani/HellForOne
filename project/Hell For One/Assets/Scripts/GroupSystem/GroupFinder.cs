@@ -55,9 +55,6 @@ namespace GroupSystem
             bestGroup.AddDemonToGroup(transform);
             
             _group = bestGroup;
-            
-            // TODO :- Implement IGroupObserver in circle object
-            gameObject.GetComponent<ChildrenObjectsManager>().ActivateCircle();
         }
 
         #endregion

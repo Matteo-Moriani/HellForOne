@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace TacticsSystem
 {
+    // TODO :- ICrownObserver
     public class PlayerTactics : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject
     {
         #region Fields
