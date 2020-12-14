@@ -47,8 +47,6 @@ namespace AI.Imp
         {
             PlayerTactics.OnTryOrderAssign += OnTryOrderAssign;
 
-            _groupManager.OnImpJoined += OnImpJoined;
-            
             ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
             ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         }
@@ -56,9 +54,7 @@ namespace AI.Imp
         private void OnDisable()
         {
             PlayerTactics.OnTryOrderAssign -= OnTryOrderAssign;
-            
-            _groupManager.OnImpJoined -= OnImpJoined;
-            
+
             ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
             ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
         }
@@ -101,12 +97,6 @@ namespace AI.Imp
         
         #region Event handlers
 
-        private void OnImpJoined(GroupManager sender, GameObject impJoined)
-        {
-            foreach (IGroupObserver groupObserver in impJoined.GetComponentsInChildren<IGroupObserver>())
-                groupObserver.JoinGroup(this);
-        }
-        
         private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
         {
             if(targetGroup != _groupManager.ThisGroupName && targetGroup != GroupManager.Group.All) return;

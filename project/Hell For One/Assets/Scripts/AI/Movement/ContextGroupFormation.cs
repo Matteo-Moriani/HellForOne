@@ -1,10 +1,9 @@
-﻿using System;
-using AI.Imp;
-using GroupSystem;
+﻿using GroupSystem;
 using UnityEngine;
 
 namespace AI.Movement
 {
+    // TODO :- Implement ITacticsObserver
     public class ContextGroupFormation : ContextSteeringBehaviour, IGroupObserver
     {
         [SerializeField, Min(0f)] private float stoppingDistance;
@@ -72,6 +71,9 @@ namespace AI.Movement
         
         public void SetStoppingDistance(float d) => stoppingDistance = d;
         public void SetCloseness(float c) => closeness = c;
-        public void JoinGroup(ImpGroupAi impGroupAi) => _groupManager = impGroupAi.GetComponent<GroupManager>();
+
+        public void JoinGroup(GroupManager groupManager) => _groupManager = groupManager;
+
+        public void LeaveGroup(GroupManager groupManager) => _groupManager = null;
     }
 }

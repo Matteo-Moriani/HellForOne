@@ -38,7 +38,9 @@ namespace AI.Imp
             
             _tacticInstance.ExecuteTactic(this);
         }
+        
+        public void JoinGroup(GroupManager groupManager) => _currentTargetData = groupManager.GetComponent<ImpGroupAi>().Target;
 
-        public void JoinGroup(ImpGroupAi impGroupAi) => _currentTargetData = impGroupAi.Target;
+        public void LeaveGroup(GroupManager groupManager) => _currentTargetData = null;
     }
 }

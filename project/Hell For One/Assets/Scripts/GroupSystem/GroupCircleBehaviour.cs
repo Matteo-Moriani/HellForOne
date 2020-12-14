@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GroupSystem
 {
-    public class GroupCircleBehaviour : MonoBehaviour, IGroupObserver, IReincarnationObserver
+    public class GroupCircleBehaviour : MonoBehaviour, IGroupObserver
     {
         private MeshRenderer[] _renderers;
 
@@ -19,23 +19,21 @@ namespace GroupSystem
             }
         }
 
-        public void JoinGroup(ImpGroupAi impGroupAi)
+        public void JoinGroup(GroupManager groupManager)
         {
             foreach (var meshRenderer in _renderers)
             {
                 meshRenderer.enabled = true;
-                meshRenderer.material = impGroupAi.GetComponent<GroupManager>().groupColorMat;
+                meshRenderer.material = groupManager.groupColorMat;
             }
         }
 
-        public void StartLeader()
+        public void LeaveGroup(GroupManager groupManager)
         {
             foreach (var meshRenderer in _renderers)
             {
                 meshRenderer.enabled = false;
             }
         }
-
-        public void StopLeader() { }
     }
 }

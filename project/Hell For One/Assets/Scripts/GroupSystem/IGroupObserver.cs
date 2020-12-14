@@ -4,6 +4,8 @@ namespace GroupSystem
 {
     public interface IGroupObserver
     {
-        void JoinGroup(ImpGroupAi impGroupAi);
+        void JoinGroup(GroupManager groupManager);
+
+        void LeaveGroup(GroupManager groupManager);
     }
 }

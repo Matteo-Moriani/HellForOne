@@ -84,6 +84,11 @@ namespace GroupSystem
             
             _imps.Add(imp,imp.GetComponent<ImpAi>());
 
+            foreach (IGroupObserver observer in imp.GetComponentsInChildren<IGroupObserver>())
+            {
+                observer.JoinGroup(this);
+            }
+            
             OnImpJoined?.Invoke(this,imp.gameObject);
         }
 
@@ -92,6 +97,11 @@ namespace GroupSystem
             if(_imps.ContainsKey(imp))
                 _imps.Remove(imp);
 
+            foreach (IGroupObserver observer in imp.GetComponentsInChildren<IGroupObserver>())
+            {
+                observer.LeaveGroup(this);
+            }
+            
             OnImpRemoved?.Invoke(imp.gameObject);
         }
     
