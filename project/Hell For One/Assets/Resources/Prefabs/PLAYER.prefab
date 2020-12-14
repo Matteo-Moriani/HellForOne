@@ -3039,10 +3039,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6398173044429869211}
     m_Modifications:
-    - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-      propertyPath: m_Name
-      value: DashParticle
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -3099,6 +3095,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+      propertyPath: m_Name
+      value: DashParticle
+      objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: moveWithTransform
       value: 1
@@ -3150,16 +3150,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7977964399357077817}
     m_Modifications:
-    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpSpear
-      objectReference: {fileID: 0}
-    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6815750412354125750, guid: c52985df6bdd6a24d946b1feaef0ec9a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3214,6 +3204,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpSpear
+      objectReference: {fileID: 0}
+    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c52985df6bdd6a24d946b1feaef0ec9a, type: 3}
@@ -3480,6 +3480,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AggroIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 7286616013297981826, guid: f4ec1ceaf2aa0fa409a7cec5e28a11e9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7286616013297981827, guid: f4ec1ceaf2aa0fa409a7cec5e28a11e9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3690,16 +3695,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1659144227602715231}
     m_Modifications:
-    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpShield
-      objectReference: {fileID: 0}
-    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3449900416110481934, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3754,6 +3749,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -270
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpShield
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6af6d7f9967f2d42be1d2e0027e7aef, type: 3}
@@ -3845,10 +3850,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6398173044429869211}
     m_Modifications:
-    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
-      propertyPath: m_Name
-      value: ManaParticles
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3893,6 +3894,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
+      propertyPath: m_Name
+      value: ManaParticles
+      objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -3901,13 +3906,13 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
