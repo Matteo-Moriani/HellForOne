@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5943396, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.754717, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4421,8 +4421,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3ea2e59d181ffce4e97d5d1d07a22c05, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 7f6f7051a0e5c9247856aa5895fb9e0b, type: 2}
+  - {fileID: 2100000, guid: 7f6f7051a0e5c9247856aa5895fb9e0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4476,7 +4476,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8f43a60b7ab9a314b88e27e8e761ba72, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
