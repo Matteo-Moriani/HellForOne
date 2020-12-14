@@ -2,6 +2,7 @@
 {
     public interface IReincarnationObserver
     {
-        void BecomeLeader();
+        void StartLeader();
+        void StopLeader();
     }
 }

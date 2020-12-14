@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using Rendering;
+using UnityEngine;
 
 namespace GroupSystem
 {
@@ -14,8 +16,8 @@ namespace GroupSystem
         [Tooltip("The color to use to outline this group")]
         private Color color = Color.white;
 
-        private GroupManager groupManager;
-        private bool isOutlined = false;
+        private GroupManager _groupManager;
+        private bool _isOutlined = false;
 
         #endregion
 
@@ -23,21 +25,21 @@ namespace GroupSystem
 
         private void Awake()
         {
-            groupManager = this.gameObject.GetComponent<GroupManager>();
+            _groupManager = this.gameObject.GetComponent<GroupManager>();
         }
 
         private void OnEnable()
         {
-            GroupsInRangeDetector.RegisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+            GroupsInRangeDetector.OnMostRepresentedGroupChanged += OnMostRepresentedGroupChanged;
 
-            groupManager.OnImpJoined += OnImpJoined;
+            _groupManager.OnImpJoined += OnImpJoined;
         }
 
         private void OnDisable()
         {
-            GroupsInRangeDetector.UnregisterOnMostRappresentedGroupChanged(OnMostRappresentedGroupChanged);
+            GroupsInRangeDetector.OnMostRepresentedGroupChanged -= OnMostRepresentedGroupChanged;
         
-            groupManager.OnImpJoined -= OnImpJoined;
+            _groupManager.OnImpJoined -= OnImpJoined;
 
             outlineMaterial.SetColor("_OutlineColor", Color.white);
         }
@@ -46,84 +48,40 @@ namespace GroupSystem
 
         #region Event handlers
 
-        private void OnMostRappresentedGroupChanged()
+        private void OnMostRepresentedGroupChanged(GroupManager.Group newGroup)
         {
-            if (groupManager != null)
+            if (_groupManager.ThisGroupName == newGroup)
             {
-                // New most rappresented group
-                if (groupManager.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange)
-                {
-                    isOutlined = true;
+                _isOutlined = true;
+                
+                // Set outline material for this group
+                outlineMaterial.SetColor("_OutlineColor", color);
 
-                    if (outlineMaterial != null)
-                    {
-                        // Set outline material for this group
-                        outlineMaterial.SetColor("_OutlineColor", color);
-
-                        // Assign new material
-                        foreach (Transform imp in groupManager.Imps.Keys)
-                        {
-                            if (imp != null)
-                            {
-                                MaterialsManager materialsManager = imp.GetComponent<MaterialsManager>();
-
-                                if (materialsManager != null)
-                                {
-                                    materialsManager.ChangeMaterials(outlineMaterial);
-                                }
-                                else
-                                {
-                                    Debug.LogError(this.gameObject.name + " " + this.name + " cannot find " + imp.name + " MaterialsManager");
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogError(this.gameObject.name + " " + this.name + " outlineMaterial not assigned");
-                    }
-                }
-                // Last outlined group
-                else
-                {
-                    if (isOutlined)
-                    {
-                        isOutlined = false;
-
-                        // Assign default material
-                        foreach (Transform imp in groupManager.Imps.Keys)
-                        {
-                            if (imp != null)
-                            {
-                                MaterialsManager materialsManager = imp.GetComponent<MaterialsManager>();
-
-                                if (materialsManager != null)
-                                {
-                                    materialsManager.SetDefaultMaterial();
-                                }
-                                else
-                                {
-                                    Debug.LogError(this.gameObject.name + " " + this.name + " cannot find " + imp.name + " MaterialsManager");
-                                }
-                            }
-                        }
-                    }
-                }
+                // Assign new material
+                foreach (var materialsManager in _groupManager.Imps.Keys.Select(imp => imp.GetComponent<MaterialsManager>()))
+                    materialsManager.ChangeMaterials(outlineMaterial);
             }
+            // Last outlined group
             else
             {
-                Debug.LogError(this.gameObject.name + " " + this.name + " cannot find GroupBehaviour");
+                if (!_isOutlined) return;
+                
+                _isOutlined = false;
+                
+                foreach (MaterialsManager materialsManager in _groupManager.Imps.Keys.Select(imp => imp.GetComponent<MaterialsManager>()))
+                    materialsManager.SetDefaultMaterial();
             }
         }
 
-        private void OnImpJoined(GroupManager sender, GameObject demon) { 
-            if(groupManager.ThisGroupName == GroupsInRangeDetector.MostRappresentedGroupInRange) { 
-                MaterialsManager materialsManager = demon.GetComponent<MaterialsManager>();
+        private void OnImpJoined(GroupManager sender, GameObject demon)
+        {
+            if (_groupManager.ThisGroupName != GroupsInRangeDetector.MostRepresentedGroupInRange) return;
             
-                if(materialsManager != null) {
-                    materialsManager.ChangeMaterials(outlineMaterial);    
-                }
-            }    
+            MaterialsManager materialsManager = demon.GetComponent<MaterialsManager>();
+            
+            if(materialsManager != null) {
+                materialsManager.ChangeMaterials(outlineMaterial);    
+            }
         }
 
         #endregion

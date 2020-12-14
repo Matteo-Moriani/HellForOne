@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AI.Imp;
+using FactoryBasedCombatSystem;
+using ReincarnationSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -38,15 +40,8 @@ namespace GroupSystem
         #endregion
     
         #region properties
-
-        /// <summary>
-        /// Property that idicates wich group this is
-        /// </summary>
+        
         public Group ThisGroupName { get => thisGroupName; private set => thisGroupName = value; }
-
-        /// <summary>
-        /// Imps in this group
-        /// </summary>
         public Dictionary<Transform,ImpAi> Imps { get => _imps; private set => _imps = value; }
         
         public Color GroupColor { get => groupColor; set => groupColor = value; }
@@ -61,29 +56,41 @@ namespace GroupSystem
 
         #endregion
 
+        #region Unity methods
+
+        private void OnEnable()
+        {
+            ImpDeath.OnImpDeath += OnImpDeath;
+            ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
+        }
+
+        private void OnDisable()
+        {
+            ImpDeath.OnImpDeath -= OnImpDeath;
+            ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+        }
+
+        #endregion
+        
         #region Methods
-        
-        public bool IsEmpty() => _imps.Count == 0;
-        
-        public Transform GetRandomImp() => _imps.Keys.ToList()[Random.Range(0,_imps.Keys.Count)];
-        
+
+        public Transform GetRandomImp() => _imps.Keys.ToList()[Random.Range(0, _imps.Keys.Count)];
+
+        public bool IsEmpty() => _imps.Keys.Count == 0;
+
         public void AddDemonToGroup(Transform imp)
         {
             if (_imps.Count >= maxImpNumber) return;
             
             _imps.Add(imp,imp.GetComponent<ImpAi>());
 
-            // TODO :- Check if this is needed
-            imp.GetComponent<Reincarnation>().onLateReincarnation += OnLateReincarnation;
-
             OnImpJoined?.Invoke(this,imp.gameObject);
         }
 
-        public void RemoveImp(Transform imp)
+        private void RemoveImp(Transform imp)
         {
-            _imps.Remove(imp);
-
-            imp.GetComponent<Reincarnation>().onLateReincarnation -= OnLateReincarnation;
+            if(_imps.ContainsKey(imp))
+                _imps.Remove(imp);
 
             OnImpRemoved?.Invoke(imp.gameObject);
         }
@@ -91,11 +98,10 @@ namespace GroupSystem
         #endregion
 
         #region Event handlers
-        
-        private void OnLateReincarnation(GameObject newPlayer)
-        {
-            RemoveImp(newPlayer.transform);
-        }
+
+        private void OnLeaderChanged(Reincarnation newLeader) => RemoveImp(newLeader.transform);
+
+        private void OnImpDeath(Transform deadImp) => RemoveImp(deadImp);
 
         #endregion
     }

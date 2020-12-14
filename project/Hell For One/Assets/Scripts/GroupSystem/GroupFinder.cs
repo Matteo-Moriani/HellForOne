@@ -4,28 +4,22 @@ using UnityEngine;
 
 namespace GroupSystem
 {
-    public class GroupFinder : MonoBehaviour, IHitPointsObserver
+    public class GroupFinder : MonoBehaviour
     {
         #region Fields
 
-        private GroupManager _impGroup;
+        private GroupManager _group;
 
         #endregion
 
         #region Properties
 
-        public GroupManager ImpGroup
+        public GroupManager Group
         {
-            get => _impGroup;
-            private set => _impGroup = value;
+            get => _group;
+            private set => _group = value;
         }
 
-        #endregion
-
-        #region Delegates and Events
-        
-        public event Action<Transform> OnGroupFound;
-        
         #endregion
 
         #region Unity methods
@@ -43,6 +37,7 @@ namespace GroupSystem
         private void FindGroup()
         {
             int lowest = int.MaxValue;
+            
             GroupManager bestGroup = null;
                 
             foreach ( GameObject group in GroupsManager.Instance.Groups )
@@ -59,16 +54,11 @@ namespace GroupSystem
                 
             bestGroup.AddDemonToGroup(transform);
             
-            _impGroup = bestGroup;
+            _group = bestGroup;
+            
+            // TODO :- Implement IGroupObserver in circle object
             gameObject.GetComponent<ChildrenObjectsManager>().ActivateCircle();
-            OnGroupFound?.Invoke(_impGroup.transform);
         }
-
-        #endregion
-
-        #region Interfaces
-
-        public void OnZeroHp() => _impGroup.RemoveImp(transform);
 
         #endregion
     }

@@ -152,7 +152,8 @@ namespace AI.Movement
 
         #region Interfaces
 
-        public void BecomeLeader() => this.enabled = false;
+        public void StartLeader() => Block();
+        public void StopLeader() { }
 
         public void Block()
         {

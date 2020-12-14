@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using AI;
+﻿using System.Collections.Generic;
 using AI.Imp;
 using GroupSystem;
 using Player;
@@ -15,22 +12,16 @@ public class NewHUD : MonoBehaviour
     private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross, ordersIcons, specialAttacksIcons;
     private Image azureImage, pinkImage, greenImage, yellowImage, aggroIconAzure, aggroIconPink, aggroIconGreen, aggroIconYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
-    //private GroupBehaviour groupAzure, groupPink, groupGreen, groupYellow;
+    
     private GroupManager groupAzureManager, groupPinkManager, groupGreenManager, groupYellowManager;
     private PlayerTactics playerTactics;
     private Vector3 defaultScale = new Vector3( 1f , 1f , 1f );
     private Vector3 enlargedScale = new Vector3( 1.5f , 1.5f , 1f );
-    //private GroupBehaviour[] groupBehaviours = new GroupBehaviour[ 4 ];
-    //private Dictionary<GroupBehaviour , GameObject> dict = new Dictionary<GroupBehaviour , GameObject>();
     private Dictionary<int , GroupManager> groupDict = new Dictionary<int , GroupManager>();
     private AlliesManager alliesManager;
     private Vector3 groupPanelCorrectionVector = new Vector3( +36.25f , -22.50f , 0f );
     private Vector2 panelPosition = new Vector2( -36.25f , 22.33f );
     private Vector2 xCorrection = new Vector2( 145f , 0f );
-
-    private GameObject player;
-    //private CombatEventsManager playerCombatEventsManager;
-    private Stats playerStats;
 
     private int meleeIndex = 0;
     private int tankIndex = 1;
@@ -39,10 +30,6 @@ public class NewHUD : MonoBehaviour
     private int recruitIndex = 4;
 
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
-    //public GroupBehaviour.State GroupAzureCurrentState { get => groupAzureCurrentState; set => groupAzureCurrentState = value; }
-    //public GroupBehaviour.State GroupPinkCurrentState { get => groupPinkCurrentState; set => groupPinkCurrentState = value; }
-    //public GroupBehaviour.State GroupGreenCurrentState { get => groupGreenCurrentState; set => groupGreenCurrentState = value; }
-    //public GroupBehaviour.State GroupYellowCurrentState { get => groupYellowCurrentState; set => groupYellowCurrentState = value; }
 
     private Image UpOn, DownOn, RightOn, LeftOn;
 
@@ -56,13 +43,6 @@ public class NewHUD : MonoBehaviour
     private int groupPinkTacticsID = 0;
     private int groupGreenTacticsID = 0;
     private int groupYellowTacticsID = 0;
-
-    // To decouple with currentState of GroupBehaviour
-    //private GroupBehaviour.State groupAzureCurrentState;
-    //private GroupBehaviour.State groupPinkCurrentState;
-    //private GroupBehaviour.State groupGreenCurrentState;
-    //private GroupBehaviour.State groupYellowCurrentState;
-
 
     public void ActivateAggroIcon( GroupManager.Group group )
     {
@@ -105,47 +85,6 @@ public class NewHUD : MonoBehaviour
 
     void Start()
     {
-        //GameObject panel = transform.GetChild( 0 ).gameObject;
-        //panelAzure = panel.transform.GetChild( 0 ).gameObject;
-        //panelPink = panel.transform.GetChild( 1 ).gameObject;
-        //panelGreen = panel.transform.GetChild( 2 ).gameObject;
-        //panelYellow = panel.transform.GetChild( 3 ).gameObject;
-        //OrdersCross = transform.GetChild( 1 ).gameObject;
-
-        //azureImage = panelAzure.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        //aggroIconAzure = panelAzure.transform.GetChild( panelAzure.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        //pinkImage = panelPink.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        //aggroIconPink = panelPink.transform.GetChild( panelPink.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        //greenImage = panelGreen.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        //aggroIconGreen = panelGreen.transform.GetChild( panelGreen.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-        //yellowImage = panelYellow.transform.GetChild( 0 ).gameObject.GetComponent<Image>();
-        //aggroIconYellow = panelYellow.transform.GetChild( panelYellow.transform.childCount - 1 ).gameObject.GetComponent<Image>();
-
-        //aggroIconAzure.enabled = false;
-        //aggroIconPink.enabled = false;
-        //aggroIconGreen.enabled = false;
-        //aggroIconYellow.enabled = false;
-
-        //meleeSprite = Resources.Load<Sprite>( "Sprites/melee_black" );
-        //rangeSprite = Resources.Load<Sprite>( "Sprites/ranged_black" );
-        //tankSprite = Resources.Load<Sprite>( "Sprites/tank_black" );
-        //supportSprite = Resources.Load<Sprite>( "Sprites/dance_black" );
-
-        player = GameObject.FindGameObjectWithTag( "Player" );
-
-        if ( player != null )
-        {
-            playerTactics = player.GetComponent<PlayerTactics>();
-
-            playerStats = player.GetComponent<Stats>();
-
-            playerStats.onDeath += OnDeath;
-        }
-        else
-        {
-            Debug.LogError( "HUD cannot find player" );
-        }
-
         foreach ( GameObject go in GroupsManager.Instance.Groups )
         {
             switch ( go.name )
@@ -165,21 +104,6 @@ public class NewHUD : MonoBehaviour
             }
         }
 
-        //groupBehaviours[ 0 ] = groupAzure;
-        //groupBehaviours[ 1 ] = groupPink;
-        //groupBehaviours[ 2 ] = groupGreen;
-        //groupBehaviours[ 3 ] = groupYellow;
-
-        //dict.Add( groupAzure , panelAzure );
-        //dict.Add( groupPink , panelPink );
-        //dict.Add( groupGreen , panelGreen );
-        //dict.Add( groupYellow , panelYellow );
-
-        //groupDict.Add( groupAzure , groupAzureManager );
-        //groupDict.Add( groupPink , groupPinkManager );
-        //groupDict.Add( groupGreen , groupGreenManager );
-        //groupDict.Add( groupYellow , groupYellowManager );
-
         alliesManager = GameObject.FindGameObjectWithTag( "Managers" ).GetComponentInChildren<AlliesManager>();
 
         ordersIcons = GameObject.Find( "IconeOrdini" );
@@ -189,11 +113,6 @@ public class NewHUD : MonoBehaviour
         DownOn = GameObject.Find( "DownON" ).GetComponent<Image>();
         RightOn = GameObject.Find( "RightON" ).GetComponent<Image>();
         LeftOn = GameObject.Find( "LeftON" ).GetComponent<Image>();
-
-        //GroupAzureCurrentState = groupAzure.currentState;
-        //GroupPinkCurrentState = groupPink.currentState;
-        //GroupGreenCurrentState = groupGreen.currentState;
-        //GroupYellowCurrentState = groupYellow.currentState;
     }
 
     // TODO: in ognuno di questi va aggiunto un metodo per il feedback se si prova ad assegnare un ordine quando non si hanno gruppi in range
@@ -249,27 +168,6 @@ public class NewHUD : MonoBehaviour
 
     }
 
-    //// Firma useless
-    //private void OnGroupAzureOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
-    //{
-    //    groupAzureCurrentState = groupAzure.currentState;
-    //}
-
-    //private void OnGroupPinkOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
-    //{
-    //    groupPinkCurrentState = groupPink.currentState;
-    //}
-
-    //private void OnGroupGreenOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
-    //{
-    //    groupGreenCurrentState = groupGreen.currentState;
-    //}
-
-    //private void OnGroupYellowOrderChanged( GroupBehaviour sender , GroupBehaviour.State newState )
-    //{
-    //    groupYellowCurrentState = groupYellow.currentState;
-    //}
-
     private void OnEnable()
     {
         PlayerInput.OnYButtonDown += OnYButtonDown;
@@ -282,12 +180,7 @@ public class NewHUD : MonoBehaviour
         PlayerInput.OnLT_XButtonDown += OnLT_XButtonDown;
         PlayerInput.OnLT_BButtonDown += OnLT_BButtonDown;
         PlayerInput.OnLT_AButtonDown += OnLT_AButtonDown;
-
-        //groupAzure.onOrderChanged += OnGroupAzureOrderChanged;
-        //groupPink.onOrderChanged += OnGroupPinkOrderChanged;
-        //groupGreen.onOrderChanged += OnGroupGreenOrderChanged;
-        //groupYellow.onOrderChanged += OnGroupYellowOrderChanged;
-
+        
         ImpGroupAi.OnTacticChangedGlobal += OnTacticChangeGlobal;
     }
 
@@ -340,7 +233,6 @@ public class NewHUD : MonoBehaviour
 
     private void OnDisable()
     {
-        playerStats.onDeath -= OnDeath;
         PlayerInput.OnYButtonDown -= OnYButtonDown;
         PlayerInput.OnXButtonDown -= OnXButtonDown;
         PlayerInput.OnBButtonDown -= OnBButtonDown;
@@ -352,84 +244,10 @@ public class NewHUD : MonoBehaviour
         PlayerInput.OnLT_BButtonDown -= OnLT_BButtonDown;
         PlayerInput.OnLT_AButtonDown -= OnLT_AButtonDown;
 
-        //groupAzure.onOrderChanged -= OnGroupAzureOrderChanged;
-        //groupPink.onOrderChanged -= OnGroupPinkOrderChanged;
-        //groupGreen.onOrderChanged -= OnGroupGreenOrderChanged;
-        //groupYellow.onOrderChanged -= OnGroupYellowOrderChanged;
-
         ImpGroupAi.OnTacticChangedGlobal -= OnTacticChangeGlobal;
     }
 
-    private void OnDeath( Stats sender )
-    {
-        OnPlayerDeath();
-    }
-
-    public void ChangeGroupState( GroupManager.Group group , int index )
-    {
-        //GroupBehaviour gb = null;
-
-        //switch ( group )
-        //{
-        //    case GroupManager.Group.GroupAzure:
-        //        gb = groupAzure;
-        //        break;
-        //    case GroupManager.Group.GroupPink:
-        //        gb = groupPink;
-        //        break;
-        //    case GroupManager.Group.GroupGreen:
-        //        gb = groupGreen;
-        //        break;
-        //    case GroupManager.Group.GroupYellow:
-        //        gb = groupYellow;
-        //        break;
-        //}
-
-        //switch ( index )
-        //{
-        //    // Melee
-        //    case 0:
-        //        dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = true;
-        //        dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = false;
-        //        break;
-
-        //    // Tank
-        //    case 1:
-        //        dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = true;
-        //        dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = false;
-        //        break;
-
-        //    // Range
-        //    case 2:
-        //        dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = true;
-        //        dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = false;
-        //        break;
-
-        //    // Support
-        //    case 3:
-        //        dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = true;
-        //        break;
-
-        //    // Recruit
-        //    case 4:
-        //        dict[ gb ].transform.GetChild( meleeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( tankIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( rangeIndex ).GetComponent<Image>().enabled = false;
-        //        dict[ gb ].transform.GetChild( supportIndex ).GetComponent<Image>().enabled = true;
-        //        break;
-        //}
-    }
-
-    public void ChangeGroupHUDOrder( int groupTacticsID , Color color )
+    private void ChangeGroupHUDOrder( int groupTacticsID , Color color )
     {
         switch ( groupTacticsID )
         {
@@ -521,9 +339,9 @@ public class NewHUD : MonoBehaviour
         }
     }
 
-    public void ChangeSpecificGroupHUDOrder( int tacticsID )
+    private void ChangeSpecificGroupHUDOrder( int tacticsID )
     {
-        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
+        switch ( GroupsInRangeDetector.MostRepresentedGroupInRange )
         {
             case GroupManager.Group.None:
 
@@ -566,7 +384,7 @@ public class NewHUD : MonoBehaviour
     void Update()
     {
         // To show the tactics of the most represented group on the HUD
-        switch ( GroupsInRangeDetector.MostRappresentedGroupInRange )
+        switch ( GroupsInRangeDetector.MostRepresentedGroupInRange )
         {
             case GroupManager.Group.None:
 
@@ -595,84 +413,6 @@ public class NewHUD : MonoBehaviour
 
                 ChangeGroupHUDOrder( groupYellowTacticsID , groupYellowManager.GroupColor );
                 break;
-        }
-    }
-
-    /*
-    void Update()
-    {
-        //UpdateGroupsIcon();
-
-        //Canvas.ForceUpdateCanvases();
-
-        //switch ( tacticsManager.CurrentMostRappresentedGroup )
-        //{
-        //    case GroupBehaviour.Group.GroupAzure:
-        //        panelAzure.transform.localScale = enlargedScale;
-        //        panelAzure.transform.SetAsLastSibling();
-        //        panelAzure.transform.localPosition = panelPosition;
-        //        panelPink.transform.localScale = defaultScale;
-        //        panelPink.transform.localPosition = xCorrection;
-        //        panelGreen.transform.localScale = defaultScale;
-        //        panelYellow.transform.localScale = defaultScale;
-        //        panelYellow.transform.localPosition = xCorrection * 3;
-        //        break;
-        //    case GroupBehaviour.Group.GroupPink:
-        //        panelAzure.transform.localScale = defaultScale;
-        //        panelAzure.transform.localPosition = Vector3.zero;
-        //        panelPink.transform.localScale = enlargedScale;
-        //        panelPink.transform.SetAsLastSibling();
-        //        panelPink.transform.localPosition = panelPosition + xCorrection;
-        //        panelGreen.transform.localScale = defaultScale;
-        //        panelGreen.transform.localPosition = xCorrection * 2;
-        //        panelYellow.transform.localScale = defaultScale;
-        //        break;
-        //    case GroupBehaviour.Group.GroupGreen:
-        //        panelAzure.transform.localScale = defaultScale;
-        //        panelPink.transform.localScale = defaultScale;
-        //        panelPink.transform.localPosition = xCorrection;
-        //        panelGreen.transform.localScale = enlargedScale;
-        //        panelGreen.transform.SetAsLastSibling();
-        //        panelGreen.transform.localPosition = panelPosition + xCorrection * 2;
-        //        panelYellow.transform.localScale = defaultScale;
-        //        panelYellow.transform.localPosition = xCorrection * 3;
-        //        break;
-        //    case GroupBehaviour.Group.GroupYellow:
-        //        panelAzure.transform.localScale = defaultScale;
-        //        panelAzure.transform.localPosition = Vector3.zero;
-        //        panelPink.transform.localScale = defaultScale;
-        //        panelGreen.transform.localScale = defaultScale;
-        //        panelGreen.transform.localPosition = xCorrection * 2;
-        //        panelYellow.transform.localScale = enlargedScale;
-        //        panelYellow.transform.SetAsLastSibling();
-        //        panelYellow.transform.localPosition = panelPosition + xCorrection * 3;
-
-        //        break;
-        //}
-
-        //Canvas.ForceUpdateCanvases();
-    }
-    */
-
-    private void OnPlayerDeath()
-    {
-        if ( playerStats != null )
-            playerStats.onDeath -= OnDeath;
-
-        player = GameObject.FindGameObjectWithTag( "Player" );
-
-        if ( player != null )
-        {
-            playerTactics = player.GetComponent<PlayerTactics>();
-
-            playerStats = player.GetComponent<Stats>();
-
-            if ( playerStats != null )
-                playerStats.onDeath += OnDeath;
-        }
-        else
-        {
-            Debug.LogError( "HUD cannot find player" );
         }
     }
 }

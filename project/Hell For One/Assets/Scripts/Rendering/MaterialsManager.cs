@@ -1,61 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ReincarnationSystem;
 using UnityEngine;
 
-public class MaterialsManager : MonoBehaviour
+namespace Rendering
 {
-    private SkinnedMeshRenderer[] renderers;
-
-    private Material defaultMaterial;
-
-    private Reincarnation reincarnation;
- 
-    /// <summary>
-    /// Renderers of this GameObject
-    /// </summary>
-    public SkinnedMeshRenderer[] Renderers { get => renderers; private set => renderers = value; }
-
-    private void Awake()
+    public class MaterialsManager : MonoBehaviour, IReincarnationObserver
     {
-        reincarnation = this.transform.root.gameObject.GetComponent<Reincarnation>();
-        Renderers = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-        defaultMaterial = renderers[0].material;
-    }
+        private SkinnedMeshRenderer[] _renderers;
 
-    private void OnEnable()
-    {
-        reincarnation.onReincarnation += OnReincarnation;
-    }
+        private Material _defaultMaterial;
 
-    private void OnDisable()
-    {
-        reincarnation.onReincarnation -= OnReincarnation;
-    }
-
-    /// <summary>
-    /// Change the material for every SkinnedMeshRenderer of this GameObject
-    /// </summary>
-    /// <param name="newMaterial">New material to use</param>
-    public void ChangeMaterials(Material newMaterial)
-    {
-        foreach (SkinnedMeshRenderer renderer in Renderers)
+        private void Awake()
         {
-            renderer.material = newMaterial;
+            _renderers = this.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            _defaultMaterial = _renderers[0].material;
         }
-    }
 
-    /// <summary>
-    /// Change the material for every SkinnedMeshRenderer of this GameObject to default
-    /// </summary>
-    public void SetDefaultMaterial()
-    {
-        foreach (SkinnedMeshRenderer renderer in Renderers)
+        /// <summary>
+        /// Change the material for every SkinnedMeshRenderer of this GameObject
+        /// </summary>
+        /// <param name="newMaterial">New material to use</param>
+        public void ChangeMaterials(Material newMaterial)
         {
-            renderer.material = defaultMaterial;
+            foreach (SkinnedMeshRenderer renderer in _renderers)
+            {
+                renderer.material = newMaterial;
+            }
         }
-    }
 
-    private void OnReincarnation(GameObject player) { 
-        SetDefaultMaterial();  
+        /// <summary>
+        /// Change the material for every SkinnedMeshRenderer of this GameObject to default
+        /// </summary>
+        public void SetDefaultMaterial()
+        {
+            foreach (SkinnedMeshRenderer renderer in _renderers)
+            {
+                renderer.material = _defaultMaterial;
+            }
+        }
+
+        public void StartLeader() => SetDefaultMaterial(); 
+
+        public void StopLeader() { }
     }
 }

@@ -159,55 +159,55 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayDeathSound(Stats.Type type, AudioSource deathAudioSource) {
-        switch (type) { 
-            case Stats.Type.Ally:
-                if(smallDeathClips.Length > 0) {
-                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
-                    if (clipToPlay != null)
-                    {
-                        deathAudioSource.clip = clipToPlay;
-                        deathAudioSource.PlayOneShot(clipToPlay);
-                    }
-                }
-                break;
-            case Stats.Type.Boss:
-                if(bigDeathClips.Length > 0) {
-                    AudioClip clipToPlay = bigDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
-                    if (clipToPlay != null)
-                    {
-                        deathAudioSource.clip = clipToPlay;
-                        deathAudioSource.PlayOneShot(clipToPlay);
-                    }
-                }
-                break;
-            case Stats.Type.Enemy:
-                if (smallDeathClips.Length > 0)
-                {
-                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
-                    if (clipToPlay != null)
-                    {
-                        deathAudioSource.clip = clipToPlay;
-                        deathAudioSource.PlayOneShot(clipToPlay);
-                    }
-                }
-                break;
-            case Stats.Type.Player:
-                if (smallDeathClips.Length > 0)
-                {
-                    AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
-                    if (clipToPlay != null)
-                    {
-                        deathAudioSource.clip = clipToPlay;
-                        deathAudioSource.PlayOneShot(clipToPlay);
-                    }
-                }
-                break;
-            case Stats.Type.None:
-                //Debug.Log("You are trying to play a death sound but the type of this unit is Stats.Type.None");
-                break;
-        }
-    }
+    // public void PlayDeathSound(Stats.Type type, AudioSource deathAudioSource) {
+    //     switch (type) { 
+    //         case Stats.Type.Ally:
+    //             if(smallDeathClips.Length > 0) {
+    //                 AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+    //                 if (clipToPlay != null)
+    //                 {
+    //                     deathAudioSource.clip = clipToPlay;
+    //                     deathAudioSource.PlayOneShot(clipToPlay);
+    //                 }
+    //             }
+    //             break;
+    //         case Stats.Type.Boss:
+    //             if(bigDeathClips.Length > 0) {
+    //                 AudioClip clipToPlay = bigDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+    //                 if (clipToPlay != null)
+    //                 {
+    //                     deathAudioSource.clip = clipToPlay;
+    //                     deathAudioSource.PlayOneShot(clipToPlay);
+    //                 }
+    //             }
+    //             break;
+    //         case Stats.Type.Enemy:
+    //             if (smallDeathClips.Length > 0)
+    //             {
+    //                 AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+    //                 if (clipToPlay != null)
+    //                 {
+    //                     deathAudioSource.clip = clipToPlay;
+    //                     deathAudioSource.PlayOneShot(clipToPlay);
+    //                 }
+    //             }
+    //             break;
+    //         case Stats.Type.Player:
+    //             if (smallDeathClips.Length > 0)
+    //             {
+    //                 AudioClip clipToPlay = smallDeathClips[Random.Range(0, smallDeathClips.Length - 1)];
+    //                 if (clipToPlay != null)
+    //                 {
+    //                     deathAudioSource.clip = clipToPlay;
+    //                     deathAudioSource.PlayOneShot(clipToPlay);
+    //                 }
+    //             }
+    //             break;
+    //         case Stats.Type.None:
+    //             //Debug.Log("You are trying to play a death sound but the type of this unit is Stats.Type.None");
+    //             break;
+    //     }
+    // }
 
     public float PlayRandomWalkClip(Size size, AudioSource walkAudioSource) {
         if (canPlayFootSteps) {

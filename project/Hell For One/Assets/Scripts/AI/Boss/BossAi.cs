@@ -9,6 +9,7 @@ using ArenaSystem;
 using CRBT;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using GroupSystem;
+using ReincarnationSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -186,12 +187,13 @@ namespace AI.Boss
         /// <returns></returns>
         private bool TryChooseByAggro()
         {
+            // TODO :- this should be a separate node
             if(PlayerAggro.ReadAggro() >= Random.Range(1f, 100f))
             {
                 _currentTargetStillValid = true;
 
                 // TODO :- create a player manager, this will lead to errors
-                _targetData.SetTarget(GameObject.FindWithTag("Player").transform);
+                _targetData.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
 
                 _contextSteering.SetTarget(_targetData);
 
@@ -208,7 +210,7 @@ namespace AI.Boss
 
             float temp = 0f;
 
-            foreach(GroupAggro groupAggro in _groupAggros.OrderByDescending(aggro => aggro.CurrentAggro))
+            foreach(GroupAggro groupAggro in _groupAggros.Where(aggro => !aggro.GetComponent<GroupManager>().IsEmpty()).OrderByDescending(aggro => aggro.CurrentAggro))
             {
                 float groupProbability = groupAggro.CurrentAggro;
 
@@ -223,11 +225,6 @@ namespace AI.Boss
 
                 break;
             }
-
-            // GroupAggro selected = _groupAggros
-            //     .Where(aggro => aggro.CurrentAggro > 0 && Random.Range(1f, 100f) <= aggro.CurrentAggro).
-            //     OrderByDescending(aggro => aggro.CurrentAggro)
-            //     .FirstOrDefault();
 
             if(selected == null)
                 return false;

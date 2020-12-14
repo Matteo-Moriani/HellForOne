@@ -74,12 +74,12 @@ namespace TacticsSystem
             if (!_orderAssignLock.CanDoAction()) 
                 return;
 
-            if (GroupsInRangeDetector.MostRappresentedGroupInRange == GroupManager.Group.None ||
-                GroupsInRangeDetector.MostRappresentedGroupInRange == GroupManager.Group.All) 
+            if (GroupsInRangeDetector.MostRepresentedGroupInRange == GroupManager.Group.None ||
+                GroupsInRangeDetector.MostRepresentedGroupInRange == GroupManager.Group.All) 
                 return;
 
             OnAggroActionDone?.Invoke(singleTacticAggro);
-            OnTryOrderAssign?.Invoke(tactic, GroupsInRangeDetector.MostRappresentedGroupInRange);
+            OnTryOrderAssign?.Invoke(tactic, GroupsInRangeDetector.MostRepresentedGroupInRange);
         }
 
         private void AssignGlobalOrder(TacticFactory tacticFactory)

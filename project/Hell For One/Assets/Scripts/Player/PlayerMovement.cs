@@ -26,19 +26,10 @@ namespace Player
 
         private void Awake()
         {
-            _mainCameraTransform = Camera.main.transform;
-    
             _rb = GetComponent<Rigidbody>();
-        }
-
-        private void OnEnable()
-        {
-            PlayerInput.OnMoveInput += OnMoveInput;
-        }
-
-        private void OnDisable()
-        {
-            PlayerInput.OnMoveInput -= OnMoveInput;
+            _mainCameraTransform = Camera.main.transform;
+            
+            _movementLock.AddLock();
         }
 
         private void Update()
@@ -102,9 +93,18 @@ namespace Player
         public void Unblock() => UnlockMovement();
         UnitActionsBlockManager.UnitAction IActionsBlockObserver.GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
-        public void BecomeLeader()
+        public void StartLeader()
         {
-            throw new System.NotImplementedException();
+            _movementLock.RemoveLock();
+            
+            PlayerInput.OnMoveInput += OnMoveInput;   
+        }
+
+        public void StopLeader()
+        {
+            _movementLock.AddLock();
+            
+            PlayerInput.OnMoveInput -= OnMoveInput;
         }
         
         #endregion

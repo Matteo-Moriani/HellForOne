@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace AI.Movement
 {
-    public class ContextGroupFormation : ContextSteeringBehaviour
+    public class ContextGroupFormation : ContextSteeringBehaviour, IGroupObserver
     {
         [SerializeField, Min(0f)] private float stoppingDistance;
         [SerializeField] private float closeness;
@@ -17,7 +17,6 @@ namespace AI.Movement
         
         private ContextSteering _contextSteering;
         private GroupManager _groupManager;
-        private GroupFinder _groupFinder;
 
         private InterestMap _lastFrameInterest;
         private DangerMap _lastFrameDanger;
@@ -25,17 +24,6 @@ namespace AI.Movement
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
-            _groupFinder = GetComponent<GroupFinder>();
-        }
-
-        private void OnEnable()
-        {
-            _groupFinder.OnGroupFound += OnGroupFound;
-        }
-
-        private void OnDisable()
-        {
-            _groupFinder.OnGroupFound -= OnGroupFound;
         }
 
         private void Start()
@@ -84,10 +72,6 @@ namespace AI.Movement
         
         public void SetStoppingDistance(float d) => stoppingDistance = d;
         public void SetCloseness(float c) => closeness = c;
-        
-        private void OnGroupFound(Transform groupTransform)
-        {
-            _groupManager = groupTransform.GetComponent<GroupManager>();
-        }
+        public void JoinGroup(ImpGroupAi impGroupAi) => _groupManager = impGroupAi.GetComponent<GroupManager>();
     }
 }

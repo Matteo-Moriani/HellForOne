@@ -129,7 +129,6 @@
             <e p="GroupBehaviour.cs" t="Include" />
             <e p="Imp" t="Include">
               <e p="AllyImpMovement.cs" t="Include" />
-              <e p="GroupFinder.cs" t="Include" />
               <e p="GroupMeanPosition.cs" t="Include" />
               <e p="GroupMovement.cs" t="Include" />
               <e p="GroupsFormation.cs" t="Include" />
@@ -139,10 +138,6 @@
               <e p="PushAway.cs" t="Include" />
             </e>
             <e p="MeleePositionScript.cs" t="Include" />
-            <e p="MidBoss" t="Include">
-              <e p="MidBossAi.cs" t="Include" />
-              <e p="MidBossCombatBehaviour.cs" t="Include" />
-            </e>
             <e p="MidBossAi.cs" t="Include" />
             <e p="MidBossBehavior.cs" t="Include" />
             <e p="MonoBT" t="Include">
@@ -185,64 +180,6 @@
           <e p="BossDollyCamera.cs" t="Include" />
           <e p="BossFaceRotations.cs" t="Include" />
           <e p="ChildrenObjectsManager.cs" t="Include" />
-          <e p="Combat System" t="Include">
-            <e p="AllyBlink.cs" t="Include" />
-            <e p="Combat.cs" t="Include" />
-            <e p="CombatManager.cs" t="Include" />
-            <e p="HFO_2.0_CombatSystem" t="Include">
-              <e p="AttackCollider.cs" t="Include" />
-              <e p="CombatSystemManager.cs" t="Include" />
-              <e p="GroupAbilities" t="Include">
-                <e p="Balista.cs" t="Include" />
-                <e p="GroupAbilities.cs" t="Include" />
-                <e p="Hammer.cs" t="Include" />
-                <e p="Horn.cs" t="Include" />
-                <e p="Shield.cs" t="Include" />
-              </e>
-              <e p="IdleCollider.cs" t="Include" />
-              <e p="IdleCombat.cs" t="Include" />
-              <e p="IdleCombatManager.cs" t="Include" />
-              <e p="KnockbackCaster.cs" t="Include" />
-              <e p="KnockbackReceiver.cs" t="Include" />
-              <e p="NormalCombat.cs" t="Include" />
-              <e p="NormalCombatManager.cs" t="Include" />
-              <e p="ScriptableObjects" t="Include">
-                <e p="Attack" t="Include">
-                  <e p="Allies" t="Include">
-                    <e p="AlliedAttack.cs" t="Include" />
-                    <e p="AlliedNormalAttack.cs" t="Include" />
-                  </e>
-                  <e p="Enemies" t="Include">
-                    <e p="EnemyAttack.cs" t="Include" />
-                    <e p="EnemyMagicAttack.cs" t="Include" />
-                    <e p="EnemyNormalAttack.cs" t="Include" />
-                  </e>
-                  <e p="GenericAttack.cs" t="Include" />
-                </e>
-                <e p="GroupAbilities" t="Include">
-                  <e p="AbilityAttack.cs" t="Include" />
-                  <e p="BalistaAbility.cs" t="Include" />
-                  <e p="HammerAbility.cs" t="Include" />
-                  <e p="HornAbility.cs" t="Include" />
-                </e>
-                <e p="Idle" t="Include">
-                  <e p="AlliedIdle.cs" t="Include" />
-                  <e p="EnemyIdle.cs" t="Include" />
-                  <e p="GenericIdle.cs" t="Include" />
-                </e>
-              </e>
-              <e p="StunReceiver.cs" t="Include" />
-            </e>
-            <e p="LittleEnemyAutoAttackTest.cs" t="Include" />
-            <e p="MobBlink.cs" t="Include" />
-            <e p="PlayerHitFeedback.cs" t="Include" />
-            <e p="Ranged units" t="Include">
-              <e p="Lance.cs" t="Include" />
-              <e p="LanceAttackColliderManager.cs" t="Include" />
-              <e p="ObjectsPooler.cs" t="Include" />
-              <e p="ProjectileCaster.cs" t="Include" />
-            </e>
-          </e>
           <e p="CooldownSystem" t="Include">
             <e p="Cooldowns.cs" t="Include" />
             <e p="ICooldown.cs" t="Include" />
@@ -251,6 +188,10 @@
           <e p="DemonsDollyCamera.cs" t="Include" />
           <e p="DollyCamera1.cs" t="Include" />
           <e p="DollyTrackTargetMovement.cs" t="Include" />
+          <e p="Effects" t="Include">
+            <e p="DeathParticlesBehaviour.cs" t="Include" />
+            <e p="HitEffectBehaviour.cs" t="Include" />
+          </e>
           <e p="Events" t="Include">
             <e p="GameEvents.cs" t="Include" />
           </e>
@@ -261,8 +202,9 @@
             <e p="Dash.cs" t="Include" />
             <e p="HitboxCollider.cs" t="Include" />
             <e p="HitPoints.cs" t="Include" />
+            <e p="ImpDeath.cs" t="Include" />
             <e p="Interfaces" t="Include">
-              <e p="IDeathObserver.cs" t="Include" />
+              <e p="IHitPointsObserver.cs" t="Include" />
             </e>
             <e p="Knockback.cs" t="Include" />
             <e p="ProjectileMovement.cs" t="Include" />
@@ -278,15 +220,16 @@
               </e>
             </e>
             <e p="Stun.cs" t="Include" />
+            <e p="UnitDestroyer.cs" t="Include" />
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
           <e p="GroupSystem" t="Include">
             <e p="GroupCircle.cs" t="Include" />
+            <e p="GroupFinder.cs" t="Include" />
             <e p="GroupManager.cs" t="Include" />
             <e p="GroupsInRangeDetector.cs" t="Include" />
             <e p="GroupsManager.cs" t="Include" />
             <e p="IGroupObserver.cs" t="Include" />
-            <e p="ImpInRange.cs" t="Include" />
             <e p="OutlineGroup.cs" t="Include" />
           </e>
           <e p="Hat.cs" t="Include" />
@@ -313,9 +256,10 @@
             <e p="PlayerInput.cs" t="Include" />
             <e p="PlayerMovement.cs" t="Include" />
           </e>
-          <e p="Reincarnation.cs" t="Include" />
           <e p="ReincarnationSystem" t="Include">
             <e p="IReincarnationObserver.cs" t="Include" />
+            <e p="Reincarnation.cs" t="Include" />
+            <e p="ReincarnationManager.cs" t="Include" />
           </e>
           <e p="Rendering" t="Include">
             <e p="MaterialsManager.cs" t="Include" />
@@ -348,7 +292,6 @@
           <e p="Stats, Numbers" t="Include">
             <e p="ImpMana.cs" t="Include" />
             <e p="RecruitManager.cs" t="Include" />
-            <e p="Stats.cs" t="Include" />
           </e>
           <e p="TacticChangeParticles.cs" t="Include" />
           <e p="TacticsSystem" t="Include">
@@ -364,7 +307,6 @@
             </e>
             <e p="Support.cs" t="Include" />
           </e>
-          <e p="TimePlayerKillerTest.cs" t="Include" />
           <e p="Triggers" t="Include">
             <e p="BossFightTrigger.cs" t="Include" />
             <e p="InvisibleWallsTrigger.cs" t="Include" />

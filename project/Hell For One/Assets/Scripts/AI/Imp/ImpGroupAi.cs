@@ -3,6 +3,7 @@ using System.Collections;
 using ArenaSystem;
 using CRBT;
 using GroupSystem;
+using ReincarnationSystem;
 using TacticsSystem;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
@@ -86,7 +87,7 @@ namespace AI.Imp
 
         #region FSM actions
 
-        private void SetPlayer() => _target.SetTarget(GameObject.FindWithTag("Player").transform);
+        private void SetPlayer() => _target.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
 
         private void ExecuteOrder()
         {

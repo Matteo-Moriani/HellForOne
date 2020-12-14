@@ -1,30 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
+using ReincarnationSystem;
 
 public class LockCameraTargetManager : MonoBehaviour
 {
+    private CinemachineTargetGroup _cinemachineTargetGroup;
 
-    private GameObject player;
-
-    private void FindPlayer()
+    private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag( "Player" );
-        GetComponent<CinemachineTargetGroup>().m_Targets[ 0 ].target = player.transform;
-        GetComponent<CinemachineTargetGroup>().m_Targets[ 1 ].target = transform;
+        _cinemachineTargetGroup = GetComponent<CinemachineTargetGroup>();
     }
 
-    void Start()
-    {
-        FindPlayer();
-    }
+    private void OnEnable() => ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
 
-    void Update()
+    private void OnDisable() => ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+
+    private void OnLeaderChanged(Reincarnation newLeader)
     {
-        if ( !player )
-        {
-            FindPlayer();
-        }
+        _cinemachineTargetGroup.m_Targets[ 0 ].target = newLeader.transform;
+        _cinemachineTargetGroup.m_Targets[ 1 ].target = transform;   
     }
 }

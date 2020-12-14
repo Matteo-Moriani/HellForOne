@@ -19,7 +19,7 @@ public class ImpMana : MonoBehaviour
     private static List<ParticleSystem> _manaParticles = new List<ParticleSystem>();
     private static bool inBattle = false;
 
-    private static GroupAbilities[] groupAbilitiesArray;
+    //private static GroupAbilities[] groupAbilitiesArray;
     
     private Coroutine manaRechargeCr = null;
     
@@ -72,18 +72,17 @@ public class ImpMana : MonoBehaviour
 
         currentManaRechargeRate = baseManaChargeRate;
 
-        groupAbilitiesArray = new GroupAbilities[4];
-        int i = 0;
-        foreach (GameObject group in GroupsManager.Instance.Groups)
-        {
-            groupAbilitiesArray[i] = group.GetComponentInChildren<GroupAbilities>();
-            i++;
-        }
+        // groupAbilitiesArray = new GroupAbilities[4];
+        // int i = 0;
+        // foreach (GameObject group in GroupsManager.Instance.Groups)
+        // {
+        //     groupAbilitiesArray[i] = group.GetComponentInChildren<GroupAbilities>();
+        //     i++;
+        // }
     }
 
     private void OnEnable()
     {
-        GetComponent<Stats>().onDeath += OnDeath;
         ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
         ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
 
@@ -95,8 +94,6 @@ public class ImpMana : MonoBehaviour
 
     private void OnDisable()
     {
-        GetComponent<Stats>().onDeath -= OnDeath;
-        
         ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
 
@@ -106,10 +103,10 @@ public class ImpMana : MonoBehaviour
         // }
     }
 
-    private static void OnStartAbility(AbilityAttack startedAbility)
-    {
-        //manaPool -= startedAbility.ManaCost;
-    }
+    // private static void OnStartAbility(AbilityAttack startedAbility)
+    // {
+    //     //manaPool -= startedAbility.ManaCost;
+    // }
 
     #endregion
     
@@ -129,11 +126,11 @@ public class ImpMana : MonoBehaviour
 
     #region External events handlers
     
-    private void OnDeath(Stats sender)
-    {
-        StopAllCoroutines();
-        enabled = false;
-    }
+    // private void OnDeath(Stats sender)
+    // {
+    //     StopAllCoroutines();
+    //     enabled = false;
+    // }
     
     #endregion
     
@@ -228,7 +225,7 @@ public class ImpMana : MonoBehaviour
             }
             return false;
         }
-        else if(segments == 2)
+        if(segments == 2)
         {
             if(manaPool == 100f)
             {

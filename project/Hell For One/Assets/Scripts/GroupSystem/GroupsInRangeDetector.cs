@@ -1,249 +1,125 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ActionsBlockSystem;
 using AI.Imp;
+using FactoryBasedCombatSystem.Interfaces;
+using ReincarnationSystem;
 using UnityEngine;
 
 namespace GroupSystem
 {
-    public class GroupsInRangeDetector : MonoBehaviour
+    public class GroupsInRangeDetector : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
     {
-        private enum Actions
+        #region Fields
+
+        [SerializeField] private float orderRadius = 1.0f;
+
+        private SphereCollider _sphereCollider;
+        
+        private readonly Dictionary<GroupManager.Group, List<Transform>> _impsInRange = new Dictionary<GroupManager.Group, List<Transform>>();
+
+        private static GroupManager.Group _mostRepresentedGroupInRange = GroupManager.Group.None;
+
+        private readonly ActionLock _detectionLock = new ActionLock();
+        
+        #endregion
+
+        #region Event
+
+        public static event Action<GroupManager.Group> OnMostRepresentedGroupChanged;
+
+        #endregion
+        
+        #region Properties
+
+        public static GroupManager.Group MostRepresentedGroupInRange
         {
-            Add,
-            Remove
+            get => _mostRepresentedGroupInRange; 
+            private set => _mostRepresentedGroupInRange = value;
         }
 
-        [SerializeField]
-        [Tooltip("The range of this Imp's group detection")]
-        private float detectionRange = 1.0f;
-    
-        private static event Action OnMostRappresentedGroupChanged;
+        #endregion
 
-        private List<GroupManager.Group> groupsInRange = new List<GroupManager.Group>();
-
-        private Dictionary<GroupManager.Group, int> impsInRange = new Dictionary<GroupManager.Group, int>();
-
-        private static GroupManager.Group mostRappresentedGroupInRange = GroupManager.Group.None;
-
-        /// <summary>
-        /// List that contains all the groups in range of this Imp
-        /// </summary>
-        public List<GroupManager.Group> GroupsInRange { get => groupsInRange; private set => groupsInRange = value; }
-
-        /// <summary>
-        /// Dictionary that contains, for all groups, the number of imps in range
-        /// </summary>
-        public Dictionary<GroupManager.Group, int> ImpsInRange { get => impsInRange; private set => impsInRange = value; }
-
-        /// <summary>
-        /// Current most rappresented group in range
-        /// </summary>
-        public static GroupManager.Group MostRappresentedGroupInRange { get => mostRappresentedGroupInRange; private set => mostRappresentedGroupInRange = value; }
+        #region Unity Methods
 
         private void Awake()
         {
-            mostRappresentedGroupInRange = GroupManager.Group.None;    
+            _sphereCollider = GetComponent<SphereCollider>();
+            
+            _detectionLock.AddLock();
+
+            _mostRepresentedGroupInRange = GroupManager.Group.None;
         }
 
-        private void OnEnable()
+        private void OnTriggerEnter(Collider other) => AddImp(other.transform.root);
+
+        private void OnTriggerExit(Collider other) => RemoveImp(other.transform.root);
+
+        #endregion
+
+        #region Methods
+
+        private void UpdateMostRepresentedGroup()
         {
-            foreach (GroupManager.Group group in (GroupManager.Group[])Enum.GetValues(typeof(GroupManager.Group)))
-            {
-                if (group != GroupManager.Group.None && group != GroupManager.Group.All)
-                {
-                    impsInRange.Add(group, 0);
-                }
-            }
+            // Only leader will update represented groups
+            if(!_detectionLock.CanDoAction()) return;
+            
+            GroupManager.Group newGroup =
+                _impsInRange.OrderByDescending(item => item.Value.Count).FirstOrDefault().Key;
+            
+            if(newGroup == _mostRepresentedGroupInRange) return;
+
+            _mostRepresentedGroupInRange = newGroup;
+            
+            OnMostRepresentedGroupChanged?.Invoke(_mostRepresentedGroupInRange);
         }
 
-        private void Start()
+        private void AddImp(Transform imp)
         {
-            this.transform.localScale = new Vector3(detectionRange, detectionRange, detectionRange);
+            GroupManager impGroup = imp.GetComponent<GroupFinder>().Group;
+            
+            if(impGroup == null) return;
+            
+            if(!_impsInRange.ContainsKey(impGroup.ThisGroupName))
+                _impsInRange.Add(impGroup.ThisGroupName, new List<Transform>());
+
+            if(!_impsInRange[impGroup.ThisGroupName].Contains(imp))
+                _impsInRange[impGroup.ThisGroupName].Add(imp);
+            
+            UpdateMostRepresentedGroup();
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void RemoveImp(Transform imp)
         {
-            ManageRange(GroupsInRangeDetector.Actions.Add, other);
+            GroupManager impGroup = imp.GetComponent<GroupFinder>().Group;
+            
+            if(impGroup == null) return;
+            
+            if(!_impsInRange.ContainsKey(impGroup.ThisGroupName)) return;
+
+            if(!_impsInRange[impGroup.ThisGroupName].Contains(imp)) return;
+                
+            _impsInRange[impGroup.ThisGroupName].Remove(imp);
+            
+            UpdateMostRepresentedGroup();
         }
 
-        private void OnTriggerExit(Collider other)
+        #endregion
+
+        #region Interfaces
+
+        public void StartLeader()
         {
-            ManageRange(GroupsInRangeDetector.Actions.Remove, other);
+            _sphereCollider.radius = orderRadius;
+            
+            _detectionLock.RemoveLock();
         }
+        
+        public void StopLeader() => _detectionLock.AddLock();
+        
+        public void OnZeroHp() => _sphereCollider.radius = 0f;
 
-        private void UpdateMostRappresentedGroup() {
-            GroupManager.Group mostRappresentedGroup = GroupManager.Group.None;
-
-            int temp = 0;
-
-            foreach (KeyValuePair<GroupManager.Group, int> item in impsInRange)
-            {
-                if (item.Value > temp)
-                {
-                    temp = item.Value;
-
-                    mostRappresentedGroup = item.Key;
-                }
-            }
-
-            if (mostRappresentedGroup != mostRappresentedGroupInRange)
-            {
-                MostRappresentedGroupInRange = mostRappresentedGroup;
-
-                RaiseOnMostRappresentedGroupChanged();
-            }
-        }
-
-        private void ManageRange(GroupsInRangeDetector.Actions action, Collider other)
-        {
-            if (other.gameObject.tag == "Demon")
-            {
-                Stats stats = other.transform.root.gameObject.GetComponent<Stats>();
-
-                if(stats != null) {
-                    if (!stats.IsDying) {
-                        GroupFinder groupFinder = other.gameObject.GetComponent<GroupFinder>();
-
-                        if (groupFinder != null)
-                        {
-                            GroupManager groupManager = groupFinder.ImpGroup;
-
-                            if (groupManager != null)
-                            {
-                                switch (action)
-                                {
-                                    case Actions.Add:
-                                        // Update Groups in range
-                                        if (!groupsInRange.Contains(groupManager.ThisGroupName))
-                                        {
-                                            groupsInRange.Add(groupManager.ThisGroupName);
-                                        }
-
-                                        // Update Imps in range
-                                        if (impsInRange[groupManager.ThisGroupName] < 4)
-                                        {
-                                            impsInRange[groupManager.ThisGroupName]++;
-                                        }
-                                        else
-                                        {
-                                            Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupManager.ThisGroupName + " count but it is already 4");
-                                        }
-
-                                        UpdateMostRappresentedGroup();
-
-                                        break;
-                                    case Actions.Remove:
-                                        // Update Groups in range
-                                        if (groupsInRange.Contains(groupManager.ThisGroupName))
-                                        {
-                                            if(impsInRange[groupManager.ThisGroupName] == 1) {
-                                                groupsInRange.Remove(groupManager.ThisGroupName);
-                                            }
-                                        }
-
-                                        // Update Imps in range
-                                        if (impsInRange[groupManager.ThisGroupName] > 0)
-                                        {
-                                            impsInRange[groupManager.ThisGroupName]--;
-                                        }
-                                        else
-                                        {
-                                            Debug.LogError(this.transform.root.name + " GroupInRangeDetector is trying to decrease " + groupManager.ThisGroupName + " count but it is already 0");
-                                        }
-
-                                        UpdateMostRappresentedGroup();
-
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogError("GroupInRangeDetector - " + other.name + " cannot find GroupBehaviour of his group");
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogError("GroupInRangeDetector - " + other.name + " does not have DemonBehaviour attached");
-                        }
-                    }    
-                }
-            }
-        }
-
-        /// <summary>
-        /// Checks if group is in range
-        /// </summary>
-        /// <param name="group">The group to check</param>
-        /// <returns></returns>
-        public bool IsTheGroupInRange(GroupManager.Group group)
-        {
-            switch (group)
-            {
-                case GroupManager.Group.GroupAzure:
-                    if (groupsInRange.Contains(GroupManager.Group.GroupAzure))
-                    {
-                        return true;
-                    }
-                    break;
-                case GroupManager.Group.GroupGreen:
-                    if (groupsInRange.Contains(GroupManager.Group.GroupGreen))
-                    {
-                        return true;
-                    }
-                    break;
-                case GroupManager.Group.GroupPink:
-                    if (groupsInRange.Contains(GroupManager.Group.GroupPink))
-                    {
-                        return true;
-                    }
-                    break;
-                case GroupManager.Group.GroupYellow:
-                    if (groupsInRange.Contains(GroupManager.Group.GroupYellow))
-                    {
-                        return true;
-                    }
-                    break;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Register method to onMostRappresentedGroupChanged event
-        /// </summary>
-        /// <param name="method">The method to register</param>
-        public static void RegisterOnMostRappresentedGroupChanged(Action method)
-        {
-            OnMostRappresentedGroupChanged += method;
-        }
-
-        /// <summary>
-        /// Unregister method to onMostRappresentedGroupChanged event
-        /// </summary>
-        /// <param name="method">The method to unregister</param>
-        public static void UnregisterOnMostRappresentedGroupChanged(Action method)
-        {
-            OnMostRappresentedGroupChanged -= method;
-        }
-
-        /// <summary>
-        /// Decrease imps in range count for group
-        /// </summary>
-        /// <param name="group">The group to decrease</param>
-        public void DecreaseImpInRangeCount(GroupManager.Group group) { 
-            if(impsInRange[group] > 0) {
-                impsInRange[group]--;
-            }
-            else { 
-                Debug.LogError(this.transform.root.name + " " + this.name + " DecreaseImpsInRangeCount is trying to decrease imps number but it is 0");   
-            }    
-        }
-
-        private void RaiseOnMostRappresentedGroupChanged()
-        {
-            if (OnMostRappresentedGroupChanged != null)
-            {
-                OnMostRappresentedGroupChanged();
-            }
-        }
+        #endregion
     }
 }
