@@ -251,6 +251,10 @@
             <e p="ManagersDontDestroyOnLoad.cs" t="Include" />
             <e p="TutorialManager.cs" t="Include" />
           </e>
+          <e p="ManaSystem" t="Include">
+            <e p="ImpMana.cs" t="Include" />
+            <e p="ManaParticlesBehaviour.cs" t="Include" />
+          </e>
           <e p="NewCameraManager.cs" t="Include" />
           <e p="Player" t="Include">
             <e p="PlayerInput.cs" t="Include" />
@@ -277,7 +281,7 @@
             <e p="HealthBarManager.cs" t="Include" />
             <e p="HUD.cs" t="Include" />
             <e p="LoadingScreen.cs" t="Include" />
-            <e p="Mana.cs" t="Include" />
+            <e p="ManaBarUi.cs" t="Include" />
             <e p="Menu.cs" t="Include" />
             <e p="NewAggroFace.cs" t="Include" />
             <e p="NewHUD.cs" t="Include" />
@@ -290,7 +294,6 @@
             <e p="UiUtils.cs" t="Include" />
           </e>
           <e p="Stats, Numbers" t="Include">
-            <e p="ImpMana.cs" t="Include" />
             <e p="RecruitManager.cs" t="Include" />
           </e>
           <e p="TacticChangeParticles.cs" t="Include" />
