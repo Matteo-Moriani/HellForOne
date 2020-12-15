@@ -1,12 +1,14 @@
 ﻿using CRBT;
+using FactoryBasedCombatSystem.Interfaces;
 using GroupSystem;
+using ReincarnationSystem;
 using TacticsSystem.Interfaces;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Imp
 {
-    public class ImpAi : MonoBehaviour, IGroupObserver
+    public class ImpAi : MonoBehaviour, IGroupObserver, IHitPointsObserver, IReincarnationObserver
     {
         private AiUtils.TargetData _currentTargetData;
         
@@ -28,6 +30,9 @@ namespace AI.Imp
             if (_activeTactic == null || !_activeTactic.Equals(tactic))
             {
                 _activeTactic = tactic;
+
+                StopCurrentTactic();
+
                 _tacticInstance = tactic.GetTactic();
                 
                 foreach (ITacticsObserver tacticsObserver in _observers)
@@ -41,6 +46,33 @@ namespace AI.Imp
         
         public void JoinGroup(GroupManager groupManager) => _currentTargetData = groupManager.GetComponent<ImpGroupAi>().Target;
 
-        public void LeaveGroup(GroupManager groupManager) => _currentTargetData = null;
+        public void LeaveGroup(GroupManager groupManager)
+        {
+            if(_activeTactic != null)
+                foreach (ITacticsObserver tacticsObserver in _observers)
+                    tacticsObserver.EndTactic();   
+            
+            _currentTargetData = null;
+            _activeTactic = null;
+            _tacticInstance = null;
+        }
+
+        private void StopCurrentTactic()
+        {
+            if(_tacticInstance == null) return;
+            
+            _tacticInstance.TerminateTactic(this);
+
+            foreach (ITacticsObserver tacticsObserver in _observers)
+            {
+                tacticsObserver.EndTactic();
+            }
+        }
+
+        public void OnZeroHp() => StopCurrentTactic();
+        public void StartLeader() => StopCurrentTactic();
+        public void StopLeader()
+        {
+        }
     }
 }

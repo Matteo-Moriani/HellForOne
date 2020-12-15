@@ -9,21 +9,15 @@ namespace GroupSystem
     {
         private MeshRenderer[] _renderers;
 
-        private void Awake() => _renderers = GetComponentsInChildren<MeshRenderer>();
-
-        private void Start()
+        private void Awake()
         {
-            foreach (var meshRenderer in _renderers)
-            {
-                meshRenderer.enabled = false;
-            }
+            _renderers = GetComponentsInChildren<MeshRenderer>();   
         }
 
         public void JoinGroup(GroupManager groupManager)
         {
             foreach (var meshRenderer in _renderers)
             {
-                meshRenderer.enabled = true;
                 meshRenderer.material = groupManager.groupColorMat;
             }
         }

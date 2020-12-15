@@ -2,6 +2,7 @@
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using TacticsSystem;
 using UnityEngine;
 
 namespace Animations
@@ -10,6 +11,7 @@ namespace Animations
     {
         private Animator _animator;
         private CombatSystem _combatSystem;
+        private ImpRecruitBehaviour _impRecruitBehaviour;
         
         private Vector3 _lastFramePosition;
 
@@ -17,6 +19,7 @@ namespace Animations
         {
             _animator = GetComponent<Animator>();
             _combatSystem = GetComponentInChildren<CombatSystem>();
+            _impRecruitBehaviour = GetComponent<ImpRecruitBehaviour>();
 
             _lastFramePosition = transform.position;
         }
@@ -25,6 +28,9 @@ namespace Animations
         {
             _combatSystem.OnStartAttack += OnStartAttack;
             _combatSystem.OnBlockedHitReceived += OnBlockedHitReceived;
+
+            _impRecruitBehaviour.OnStartRecruit += OnStartRecruit;
+            _impRecruitBehaviour.OnStopRecruit += OnStopRecruit;
         }
 
         private void OnDisable()
@@ -44,6 +50,10 @@ namespace Animations
             _animator.SetTrigger("parry");
 
         private void OnStartAttack(Attack attack) => _animator.SetTrigger(attack.name);
+
+        private void OnStopRecruit() => _animator.SetBool("isRecruiting", false);
+
+        private void OnStartRecruit() => _animator.SetBool("isRecruiting", true);
 
         private bool IsMoving() => Vector3.Distance(transform.position, _lastFramePosition) >= 0.01f;
         public void OnZeroHp() => _animator.SetTrigger("death");

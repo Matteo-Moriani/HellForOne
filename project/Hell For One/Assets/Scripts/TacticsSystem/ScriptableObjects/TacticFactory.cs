@@ -69,6 +69,7 @@ namespace TacticsSystem.ScriptableObjects
         public string name;
         
         public abstract void ExecuteTactic(ImpAi imp);
+        public abstract void TerminateTactic(ImpAi imp);
         public abstract TacticData GetData();
     }
 

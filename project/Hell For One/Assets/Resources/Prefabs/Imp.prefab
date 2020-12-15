@@ -749,6 +749,8 @@ GameObject:
   - component: {fileID: 5565247142843175342}
   - component: {fileID: 1107084758210923544}
   - component: {fileID: 7117862730434305391}
+  - component: {fileID: 2457202922831960801}
+  - component: {fileID: 2237073546277614698}
   m_Layer: 9
   m_Name: Imp
   m_TagString: Demon
@@ -842,7 +844,7 @@ MonoBehaviour:
   heldDownTime: 1
   aButtonTactic: {fileID: 11400000, guid: 12c60c2a13102a84199c95f143b1c38e, type: 2}
   bButtonTactic: {fileID: 0}
-  xButtonTactic: {fileID: 0}
+  xButtonTactic: {fileID: 11400000, guid: 8362aad2d23edde4d98c03eac115f037, type: 2}
   yButtonTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
 --- !u!114 &394458618114674005
 MonoBehaviour:
@@ -1207,6 +1209,30 @@ MonoBehaviour:
   bButtonAbility: {fileID: 0}
   xButtonAbility: {fileID: 0}
   yButtonAbility: {fileID: 11400000, guid: 2b110972984993541aa86b782ff9439c, type: 2}
+--- !u!114 &2457202922831960801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6504a5684864eef984eb8dbecdd102e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2237073546277614698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed03bf90320b43148a62efe6206dad8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2843260327687979986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3817,15 +3843,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e75f9edde83864d9e6480681e59b30, type: 3}
---- !u!4 &1978037948829843763 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
-    type: 3}
-  m_PrefabInstance: {fileID: 5473588070435102664}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1978037948829490451 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5802167189291188955, guid: b9e75f9edde83864d9e6480681e59b30,
+    type: 3}
+  m_PrefabInstance: {fileID: 5473588070435102664}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1978037948829843763 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
     type: 3}
   m_PrefabInstance: {fileID: 5473588070435102664}
   m_PrefabAsset: {fileID: 0}

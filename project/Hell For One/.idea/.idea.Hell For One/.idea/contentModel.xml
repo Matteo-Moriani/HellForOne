@@ -247,6 +247,10 @@
             <e p="OutlineGroup.cs" t="Include" />
           </e>
           <e p="Hat.cs" t="Include" />
+          <e p="HordeSystem" t="Include">
+            <e p="HordeImp.cs" t="Include" />
+            <e p="HordeManager.cs" t="Include" />
+          </e>
           <e p="Input" t="Include">
             <e p="CameraInputAssign.cs" t="Include" />
             <e p="Controls.cs" t="Include" />
@@ -307,19 +311,19 @@
             <e p="TutorialScreensBehaviour.cs" t="Include" />
             <e p="UiUtils.cs" t="Include" />
           </e>
-          <e p="Stats, Numbers" t="Include">
-            <e p="RecruitManager.cs" t="Include" />
-          </e>
           <e p="TacticChangeParticles.cs" t="Include" />
           <e p="TacticsSystem" t="Include">
+            <e p="ImpRecruitBehaviour.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="ITacticsObserver.cs" t="Include" />
             </e>
             <e p="PlayerTactics.cs" t="Include" />
             <e p="Recruit.cs" t="Include" />
+            <e p="RecruitManager.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
               <e p="OffensiveTacticFactory.cs" t="Include" />
+              <e p="RecruitTacticFactory.cs" t="Include" />
               <e p="TacticFactory.cs" t="Include" />
             </e>
             <e p="Support.cs" t="Include" />

@@ -66,6 +66,11 @@ namespace TacticsSystem.ScriptableObjects
             _tacticBehaviourTree.Run();
         }
 
+        public override void TerminateTactic(ImpAi imp)
+        {
+            
+        }
+
         private bool IsFacingTarget() => 
             Vector3.Dot(_impAi.CurrentTargetData.GetDirectionToTarget(_impAi.transform), _impAi.transform.forward) >= data.FacingTolerance;
 

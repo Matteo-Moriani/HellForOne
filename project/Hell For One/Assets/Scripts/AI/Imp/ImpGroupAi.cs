@@ -6,6 +6,7 @@ using Ai.MonoBT;
 using AI.Movement;
 using ArenaSystem;
 using CRBT;
+using FactoryBasedCombatSystem.Interfaces;
 using GroupAbilitiesSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
 using GroupSystem;
