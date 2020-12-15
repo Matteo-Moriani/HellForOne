@@ -36,32 +36,32 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     }
 
     public class HammerAbility : GroupAbility<HammerAbilityData>
-    {
-        private bool _deactivate = false;
-        
+    { 
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
-            GameObject hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
+            ImpGroupAi impGroupAi = groupTransform.GetComponent<ImpGroupAi>();
             
-            hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f);
-            hammer.transform.rotation = groupTransform.rotation;
-
-            hammer.transform.SetParent(groupTransform);
+            GameObject hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
 
             CombatSystem hammerCombatSystem = hammer.GetComponentInChildren<CombatSystem>();
 
-            hammerCombatSystem.OnStopAttack += OnStopAttack;
+            hammerCombatSystem.StartAttack(data.AssociatedAttack.GetAttack());
+
+            float timer = 0f;
+
+            while (timer <= data.ActivatedDuration)
+            {
+                hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (hammer.transform.position - impGroupAi.Target.Target.position).normalized;
+                hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - hammer.transform.position).normalized,Vector3.up);
+
+                yield return null;
+                
+                timer += Time.deltaTime;
+            }
+
+            hammer.transform.rotation = Quaternion.Euler(0f,0f,0f);
             
-            hammer.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
-
-            yield return new WaitForSeconds(data.ActivatedDuration);
-
             PoolersManager.Instance.TryGetPooler(data.HammerPrefab).DeactivatePooledObject(hammer);
-        }
-
-        private void OnStopAttack()
-        {
-            _deactivate = true;
         }
 
         protected override void InnerSetup()

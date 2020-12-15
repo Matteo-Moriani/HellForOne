@@ -73,7 +73,7 @@ namespace AI.Movement
             dangerMap.DebugMap(transform.position);
         }
 
-        public bool InPosition() => _currentDistance - stoppingDistance < 0.5f;
+        public bool InPosition() => _currentDistance - stoppingDistance <= 1f;
 
         public void JoinGroup(GroupManager groupManager) => _groupManager = groupManager;
 
