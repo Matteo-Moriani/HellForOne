@@ -1,10 +1,12 @@
 ﻿using GroupSystem;
+using TacticsSystem.Interfaces;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Movement
 {
     // TODO :- Implement ITacticsObserver
-    public class ContextGroupFormation : ContextSteeringBehaviour, IGroupObserver
+    public class ContextGroupFormation : ContextSteeringBehaviour, IGroupObserver, ITacticsObserver
     {
         [SerializeField, Min(0f)] private float stoppingDistance;
         [SerializeField] private float closeness;
@@ -19,6 +21,8 @@ namespace AI.Movement
 
         private InterestMap _lastFrameInterest;
         private DangerMap _lastFrameDanger;
+
+        private float _currentDistance = float.MaxValue;
         
         private void Awake()
         {
@@ -47,14 +51,14 @@ namespace AI.Movement
                                     (Vector3.forward * closeness);
             
             Vector3 toDesiredPosition = (targetPosition - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, targetPosition);
+            _currentDistance = Vector3.Distance(transform.position, targetPosition);
 
             for(int i = 0; i < ContextMap.defaultDirections[_contextSteering.SteeringResolution].Length; i++)
             {
                 float dot = Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
                         toDesiredPosition);
                 if (dot >= 0)
-                    interestMap.InsertValue(i, dot * Mathf.Clamp(distance - stoppingDistance ,0f,1f), (int)_contextSteering.SteeringResolution/8);
+                    interestMap.InsertValue(i, dot * Mathf.Clamp(_currentDistance - stoppingDistance ,0f,1f), (int)_contextSteering.SteeringResolution/8);
             }
 
             interestMap = (InterestMap) ContextMap.Combine(interestMap, _lastFrameInterest, interestLoseRateo);
@@ -68,12 +72,18 @@ namespace AI.Movement
             interestMap.DebugMap(transform.position);
             dangerMap.DebugMap(transform.position);
         }
-        
-        public void SetStoppingDistance(float d) => stoppingDistance = d;
-        public void SetCloseness(float c) => closeness = c;
+
+        public bool InPosition() => _currentDistance - stoppingDistance < 0.5f;
 
         public void JoinGroup(GroupManager groupManager) => _groupManager = groupManager;
 
         public void LeaveGroup(GroupManager groupManager) => _groupManager = null;
+        public void StartTactic(Tactic newTactic)
+        {
+            stoppingDistance = newTactic.GetData().StoppingDistance;
+            closeness = newTactic.GetData().TacticDistance;
+        }
+
+        public void EndTactic() { }
     }
 }

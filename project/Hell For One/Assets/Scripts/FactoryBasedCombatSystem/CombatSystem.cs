@@ -59,7 +59,7 @@ namespace FactoryBasedCombatSystem
         {
             _hitboxColliders = GetComponentsInChildren<HitboxCollider>();
             _block = GetComponent<Block>();
-            _animationEventsHooks = transform.root.GetComponent<AnimationEventsHooks>();
+            _animationEventsHooks = transform.parent.GetComponent<AnimationEventsHooks>();
         }
 
         private void OnEnable()
@@ -82,6 +82,10 @@ namespace FactoryBasedCombatSystem
             
             _animationEventsHooks.OnAttackAnimationStart -= OnAttackAnimationActivateAttack;
             _animationEventsHooks.OnAttackAnimationEnd -= OnAttackAnimationDeactivateAttack;
+            
+            _activeAttacks.Clear();
+            _toActivate = null;
+            StopAllCoroutines();
         }
 
         #endregion

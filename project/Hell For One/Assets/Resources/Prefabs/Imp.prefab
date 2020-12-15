@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 1006710001074835653}
   - component: {fileID: 7548461242970270283}
   - component: {fileID: 5565247142843175342}
+  - component: {fileID: 1107084758210923544}
   m_Layer: 9
   m_Name: Imp
   m_TagString: Demon
@@ -1175,6 +1176,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e41aba8070648c9ad710f19eced1272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1107084758210923544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749467006459795368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0098d6fd9ead431ab0f6abc6cf763e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionBlocks: 0600000002000000
 --- !u!1 &2843260327687979986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3247,10 +3261,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2749467006459795380}
     m_Modifications:
-    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
-      propertyPath: m_Name
-      value: ManaParticles
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3295,16 +3305,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
+      propertyPath: m_Name
+      value: ManaParticles
+      objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800002, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
-      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3723,11 +3737,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     - target: {fileID: 5802167189291622139, guid: b9e75f9edde83864d9e6480681e59b30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3783,6 +3792,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5802167189289196569, guid: b9e75f9edde83864d9e6480681e59b30,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e6e9e4ef90eac7b4e9b1bbb450a8188c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9e75f9edde83864d9e6480681e59b30, type: 3}
 --- !u!4 &1978037948829843763 stripped

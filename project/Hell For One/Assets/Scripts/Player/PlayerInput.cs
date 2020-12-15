@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
+using ActionsBlockSystem;
 using FactoryBasedCombatSystem;
+using ReincarnationSystem;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : MonoBehaviour, IReincarnationObserver
     {
         #region Fields
 
@@ -18,6 +20,8 @@ namespace Player
         private Vector2 _currentLookDirection = Vector2.zero;
         private Vector2 _lastLookDirection = Vector2.zero;
 
+        private readonly ActionLock _inputLock = new ActionLock();
+        
         #endregion
         
         #region Delegates and events
@@ -45,9 +49,16 @@ namespace Player
         public static event Action OnDashInputDown;
 
         #endregion
-        
+
+        private void Awake()
+        {
+            _inputLock.AddLock();
+        }
+
         private void Update()
         {
+            if(!_inputLock.CanDoAction()) return;
+            
             ProcessMovementInput();
             
             ProcessRotationInput();
@@ -139,5 +150,9 @@ namespace Player
 
             _lastLookDirection = _currentLookDirection;
         }
+
+        public void StartLeader() => _inputLock.RemoveLock();
+
+        public void StopLeader() => _inputLock.AddLock();
     }
 }

@@ -18,14 +18,7 @@ namespace TacticsSystem.ScriptableObjects
     public class OffensiveTacticData : TacticData
     {
         [SerializeField, Range(0f, 1f)] private float facingTolerance;
-        [SerializeField] private float stoppingDistance;
         [SerializeField] private float attackRateo;
-
-        public float StoppingDistance
-        {
-            get => stoppingDistance;
-            private set => stoppingDistance = value;
-        }
 
         public float AttackRateo
         {
@@ -42,10 +35,6 @@ namespace TacticsSystem.ScriptableObjects
 
     public class OffensiveTactic : Tactic<OffensiveTacticData>
     {
-        private ContextSeek _contextSeek;
-        private ContextGroupFormation _contextGroupFormation;
-        private ContextObstacleAvoidance _contextObstacleAvoidance;        
-        
         private ImpCombatBehaviour _impCombatBehaviour;
         private ImpAi _impAi;
         private Attack _attackInstance;
@@ -64,14 +53,12 @@ namespace TacticsSystem.ScriptableObjects
 
             if (_tacticBehaviourTree == null)
             {
-                BtAction setMovement = new BtAction(SetMovement);
-                
                 BtCondition isFacingTarget = new BtCondition(IsFacingTarget);
                 BtCondition inAttackRange = new BtCondition(InAttackRange);
                 
                 BtAction attack = new BtAction(Attack);
                 
-                BtSequence meleeAttack = new BtSequence(new IBtTask[]{setMovement,isFacingTarget,inAttackRange,attack});
+                BtSequence meleeAttack = new BtSequence(new IBtTask[]{isFacingTarget,inAttackRange,attack});
                 
                 _tacticBehaviourTree = new BehaviourTree(meleeAttack);
             }
@@ -88,17 +75,6 @@ namespace TacticsSystem.ScriptableObjects
 
             return distance >= _attackInstance.GetData().MinDistance &&
                    distance <= _attackInstance.GetData().MaxDistance;
-        }
-        
-        private bool SetMovement()
-        {
-            if (_contextGroupFormation == null)
-                _contextGroupFormation = _impAi.GetComponent<ContextGroupFormation>();
-
-            _contextGroupFormation.SetCloseness(data.TacticDistance);
-            _contextGroupFormation.SetStoppingDistance(data.StoppingDistance);
-            
-            return true;
         }
 
         private bool Attack()

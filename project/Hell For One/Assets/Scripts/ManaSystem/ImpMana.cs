@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using ActionsBlockSystem;
 using ArenaSystem;
+using GroupAbilitiesSystem;
+using GroupAbilitiesSystem.ScriptableObjects;
 using ReincarnationSystem;
 using UnityEngine;
 
@@ -14,9 +16,9 @@ namespace ManaSystem
 
         private static int _maxSegments = 2;
         private static float _singleSegmentPool = 50f;
-        private static float _manaRechargeRate = 1f;
+        private static float _manaRechargeRate = 10f;
 
-        private static float _currentManaPool = 0f;
+        private static float _currentManaPool = 45f;
         private static int _currentChargedSegments;
 
         private Coroutine _manaRechargeCr = null;
@@ -78,22 +80,25 @@ namespace ManaSystem
     
         #region Methods
 
-        public bool TrySpendSegments(int segments)
+        public bool CheckSegments(int toSpend) => toSpend <= _currentChargedSegments;
+
+        public void SpendSegments(int toSpend)
         {
-            if (!(_currentChargedSegments <= segments)) return false;
+            if (toSpend > _currentChargedSegments) return;
 
-            _currentChargedSegments -= segments;
-            _currentManaPool -= _singleSegmentPool * segments;
+            _currentChargedSegments -= toSpend;
+            _currentManaPool -= _singleSegmentPool * toSpend;
             
-            OnSegmentSpent?.Invoke(segments);
+            OnSegmentSpent?.Invoke(toSpend);
+            OnManaPoolChanged?.Invoke(_currentManaPool);
 
-            return true;
+            return;
         }
 
         #endregion
 
         #region External events handlers
-        
+
         private void OnGlobalStartBattle(ArenaManager arenaManager) => _manaRechargeLock.RemoveLock();
 
         private void OnGlobalEndBattle(ArenaManager arenaManager) => _manaRechargeLock.AddLock();
@@ -128,13 +133,13 @@ namespace ManaSystem
 
                 timer = 0f;
                 
-                _currentManaPool += _manaRechargeRate;
+                _currentManaPool = Mathf.Clamp(_currentManaPool + _manaRechargeRate, 0f, (_currentChargedSegments + 1) * _singleSegmentPool);
                 
                 OnManaPoolChanged?.Invoke(_currentManaPool);
                 
                 if(_currentManaPool % _singleSegmentPool != 0) continue;
 
-                _currentChargedSegments++;
+                Mathf.Clamp(_currentChargedSegments++,0f,_maxSegments);
                 
                 OnSegmentCharged?.Invoke(_currentChargedSegments);
             }

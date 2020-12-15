@@ -135,6 +135,7 @@
               <e p="ImpAi.cs" t="Include" />
               <e p="ImpCombatBehaviour.cs" t="Include" />
               <e p="ImpGroupAi.cs" t="Include" />
+              <e p="InPositionCondition.cs" t="Include" />
               <e p="PushAway.cs" t="Include" />
             </e>
             <e p="MeleePositionScript.cs" t="Include" />
@@ -200,6 +201,7 @@
             <e p="Block.cs" t="Include" />
             <e p="CombatSystem.cs" t="Include" />
             <e p="Dash.cs" t="Include" />
+            <e p="EnvironmentalAttackBehaviour.cs" t="Include" />
             <e p="HitboxCollider.cs" t="Include" />
             <e p="HitPoints.cs" t="Include" />
             <e p="ImpDeath.cs" t="Include" />
@@ -211,6 +213,7 @@
             <e p="ScriptableObjects" t="Include">
               <e p="Attacks" t="Include">
                 <e p="AttackFactory.cs" t="Include" />
+                <e p="BossEnvironmentalAttackFactory.cs" t="Include" />
                 <e p="BossMeleeAttackFactory.cs" t="Include" />
                 <e p="MeleeAttackFactory.cs" t="Include" />
                 <e p="RangedAttackFactory.cs" t="Include" />
@@ -223,6 +226,15 @@
             <e p="UnitDestroyer.cs" t="Include" />
           </e>
           <e p="GameObjectSearcher.cs" t="Include" />
+          <e p="GroupAbilitiesSystem" t="Include">
+            <e p="GroupAbilities.cs" t="Include" />
+            <e p="ImpAbilities.cs" t="Include" />
+            <e p="LeaderGroupAbilities.cs" t="Include" />
+            <e p="ScriptableObjects" t="Include">
+              <e p="GroupAbilityFactory.cs" t="Include" />
+              <e p="HammerFactory.cs" t="Include" />
+            </e>
+          </e>
           <e p="GroupSystem" t="Include">
             <e p="GroupCircleBehaviour.cs" t="Include" />
             <e p="GroupFinder.cs" t="Include" />
@@ -360,7 +372,7 @@
       <e p="Packages" t="ExcludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
-    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.2\resharper-host\local\Transient\Rider\v202\SolutionCaches\_Hell For One.1138560121.00" t="ExcludeRecursive" />
+    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\aless\AppData\local\JetBrains\Rider2020.3\resharper-host\local\Transient\Rider\v203\SolutionCaches\_Hell For One.1138560121.00" t="ExcludeRecursive" />
   </component>
 </project>

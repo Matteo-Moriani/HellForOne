@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace GroupSystem
 {
     public class GroupsManager : MonoBehaviour
     {
-        public GameObject[] Groups { get; private set; }
+        public Dictionary<GroupManager.Group, GameObject> Groups { get; private set; } =
+            new Dictionary<GroupManager.Group, GameObject>();
         public static GroupsManager Instance { get; private set; }
 
         private void Awake()
@@ -15,8 +18,13 @@ namespace GroupSystem
             else { 
                 Instance = this;
             }
+            
+            GameObject[] groups = GameObject.FindGameObjectsWithTag("Group");
 
-            Groups = GameObject.FindGameObjectsWithTag("Group");
+            foreach (GameObject group in groups)
+            {
+                Groups.Add(group.GetComponent<GroupManager>().ThisGroupName,group);
+            }
         }
     }
 }

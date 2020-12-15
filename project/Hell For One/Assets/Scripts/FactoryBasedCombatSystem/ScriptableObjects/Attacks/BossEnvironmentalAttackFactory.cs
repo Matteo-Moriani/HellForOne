@@ -83,7 +83,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             _attackGameObjects[id].Add(playerTargetedGameObject);
 
             List<Vector3> groupPositions = new List<Vector3>();
-            foreach(GameObject group in GroupsManager.Instance.Groups)
+            foreach(GameObject group in GroupsManager.Instance.Groups.Values)
             {
                 groupPositions.Add(group.GetComponent<GroupMeanPosition>().MeanPosition);
             }

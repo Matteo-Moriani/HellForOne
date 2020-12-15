@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using ActionsBlockSystem;
+using Ai.MonoBT;
+using AI.Movement;
 using ArenaSystem;
 using CRBT;
+using GroupAbilitiesSystem;
+using GroupAbilitiesSystem.ScriptableObjects;
 using GroupSystem;
 using ReincarnationSystem;
 using TacticsSystem;
@@ -14,15 +20,19 @@ namespace AI.Imp
     {
         #region Fields
         
-        [SerializeField] private float fsmReactionTime = 0.2f;
         [SerializeField] private TacticFactory startTactic;
 
         private GroupManager _groupManager;
+        private GroupAbilities _groupAbilities;
         
         private TacticFactory _activeTactic;
+        private GroupAbility _activeAbility;
+        
         private readonly AiUtils.TargetData _target = new AiUtils.TargetData();
         private bool _inBattle;
 
+        private BehaviorTree _combatBhBehaviorTree;
+        
         #endregion
 
         #region Events
@@ -32,6 +42,8 @@ namespace AI.Imp
 
         public AiUtils.TargetData Target => _target;
 
+        private readonly ActionLock _changeTacticLock = new ActionLock();
+        
         #endregion
         
         #region Unity Methods
@@ -39,28 +51,42 @@ namespace AI.Imp
         private void Awake()
         {
             _groupManager = GetComponent<GroupManager>();
+            _groupAbilities = GetComponentInChildren<GroupAbilities>();
             
             _activeTactic = startTactic;
         }
 
         private void OnEnable()
         {
-            PlayerTactics.OnTryOrderAssign += OnTryOrderAssign;
+            PlayerTactics.OnTryTacticAssign += OnTryTacticAssign;
 
+            _groupAbilities.OnStopGroupAbility += OnStopGroupAbility;
+            
             ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
             ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         }
 
         private void OnDisable()
         {
-            PlayerTactics.OnTryOrderAssign -= OnTryOrderAssign;
+            PlayerTactics.OnTryTacticAssign -= OnTryTacticAssign;
 
+            _groupAbilities.OnStopGroupAbility -= OnStopGroupAbility;
+            
             ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
             ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
         }
 
         private void Start()
         {
+            BtAction executeTactic = new BtAction(ExecuteTactic);
+            BtAction ability = new BtAction(() => _activeAbility != null);
+            BtAction allInPosition = new BtAction(() =>
+                _groupManager.Imps.All(pair => pair.Key.GetComponent<ContextGroupFormation>().InPosition()));
+            BtAction doAbility = new BtAction(ExecuteAbility);
+
+            BtSequence combatSequence =
+                new BtSequence(new IBtTask[] {executeTactic, ability, allInPosition, doAbility});
+            
             FSMState outOfCombat = new FSMState();
             FSMState inCombat = new FSMState();
             
@@ -71,7 +97,7 @@ namespace AI.Imp
             inCombat.AddTransition(battleExit,outOfCombat);
             
             inCombat.enterActions.Add(() => OnTacticChanged?.Invoke(_activeTactic));
-            inCombat.stayActions.Add(ExecuteOrder);
+            inCombat.stayActions.Add(() => combatSequence.Run());
             
             outOfCombat.enterActions.Add(SetPlayer);
 
@@ -81,32 +107,80 @@ namespace AI.Imp
 
         #endregion
 
-        #region FSM actions
+        #region Methods
 
-        private void SetPlayer() => _target.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
+        private void AssignTactic(TacticFactory newTactic)
+        {
+            if(_activeAbility != null) return;
+            
+            if(newTactic == _activeTactic) return;
+            
+            _activeTactic = newTactic;
+            
+            OnTacticChanged?.Invoke(_activeTactic);
+            OnTacticChangedGlobal?.Invoke(newTactic,_groupManager.ThisGroupName);
+        }
 
-        private void ExecuteOrder()
+        public bool TryAbility(GroupAbility ability)
+        {
+            if(_activeAbility != null) return false;
+
+            Debug.Log("Ability OK");
+            
+            AssignTactic(ability.GetData().AssociatedTactic);
+            
+            Debug.Log("Tactic Ok");
+            
+            _activeAbility = ability;
+
+            return true;   
+        }
+
+        #endregion
+
+        #region Behaviour tree actions
+
+        private bool ExecuteTactic()
         {
             foreach (ImpAi groupManagerImp in _groupManager.Imps.Values)
             {
                 groupManagerImp.ExecuteTactic(_activeTactic);
             }
+
+            return true;
         }
+
+        private bool ExecuteAbility()
+        {
+            Debug.Log("Executin ability");
+            
+            _groupAbilities.StartAbility(_activeAbility);
+
+            return true;
+        }
+
+        #endregion
+        
+        #region FSM actions
+
+        private void SetPlayer() => _target.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
 
         #endregion
         
         #region Event handlers
 
-        private void OnTryOrderAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
+        private void OnTryTacticAssign(TacticFactory newTactic, GroupManager.Group targetGroup)
         {
             if(targetGroup != _groupManager.ThisGroupName && targetGroup != GroupManager.Group.All) return;
 
-            _activeTactic = newTactic;
-            
-            OnTacticChanged?.Invoke(_activeTactic);
-            OnTacticChangedGlobal?.Invoke(newTactic,targetGroup);
+            AssignTactic(newTactic);
         }
 
+        private void OnStopGroupAbility()
+        {
+            _activeAbility = null;
+        }
+        
         private void OnGlobalStartBattle(ArenaManager arenaManager)
         {
             _inBattle = true;
@@ -120,6 +194,16 @@ namespace AI.Imp
 
         #endregion
 
+        // #region Interfaces
+        //
+        // public void Block() => _changeTacticLock.AddLock();
+        //
+        // public void Unblock() => _changeTacticLock.RemoveLock();
+        //
+        // public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.ChangeTactic;
+        //
+        // #endregion
+        
         #region Coroutines
 
         private IEnumerator FsmStayAlive(FSM fsm)
@@ -127,7 +211,7 @@ namespace AI.Imp
             while (true)
             {
                 fsm.Update();
-                yield return new WaitForSeconds(fsmReactionTime);
+                yield return null;
             }
         }
 

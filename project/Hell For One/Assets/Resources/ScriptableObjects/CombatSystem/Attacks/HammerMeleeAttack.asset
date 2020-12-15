@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e7dbb96046a492cbedf36f8bc406920, type: 3}
+  m_Name: HammerMeleeAttack
+  m_EditorClassIdentifier: 
+  data:
+    damage: 50
+    colliderRadius: 2
+    blockable: 0
+    canBeMultiple: 0
+    canDamageMultipleUnits: 0
+    dealsKnockback: 0
+    dealKnockbackWhenBlocked: 0
+    knockbackDuration: 0
+    knockbackSize: 0
+    dealsStun: 0
+    dealsStunWhenBlocked: 0
+    stunTime: 0
+    splashDamage: 0
+    splashDamageRadius: 0
+    splashDamageTime: 0
+    minDistance: 0
+    maxDistance: Infinity
+    range: 0
+    attackPrefab: {fileID: 1247065853603126990, guid: ff3046ff3111f4f46b8e1f86a5e736b8,
+      type: 3}

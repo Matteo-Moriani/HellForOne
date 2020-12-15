@@ -34,7 +34,7 @@ namespace TacticsSystem
 
         #region Delegates and events
     
-        public static event Action<TacticFactory,GroupManager.Group> OnTryOrderAssign;
+        public static event Action<TacticFactory,GroupManager.Group> OnTryTacticAssign;
 
         #endregion
         
@@ -80,7 +80,7 @@ namespace TacticsSystem
                 return;
 
             OnAggroActionDone?.Invoke(singleTacticAggro);
-            OnTryOrderAssign?.Invoke(tactic, GroupsInRangeDetector.MostRepresentedGroupInRange);
+            OnTryTacticAssign?.Invoke(tactic, GroupsInRangeDetector.MostRepresentedGroupInRange);
         }
 
         private void AssignGlobalOrder(TacticFactory tacticFactory)
@@ -89,7 +89,7 @@ namespace TacticsSystem
                 return;
             
             OnAggroActionDone?.Invoke(globalTacticAggro);
-            OnTryOrderAssign?.Invoke(tacticFactory, GroupManager.Group.All);
+            OnTryTacticAssign?.Invoke(tacticFactory, GroupManager.Group.All);
         }
 
         private void StartHeldDown(TacticFactory tacticFactory)

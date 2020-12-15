@@ -109,7 +109,7 @@ namespace AI.Boss
 
         private void Start()
         {
-            foreach(GameObject group in GroupsManager.Instance.Groups)
+            foreach(GameObject group in GroupsManager.Instance.Groups.Values)
             {
                 _groupAggros.Add(group.GetComponent<GroupAggro>());
             }

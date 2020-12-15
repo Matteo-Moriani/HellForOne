@@ -40,7 +40,7 @@ namespace GroupSystem
             
             GroupManager bestGroup = null;
                 
-            foreach ( GameObject group in GroupsManager.Instance.Groups )
+            foreach ( GameObject group in GroupsManager.Instance.Groups.Values )
             {
                 GroupManager groupManager = group.GetComponent<GroupManager>();
 

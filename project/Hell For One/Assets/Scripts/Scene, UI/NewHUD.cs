@@ -85,7 +85,7 @@ public class NewHUD : MonoBehaviour
 
     void Start()
     {
-        foreach ( GameObject go in GroupsManager.Instance.Groups )
+        foreach ( GameObject go in GroupsManager.Instance.Groups.Values )
         {
             switch ( go.name )
             {

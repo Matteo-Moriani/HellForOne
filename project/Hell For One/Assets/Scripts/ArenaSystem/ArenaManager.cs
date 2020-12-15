@@ -81,7 +81,7 @@ namespace ArenaSystem
             foreach (IArenaObserver observer in other.GetComponentsInChildren<IArenaObserver>())
                 _observersState.Add(observer,false);
 
-            foreach (GameObject group in GroupsManager.Instance.Groups)
+            foreach (GameObject group in GroupsManager.Instance.Groups.Values)
             foreach (Transform impsKey in group.GetComponent<GroupManager>().Imps.Keys)
             foreach (IArenaObserver componentsInChild in impsKey.GetComponentsInChildren<IArenaObserver>())
                 _observersState.Add(componentsInChild,false);   
