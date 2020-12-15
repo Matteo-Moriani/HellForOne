@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbda40ce437464b806e81b6479892c0, type: 3}
+  m_Name: SpectatorRangedAttack
+  m_EditorClassIdentifier: 
+  data:
+    damage: 0.1
+    colliderRadius: 0.5
+    blockable: 0
+    canBeMultiple: 1
+    canDamageMultipleUnits: 0
+    dealsKnockback: 0
+    dealKnockbackWhenBlocked: 0
+    knockbackDuration: 0
+    knockbackSize: 0
+    dealsStun: 0
+    dealsStunWhenBlocked: 0
+    stunTime: 0
+    splashDamage: 0
+    splashDamageRadius: 0
+    splashDamageTime: 0
+    minDistance: 0
+    maxDistance: Infinity
+    projectilePrefab: {fileID: 3997527124753824698, guid: e19db49224fd94b41807c4589a0ac6ed,
+      type: 3}
+    destroyTime: 2
+    projectileSpeed: 15
+    projectileRotation: 0
+    stopsOnHit: 1

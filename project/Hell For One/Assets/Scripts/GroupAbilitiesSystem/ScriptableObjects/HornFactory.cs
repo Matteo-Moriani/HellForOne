@@ -20,8 +20,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     [Serializable]
     public class HornAbilityData : GroupAbilityData
     {
-        [SerializeField] private GameObject rangedImpPrefab;
-        [SerializeField] private int toSpawn;
+        [SerializeField] private int bursts;
+        [SerializeField] private float timeBetweenBursts;
         [SerializeField] private AttackFactory associatedAttack;
         
         public AttackFactory AssociatedAttack
@@ -30,16 +30,16 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             private set => associatedAttack = value;
         }
 
-        public GameObject RangedImpPrefab
+        public int Bursts
         {
-            get => rangedImpPrefab;
-            private set => rangedImpPrefab = value;
+            get => bursts;
+            private set => bursts = value;
         }
 
-        public int ToSpawn
+        public float TimeBetweenBursts
         {
-            get => toSpawn;
-            private set => toSpawn = value;
+            get => timeBetweenBursts;
+            private set => timeBetweenBursts = value;
         }
     }
 
@@ -47,40 +47,54 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     {
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
-            List<GameObject> rangedImps = new List<GameObject>();
+            //List<GameObject> rangedImps = new List<GameObject>();
 
             ArenaManager arena = groupTransform.GetComponent<ImpGroupAi>().Target.Target.GetComponent<ArenaBoss>()
                 .Arena;
 
-            for (int i = 0; i < data.ToSpawn; i++)
-            {
-                GameObject rangedImp = PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).GetPooledObject();
-
-                Vector2 rand = Random.insideUnitCircle * 5f;
-
-                rangedImp.transform.position = arena.transform.position + new Vector3(rand.x, arena.transform.position.y, rand.y);
-
-                rangedImp.transform.rotation =
-                    Quaternion.LookRotation((arena.Boss.transform.position - rangedImp.transform.position).normalized,
-                        Vector3.up);
-
-                rangedImps.Add(rangedImp);
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            foreach (var gameObject in rangedImps)
-            {
-                gameObject.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
-            }
-
-            yield return new WaitForSeconds(data.ActivatedDuration);
-
-            foreach (var gameObject in rangedImps)
-            {
-                PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).DeactivatePooledObject(gameObject);
-            }
+            CombatSystem[] spetatorsSystem = arena.GetComponentsInChildren<CombatSystem>();
             
+            for (int i = 0; i < data.Bursts; i++)
+            {
+                foreach (var combatSystem in spetatorsSystem)
+                {
+                    combatSystem.StartAttack(data.AssociatedAttack.GetAttack(),arena.Boss.transform);
+
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(data.TimeBetweenBursts);
+            }
+
+            // for (int i = 0; i < data.ToSpawn; i++)
+            // {
+            //     GameObject rangedImp = PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).GetPooledObject();
+            //
+            //     Vector2 rand = Random.insideUnitCircle * 5f;
+            //
+            //     rangedImp.transform.position = arena.transform.position + new Vector3(rand.x, arena.transform.position.y, rand.y);
+            //
+            //     rangedImp.transform.rotation =
+            //         Quaternion.LookRotation((arena.Boss.transform.position - rangedImp.transform.position).normalized,
+            //             Vector3.up);
+            //
+            //     rangedImps.Add(rangedImp);
+            // }
+            //
+            // yield return new WaitForSeconds(0.5f);
+            //
+            // foreach (var gameObject in rangedImps)
+            // {
+            //     gameObject.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
+            // }
+            //
+            // yield return new WaitForSeconds(data.ActivatedDuration);
+            //
+            // foreach (var gameObject in rangedImps)
+            // {
+            //     PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).DeactivatePooledObject(gameObject);
+            // }
+
 
             // GameObject hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
             //
