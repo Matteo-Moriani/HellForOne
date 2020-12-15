@@ -23,6 +23,8 @@ namespace AI.Movement
         private DangerMap _lastFrameDanger;
 
         private float _currentDistance = float.MaxValue;
+
+        private bool _needsUpdate = true;
         
         private void Awake()
         {
@@ -53,6 +55,9 @@ namespace AI.Movement
             Vector3 toDesiredPosition = (targetPosition - transform.position).normalized;
             _currentDistance = Vector3.Distance(transform.position, targetPosition);
 
+            // TODO :- Find better solution
+            _needsUpdate = false;
+            
             for(int i = 0; i < ContextMap.defaultDirections[_contextSteering.SteeringResolution].Length; i++)
             {
                 float dot = Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
@@ -73,13 +78,16 @@ namespace AI.Movement
             dangerMap.DebugMap(transform.position);
         }
 
-        public bool InPosition() => _currentDistance - stoppingDistance <= 1f;
+        public bool InPosition() => !_needsUpdate && _currentDistance - stoppingDistance <= 1f;
 
         public void JoinGroup(GroupManager groupManager) => _groupManager = groupManager;
 
         public void LeaveGroup(GroupManager groupManager) => _groupManager = null;
+        
         public void StartTactic(Tactic newTactic)
         {
+            _needsUpdate = true;
+            
             stoppingDistance = newTactic.GetData().StoppingDistance;
             closeness = newTactic.GetData().TacticDistance;
         }

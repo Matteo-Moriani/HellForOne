@@ -125,12 +125,8 @@ namespace AI.Imp
         {
             if(_activeAbility != null) return false;
 
-            Debug.Log("Ability OK");
-            
             AssignTactic(ability.GetData().AssociatedTactic);
-            
-            Debug.Log("Tactic Ok");
-            
+
             _activeAbility = ability;
 
             return true;   
@@ -152,8 +148,6 @@ namespace AI.Imp
 
         private bool ExecuteAbility()
         {
-            Debug.Log("Executin ability");
-            
             _groupAbilities.StartAbility(_activeAbility);
 
             return true;
