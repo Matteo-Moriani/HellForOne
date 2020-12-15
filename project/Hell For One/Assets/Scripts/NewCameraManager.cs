@@ -13,14 +13,20 @@ public class NewCameraManager : MonoBehaviour
     private Transform _currentBoss;
     private Transform _currentLeader;
     private bool _isLocked;
+    private float shakingTimer;
+    private float shakingTimerTotal;
+    private float shakingIntensity;
 
     CinemachineFreeLook _cinemachineFreeLook;
     CinemachineVirtualCamera _cinemachineVirtualCameraLock;
-    
+    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin;
+
+
     private void Awake()
     {
         _cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
         _cinemachineVirtualCameraLock = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
+        cinemachineBasicMultiChannelPerlin = _cinemachineVirtualCameraLock.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     private void Start()
@@ -35,6 +41,8 @@ public class NewCameraManager : MonoBehaviour
         ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         
         ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
+
+        ArenaManager.OnGlobalStartBattle += OnHammerHit;
     }
 
     private void OnDisable()
@@ -43,6 +51,16 @@ public class NewCameraManager : MonoBehaviour
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
 
         ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+
+        ArenaManager.OnGlobalStartBattle -= OnHammerHit;
+    }
+
+    private void OnHammerHit( ArenaManager arenaManager )
+    {
+        shakingTimer = 2f;
+        shakingTimerTotal = 2f;
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 5f;
+        shakingIntensity = 5f;
     }
 
     private void OnLeaderChanged(Reincarnation obj)
@@ -74,5 +92,15 @@ public class NewCameraManager : MonoBehaviour
         
         // _cinemachineVirtualCameraLock.LookAt = _currentLeader;
         // _cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+    }
+
+    private void Update()
+    {
+        if ( shakingTimer > 0 )
+        {
+            shakingTimer -= Time.deltaTime;
+
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
+        }
     }
 }
