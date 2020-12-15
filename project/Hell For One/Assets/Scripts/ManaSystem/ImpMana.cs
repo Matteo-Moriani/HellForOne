@@ -24,7 +24,7 @@ namespace ManaSystem
         private Coroutine _manaRechargeCr = null;
     
         private readonly ActionLock _manaRechargeLock = new ActionLock();
-        
+
         #endregion
 
         #region Properties

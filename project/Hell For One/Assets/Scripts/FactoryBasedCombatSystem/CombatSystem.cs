@@ -85,6 +85,15 @@ namespace FactoryBasedCombatSystem
             
             _activeAttacks.Clear();
             _toActivate = null;
+            
+            foreach (var keyValuePair in _activeAttacks)
+            {
+                foreach (var active in keyValuePair.Value)
+                {
+                    keyValuePair.Key.SafeStop(active.Key,this,StopAttack);
+                }
+            }
+            
             StopAllCoroutines();
         }
 

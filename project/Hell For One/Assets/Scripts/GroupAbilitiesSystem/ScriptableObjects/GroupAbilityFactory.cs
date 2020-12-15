@@ -27,7 +27,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     public abstract class GroupAbilityData
     {
         [SerializeField] private int manaSegmentsCost;
-        [SerializeField] private  TacticFactory associatedTactic;
+        [SerializeField] private TacticFactory associatedTactic;
+        [SerializeField] private float activatedDuration;
 
         public int ManaSegmentsCost
         {
@@ -40,12 +41,16 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             get => associatedTactic;
             private set => associatedTactic = value;
         }
+
+        public float ActivatedDuration
+        {
+            get => activatedDuration;
+            private set => activatedDuration = value;
+        }
     }
 
     public abstract class GroupAbility
     {
-        // TODO :- Wait positioning like animation events
-        
         public string name;
 
         public IEnumerator DoGroupAbility(Transform groupTransform, Action stopAction)

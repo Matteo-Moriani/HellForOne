@@ -46,46 +46,16 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f);
             hammer.transform.rotation = groupTransform.rotation;
 
-            Debug.Log("Hammer created");
-            
+            hammer.transform.SetParent(groupTransform);
+
             CombatSystem hammerCombatSystem = hammer.GetComponentInChildren<CombatSystem>();
 
             hammerCombatSystem.OnStopAttack += OnStopAttack;
             
             hammer.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
 
-            Debug.Log("Hammer attack started");
-            
-            while (!_deactivate) yield return null;
+            yield return new WaitForSeconds(data.ActivatedDuration);
 
-            //while (!AnimationStates[id]) yield return null;
-
-            //AttackCollider attackCollider = _attackGameObjects[id].GetComponentInChildren<AttackCollider>();
-            //attackCollider.Initialize(id, data.ColliderRadius, this, ownerCombatSystem.transform.root, ownerCombatSystem);
-
-            //_attackGameObjects[id].transform.position = ownerCombatSystem.transform.position + (ownerCombatSystem.transform.forward * data.Range);
-
-            //while (AnimationStates[id])
-            //{
-            //    yield return null;
-
-            //    if (HasHit[id])
-            //    {
-            //        if (!data.CanDamageMultipleUnits) yield break;
-
-            //        if (!data.SplashDamage) continue;
-
-            //        float timer = 0f;
-            //        _attackGameObjects[id].GetComponentInChildren<AttackCollider>().SetRadius(data.SplashDamageRadius);
-
-            //        while (timer < data.SplashDamageTime)
-            //        {
-            //            yield return null;
-            //            timer += Time.deltaTime;
-            //        }
-            //    }
-            //}
-            
             PoolersManager.Instance.TryGetPooler(data.HammerPrefab).DeactivatePooledObject(hammer);
         }
 
