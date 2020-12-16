@@ -9,7 +9,7 @@ namespace GroupAbilitiesSystem
 {
     public class GroupAbilities : MonoBehaviour
     {
-        public event Action OnStartGroupAbility;
+        public event Action<GroupAbility> OnStartGroupAbility;
         public event Action OnStopGroupAbility;
 
         private GroupManager _groupManager;
@@ -34,7 +34,7 @@ namespace GroupAbilitiesSystem
             
             _abilityCr = StartCoroutine(ability.DoGroupAbility(transform.root,StopAbility));
             
-            OnStartGroupAbility?.Invoke();
+            OnStartGroupAbility?.Invoke(ability);
         }
 
         private void StopAbility()
@@ -51,6 +51,5 @@ namespace GroupAbilitiesSystem
             
             OnStopGroupAbility?.Invoke();
         }
-        
     }
 }

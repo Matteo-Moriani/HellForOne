@@ -30,6 +30,10 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         [SerializeField] private TacticFactory associatedTactic;
         [SerializeField] private float activatedDuration;
 
+        [SerializeField] private bool doCameraShake;
+        [SerializeField] private float cameraShakeIntensity;
+        [SerializeField] private float cameraShakeDuration;
+
         public int ManaSegmentsCost
         {
             get => manaSegmentsCost;
@@ -46,6 +50,24 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         {
             get => activatedDuration;
             private set => activatedDuration = value;
+        }
+
+        public bool DoCameraShake
+        {
+            get => doCameraShake;
+            private set => doCameraShake = value;
+        }
+
+        public float CameraShakeIntensity
+        {
+            get => cameraShakeIntensity;
+            private set => cameraShakeIntensity = value;
+        }
+
+        public float CameraShakeDuration
+        {
+            get => cameraShakeDuration;
+            private set => cameraShakeDuration = value;
         }
     }
 
