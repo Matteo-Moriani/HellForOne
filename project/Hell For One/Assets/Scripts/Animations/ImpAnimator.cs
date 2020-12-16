@@ -3,6 +3,7 @@ using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using TacticsSystem;
+using TMPro;
 using UnityEngine;
 
 namespace Animations
@@ -12,6 +13,7 @@ namespace Animations
         private Animator _animator;
         private CombatSystem _combatSystem;
         private ImpRecruitBehaviour _impRecruitBehaviour;
+        private ImpCounterBehaviour _impCounterBehaviour;
         
         private Vector3 _lastFramePosition;
 
@@ -20,6 +22,7 @@ namespace Animations
             _animator = GetComponent<Animator>();
             _combatSystem = GetComponentInChildren<CombatSystem>();
             _impRecruitBehaviour = GetComponent<ImpRecruitBehaviour>();
+            _impCounterBehaviour = GetComponent<ImpCounterBehaviour>();
 
             _lastFramePosition = transform.position;
         }
@@ -31,12 +34,21 @@ namespace Animations
 
             _impRecruitBehaviour.OnStartRecruit += OnStartRecruit;
             _impRecruitBehaviour.OnStopRecruit += OnStopRecruit;
+
+            _impCounterBehaviour.OnStartCounter += OnStartCounter;
+            _impCounterBehaviour.OnStopCounter += OnStopCounter;
         }
 
         private void OnDisable()
         {
             _combatSystem.OnStartAttack -= OnStartAttack;
             _combatSystem.OnBlockedHitReceived -= OnBlockedHitReceived;
+            
+            _impRecruitBehaviour.OnStartRecruit -= OnStartRecruit;
+            _impRecruitBehaviour.OnStopRecruit -= OnStopRecruit;
+            
+            _impCounterBehaviour.OnStartCounter -= OnStartCounter;
+            _impCounterBehaviour.OnStopCounter -= OnStopCounter;
         }
 
         private void Update()
@@ -54,6 +66,10 @@ namespace Animations
         private void OnStopRecruit() => _animator.SetBool("isRecruiting", false);
 
         private void OnStartRecruit() => _animator.SetBool("isRecruiting", true);
+
+        private void OnStartCounter() => _animator.SetBool("isBlocking", true);
+
+        private void OnStopCounter() => _animator.SetBool("isBlocking", false);
 
         private bool IsMoving() => Vector3.Distance(transform.position, _lastFramePosition) >= 0.01f;
         public void OnZeroHp() => _animator.SetTrigger("death");

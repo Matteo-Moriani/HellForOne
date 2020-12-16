@@ -2,11 +2,13 @@
 using System.Collections;
 using ActionsBlockSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using TacticsSystem.Interfaces;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace FactoryBasedCombatSystem
 {
-    public class Knockback : MonoBehaviour, IActionsBlockSubject
+    public class Knockback : MonoBehaviour, IActionsBlockSubject, ITacticsObserver
     {
         #region Fields
 
@@ -19,6 +21,8 @@ namespace FactoryBasedCombatSystem
         private Rigidbody _rigidbody;
 
         private Coroutine _knockbackCr = null;
+
+        private readonly ActionLock _knockbackLock = new ActionLock();
 
         #endregion
 
@@ -73,11 +77,15 @@ namespace FactoryBasedCombatSystem
 
         private void OnBlockedHitReceived(Attack attack, CombatSystem attackerCombatSystem, Vector3 contactPoint)
         {
+            if(!_knockbackLock.CanDoAction()) return;
+            
             if(attack.GetData().DealKnockbackWhenBlocked) StartKnockback(attack,attackerCombatSystem);
         }
 
         private void OnDamageHitReceived(Attack attack, CombatSystem attackerCombatSystem, Vector3 contactPoint)
         {
+            if(!_knockbackLock.CanDoAction()) return;
+            
             if(attack.GetData().DealsKnockback) StartKnockback(attack,attackerCombatSystem);
         }
 
@@ -117,6 +125,20 @@ namespace FactoryBasedCombatSystem
         public event Action<UnitActionsBlockManager.UnitAction[]> OnBlockEvent;
         public event Action<UnitActionsBlockManager.UnitAction[]> OnUnblockEvent;
 
+        public void StartTactic(Tactic newTactic)
+        {
+            if(!newTactic.GetData().ImmuneToKnockback) return;
+            
+            _knockbackLock.AddLock();
+        }
+
+        public void EndTactic(Tactic oldTactic)
+        {
+            if(!oldTactic.GetData().ImmuneToKnockback) return;
+            
+            _knockbackLock.RemoveLock();
+        }
+        
         #endregion
     }
 }

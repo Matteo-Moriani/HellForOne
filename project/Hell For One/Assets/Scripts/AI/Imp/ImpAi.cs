@@ -50,7 +50,7 @@ namespace AI.Imp
         {
             if(_activeTactic != null)
                 foreach (ITacticsObserver tacticsObserver in _observers)
-                    tacticsObserver.EndTactic();   
+                    StopCurrentTactic();   
             
             _currentTargetData = null;
             _activeTactic = null;
@@ -65,7 +65,7 @@ namespace AI.Imp
 
             foreach (ITacticsObserver tacticsObserver in _observers)
             {
-                tacticsObserver.EndTactic();
+                tacticsObserver.EndTactic(_tacticInstance);
             }
         }
 

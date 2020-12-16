@@ -25,10 +25,16 @@ namespace AI.Movement
         private float _currentDistance = float.MaxValue;
 
         private bool _needsUpdate = true;
+
+        private float _currentStoppingDistance;
+        private float _currentCloseness;
         
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
+
+            _currentStoppingDistance = stoppingDistance;
+            _currentCloseness = closeness;
         }
 
         private void Start()
@@ -44,13 +50,15 @@ namespace AI.Movement
 
             if(_groupManager == null) return;
             
+            if(_contextSteering.TargetData.Target == null) return;
+            
             // Group Number (4) hardcoded.
             // Group enum has 6 values so we can't use it
             float step = 360f / 4;
             
             Vector3 targetPosition = _contextSteering.TargetData.Target.position + 
                                      Quaternion.Euler(0f, step * (int) _groupManager.ThisGroupName, 0f) *
-                                    (Vector3.forward * closeness);
+                                    (Vector3.forward * _currentCloseness);
             
             Vector3 toDesiredPosition = (targetPosition - transform.position).normalized;
             _currentDistance = Vector3.Distance(transform.position, targetPosition);
@@ -63,7 +71,7 @@ namespace AI.Movement
                 float dot = Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
                         toDesiredPosition);
                 if (dot >= 0)
-                    interestMap.InsertValue(i, dot * Mathf.Clamp(_currentDistance - stoppingDistance ,0f,1f), (int)_contextSteering.SteeringResolution/8);
+                    interestMap.InsertValue(i, dot * Mathf.Clamp(_currentDistance - _currentStoppingDistance ,0f,1f), (int)_contextSteering.SteeringResolution/8);
             }
 
             interestMap = (InterestMap) ContextMap.Combine(interestMap, _lastFrameInterest, interestLoseRateo);
@@ -88,10 +96,14 @@ namespace AI.Movement
         {
             _needsUpdate = true;
             
-            stoppingDistance = newTactic.GetData().StoppingDistance;
-            closeness = newTactic.GetData().TacticDistance;
+            _currentStoppingDistance = newTactic.GetData().StoppingDistance;
+            _currentCloseness = newTactic.GetData().TacticDistance;
         }
 
-        public void EndTactic() { }
+        public void EndTactic(Tactic oldTactic)
+        {
+            _currentStoppingDistance = stoppingDistance;
+            _currentCloseness = closeness;
+        }
     }
 }

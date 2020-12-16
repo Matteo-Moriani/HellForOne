@@ -313,6 +313,7 @@
           </e>
           <e p="TacticChangeParticles.cs" t="Include" />
           <e p="TacticsSystem" t="Include">
+            <e p="ImpCounterBehaviour.cs" t="Include" />
             <e p="ImpRecruitBehaviour.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="ITacticsObserver.cs" t="Include" />
@@ -322,6 +323,7 @@
             <e p="RecruitManager.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />
             <e p="ScriptableObjects" t="Include">
+              <e p="CounterTacticFactory.cs" t="Include" />
               <e p="OffensiveTacticFactory.cs" t="Include" />
               <e p="RecruitTacticFactory.cs" t="Include" />
               <e p="TacticFactory.cs" t="Include" />

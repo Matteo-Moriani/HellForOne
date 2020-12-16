@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848f4c0f0e8c4d3597a5dfd1b56a5143, type: 3}
+  m_Name: CounterTactic
+  m_EditorClassIdentifier: 
+  data:
+    tacticAttack: {fileID: 0}
+    tacticBlockChance: 0
+    tacticAggro: 0
+    tacticSpeed: 0
+    tacticDistance: 0
+    stoppingDistance: 0
+    immuneToKnockback: 0

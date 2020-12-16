@@ -4,13 +4,14 @@ using ActionsBlockSystem;
 using AggroSystem;
 using GroupSystem;
 using Player;
+using ReincarnationSystem;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace TacticsSystem
 {
     // TODO :- ICrownObserver
-    public class PlayerTactics : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject
+    public class PlayerTactics : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject, IReincarnationObserver
     {
         #region Fields
 
@@ -37,37 +38,7 @@ namespace TacticsSystem
         public static event Action<TacticFactory,GroupManager.Group> OnTryTacticAssign;
 
         #endregion
-        
-        #region Unity methods
 
-        private void OnEnable()
-        {
-            PlayerInput.OnYButtonDown += OnYButtonDown;
-            PlayerInput.OnXButtonDown += OnXButtonDown;
-            PlayerInput.OnBButtonDown += OnBButtonDown;
-            PlayerInput.OnAButtonDown += OnAButtonDown;
-            
-            PlayerInput.OnYButtonUp += OnYButtonUp;
-            PlayerInput.OnXButtonUp += OnXButtonUp;
-            PlayerInput.OnBButtonUp += OnBButtonUp;
-            PlayerInput.OnAButtonUp += OnAButtonUp;
-        }
-
-        private void OnDisable()
-        {
-            PlayerInput.OnYButtonDown -= OnYButtonDown;
-            PlayerInput.OnYButtonDown -= OnXButtonDown;
-            PlayerInput.OnYButtonDown -= OnBButtonDown;
-            PlayerInput.OnYButtonDown -= OnAButtonDown;
-            
-            PlayerInput.OnYButtonUp -= OnYButtonUp;
-            PlayerInput.OnXButtonUp -= OnXButtonUp;
-            PlayerInput.OnBButtonUp -= OnBButtonUp;
-            PlayerInput.OnAButtonUp -= OnAButtonUp;
-        }
-
-        #endregion
-        
         #region Methods
         
         private void AssignOrder(TacticFactory tactic)
@@ -151,6 +122,32 @@ namespace TacticsSystem
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.GiveOrders;
 
+        public void StartLeader()
+        {
+            PlayerInput.OnYButtonDown += OnYButtonDown;
+            PlayerInput.OnXButtonDown += OnXButtonDown;
+            PlayerInput.OnBButtonDown += OnBButtonDown;
+            PlayerInput.OnAButtonDown += OnAButtonDown;
+            
+            PlayerInput.OnYButtonUp += OnYButtonUp;
+            PlayerInput.OnXButtonUp += OnXButtonUp;
+            PlayerInput.OnBButtonUp += OnBButtonUp;
+            PlayerInput.OnAButtonUp += OnAButtonUp;
+        }
+
+        public void StopLeader()
+        {
+            PlayerInput.OnYButtonDown -= OnYButtonDown;
+            PlayerInput.OnYButtonDown -= OnXButtonDown;
+            PlayerInput.OnYButtonDown -= OnBButtonDown;
+            PlayerInput.OnYButtonDown -= OnAButtonDown;
+            
+            PlayerInput.OnYButtonUp -= OnYButtonUp;
+            PlayerInput.OnXButtonUp -= OnXButtonUp;
+            PlayerInput.OnBButtonUp -= OnBButtonUp;
+            PlayerInput.OnAButtonUp -= OnAButtonUp;
+        }
+        
         #endregion
     }
 }

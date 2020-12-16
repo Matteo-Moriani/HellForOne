@@ -50,6 +50,6 @@ namespace AI.Imp
             _currentCooldown = data.AttackRateo;
         }
 
-        public void EndTactic() => _currentCooldown = 0f;
+        public void EndTactic(Tactic oldTactic) => _currentCooldown = 0f;
     }
 }

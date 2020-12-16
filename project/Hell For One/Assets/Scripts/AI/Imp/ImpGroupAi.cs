@@ -100,7 +100,7 @@ namespace AI.Imp
             inCombat.enterActions.Add(() => OnTacticChanged?.Invoke(_activeTactic));
             inCombat.stayActions.Add(() => combatSequence.Run());
             
-            outOfCombat.enterActions.Add(SetPlayer);
+            outOfCombat.stayActions.Add(SetPlayer);
 
             FSM groupFsm = new FSM(outOfCombat);
             StartCoroutine(FsmStayAlive(groupFsm));
@@ -158,8 +158,15 @@ namespace AI.Imp
         
         #region FSM actions
 
-        private void SetPlayer() => _target.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
-
+        private void SetPlayer()
+        {
+            Reincarnation leader = ReincarnationManager.Instance.CurrentLeader;
+            
+            if(leader == null || _target.Target == leader.transform) return;
+            
+            _target.SetTarget(ReincarnationManager.Instance.CurrentLeader.transform);
+        }
+        
         #endregion
         
         #region Event handlers

@@ -39,7 +39,7 @@ namespace FactoryBasedCombatSystem
 
         public void StartTactic(Tactic newTactic) => SetBlockChance(newTactic.GetData().TacticBlockChance);
         
-        public void EndTactic() => SetBlockChance(0f);
+        public void EndTactic(Tactic oldTactic) => SetBlockChance(0f);
 
         #endregion
     }

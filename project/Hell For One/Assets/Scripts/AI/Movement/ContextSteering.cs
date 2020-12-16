@@ -7,11 +7,13 @@ using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using GroupSystem;
 using ReincarnationSystem;
+using TacticsSystem.Interfaces;
+using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace AI.Movement
 {
-    public class ContextSteering : MonoBehaviour, IReincarnationObserver, IActionsBlockObserver, IGroupObserver
+    public class ContextSteering : MonoBehaviour, IReincarnationObserver, IActionsBlockObserver, IGroupObserver, ITacticsObserver
     {
         #region Fields
         
@@ -39,6 +41,8 @@ namespace AI.Movement
         
         private Rigidbody _rigidbody;
         private CombatSystem _combatSystem;
+
+        private float _currentLinearSpeed;
 
         #endregion
 
@@ -69,6 +73,8 @@ namespace AI.Movement
             _lastFrameInterest = new InterestMap(0f,steeringResolution);
             _lastFrameDanger = new DangerMap(0f,steeringResolution);
             _lastFrameDirection = transform.forward;
+
+            _currentLinearSpeed = linearSpeed;
         }
 
         private void FixedUpdate()
@@ -99,7 +105,7 @@ namespace AI.Movement
                 _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(_targetData.GetDirectionToTarget(transform)),Time.fixedDeltaTime * angularSpeed));
             
             _rigidbody.velocity = dot >= linearTolerance && finalDirection.magnitude > 0f
-                ? slerpDirection * linearSpeed
+                ? slerpDirection * _currentLinearSpeed
                 : Vector3.zero;
 
             _interestMaps.Clear();
@@ -173,7 +179,11 @@ namespace AI.Movement
         public void JoinGroup(GroupManager groupManager) => _targetData = groupManager.GetComponent<ImpGroupAi>().Target;
 
         public void LeaveGroup(GroupManager groupManager) => _targetData = null;
-        
+
+        public void StartTactic(Tactic newTactic) => _currentLinearSpeed = newTactic.GetData().TacticSpeed;
+
+        public void EndTactic(Tactic oldTactic) => _currentLinearSpeed = linearSpeed;
+
         #endregion
     }
 }

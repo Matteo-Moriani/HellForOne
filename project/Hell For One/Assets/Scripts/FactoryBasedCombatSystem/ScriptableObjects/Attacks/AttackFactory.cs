@@ -81,8 +81,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [SerializeField, Min(0f)] private float minDistance;
         [SerializeField, Min(0f)] private float maxDistance;
 
-        [Header("Camera shake")] 
-        
+        [Header("Camera shake")]
         [SerializeField] private bool doCameraShakeOnDamageHit;
         [SerializeField] private bool onDamageHitShakeDuration;
         [SerializeField] private bool onDamageHitShakeIntensity;

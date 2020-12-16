@@ -30,8 +30,10 @@ namespace TacticsSystem.ScriptableObjects
         [SerializeField] private AttackFactory tacticAttack;
         [SerializeField, Min(0f)] private float tacticBlockChance;
         [SerializeField, Range(0f, 100f)] private float tacticAggro;
+        [SerializeField, Min(0f)] private float tacticSpeed;
         [SerializeField, Min(0f)] private float tacticDistance;
         [SerializeField] private float stoppingDistance;
+        [SerializeField] private bool immuneToKnockback;
         
         public float TacticBlockChance
         {
@@ -61,6 +63,18 @@ namespace TacticsSystem.ScriptableObjects
         {
             get => stoppingDistance;
             private set => stoppingDistance = value;
+        }
+
+        public bool ImmuneToKnockback
+        {
+            get => immuneToKnockback;
+            private set => immuneToKnockback = value;
+        }
+
+        public float TacticSpeed
+        {
+            get => tacticSpeed;
+            private set => tacticSpeed = value;
         }
     }
 

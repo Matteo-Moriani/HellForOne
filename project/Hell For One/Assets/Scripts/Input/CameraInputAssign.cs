@@ -28,22 +28,27 @@ public class CameraInputAssign : MonoBehaviour
         defaultAxisState_X = cinemachineFreeLook.m_XAxis;
         defaultAxisState_Y = cinemachineFreeLook.m_YAxis;
 
-        switch (InputManager.Instance.Type) { 
-            case InputManager.Controller.Playstation:
-                defaultAxisState_X.m_InputAxisName = ps4XAxisName;
-                defaultAxisState_Y.m_InputAxisName = ps4YAxisName;
-                break;
-            case InputManager.Controller.Xbox:
-                defaultAxisState_X.m_InputAxisName = xboxXAxisName;
-                defaultAxisState_Y.m_InputAxisName = xboxYAxisName;
+        // switch (InputManager.Instance.Type) { 
+        //     case InputManager.Controller.Playstation:
+        //         defaultAxisState_X.m_InputAxisName = ps4XAxisName;
+        //         defaultAxisState_Y.m_InputAxisName = ps4YAxisName;
+        //         break;
+        //     case InputManager.Controller.Xbox:
+        //         defaultAxisState_X.m_InputAxisName = xboxXAxisName;
+        //         defaultAxisState_Y.m_InputAxisName = xboxYAxisName;
+        //
+        //         defaultAxisState_X.m_InvertInput = false;
+        //         break;
+        //     case InputManager.Controller.MouseAndKeyboard:
+        //         break;
+        //     case InputManager.Controller.None:;
+        //         break;
+        // }
+        
+        defaultAxisState_X.m_InputAxisName = xboxXAxisName;
+        defaultAxisState_Y.m_InputAxisName = xboxYAxisName;
 
-                defaultAxisState_X.m_InvertInput = false;
-                break;
-            case InputManager.Controller.MouseAndKeyboard:
-                break;
-            case InputManager.Controller.None:;
-                break;
-        }
+        defaultAxisState_X.m_InvertInput = false;
 
         cinemachineFreeLook.m_XAxis = defaultAxisState_X;
         cinemachineFreeLook.m_YAxis = defaultAxisState_Y;
