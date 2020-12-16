@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 6559132906998886420}
   - component: {fileID: 3775555733103775608}
   - component: {fileID: 8355443379104447877}
+  - component: {fileID: 1356195616258638848}
   m_Layer: 0
   m_Name: Nazil
   m_TagString: Boss
@@ -1108,6 +1109,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyAfterSeconds: 2
+--- !u!114 &1356195616258638848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc29c7f7c1d3a58428180f5d85a70f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,15 +1682,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 757d2894e0edb2a4f8d5a1d9baad3d02, type: 3}
---- !u!1 &6681190241383932175 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6454325019390248816, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-    type: 3}
-  m_PrefabInstance: {fileID: 372115729695303295}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6679873573932093069 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6456377183885535474, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+    type: 3}
+  m_PrefabInstance: {fileID: 372115729695303295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6681190241383932175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6454325019390248816, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
     type: 3}
   m_PrefabInstance: {fileID: 372115729695303295}
   m_PrefabAsset: {fileID: 0}
@@ -1823,17 +1836,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
+    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius
