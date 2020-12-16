@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpectatorRangedAttack
   m_EditorClassIdentifier: 
   data:
-    damage: 0.1
+    damage: 0.5
     colliderRadius: 0.5
     blockable: 0
     canBeMultiple: 1
@@ -30,6 +30,9 @@ MonoBehaviour:
     splashDamageTime: 0
     minDistance: 0
     maxDistance: Infinity
+    doCameraShakeOnDamageHit: 0
+    onDamageHitShakeDuration: 0
+    onDamageHitShakeIntensity: 0
     projectilePrefab: {fileID: 3997527124753824698, guid: e19db49224fd94b41807c4589a0ac6ed,
       type: 3}
     destroyTime: 2

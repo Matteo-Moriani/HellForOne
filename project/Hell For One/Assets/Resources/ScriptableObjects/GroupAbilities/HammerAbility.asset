@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: HammerAbility
   m_EditorClassIdentifier: 
   data:
+    actionBlocks: 0200000006000000
+    inPositionBeforeActivation: 1
+    abilityPrefab: {fileID: 0}
     manaSegmentsCost: 1
     associatedTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
     activatedDuration: 2

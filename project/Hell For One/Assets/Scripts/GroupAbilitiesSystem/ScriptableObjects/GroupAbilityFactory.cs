@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ActionsBlockSystem;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
 
@@ -26,6 +27,10 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     [Serializable]
     public abstract class GroupAbilityData
     {
+        [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
+        [SerializeField] private bool inPositionBeforeActivation;
+        
+        [SerializeField] private GameObject abilityPrefab;
         [SerializeField] private int manaSegmentsCost;
         [SerializeField] private TacticFactory associatedTactic;
         [SerializeField] private float activatedDuration;
@@ -68,6 +73,24 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         {
             get => cameraShakeDuration;
             private set => cameraShakeDuration = value;
+        }
+
+        public GameObject AbilityPrefab
+        {
+            get => abilityPrefab;
+            private set => abilityPrefab = value;
+        }
+
+        public UnitActionsBlockManager.UnitAction[] ActionBlocks
+        {
+            get => actionBlocks;
+            private set => actionBlocks = value;
+        }
+
+        public bool InPositionBeforeActivation
+        {
+            get => inPositionBeforeActivation;
+            private set => inPositionBeforeActivation = value;
         }
     }
 

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3152636860752367846}
   - component: {fileID: 2615474455920252497}
   - component: {fileID: 2419667505306786150}
-  - component: {fileID: 2343563509844225210}
   m_Layer: 0
   m_Name: GroupGreen
   m_TagString: Group
@@ -91,7 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc65e838f86241c7a9170b87e8f47c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fsmReactionTime: 0.2
   startTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
 --- !u!114 &2419667505306786150
 MonoBehaviour:
@@ -103,18 +101,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3cf47760dae4d2b98e9bd57d70259b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2343563509844225210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415832991084274865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b293ffd335042b6b74394683c68f215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1497332886443710626

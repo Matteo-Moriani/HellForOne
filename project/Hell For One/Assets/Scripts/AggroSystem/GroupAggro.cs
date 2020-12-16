@@ -24,5 +24,7 @@ namespace AggroSystem
 
         private void OnTacticChanged(TacticFactory newTacticFactory) =>
             _currentAggro = newTacticFactory.GetTactic().GetData().TacticAggro;
+
+        public void SetAggro(float newAggro) => _currentAggro = newAggro;
     }
 }

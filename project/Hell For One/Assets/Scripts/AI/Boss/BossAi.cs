@@ -205,7 +205,9 @@ namespace AI.Boss
 
             GroupAggro selected = null;
 
-            float probabilitySum = _groupAggros.Aggregate(0f, (sum, next) => sum + next.CurrentAggro);
+            float probabilitySum = _groupAggros.
+                Where(aggro => aggro.GetComponent<GroupManager>().Imps.Keys.Count > 0 ).
+                Aggregate(0f, (sum, next) => sum + next.CurrentAggro);
 
             float diceThrow = Random.Range(1f, probabilitySum);
 

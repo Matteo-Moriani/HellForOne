@@ -56,7 +56,7 @@ namespace Animations
         
         private void OnStopAttack()
         {
-            //StartCoroutine(RandomDelay());
+            StartAnimation();
         }
 
         private void OnStartAttack(Attack obj)

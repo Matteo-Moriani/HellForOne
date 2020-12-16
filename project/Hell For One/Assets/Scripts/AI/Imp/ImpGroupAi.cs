@@ -81,7 +81,8 @@ namespace AI.Imp
         {
             BtAction executeTactic = new BtAction(ExecuteTactic);
             BtAction ability = new BtAction(() => _activeAbility != null);
-            BtAction allInPosition = new BtAction(() =>
+            BtAction allInPosition = new BtAction(() => 
+                !_activeAbility.GetData().InPositionBeforeActivation ||
                 _groupManager.Imps.All(pair => pair.Key.GetComponent<ContextGroupFormation>().InPosition()));
             BtAction doAbility = new BtAction(ExecuteAbility);
 

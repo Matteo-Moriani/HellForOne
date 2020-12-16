@@ -15,6 +15,8 @@ namespace GroupAbilitiesSystem
         private GroupManager _groupManager;
 
         private Coroutine _abilityCr = null;
+
+        private GroupAbility _currentAbility;
         
         private void Awake()
         {
@@ -24,13 +26,14 @@ namespace GroupAbilitiesSystem
         public void StartAbility(GroupAbility ability)
         {
             if(_abilityCr != null) return;
-            
+            if(_currentAbility != null) return;
+
             foreach (Transform impsKey in _groupManager.Imps.Keys)
             {
-                impsKey.GetComponent<ImpAbilities>().StartAbility();
+                impsKey.GetComponent<ImpAbilities>().StartAbility(ability);
             }
-            
-            Debug.Log("Starting Ability");
+
+            _currentAbility = ability;
             
             _abilityCr = StartCoroutine(ability.DoGroupAbility(transform.root,StopAbility));
             
@@ -40,11 +43,14 @@ namespace GroupAbilitiesSystem
         private void StopAbility()
         {
             if(_abilityCr == null) return;
+            if(_currentAbility == null) return;
             
             foreach (Transform impsKey in _groupManager.Imps.Keys)
             {
-                impsKey.GetComponent<ImpAbilities>().StopAbility();
+                impsKey.GetComponent<ImpAbilities>().StopAbility(_currentAbility);
             }
+
+            _currentAbility = null;
             
             StopCoroutine(_abilityCr);
             _abilityCr = null;

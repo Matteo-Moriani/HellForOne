@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using AI.Imp;
 using ArenaSystem;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
-using Utils.ObjectPooling;
-using Random = UnityEngine.Random;
 
 namespace GroupAbilitiesSystem.ScriptableObjects
 {
@@ -47,75 +44,23 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     {
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
-            //List<GameObject> rangedImps = new List<GameObject>();
-
             ArenaManager arena = groupTransform.GetComponent<ImpGroupAi>().Target.Target.GetComponent<ArenaBoss>()
                 .Arena;
 
-            CombatSystem[] spetatorsSystem = arena.GetComponentsInChildren<CombatSystem>();
+            CombatSystem[] spectatorsSystems = arena.GetComponentsInChildren<CombatSystem>();
+
+            float timer = 0f;
+            int i = 0;
             
-            for (int i = 0; i < data.Bursts; i++)
+            while (timer <= data.ActivatedDuration)
             {
-                foreach (var combatSystem in spetatorsSystem)
-                {
-                    combatSystem.StartAttack(data.AssociatedAttack.GetAttack(),arena.Boss.transform);
+                spectatorsSystems[i].StartAttack(data.AssociatedAttack.GetAttack(),arena.Boss.transform);
 
-                    yield return null;
-                }
-
-                yield return new WaitForSeconds(data.TimeBetweenBursts);
+                yield return null;
+                
+                timer += Time.deltaTime;
+                i = i < spectatorsSystems.Length - 1 ? i + 1 : 0;
             }
-
-            // for (int i = 0; i < data.ToSpawn; i++)
-            // {
-            //     GameObject rangedImp = PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).GetPooledObject();
-            //
-            //     Vector2 rand = Random.insideUnitCircle * 5f;
-            //
-            //     rangedImp.transform.position = arena.transform.position + new Vector3(rand.x, arena.transform.position.y, rand.y);
-            //
-            //     rangedImp.transform.rotation =
-            //         Quaternion.LookRotation((arena.Boss.transform.position - rangedImp.transform.position).normalized,
-            //             Vector3.up);
-            //
-            //     rangedImps.Add(rangedImp);
-            // }
-            //
-            // yield return new WaitForSeconds(0.5f);
-            //
-            // foreach (var gameObject in rangedImps)
-            // {
-            //     gameObject.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
-            // }
-            //
-            // yield return new WaitForSeconds(data.ActivatedDuration);
-            //
-            // foreach (var gameObject in rangedImps)
-            // {
-            //     PoolersManager.Instance.TryGetPooler(data.RangedImpPrefab).DeactivatePooledObject(gameObject);
-            // }
-
-
-            // GameObject hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
-            //
-            // hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f);
-            // hammer.transform.rotation = groupTransform.rotation;
-            //
-            // hammer.transform.SetParent(groupTransform);
-            //
-            // CombatSystem hammerCombatSystem = hammer.GetComponentInChildren<CombatSystem>();
-            //
-            // hammerCombatSystem.OnStopAttack += OnStopAttack;
-            //
-            // hammer.GetComponentInChildren<CombatSystem>().StartAttack(data.AssociatedAttack.GetAttack());
-            //
-            // yield return new WaitForSeconds(data.ActivatedDuration);
-            //
-            // PoolersManager.Instance.TryGetPooler(data.HammerPrefab).DeactivatePooledObject(hammer);
-        }
-
-        private void OnStopAttack()
-        {
         }
 
         protected override void InnerSetup()

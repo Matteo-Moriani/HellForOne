@@ -1897,9 +1897,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 324758850698133761}
-  - {fileID: 4515704120460583392}
+  - {fileID: 6607979466865915210}
   - {fileID: 5943340206382709921}
-  - {fileID: 3541025833891483455}
+  - {fileID: 1123369817990804596}
   - {fileID: 4418815646999274538}
   - {fileID: 7622640509593107091}
   - {fileID: 2107677306903540863}
@@ -2223,9 +2223,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useAbilityAggro: 50
-  aButtonAbility: {fileID: 11400000, guid: 0d0df83990b5d0243b26586eeaf0aff3, type: 2}
-  bButtonAbility: {fileID: 0}
-  xButtonAbility: {fileID: 0}
+  aButtonAbility: {fileID: 0}
+  bButtonAbility: {fileID: 11400000, guid: 4f2a249d5a7165445b053ae83fb6e176, type: 2}
+  xButtonAbility: {fileID: 11400000, guid: 0d0df83990b5d0243b26586eeaf0aff3, type: 2}
   yButtonAbility: {fileID: 11400000, guid: 2b110972984993541aa86b782ff9439c, type: 2}
 --- !u!114 &6996061449374059465
 MonoBehaviour:
@@ -3468,7 +3468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d186f214cd6c774ca733f8f923fcdd9, type: 3}
---- !u!4 &3541025833891483455 stripped
+--- !u!4 &1123369817990804596 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4518028354467245813, guid: 0d186f214cd6c774ca733f8f923fcdd9,
     type: 3}
@@ -3678,7 +3678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4ec1ceaf2aa0fa409a7cec5e28a11e9, type: 3}
---- !u!224 &4515704120460583392 stripped
+--- !u!224 &6607979466865915210 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7286616013297981827, guid: f4ec1ceaf2aa0fa409a7cec5e28a11e9,
     type: 3}
