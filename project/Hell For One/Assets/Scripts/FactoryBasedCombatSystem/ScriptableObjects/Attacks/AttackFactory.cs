@@ -80,6 +80,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [Header("AI")] 
         [SerializeField, Min(0f)] private float minDistance;
         [SerializeField, Min(0f)] private float maxDistance;
+
+        [Header("Camera shake")] 
+        
+        [SerializeField] private bool doCameraShakeOnDamageHit;
+        [SerializeField] private bool onDamageHitShakeDuration;
+        [SerializeField] private bool onDamageHitShakeIntensity;
         
         #endregion
 
@@ -185,6 +191,24 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             get => maxDistance;
             private set => maxDistance = value;
+        }
+
+        public bool DoCameraShakeOnDamageHit
+        {
+            get => doCameraShakeOnDamageHit;
+            private set => doCameraShakeOnDamageHit = value;
+        }
+
+        public bool ONDamageHitShakeDuration
+        {
+            get => onDamageHitShakeDuration;
+            private set => onDamageHitShakeDuration = value;
+        }
+
+        public bool ONDamageHitShakeIntensity
+        {
+            get => onDamageHitShakeIntensity;
+            private set => onDamageHitShakeIntensity = value;
         }
 
         #endregion
