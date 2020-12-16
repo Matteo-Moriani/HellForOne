@@ -5,6 +5,7 @@ using ArenaSystem;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
+using Utils.ObjectPooling;
 
 namespace GroupAbilitiesSystem.ScriptableObjects
 {
@@ -44,6 +45,12 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     {
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
+            GameObject horn = PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).GetPooledObject();
+
+            horn.transform.position = groupTransform.position + new Vector3(0f, 1f, 0f);
+            
+            horn.transform.SetParent(groupTransform);
+            
             ArenaManager arena = groupTransform.GetComponent<ImpGroupAi>().Target.Target.GetComponent<ArenaBoss>()
                 .Arena;
 
@@ -61,6 +68,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
                 timer += Time.deltaTime;
                 i = i < spectatorsSystems.Length - 1 ? i + 1 : 0;
             }
+            
+            PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).DeactivatePooledObject(horn);
         }
 
         protected override void InnerSetup()
