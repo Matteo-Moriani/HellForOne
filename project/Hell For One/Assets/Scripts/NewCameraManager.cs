@@ -7,6 +7,7 @@ using Player;
 using ArenaSystem;
 using System;
 using ReincarnationSystem;
+using GroupAbilitiesSystem.ScriptableObjects;
 
 public class NewCameraManager : MonoBehaviour
 {
@@ -33,7 +34,37 @@ public class NewCameraManager : MonoBehaviour
     {
         _cinemachineVirtualCameraLock.gameObject.SetActive( false );
         _cinemachineFreeLook.gameObject.SetActive( true );
+
+        foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
+        {
+            go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStartGroupAbility += OnStartGroupAbility;
+            //go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStopGroupAbility += OnStopGroupAbility;
+        }
     }
+
+    private void OnStopGroupAbility()
+    {
+        /* Controllare che il valore sia lo stesso dello scriptable object dell'abilità, perché significa che
+         * il colpo ha missato (fatto per evitare che la camera rimanga in shake)
+         */
+        if ( cinemachineBasicMultiChannelPerlin.m_AmplitudeGain == 2f )
+        {
+            shakingIntensity = 1f;
+            shakingTimerTotal = 1f;
+            shakingTimer = 1f;
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        }
+    }
+
+    private void OnStartGroupAbility( GroupAbility groupAbility )
+    {
+        shakingIntensity = groupAbility.GetData().CameraShakeIntensity;
+        shakingTimerTotal = groupAbility.GetData().CameraShakeDuration;
+        shakingTimer = shakingTimerTotal;
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+    }
+
+    
 
     private void OnEnable()
     {
@@ -42,7 +73,7 @@ public class NewCameraManager : MonoBehaviour
         
         ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
 
-        ArenaManager.OnGlobalStartBattle += OnHammerHit;
+        ShakeOnHit.OnHitReceivedCameraShakeRequest += OnHitReceivedCameraShakeRequest;
     }
 
     private void OnDisable()
@@ -52,15 +83,20 @@ public class NewCameraManager : MonoBehaviour
 
         ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
 
-        ArenaManager.OnGlobalStartBattle -= OnHammerHit;
+        ShakeOnHit.OnHitReceivedCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
+
+        foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
+        {
+            go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStartGroupAbility -= OnStartGroupAbility;
+        }
     }
 
-    private void OnHammerHit( ArenaManager arenaManager )
+    private void OnHitReceivedCameraShakeRequest( float duration , float intensity )
     {
-        shakingTimer = 2f;
-        shakingTimerTotal = 2f;
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 5f;
-        shakingIntensity = 5f;
+        shakingIntensity = intensity;
+        shakingTimerTotal = duration;
+        shakingTimer = shakingTimerTotal;
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
     }
 
     private void OnLeaderChanged(Reincarnation obj)

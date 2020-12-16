@@ -83,8 +83,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
         [Header("Camera shake")]
         [SerializeField] private bool doCameraShakeOnDamageHit;
-        [SerializeField] private bool onDamageHitShakeDuration;
-        [SerializeField] private bool onDamageHitShakeIntensity;
+        [SerializeField] private float onDamageHitShakeDuration;
+        [SerializeField] private float onDamageHitShakeIntensity;
         
         #endregion
 
@@ -198,13 +198,13 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             private set => doCameraShakeOnDamageHit = value;
         }
 
-        public bool ONDamageHitShakeDuration
+        public float ONDamageHitShakeDuration
         {
             get => onDamageHitShakeDuration;
             private set => onDamageHitShakeDuration = value;
         }
 
-        public bool ONDamageHitShakeIntensity
+        public float ONDamageHitShakeIntensity
         {
             get => onDamageHitShakeIntensity;
             private set => onDamageHitShakeIntensity = value;
