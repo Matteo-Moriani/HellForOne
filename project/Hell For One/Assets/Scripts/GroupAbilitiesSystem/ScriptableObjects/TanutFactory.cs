@@ -2,6 +2,7 @@
 using System.Collections;
 using AggroSystem;
 using UnityEngine;
+using Utils.ObjectPooling;
 
 namespace GroupAbilitiesSystem.ScriptableObjects
 {
@@ -21,6 +22,12 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     {
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
+            GameObject toons = PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).GetPooledObject();
+
+            toons.transform.position = groupTransform.transform.position + new Vector3(0f, 1f, 0f);
+            
+            toons.transform.SetParent(groupTransform);
+            
             GroupAggro groupAggro = groupTransform.GetComponent<GroupAggro>();
             
             groupAggro.SetAggro(float.MaxValue);
@@ -28,6 +35,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             yield return new WaitForSeconds(data.ActivatedDuration);
             
             groupAggro.SetAggro(data.AssociatedTactic.GetTactic().GetData().TacticAggro);
+
+            PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).DeactivatePooledObject(toons);
         }
 
         protected override void InnerSetup()

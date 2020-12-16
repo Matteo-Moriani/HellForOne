@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: TauntAbility
   m_EditorClassIdentifier: Assembly-CSharp:GroupAbilitiesSystem.ScriptableObjects:TauntFactory
   data:
-    abilityPrefab: {fileID: 0}
+    actionBlocks: 
+    inPositionBeforeActivation: 0
+    abilityPrefab: {fileID: 3567844464840281215, guid: ef8d11cf9237dfb4cb96764c63e4dc4f,
+      type: 3}
     manaSegmentsCost: 1
     associatedTactic: {fileID: 11400000, guid: 3fb1cc54e525b0b4ebeb26e1fa7e809d, type: 2}
     activatedDuration: 10
