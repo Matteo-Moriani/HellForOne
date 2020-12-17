@@ -1878,6 +1878,7 @@ GameObject:
   - component: {fileID: 4232331724183011431}
   - component: {fileID: 7975022557890255441}
   - component: {fileID: 7284214850959426599}
+  - component: {fileID: 8816429952109064761}
   m_Layer: 13
   m_Name: PLAYER
   m_TagString: Player
@@ -2275,6 +2276,38 @@ MonoBehaviour:
   bButtonTactic: {fileID: 11400000, guid: 3fb1cc54e525b0b4ebeb26e1fa7e809d, type: 2}
   xButtonTactic: {fileID: 11400000, guid: 8362aad2d23edde4d98c03eac115f037, type: 2}
   yButtonTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
+--- !u!114 &8816429952109064761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6398173044429869191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9e63cd78ff4e34ebddf8db44a5ebe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollOffMaxDistance: 50
+  sounds:
+  - name: walk
+    clip: {fileID: 8300000, guid: e146605f06011b3408aee883e2ed94a2, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 1
+    random: 1
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
+  - name: dash
+    clip: {fileID: 8300000, guid: bf99a014c71c77148912c0d285f260a7, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    random: 1
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
 --- !u!1 &6415446460922557405
 GameObject:
   m_ObjectHideFlags: 0
