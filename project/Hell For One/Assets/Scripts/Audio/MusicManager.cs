@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField]
+    private bool activateSoundtrack = false;
+
     private AudioSource musicAudiosource;
 
     private bool isOutOfCOmbat = false;
@@ -31,9 +34,15 @@ public class MusicManager : MonoBehaviour
         ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
     }
 
+    private void Awake()
+    {
+        if(!activateSoundtrack)
+            this.enabled = false;
+    }
+
     void Start()
     {
-        musicAudiosource = this.gameObject.GetComponent<AudioSource>();
+        musicAudiosource = gameObject.GetComponent<AudioSource>();
         AudioManager.Instance.SetAudioAudioSource(musicAudiosource, false, 100f, 100f, false);
         musicAudiosource.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup;
         StartOutOfCombatMusic();
