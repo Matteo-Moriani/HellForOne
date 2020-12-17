@@ -11,11 +11,11 @@ public class LockCameraTargetManager : MonoBehaviour
         _cinemachineTargetGroup = GetComponent<CinemachineTargetGroup>();
     }
 
-    private void OnEnable() => ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
+    private void OnEnable() => ReincarnationManager.OnLeaderReincarnated += OnLeaderChanged;
 
-    private void OnDisable() => ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+    private void OnDisable() => ReincarnationManager.OnLeaderReincarnated -= OnLeaderChanged;
 
-    private void OnLeaderChanged(Reincarnation newLeader)
+    private void OnLeaderChanged(ReincarnableBehaviour newLeader)
     {
         _cinemachineTargetGroup.m_Targets[ 0 ].target = newLeader.transform;
         _cinemachineTargetGroup.m_Targets[ 1 ].target = transform;   

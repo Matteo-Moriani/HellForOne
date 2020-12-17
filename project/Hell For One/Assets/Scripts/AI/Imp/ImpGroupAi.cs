@@ -59,7 +59,7 @@ namespace AI.Imp
 
         private void OnEnable()
         {
-            PlayerTactics.OnTryTacticAssign += OnTryTacticAssign;
+            LeaderTactics.OnTryTacticAssign += OnTryTacticAssign;
 
             _groupAbilities.OnStopGroupAbility += OnStopGroupAbility;
             
@@ -69,7 +69,7 @@ namespace AI.Imp
 
         private void OnDisable()
         {
-            PlayerTactics.OnTryTacticAssign -= OnTryTacticAssign;
+            LeaderTactics.OnTryTacticAssign -= OnTryTacticAssign;
 
             _groupAbilities.OnStopGroupAbility -= OnStopGroupAbility;
             
@@ -161,7 +161,7 @@ namespace AI.Imp
 
         private void SetPlayer()
         {
-            Reincarnation leader = ReincarnationManager.Instance.CurrentLeader;
+            ReincarnableBehaviour leader = ReincarnationManager.Instance.CurrentLeader;
             
             if(leader == null || _target.Target == leader.transform) return;
             

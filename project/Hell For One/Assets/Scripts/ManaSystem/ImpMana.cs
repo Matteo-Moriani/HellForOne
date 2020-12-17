@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace ManaSystem
 {
-    public class ImpMana : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
+    public class ImpMana : MonoBehaviour, IReincarnationObserver
     {
         #region Fields
 
@@ -108,9 +108,9 @@ namespace ManaSystem
 
         #region Interfaces
 
-        public void Reincarnate() => _manaRechargeCr = StartCoroutine(ManaRechargeCoroutine());
+        public void StartLeader() => _manaRechargeCr = StartCoroutine(ManaRechargeCoroutine());
 
-        public void OnZeroHp()
+        public void StopLeader()
         {
             if(_manaRechargeCr == null) return;
             

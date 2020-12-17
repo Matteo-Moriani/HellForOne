@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour, IActionsBlockObserver, IReincarnationObserver, IHitPointsObserver
+    public class PlayerMovement : MonoBehaviour, IActionsBlockObserver, IReincarnationObserver
     {
         #region Fields
         
@@ -94,14 +94,14 @@ namespace Player
         public void Unblock() => UnlockMovement();
         UnitActionsBlockManager.UnitAction IActionsBlockObserver.GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
-        public void Reincarnate()
+        public void StartLeader()
         {
             _movementLock.RemoveLock();
             
-            PlayerInput.OnMoveInput += OnMoveInput;   
+            PlayerInput.OnMoveInput += OnMoveInput;
         }
-        
-        public void OnZeroHp()
+
+        public void StopLeader()
         {
             _movementLock.AddLock();
             

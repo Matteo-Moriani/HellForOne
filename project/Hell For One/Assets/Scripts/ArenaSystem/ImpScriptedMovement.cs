@@ -83,11 +83,13 @@ namespace ArenaSystem
 
         // Leader needs ScriptedMovements
         // This is very ugly, but is fast
-        public void Reincarnate()
+        public void StartLeader()
         {
             gameObject.AddComponent<ScriptedMovements>();
             Destroy(this);
         }
+
+        public void StopLeader() { }
 
         #endregion
     }

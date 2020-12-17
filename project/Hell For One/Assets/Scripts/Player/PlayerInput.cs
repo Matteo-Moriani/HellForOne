@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerInput : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
+    public class PlayerInput : MonoBehaviour, IReincarnationObserver
     {
         #region Fields
 
@@ -151,9 +151,9 @@ namespace Player
 
             _lastLookDirection = _currentLookDirection;
         }
-
-        public void Reincarnate() => _inputLock.RemoveLock();
         
-        public void OnZeroHp() => _inputLock.AddLock();
+        public void StartLeader() => _inputLock.RemoveLock();
+
+        public void StopLeader() => _inputLock.AddLock();
     }
 }

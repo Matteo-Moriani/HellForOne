@@ -190,6 +190,13 @@
             <e p="ICooldown.cs" t="Include" />
           </e>
           <e p="CrownArrow.cs" t="Include" />
+          <e p="CrownSystem" t="Include">
+            <e p="CrownBehaviour.cs" t="Include" />
+            <e p="CrownManager.cs" t="Include" />
+            <e p="GroundCrownBehaviour.cs" t="Include" />
+            <e p="GroundCrownParticlesBehaviour.cs" t="Include" />
+            <e p="ICrownObserver.cs" t="Include" />
+          </e>
           <e p="DemonsDollyCamera.cs" t="Include" />
           <e p="DollyCamera1.cs" t="Include" />
           <e p="DollyTrackTargetMovement.cs" t="Include" />
@@ -284,7 +291,7 @@
           </e>
           <e p="ReincarnationSystem" t="Include">
             <e p="IReincarnationObserver.cs" t="Include" />
-            <e p="Reincarnation.cs" t="Include" />
+            <e p="ReincarnableBehaviour.cs" t="Include" />
             <e p="ReincarnationManager.cs" t="Include" />
           </e>
           <e p="Rendering" t="Include">
@@ -322,7 +329,7 @@
             <e p="Interfaces" t="Include">
               <e p="ITacticsObserver.cs" t="Include" />
             </e>
-            <e p="PlayerTactics.cs" t="Include" />
+            <e p="LeaderTactics.cs" t="Include" />
             <e p="Recruit.cs" t="Include" />
             <e p="RecruitManager.cs" t="Include" />
             <e p="RecruitSpawner.cs" t="Include" />

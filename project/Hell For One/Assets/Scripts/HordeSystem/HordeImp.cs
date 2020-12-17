@@ -10,6 +10,8 @@ namespace HordeSystem
     {
         private void Start() => HordeManager.Instance.RegisterImp(this);
         public void OnZeroHp() => HordeManager.Instance.UnregisterImp(this);
-        public void Reincarnate() => HordeManager.Instance.UnregisterImp(this);
+        public void StartLeader() => HordeManager.Instance.UnregisterImp(this);
+
+        public void StopLeader() { }
     }
 }

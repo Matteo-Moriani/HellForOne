@@ -179,5 +179,9 @@ namespace AI.Movement
         public void EndTactic(Tactic oldTactic) => _currentLinearSpeed = linearSpeed;
 
         #endregion
+
+        public void StartLeader() => Destroy(this);
+
+        public void StopLeader() { }
     }
 }

@@ -61,13 +61,13 @@ namespace GroupSystem
         private void OnEnable()
         {
             ImpDeath.OnImpDeath += OnImpDeath;
-            ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
+            ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
         }
 
         private void OnDisable()
         {
             ImpDeath.OnImpDeath -= OnImpDeath;
-            ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+            ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
         }
 
         #endregion
@@ -109,7 +109,7 @@ namespace GroupSystem
 
         #region Event handlers
 
-        private void OnLeaderChanged(Reincarnation newLeader) => RemoveImp(newLeader.transform);
+        private void OnLeaderReincarnated(ReincarnableBehaviour newLeader) => RemoveImp(newLeader.transform);
 
         private void OnImpDeath(Transform deadImp) => RemoveImp(deadImp);
 

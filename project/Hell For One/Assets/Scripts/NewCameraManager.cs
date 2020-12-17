@@ -71,7 +71,7 @@ public class NewCameraManager : MonoBehaviour
         ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
         ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         
-        ReincarnationManager.OnLeaderChanged += OnLeaderChanged;
+        ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
 
         ShakeOnHit.OnHitReceivedCameraShakeRequest += OnHitReceivedCameraShakeRequest;
     }
@@ -81,7 +81,7 @@ public class NewCameraManager : MonoBehaviour
         ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
 
-        ReincarnationManager.OnLeaderChanged -= OnLeaderChanged;
+        ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
 
         ShakeOnHit.OnHitReceivedCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
 
@@ -99,7 +99,7 @@ public class NewCameraManager : MonoBehaviour
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
     }
 
-    private void OnLeaderChanged(Reincarnation obj)
+    private void OnLeaderReincarnated(ReincarnableBehaviour obj)
     {
         // TODO :- transform.Find is bad
         _currentLeader = obj.transform.Find("CameraTarget").transform;

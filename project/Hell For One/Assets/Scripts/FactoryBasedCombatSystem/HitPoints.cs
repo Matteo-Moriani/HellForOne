@@ -52,7 +52,7 @@ namespace FactoryBasedCombatSystem
             
             _currentHp = startingHp;
 
-            _observers = GetComponentsInChildren<IHitPointsObserver>();
+            _observers = GetComponentsInChildren<IHitPointsObserver>(true);
         }
 
         private void OnEnable() => _combatSystem.OnDamageHitReceived += OnDamageHitReceived;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ManaSystem
 {
-    public class ManaParticlesBehaviour : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
+    public class ManaParticlesBehaviour : MonoBehaviour, IReincarnationObserver
     {
         private ParticleSystem[] _particleSystems;
 
@@ -66,12 +66,9 @@ namespace ManaSystem
             }
         }
 
-        public void Reincarnate()
-        {
-            _particlesLock.RemoveLock();
-        }
+        public void StartLeader() => _particlesLock.RemoveLock();
 
-        public void OnZeroHp()
+        public void StopLeader()
         {
             foreach (var system in _particleSystems)
             {

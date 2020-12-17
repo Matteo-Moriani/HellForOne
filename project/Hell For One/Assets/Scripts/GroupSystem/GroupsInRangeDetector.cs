@@ -108,13 +108,15 @@ namespace GroupSystem
         #endregion
 
         #region Interfaces
-
-        public void Reincarnate()
+        
+        public void StartLeader()
         {
             _sphereCollider.radius = orderRadius;
             
             _detectionLock.RemoveLock();
         }
+
+        public void StopLeader() => _sphereCollider.radius = 0f;
 
         public void OnZeroHp() => _sphereCollider.radius = 0f;
 

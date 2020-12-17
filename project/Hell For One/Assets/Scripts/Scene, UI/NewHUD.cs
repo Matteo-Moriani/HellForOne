@@ -14,7 +14,7 @@ public class NewHUD : MonoBehaviour
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     
     private GroupManager groupAzureManager, groupPinkManager, groupGreenManager, groupYellowManager;
-    private PlayerTactics playerTactics;
+    private LeaderTactics _leaderTactics;
     private Vector3 defaultScale = new Vector3( 1f , 1f , 1f );
     private Vector3 enlargedScale = new Vector3( 1.5f , 1.5f , 1f );
     private Dictionary<int , GroupManager> groupDict = new Dictionary<int , GroupManager>();

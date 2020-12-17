@@ -3,13 +3,14 @@ using System.Collections;
 using ActionsBlockSystem;
 using CooldownSystem;
 using Player;
+using ReincarnationSystem;
 using UnityEngine;
 
 namespace FactoryBasedCombatSystem
 {
-    public class Dash : MonoBehaviour, IActionsBlockSubject, IActionsBlockObserver, ICooldown
+    public class Dash : MonoBehaviour, IActionsBlockSubject, IActionsBlockObserver, ICooldown, IReincarnationObserver
     {
-         #region Fields
+        #region Fields
 
         [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
     
@@ -49,18 +50,6 @@ namespace FactoryBasedCombatSystem
             _rigidbody = transform.root.GetComponent<Rigidbody>();
         }
 
-        private void OnEnable()
-        {
-            PlayerInput.OnDashInputDown += OnDashInputDown;
-            PlayerInput.OnMoveInput += OnMoveInput;
-        }
-
-        private void OnDisable()
-        {
-            PlayerInput.OnDashInputDown -= OnDashInputDown;
-            PlayerInput.OnMoveInput -= OnMoveInput;
-        }
-
         #endregion
 
         #region Methods
@@ -92,9 +81,6 @@ namespace FactoryBasedCombatSystem
 
         private void OnDashInputDown()
         {
-            // TODO :- do not use tags
-            if (!transform.root.CompareTag("Player")) return;
-            
             if(!_dashLock.CanDoAction()) return;
         
             StartDash();
@@ -173,6 +159,18 @@ namespace FactoryBasedCombatSystem
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.Dash;
 
+        public void StartLeader()
+        {
+            PlayerInput.OnDashInputDown += OnDashInputDown;
+            PlayerInput.OnMoveInput += OnMoveInput;
+        }
+
+        public void StopLeader()
+        {
+            PlayerInput.OnDashInputDown -= OnDashInputDown;
+            PlayerInput.OnMoveInput -= OnMoveInput;
+        }
+        
         #endregion
     }
 }

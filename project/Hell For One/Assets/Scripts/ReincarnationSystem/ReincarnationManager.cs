@@ -10,11 +10,11 @@ namespace ReincarnationSystem
     {
         #region Fields
 
-        [SerializeField] private Reincarnation startLeader;
+        [SerializeField] private ReincarnableBehaviour startLeader;
 
-        private Reincarnation _currentLeader;
+        private ReincarnableBehaviour _currentLeader;
 
-        private readonly List<Reincarnation> _reincarnables = new List<Reincarnation>();
+        private readonly List<ReincarnableBehaviour> _reincarnables = new List<ReincarnableBehaviour>();
         
         private static ReincarnationManager _instance;
 
@@ -22,7 +22,8 @@ namespace ReincarnationSystem
 
         #region Events
 
-        public static  event Action<Reincarnation> OnLeaderChanged;
+        public static event Action<ReincarnableBehaviour> OnLeaderDeath;
+        public static  event Action<ReincarnableBehaviour> OnLeaderReincarnated;
 
         #endregion
         
@@ -34,7 +35,7 @@ namespace ReincarnationSystem
             private set => _instance = value;
         }
 
-        public Reincarnation CurrentLeader
+        public ReincarnableBehaviour CurrentLeader
         {
             get => _currentLeader;
             private set => _currentLeader = value;
@@ -55,16 +56,16 @@ namespace ReincarnationSystem
             AssignLeadership(startLeader);   
         }
 
-        private void AssignLeadership(Reincarnation reincarnable)
+        private void AssignLeadership(ReincarnableBehaviour reincarnable)
         {
             _currentLeader = reincarnable;
             
             _currentLeader.GainLeadership();
             
-            OnLeaderChanged?.Invoke(_currentLeader);
+            OnLeaderReincarnated?.Invoke(_currentLeader);
         }
 
-        public void RegisterReincarnable(Reincarnation reincarnable)
+        public void RegisterReincarnable(ReincarnableBehaviour reincarnable)
         {
             if(_reincarnables.Contains(reincarnable)) return;
 
@@ -73,7 +74,7 @@ namespace ReincarnationSystem
             _reincarnables.Add(reincarnable);
         }
 
-        private void UnregisterReincarnable(Reincarnation reincarnable)
+        private void UnregisterReincarnable(ReincarnableBehaviour reincarnable)
         {
             if(!_reincarnables.Contains(reincarnable)) return;
             
@@ -82,11 +83,13 @@ namespace ReincarnationSystem
             _reincarnables.Remove(reincarnable); 
         }
 
-        private void OnReincarnableDeath(Reincarnation reincarnable)
+        private void OnReincarnableDeath(ReincarnableBehaviour reincarnable)
         {
             UnregisterReincarnable(reincarnable);
             
             if(reincarnable != _currentLeader) return;
+            
+            OnLeaderDeath?.Invoke(_currentLeader);
             
             AssignLeadership(_reincarnables[Random.Range(0,_reincarnables.Count)]);
         }

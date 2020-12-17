@@ -2,6 +2,7 @@
 using ActionsBlockSystem;
 using AggroSystem;
 using AI.Imp;
+using CrownSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
 using GroupSystem;
 using ManaSystem;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace GroupAbilitiesSystem
 {
-    public class LeaderGroupAbilities : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject
+    public class LeaderGroupAbilities : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject, ICrownObserver
     {
         #region Fields
 
@@ -103,19 +104,31 @@ namespace GroupAbilitiesSystem
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.UseAbilities;
 
-        // TODO :- Use crown system to register to input events
-        // public void Reincarnate()
-        // {
-        //     _abilitiesLock.RemoveLock();
-        //     
-        //     PlayerInput.OnLTButtonDown += OnLTButtonDown;
-        //     PlayerInput.OnLTButtonUp += OnLTButtonUp;
-        //     
-        //     PlayerInput.OnXButtonDown += OnXButtonDown;
-        //     PlayerInput.OnYButtonDown += OnYButtonDown;
-        //     PlayerInput.OnAButtonDown += OnAButtonDown;
-        //     PlayerInput.OnBButtonDown += OnBButtonDown;
-        // }
+        public void OnCrownCollected()
+        {
+            _abilitiesLock.RemoveLock();
+            
+            PlayerInput.OnLTButtonDown += OnLTButtonDown;
+            PlayerInput.OnLTButtonUp += OnLTButtonUp;
+            
+            PlayerInput.OnXButtonDown += OnXButtonDown;
+            PlayerInput.OnYButtonDown += OnYButtonDown;
+            PlayerInput.OnAButtonDown += OnAButtonDown;
+            PlayerInput.OnBButtonDown += OnBButtonDown;
+        }
+
+        public void OnCrownLost()
+        {
+            _abilitiesLock.AddLock();
+            
+            PlayerInput.OnLTButtonDown -= OnLTButtonDown;
+            PlayerInput.OnLTButtonUp -= OnLTButtonUp;
+            
+            PlayerInput.OnXButtonDown -= OnXButtonDown;
+            PlayerInput.OnYButtonDown -= OnYButtonDown;
+            PlayerInput.OnAButtonDown -= OnAButtonDown;
+            PlayerInput.OnBButtonDown -= OnBButtonDown;
+        }
 
         #endregion
     }

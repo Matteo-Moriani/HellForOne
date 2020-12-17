@@ -86,7 +86,10 @@ namespace AI.Imp
         }
 
         public void OnZeroHp() => StopCurrentTactic();
-        public void Reincarnate() => StopCurrentTactic();
+
+        public void StartLeader() => StopCurrentTactic();
+
+        public void StopLeader() { }
 
         #endregion
     }
