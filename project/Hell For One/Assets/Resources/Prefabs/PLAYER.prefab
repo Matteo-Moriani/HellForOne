@@ -1896,7 +1896,7 @@ Transform:
   m_LocalPosition: {x: -4.02, y: -1.143, z: -0.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 324758850698133761}
+  - {fileID: 3413084482157903669}
   - {fileID: 6607979466865915210}
   - {fileID: 5943340206382709921}
   - {fileID: 1123369817990804596}
@@ -1906,7 +1906,7 @@ Transform:
   - {fileID: 1042732159767900958}
   - {fileID: 9196219665033669282}
   - {fileID: 6853121519456634788}
-  - {fileID: 8248867128241829451}
+  - {fileID: 3161654642944736792}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
@@ -2209,7 +2209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3b4f4e84bfa344eb85f68290327fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deathEffect: {fileID: 8248867128241848246}
+  _deathEffect: {fileID: 3164766763240673690}
 --- !u!114 &5430215603470909495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2239,7 +2239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0098d6fd9ead431ab0f6abc6cf763e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionBlocks: 0200000006000000
 --- !u!114 &4506637352965273215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3112,7 +3111,7 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cfd2a5868823d647a04295e19d8b3f1, type: 3}
---- !u!4 &324758850698133761 stripped
+--- !u!4 &3413084482157903669 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3160524411156427702, guid: 1cfd2a5868823d647a04295e19d8b3f1,
     type: 3}
@@ -3921,6 +3920,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
       propertyPath: ShapeModule.m_SkinnedMeshRenderer
@@ -3941,20 +3945,15 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 757d2894e0edb2a4f8d5a1d9baad3d02, type: 3}
---- !u!4 &8248867128241829451 stripped
+--- !u!4 &3161654642944736792 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6456377183885535474, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
     type: 3}
   m_PrefabInstance: {fileID: 8248867128241837802}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8248867128241848246 stripped
+--- !u!1 &3164766763240673690 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6454325019390248816, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
     type: 3}
