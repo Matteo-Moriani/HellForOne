@@ -30,9 +30,7 @@ namespace AI.Movement
 
         private readonly List<InterestMap> _interestMaps = new List<InterestMap>();
         private readonly List<DangerMap> _dangerMaps = new List<DangerMap>();
-
-        private InterestMap _lastFrameInterest;
-        private DangerMap _lastFrameDanger;
+        
         private Vector3 _lastFrameDirection;
         
         private AiUtils.TargetData _targetData;
@@ -44,8 +42,18 @@ namespace AI.Movement
 
         private float _currentLinearSpeed;
 
+        private bool _onStartMovingRaised;
+        private bool _onStopMovingRaised;
+        
         #endregion
 
+        #region Events
+
+        public event Action OnStartMoving;
+        public event Action OnStopMoving;
+
+        #endregion
+        
         #region Properties
 
         public ContextMap.Resolution SteeringResolution
@@ -69,9 +77,7 @@ namespace AI.Movement
             _delegates = GetComponents<ContextSteeringBehaviour>();
             _rigidbody = GetComponent<Rigidbody>();
             _combatSystem = GetComponentInChildren<CombatSystem>();
-
-            _lastFrameInterest = new InterestMap(0f,steeringResolution);
-            _lastFrameDanger = new DangerMap(0f,steeringResolution);
+            
             _lastFrameDirection = transform.forward;
 
             _currentLinearSpeed = linearSpeed;
@@ -79,7 +85,12 @@ namespace AI.Movement
 
         private void FixedUpdate()
         {
-            if (!_movementLock.CanDoAction()) return;
+            if (!_movementLock.CanDoAction())
+            {
+                RaiseOnStopMoving();
+                
+                return;
+            }
 
             GetMapsFromDelegates();
 
@@ -93,26 +104,24 @@ namespace AI.Movement
             if(finalDirection.magnitude > 0)
                 _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(slerpDirection),Time.fixedDeltaTime*angularSpeed));
             else if (_targetData != null && _targetData.Target != null)
-                // _rigidbody.MoveRotation(
-                //     Quaternion.Lerp(
-                //         transform.rotation,Quaternion.LookRotation(
-                //             Vector3.Slerp(
-                //                 transform.forward,_targetData.GetDirectionToTarget(transform),newDirectionWeight).normalized
-                //             ) ,Time.fixedDeltaTime*angularSpeed
-                //         )
-                //     );
-                //
                 _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(_targetData.GetDirectionToTarget(transform)),Time.fixedDeltaTime * angularSpeed));
             
             _rigidbody.velocity = dot >= linearTolerance && finalDirection.magnitude > 0f
                 ? slerpDirection * _currentLinearSpeed
                 : Vector3.zero;
 
+            if (_rigidbody.velocity.magnitude > 0f)
+            {
+                RaiseOnStartMoving();
+            }
+            else
+            {
+                RaiseOnStopMoving();
+            }
+
             _interestMaps.Clear();
             _dangerMaps.Clear();
-
-            _lastFrameInterest = currentInterest;
-            _lastFrameDanger = currentDanger;
+            
             _lastFrameDirection = slerpDirection;
             
             if(!debug)
@@ -143,6 +152,26 @@ namespace AI.Movement
                 _dangerMaps.Add(tempDanger);
                 _interestMaps.Add(tempInterest);
             }
+        }
+
+        private void RaiseOnStartMoving()
+        {
+            if(_onStartMovingRaised) return;
+
+            _onStartMovingRaised = true;
+            _onStopMovingRaised = false;
+            
+            OnStartMoving?.Invoke();
+        }
+
+        private void RaiseOnStopMoving()
+        {
+            if(_onStopMovingRaised) return;
+
+            _onStopMovingRaised = true;
+            _onStartMovingRaised = false;
+            
+            OnStopMoving?.Invoke();
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using ActionsBlockSystem;
+﻿using System;
+using ActionsBlockSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using ReincarnationSystem;
 using UnityEngine;
@@ -21,8 +22,18 @@ namespace Player
 
         private readonly ActionLock _movementLock = new ActionLock();
 
+        private bool _onStartMovingRaised;
+        private bool _onStopMovingRaised;
+        
         #endregion
 
+        #region Events
+
+        public event Action OnStartMoving;
+        public event Action OnStopMoving;
+
+        #endregion
+        
         #region Unity methods
 
         private void Awake()
@@ -49,7 +60,12 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if (!_movementLock.CanDoAction()) return;
+            if (!_movementLock.CanDoAction())
+            {
+                RaiseOnStopMoving();
+                
+                return;
+            }
 
             float xComponent = _moveDirection.normalized.x * speed;
             float zComponent = _moveDirection.normalized.z * speed;
@@ -59,11 +75,40 @@ namespace Player
             Vector3 horizontalMovement = new Vector3(movementDirection.x, 0f, movementDirection.z);
             _rb.velocity = movementDirection;
             _rb.MoveRotation(Quaternion.LookRotation(horizontalMovement.magnitude > 0 ?  horizontalMovement : transform.forward));
+
+            if (_rb.velocity.magnitude > 0f)
+            {
+                RaiseOnStartMoving();
+            }
+            else
+            {
+                RaiseOnStopMoving();
+            }
         }
 
         #endregion
 
         #region Methods
+
+        private void RaiseOnStartMoving()
+        {
+            if(_onStartMovingRaised) return;
+
+            _onStartMovingRaised = true;
+            _onStopMovingRaised = false;
+            
+            OnStartMoving?.Invoke();
+        }
+
+        private void RaiseOnStopMoving()
+        {
+            if(_onStopMovingRaised) return;
+
+            _onStopMovingRaised = true;
+            _onStartMovingRaised = false;
+            
+            OnStopMoving?.Invoke();
+        }
 
         private void BlockMovement()
         {
