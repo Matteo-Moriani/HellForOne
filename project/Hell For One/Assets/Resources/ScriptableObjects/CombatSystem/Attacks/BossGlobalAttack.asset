@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     damage: 1
-    colliderRadius: 2
+    colliderRadius: 1.4
+    colliderActivationDelay: 0.3
     blockable: 1
     canBeMultiple: 0
     canDamageMultipleUnits: 1
@@ -30,7 +31,11 @@ MonoBehaviour:
     splashDamageTime: 0
     minDistance: 0
     maxDistance: Infinity
+    doCameraShakeOnDamageHit: 1
+    onDamageHitShakeDuration: 1
+    onDamageHitShakeIntensity: 1
     attackProbability: 100
     attackPrefab: {fileID: 3030460436739687917, guid: fd05b1c7268ad784393b4fbcd734d4a9,
       type: 3}
-    maxDistVariation: 2
+    maxDistVariation: 2.5
+    duration: 4

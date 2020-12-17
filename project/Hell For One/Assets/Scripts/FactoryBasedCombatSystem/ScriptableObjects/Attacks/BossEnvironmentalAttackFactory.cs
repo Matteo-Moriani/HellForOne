@@ -53,8 +53,14 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             // sul vettore/retta che collega boss a gruppo e player, istanzio la colonna sopra il gruppo più o meno un valore casuale
             foreach(GameObject g in _attackGameObjects[id])
             {
-                g.GetComponentInChildren<AttackCollider>().Initialize(id, data.ColliderRadius, this, ownerCombatSystem.transform.root, ownerCombatSystem);
                 g.GetComponent<EnvironmentalAttackBehaviour>().Activate();
+            }
+
+            yield return new WaitForSeconds(data.ColliderActivationDelay);
+
+            foreach(GameObject g in _attackGameObjects[id])
+            {
+                g.GetComponentInChildren<AttackCollider>().Initialize(id, data.ColliderRadius, this, ownerCombatSystem.transform.root, ownerCombatSystem);
             }
 
             float timer = 0f;

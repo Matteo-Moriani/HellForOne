@@ -57,6 +57,7 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [Header("Common")]
         [SerializeField, Min(0f)] private float damage;
         [SerializeField, Min(0f)] private float colliderRadius;
+        [SerializeField, Min(0f)] private float colliderActivationDelay;
         [SerializeField] private bool blockable;
         [SerializeField] private bool canBeMultiple;
         [SerializeField] private bool canDamageMultipleUnits;
@@ -100,6 +101,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         {
             get => colliderRadius;
             private set => colliderRadius = value;
+        }
+
+        public float ColliderActivationDelay
+        {
+            get => colliderActivationDelay;
+            private set => colliderActivationDelay = value;
         }
 
         public bool SplashDamage
