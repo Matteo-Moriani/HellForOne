@@ -76,7 +76,7 @@ namespace Player
             _rb.velocity = movementDirection;
             _rb.MoveRotation(Quaternion.LookRotation(horizontalMovement.magnitude > 0 ?  horizontalMovement : transform.forward));
 
-            if (_rb.velocity.magnitude > 0f)
+            if (_rb.velocity.x >= 0.1f || _rb.velocity.z >= 0.1f)
             {
                 RaiseOnStartMoving();
             }
