@@ -86,7 +86,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         [SerializeField] private bool doCameraShakeOnDamageHit;
         [SerializeField] private float onDamageHitShakeDuration;
         [SerializeField] private float onDamageHitShakeIntensity;
-        
+
+        [Header("Sound")]
+        [SerializeField] private AudioClip attackCry;
+        [SerializeField] private float volume = 0.5f;
+        [SerializeField] private float pitch = 1f;
+
         #endregion
 
         #region Properties
@@ -217,12 +222,28 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             private set => onDamageHitShakeIntensity = value;
         }
 
+        public AudioClip AttackCry {
+            get => attackCry;
+            private set => attackCry = value;
+        }
+
+        public float Volume {
+            get => volume;
+            private set => volume = value;
+        }
+
+        public float Pitch {
+            get => pitch;
+            private set => pitch = value;
+        }
+
         #endregion
     }
 
      [Serializable]
      public abstract class BossAttackData : AttackData
      {
+         [Header("AttackValues")] 
          [SerializeField] [Range(0f,100f)] private float attackProbability;
 
          public float AttackProbability

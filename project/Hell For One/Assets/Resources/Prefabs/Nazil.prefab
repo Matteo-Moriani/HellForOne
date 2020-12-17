@@ -792,6 +792,7 @@ GameObject:
   - component: {fileID: 3775555733103775608}
   - component: {fileID: 8355443379104447877}
   - component: {fileID: 1356195616258638848}
+  - component: {fileID: 407516958953097948}
   m_Layer: 0
   m_Name: Nazil
   m_TagString: Boss
@@ -1121,6 +1122,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc29c7f7c1d3a58428180f5d85a70f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &407516958953097948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329590975247750343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b4d2eeac0252940855da3101a2ffaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollOffMaxDistance: 50
+  sounds:
+  - name: walk
+    clip: {fileID: 8300000, guid: bc1859f41f70e49478d11627fc2cea17, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,17 +1859,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
-    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius
@@ -1867,11 +1890,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3329590975247583433}
     m_Modifications:
-    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_Midboss
-      objectReference: {fileID: 0}
     - target: {fileID: 7714929163739455013, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1926,6 +1944,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 105.019005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714929163739218437, guid: b70bf6ff2c2c2324cad4a20ea02deeed,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_Midboss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b70bf6ff2c2c2324cad4a20ea02deeed, type: 3}
