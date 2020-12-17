@@ -21,5 +21,11 @@ namespace ReincarnationSystem
             foreach (IReincarnationObserver reincarnationObserver in _reincarnationObservers)
                 reincarnationObserver.StartLeader();
         }
+        
+        public void LoseLeadership()
+        {
+            foreach (IReincarnationObserver reincarnationObserver in _reincarnationObservers)
+                reincarnationObserver.StopLeader();
+        }
     }
 }
