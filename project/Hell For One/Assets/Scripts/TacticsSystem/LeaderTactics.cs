@@ -68,7 +68,7 @@ namespace TacticsSystem
             AssignOrder(tacticFactory);
             
             if(_heldDownCr != null) return;
-
+            
             _heldDownCr = StartCoroutine(HeldDownCoroutine(tacticFactory));
         }
 
@@ -119,7 +119,7 @@ namespace TacticsSystem
         #region Interfaces
 
         public event Action<float> OnAggroActionDone;
-        
+
         public void Block() => _orderAssignLock.AddLock();
 
         public void Unblock() => _orderAssignLock.RemoveLock();
@@ -138,16 +138,16 @@ namespace TacticsSystem
             PlayerInput.OnBButtonUp += OnBButtonUp;
             PlayerInput.OnAButtonUp += OnAButtonUp;
             
-            PlayerInput.OnLTButtonDown -= OnLTButtonDown;
-            PlayerInput.OnLTButtonUp -= OnLTButtonUp;
+            PlayerInput.OnLTButtonDown += OnLTButtonDown;
+            PlayerInput.OnLTButtonUp += OnLTButtonUp;
         }
 
         public void OnCrownLost()
         {
             PlayerInput.OnYButtonDown -= OnYButtonDown;
-            PlayerInput.OnYButtonDown -= OnXButtonDown;
-            PlayerInput.OnYButtonDown -= OnBButtonDown;
-            PlayerInput.OnYButtonDown -= OnAButtonDown;
+            PlayerInput.OnXButtonDown -= OnXButtonDown;
+            PlayerInput.OnBButtonDown -= OnBButtonDown;
+            PlayerInput.OnAButtonDown -= OnAButtonDown;
             
             PlayerInput.OnYButtonUp -= OnYButtonUp;
             PlayerInput.OnXButtonUp -= OnXButtonUp;
@@ -157,9 +157,15 @@ namespace TacticsSystem
             PlayerInput.OnLTButtonDown -= OnLTButtonDown;
             PlayerInput.OnLTButtonUp -= OnLTButtonUp;
         }
-        
-        public void OnZeroHp() => StopAllCoroutines();
-        
+
+        public void OnZeroHp()
+        {
+            if(_heldDownCr == null) return;
+            
+            StopCoroutine(_heldDownCr);
+            _heldDownCr = null;
+        }
+
         #endregion
     }
 }

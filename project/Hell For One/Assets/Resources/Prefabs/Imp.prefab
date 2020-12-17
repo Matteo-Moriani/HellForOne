@@ -710,7 +710,6 @@ GameObject:
   - component: {fileID: 763921474518215101}
   - component: {fileID: 2524581324413548921}
   - component: {fileID: 1172605104724893249}
-  - component: {fileID: 2524578988164291959}
   - component: {fileID: 394458618114674005}
   - component: {fileID: 394892568390220209}
   - component: {fileID: 4020880470274259458}
@@ -740,7 +739,7 @@ GameObject:
   - component: {fileID: 2457202922831960801}
   - component: {fileID: 2237073546277614698}
   - component: {fileID: 3473084233356707398}
-  - component: {fileID: 8233754893353334577}
+  - component: {fileID: 2635288718645659782}
   m_Layer: 9
   m_Name: Imp
   m_TagString: Demon
@@ -817,25 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac73b80e6b4a3874297a9542a3b9f9b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2524578988164291959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2749467006459795368}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eab662a3bc8610458d3dbc93497a0b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  singleTacticAggro: 10
-  globalTacticAggro: 25
-  heldDownTime: 1
-  aButtonTactic: {fileID: 11400000, guid: 12c60c2a13102a84199c95f143b1c38e, type: 2}
-  bButtonTactic: {fileID: 11400000, guid: 3fb1cc54e525b0b4ebeb26e1fa7e809d, type: 2}
-  xButtonTactic: {fileID: 11400000, guid: 8362aad2d23edde4d98c03eac115f037, type: 2}
-  yButtonTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
 --- !u!114 &394458618114674005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1193,9 +1173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccce5c1cf0b4fa09d831c23ede6e1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAbilityAggro: 50
+  useAbilityAggro: 75
   aButtonAbility: {fileID: 0}
-  bButtonAbility: {fileID: 0}
+  bButtonAbility: {fileID: 11400000, guid: 4f2a249d5a7165445b053ae83fb6e176, type: 2}
   xButtonAbility: {fileID: 11400000, guid: 0d0df83990b5d0243b26586eeaf0aff3, type: 2}
   yButtonAbility: {fileID: 11400000, guid: 2b110972984993541aa86b782ff9439c, type: 2}
 --- !u!114 &2457202922831960801
@@ -1234,7 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14d1a30838524f7faf6f51ad5bde40d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8233754893353334577
+--- !u!114 &2635288718645659782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1243,29 +1223,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2749467006459795368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a9e63cd78ff4e34ebddf8db44a5ebe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1eab662a3bc8610458d3dbc93497a0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollOffMaxDistance: 50
-  sounds:
-  - name: walk
-    clip: {fileID: 8300000, guid: adea0c6b67105ba4c85da7f5fcb848a3, type: 3}
-    volume: 0.04
-    pitch: 1
-    loop: 1
-    random: 1
-    source: {fileID: 0}
-    spatialBlend: 0
-    defaultVolume: 0
-  - name: dash
-    clip: {fileID: 8300000, guid: bf99a014c71c77148912c0d285f260a7, type: 3}
-    volume: 1
-    pitch: 1
-    loop: 0
-    random: 0
-    source: {fileID: 0}
-    spatialBlend: 0
-    defaultVolume: 0
+  singleTacticAggro: 25
+  globalTacticAggro: 50
+  heldDownTime: 1
+  aButtonTactic: {fileID: 11400000, guid: 12c60c2a13102a84199c95f143b1c38e, type: 2}
+  bButtonTactic: {fileID: 11400000, guid: 3fb1cc54e525b0b4ebeb26e1fa7e809d, type: 2}
+  xButtonTactic: {fileID: 11400000, guid: 8362aad2d23edde4d98c03eac115f037, type: 2}
+  yButtonTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
 --- !u!1 &2843260327687979986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3338,6 +3305,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2749467006459795380}
     m_Modifications:
+    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
+      propertyPath: m_Name
+      value: ManaParticles
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3382,10 +3353,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
-      propertyPath: m_Name
-      value: ManaParticles
-      objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -3413,6 +3380,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7630372320048043376}
     m_Modifications:
+    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpShield
+      objectReference: {fileID: 0}
     - target: {fileID: 3449900416110481934, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3467,11 +3439,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -270
-      objectReference: {fileID: 0}
-    - target: {fileID: 3449900416110382638, guid: a6af6d7f9967f2d42be1d2e0027e7aef,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpShield
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6af6d7f9967f2d42be1d2e0027e7aef, type: 3}
@@ -3693,6 +3660,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2749467006459795380}
     m_Modifications:
+    - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+      propertyPath: m_Name
+      value: DashParticle
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -3748,10 +3719,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-      propertyPath: m_Name
-      value: DashParticle
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
       propertyPath: moveWithTransform
@@ -3969,6 +3936,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1177020097205480982}
     m_Modifications:
+    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapon_ImpSpear
+      objectReference: {fileID: 0}
     - target: {fileID: 6815750412354125750, guid: c52985df6bdd6a24d946b1feaef0ec9a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4024,11 +3996,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
       objectReference: {fileID: 0}
-    - target: {fileID: 6815750412353758102, guid: c52985df6bdd6a24d946b1feaef0ec9a,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon_ImpSpear
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c52985df6bdd6a24d946b1feaef0ec9a, type: 3}
 --- !u!4 &4541113979434758778 stripped
@@ -4044,6 +4011,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4596730451482614541}
     m_Modifications:
+    - target: {fileID: 5802167189291188955, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
+        type: 3}
+      propertyPath: m_Name
+      value: OnImpCrown
+      objectReference: {fileID: 0}
+    - target: {fileID: 5802167189291188955, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5802167189291622139, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4097,16 +4074,6 @@ PrefabInstance:
     - target: {fileID: 5802167189291622139, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5802167189291188955, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
-        type: 3}
-      propertyPath: m_Name
-      value: OnImpCrown
-      objectReference: {fileID: 0}
-    - target: {fileID: 5802167189291188955, guid: e0aa2c542c534ee4f9f1bbade4958fd8,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
