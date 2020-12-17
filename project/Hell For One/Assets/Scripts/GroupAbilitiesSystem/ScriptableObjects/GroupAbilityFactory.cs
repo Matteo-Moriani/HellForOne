@@ -39,6 +39,9 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         [SerializeField] private float cameraShakeIntensity;
         [SerializeField] private float cameraShakeDuration;
 
+        [SerializeField] private bool doCameraUnzoom;
+        [SerializeField] private bool doCameraDoubleLookAt;
+
         public int ManaSegmentsCost
         {
             get => manaSegmentsCost;
@@ -92,6 +95,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             get => inPositionBeforeActivation;
             private set => inPositionBeforeActivation = value;
         }
+        public bool DoCameraUnzoom { get => doCameraUnzoom; set => doCameraUnzoom = value; }
+        public bool DoCameraDoubleLookAt { get => doCameraDoubleLookAt; set => doCameraDoubleLookAt = value; }
     }
 
     public abstract class GroupAbility

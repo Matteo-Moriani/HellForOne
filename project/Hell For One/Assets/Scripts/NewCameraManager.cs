@@ -8,6 +8,7 @@ using ArenaSystem;
 using System;
 using ReincarnationSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
+using GroupAbilitiesSystem;
 
 public class NewCameraManager : MonoBehaviour
 {
@@ -30,6 +31,31 @@ public class NewCameraManager : MonoBehaviour
         cinemachineBasicMultiChannelPerlin = _cinemachineVirtualCameraLock.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
+    private void OnEnable()
+    {
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+
+        ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
+
+        ShakeOnHit.OnHitReceivedCameraShakeRequest += OnHitReceivedCameraShakeRequest;
+    }
+
+    private void OnDisable()
+    {
+        ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
+
+        ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
+
+        ShakeOnHit.OnHitReceivedCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
+
+        foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
+        {
+            go.GetComponentInChildren<GroupAbilities>().OnStartGroupAbility -= OnStartGroupAbility;
+        }
+    }
+
     private void Start()
     {
         _cinemachineVirtualCameraLock.gameObject.SetActive( false );
@@ -37,7 +63,7 @@ public class NewCameraManager : MonoBehaviour
 
         foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
         {
-            go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStartGroupAbility += OnStartGroupAbility;
+            go.GetComponentInChildren<GroupAbilities>().OnStartGroupAbility += OnStartGroupAbility;
             //go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStopGroupAbility += OnStopGroupAbility;
         }
     }
@@ -56,39 +82,26 @@ public class NewCameraManager : MonoBehaviour
         }
     }
 
-    private void OnStartGroupAbility( GroupAbility groupAbility )
+    private void OnStartGroupAbility( GroupAbilities groupAbilities, GroupAbility groupAbility )
     {
-        shakingIntensity = groupAbility.GetData().CameraShakeIntensity;
-        shakingTimerTotal = groupAbility.GetData().CameraShakeDuration;
-        shakingTimer = shakingTimerTotal;
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
-    }
-
-    
-
-    private void OnEnable()
-    {
-        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
-        ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
-        
-        ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
-
-        ShakeOnHit.OnHitReceivedCameraShakeRequest += OnHitReceivedCameraShakeRequest;
-    }
-
-    private void OnDisable()
-    {
-        ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
-        ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
-
-        ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
-
-        ShakeOnHit.OnHitReceivedCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
-
-        foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
+        if ( groupAbility.GetData().DoCameraShake )
         {
-            go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStartGroupAbility -= OnStartGroupAbility;
+            shakingIntensity = groupAbility.GetData().CameraShakeIntensity;
+            shakingTimerTotal = groupAbility.GetData().CameraShakeDuration;
+            shakingTimer = shakingTimerTotal;
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
         }
+
+        if ( groupAbility.GetData().DoCameraDoubleLookAt )
+        {
+
+        }
+
+        if ( groupAbility.GetData().DoCameraUnzoom )
+        {
+
+        }
+        
     }
 
     private void OnHitReceivedCameraShakeRequest( float duration , float intensity )
