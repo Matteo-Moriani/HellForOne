@@ -179,7 +179,7 @@ namespace AI.Imp
             AssignTactic(newTactic);
         }
 
-        private void OnStopGroupAbility()
+        private void OnStopGroupAbility(GroupAbilities groupAbilities)
         {
             _activeAbility = null;
         }
