@@ -66,14 +66,9 @@ namespace ManaSystem
             }
         }
 
-        public void StartLeader()
+        public void Reincarnate()
         {
             _particlesLock.RemoveLock();
-        }
-
-        public void StopLeader()
-        {
-            
         }
 
         public void OnZeroHp()

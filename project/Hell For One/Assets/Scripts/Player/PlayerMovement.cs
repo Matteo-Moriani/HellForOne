@@ -1,10 +1,11 @@
 ﻿using ActionsBlockSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using ReincarnationSystem;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour, IActionsBlockObserver, IReincarnationObserver
+    public class PlayerMovement : MonoBehaviour, IActionsBlockObserver, IReincarnationObserver, IHitPointsObserver
     {
         #region Fields
         
@@ -93,14 +94,14 @@ namespace Player
         public void Unblock() => UnlockMovement();
         UnitActionsBlockManager.UnitAction IActionsBlockObserver.GetAction() => UnitActionsBlockManager.UnitAction.Move;
 
-        public void StartLeader()
+        public void Reincarnate()
         {
             _movementLock.RemoveLock();
             
             PlayerInput.OnMoveInput += OnMoveInput;   
         }
-
-        public void StopLeader()
+        
+        public void OnZeroHp()
         {
             _movementLock.AddLock();
             

@@ -132,11 +132,6 @@ namespace AI.Movement
             _targetData = data;
         }
 
-        public void ResetTarget()
-        {
-            _targetData = null;
-        }
-        
         private void GetMapsFromDelegates()
         {
             foreach (ContextSteeringBehaviour t in _delegates)
@@ -158,8 +153,7 @@ namespace AI.Movement
 
         #region Interfaces
 
-        public void StartLeader() => Block();
-        public void StopLeader() { }
+        public void Reincarnate() => this.enabled = false;
 
         public void Block()
         {

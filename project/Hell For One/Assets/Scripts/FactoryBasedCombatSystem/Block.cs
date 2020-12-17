@@ -34,9 +34,8 @@ namespace FactoryBasedCombatSystem
 
         #region Interfaces
 
-        public void StartLeader() => SetBlockChance(0f);
-        public void StopLeader() { }
-
+        public void Reincarnate() => SetBlockChance(0f);
+        
         public void StartTactic(Tactic newTactic) => SetBlockChance(newTactic.GetData().TacticBlockChance);
         
         public void EndTactic(Tactic oldTactic) => SetBlockChance(0f);

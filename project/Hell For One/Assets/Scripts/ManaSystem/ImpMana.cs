@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ActionsBlockSystem;
 using ArenaSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using GroupAbilitiesSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
 using ReincarnationSystem;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace ManaSystem
 {
-    public class ImpMana : MonoBehaviour, IReincarnationObserver
+    public class ImpMana : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
     {
         #region Fields
 
@@ -107,9 +108,16 @@ namespace ManaSystem
 
         #region Interfaces
 
-        public void StartLeader() => _manaRechargeCr = StartCoroutine(ManaRechargeCoroutine());
+        public void Reincarnate() => _manaRechargeCr = StartCoroutine(ManaRechargeCoroutine());
 
-        public void StopLeader() => StopCoroutine(_manaRechargeCr);
+        public void OnZeroHp()
+        {
+            if(_manaRechargeCr == null) return;
+            
+            StopCoroutine(_manaRechargeCr);
+
+            _manaRechargeCr = null;
+        }
 
         #endregion
         

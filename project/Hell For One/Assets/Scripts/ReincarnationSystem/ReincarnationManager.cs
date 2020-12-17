@@ -88,7 +88,6 @@ namespace ReincarnationSystem
             
             if(reincarnable != _currentLeader) return;
             
-            reincarnable.LoseLeadership();
             AssignLeadership(_reincarnables[Random.Range(0,_reincarnables.Count)]);
         }
     }

@@ -19,13 +19,7 @@ namespace ReincarnationSystem
         public void GainLeadership()
         {
             foreach (IReincarnationObserver reincarnationObserver in _reincarnationObservers)
-                reincarnationObserver.StartLeader();
-        }
-
-        public void LoseLeadership()
-        {
-            foreach (IReincarnationObserver reincarnationObserver in _reincarnationObservers)
-                reincarnationObserver.StopLeader();
+                reincarnationObserver.Reincarnate();
         }
     }
 }

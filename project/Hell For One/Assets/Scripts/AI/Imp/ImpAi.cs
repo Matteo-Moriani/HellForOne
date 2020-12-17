@@ -10,6 +10,8 @@ namespace AI.Imp
 {
     public class ImpAi : MonoBehaviour, IGroupObserver, IHitPointsObserver, IReincarnationObserver
     {
+        #region Fields
+
         private AiUtils.TargetData _currentTargetData;
         
         private TacticFactory _activeTactic = null;
@@ -17,13 +19,25 @@ namespace AI.Imp
 
         private ITacticsObserver[] _observers;
 
+        #endregion
+
+        #region Properties
+
         public AiUtils.TargetData CurrentTargetData
         {
             get => _currentTargetData;
             private set => _currentTargetData = value;
         }
 
+        #endregion
+
+        #region Unity Methods
+
         private void Awake() => _observers = GetComponentsInChildren<ITacticsObserver>();
+
+        #endregion
+
+        #region Methods
 
         public void ExecuteTactic(TacticFactory tactic)
         {
@@ -44,19 +58,6 @@ namespace AI.Imp
             _tacticInstance.ExecuteTactic(this);
         }
         
-        public void JoinGroup(GroupManager groupManager) => _currentTargetData = groupManager.GetComponent<ImpGroupAi>().Target;
-
-        public void LeaveGroup(GroupManager groupManager)
-        {
-            if(_activeTactic != null)
-                foreach (ITacticsObserver tacticsObserver in _observers)
-                    StopCurrentTactic();   
-            
-            _currentTargetData = null;
-            _activeTactic = null;
-            _tacticInstance = null;
-        }
-
         private void StopCurrentTactic()
         {
             if(_tacticInstance == null) return;
@@ -69,10 +70,24 @@ namespace AI.Imp
             }
         }
 
-        public void OnZeroHp() => StopCurrentTactic();
-        public void StartLeader() => StopCurrentTactic();
-        public void StopLeader()
+        #endregion
+
+        #region Interfaces
+
+        public void JoinGroup(GroupManager groupManager) => _currentTargetData = groupManager.GetComponent<ImpGroupAi>().Target;
+
+        public void LeaveGroup(GroupManager groupManager)
         {
+            StopCurrentTactic();
+            
+            _currentTargetData = null;
+            _activeTactic = null;
+            _tacticInstance = null;
         }
+
+        public void OnZeroHp() => StopCurrentTactic();
+        public void Reincarnate() => StopCurrentTactic();
+
+        #endregion
     }
 }

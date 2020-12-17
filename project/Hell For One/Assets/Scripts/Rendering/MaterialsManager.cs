@@ -38,8 +38,6 @@ namespace Rendering
             }
         }
 
-        public void StartLeader() => SetDefaultMaterial(); 
-
-        public void StopLeader() { }
+        public void Reincarnate() => SetDefaultMaterial();
     }
 }

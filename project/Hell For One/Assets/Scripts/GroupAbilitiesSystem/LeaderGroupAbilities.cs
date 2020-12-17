@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace GroupAbilitiesSystem
 {
-    public class LeaderGroupAbilities : MonoBehaviour, IActionsBlockObserver, IReincarnationObserver, IPlayerAggroSubject
+    public class LeaderGroupAbilities : MonoBehaviour, IActionsBlockObserver, IPlayerAggroSubject
     {
         #region Fields
 
@@ -103,20 +103,19 @@ namespace GroupAbilitiesSystem
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.UseAbilities;
 
-        public void StartLeader()
-        {
-            _abilitiesLock.RemoveLock();
-            
-            PlayerInput.OnLTButtonDown += OnLTButtonDown;
-            PlayerInput.OnLTButtonUp += OnLTButtonUp;
-            
-            PlayerInput.OnXButtonDown += OnXButtonDown;
-            PlayerInput.OnYButtonDown += OnYButtonDown;
-            PlayerInput.OnAButtonDown += OnAButtonDown;
-            PlayerInput.OnBButtonDown += OnBButtonDown;
-        }
-
-        public void StopLeader() => _abilitiesLock.AddLock();
+        // TODO :- Use crown system to register to input events
+        // public void Reincarnate()
+        // {
+        //     _abilitiesLock.RemoveLock();
+        //     
+        //     PlayerInput.OnLTButtonDown += OnLTButtonDown;
+        //     PlayerInput.OnLTButtonUp += OnLTButtonUp;
+        //     
+        //     PlayerInput.OnXButtonDown += OnXButtonDown;
+        //     PlayerInput.OnYButtonDown += OnYButtonDown;
+        //     PlayerInput.OnAButtonDown += OnAButtonDown;
+        //     PlayerInput.OnBButtonDown += OnBButtonDown;
+        // }
 
         #endregion
     }

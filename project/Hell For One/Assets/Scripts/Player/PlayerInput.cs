@@ -2,12 +2,13 @@
 using System.Collections;
 using ActionsBlockSystem;
 using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using ReincarnationSystem;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerInput : MonoBehaviour, IReincarnationObserver
+    public class PlayerInput : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
     {
         #region Fields
 
@@ -151,8 +152,8 @@ namespace Player
             _lastLookDirection = _currentLookDirection;
         }
 
-        public void StartLeader() => _inputLock.RemoveLock();
-
-        public void StopLeader() => _inputLock.AddLock();
+        public void Reincarnate() => _inputLock.RemoveLock();
+        
+        public void OnZeroHp() => _inputLock.AddLock();
     }
 }
