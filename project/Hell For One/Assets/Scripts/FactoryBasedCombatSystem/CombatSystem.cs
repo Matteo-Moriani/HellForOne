@@ -146,6 +146,8 @@ namespace FactoryBasedCombatSystem
 
         private void OnAttackAnimationDeactivateAttack()
         {
+            if(_toActivate == null) return;
+
             _toActivate.Item1.DeactivateAttack(_toActivate.Item2);
             
             _toActivate = null;
