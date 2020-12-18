@@ -15,20 +15,31 @@ public class NewCameraManager : MonoBehaviour
     private Transform _currentBoss;
     private Transform _currentLeader;
     private bool _isLocked;
-    private float shakingTimer;
+    private float shakingTimer = 0;
     private float shakingTimerTotal;
     private float shakingIntensity;
+    private float doubleTargetTimer;
+    private float arenaCameraTimer;
+    private bool arenaCameraON = false;
 
     CinemachineFreeLook _cinemachineFreeLook;
-    CinemachineVirtualCamera _cinemachineVirtualCameraLock;
-    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin;
+    CinemachineVirtualCamera lockedCamera;
+    CinemachineVirtualCamera doubleTargetCamera;
+    CinemachineVirtualCamera arenaCamera;
+    CinemachineBasicMultiChannelPerlin doubleTargetCinemachineBasicMultiChannelPerlin;
+    CinemachineBasicMultiChannelPerlin lockedCinemachineBasicMultiChannelPerlin;
+    CinemachineTargetGroup targetGroup;
+
 
 
     private void Awake()
     {
         _cinemachineFreeLook = GameObject.FindGameObjectWithTag( "ThirdPersonCamera" ).GetComponent<CinemachineFreeLook>();
-        _cinemachineVirtualCameraLock = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
-        cinemachineBasicMultiChannelPerlin = _cinemachineVirtualCameraLock.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        lockedCamera = GameObject.FindGameObjectWithTag( "VirtualCameraLock" ).GetComponent<CinemachineVirtualCamera>();
+        doubleTargetCamera = GameObject.FindGameObjectWithTag( "DoubleTargetCamera" ).GetComponent<CinemachineVirtualCamera>();
+        doubleTargetCinemachineBasicMultiChannelPerlin = doubleTargetCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        lockedCinemachineBasicMultiChannelPerlin = doubleTargetCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        arenaCamera = GameObject.FindGameObjectWithTag( "ArenaCamera" ).GetComponent<CinemachineVirtualCamera>();
     }
 
     private void OnEnable()
@@ -58,8 +69,11 @@ public class NewCameraManager : MonoBehaviour
 
     private void Start()
     {
-        _cinemachineVirtualCameraLock.gameObject.SetActive( false );
+        lockedCamera.gameObject.SetActive( false );
+        doubleTargetCamera.gameObject.SetActive( false );
+        arenaCamera.gameObject.SetActive( false );
         _cinemachineFreeLook.gameObject.SetActive( true );
+        targetGroup = GameObject.FindGameObjectWithTag( "CinemachineTargetGroup" ).GetComponent<CinemachineTargetGroup>();
 
         foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
         {
@@ -73,35 +87,59 @@ public class NewCameraManager : MonoBehaviour
         /* Controllare che il valore sia lo stesso dello scriptable object dell'abilità, perché significa che
          * il colpo ha missato (fatto per evitare che la camera rimanga in shake)
          */
-        if ( cinemachineBasicMultiChannelPerlin.m_AmplitudeGain == 2f )
-        {
-            shakingIntensity = 1f;
-            shakingTimerTotal = 1f;
-            shakingTimer = 1f;
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
-        }
+        //if ( cinemachineBasicMultiChannelPerlin.m_AmplitudeGain == 2f )
+        //{
+        //    shakingIntensity = 1f;
+        //    shakingTimerTotal = 1f;
+        //    shakingTimer = 1f;
+        //    cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        //}
+
+
     }
 
-    private void OnStartGroupAbility( GroupAbilities groupAbilities, GroupAbility groupAbility )
+    private void OnStartGroupAbility( GroupAbilities groupAbilities , GroupAbility groupAbility )
     {
         if ( groupAbility.GetData().DoCameraShake )
         {
             shakingIntensity = groupAbility.GetData().CameraShakeIntensity;
-            shakingTimerTotal = groupAbility.GetData().CameraShakeDuration;
-            shakingTimer = shakingTimerTotal;
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+            //shakingTimerTotal = groupAbility.GetData().CameraShakeDuration;
+            //shakingTimer = shakingTimerTotal;
+            doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+            lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
         }
 
         if ( groupAbility.GetData().DoCameraDoubleLookAt )
         {
+            lockedCamera.gameObject.SetActive( false );
+            doubleTargetCamera.gameObject.SetActive( true );
 
+            doubleTargetTimer = 3f;
+
+            //targetGroup.m_Targets[ 0 ].target = _currentLeader.transform;
+            //targetGroup.m_Targets[ 0 ].weight = 1;
+
+            //targetGroup.m_Targets[ 0 ].target = _currentBoss.transform;
+            //targetGroup.m_Targets[ 0 ].weight = 1;
+
+            targetGroup.m_Targets[ 0 ].target = groupAbilities.transform.root;
+            targetGroup.m_Targets[ 0 ].weight = 1;
         }
 
         if ( groupAbility.GetData().DoCameraUnzoom )
         {
+            lockedCamera.gameObject.SetActive( false );
+            doubleTargetCamera.gameObject.SetActive( true );
 
+            doubleTargetTimer = 1.5f;
+
+            targetGroup.m_Targets[ 0 ].target = groupAbilities.transform.root;
+            targetGroup.m_Targets[ 0 ].weight = 1;
+
+            arenaCameraON = true;
+            arenaCameraTimer = 6f;
         }
-        
+
     }
 
     private void OnHitReceivedCameraShakeRequest( float duration , float intensity )
@@ -109,36 +147,46 @@ public class NewCameraManager : MonoBehaviour
         shakingIntensity = intensity;
         shakingTimerTotal = duration;
         shakingTimer = shakingTimerTotal;
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
     }
 
-    private void OnLeaderReincarnated(ReincarnableBehaviour obj)
+    private void OnLeaderReincarnated( ReincarnableBehaviour obj )
     {
         // TODO :- transform.Find is bad
-        _currentLeader = obj.transform.Find("CameraTarget").transform;
-        
+        _currentLeader = obj.transform.Find( "CameraTarget" ).transform;
+
         _cinemachineFreeLook.Follow = _currentLeader;
         _cinemachineFreeLook.LookAt = _currentLeader;
-        _cinemachineVirtualCameraLock.Follow = _currentLeader;
+
+        lockedCamera.Follow = _currentLeader;
+
+        doubleTargetCamera.Follow = _currentLeader;
+
+        arenaCamera.Follow = _currentLeader;
     }
 
     private void OnGlobalStartBattle( ArenaManager arenaManager )
     {
         _currentBoss = arenaManager.Boss.transform;
-        
-        _cinemachineVirtualCameraLock.gameObject.SetActive(true);
-        _cinemachineFreeLook.gameObject.SetActive(false);
-        
-        _cinemachineVirtualCameraLock.LookAt = _currentBoss;
+
+        lockedCamera.gameObject.SetActive( true );
+        _cinemachineFreeLook.gameObject.SetActive( false );
+
+        lockedCamera.LookAt = _currentBoss;
+
+        doubleTargetCamera.LookAt = targetGroup.transform;
+
+        arenaCamera.LookAt = _currentBoss;
 
         // _cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
     }
 
     private void OnGlobalEndBattle( ArenaManager obj )
     {
-        _cinemachineVirtualCameraLock.gameObject.SetActive(false);
-        _cinemachineFreeLook.gameObject.SetActive(true);
-        
+        lockedCamera.gameObject.SetActive( false );
+        _cinemachineFreeLook.gameObject.SetActive( true );
+
         // _cinemachineVirtualCameraLock.LookAt = _currentLeader;
         // _cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
     }
@@ -149,7 +197,45 @@ public class NewCameraManager : MonoBehaviour
         {
             shakingTimer -= Time.deltaTime;
 
-            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
+            doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
+            lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
+        }
+
+        if ( doubleTargetTimer > 0 )
+        {
+            doubleTargetTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if ( doubleTargetCamera.gameObject.activeSelf )
+            {
+                doubleTargetCamera.gameObject.SetActive( false );
+
+                if ( !arenaCameraON )
+                {
+                    lockedCamera.gameObject.SetActive( true );
+                }
+            }
+            // Transition to ArenaCamera
+            if ( !doubleTargetCamera.gameObject.activeSelf )
+            {
+                if ( arenaCameraON )
+                {
+                    //doubleTargetCamera.gameObject.SetActive( false );
+                    arenaCamera.gameObject.SetActive( true );
+
+                    if ( arenaCameraTimer > 0 )
+                    {
+                        arenaCameraTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        arenaCameraON = false;
+                        arenaCamera.gameObject.SetActive( false );
+                        lockedCamera.gameObject.SetActive( true );
+                    }
+                }
+            }
         }
     }
 }
