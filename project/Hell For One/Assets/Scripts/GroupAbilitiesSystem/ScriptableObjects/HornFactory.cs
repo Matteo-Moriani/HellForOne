@@ -43,13 +43,13 @@ namespace GroupAbilitiesSystem.ScriptableObjects
 
     public class HornAbility : GroupAbility<HornAbilityData>
     {
+        private GameObject _horn;
+        
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
-            GameObject horn = PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).GetPooledObject();
-
-            horn.transform.position = groupTransform.position + new Vector3(0f, 1f, 0f);
+            _horn.transform.position = groupTransform.position + new Vector3(0f, 1f, 0f);
             
-            horn.transform.SetParent(groupTransform);
+            _horn.transform.SetParent(groupTransform);
             
             ArenaManager arena = groupTransform.GetComponent<ImpGroupAi>().Target.Target.GetComponent<ArenaBoss>()
                 .Arena;
@@ -61,23 +61,28 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             
             while (timer <= data.ActivatedDuration)
             {
-                spectatorsSystems[i].StartAttack(data.AssociatedAttack.GetAttack(),arena.Boss.transform);
+                if(spectatorsSystems[i].enabled)
+                    spectatorsSystems[i].StartAttack(data.AssociatedAttack.GetAttack(),arena.Boss.transform);
 
                 yield return null;
                 
                 timer += Time.deltaTime;
                 i = i < spectatorsSystems.Length - 1 ? i + 1 : 0;
             }
-            
-            PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).DeactivatePooledObject(horn);
         }
 
         protected override void InnerSetup()
         {
+            _horn = PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).GetPooledObject();
         }
 
         protected override void InnerDispose()
         {
+            if (_horn == null) return;
+            
+            PoolersManager.Instance.TryGetPooler(data.AbilityPrefab).DeactivatePooledObject(_horn);
+
+            _horn = null;
         }
     }
 }

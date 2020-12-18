@@ -1,5 +1,6 @@
 ﻿using System;
 using ActionsBlockSystem;
+using ArenaSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
 using GroupSystem;
 using UnityEngine;
@@ -22,6 +23,10 @@ namespace GroupAbilitiesSystem
         {
             _groupManager = transform.root.GetComponent<GroupManager>();
         }
+
+        private void OnEnable() => ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+
+        private void OnDisable() => ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
 
         public void StartAbility(GroupAbility ability)
         {
@@ -56,6 +61,14 @@ namespace GroupAbilitiesSystem
             _abilityCr = null;
             
             OnStopGroupAbility?.Invoke(this);
+        }
+        
+        private void OnGlobalEndBattle(ArenaManager obj)
+        {
+            if(_currentAbility == null) return;
+            if(_abilityCr == null) return;
+
+            _currentAbility.Interrupt(StopAbility);
         }
     }
 }

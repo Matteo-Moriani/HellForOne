@@ -132,6 +132,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
             stopAction();
         }
 
+        public void Interrupt(Action stopAction) => Dispose(stopAction);
+
         #region Abstract members
 
         protected abstract IEnumerator InnerDoGroupAbility(Transform groupTransform);

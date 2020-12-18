@@ -43,19 +43,19 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     }
 
     public class HammerAbility : GroupAbility<HammerAbilityData>
-    { 
+    {
+        private GameObject _hammer;
+        
         protected override IEnumerator InnerDoGroupAbility(Transform groupTransform)
         {
             ImpGroupAi impGroupAi = groupTransform.GetComponent<ImpGroupAi>();
-            
-            GameObject hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
 
-            CombatSystem hammerCombatSystem = hammer.GetComponentInChildren<CombatSystem>();
+            CombatSystem hammerCombatSystem = _hammer.GetComponentInChildren<CombatSystem>();
 
-            while (impGroupAi.Target.GetTransformDistanceFromTarget(hammer.transform) > data.MINDistanceBeforeAttack)
+            while (impGroupAi.Target.GetTransformDistanceFromTarget(_hammer.transform) > data.MINDistanceBeforeAttack)
             {
-                hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (hammer.transform.position - impGroupAi.Target.Target.position).normalized;
-                hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - hammer.transform.position).normalized,Vector3.up);
+                _hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (_hammer.transform.position - impGroupAi.Target.Target.position).normalized;
+                _hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - _hammer.transform.position).normalized,Vector3.up);
                 
                 yield return null;
             }
@@ -66,25 +66,29 @@ namespace GroupAbilitiesSystem.ScriptableObjects
 
             while (timer <= data.ActivatedDuration)
             {
-                hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (hammer.transform.position - impGroupAi.Target.Target.position).normalized;
-                hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - hammer.transform.position).normalized,Vector3.up);
+                _hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (_hammer.transform.position - impGroupAi.Target.Target.position).normalized;
+                _hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - _hammer.transform.position).normalized,Vector3.up);
 
                 yield return null;
                 
                 timer += Time.deltaTime;
             }
 
-            hammer.transform.rotation = Quaternion.Euler(0f,0f,0f);
-            
-            PoolersManager.Instance.TryGetPooler(data.HammerPrefab).DeactivatePooledObject(hammer);
+            _hammer.transform.rotation = Quaternion.Euler(0f,0f,0f);
         }
 
         protected override void InnerSetup()
         {
+            _hammer = PoolersManager.Instance.TryGetPooler(data.HammerPrefab).GetPooledObject();
         }
         
         protected override void InnerDispose()
         {
+            if(_hammer == null) return;
+            
+            PoolersManager.Instance.TryGetPooler(data.HammerPrefab).DeactivatePooledObject(_hammer);
+
+            _hammer = null;
         }
     }
 }

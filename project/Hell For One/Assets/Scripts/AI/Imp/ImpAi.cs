@@ -1,4 +1,6 @@
-﻿using CRBT;
+﻿using System;
+using ArenaSystem;
+using CRBT;
 using FactoryBasedCombatSystem.Interfaces;
 using GroupSystem;
 using ReincarnationSystem;
@@ -34,6 +36,8 @@ namespace AI.Imp
         #region Unity Methods
 
         private void Awake() => _observers = GetComponentsInChildren<ITacticsObserver>();
+
+        private void OnEnable() => ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
 
         #endregion
 
@@ -72,6 +76,12 @@ namespace AI.Imp
 
         #endregion
 
+        #region Event Handlers
+
+        private void OnGlobalEndBattle(ArenaManager obj) => StopCurrentTactic();
+
+        #endregion
+        
         #region Interfaces
 
         public void JoinGroup(GroupManager groupManager) => _currentTargetData = groupManager.GetComponent<ImpGroupAi>().Target;

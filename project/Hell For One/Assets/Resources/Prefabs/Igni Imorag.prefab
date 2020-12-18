@@ -4505,7 +4505,6 @@ GameObject:
   - component: {fileID: 9001039873919552073}
   - component: {fileID: 5778300173629860318}
   - component: {fileID: 6746925491089308878}
-  - component: {fileID: 7697065831782383558}
   - component: {fileID: 1079710228523776550}
   - component: {fileID: 1618799429819674054}
   - component: {fileID: 2877971823606327941}
@@ -4519,6 +4518,7 @@ GameObject:
   - component: {fileID: 5247776086150685303}
   - component: {fileID: 9156622600516151304}
   - component: {fileID: 7525901170315092710}
+  - component: {fileID: 2865122937758647342}
   m_Layer: 0
   m_Name: Igni Imorag
   m_TagString: Boss
@@ -4632,18 +4632,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2927dd0f5e97934abc658d5e9d4373f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7697065831782383558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318650425002105789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 293270a80f1de554487a146ab2afeb8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1079710228523776550
@@ -4877,6 +4865,18 @@ MonoBehaviour:
     source: {fileID: 0}
     spatialBlend: 0
     defaultVolume: 0
+--- !u!114 &2865122937758647342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318650425002105789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc29c7f7c1d3a58428180f5d85a70f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1318650425002105791
 GameObject:
   m_ObjectHideFlags: 0
