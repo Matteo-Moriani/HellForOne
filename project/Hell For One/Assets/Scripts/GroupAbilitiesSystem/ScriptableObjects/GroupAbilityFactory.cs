@@ -42,6 +42,8 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         [SerializeField] private bool doCameraUnzoom;
         [SerializeField] private bool doCameraDoubleLookAt;
 
+        [SerializeField] private bool forceTargeting;
+
         public int ManaSegmentsCost
         {
             get => manaSegmentsCost;
@@ -97,6 +99,12 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         }
         public bool DoCameraUnzoom { get => doCameraUnzoom; set => doCameraUnzoom = value; }
         public bool DoCameraDoubleLookAt { get => doCameraDoubleLookAt; set => doCameraDoubleLookAt = value; }
+
+        public bool ForceTargeting
+        {
+            get => forceTargeting;
+            private set => forceTargeting = value;
+        }
     }
 
     public abstract class GroupAbility

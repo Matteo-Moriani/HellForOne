@@ -188,6 +188,17 @@ namespace AI.Boss
         /// <returns></returns>
         private bool TryChooseByAggro()
         {
+            if (GroupAggro.ForcedTargets.Count > 0)
+            {
+                _targetData.SetTarget(GroupAggro.ForcedTargets[Random.Range(0,GroupAggro.ForcedTargets.Count)].GetComponent<GroupManager>().GetRandomImp());
+                _contextSteering.SetTarget(_targetData);
+                OnBossTargetChanged?.Invoke(_targetData.Target);
+
+                _currentTargetStillValid = true;
+                
+                return true;
+            }
+
             // TODO :- this should be a separate node
             if(PlayerAggro.ReadAggro() >= Random.Range(1f, 100f))
             {

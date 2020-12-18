@@ -43,8 +43,6 @@ namespace AI.Imp
 
         public AiUtils.TargetData Target => _target;
 
-        private readonly ActionLock _changeTacticLock = new ActionLock();
-        
         #endregion
         
         #region Unity Methods
