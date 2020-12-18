@@ -16,7 +16,8 @@ namespace ActionsBlockSystem
             UseAbilities,
             ChargeMana,
             Attack,
-            ChangeTactic
+            ChangeTactic,
+            CallToArms
         }
         
         private readonly Dictionary<UnitAction, List<IActionsBlockObserver>> _observers = new Dictionary<UnitAction, List<IActionsBlockObserver>>();

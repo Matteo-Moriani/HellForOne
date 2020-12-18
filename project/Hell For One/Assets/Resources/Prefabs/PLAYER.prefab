@@ -1879,6 +1879,7 @@ GameObject:
   - component: {fileID: 7975022557890255441}
   - component: {fileID: 7284214850959426599}
   - component: {fileID: 8816429952109064761}
+  - component: {fileID: 3318942253102600407}
   m_Layer: 13
   m_Name: PLAYER
   m_TagString: Player
@@ -2317,6 +2318,23 @@ MonoBehaviour:
     source: {fileID: 0}
     spatialBlend: 0
     defaultVolume: 0
+--- !u!114 &3318942253102600407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6398173044429869191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9123fca1f5b428c80968789703f5ed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionBlocks: 010000000300000004000000
+  onActionAggro: 75
+  manaSegmentsCost: 2
+  availableHordePercentage: 0.5
+  duration: 2
 --- !u!1 &6415446460922557405
 GameObject:
   m_ObjectHideFlags: 0

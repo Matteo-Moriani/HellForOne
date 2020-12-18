@@ -90,10 +90,7 @@ namespace TacticsSystem
                 if( timer <= -15 / 11 * _recruitingImps.Count + 25) continue;
 
                 timer = 0f;
-                
-                // Vector2 random = Random.insideUnitCircle * randomRay;
-                // Vector3 leaderPosition = ReincarnationManager.Instance.CurrentLeader.transform.position;
-                
+
                 HordeManager.Instance.SpawnImp(currentArena.NewImpSpawnAnchors[Random.Range(0,currentArena.NewImpSpawnAnchors.Length)].position,Quaternion.identity);
             }
         }

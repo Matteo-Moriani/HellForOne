@@ -58,5 +58,7 @@ namespace HordeSystem
             
             Instantiate(impPrefab, position, rotation);
         }
+
+        public int AvailableSlots() => _maxImps - _currentImps.Count;
     }
 }
