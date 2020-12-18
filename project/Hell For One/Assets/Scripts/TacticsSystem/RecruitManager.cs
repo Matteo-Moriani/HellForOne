@@ -62,11 +62,11 @@ namespace TacticsSystem
             Debug.Log("Imp unregister");
         }
 
-        private void OnGlobalStartBattle(ArenaManager obj) => StartCoroutine(RecruitCoroutine());
+        private void OnGlobalStartBattle(ArenaManager arena) => StartCoroutine(RecruitCoroutine(arena));
         
-        private void OnGlobalEndBattle(ArenaManager obj) => StopAllCoroutines();
+        private void OnGlobalEndBattle(ArenaManager arena) => StopAllCoroutines();
 
-        private IEnumerator RecruitCoroutine()
+        private IEnumerator RecruitCoroutine(ArenaManager currentArena)
         {
             float timer = 0f;
 
@@ -91,10 +91,10 @@ namespace TacticsSystem
 
                 timer = 0f;
                 
-                Vector2 random = Random.insideUnitCircle * randomRay;
-                Vector3 leaderPosition = ReincarnationManager.Instance.CurrentLeader.transform.position;
+                // Vector2 random = Random.insideUnitCircle * randomRay;
+                // Vector3 leaderPosition = ReincarnationManager.Instance.CurrentLeader.transform.position;
                 
-                HordeManager.Instance.SpawnImp(new Vector3(leaderPosition.x + random.x, leaderPosition.y,leaderPosition.z + random.y),Quaternion.identity);
+                HordeManager.Instance.SpawnImp(currentArena.NewImpSpawnAnchors[Random.Range(0,currentArena.NewImpSpawnAnchors.Length)].position,Quaternion.identity);
             }
         }
     }

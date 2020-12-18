@@ -15,6 +15,8 @@ namespace ArenaSystem
         [SerializeField] private Transform group1StartPosition;
         [SerializeField] private Transform group2StartPosition;
         [SerializeField] private Transform group3StartPosition;
+
+        [SerializeField] private Transform[] newImpSpawnAnchors;
         
         private readonly Dictionary<IArenaObserver,bool> _observersState = new Dictionary<IArenaObserver, bool>();
         
@@ -60,6 +62,12 @@ namespace ArenaSystem
         {
             get => group3StartPosition;
             private set => group3StartPosition = value;
+        }
+
+        public Transform[] NewImpSpawnAnchors
+        {
+            get => newImpSpawnAnchors;
+            private set => newImpSpawnAnchors = value;
         }
 
         private void Awake()
