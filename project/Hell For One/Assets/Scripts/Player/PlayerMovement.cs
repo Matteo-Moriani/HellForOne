@@ -75,9 +75,8 @@ namespace Player
             Vector3 horizontalMovement = new Vector3(movementDirection.x, 0f, movementDirection.z);
             _rb.velocity = movementDirection;
             _rb.MoveRotation(Quaternion.LookRotation(horizontalMovement.magnitude > 0 ?  horizontalMovement : transform.forward));
-
-            // TODO :- Negative values
-            if (_rb.velocity.x >= 0.1f || _rb.velocity.z >= 0.1f)
+            
+            if (new Vector3(_rb.velocity.x,0f,_rb.velocity.z).magnitude >= 0.01f)
             {
                 RaiseOnStartMoving();
             }

@@ -1,7 +1,10 @@
 ﻿using System;
+using AI.Movement;
+using CallToArmsSystem;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using Player;
 using TacticsSystem;
 using TMPro;
 using UnityEngine;
@@ -14,8 +17,9 @@ namespace Animations
         private CombatSystem _combatSystem;
         private ImpRecruitBehaviour _impRecruitBehaviour;
         private ImpCounterBehaviour _impCounterBehaviour;
-        
-        private Vector3 _lastFramePosition;
+        private LeaderCallToArms _leaderCallToArms;
+        private ContextSteering _contextSteering;
+        private PlayerMovement _playerMovement;
 
         private void Awake()
         {
@@ -23,8 +27,9 @@ namespace Animations
             _combatSystem = GetComponentInChildren<CombatSystem>();
             _impRecruitBehaviour = GetComponent<ImpRecruitBehaviour>();
             _impCounterBehaviour = GetComponent<ImpCounterBehaviour>();
-
-            _lastFramePosition = transform.position;
+            _leaderCallToArms = GetComponent<LeaderCallToArms>();
+            _contextSteering = GetComponent<ContextSteering>();
+            _playerMovement = GetComponent<PlayerMovement>();
         }
 
         private void OnEnable()
@@ -37,6 +42,15 @@ namespace Animations
 
             _impCounterBehaviour.OnStartCounter += OnStartCounter;
             _impCounterBehaviour.OnStopCounter += OnStopCounter;
+
+            _leaderCallToArms.OnCallToArmsStart += OnCallToArmsStart;
+            _leaderCallToArms.OnCallToArmsStop += OnCallToArmsStop;
+
+            _contextSteering.OnStartMoving += OnStartMoving;
+            _contextSteering.OnStopMoving += OnStopMoving;
+
+            _playerMovement.OnStartMoving += OnStartMoving;
+            _playerMovement.OnStopMoving += OnStopMoving;
         }
 
         private void OnDisable()
@@ -49,15 +63,15 @@ namespace Animations
             
             _impCounterBehaviour.OnStartCounter -= OnStartCounter;
             _impCounterBehaviour.OnStopCounter -= OnStopCounter;
+            
+            _leaderCallToArms.OnCallToArmsStart -= OnCallToArmsStart;
+            _leaderCallToArms.OnCallToArmsStop -= OnCallToArmsStop;
         }
 
-        private void Update()
-        {
-            _animator.SetBool("isMoving",IsMoving());
+        private void OnStartMoving() => _animator.SetBool("isMoving", true);
 
-            _lastFramePosition = transform.position;
-        }
-
+        private void OnStopMoving() => _animator.SetBool("isMoving", false);
+        
         private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3) =>
             _animator.SetTrigger("parry");
 
@@ -71,7 +85,10 @@ namespace Animations
 
         private void OnStopCounter() => _animator.SetBool("isBlocking", false);
 
-        private bool IsMoving() => Vector3.Distance(transform.position, _lastFramePosition) >= 0.01f;
+        private void OnCallToArmsStart() => _animator.SetBool("inCallToArms", true);
+
+        private void OnCallToArmsStop() => _animator.SetBool("inCallToArms", false);
+        
         public void OnZeroHp() => _animator.SetTrigger("death");
     }
 }
