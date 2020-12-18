@@ -2,33 +2,44 @@
 using FactoryBasedCombatSystem;
 using Player;
 using ReincarnationSystem;
+using System;
 
 public class ImpAudio : CharacterAudio, IReincarnationObserver
 {
     public override void SubscribeToOtherEvents()
     {
         gameObject.GetComponentInChildren<Dash>().OnStartDash += OnStartDash;
-        GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
-        GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
+        if(gameObject.tag == "Player")
+            StartLeader();
+        else
+        {
+            GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
+            GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
+        }
     }
 
     public override void UnsubscribeToOtherEvents()
     {
         gameObject.GetComponentInChildren<Dash>().OnStartDash -= OnStartDash;
-        GetComponent<ContextSteering>().OnStartMoving -= OnStartMoving;
-        GetComponent<ContextSteering>().OnStopMoving -= OnStopMoving;
+        if(gameObject.tag == "Player")
+            StopLeader();
+        else
+        {
+            GetComponent<ContextSteering>().OnStartMoving -= OnStartMoving;
+            GetComponent<ContextSteering>().OnStopMoving -= OnStopMoving;
+        }
     }
 
     public void StartLeader()
     {
-        GetComponent<PlayerMovement>().OnStartMoving += OnStartMoving;
-        GetComponent<PlayerMovement>().OnStopMoving += OnStopMoving;
+        GetComponent<PlayerMovement>().OnStartMoving += OnStartLeaderMoving;
+        GetComponent<PlayerMovement>().OnStopMoving += OnStopLeaderMoving;
     }
 
     public void StopLeader()
     {
-        GetComponent<PlayerMovement>().OnStartMoving -= OnStartMoving;
-        GetComponent<PlayerMovement>().OnStopMoving -= OnStopMoving;
+        GetComponent<PlayerMovement>().OnStartMoving -= OnStartLeaderMoving;
+        GetComponent<PlayerMovement>().OnStopMoving -= OnStopLeaderMoving;
     }
 
     private void OnStartMoving()
@@ -39,6 +50,16 @@ public class ImpAudio : CharacterAudio, IReincarnationObserver
     private void OnStopMoving()
     {
         Stop("walk");
+    }
+
+    private void OnStartLeaderMoving()
+    {
+        Play("leaderWalk");
+    }
+
+    private void OnStopLeaderMoving()
+    {
+        Stop("leaderWalk");
     }
 
     private void OnStartDash()
