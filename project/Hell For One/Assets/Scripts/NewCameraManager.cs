@@ -142,13 +142,16 @@ public class NewCameraManager : MonoBehaviour
 
     }
 
-    private void OnHitReceivedCameraShakeRequest( float duration , float intensity )
+    private void OnHitReceivedCameraShakeRequest( float duration , float intensity, bool doCameraShakeOnHit )
     {
-        shakingIntensity = intensity;
-        shakingTimerTotal = duration;
-        shakingTimer = shakingTimerTotal;
-        doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
-        lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        if ( doCameraShakeOnHit )
+        {
+            shakingIntensity = intensity;
+            shakingTimerTotal = duration;
+            shakingTimer = duration;
+            doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+            lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakingIntensity;
+        }
     }
 
     private void OnLeaderReincarnated( ReincarnableBehaviour obj )
@@ -195,10 +198,10 @@ public class NewCameraManager : MonoBehaviour
     {
         if ( shakingTimer > 0 )
         {
-            shakingTimer -= Time.deltaTime;
-
             doubleTargetCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
             lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
+
+            shakingTimer -= Time.deltaTime;
         }
 
         if ( doubleTargetTimer > 0 )

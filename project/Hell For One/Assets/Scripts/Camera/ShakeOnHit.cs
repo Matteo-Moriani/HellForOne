@@ -8,7 +8,7 @@ using System;
 public class ShakeOnHit : MonoBehaviour
 {
     CombatSystem combatSystem;
-    public static event Action<float , float> OnHitReceivedCameraShakeRequest;
+    public static event Action<float , float, bool> OnHitReceivedCameraShakeRequest;
 
     private void Awake()
     {
@@ -27,6 +27,6 @@ public class ShakeOnHit : MonoBehaviour
 
     private void OnDamageHitReceived( Attack arg1 , CombatSystem arg2 , Vector3 arg3 )
     {
-        OnHitReceivedCameraShakeRequest?.Invoke(arg1.GetData().ONDamageHitShakeDuration, arg1.GetData().ONDamageHitShakeIntensity);
+        OnHitReceivedCameraShakeRequest?.Invoke(arg1.GetData().ONDamageHitShakeDuration, arg1.GetData().ONDamageHitShakeIntensity, arg1.GetData().DoCameraShakeOnDamageHit);
     }
 }
