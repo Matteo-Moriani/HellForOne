@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 6362299435048903153}
   - component: {fileID: 7546349330532949200}
   - component: {fileID: 4401054441104568676}
+  - component: {fileID: 88981311845185168}
   m_Layer: 0
   m_Name: GroupAbilityHammer
   m_TagString: Untagged
@@ -142,6 +143,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &88981311845185168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7638902474325991779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096cf5db43704589931d762602424964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3158883561305673873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -224,17 +237,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: actionBlocks.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: unitType
-      value: 
-      objectReference: {fileID: 11400000, guid: 44d4f95f28df6cd4f96d9d2983c494dc,
-        type: 2}
     - target: {fileID: 701088175334088897, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: actionBlocks.Array.size
@@ -260,6 +262,17 @@ PrefabInstance:
       propertyPath: actionBlocks.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: actionBlocks.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: unitType
+      value: 
+      objectReference: {fileID: 11400000, guid: 44d4f95f28df6cd4f96d9d2983c494dc,
+        type: 2}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius

@@ -21,6 +21,7 @@ namespace GroupAbilitiesSystem.ScriptableObjects
     {
         [SerializeField] private GameObject hammerPrefab;
         [SerializeField] private AttackFactory associatedAttack;
+        [SerializeField] private float minDistanceBeforeAttack;
 
         public GameObject HammerPrefab
         {
@@ -32,6 +33,12 @@ namespace GroupAbilitiesSystem.ScriptableObjects
         {
             get => associatedAttack;
             private set => associatedAttack = value;
+        }
+
+        public float MINDistanceBeforeAttack
+        {
+            get => minDistanceBeforeAttack;
+            private set => minDistanceBeforeAttack = value;
         }
     }
 
@@ -45,6 +52,14 @@ namespace GroupAbilitiesSystem.ScriptableObjects
 
             CombatSystem hammerCombatSystem = hammer.GetComponentInChildren<CombatSystem>();
 
+            while (impGroupAi.Target.GetTransformDistanceFromTarget(hammer.transform) > data.MINDistanceBeforeAttack)
+            {
+                hammer.transform.position = groupTransform.position + new Vector3(0f,1f,0f) + (hammer.transform.position - impGroupAi.Target.Target.position).normalized;
+                hammer.transform.rotation = Quaternion.LookRotation((impGroupAi.Target.Target.position - hammer.transform.position).normalized,Vector3.up);
+                
+                yield return null;
+            }
+            
             hammerCombatSystem.StartAttack(data.AssociatedAttack.GetAttack());
 
             float timer = 0f;

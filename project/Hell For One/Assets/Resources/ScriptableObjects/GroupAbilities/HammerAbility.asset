@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HammerAbility
   m_EditorClassIdentifier: 
   data:
-    actionBlocks: 0200000006000000
-    inPositionBeforeActivation: 1
+    actionBlocks: 06000000
+    inPositionBeforeActivation: 0
     abilityPrefab: {fileID: 0}
     manaSegmentsCost: 1
     associatedTactic: {fileID: 11400000, guid: 5bd7752ee4ee0d24e95e3ab4c6a12650, type: 2}
@@ -24,6 +24,8 @@ MonoBehaviour:
     cameraShakeDuration: 0
     doCameraUnzoom: 0
     doCameraDoubleLookAt: 1
+    forceTargeting: 0
     hammerPrefab: {fileID: 7638902474325991779, guid: 26dd7156e400d96458d1bae4f60c3bf4,
       type: 3}
     associatedAttack: {fileID: 11400000, guid: 04f3c3e59d5d8bb42ae5208e00e22801, type: 2}
+    minDistanceBeforeAttack: 3
