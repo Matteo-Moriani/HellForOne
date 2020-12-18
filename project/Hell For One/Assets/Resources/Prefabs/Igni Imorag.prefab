@@ -4653,11 +4653,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22a4dbe0b308dd1488bfcc213611b665, type: 2}
   - {fileID: 11400000, guid: f07afc5b3d55a984aaf4fc59bf0b303b, type: 2}
   - {fileID: 11400000, guid: f9cd1316cf5c33d4fa9aa97dae5aab87, type: 2}
-  targetChangingRateo: 2
+  targetChangingRateo: 5
   maxFacingTolerance: 0.99
-  minFacingTolerance: 0.1
-  adaptiveFacingTolerance: 0
-  facingToleranceDecreasingRateo: 0
+  minFacingTolerance: 0.5
+  adaptiveFacingTolerance: 1
+  facingToleranceDecreasingRateo: 0.01
 --- !u!114 &1618799429819674054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4670,7 +4670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a107091d658c30b408b993489a514ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 1
+  attackCooldown: 3
 --- !u!114 &2877971823606327941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4757,8 +4757,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   steeringResolution: 16
-  linearSpeed: 3
-  angularSpeed: 2.5
+  linearSpeed: 5
+  angularSpeed: 4
   newDirectionWeight: 0.1
   linearTolerance: 0.8
   debug: 1
@@ -4786,7 +4786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd2d4b9d2b4e02913a531f1adf81e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHp: 1000
+  startingHp: 5000
   deathActionBlocks: 000000000200000006000000
 --- !u!114 &5247776086150685303
 MonoBehaviour:

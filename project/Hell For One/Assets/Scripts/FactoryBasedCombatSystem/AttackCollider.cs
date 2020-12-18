@@ -44,12 +44,22 @@ namespace FactoryBasedCombatSystem
 
         private void Awake() => _sphereCollider = GetComponent<SphereCollider>();
 
+        private void OnEnable()
+        {
+            _currentAttack = null;
+            _ownerCombatSystem = null;
+            _currentId = -int.MaxValue;
+            _sphereCollider.radius = 0f;
+            _sphereCollider.enabled = false;
+        }
+
         private void OnDisable()
         {
             _currentAttack = null;
             _ownerCombatSystem = null;
             _currentId = -int.MaxValue;
             _sphereCollider.radius = 0f;
+            _sphereCollider.enabled = false;
         }
 
         #endregion
@@ -64,6 +74,7 @@ namespace FactoryBasedCombatSystem
             _ownerCombatSystem = ownerCombatSystem;
             _currentId = id;
             _sphereCollider.radius = radius;
+            _sphereCollider.enabled = true;
         }
 
         #endregion

@@ -29,7 +29,7 @@ MonoBehaviour:
     splashDamage: 0
     splashDamageRadius: 0
     splashDamageTime: 0
-    minDistance: 0
+    minDistance: 5
     maxDistance: Infinity
     doCameraShakeOnDamageHit: 1
     onDamageHitShakeDuration: 1
@@ -37,7 +37,7 @@ MonoBehaviour:
     attackCry: {fileID: 8300000, guid: dce322f487045c24889c9ea775f71b37, type: 3}
     volume: 0.9
     pitch: 1
-    attackProbability: 100
+    attackProbability: 15
     attackPrefab: {fileID: 3030460436739687917, guid: fd05b1c7268ad784393b4fbcd734d4a9,
       type: 3}
     maxDistVariation: 2.5
