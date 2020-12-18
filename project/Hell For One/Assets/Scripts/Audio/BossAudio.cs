@@ -1,6 +1,7 @@
 ﻿using AI.Movement;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using UnityEngine;
 
 public class BossAudio : CharacterAudio
 {
@@ -8,6 +9,7 @@ public class BossAudio : CharacterAudio
     {
         GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
         GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
+        GetComponentInChildren<CombatSystem>().OnDamageHitDealt += OnDamageHitDealt;
     }
 
     public override void UnsubscribeToOtherEvents()
@@ -24,5 +26,27 @@ public class BossAudio : CharacterAudio
     private void OnStopMoving()
     {
         Stop("walk");
+    }
+
+    private void OnDamageHitDealt(Attack attack, CombatSystem c, Vector3 v)
+    {
+        switch(attack.name)
+        {
+            case "MidBossSingleAttack":
+                Play("singleAttack");
+                break;
+            case "MidBossGroupAttack":
+                Play("groupAttack");
+                break;
+            case "BossSingleAttack":
+                Play("singleAttack");
+                break;
+            case "BossGroupAttack":
+                Play("groupAttack");
+                break;
+            default:
+                Debug.Log("ATTACK "+ attack.name +" NOT FOUND");
+                break;
+        }
     }
 }

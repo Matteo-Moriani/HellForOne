@@ -4516,8 +4516,8 @@ GameObject:
   - component: {fileID: 3803298940352080623}
   - component: {fileID: 1531230353625145436}
   - component: {fileID: 2729774748056700074}
+  - component: {fileID: 5247776086150685303}
   - component: {fileID: 9156622600516151304}
-  - component: {fileID: 4036732156227517431}
   - component: {fileID: 7525901170315092710}
   m_Layer: 0
   m_Name: Igni Imorag
@@ -4800,6 +4800,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHp: 1000
   deathActionBlocks: 000000000200000006000000
+--- !u!114 &5247776086150685303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318650425002105789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859befefde934d4d9b994a842fb50239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfterSeconds: 3
 --- !u!114 &9156622600516151304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4814,19 +4827,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 5778776922506255941, guid: e62ef978b405fb74a9e842ceda0541af,
     type: 3}
---- !u!114 &4036732156227517431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1318650425002105789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f3b4f4e84bfa344eb85f68290327fdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _deathEffect: {fileID: 2426142899468741783}
 --- !u!114 &7525901170315092710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4842,10 +4842,28 @@ MonoBehaviour:
   rollOffMaxDistance: 50
   sounds:
   - name: walk
-    clip: {fileID: 8300000, guid: bb282ea1a98359f47966c061f57ab5aa, type: 3}
+    clip: {fileID: 8300000, guid: bc1859f41f70e49478d11627fc2cea17, type: 3}
     volume: 0.5
     pitch: 1
     loop: 1
+    random: 0
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
+  - name: singleAttack
+    clip: {fileID: 8300000, guid: 446ed41ad926e3a4291bcb16f9e76b30, type: 3}
+    volume: 0.55
+    pitch: 0.95
+    loop: 0
+    random: 0
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
+  - name: groupAttack
+    clip: {fileID: 8300000, guid: 446ed41ad926e3a4291bcb16f9e76b30, type: 3}
+    volume: 0.7
+    pitch: 0.9
+    loop: 0
     random: 0
     source: {fileID: 0}
     spatialBlend: 0
@@ -8340,17 +8358,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
+    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius
@@ -9621,14 +9639,18 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 528963594596999106, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a10e9de17c06c174b879b1c922bc377c, type: 3}
+    - target: {fileID: 528963594596999106, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 757d2894e0edb2a4f8d5a1d9baad3d02, type: 3}
---- !u!1 &2426142899468741783 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6454325019390248816, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-    type: 3}
-  m_PrefabInstance: {fileID: 8663019630203743207}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2423097828737319701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6456377183885535474, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,

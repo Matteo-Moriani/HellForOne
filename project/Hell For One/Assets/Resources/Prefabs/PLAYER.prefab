@@ -2167,7 +2167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859befefde934d4d9b994a842fb50239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyAfterSeconds: 2
+  destroyAfterSeconds: 3
 --- !u!114 &2685873113916753224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2324,7 +2324,7 @@ MonoBehaviour:
     defaultVolume: 0
   - name: dash
     clip: {fileID: 8300000, guid: 648d2b2eac36c2247aa6246bc70ef46d, type: 3}
-    volume: 0.8
+    volume: 2
     pitch: 1.5
     loop: 0
     random: 0
@@ -2342,7 +2342,7 @@ MonoBehaviour:
     defaultVolume: 0
   - name: shield
     clip: {fileID: 8300000, guid: 6bdc9384e48fce24684c5b5004d56995, type: 3}
-    volume: 0.1
+    volume: 0.15
     pitch: 0.8
     loop: 0
     random: 1

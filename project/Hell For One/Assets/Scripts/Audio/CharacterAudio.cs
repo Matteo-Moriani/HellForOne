@@ -18,7 +18,7 @@ public abstract class CharacterAudio : MonoBehaviour
             if(s.random == true)
             {
                 s.source.volume = s.volume * UnityEngine.Random.Range(0.8f, 1.2f);
-                s.source.pitch = s.pitch * UnityEngine.Random.Range(0.8f, 1.2f);
+                s.source.pitch = s.pitch * UnityEngine.Random.Range(0.9f, 1.1f);
                 s.source.dopplerLevel += UnityEngine.Random.Range(0f, 1f);
             }
             else
