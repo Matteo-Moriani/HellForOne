@@ -4,39 +4,37 @@ using UnityEngine;
 
 public class DeathParticlesBehaviour : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _deathEffect;
-    private ParticleSystem[] _particleSystems;
+    private ParticleSystem _particleSystem;
+    private AudioSource _audioSource;
     private SkinnedMeshRenderer[] _skinnedMeshRenderers;
     private MeshRenderer[] _meshRenderers;
     private Quaternion _fixedRotation;
 
     private void Awake()
     {
-        _particleSystems = _deathEffect.GetComponentsInChildren<ParticleSystem>();
+        _particleSystem = GetComponent<ParticleSystem>();
+        _audioSource = GetComponent<AudioSource>();
 
-        _skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-        _meshRenderers = GetComponentsInChildren<MeshRenderer>();
+        _skinnedMeshRenderers = transform.root.GetComponentsInChildren<SkinnedMeshRenderer>();
+        _meshRenderers = transform.root.GetComponentsInChildren<MeshRenderer>();
 
         _fixedRotation = new Quaternion(transform.rotation.x, 0f, transform.rotation.z, transform.rotation.w);
     }
 
     private void OnEnable()
     {
-        GetComponent<AnimationEventsHooks>().OnDeathAnimationEnd += OnDeathAnimationEnd;
+        transform.root.GetComponent<AnimationEventsHooks>().OnDeathAnimationEnd += OnDeathAnimationEnd;
     }
 
     private void OnDisable()
     {
-        GetComponent<AnimationEventsHooks>().OnDeathAnimationEnd -= OnDeathAnimationEnd;
+        transform.root.GetComponent<AnimationEventsHooks>().OnDeathAnimationEnd -= OnDeathAnimationEnd;
     }
 
     private void OnDeathAnimationEnd()
     {
-        foreach(ParticleSystem p in _particleSystems)
-        {
-            p.Play();
-        }
+        _particleSystem.Play();
+        _audioSource.Play();
 
         StartCoroutine(DisappearLater());
     }

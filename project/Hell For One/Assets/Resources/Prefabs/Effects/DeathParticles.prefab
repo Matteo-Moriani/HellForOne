@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6456377183885535474}
+  - component: {fileID: 3136763196074705759}
   - component: {fileID: 6581626484662146074}
   - component: {fileID: 6581334647376018324}
   - component: {fileID: 528963594596999106}
@@ -33,6 +34,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3136763196074705759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454325019390248816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3b4f4e84bfa344eb85f68290327fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &6581626484662146074
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4475,9 +4488,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8f43a60b7ab9a314b88e27e8e761ba72, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2571bb801db36b84b90d689e895c88a9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4486,9 +4499,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 30
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

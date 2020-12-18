@@ -1,14 +1,19 @@
 ﻿using AI.Movement;
 using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using Player;
 using ReincarnationSystem;
 using System;
+using UnityEngine;
 
 public class ImpAudio : CharacterAudio, IReincarnationObserver
 {
     public override void SubscribeToOtherEvents()
     {
         gameObject.GetComponentInChildren<Dash>().OnStartDash += OnStartDash;
+        gameObject.GetComponentInChildren<CombatSystem>().OnBlockedHitReceived += OnBlockedHitReceived;
+        gameObject.GetComponentInChildren<CombatSystem>().OnDamageHitDealt += OnDamageHitDealt;
+
         if(gameObject.tag == "Player")
             StartLeader();
         else
@@ -21,6 +26,9 @@ public class ImpAudio : CharacterAudio, IReincarnationObserver
     public override void UnsubscribeToOtherEvents()
     {
         gameObject.GetComponentInChildren<Dash>().OnStartDash -= OnStartDash;
+        gameObject.GetComponentInChildren<CombatSystem>().OnBlockedHitReceived -= OnBlockedHitReceived;
+        gameObject.GetComponentInChildren<CombatSystem>().OnDamageHitDealt -= OnDamageHitDealt;
+
         if(gameObject.tag == "Player")
             StopLeader();
         else
@@ -65,5 +73,15 @@ public class ImpAudio : CharacterAudio, IReincarnationObserver
     private void OnStartDash()
     {
         Play("dash");
+    }
+
+    private void OnBlockedHitReceived(Attack a, CombatSystem c, Vector3 v)
+    {
+        Play("shield");
+    }
+
+    private void OnDamageHitDealt(Attack a, CombatSystem c, Vector3 v)
+    {
+        Play("spear");
     }
 }
