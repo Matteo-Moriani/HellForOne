@@ -8,6 +8,7 @@ namespace ManaSystem
     public class ManaParticlesBehaviour : MonoBehaviour, IReincarnationObserver
     {
         private ParticleSystem[] _particleSystems;
+        private AudioSource _audioSource;
 
         private readonly ActionLock _particlesLock = new ActionLock();
 
@@ -18,6 +19,7 @@ namespace ManaSystem
             _particlesLock.AddLock();
             
             _particleSystems = GetComponentsInChildren<ParticleSystem>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void OnEnable()
@@ -52,6 +54,7 @@ namespace ManaSystem
                 {
                     system.Play();    
                 }
+                _audioSource.Play();
             }
             else
             {
@@ -62,7 +65,8 @@ namespace ManaSystem
                 foreach (ParticleSystem system in _particleSystems)
                 {
                     system.Stop();    
-                }   
+                }
+                _audioSource.Stop();
             }
         }
 
@@ -74,6 +78,7 @@ namespace ManaSystem
             {
                 system.Stop();
             }
+            _audioSource.Stop();
         }
     }
 }

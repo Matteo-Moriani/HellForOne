@@ -1,6 +1,7 @@
 ﻿using AI.Movement;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
+using ManaSystem;
 using Player;
 using ReincarnationSystem;
 using System;

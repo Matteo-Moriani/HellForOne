@@ -10,12 +10,15 @@ public class BossAudio : CharacterAudio
         GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
         GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
         GetComponentInChildren<CombatSystem>().OnDamageHitDealt += OnDamageHitDealt;
+        GetComponentInChildren<CombatSystem>().OnDamageHitReceived += OnDamageHitReceived;
     }
 
     public override void UnsubscribeToOtherEvents()
     {
         GetComponent<ContextSteering>().OnStartMoving -= OnStartMoving;
         GetComponent<ContextSteering>().OnStopMoving -= OnStopMoving;
+        GetComponentInChildren<CombatSystem>().OnDamageHitDealt -= OnDamageHitDealt;
+        GetComponentInChildren<CombatSystem>().OnDamageHitReceived -= OnDamageHitReceived;
     }
 
     private void OnStartMoving()
@@ -46,6 +49,19 @@ public class BossAudio : CharacterAudio
                 break;
             default:
                 Debug.Log("ATTACK "+ attack.name +" NOT FOUND");
+                break;
+        }
+    }
+
+    private void OnDamageHitReceived(Attack attack, CombatSystem c, Vector3 v)
+    {
+        switch(attack.name)
+        {
+            case "HammerMeleeAttack":
+                Play("hammer");
+                break;
+            default:
+                Debug.Log("ATTACK " + attack.name + " NOT FOUND");
                 break;
         }
     }

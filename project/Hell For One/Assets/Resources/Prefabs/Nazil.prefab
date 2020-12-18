@@ -1149,6 +1149,15 @@ MonoBehaviour:
     source: {fileID: 0}
     spatialBlend: 0
     defaultVolume: 0
+  - name: hammer
+    clip: {fileID: 8300000, guid: 61ad64b99956b9046bdcb280d0b729f1, type: 3}
+    volume: 1
+    pitch: 0.7
+    loop: 0
+    random: 0
+    source: {fileID: 0}
+    spatialBlend: 0
+    defaultVolume: 0
 --- !u!1 &3329590975247750345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,17 +1882,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
-    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius
