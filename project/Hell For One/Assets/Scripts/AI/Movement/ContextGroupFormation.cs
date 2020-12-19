@@ -1,4 +1,6 @@
-﻿using GroupSystem;
+﻿using System;
+using ArenaSystem;
+using GroupSystem;
 using TacticsSystem.Interfaces;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
@@ -10,6 +12,7 @@ namespace AI.Movement
     {
         [SerializeField, Min(0f)] private float stoppingDistance;
         [SerializeField] private float closeness;
+        [SerializeField] private float outOfBattleDecenter = 5f;
 
         [SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
         [SerializeField] [Range(0, 1f)] private float dangerLoseRateo = 0.99f;
@@ -28,13 +31,27 @@ namespace AI.Movement
 
         private float _currentStoppingDistance;
         private float _currentCloseness;
-        
+        private float _currentDecenter;
+
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
 
             _currentStoppingDistance = stoppingDistance;
             _currentCloseness = closeness;
+            _currentDecenter = outOfBattleDecenter;
+        }
+
+        private void OnEnable()
+        {
+            ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+        }
+
+        private void OnDisable()
+        {
+            ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
         }
 
         private void Start()
@@ -56,7 +73,7 @@ namespace AI.Movement
             // Group enum has 6 values so we can't use it
             float step = 360f / 4;
             
-            Vector3 targetPosition = _contextSteering.TargetData.Target.position + 
+            Vector3 targetPosition = _contextSteering.TargetData.Target.position + _contextSteering.TargetData.Target.forward * _currentDecenter + 
                                      Quaternion.Euler(0f, step * (int) _groupManager.ThisGroupName, 0f) *
                                     (Vector3.forward * _currentCloseness);
             
@@ -91,6 +108,10 @@ namespace AI.Movement
         public void JoinGroup(GroupManager groupManager) => _groupManager = groupManager;
 
         public void LeaveGroup(GroupManager groupManager) => _groupManager = null;
+        
+        private void OnGlobalEndBattle(ArenaManager obj) => _currentDecenter = outOfBattleDecenter;
+
+        private void OnGlobalStartBattle(ArenaManager obj) => _currentDecenter = 0f;
         
         public void StartTactic(Tactic newTactic)
         {
