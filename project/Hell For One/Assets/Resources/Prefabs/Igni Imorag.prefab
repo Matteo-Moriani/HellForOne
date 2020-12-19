@@ -4647,8 +4647,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ecc8b4bfe3de1479efcd56a9cef0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fsmResolution: 2
-  behaviourTreeResolution: 0.5
+  fsmResolution: 2.3
+  behaviourTreeResolution: 0.7
   searchPlayerDuration: 10
   attackFactories:
   - {fileID: 11400000, guid: 22a4dbe0b308dd1488bfcc213611b665, type: 2}
@@ -4741,7 +4741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b26190b98c407cb25c10c9a921f1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistance: 0.5
+  stoppingDistance: 1
   interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
   debug: 0
@@ -4758,7 +4758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   steeringResolution: 16
-  linearSpeed: 6
+  linearSpeed: 5
   angularSpeed: 4
   newDirectionWeight: 0.1
   linearTolerance: 0.8
@@ -4787,7 +4787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd2d4b9d2b4e02913a531f1adf81e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHp: 5000
+  startingHp: 1000
   deathActionBlocks: 000000000200000006000000
 --- !u!114 &5247776086150685303
 MonoBehaviour:
@@ -9706,13 +9706,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
-      propertyPath: ShapeModule.m_SkinnedMeshRenderer
-      value: 
-      objectReference: {fileID: 1318650425015768787}
-    - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.5
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
@@ -9721,8 +9716,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 6
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581626484662146074, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1318650425015768787}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[3]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[4]
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 528963594596999106, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
