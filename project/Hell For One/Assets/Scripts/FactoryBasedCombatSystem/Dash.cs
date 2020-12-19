@@ -56,6 +56,7 @@ namespace FactoryBasedCombatSystem
 
         private void StartDash()
         {
+            if(_moveDirection.magnitude <= 0.1f) return;
             if (!_cooldowns.TryAbility(this)) return;
             
             _dashCoroutine = StartCoroutine(DashCoroutine());
