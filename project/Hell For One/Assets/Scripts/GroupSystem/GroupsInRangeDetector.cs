@@ -64,7 +64,15 @@ namespace GroupSystem
         {
             // Only leader will update represented groups
             if(!_detectionLock.CanDoAction()) return;
-            
+
+            if (_impsInRange.All(item => item.Value.Count == 0))
+            {
+                _mostRepresentedGroupInRange = GroupManager.Group.None;
+                OnMostRepresentedGroupChanged?.Invoke(_mostRepresentedGroupInRange);
+                
+                return;
+            }
+
             GroupManager.Group newGroup =
                 _impsInRange.OrderByDescending(item => item.Value.Count).FirstOrDefault().Key;
             
