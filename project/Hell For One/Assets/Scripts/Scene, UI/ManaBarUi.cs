@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ManaSystem;
+﻿using ManaSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ManaBarUi : MonoBehaviour
 {
+    [SerializeField]
+    private Color _fullSegmentColor;
+    private Color _defaultColor;
+
     private Image _leftManaBarIn;
     private Image _rightManaBarIn;
 
@@ -20,6 +21,7 @@ public class ManaBarUi : MonoBehaviour
         _rightManaBarIn = transform.GetChild( 3 ).GetComponent<Image>();
 
         _currentBar = _leftManaBarIn;
+        _defaultColor = _leftManaBarIn.color;
     }
 
     private void OnEnable()
@@ -46,21 +48,57 @@ public class ManaBarUi : MonoBehaviour
 
     #region External events handlers
 
-    private void OnSegmentCharged(int obj)
+    private void OnSegmentCharged(int segmentsCharged)
     {
-        _currentBar = _rightManaBarIn;
+        if(segmentsCharged == 1)
+        {
+            _currentBar = _rightManaBarIn;
+            _leftManaBarIn.color = _fullSegmentColor;
+        }
+        else
+        {
+            _currentBar = null;
+            _rightManaBarIn.color = _fullSegmentColor;
+        }
     }
 
-    private void OnSegmentSpent(int obj)
+    private void OnSegmentSpent(int segmentsSpent)
     {
-        if(obj == 1) return;
-
-        _currentBar = _leftManaBarIn;
+        if(segmentsSpent == 1)
+        {
+            if(_currentBar == null)
+            {
+                _rightManaBarIn.color = _defaultColor;
+                _currentBar = _rightManaBarIn;
+            }
+            else if (_currentBar == _rightManaBarIn)
+            {
+                _leftManaBarIn.color = _defaultColor;
+                _currentBar = _leftManaBarIn;
+            }
+        }
+        else
+        {
+            _leftManaBarIn.color = _defaultColor;
+            _rightManaBarIn.color = _defaultColor;
+            _currentBar = _leftManaBarIn;
+        }
     }
     
     private void OnManaPoolChanged(float currentManaPool)
     {
-        _currentBar.fillAmount = Mathf.Clamp(currentManaPool / (ImpMana.SingleSegmentPool * (ImpMana.CurrentChargedSegments + 1)),0f,1f);
+        if(currentManaPool >= ImpMana.SingleSegmentPool)
+        {
+            _leftManaBarIn.fillAmount = 1f;
+            _rightManaBarIn.fillAmount = (currentManaPool - ImpMana.SingleSegmentPool) / ImpMana.SingleSegmentPool;
+        }
+        else
+        {
+            _rightManaBarIn.fillAmount = 0f;
+            _leftManaBarIn.fillAmount = currentManaPool / ImpMana.SingleSegmentPool;
+        }
+
+        //_currentBar.fillAmount = Mathf.Clamp(currentManaPool / (ImpMana.SingleSegmentPool * (ImpMana.CurrentChargedSegments + 1)), 0f, 1f);
     }
 
     #endregion
