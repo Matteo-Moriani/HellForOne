@@ -264,6 +264,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
         protected Dictionary<int, bool> HasHit { get; private set; } = new Dictionary<int, bool>();
         protected Dictionary<int, bool> AnimationStates { get; private set; } = new Dictionary<int, bool>();
 
+        public abstract event Action<Attack> OnAttackActivated;
+
         public IEnumerator DoAttack(int id, CombatSystem ownerCombatSystem, Action<Attack,int> stopAction, Transform target = null)
         {
             Setup(id,ownerCombatSystem, target);

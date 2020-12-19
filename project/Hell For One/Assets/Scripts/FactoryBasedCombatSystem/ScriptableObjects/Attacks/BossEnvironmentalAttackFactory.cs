@@ -34,6 +34,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
     {
         private readonly Dictionary<int, List<GameObject>> _attackGameObjects = new Dictionary<int, List<GameObject>>();
 
+        public override event Action<Attack> OnAttackActivated;
+
         protected override IEnumerator InnerDoAttack(int id, CombatSystem ownerCombatSystem, Transform target)
         {
             CapsuleCollider bossCollider = ownerCombatSystem.GetComponentInChildren<CapsuleCollider>();
@@ -49,6 +51,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
             }
 
             while(!AnimationStates[id]) yield return null;
+
+            OnAttackActivated?.Invoke(this);
 
             // sul vettore/retta che collega boss a gruppo e player, istanzio la colonna sopra il gruppo più o meno un valore casuale
             foreach(GameObject g in _attackGameObjects[id])
