@@ -117,7 +117,6 @@ namespace FactoryBasedCombatSystem
             _activeAttacks[attack].Add(id, StartCoroutine(attack.DoAttack(id, this, StopAttack, target)));
             _toActivate = new Tuple<Attack, int>(attack,id);
             
-            OnBlockEvent?.Invoke(actionBlocks);
             OnStartAttack?.Invoke(attack);
         }
 
@@ -142,6 +141,7 @@ namespace FactoryBasedCombatSystem
         private void OnAttackAnimationActivateAttack()
         {
             _toActivate.Item1.ActivateAttack(_toActivate.Item2);
+            OnBlockEvent?.Invoke(actionBlocks);
         }
 
         private void OnAttackAnimationDeactivateAttack()

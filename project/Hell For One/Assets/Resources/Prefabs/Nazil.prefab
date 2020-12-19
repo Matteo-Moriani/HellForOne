@@ -989,7 +989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   steeringResolution: 16
-  linearSpeed: 3
+  linearSpeed: 6
   angularSpeed: 2.5
   newDirectionWeight: 0.1
   linearTolerance: 0.8
@@ -1065,11 +1065,11 @@ MonoBehaviour:
   attackFactories:
   - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
   - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
-  targetChangingRateo: 5
+  targetChangingRateo: 6
   maxFacingTolerance: 0.99
-  minFacingTolerance: 0.1
+  minFacingTolerance: 0.8
   adaptiveFacingTolerance: 1
-  facingToleranceDecreasingRateo: 0.1
+  facingToleranceDecreasingRateo: 0.01
 --- !u!114 &8355443379104447877
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace AI.Movement
     {
         [SerializeField, Min(0f)] private float stoppingDistance;
         [SerializeField] private float closeness;
-        [SerializeField] private float outOfBattleDecenter = 5f;
+        [SerializeField] private float outOfBattleDecenter = -5f;
 
         [SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
         [SerializeField] [Range(0, 1f)] private float dangerLoseRateo = 0.99f;
@@ -31,7 +31,7 @@ namespace AI.Movement
 
         private float _currentStoppingDistance;
         private float _currentCloseness;
-        private float _currentDecenter;
+        private static float _currentDecenter = -5f;
 
         private void Awake()
         {
@@ -39,7 +39,6 @@ namespace AI.Movement
 
             _currentStoppingDistance = stoppingDistance;
             _currentCloseness = closeness;
-            _currentDecenter = outOfBattleDecenter;
         }
 
         private void OnEnable()
