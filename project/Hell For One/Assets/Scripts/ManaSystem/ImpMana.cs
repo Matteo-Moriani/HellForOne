@@ -106,6 +106,8 @@ namespace ManaSystem
 
         private void AddMana(float toAdd)
         {
+            if(_currentChargedSegments == _maxSegments) return;
+            
             _currentManaPool = Mathf.Clamp(_currentManaPool + toAdd, 0f, (_currentChargedSegments + 1) * _singleSegmentPool);
                 
             OnManaPoolChanged?.Invoke(_currentManaPool);
