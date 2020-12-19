@@ -1237,7 +1237,6 @@ MonoBehaviour:
   actionBlocks: 010000000300000004000000
   onActionAggro: 75
   manaSegmentsCost: 2
-  availableHordePercentage: 0.5
   duration: 2
 --- !u!114 &4308354933763022512
 MonoBehaviour:
@@ -4164,7 +4163,7 @@ PrefabInstance:
     - target: {fileID: 8654636399214872391, guid: e38b87e722bc00848b942859a715959a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654636399214582631, guid: e38b87e722bc00848b942859a715959a,
         type: 3}
@@ -4235,6 +4234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654636399216875925, guid: e38b87e722bc00848b942859a715959a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e38b87e722bc00848b942859a715959a, type: 3}
