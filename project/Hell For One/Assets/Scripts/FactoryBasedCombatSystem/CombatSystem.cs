@@ -118,6 +118,7 @@ namespace FactoryBasedCombatSystem
             _toActivate = new Tuple<Attack, int>(attack,id);
             
             OnStartAttack?.Invoke(attack);
+            OnBlockEvent?.Invoke(actionBlocks);
         }
 
         private void StopAttack(Attack attack,int id)
@@ -132,6 +133,7 @@ namespace FactoryBasedCombatSystem
             IdManager.Instance.FreeId(id);
             
             OnStopAttack?.Invoke(attack);
+            OnUnblockEvent?.Invoke(actionBlocks);
         }
 
         #endregion
@@ -141,7 +143,6 @@ namespace FactoryBasedCombatSystem
         private void OnAttackAnimationActivateAttack()
         {
             _toActivate.Item1.ActivateAttack(_toActivate.Item2);
-            OnBlockEvent?.Invoke(actionBlocks);
         }
 
         private void OnAttackAnimationDeactivateAttack()
@@ -151,8 +152,6 @@ namespace FactoryBasedCombatSystem
             _toActivate.Item1.DeactivateAttack(_toActivate.Item2);
             
             _toActivate = null;
-            
-            OnUnblockEvent?.Invoke(actionBlocks);
         }
         
         private void OnHitboxColliderHit(int id, Attack attackerAttack, CombatSystem attackerCombatSystem, Vector3 contactPoint)

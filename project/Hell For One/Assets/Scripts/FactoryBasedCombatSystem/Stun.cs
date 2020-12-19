@@ -39,6 +39,8 @@ namespace FactoryBasedCombatSystem
             
             OnStartStun?.Invoke();
             OnBlockEvent?.Invoke(actionBlocks);
+            
+            Debug.Log("Start stun " + transform.root.name);
         }
 
         private void StopStun()
@@ -50,11 +52,13 @@ namespace FactoryBasedCombatSystem
             
             OnStopStun?.Invoke();
             OnUnblockEvent?.Invoke(actionBlocks);
+            
+            Debug.Log("Stop stun " + transform.root.name);
         }
 
         private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3)
         {
-            if(!arg1.GetData().DealKnockbackWhenBlocked) return;
+            if(!arg1.GetData().DealsStunWhenBlocked) return;
             
             StartStun(arg1.GetData().StunTime);
         }

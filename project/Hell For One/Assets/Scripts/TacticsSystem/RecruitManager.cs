@@ -49,8 +49,6 @@ namespace TacticsSystem
             if (_recruitingImps.Contains(recruiter)) return;
             
             _recruitingImps.Add(recruiter);
-            
-            Debug.Log("Imp register");
         }
 
         public void UnregisterRecruiter(ImpRecruitBehaviour recruiter)
@@ -58,8 +56,6 @@ namespace TacticsSystem
             if(!_recruitingImps.Contains(recruiter)) return;
 
             _recruitingImps.Remove(recruiter);
-            
-            Debug.Log("Imp unregister");
         }
 
         private void OnGlobalStartBattle(ArenaManager arena) => StartCoroutine(RecruitCoroutine(arena));
@@ -73,8 +69,6 @@ namespace TacticsSystem
             while (true)
             {
                 yield return null;
-
-                Debug.Log("Recruiting Imps" + _recruitingImps.Count);
                 
                 if (_recruitingImps.Count == 0)
                 {
@@ -83,10 +77,7 @@ namespace TacticsSystem
                 }
 
                 timer += Time.deltaTime;
-                
-                Debug.Log("Timer : " + timer);
-                Debug.Log("Time for new Imp: " + (-15 / 11 * _recruitingImps.Count + 25));
-                
+
                 if( timer <= -15 / 11 * _recruitingImps.Count + 25) continue;
 
                 timer = 0f;
