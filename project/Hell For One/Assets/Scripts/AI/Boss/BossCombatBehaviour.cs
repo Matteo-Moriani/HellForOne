@@ -47,7 +47,7 @@ namespace AI.Boss
 
         private void OnStartAttack(Attack obj) => OnStartBossAttack?.Invoke();
 
-        private void OnStopAttack() => OnStopBossAttack?.Invoke();
+        private void OnStopAttack(Attack attack) => OnStopBossAttack?.Invoke();
 
         public float GetCooldown() => attackCooldown;
 

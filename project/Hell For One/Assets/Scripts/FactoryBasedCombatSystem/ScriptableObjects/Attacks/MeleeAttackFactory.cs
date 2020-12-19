@@ -31,7 +31,9 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
     public class MeleeAttack : Attack<MeleeAttackData>
     { 
         private readonly Dictionary<int,GameObject> _attackGameObjects = new Dictionary<int, GameObject>();
-        
+
+        public override event Action<Attack> OnAttackActivated;
+
         protected override IEnumerator InnerDoAttack(int id,CombatSystem ownerCombatSystem, Transform target)
         {
             while (!AnimationStates[id]) yield return null;

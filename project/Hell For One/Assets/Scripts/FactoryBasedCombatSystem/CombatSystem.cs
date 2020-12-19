@@ -43,7 +43,7 @@ namespace FactoryBasedCombatSystem
         #region Events
 
         public event Action<Attack> OnStartAttack;
-        public event Action OnStopAttack;
+        public event Action<Attack> OnStopAttack;
         
         public event Action<Attack,CombatSystem,Vector3> OnDamageHitDealt;
         public event Action<Attack,CombatSystem,Vector3> OnDamageHitReceived;
@@ -131,7 +131,7 @@ namespace FactoryBasedCombatSystem
 
             IdManager.Instance.FreeId(id);
             
-            OnStopAttack?.Invoke();
+            OnStopAttack?.Invoke(attack);
         }
 
         #endregion

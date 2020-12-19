@@ -47,6 +47,8 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
     public class RangedAttack : Attack<RangedAttackData>
     {
+        public override event Action<Attack> OnAttackActivated;
+
         protected override IEnumerator InnerDoAttack(int id, CombatSystem ownerCombatSystem, Transform target)
         {
             if(target == null) yield break;

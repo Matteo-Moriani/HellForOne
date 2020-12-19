@@ -54,7 +54,7 @@ namespace Animations
             }
         }
         
-        private void OnStopAttack()
+        private void OnStopAttack(Attack attack)
         {
             StartAnimation();
         }
