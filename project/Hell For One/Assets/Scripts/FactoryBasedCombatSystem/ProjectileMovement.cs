@@ -9,12 +9,27 @@ namespace FactoryBasedCombatSystem
 
         private Rigidbody _rigidbody;
 
+        private MeshRenderer[] _renderers;
+
         #endregion
 
         #region Unity Methods
 
-        private void Awake() => _rigidbody = GetComponent<Rigidbody>();
-        
+        private void Awake()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+
+            _renderers = GetComponentsInChildren<MeshRenderer>();
+        }
+
+        private void OnEnable()
+        {
+            foreach (MeshRenderer meshRenderer in _renderers)
+            {
+                meshRenderer.enabled = true;
+            }
+        }
+
         private void FixedUpdate() => transform.up = _rigidbody.velocity;
 
         #endregion
@@ -40,16 +55,18 @@ namespace FactoryBasedCombatSystem
 
             return true;
         }
-
-        // TODO :- Implement stop logic
+        
         public void Stop()
         {
+            foreach (MeshRenderer meshRenderer in _renderers)
+            {
+                meshRenderer.enabled = false;
+            }
         }
 
         private float CalculateAngle(float distance, float speed) => 
             0.5f * Mathf.Rad2Deg * Mathf.Asin(Mathf.Clamp((Physics.gravity.magnitude * distance) / (speed * speed), -1f, 1f));
 
         #endregion
-
     }
 }
