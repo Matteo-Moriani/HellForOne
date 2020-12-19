@@ -49,7 +49,7 @@ public class NewCameraManager : MonoBehaviour
 
         ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
 
-        ShakeOnHit.OnHitReceivedCameraShakeRequest += OnHitReceivedCameraShakeRequest;
+        CameraShakeRequest.SingleCameraShakeRequest += OnHitReceivedCameraShakeRequest;
     }
 
     private void OnDisable()
@@ -59,7 +59,7 @@ public class NewCameraManager : MonoBehaviour
 
         ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
 
-        ShakeOnHit.OnHitReceivedCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
+        CameraShakeRequest.SingleCameraShakeRequest -= OnHitReceivedCameraShakeRequest;
 
         foreach ( GameObject go in GroupSystem.GroupsManager.Instance.Groups.Values )
         {
