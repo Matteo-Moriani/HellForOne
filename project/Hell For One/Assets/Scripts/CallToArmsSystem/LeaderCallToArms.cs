@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using ActionsBlockSystem;
 using AggroSystem;
 using ArenaSystem;
@@ -18,11 +19,10 @@ namespace CallToArmsSystem
     {
         [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
         [SerializeField, Range(0,100)] private float onActionAggro;
-        
+
         [SerializeField, Min(0)] private int manaSegmentsCost;
-        [SerializeField, Range(0,1)] private float availableHordePercentage;
         [SerializeField, Min(0f)] private float duration;
-        
+
         private ImpMana _impMana;
         private ArenaManager _currentArena;
 
@@ -78,16 +78,12 @@ namespace CallToArmsSystem
         {
             yield return new WaitForSeconds(duration);
 
-            int toSpawn = (int) (HordeManager.Instance.AvailableSlots() * availableHordePercentage);
-            
-            for(int i = 0; i < toSpawn; i++)
-                HordeManager.Instance.SpawnImp(_currentArena.NewImpSpawnAnchors[Random.Range(0,_currentArena.NewImpSpawnAnchors.Length)].position,Quaternion.identity);
-            
-            _impMana.SpendSegments(manaSegmentsCost);
+            if(CallToArmsManager.Instance.TrySpawnImps(_currentArena.NewImpSpawnAnchors.OrderBy(item => Vector3.Distance(item.position,transform.position)).First().position));
+                _impMana.SpendSegments(manaSegmentsCost);
             
             StopCallToArms();
         }
-        
+
         private void OnGlobalStartBattle(ArenaManager obj) => _currentArena = obj;
 
         private void OnGlobalEndBattle(ArenaManager obj) => _currentArena = null;
@@ -116,6 +112,7 @@ namespace CallToArmsSystem
         
         public event Action<UnitActionsBlockManager.UnitAction[]> OnBlockEvent;
         public event Action<UnitActionsBlockManager.UnitAction[]> OnUnblockEvent;
+        
         public event Action<float> OnAggroActionDone;
     }
 }
