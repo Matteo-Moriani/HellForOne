@@ -236,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6641719328435112833}
   - component: {fileID: 8507877381438501635}
+  - component: {fileID: 4945898044399007510}
   m_Layer: 0
   m_Name: CallToArmsManager
   m_TagString: Untagged
@@ -271,6 +272,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impSpawnRateo: 0.5
   hordeRefillPercentage: 0.5
+--- !u!114 &4945898044399007510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127050824798679606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79142b7b53a4f3642ad872622d4984bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effect: {fileID: 8409734629179571114, guid: 22f91ba5fe4bb1441872c0e1788c65ce, type: 3}
 --- !u!1 &8455378193315434835
 GameObject:
   m_ObjectHideFlags: 0
