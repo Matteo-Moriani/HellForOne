@@ -9,6 +9,7 @@ using System;
 using ReincarnationSystem;
 using GroupAbilitiesSystem.ScriptableObjects;
 using GroupAbilitiesSystem;
+using CallToArmsSystem;
 
 public class NewCameraManager : MonoBehaviour
 {
@@ -20,12 +21,15 @@ public class NewCameraManager : MonoBehaviour
     private float shakingIntensity;
     private float doubleTargetTimer;
     private float arenaCameraTimer;
+    private float callToArmsCameraTimer;
     private bool arenaCameraON = false;
+    private Transform callToArmsTarget;
 
     CinemachineFreeLook _cinemachineFreeLook;
     CinemachineVirtualCamera lockedCamera;
     CinemachineVirtualCamera doubleTargetCamera;
     CinemachineVirtualCamera arenaCamera;
+    CinemachineVirtualCamera callToArmsCamera;
     CinemachineBasicMultiChannelPerlin doubleTargetCinemachineBasicMultiChannelPerlin;
     CinemachineBasicMultiChannelPerlin lockedCinemachineBasicMultiChannelPerlin;
     CinemachineTargetGroup targetGroup;
@@ -40,6 +44,7 @@ public class NewCameraManager : MonoBehaviour
         doubleTargetCinemachineBasicMultiChannelPerlin = doubleTargetCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         lockedCinemachineBasicMultiChannelPerlin = doubleTargetCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         arenaCamera = GameObject.FindGameObjectWithTag( "ArenaCamera" ).GetComponent<CinemachineVirtualCamera>();
+        callToArmsCamera = GameObject.FindGameObjectWithTag( "CallToArmsCamera" ).GetComponent<CinemachineVirtualCamera>();
     }
 
     private void OnEnable()
@@ -50,6 +55,8 @@ public class NewCameraManager : MonoBehaviour
         ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
 
         CameraShakeRequest.SingleCameraShakeRequest += OnHitReceivedCameraShakeRequest;
+
+        CallToArmsManager.Instance.OnStartCallToArmsImpsSpawn += OnStartCallToArmsImpsSpawn;
     }
 
     private void OnDisable()
@@ -65,6 +72,8 @@ public class NewCameraManager : MonoBehaviour
         {
             go.GetComponentInChildren<GroupAbilities>().OnStartGroupAbility -= OnStartGroupAbility;
         }
+
+        CallToArmsManager.Instance.OnStartCallToArmsImpsSpawn -= OnStartCallToArmsImpsSpawn;
     }
 
     private void Start()
@@ -72,6 +81,7 @@ public class NewCameraManager : MonoBehaviour
         lockedCamera.gameObject.SetActive( false );
         doubleTargetCamera.gameObject.SetActive( false );
         arenaCamera.gameObject.SetActive( false );
+        callToArmsCamera.gameObject.SetActive( false );
         _cinemachineFreeLook.gameObject.SetActive( true );
         targetGroup = GameObject.FindGameObjectWithTag( "CinemachineTargetGroup" ).GetComponent<CinemachineTargetGroup>();
 
@@ -80,6 +90,26 @@ public class NewCameraManager : MonoBehaviour
             go.GetComponentInChildren<GroupAbilities>().OnStartGroupAbility += OnStartGroupAbility;
             //go.GetComponentInChildren<GroupAbilitiesSystem.GroupAbilities>().OnStopGroupAbility += OnStopGroupAbility;
         }
+    }
+
+    private void OnStartCallToArmsImpsSpawn( Vector3 obj )
+    {
+        lockedCamera.gameObject.SetActive( false );
+        //callToArmsCamera.gameObject.SetActive( true );
+        arenaCamera.gameObject.SetActive( true );
+
+        callToArmsCameraTimer = 3f;
+
+        //targetGroup.m_Targets[ 0 ].target = _currentLeader.transform;
+        //targetGroup.m_Targets[ 0 ].weight = 1;
+
+        //targetGroup.m_Targets[ 0 ].target = _currentBoss.transform;
+        //targetGroup.m_Targets[ 0 ].weight = 1;
+
+        callToArmsTarget = _currentBoss.transform;
+        //callToArmsTarget.position = obj;
+        targetGroup.m_Targets[ 0 ].target = callToArmsTarget;
+        targetGroup.m_Targets[ 0 ].weight = 1;
     }
 
     private void OnStopGroupAbility()
@@ -142,7 +172,7 @@ public class NewCameraManager : MonoBehaviour
 
     }
 
-    private void OnHitReceivedCameraShakeRequest( float duration , float intensity, bool doCameraShakeOnHit )
+    private void OnHitReceivedCameraShakeRequest( float duration , float intensity , bool doCameraShakeOnHit )
     {
         if ( doCameraShakeOnHit )
         {
@@ -165,6 +195,7 @@ public class NewCameraManager : MonoBehaviour
         lockedCamera.Follow = _currentLeader;
 
         doubleTargetCamera.Follow = _currentLeader;
+        callToArmsCamera.Follow = _currentLeader;
 
         arenaCamera.Follow = _currentLeader;
     }
@@ -179,6 +210,7 @@ public class NewCameraManager : MonoBehaviour
         lockedCamera.LookAt = _currentBoss;
 
         doubleTargetCamera.LookAt = targetGroup.transform;
+        callToArmsCamera.LookAt = targetGroup.transform;
 
         arenaCamera.LookAt = _currentBoss;
 
@@ -202,6 +234,20 @@ public class NewCameraManager : MonoBehaviour
             lockedCinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp( 0f , shakingIntensity , shakingTimer / shakingTimerTotal );
 
             shakingTimer -= Time.deltaTime;
+        }
+
+        if ( callToArmsCameraTimer > 0 )
+        {
+            callToArmsCameraTimer -= Time.deltaTime;
+        }
+        else
+        {
+            if ( arenaCamera.gameObject.activeSelf )
+            {
+                //callToArmsCamera.gameObject.SetActive( false );
+                arenaCamera.gameObject.SetActive( false );
+                lockedCamera.gameObject.SetActive( true );
+            }           
         }
 
         if ( doubleTargetTimer > 0 )
