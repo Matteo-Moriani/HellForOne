@@ -13,6 +13,8 @@ namespace CallToArmsSystem
         private static CallToArmsManager _instance;
 
         private Coroutine _impSpawnCoroutine = null;
+
+        public event Action<Vector3> OnStartCallToArmsImpsSpawn;
         
         public static CallToArmsManager Instance
         {
@@ -49,6 +51,9 @@ namespace CallToArmsSystem
         private IEnumerator SpawnImpsCoroutine(Vector3 spawnPosition)
         {
             int toSpawn = (int) (HordeManager.Instance.AvailableSlots() * hordeRefillPercentage);
+            
+            if(toSpawn > 0)
+                OnStartCallToArmsImpsSpawn?.Invoke(spawnPosition);
 
             for (int i = 0; i < toSpawn; i++)
             {
