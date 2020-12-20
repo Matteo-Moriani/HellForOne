@@ -20,7 +20,7 @@ namespace FactoryBasedCombatSystem
 
         #region Unity Methods
 
-        private void Awake() => _blockChance = Mathf.Clamp(startingBlockChance,0f,99f);
+        private void Awake() => _blockChance = Mathf.Clamp(startingBlockChance,0f,100f);
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace FactoryBasedCombatSystem
         
         private void SetBlockChance(float newBlockChance) => _blockChance = Mathf.Clamp(newBlockChance,0f,99f);
 
-        public bool TryBlock() => Random.Range(0, 99f) < _blockChance;
+        public bool TryBlock() => Random.Range(1, 100f) < _blockChance;
 
         #endregion
 

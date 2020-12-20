@@ -74,7 +74,7 @@ namespace AI.Movement
             
             Vector3 targetPosition = _contextSteering.TargetData.Target.position + _contextSteering.TargetData.Target.forward * _currentDecenter + 
                                      Quaternion.Euler(0f, step * (int) _groupManager.ThisGroupName, 0f) *
-                                    (Vector3.forward * _currentCloseness);
+                                    (Vector3.forward * (_currentCloseness + _contextSteering.TargetData.Target.GetComponent<CapsuleCollider>().radius));
             
             Vector3 toDesiredPosition = (targetPosition - transform.position).normalized;
             _currentDistance = Vector3.Distance(transform.position, targetPosition);

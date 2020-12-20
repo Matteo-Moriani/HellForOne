@@ -50,6 +50,8 @@ namespace AI.Movement
                 if (!TestDirection(out RaycastHit hitInfo, i)) continue;
 
                 if(hitInfo.transform.root == transform) continue;
+                
+                Debug.Log("OBSTACLE AVOIDANCE : " + hitInfo.transform.name);
 
                 float dot = Mathf.Abs(Vector3.Dot(ContextMap.defaultDirections[_contextSteering.SteeringResolution][i],
                     forward));

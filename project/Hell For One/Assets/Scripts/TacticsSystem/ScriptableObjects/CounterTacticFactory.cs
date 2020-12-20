@@ -1,6 +1,7 @@
 ﻿using System;
 using AI.Imp;
 using Ai.MonoBT;
+using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 
@@ -29,30 +30,37 @@ namespace TacticsSystem.ScriptableObjects
         private ImpAi _impAi;
         private BehaviourTree _tacticBehaviourTree;
         private ImpCombatBehaviour _impCombatBehaviour;
+        private ImpCounterBehaviour _impCounterBehaviour;
+        private CombatSystem _impCombatSystem;
         private Attack _attackInstance;
+
+        private bool _needsToAttack;
 
         public override void ExecuteTactic(ImpAi imp)
         {
-            if(_impAi != null) return;
+            if (_impAi == null)
+            {
+                _impAi = imp;
 
-            _impAi = imp;
-            
-            imp.GetComponent<ImpCounterBehaviour>().StartCounter(data.TacticAttack.GetAttack());
+                _impCounterBehaviour = imp.GetComponent<ImpCounterBehaviour>();
+                
+                _impCounterBehaviour.StartCounter();
 
-            if(_impCombatBehaviour == null)
+                _impCombatSystem = imp.GetComponentInChildren<CombatSystem>();
+
+                _impCombatSystem.OnBlockedHitReceived += OnBlockedHitReceived;
+
                 _impCombatBehaviour = _impAi.GetComponent<ImpCombatBehaviour>();
-
-            if(_attackInstance == null)
+                
                 _attackInstance = data.TacticAttack.GetAttack();
 
-            if(_tacticBehaviourTree == null)
-            {
+                BtCondition needsToAttack = new BtCondition(() => _needsToAttack);
                 BtCondition isFacingTarget = new BtCondition(IsFacingTarget);
                 BtCondition inAttackRange = new BtCondition(InAttackRange);
-
+                
                 BtAction attack = new BtAction(Attack);
 
-                BtSequence meleeAttack = new BtSequence(new IBtTask[] { isFacingTarget, inAttackRange, attack });
+                BtSequence meleeAttack = new BtSequence(new IBtTask[] {needsToAttack, isFacingTarget, inAttackRange, attack});
 
                 _tacticBehaviourTree = new BehaviourTree(meleeAttack);
             }
@@ -63,10 +71,11 @@ namespace TacticsSystem.ScriptableObjects
 
         public override void TerminateTactic(ImpAi imp)
         {
-            _impAi = null;
-            
             imp.GetComponent<ImpCounterBehaviour>().StopCounter();
+            _impCombatSystem.OnBlockedHitReceived -= OnBlockedHitReceived;
         }
+
+        private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3) => _needsToAttack = true;
 
         private bool IsFacingTarget() =>
             Vector3.Dot(_impAi.CurrentTargetData.GetDirectionToTarget(_impAi.transform), _impAi.transform.forward) >= data.FacingTolerance;
@@ -83,6 +92,8 @@ namespace TacticsSystem.ScriptableObjects
         {
             _impCombatBehaviour.Attack(_attackInstance, _impAi.CurrentTargetData.Target);
 
+            _needsToAttack = false;
+            
             return true;
         }
     }

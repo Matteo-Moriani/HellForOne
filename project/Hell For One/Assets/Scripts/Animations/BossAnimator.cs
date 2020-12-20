@@ -1,11 +1,12 @@
 ﻿using System;
 using FactoryBasedCombatSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
 using UnityEngine;
 
 namespace Animations
 {
-    public class BossAnimator : MonoBehaviour
+    public class BossAnimator : MonoBehaviour, IHitPointsObserver
     {
         private CombatSystem _combatSystem;
         private Animator _animator;
@@ -43,5 +44,6 @@ namespace Animations
         private void OnStartStun() => _animator.SetBool("isStunned", true);
 
         private void OnStopStun() => _animator.SetBool("isStunned", false);
+        public void OnZeroHp() => _animator.SetTrigger("death");
     }
 }
