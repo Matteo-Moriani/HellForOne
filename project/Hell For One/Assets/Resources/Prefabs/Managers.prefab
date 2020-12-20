@@ -81,6 +81,7 @@ Transform:
   - {fileID: 4103568200382072458}
   - {fileID: 48743471793104666}
   - {fileID: 6641719328435112833}
+  - {fileID: 8860068569933560925}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -129,6 +130,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundCrownPrefab: {fileID: 5802167189291188955, guid: 85e840afb8d39314fba4947c08d01976,
     type: 3}
+--- !u!1 &6228038574652354531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8860068569933560925}
+  - component: {fileID: 1824377133789906608}
+  m_Layer: 0
+  m_Name: EndOfBattleRewardsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8860068569933560925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228038574652354531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9015515927780802329}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1824377133789906608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228038574652354531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841babd0ae2341acb5a3208db01b844a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleEndImps: 4
+  ray: 2
 --- !u!82 &5243882901298306141
 AudioSource:
   m_ObjectHideFlags: 0
