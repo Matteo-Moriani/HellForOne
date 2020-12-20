@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6782131350102193103}
   - component: {fileID: 6782131350102193105}
   - component: {fileID: 6782131350102193102}
+  - component: {fileID: 6775050485719693399}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -72,6 +73,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6775050485719693399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782131350102193100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa2c443d39c0c4439aabc8338186916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  comparison: 8
+  apply: 1
 --- !u!1 &6782131350405661737
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +101,7 @@ GameObject:
   - component: {fileID: 6782131350405661739}
   - component: {fileID: 4251884237591207337}
   m_Layer: 5
-  m_Name: AggroIcon
+  m_Name: NewAggroFace
   m_TagString: AggroIcon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
