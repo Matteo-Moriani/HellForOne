@@ -34,6 +34,11 @@ namespace HordeSystem
                 Destroy(this);
         }
 
+        public int GetMaxImps()
+        {
+            return _maxImps;
+        }
+
         public void RegisterImp(HordeImp imp)
         {
             if(_currentImps.Contains(imp)) return;

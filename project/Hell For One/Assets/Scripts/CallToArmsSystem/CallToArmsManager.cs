@@ -50,8 +50,11 @@ namespace CallToArmsSystem
 
         private IEnumerator SpawnImpsCoroutine(Vector3 spawnPosition)
         {
-            int toSpawn = (int) (HordeManager.Instance.AvailableSlots() * hordeRefillPercentage);
-            
+            int toSpawn = (int) (HordeManager.Instance.GetMaxImps() * hordeRefillPercentage);
+
+            if(toSpawn > HordeManager.Instance.AvailableSlots())
+                toSpawn = HordeManager.Instance.AvailableSlots();
+
             if(toSpawn > 0)
                 OnStartCallToArmsImpsSpawn?.Invoke(spawnPosition);
 
