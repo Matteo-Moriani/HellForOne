@@ -14,14 +14,9 @@ public class ImpAudio : CharacterAudio, IReincarnationObserver
         gameObject.GetComponentInChildren<Dash>().OnStartDash += OnStartDash;
         gameObject.GetComponentInChildren<CombatSystem>().OnBlockedHitReceived += OnBlockedHitReceived;
         gameObject.GetComponentInChildren<CombatSystem>().OnDamageHitDealt += OnDamageHitDealt;
-
-        if(gameObject.tag == "Player")
-            StartLeader();
-        else
-        {
-            GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
-            GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
-        }
+        
+        GetComponent<ContextSteering>().OnStartMoving += OnStartMoving;
+        GetComponent<ContextSteering>().OnStopMoving += OnStopMoving;
     }
 
     public override void UnsubscribeToOtherEvents()
@@ -29,14 +24,9 @@ public class ImpAudio : CharacterAudio, IReincarnationObserver
         gameObject.GetComponentInChildren<Dash>().OnStartDash -= OnStartDash;
         gameObject.GetComponentInChildren<CombatSystem>().OnBlockedHitReceived -= OnBlockedHitReceived;
         gameObject.GetComponentInChildren<CombatSystem>().OnDamageHitDealt -= OnDamageHitDealt;
-
-        if(gameObject.tag == "Player")
-            StopLeader();
-        else
-        {
-            GetComponent<ContextSteering>().OnStartMoving -= OnStartMoving;
-            GetComponent<ContextSteering>().OnStopMoving -= OnStopMoving;
-        }
+        
+        GetComponent<ContextSteering>().OnStartMoving -= OnStartMoving;
+        GetComponent<ContextSteering>().OnStopMoving -= OnStopMoving;
     }
 
     public void StartLeader()
