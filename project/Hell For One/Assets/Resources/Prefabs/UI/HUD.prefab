@@ -1294,6 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6eafa703c305374999aab71f3ff96eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alfa: 0.4
 --- !u!1 &5930165249240225507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,6 +2100,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
+        type: 3}
+      propertyPath: m_TagString
+      value: UIOrders
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975408634834046571, guid: 9427b85ea2008f14badf3438d4957534,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1528689927665453312, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_IsActive
@@ -2164,21 +2185,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
-        type: 3}
-      propertyPath: m_TagString
-      value: UIOrders
-      objectReference: {fileID: 0}
-    - target: {fileID: 7174668179658040347, guid: 9427b85ea2008f14badf3438d4957534,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7758786263352422514, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Layer
@@ -2228,11 +2234,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8273863876154714603, guid: 9427b85ea2008f14badf3438d4957534,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8975408634834046571, guid: 9427b85ea2008f14badf3438d4957534,
         type: 3}
       propertyPath: m_Enabled
       value: 0

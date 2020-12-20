@@ -32,7 +32,7 @@ namespace Animations
 
         private void Start() 
         {
-            StartCoroutine(RandomDelay());
+            StartCoroutine(StartAfterDelay());
         }
 
         private void StartAnimation() {
@@ -56,7 +56,7 @@ namespace Animations
         
         private void OnStopAttack(Attack attack)
         {
-            StartAnimation();
+            StartCoroutine(StartAfterDelay());
         }
 
         private void OnStartAttack(Attack obj)
@@ -68,9 +68,9 @@ namespace Animations
             _animator.SetTrigger(obj.name);
         }
         
-        private IEnumerator RandomDelay() 
+        private IEnumerator StartAfterDelay() 
         {
-            yield return new WaitForSeconds(Random.Range(0f, 2f));
+            yield return new WaitForSeconds(Random.Range(0.1f, 1.5f));
             StartAnimation();
         }
     }
