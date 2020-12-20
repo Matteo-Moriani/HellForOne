@@ -29,6 +29,8 @@ public class NewHUD : MonoBehaviour
     private int supportIndex = 3;
     private int recruitIndex = 4;
 
+    public float alfa = 1f;
+
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
     private Image UpOn, DownOn, RightOn, LeftOn;
@@ -258,7 +260,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = false;
 
-                UpOn.color = color;
+                var tempColor0 = color;
+                tempColor0.a = alfa;
+                UpOn.color = tempColor0;
                 break;
 
             case 1:
@@ -268,7 +272,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = false;
 
-                DownOn.color = color;
+                var tempColor1 = color;
+                tempColor1.a = alfa;
+                DownOn.color = tempColor1;
                 break;
 
             case 3:
@@ -278,7 +284,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = true;
                 LeftOn.enabled = false;
 
-                RightOn.color = color;
+                var tempColor2 = color;
+                tempColor2.a = alfa;
+                RightOn.color = tempColor2;
                 break;
 
             case 2:
@@ -288,7 +296,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = true;
 
-                LeftOn.color = color;
+                var tempColor3 = color;
+                tempColor3.a = alfa;
+                LeftOn.color = tempColor3;
                 break;
         }
     }
@@ -304,7 +314,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = false;
 
-                UpOn.color = color;
+                var tempColor0 = color;
+                tempColor0.a = alfa;
+                UpOn.color = tempColor0;
                 break;
 
             case 1:
@@ -314,7 +326,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = false;
 
-                DownOn.color = color;
+                var tempColor1 = color;
+                tempColor1.a = alfa;
+                DownOn.color = tempColor1;
                 break;
 
             case 3:
@@ -324,7 +338,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = true;
                 LeftOn.enabled = false;
 
-                RightOn.color = color;
+                var tempColor2 = color;
+                tempColor2.a = alfa;
+                RightOn.color = tempColor2;
                 break;
 
             case 2:
@@ -334,7 +350,9 @@ public class NewHUD : MonoBehaviour
                 RightOn.enabled = false;
                 LeftOn.enabled = true;
 
-                LeftOn.color = color;
+                var tempColor3 = color;
+                tempColor3.a = alfa;
+                LeftOn.color = tempColor3;
                 break;
         }
     }
