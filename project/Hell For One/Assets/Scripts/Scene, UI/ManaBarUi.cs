@@ -50,28 +50,34 @@ public class ManaBarUi : MonoBehaviour
 
     private void OnSegmentCharged(int segmentsCharged)
     {
-        if(segmentsCharged == 1)
+        if(segmentsCharged == 0)
+            return;
+        else if(segmentsCharged == 1)
         {
             _currentBar = _rightManaBarIn;
             _leftManaBarIn.color = _fullSegmentColor;
+            _rightManaBarIn.color = _defaultColor;
         }
         else
         {
             _currentBar = null;
+            _leftManaBarIn.color = _fullSegmentColor;
             _rightManaBarIn.color = _fullSegmentColor;
         }
     }
 
     private void OnSegmentSpent(int segmentsSpent)
     {
-        if(segmentsSpent == 1)
+        if(segmentsSpent == 0)
+            return;
+        else if(segmentsSpent == 1)
         {
             if(_currentBar == null)
             {
                 _rightManaBarIn.color = _defaultColor;
                 _currentBar = _rightManaBarIn;
             }
-            else if (_currentBar == _rightManaBarIn)
+            else if(_currentBar == _rightManaBarIn)
             {
                 _leftManaBarIn.color = _defaultColor;
                 _currentBar = _leftManaBarIn;
