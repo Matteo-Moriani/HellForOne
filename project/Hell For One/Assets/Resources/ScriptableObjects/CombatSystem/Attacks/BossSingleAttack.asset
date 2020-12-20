@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     damage: 1
-    colliderRadius: 0.5
+    colliderRadius: 1
     colliderActivationDelay: 0
     blockable: 1
     canBeMultiple: 0
     canDamageMultipleUnits: 1
-    dealsKnockback: 0
-    dealKnockbackWhenBlocked: 0
-    knockbackDuration: 0
-    knockbackSize: 0
+    dealsKnockback: 1
+    dealKnockbackWhenBlocked: 1
+    knockbackDuration: 0.25
+    knockbackSize: 1.5
     dealsStun: 0
     dealsStunWhenBlocked: 0
     stunTime: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     splashDamageRadius: 0
     splashDamageTime: 0
     minDistance: 0
-    maxDistance: 3
+    maxDistance: 4
     doCameraShakeOnDamageHit: 0
     onDamageHitShakeDuration: 0
     onDamageHitShakeIntensity: 0
@@ -38,6 +38,6 @@ MonoBehaviour:
     volume: 0.5
     pitch: 1
     attackProbability: 45
-    range: 3
+    range: 2
     attackPrefab: {fileID: 1247065853603126990, guid: ff3046ff3111f4f46b8e1f86a5e736b8,
       type: 3}

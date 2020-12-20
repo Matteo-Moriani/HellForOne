@@ -973,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b26190b98c407cb25c10c9a921f1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistance: 0.5
+  stoppingDistance: 0.4
   interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
   debug: 0
@@ -990,7 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   steeringResolution: 16
-  linearSpeed: 6
+  linearSpeed: 3.5
   angularSpeed: 2.5
   newDirectionWeight: 0.1
   linearTolerance: 0.8
@@ -1945,17 +1945,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
-    - target: {fileID: 1983551653092444354, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3009533186886323374, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: m_Radius
