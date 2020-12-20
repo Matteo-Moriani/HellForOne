@@ -17,14 +17,38 @@ namespace AI.Movement
         private DangerMap _lastFrameDanger;
         
         private ContextSteering _contextSteering;
-        private ArenaBoss _arenaBoss;
+        //private ArenaBoss _arenaBoss;
+
+        private ArenaManager _currentArena;
 
         private void Awake()
         {
             _contextSteering = GetComponent<ContextSteering>();
-            _arenaBoss = GetComponent<ArenaBoss>();
+            //_arenaBoss = GetComponent<ArenaBoss>();
+        }
+
+        private void OnEnable()
+        {
+            ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
         }
         
+        private void OnDisable()
+        {
+            ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+            ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
+        }
+
+        private void OnGlobalStartBattle(ArenaManager obj)
+        {
+            _currentArena = obj;
+        }
+
+        private void OnGlobalEndBattle(ArenaManager obj)
+        {
+            _currentArena = null;
+        }
+
         private void Start()
         {
             _lastFrameInterest = new InterestMap(0f, _contextSteering.SteeringResolution);
@@ -36,8 +60,10 @@ namespace AI.Movement
             interestMap = new InterestMap(0f, _contextSteering.SteeringResolution);
             dangerMap = new DangerMap(0f, _contextSteering.SteeringResolution);
             
-            Vector3 toDesiredPosition = (_arenaBoss.Arena.transform.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, _arenaBoss.Arena.transform.position);
+            if(_currentArena == null) return;
+
+            Vector3 toDesiredPosition = (_currentArena.transform.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, _currentArena.transform.position);
 
             for(int i = 0; i < ContextMap.defaultDirections[_contextSteering.SteeringResolution].Length; i++)
             {
