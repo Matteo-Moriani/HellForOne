@@ -18,7 +18,7 @@ namespace ManaSystem
         #region Fields
 
         private static int _maxSegments = 2;
-        private static float _singleSegmentPool = 50f;
+        private static float _singleSegmentPool = 100f;
         private static float _manaRechargeRate = 1f;
 
         private static float _currentManaPool = 0f;

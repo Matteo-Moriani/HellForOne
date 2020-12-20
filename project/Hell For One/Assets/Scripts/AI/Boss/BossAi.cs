@@ -224,6 +224,8 @@ namespace AI.Boss
 
             float temp = 0f;
 
+            List<GroupAggro> _groups = new List<GroupAggro>();
+            
             foreach(GroupAggro groupAggro in _groupAggros.Where(aggro => !aggro.GetComponent<GroupManager>().IsEmpty()).OrderByDescending(aggro => aggro.CurrentAggro))
             {
                 float groupProbability = groupAggro.CurrentAggro;
@@ -235,13 +237,19 @@ namespace AI.Boss
                     continue;
                 }
 
-                selected = groupAggro;
+                _groups.Add(groupAggro);
 
                 break;
             }
 
-            if(selected == null)
+            if(_groups.Count == 0)
                 return false;
+
+            selected = _groups
+                .OrderBy(group => Vector3.Distance(group.transform.position, _arenaBoss.Arena.transform.position))
+                .FirstOrDefault();
+
+            if (selected == null) return false;
 
             _currentTargetStillValid = true;
 
