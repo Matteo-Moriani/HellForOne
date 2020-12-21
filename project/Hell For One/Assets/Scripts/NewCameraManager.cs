@@ -55,8 +55,6 @@ public class NewCameraManager : MonoBehaviour
         ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
 
         CameraShakeRequest.SingleCameraShakeRequest += OnHitReceivedCameraShakeRequest;
-
-        CallToArmsManager.Instance.OnStartCallToArmsImpsSpawn += OnStartCallToArmsImpsSpawn;
     }
 
     private void OnDisable()
@@ -78,6 +76,8 @@ public class NewCameraManager : MonoBehaviour
 
     private void Start()
     {
+        CallToArmsManager.Instance.OnStartCallToArmsImpsSpawn += OnStartCallToArmsImpsSpawn;
+        
         lockedCamera.gameObject.SetActive( false );
         doubleTargetCamera.gameObject.SetActive( false );
         arenaCamera.gameObject.SetActive( false );

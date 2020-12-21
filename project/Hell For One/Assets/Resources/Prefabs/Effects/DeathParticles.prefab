@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3b4f4e84bfa344eb85f68290327fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitBeforeDisappear: 0.5
 --- !u!198 &6581626484662146074
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -57,7 +58,7 @@ ParticleSystem:
   lengthInSec: 0.3
   simulationSpeed: 1
   stopAction: 0
-  cullingMode: 1
+  cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
@@ -4472,7 +4473,7 @@ ParticleSystemRenderer:
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
-  m_VertexStreams: 000304
+  m_VertexStreams: 0001030402
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}

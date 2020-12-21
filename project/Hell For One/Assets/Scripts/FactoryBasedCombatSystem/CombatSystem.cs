@@ -142,14 +142,12 @@ namespace FactoryBasedCombatSystem
 
         private void OnAttackAnimationActivateAttack()
         {
-            _toActivate.Item1.ActivateAttack(_toActivate.Item2);
+            _toActivate?.Item1.ActivateAttack(_toActivate.Item2);
         }
 
         private void OnAttackAnimationDeactivateAttack()
         {
-            if(_toActivate == null) return;
-
-            _toActivate.Item1.DeactivateAttack(_toActivate.Item2);
+            _toActivate?.Item1.DeactivateAttack(_toActivate.Item2);
             
             _toActivate = null;
         }

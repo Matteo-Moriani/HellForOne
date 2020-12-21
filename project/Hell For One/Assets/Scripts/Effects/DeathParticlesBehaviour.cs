@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeathParticlesBehaviour : MonoBehaviour
 {
+    [SerializeField] private float waitBeforeDisappear;
+    
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
     private Quaternion _fixedRotation;
@@ -28,15 +30,30 @@ public class DeathParticlesBehaviour : MonoBehaviour
 
     private void OnDeathAnimationEnd()
     {
+        Debug.Log(transform.root.name + " OnDeathAnimationEnd");
+        
         _particleSystem.Play();
+        
+        Debug.Log(_particleSystem.isEmitting);
+        Debug.Log(_particleSystem.isPaused);
+        Debug.Log(_particleSystem.isPlaying);
+        Debug.Log(_particleSystem.isStopped);
+        Debug.Log(_particleSystem.IsAlive());
+        
         _audioSource.Play();
+        
+        Debug.Log(_particleSystem.isEmitting);
+        Debug.Log(_particleSystem.isPaused);
+        Debug.Log(_particleSystem.isPlaying);
+        Debug.Log(_particleSystem.isStopped);
+        Debug.Log(_particleSystem.IsAlive());
 
         StartCoroutine(DisappearLater());
     }
 
     private IEnumerator DisappearLater()
     {
-        yield return null;
+        yield return new WaitForSeconds(waitBeforeDisappear);
 
         foreach(SkinnedMeshRenderer m in transform.root.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
@@ -46,5 +63,12 @@ public class DeathParticlesBehaviour : MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
+        
+        Debug.Log("Disappear");
+        Debug.Log(_particleSystem.isEmitting);
+        Debug.Log(_particleSystem.isPaused);
+        Debug.Log(_particleSystem.isPlaying);
+        Debug.Log(_particleSystem.isStopped);
+        Debug.Log(_particleSystem.IsAlive());
     }
 }
