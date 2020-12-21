@@ -45,10 +45,7 @@ namespace ReincarnationSystem
 
         public void StartLeader()
         {
-            foreach (MeshRenderer meshRenderer in _renderers)
-            {
-                meshRenderer.enabled = false;
-            }
+            Destroy(this.gameObject);
         }
 
         public void StopLeader()

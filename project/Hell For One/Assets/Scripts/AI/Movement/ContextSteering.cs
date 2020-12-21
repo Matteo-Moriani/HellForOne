@@ -209,7 +209,7 @@ namespace AI.Movement
 
         #endregion
 
-        public void StartLeader() => Destroy(this);
+        public void StartLeader() => this.enabled = false;
 
         public void StopLeader() { }
     }

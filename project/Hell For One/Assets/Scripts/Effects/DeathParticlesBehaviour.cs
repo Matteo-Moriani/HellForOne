@@ -6,17 +6,12 @@ public class DeathParticlesBehaviour : MonoBehaviour
 {
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
-    private SkinnedMeshRenderer[] _skinnedMeshRenderers;
-    private MeshRenderer[] _meshRenderers;
     private Quaternion _fixedRotation;
 
     private void Awake()
     {
         _particleSystem = GetComponent<ParticleSystem>();
         _audioSource = GetComponent<AudioSource>();
-
-        _skinnedMeshRenderers = transform.root.GetComponentsInChildren<SkinnedMeshRenderer>();
-        _meshRenderers = transform.root.GetComponentsInChildren<MeshRenderer>();
 
         _fixedRotation = new Quaternion(transform.rotation.x, 0f, transform.rotation.z, transform.rotation.w);
     }
@@ -43,11 +38,11 @@ public class DeathParticlesBehaviour : MonoBehaviour
     {
         yield return null;
 
-        foreach(SkinnedMeshRenderer m in _skinnedMeshRenderers)
+        foreach(SkinnedMeshRenderer m in transform.root.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             m.enabled = false;
         }
-        foreach(MeshRenderer meshRenderer in _meshRenderers)
+        foreach(MeshRenderer meshRenderer in transform.root.GetComponentsInChildren<MeshRenderer>())
         {
             meshRenderer.enabled = false;
         }
