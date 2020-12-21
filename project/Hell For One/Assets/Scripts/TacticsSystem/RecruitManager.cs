@@ -71,10 +71,7 @@ namespace TacticsSystem
                 yield return null;
                 
                 if (_recruitingImps.Count == 0)
-                {
-                    timer = 0f;
                     continue;
-                }
 
                 timer += Time.deltaTime;
 
