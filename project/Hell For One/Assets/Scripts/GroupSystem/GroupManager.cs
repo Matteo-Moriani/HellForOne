@@ -76,7 +76,7 @@ namespace GroupSystem
 
         public Transform GetRandomImp() => _imps.Keys.ToList()[Random.Range(0, _imps.Keys.Count)];
 
-        public bool IsEmpty() => _imps.Keys.Count == 0;
+        public bool HasNoImps() => _imps.Keys.Count == 0;
 
         public void AddDemonToGroup(Transform imp)
         {

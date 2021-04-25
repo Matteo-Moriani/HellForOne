@@ -226,7 +226,7 @@ namespace AI.Boss
 
             List<GroupAggro> _groups = new List<GroupAggro>();
             
-            foreach(GroupAggro groupAggro in _groupAggros.Where(aggro => !aggro.GetComponent<GroupManager>().IsEmpty()).OrderByDescending(aggro => aggro.CurrentAggro))
+            foreach(GroupAggro groupAggro in _groupAggros.Where(aggro => !aggro.GetComponent<GroupManager>().HasNoImps()).OrderByDescending(aggro => aggro.CurrentAggro))
             {
                 float groupProbability = groupAggro.CurrentAggro;
 

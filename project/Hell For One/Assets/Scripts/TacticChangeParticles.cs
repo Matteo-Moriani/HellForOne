@@ -36,10 +36,13 @@ public class TacticChangeParticles : MonoBehaviour
     
     private void OnTacticChanged(TacticFactory obj)
     {
-        foreach(ParticleSystem p in _particles)
+        if(!_groupManager.HasNoImps())
         {
-            p.Play();
+            foreach(ParticleSystem p in _particles)
+            {
+                p.Play();
+            }
+            _audioSource.Play();
         }
-        _audioSource.Play();
     }
 }
