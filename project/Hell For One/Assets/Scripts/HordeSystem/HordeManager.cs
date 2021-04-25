@@ -45,7 +45,7 @@ namespace HordeSystem
             
             _currentImps.Add(imp);
             
-            Debug.Log("Adding imp \n Imp in Horde: " + _currentImps.Count);
+            //Debug.Log("Adding imp \n Imp in Horde: " + _currentImps.Count);
         }
 
         public void UnregisterImp(HordeImp imp)
@@ -54,7 +54,7 @@ namespace HordeSystem
 
             _currentImps.Remove(imp);
             
-            Debug.Log("Removing imp \n Imp in Horde: " + _currentImps.Count);
+            //Debug.Log("Removing imp \n Imp in Horde: " + _currentImps.Count);
         }
 
         public void SpawnImp(Vector3 position, Quaternion rotation)

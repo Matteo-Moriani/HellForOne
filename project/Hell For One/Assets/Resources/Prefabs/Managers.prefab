@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 48743471793104666}
   - component: {fileID: 1355422696769887824}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: CrownManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,11 +627,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemiesManager
       objectReference: {fileID: 0}
-    - target: {fileID: 841931230779887141, guid: b1ae86efec7a3ee4ba062f336adf225d,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1971145221022738102, guid: b1ae86efec7a3ee4ba062f336adf225d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -706,11 +701,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Music
-      objectReference: {fileID: 0}
-    - target: {fileID: 3088385954182245662, guid: 21080b5a47bda9d479ae103fe3724615,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3088385954182245660, guid: 21080b5a47bda9d479ae103fe3724615,
         type: 3}

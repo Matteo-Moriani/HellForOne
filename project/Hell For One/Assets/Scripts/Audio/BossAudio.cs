@@ -61,7 +61,7 @@ public class BossAudio : CharacterAudio
                 Play("hammer");
                 break;
             default:
-                Debug.Log("ATTACK " + attack.name + " NOT FOUND");
+                //Debug.Log("ATTACK " + attack.name + " NOT FOUND");
                 break;
         }
     }

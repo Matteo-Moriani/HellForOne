@@ -16,7 +16,7 @@ namespace FactoryBasedCombatSystem
         
         private CombatSystem _combatSystem;
         
-        private float _currentHp;
+        [SerializeField] private float _currentHp;
 
         private IHitPointsObserver[] _observers;
         
