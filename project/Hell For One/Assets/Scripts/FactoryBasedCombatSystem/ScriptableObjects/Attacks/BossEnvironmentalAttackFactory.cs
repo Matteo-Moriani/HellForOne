@@ -42,11 +42,12 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
 
             foreach(GameObject g in _attackGameObjects[id])
             {
-                g.transform.position += (ownerCombatSystem.transform.position - g.transform.position).normalized * UnityEngine.Random.Range(-data.MaxDistVariation, data.MaxDistVariation);
+                float randomVariation = UnityEngine.Random.Range(-data.MaxDistVariation, data.MaxDistVariation);
+                g.transform.position += HorizontalVector(ownerCombatSystem.transform.position, g.transform.position).normalized * randomVariation;
 
-                if((ownerCombatSystem.transform.position - g.transform.position).magnitude < bossCollider.radius + data.ColliderRadius)
+                if(HorizontalDistance(ownerCombatSystem.transform.position, g.transform.position) < bossCollider.radius + data.ColliderRadius)
                 {
-                    g.transform.position += (ownerCombatSystem.transform.position - g.transform.position).normalized * (bossCollider.radius + data.ColliderRadius);
+                    g.transform.position += HorizontalVector(ownerCombatSystem.transform.position, g.transform.position).normalized * (bossCollider.radius + data.ColliderRadius);
                 }
             }
 
@@ -113,6 +114,19 @@ namespace FactoryBasedCombatSystem.ScriptableObjects.Attacks
                 PoolersManager.Instance.TryGetPooler(data.AttackPrefab).DeactivatePooledObject(g);
             }
             _attackGameObjects.Remove(id);
+        }
+
+        public float HorizontalDistance(Vector3 from, Vector3 to)
+        {
+            Vector3 yEqualizedPosition = new Vector3(to.x, from.y, to.z);
+            return (yEqualizedPosition - from).magnitude;
+        }
+
+        public Vector3 HorizontalVector(Vector3 from, Vector3 to)
+        {
+            Vector3 yEqualizedPosition = new Vector3(to.x, from.y, to.z);
+            yEqualizedPosition -= from;
+            return yEqualizedPosition;
         }
     }
 }
