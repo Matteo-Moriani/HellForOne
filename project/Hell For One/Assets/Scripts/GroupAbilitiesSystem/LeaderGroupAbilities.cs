@@ -64,12 +64,12 @@ namespace GroupAbilitiesSystem
 
             if (!_impMana.CheckSegments(ability.GetData().ManaSegmentsCost)) return;
 
-            Debug.Log("Segments OK");
+            //Debug.Log("Segments OK");
             
             if (!GroupsManager.Instance.Groups[GroupsInRangeDetector.MostRepresentedGroupInRange]
                 .GetComponent<ImpGroupAi>().TryAbility(ability)) return;
             
-            Debug.Log("Ability OK");
+            //Debug.Log("Ability OK");
 
             _impMana.SpendSegments(ability.GetData().ManaSegmentsCost);
             

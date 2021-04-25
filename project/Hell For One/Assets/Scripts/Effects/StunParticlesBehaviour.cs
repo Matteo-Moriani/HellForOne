@@ -1,10 +1,8 @@
 ﻿using FactoryBasedCombatSystem;
-using GroupAbilitiesSystem;
-using GroupAbilitiesSystem.ScriptableObjects;
-using GroupSystem;
+using FactoryBasedCombatSystem.Interfaces;
 using UnityEngine;
 
-public class StunParticlesBehaviour : MonoBehaviour
+public class StunParticlesBehaviour : MonoBehaviour, IHitPointsObserver
 {
     private Stun _stun;
     private ParticleSystem[] _particles;
@@ -45,5 +43,10 @@ public class StunParticlesBehaviour : MonoBehaviour
             p.Stop();
         }
         //_audioSource.Stop();
+    }
+
+    public void OnZeroHp()
+    {
+        OnStopStun();
     }
 }

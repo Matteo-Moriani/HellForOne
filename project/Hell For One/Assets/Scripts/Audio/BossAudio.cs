@@ -48,7 +48,7 @@ public class BossAudio : CharacterAudio
                 Play("groupAttack");
                 break;
             default:
-                Debug.Log("ATTACK "+ attack.name +" NOT FOUND");
+                //Debug.Log("ATTACK "+ attack.name +" NOT FOUND");
                 break;
         }
     }

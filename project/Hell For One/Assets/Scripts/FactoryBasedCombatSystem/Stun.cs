@@ -40,7 +40,7 @@ namespace FactoryBasedCombatSystem
             OnStartStun?.Invoke();
             OnBlockEvent?.Invoke(actionBlocks);
             
-            Debug.Log("Start stun " + transform.root.name);
+            //Debug.Log("Start stun " + transform.root.name);
         }
 
         private void StopStun()

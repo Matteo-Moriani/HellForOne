@@ -41,9 +41,17 @@ namespace Animations
 
         private void OnStartAttack(Attack obj) => _animator.SetTrigger(obj.name);
 
-        private void OnStartStun() => _animator.SetBool("isStunned", true);
+        private void OnStartStun()
+        {
+            _animator.SetBool("isStunned", true);
+        }
 
         private void OnStopStun() => _animator.SetBool("isStunned", false);
-        public void OnZeroHp() => _animator.SetTrigger("death");
+        public void OnZeroHp()
+        {
+            // brutto ma stunned è un any state
+            _animator.SetBool("isStunned", false);
+            _animator.SetTrigger("death");
+        }
     }
 }

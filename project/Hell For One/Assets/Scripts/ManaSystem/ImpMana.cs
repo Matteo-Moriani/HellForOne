@@ -19,7 +19,7 @@ namespace ManaSystem
 
         private static int _maxSegments = 2;
         private static float _singleSegmentPool = 100f;
-        private static float _manaRechargeRate = 1f;
+        private static float _manaRechargeRate = 2f;
 
         private static float _currentManaPool = 0f;
         private static int _currentChargedSegments;
