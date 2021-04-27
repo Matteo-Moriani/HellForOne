@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
+using ArenaSystem;
 
 public class Hat : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class Hat : MonoBehaviour
         if(collider != null)
             collider.enabled = false;
     }
-    
+
     public void PlayerDied()
     {
         //if ( !rb )
@@ -43,7 +44,33 @@ public class Hat : MonoBehaviour
         minFallTimePassed = true;
         //transform.GetChild( 0 ).gameObject.SetActive( true );
     }
-    
+
+    public void PickupCrown(Collision collision)
+    {
+        minFallTimePassed = false;
+        collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
+        collision.gameObject.GetComponent<ChildrenObjectsManager>().scepter.SetActive( true );
+        collision.gameObject.GetComponent<ChildrenObjectsManager>().spear.SetActive( false );
+        collision.gameObject.GetComponent<ChildrenObjectsManager>().shield.SetActive( false );
+
+        //collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
+
+        Destroy( gameObject );
+    }
+
+    public void PickupCrownNoCollision(GameObject player)
+    {
+        minFallTimePassed = false;
+        player.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
+        player.GetComponent<ChildrenObjectsManager>().scepter.SetActive( true );
+        player.GetComponent<ChildrenObjectsManager>().spear.SetActive( false );
+        player.GetComponent<ChildrenObjectsManager>().shield.SetActive( false );
+
+        //collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
+
+        Destroy( gameObject );
+    }
+
     public void OnCollisionEnter( Collision collision )
     {
         if(minFallTimePassed && collision.gameObject.layer == LayerMask.NameToLayer("Walkable"))
@@ -57,15 +84,7 @@ public class Hat : MonoBehaviour
         // If player touches the hat while on the ground
         else if ( minFallTimePassed && collision.gameObject.transform.root.tag == "Player" )
         {
-            minFallTimePassed = false;
-            collision.gameObject.GetComponent<ChildrenObjectsManager>().crown.SetActive( true );
-            collision.gameObject.GetComponent<ChildrenObjectsManager>().scepter.SetActive(true);
-            collision.gameObject.GetComponent<ChildrenObjectsManager>().spear.SetActive(false);
-            collision.gameObject.GetComponent<ChildrenObjectsManager>().shield.SetActive(false);
-            
-            //collision.gameObject.transform.root.GetComponent<PlayerInput>().HasHat = true;
-            
-            Destroy( gameObject );
+            PickupCrown( collision );
         }
         else if(collision.gameObject.transform.root.tag == "Boss" || collision.gameObject.transform.root.tag == "Demon")
         {
