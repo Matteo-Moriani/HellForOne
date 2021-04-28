@@ -8,6 +8,7 @@ using GroupSystem;
 using Player;
 using TacticsSystem.ScriptableObjects;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace TacticsSystem
 {
@@ -25,16 +26,27 @@ namespace TacticsSystem
         [SerializeField] private TacticFactory xButtonTactic;
         [SerializeField] private TacticFactory yButtonTactic;
 
+        [SerializeField] private GameObject globalOrderCircle;
+        [SerializeField] private float globalOrderParticlesFinalRadius = 15f;
+
         private GroupManager.Group _currentMostRepresentedGroup;
 
         private readonly ActionLock _orderAssignLock = new ActionLock();
 
         private Coroutine _heldDownCr = null;
-        
+        private ParticleSystem globalOrderParticles;
+        private Color startingParticlesColor;
+
         #endregion
 
+        private void Awake()
+        {
+            globalOrderParticles = globalOrderCircle.GetComponent<ParticleSystem>();
+            startingParticlesColor = globalOrderParticles.main.startColor.color;
+        }
+
         #region Delegates and events
-    
+
         public static event Action<TacticFactory,GroupManager.Group> OnTryTacticAssign;
 
         #endregion
@@ -78,6 +90,7 @@ namespace TacticsSystem
             
             StopCoroutine(_heldDownCr);
             _heldDownCr = null;
+            ResetGlobalOrderParticles();
         }
 
         #endregion
@@ -110,12 +123,52 @@ namespace TacticsSystem
 
         private IEnumerator HeldDownCoroutine(TacticFactory tacticFactory)
         {
-            yield return new WaitForSeconds(heldDownTime);
+            globalOrderCircle.SetActive(true);
+            bool alreadyPlaying = false;
+            Color finalColor = new Color(startingParticlesColor.r, startingParticlesColor.g, startingParticlesColor.b, 0f);
+
+            float timer = 0f;
+            ShapeModule shapeModule = globalOrderParticles.shape;
+            MainModule mainModule = globalOrderParticles.main;
+            mainModule.startColor = startingParticlesColor;
+
+            while(timer < heldDownTime)
+            {
+                if(timer > heldDownTime / 3f)
+                {
+                    if(!alreadyPlaying)
+                    {
+                        globalOrderParticles.Play();
+                        alreadyPlaying = true;
+                    }
+
+                    shapeModule.radius = Mathf.Lerp(1f, globalOrderParticlesFinalRadius, (timer - (heldDownTime / 3f)) / (heldDownTime - (heldDownTime / 3f)));
+                    mainModule.startSize = Mathf.Lerp(2f, globalOrderParticlesFinalRadius/2f, (timer - (heldDownTime / 3f)) / (heldDownTime - (heldDownTime / 3f)));
+                }
+
+                if(timer > heldDownTime / 1.5f)
+                {
+                    mainModule.startColor = Color.Lerp(startingParticlesColor, finalColor, (timer - (heldDownTime / 1.5f)) / (heldDownTime - (heldDownTime / 1.5f)));
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
             AssignGlobalOrder(tacticFactory);
+            ResetGlobalOrderParticles();
+        }
+
+        private void ResetGlobalOrderParticles()
+        {
+            //ShapeModule shapeModule = globalOrderParticles.shape;
+            //shapeModule.radius = 0.1f;
+            globalOrderParticles.Stop();
+            globalOrderCircle.SetActive(false);
         }
 
         #endregion
-        
+
         #region Interfaces
 
         public event Action<float> OnAggroActionDone;

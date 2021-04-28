@@ -377,13 +377,6 @@ namespace AI.Boss
 
         #region Event handlers
 
-        // private void OnZeroHp()
-        // {
-        //     StopAllCoroutines();
-        //     
-        //     BattleManager.Instance.NotifyBattleExit();
-        // }
-
         private void OnStartBattle() => _inCombat = true;
         private void OnStartBossAttack() => _lastAttackDone = false;
         private void OnStopBossAttack() => _lastAttackDone = true;
