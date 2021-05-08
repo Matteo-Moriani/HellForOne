@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using FactoryBasedCombatSystem.Interfaces;
 using UnityEngine;
 
@@ -8,13 +9,17 @@ namespace FactoryBasedCombatSystem
     {
         [SerializeField] private float destroyAfterSeconds = 2f;
 
+        public static event Action<Transform> OnPreImpDestroyed;
+        
         public void OnZeroHp() => StartCoroutine(DestroyAfter());
 
         private IEnumerator DestroyAfter()
         {
             yield return new WaitForSeconds(destroyAfterSeconds);
             
-            Destroy(this.gameObject);
+            OnPreImpDestroyed?.Invoke(transform);
+            
+            Destroy(gameObject);
         }
     }
 }

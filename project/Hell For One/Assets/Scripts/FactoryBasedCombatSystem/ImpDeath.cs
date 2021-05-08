@@ -1,6 +1,5 @@
 ﻿using System;
 using FactoryBasedCombatSystem.Interfaces;
-using ReincarnationSystem;
 using UnityEngine;
 
 namespace FactoryBasedCombatSystem

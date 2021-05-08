@@ -2,27 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using ActionsBlockSystem;
-using AI.Imp;
 using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using ReincarnationSystem;
 using UnityEngine;
 
 namespace GroupSystem
-{
-    // public class GroupsInRangeManager
-    // {
-    //     private GroupsInRangeManager _instance = new GroupsInRangeManager();
-    //
-    //     public GroupsInRangeManager Instance
-    //     {
-    //         get => _instance;
-    //         private set => _instance = value;
-    //     }
-    //     
-    //     
-    // }
-
+{ 
     public class GroupsInRangeDetector : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
     {
         #region Fields
@@ -69,11 +55,13 @@ namespace GroupSystem
         private void OnEnable()
         {
             ImpDeath.OnImpDeath += OnImpDeath;
+            UnitDestroyer.OnPreImpDestroyed += OnPreImpDestroyed;
         }
 
         private void OnDisable()
         {
             ImpDeath.OnImpDeath -= OnImpDeath;
+            UnitDestroyer.OnPreImpDestroyed -= OnPreImpDestroyed;
         }
 
         private void OnTriggerEnter(Collider other) => AddImp(other.transform.root);
@@ -124,6 +112,8 @@ namespace GroupSystem
 
         private void RemoveImp(Transform imp)
         {
+            EnsureCleanData();
+            
             GroupManager impGroup = imp.GetComponent<GroupFinder>().Group;
             
             if(impGroup == null) return;
@@ -137,19 +127,26 @@ namespace GroupSystem
             UpdateMostRepresentedGroup();
         }
 
-        #endregion
-
-        #region Event Handlers
-
-        private void OnImpDeath(Transform obj)
+        private void EnsureCleanData()
         {
-            foreach (var keyValuePair in _impsInRange.Where(keyValuePair => keyValuePair.Value.Contains(obj)))
+            foreach (var keyValuePair in _impsInRange)
             {
-                keyValuePair.Value.Remove(obj);
+                foreach (var impTransform in keyValuePair.Value.Where(t => t == null))
+                {
+                    keyValuePair.Value.Remove(impTransform);
+                }
             }
             
             UpdateMostRepresentedGroup();
         }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void OnImpDeath(Transform obj) => RemoveImp(obj.transform.root);
+
+        private void OnPreImpDestroyed(Transform obj) => RemoveImp(obj.transform.root);
 
         #endregion
         
