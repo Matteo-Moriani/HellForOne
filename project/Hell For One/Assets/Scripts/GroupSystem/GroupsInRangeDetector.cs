@@ -3,12 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using ActionsBlockSystem;
 using AI.Imp;
+using FactoryBasedCombatSystem;
 using FactoryBasedCombatSystem.Interfaces;
 using ReincarnationSystem;
 using UnityEngine;
 
 namespace GroupSystem
 {
+    // public class GroupsInRangeManager
+    // {
+    //     private GroupsInRangeManager _instance = new GroupsInRangeManager();
+    //
+    //     public GroupsInRangeManager Instance
+    //     {
+    //         get => _instance;
+    //         private set => _instance = value;
+    //     }
+    //     
+    //     
+    // }
+
     public class GroupsInRangeDetector : MonoBehaviour, IReincarnationObserver, IHitPointsObserver
     {
         #region Fields
@@ -50,6 +64,16 @@ namespace GroupSystem
             _detectionLock.AddLock();
 
             _mostRepresentedGroupInRange = GroupManager.Group.None;
+        }
+
+        private void OnEnable()
+        {
+            ImpDeath.OnImpDeath += OnImpDeath;
+        }
+
+        private void OnDisable()
+        {
+            ImpDeath.OnImpDeath -= OnImpDeath;
         }
 
         private void OnTriggerEnter(Collider other) => AddImp(other.transform.root);
@@ -115,18 +139,34 @@ namespace GroupSystem
 
         #endregion
 
+        #region Event Handlers
+
+        private void OnImpDeath(Transform obj)
+        {
+            foreach (var keyValuePair in _impsInRange.Where(keyValuePair => keyValuePair.Value.Contains(obj)))
+            {
+                keyValuePair.Value.Remove(obj);
+            }
+            
+            UpdateMostRepresentedGroup();
+        }
+
+        #endregion
+        
         #region Interfaces
         
         public void StartLeader()
         {
-            _sphereCollider.radius = orderRadius;
+            //_sphereCollider.radius = orderRadius;
+            
+            transform.localScale = Vector3.one * orderRadius; 
             
             _detectionLock.RemoveLock();
         }
 
-        public void StopLeader() => _sphereCollider.radius = 0f;
+        public void StopLeader() => transform.localScale = Vector3.zero;//_sphereCollider.radius = 0f;
 
-        public void OnZeroHp() => _sphereCollider.radius = 0f;
+        public void OnZeroHp() => transform.localScale = Vector3.zero; //_sphereCollider.radius = 0f;
 
         #endregion
     }
