@@ -12,6 +12,9 @@ public class ManaBarUi : MonoBehaviour
     private Image _rightManaBarIn;
 
     private Image _currentBar;
+
+    private ParticleSystem leftManaBarPS;
+    private ParticleSystem rightManaBarPS;
     
     #region Unity methods
 
@@ -22,6 +25,9 @@ public class ManaBarUi : MonoBehaviour
 
         _currentBar = _leftManaBarIn;
         _defaultColor = _leftManaBarIn.color;
+
+        leftManaBarPS = transform.GetChild( 1 ).GetChild( 0 ).GetComponent<ParticleSystem>();
+        rightManaBarPS = transform.GetChild( 3 ).GetChild( 0 ).GetComponent<ParticleSystem>();
     }
 
     private void OnEnable()
@@ -57,12 +63,16 @@ public class ManaBarUi : MonoBehaviour
             _currentBar = _rightManaBarIn;
             _leftManaBarIn.color = _fullSegmentColor;
             _rightManaBarIn.color = _defaultColor;
+
+            leftManaBarPS.Play();
         }
         else
         {
             _currentBar = null;
             _leftManaBarIn.color = _fullSegmentColor;
             _rightManaBarIn.color = _fullSegmentColor;
+
+            rightManaBarPS.Play();
         }
     }
 
@@ -76,11 +86,16 @@ public class ManaBarUi : MonoBehaviour
             {
                 _rightManaBarIn.color = _defaultColor;
                 _currentBar = _rightManaBarIn;
+
+                rightManaBarPS.Stop();
             }
             else if(_currentBar == _rightManaBarIn)
             {
                 _leftManaBarIn.color = _defaultColor;
                 _currentBar = _leftManaBarIn;
+
+                leftManaBarPS.Stop();
+                rightManaBarPS.Stop();
             }
         }
         else
@@ -88,6 +103,9 @@ public class ManaBarUi : MonoBehaviour
             _leftManaBarIn.color = _defaultColor;
             _rightManaBarIn.color = _defaultColor;
             _currentBar = _leftManaBarIn;
+
+            leftManaBarPS.Stop();
+            rightManaBarPS.Stop();
         }
     }
     
