@@ -1,23 +1,31 @@
-﻿using System.Collections;
+﻿using ArenaSystem;
+using ManaSystem;
+using ReincarnationSystem;
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] private float shortMessageDuration;
+    [SerializeField] private float mediumMessageDuration;
+    [SerializeField] private float longMessageDuration;
+    [SerializeField] private float distanceBetweenTutorials;
+    [SerializeField] private float coroutinesWaitTime;
+    [SerializeField] private ArenaManager firstArena;
+    [SerializeField] private ArenaManager secondArena;
+
     // if we don't want to see the tutorial while debugging
     public bool tutorialsEnabled = true;
     public float tutorialClosingDelay = 2f;
 
-    private TutorialScreensBehaviour _tutorialScreens;
-    private Transform _player;
+    private bool specialAbilityTutorialDone = false;
+    private bool callToArmsTutorialDone = false;
+    private bool inSecondBattle = false;
+    private bool tacticsTutorialsDone = false;
+    private bool reincarnationTutorialDone = false;
 
-    // FLAG UTILI PER TENERE CONTO DI CERTE COSE NELLE SCHERMATE
-    //private bool _rightAnalogUsed = false;
-    //private bool _playerHasShot = false;
-    //private bool _toolsUsed = false;
-    //private bool _dashUsed = false;
-    //private bool _sonarVisionUsed = false;
-    //private bool _healingUsed = false;
-    //private int _battlesEntered = 0;
+    private TutorialScreensBehaviour _tutorialScreens;
 
     private static TutorialManager _instance;
 
@@ -34,17 +42,24 @@ public class TutorialManager : MonoBehaviour
         else
             Destroy(this);
 
-        _tutorialScreens = GameObject.FindGameObjectWithTag("TutorialScreens").GetComponent<TutorialScreensBehaviour>();
+        _tutorialScreens = GetComponent<TutorialScreensBehaviour>();
     }
 
     private void Start()
     {
-        _tutorialScreens.ShowScreen("Intro");
+        StartCoroutine(FirstTutorial());
     }
+
 
     private void OnEnable()
     {
-        // mi registro ai vari eventi a giro
+        firstArena.OnSetupBattle += OnFirstArenaEnter;
+        firstArena.OnStartBattle += OnFirstBattleStart;
+        ImpMana.OnSegmentCharged += OnSegmentCharged;
+        secondArena.OnSetupBattle += OnSecondArenaEnter;
+        secondArena.OnStartBattle += OnSecondBattleStart;
+        ReincarnationManager.OnLeaderDeath += OnLeaderDeath;
+        ReincarnationManager.OnLeaderReincarnated += OnLeaderReincarnated;
     }
 
     private void OnDisable()
@@ -54,6 +69,14 @@ public class TutorialManager : MonoBehaviour
         {
             // mi deregistro solo se non mi sono già autodistrutto
             // mi devo deregistrare anche dove non mi serve più un certo tutorial
+
+            firstArena.OnSetupBattle -= OnFirstArenaEnter;
+            firstArena.OnStartBattle -= OnFirstBattleStart;
+            ImpMana.OnSegmentCharged -= OnSegmentCharged;
+            secondArena.OnSetupBattle -= OnSecondArenaEnter;
+            secondArena.OnStartBattle -= OnSecondBattleStart;
+            ReincarnationManager.OnLeaderDeath -= OnLeaderDeath;
+            ReincarnationManager.OnLeaderReincarnated -= OnLeaderReincarnated;
         }
     }
 
@@ -66,168 +89,128 @@ public class TutorialManager : MonoBehaviour
     // se il tutorial dopo un tot va chiuso comunque
     private IEnumerator ForceCloseTutorial(string tutorial)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(coroutinesWaitTime);
         StartCoroutine(CloseTutorial(tutorial));
     }
 
-    // ESEMPI DI METODI DA REGISTRARE AGLI EVENTI
+    private IEnumerator FirstTutorial()
+    {
+        yield return new WaitForSeconds(2f);
+        _tutorialScreens.ShowScreenWithTimeout("Intro", longMessageDuration);
+    }
 
-    //private void LeftAnalogUsed(Vector2 moveInput)
-    //{
-    //    if(moveInput.magnitude >= 0.1f)
-    //    {
-    //        PlayerInput.OnMoveInput -= LeftAnalogUsed;
-    //        StartCoroutine(CloseMovementTutorial());
-    //    }
-    //}
+    private IEnumerator FirstBattleTutorials()
+    {
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        _tutorialScreens.ShowScreenWithTimeout("RangedTutorial", mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration);
 
-    //private void RightAnalogUsed(Vector2 rotateInput)
-    //{
-    //    if(rotateInput.magnitude >= 0.1f)
-    //    {
-    //        _rightAnalogUsed = true;
-    //        PlayerInput.OnRotateInput -= RightAnalogUsed;
-    //    }
+        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
 
-    //    if(_playerHasShot)
-    //        StartCoroutine(CloseTutorial("AimShootTutorial"));
-    //}
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        _tutorialScreens.ShowScreenWithTimeout("CounterTutorial", mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration);
 
-    //private void PlayerHasShot()
-    //{
-    //    _playerHasShot = true;
-    //    PlayerInput.OnStartFireInput -= PlayerHasShot;
+        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
 
-    //    if(_rightAnalogUsed)
-    //        StartCoroutine(CloseTutorial("AimShootTutorial"));
-    //}
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        _tutorialScreens.ShowScreenWithTimeout("RecruitTutorial", mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration);
 
-    //private void DashUsed()
-    //{
-    //    _dashUsed = true;
-    //    PlayerInput.OnDashInputDown -= DashUsed;
-    //    StartCoroutine(CloseTutorial("DashTutorial"));
-    //}
+        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
 
-    //private void ToolsUsed()
-    //{
-    //    _toolsUsed = true;
-    //    PlayerInput.OnLeftToolInput -= ToolsUsed;
-    //    StartCoroutine(CloseTutorial("ToolsTutorial"));
-    //}
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        if(ImpMana.CurrentChargedSegments > 0)
+        {
+            StartCoroutine(SpecialAbilityTutorial());
+            specialAbilityTutorialDone = true;
+        }
+        tacticsTutorialsDone = true;
+    }
 
-    //private void SonarVisionUsed()
-    //{
-    //    _sonarVisionUsed = true;
-    //    PlayerInput.OnStartSonarVisionInput -= SonarVisionUsed;
-    //    StartCoroutine(CloseTutorial("SonarVisionTutorial"));
-    //}
+    private IEnumerator SecondBattleTutorials() 
+    {
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration);
 
-    //private void OnHealingSuccess()
-    //{
-    //    _healingUsed = true;
-    //    _player.GetComponent<PlayerHealing>().OnHealingSuccess -= OnHealingSuccess;
-    //    _player.GetComponent<HitPoints>().OnDamageReceived -= OnDamageReceived;
-    //    StartCoroutine(CloseTutorial("HealTutorial"));
-    //}
+        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
 
-    //private void OnDamageReceived(float amount)
-    //{
-    //    if(!_healingUsed)
-    //    {
-    //        _tutorialScreens.ShowScreen("HealTutorial");
-    //    }
-    //}
+        yield return new WaitForSeconds(distanceBetweenTutorials);
+        _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial2", mediumMessageDuration);
+    }
 
+    private IEnumerator SpecialAbilityTutorial()
+    {
+        while(_tutorialScreens.ShowingScreen())
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        _tutorialScreens.ShowScreenWithTimeout("SpecialAbilityTutorial", longMessageDuration); 
+    }
 
+    private IEnumerator ReincarnationTutorial()
+    {
+        while(_tutorialScreens.ShowingScreen())
+        {
+            yield return new WaitForSeconds(1f);
+        }
+        if(!reincarnationTutorialDone)
+        {
+            _tutorialScreens.ShowScreenWithTimeout("ReincarnationTutorial", longMessageDuration);
+            yield return new WaitForSeconds(longMessageDuration);
+            reincarnationTutorialDone = true;
+            _tutorialScreens.ShowScreenWithTimeout("DashTutorial", longMessageDuration);
+        }
+        
+    }
 
+    private void OnFirstArenaEnter()
+    {
+        _tutorialScreens.ShowScreenWithTimeout("TacticsCrossTutorial", longMessageDuration);
+    }
 
+    private void OnSecondArenaEnter()
+    {
+        inSecondBattle = true;
+    }
 
+    private void OnFirstBattleStart()
+    {
+        StartCoroutine(FirstBattleTutorials());
+    }
 
-    // ESEMPI DI METODI PER LA GESTIONE DELLE SCHERMATE.
+    private void OnSecondBattleStart()
+    {
+        StartCoroutine(SecondBattleTutorials());
+    }
 
-    //private void StartMovementTutorial()
-    //{
-    //    StartCoroutine(MovementTutorial());
-    //}
+    private void OnSegmentCharged(int segments)
+    {
+        if(tacticsTutorialsDone && segments == 1 && !specialAbilityTutorialDone)
+        {
+            StartCoroutine(SpecialAbilityTutorial());
+            specialAbilityTutorialDone = true;
+        }
+        else if (inSecondBattle && segments == 2 && !callToArmsTutorialDone)
+        {
+            _tutorialScreens.ShowScreenWithTimeout("CallToArmsTutorial", longMessageDuration);
+            callToArmsTutorialDone = true;
+        }
+    }
 
-    //private IEnumerator MovementTutorial()
-    //{
-    //    yield return new WaitForSeconds(2f);
-    //    _tutorialScreens.ShowScreen("MovementTutorial");
-    //}
+    private void OnLeaderDeath(ReincarnableBehaviour r)
+    {
+        StartCoroutine(ReincarnationTutorial());
+    }
 
-    //private IEnumerator CloseMovementTutorial()
-    //{
-    //    yield return new WaitForSeconds(1f);
-    //    _tutorialScreens.HideScreen("MovementTutorial");
-
-    //    yield return new WaitForSeconds(2f);
-    //    AimShootTutorial();
-
-    //    PlayerInput.OnRotateInput += RightAnalogUsed;
-    //    PlayerInput.OnStartFireInput += PlayerHasShot;
-    //    UIManager.Instance.OnMainGameUi -= StartMovementTutorial;
-    //}
-
-    //private void AimShootTutorial()
-    //{
-    //    if(!_rightAnalogUsed || !_playerHasShot)
-    //        _tutorialScreens.ShowScreen("AimShootTutorial");
-    //}
-
-    //private void OnBattleEnter()
-    //{
-    //    _battlesEntered++;
-
-    //    if(_battlesEntered == 2)
-    //    {
-    //        PlayerInput.OnLeftToolInput += ToolsUsed;
-    //        PlayerInput.OnRightToolInput += ToolsUsed;
-    //    }
-
-    //    if(_battlesEntered >= 2 && !_toolsUsed)
-    //    {
-    //        _tutorialScreens.ShowScreen("ToolsTutorial");
-    //    }
-    //}
-
-    //private void OnBattleExit()
-    //{
-    //    if(_battlesEntered == 1)
-    //    {
-    //        PlayerInput.OnDashInputDown += DashUsed;
-    //    }
-    //    else if (_battlesEntered == 2)
-    //    {
-    //        PlayerInput.OnStartSonarVisionInput += SonarVisionUsed;
-    //    }
-
-    //    if(_battlesEntered >= 1 && !_dashUsed)
-    //    {
-    //        _tutorialScreens.ShowScreen("DashTutorial");
-    //    }
-    //    else if(_battlesEntered >= 2 && !_sonarVisionUsed)
-    //    {
-    //        _tutorialScreens.ShowScreen("SonarVisionTutorial");
-    //    }
-    //}
-
-    //private void OnRangerUnconscious(Transform t)
-    //{
-    //    _tutorialScreens.ShowScreen("ReviveTutorial");
-    //    StartCoroutine(ForceCloseTutorial("ReviveTutorial"));
-    //    RangerManager.Instance.OnRangerUnconscious -= OnRangerUnconscious;
-    //}
-
-    //private void OnEmptyMagazine()
-    //{
-    //    if(_player.GetComponent<PlayerEquipment>().Firearm.Name != "GrenadeLauncher")
-    //    {
-    //        _tutorialScreens.ShowScreen("ReloadTutorial");
-    //        StartCoroutine(ForceCloseTutorial("ReloadTutorial"));
-    //        _player.GetComponent<PlayerReloading>().OnEmptyMagazine -= OnEmptyMagazine;
-    //    }
-    //}
+    private void OnLeaderReincarnated(ReincarnableBehaviour r)
+    {
+        if(_tutorialScreens.ShowingScreen())
+        {
+            reincarnationTutorialDone = true;
+            _tutorialScreens.HideScreen("ReincarnationTutorial");
+        }
+    }
 
 }

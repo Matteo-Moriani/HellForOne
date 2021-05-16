@@ -20,20 +20,35 @@ public class TutorialScreensBehaviour : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if(_showingScreen && InputManager.Instance.XButtonDown())
-            HideCurrentScreen();
-    }
+    //private void Update()
+    //{
+    //    if(_showingScreen && InputManager.Instance.XButtonDown())
+    //        HideCurrentScreen();
+    //}
 
     public void ShowScreen(string screenName)
     {
         // pause - to do after pause refactor
+        if(_showingScreen)
+            HideCurrentScreen();
 
         CanvasGroup screenToShow = FindScreen(screenName);
         UiUtils.FadeIn(this, screenToShow, fadeDurations);
         _currentScreen = screenToShow;
         _showingScreen = true;
+    }
+
+    public void ShowScreenWithTimeout(string screenName, float duration)
+    {
+        if(_showingScreen)
+            HideCurrentScreen();
+
+        CanvasGroup screenToShow = FindScreen(screenName);
+        UiUtils.FadeIn(this, screenToShow, fadeDurations);
+        _currentScreen = screenToShow;
+        _showingScreen = true;
+
+        StartCoroutine(HideScreenWithDelay(screenName, duration));
     }
 
     public void HideScreen(string screen)
@@ -45,6 +60,17 @@ public class TutorialScreensBehaviour : MonoBehaviour
         }
 
         // resume - to do after pause refactor
+    }
+
+    private IEnumerator HideScreenWithDelay(string screen, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if(screen == _currentScreen.gameObject.name)
+        {
+            UiUtils.FadeOut(this, _currentScreen, fadeDurations);
+            _showingScreen = false;
+        }
     }
 
     public void HideCurrentScreen()
@@ -65,5 +91,10 @@ public class TutorialScreensBehaviour : MonoBehaviour
 
         Debug.Log("DIDN'T FIND ANY SCREEN NAMED " + screenName);
         return null;
+    }
+
+    public bool ShowingScreen()
+    {
+        return _showingScreen;
     }
 }
