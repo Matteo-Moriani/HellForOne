@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class NewHUD : MonoBehaviour
 {
-    private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross, ordersIcons, specialAttacksIcons;
+    private GameObject panelAzure, panelPink, panelGreen, panelYellow, ordersCross, ordersIcons, specialAttacksIcons, buttonsGrey;
     private Image azureImage, pinkImage, greenImage, yellowImage, aggroIconAzure, aggroIconPink, aggroIconGreen, aggroIconYellow;
     private Sprite meleeSprite, rangeSprite, tankSprite, supportSprite;
     
@@ -34,6 +34,8 @@ public class NewHUD : MonoBehaviour
     public GameObject OrdersCross { get => ordersCross; set => ordersCross = value; }
 
     private Image UpOn, DownOn, RightOn, LeftOn;
+    private bool LTButtonDown = false;
+    public Color grey;
 
     /*
      * 0 = Melee
@@ -110,6 +112,7 @@ public class NewHUD : MonoBehaviour
 
         ordersIcons = GameObject.Find( "IconeOrdini" );
         specialAttacksIcons = GameObject.Find( "IconeAttacchiSpeciali" );
+        buttonsGrey = GameObject.Find( "TastiXboxGrigiati" );
 
         UpOn = GameObject.Find( "UpON" ).GetComponent<Image>();
         DownOn = GameObject.Find( "DownON" ).GetComponent<Image>();
@@ -142,12 +145,18 @@ public class NewHUD : MonoBehaviour
     {
         ordersIcons.GetComponent<Image>().enabled = false;
         specialAttacksIcons.GetComponent<Image>().enabled = true;
+        buttonsGrey.GetComponent<Image>().enabled = true;
+
+        LTButtonDown = true;
     }
 
     private void OnLTButtonUp()
     {
         specialAttacksIcons.GetComponent<Image>().enabled = false;
         ordersIcons.GetComponent<Image>().enabled = true;
+        buttonsGrey.GetComponent<Image>().enabled = false;
+
+        LTButtonDown = false;
     }
 
     private void OnLT_YButtonDown()
@@ -273,6 +282,10 @@ public class NewHUD : MonoBehaviour
                 LeftOn.enabled = false;
 
                 var tempColor1 = color;
+                // To keep the down slice of HUD grey of LT is held down
+                if ( LTButtonDown )
+                    tempColor1 = grey;
+
                 tempColor1.a = alfa;
                 DownOn.color = tempColor1;
                 break;
