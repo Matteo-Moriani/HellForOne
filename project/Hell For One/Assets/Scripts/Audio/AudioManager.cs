@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Player;
 
 public class AudioManager : MonoBehaviour
 {
@@ -83,6 +84,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private AudioClip bossFightMusicLoop;
 
+    [SerializeField]
+    [Tooltip( "Clip played if player tries to use Ballista's special order" )]
+    private AudioClip wrongInput;
+
     private bool canPlayFootSteps = true;
 
     /// <summary>
@@ -104,6 +109,8 @@ public class AudioManager : MonoBehaviour
     public AudioMixerGroup DashMixerGroup { get => dashMixerGroup; private set => dashMixerGroup = value; }
     public AudioMixerGroup RoarMixerGroup { get => roarMixerGroup; private set => roarMixerGroup = value; }
 
+    private AudioSource inputAudioSource;
+
     private static AudioManager _instance;
 
     public static AudioManager Instance { get { return _instance; } }
@@ -118,6 +125,26 @@ public class AudioManager : MonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    private void Start()
+    {
+        inputAudioSource = GameObject.Find( "InputAudioSource" ).GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        PlayerInput.OnLT_AButtonDown += PlayerInput_OnLT_AButtonDown;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInput.OnLT_AButtonDown -= PlayerInput_OnLT_AButtonDown;
+    }
+
+    private void PlayerInput_OnLT_AButtonDown()
+    {
+        inputAudioSource.PlayOneShot( wrongInput );
     }
 
     public void PlayRandomCombatAudioClip(CombatAudio type, AudioSource combatAudioSource)
