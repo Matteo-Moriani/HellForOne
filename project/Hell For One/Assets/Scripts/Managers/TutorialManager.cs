@@ -45,11 +45,10 @@ public class TutorialManager : MonoBehaviour
         _tutorialScreens = GetComponent<TutorialScreensBehaviour>();
     }
 
-    private void Start()
+    public void StartTutorials()
     {
         StartCoroutine(FirstTutorial());
     }
-
 
     private void OnEnable()
     {
