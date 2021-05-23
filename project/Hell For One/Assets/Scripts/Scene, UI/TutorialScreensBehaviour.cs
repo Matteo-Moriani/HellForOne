@@ -89,7 +89,7 @@ public class TutorialScreensBehaviour : MonoBehaviour
                 return tutorialScreen;
         }
 
-        Debug.Log("DIDN'T FIND ANY SCREEN NAMED " + screenName);
+        Debug.Log(">>>> DIDN'T FIND ANY SCREEN NAMED " + screenName);
         return null;
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using ActionsBlockSystem;
+using Animations;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,12 +12,14 @@ namespace ArenaSystem
         [SerializeField] private UnitActionsBlockManager.UnitAction[] actionBlocks;
     
         private NavMeshAgent _agent;
+        private ImpAnimator _animator;
 
         #region Unity Methods
 
         private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<ImpAnimator>();
         }
 
         #endregion
@@ -27,9 +30,11 @@ namespace ArenaSystem
         {
             _agent.enabled = true;
             _agent.SetDestination(targetPosition);
+            _animator.ForceMove(true);
 
             while (Vector3.Distance(transform.position, targetPosition) >= 1.5f) yield return null;
-        
+
+            _animator.ForceMove(false);
             arenaManager.NotifyBattlePrepared(this);
             _agent.enabled = false;
         }

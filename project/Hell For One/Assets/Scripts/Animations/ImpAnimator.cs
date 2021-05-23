@@ -20,6 +20,7 @@ namespace Animations
         private LeaderCallToArms _leaderCallToArms;
         private ContextSteering _contextSteering;
         private PlayerMovement _playerMovement;
+        private bool forceMoveLock = false;
 
         private void Awake()
         {
@@ -68,9 +69,16 @@ namespace Animations
             _leaderCallToArms.OnCallToArmsStop -= OnCallToArmsStop;
         }
 
-        private void OnStartMoving() => _animator.SetBool("isMoving", true);
+        private void OnStartMoving()
+        {
+            if(!forceMoveLock)
+                _animator.SetBool("isMoving", true);
+        }
 
-        private void OnStopMoving() => _animator.SetBool("isMoving", false);
+        private void OnStopMoving() {
+            if(!forceMoveLock)
+                _animator.SetBool("isMoving", false);
+        }
         
         private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3) =>
             _animator.SetTrigger("parry");
@@ -90,5 +98,11 @@ namespace Animations
         private void OnCallToArmsStop() => _animator.SetBool("inCallToArms", false);
         
         public void OnZeroHp() => _animator.SetTrigger("death");
+
+        public void ForceMove(bool b)
+        {
+            forceMoveLock = b; 
+            _animator.SetBool("isMoving", b);
+        }
     }
 }
