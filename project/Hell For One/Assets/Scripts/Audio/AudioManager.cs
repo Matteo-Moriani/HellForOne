@@ -130,6 +130,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         inputAudioSource = GameObject.Find( "InputAudioSource" ).GetComponent<AudioSource>();
+        wrongInput = inputAudioSource.clip;
     }
 
     private void OnEnable()

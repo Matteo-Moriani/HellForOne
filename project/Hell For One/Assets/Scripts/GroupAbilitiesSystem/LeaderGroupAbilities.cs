@@ -82,7 +82,7 @@ namespace GroupAbilitiesSystem
 
         private void OnBButtonDown() => TryAbility(bButtonAbility);
 
-        private void OnAButtonDown() => TryAbility(aButtonAbility);
+        //private void OnAButtonDown() => TryAbility(aButtonAbility);
 
         private void OnYButtonDown() => TryAbility(yButtonAbility);
 
@@ -113,7 +113,7 @@ namespace GroupAbilitiesSystem
             
             PlayerInput.OnXButtonDown += OnXButtonDown;
             PlayerInput.OnYButtonDown += OnYButtonDown;
-            PlayerInput.OnAButtonDown += OnAButtonDown;
+            //PlayerInput.OnAButtonDown += OnAButtonDown;
             PlayerInput.OnBButtonDown += OnBButtonDown;
         }
 
@@ -126,7 +126,7 @@ namespace GroupAbilitiesSystem
             
             PlayerInput.OnXButtonDown -= OnXButtonDown;
             PlayerInput.OnYButtonDown -= OnYButtonDown;
-            PlayerInput.OnAButtonDown -= OnAButtonDown;
+            //PlayerInput.OnAButtonDown -= OnAButtonDown;
             PlayerInput.OnBButtonDown -= OnBButtonDown;
         }
 
