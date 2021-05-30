@@ -77,7 +77,7 @@ public class DistanceTimeout : MonoBehaviour
                 if ( imp != null )
                 {
                     // Player's layer
-                    if ( imp.layer != 13 )
+                    if ( imp.layer != LayerMask.NameToLayer( "Player" ) )
                         hordeMeanPosition += imp.transform.position;
                 }
             }
@@ -86,7 +86,9 @@ public class DistanceTimeout : MonoBehaviour
 
             if ( (gameObject.GetComponent<GroupFinder>().Group.transform.position - transform.position).magnitude > maxDistance )
             {
-                transform.position = hordeMeanPosition;
+                // Player's layer
+                if ( gameObject.layer != LayerMask.NameToLayer( "Player" ) )
+                    transform.position = hordeMeanPosition;
             }
         }
     }
