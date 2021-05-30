@@ -70,6 +70,7 @@ namespace FactoryBasedCombatSystem
             }
 
             _animationEventsHooks.OnAttackAnimationStart += OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationStart += OnAttackAnimationStopMoving;
             _animationEventsHooks.OnAttackAnimationEnd += OnAttackAnimationDeactivateAttack;
         }
 
@@ -81,6 +82,7 @@ namespace FactoryBasedCombatSystem
             }
             
             _animationEventsHooks.OnAttackAnimationStart -= OnAttackAnimationActivateAttack;
+            _animationEventsHooks.OnAttackAnimationStart -= OnAttackAnimationStopMoving;
             _animationEventsHooks.OnAttackAnimationEnd -= OnAttackAnimationDeactivateAttack;
             
             _activeAttacks.Clear();
@@ -118,6 +120,12 @@ namespace FactoryBasedCombatSystem
             _toActivate = new Tuple<Attack, int>(attack,id);
             
             OnStartAttack?.Invoke(attack);
+            if(transform.CompareTag("Demon"))
+                OnBlockEvent?.Invoke(actionBlocks);
+        }
+
+        private void OnAttackAnimationStopMoving()
+        {
             OnBlockEvent?.Invoke(actionBlocks);
         }
 

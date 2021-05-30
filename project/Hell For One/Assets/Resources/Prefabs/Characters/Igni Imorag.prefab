@@ -4664,7 +4664,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsmResolution: 0.5
   behaviourTreeResolution: 0.1
-  searchPlayerDuration: 10
   attackFactories:
   - {fileID: 11400000, guid: 22a4dbe0b308dd1488bfcc213611b665, type: 2}
   - {fileID: 11400000, guid: f07afc5b3d55a984aaf4fc59bf0b303b, type: 2}
@@ -4724,7 +4723,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   k: 100
-  interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
   debug: 0
 --- !u!114 &3379750239343504534
@@ -4757,8 +4755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoppingDistance: 2
-  interestLoseRateo: 0.125
-  dangerLoseRateo: 0.125
+  interestLoseRateo: 0.12
   debug: 0
 --- !u!114 &3803298940352080623
 MonoBehaviour:

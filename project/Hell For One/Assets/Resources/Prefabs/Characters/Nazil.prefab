@@ -956,7 +956,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   k: 100
-  interestLoseRateo: 0.125
   dangerLoseRateo: 0.125
   debug: 0
 --- !u!114 &188919912554209209
@@ -988,9 +987,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b26190b98c407cb25c10c9a921f1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistance: 1.2
-  interestLoseRateo: 0.125
-  dangerLoseRateo: 0.125
+  stoppingDistance: 1.5
+  interestLoseRateo: 0.11
   debug: 0
 --- !u!114 &5692087650184848165
 MonoBehaviour:
@@ -1006,7 +1004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steeringResolution: 16
   linearSpeed: 5
-  angularSpeed: 3
+  angularSpeed: 4
   newDirectionWeight: 0.1
   linearTolerance: 0.8
   debug: 1
@@ -1062,8 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsmResolution: 2
-  behaviourTreeResolution: 0.5
-  searchPlayerDuration: 10
+  behaviourTreeResolution: 0.2
   attackFactories:
   - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
   - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}

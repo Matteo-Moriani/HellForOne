@@ -2328,7 +2328,7 @@ MonoBehaviour:
     defaultVolume: 0
   - name: dash
     clip: {fileID: 8300000, guid: 648d2b2eac36c2247aa6246bc70ef46d, type: 3}
-    volume: 1
+    volume: 2
     pitch: 1.6
     loop: 0
     random: 0
@@ -3608,16 +3608,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4436191664170693224, guid: 0d186f214cd6c774ca733f8f923fcdd9,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4045508072139922000, guid: 0d186f214cd6c774ca733f8f923fcdd9,
-        type: 3}
-      propertyPath: orderRadius
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d186f214cd6c774ca733f8f923fcdd9, type: 3}

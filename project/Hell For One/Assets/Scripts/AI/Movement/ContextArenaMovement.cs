@@ -8,7 +8,7 @@ namespace AI.Movement
     {
         [SerializeField] private float k;
         
-        [SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
+        //[SerializeField] [Range(0, 1f)] private float interestLoseRateo = 0.99f;
         [SerializeField] [Range(0, 1f)] private float dangerLoseRateo = 0.99f;
         
         [SerializeField] private bool debug;

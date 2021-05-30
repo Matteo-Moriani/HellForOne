@@ -24,8 +24,8 @@ namespace AI.Boss
         [SerializeField] private float fsmResolution = 1.0f;
         [SerializeField] private float behaviourTreeResolution = 0.5f;
 
-        [Header("Search")]
-        [SerializeField] private float searchPlayerDuration = 10f;
+        //[Header("Search")]
+        //[SerializeField] private float searchPlayerDuration = 10f;
 
         [Header("Combat")]
         [SerializeField] private BossAttackFactory[] attackFactories;

@@ -113,18 +113,22 @@ namespace GroupSystem
         private void RemoveImp(Transform imp)
         {
             EnsureCleanData();
-            
-            GroupManager impGroup = imp.GetComponent<GroupFinder>().Group;
-            
-            if(impGroup == null) return;
-            
-            if(!_impsInRange.ContainsKey(impGroup.ThisGroupName)) return;
 
-            if(!_impsInRange[impGroup.ThisGroupName].Contains(imp)) return;
-                
-            _impsInRange[impGroup.ThisGroupName].Remove(imp);
+            if(imp.GetComponent<GroupFinder>())
+            {
+                GroupManager impGroup = imp.GetComponent<GroupFinder>().Group;
+
+                if(impGroup == null) return;
+
+                if(!_impsInRange.ContainsKey(impGroup.ThisGroupName)) return;
+
+                if(!_impsInRange[impGroup.ThisGroupName].Contains(imp)) return;
+
+                _impsInRange[impGroup.ThisGroupName].Remove(imp);
+
+                UpdateMostRepresentedGroup();
+            }
             
-            UpdateMostRepresentedGroup();
         }
 
         private void EnsureCleanData()
