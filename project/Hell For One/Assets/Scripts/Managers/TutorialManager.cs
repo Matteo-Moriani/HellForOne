@@ -10,8 +10,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float shortMessageDuration;
     [SerializeField] private float mediumMessageDuration;
     [SerializeField] private float longMessageDuration;
-    [SerializeField] private float distanceBetweenTutorials;
-    [SerializeField] private float coroutinesWaitTime;
+    [SerializeField] private float minDistanceBetweenTutorials;
+    [SerializeField] private float checkScreenAvailableTime;
     [SerializeField] private ArenaManager firstArena;
     [SerializeField] private ArenaManager secondArena;
 
@@ -88,7 +88,7 @@ public class TutorialManager : MonoBehaviour
     // se il tutorial dopo un tot va chiuso comunque
     private IEnumerator ForceCloseTutorial(string tutorial)
     {
-        yield return new WaitForSeconds(coroutinesWaitTime);
+        yield return new WaitForSeconds(checkScreenAvailableTime);
         StartCoroutine(CloseTutorial(tutorial));
     }
 
@@ -98,27 +98,55 @@ public class TutorialManager : MonoBehaviour
         _tutorialScreens.ShowScreenWithTimeout("Intro", longMessageDuration);
     }
 
+    // TODO - trovare un modo per mettere metodi interni alle coroutine con gli yield return
+
+    //private IEnumerator CheckBetweenTutorials()
+    //{
+    //    yield return new WaitForSeconds(minDistanceBetweenTutorials);
+    //    if(_tutorialScreens.ShowingScreen())
+    //    {
+    //        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+    //        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+    //    }
+    //}
+
     private IEnumerator FirstBattleTutorials()
     {
-        yield return new WaitForSeconds(distanceBetweenTutorials);
+        yield return new WaitForSeconds(2f);
+
         _tutorialScreens.ShowScreenWithTimeout("RangedTutorial", mediumMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
-        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
+        //CheckBetweenTutorials();
+        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
 
-        yield return new WaitForSeconds(distanceBetweenTutorials);
         _tutorialScreens.ShowScreenWithTimeout("CounterTutorial", mediumMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
-        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
+        //CheckBetweenTutorials();
+        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
 
-        yield return new WaitForSeconds(distanceBetweenTutorials);
         _tutorialScreens.ShowScreenWithTimeout("RecruitTutorial", mediumMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
-        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
+        //CheckBetweenTutorials();
+        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
 
-        yield return new WaitForSeconds(distanceBetweenTutorials);
         if(ImpMana.CurrentChargedSegments > 0)
         {
             StartCoroutine(SpecialAbilityTutorial());
@@ -127,15 +155,27 @@ public class TutorialManager : MonoBehaviour
         tacticsTutorialsDone = true;
     }
 
-    private IEnumerator SecondBattleTutorials() 
+    private IEnumerator SecondBattleTutorials()
     {
-        yield return new WaitForSeconds(distanceBetweenTutorials);
+        //CheckBetweenTutorials();
+        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
+
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
-        while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(coroutinesWaitTime);
 
-        yield return new WaitForSeconds(distanceBetweenTutorials);
+        //CheckBetweenTutorials();
+        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial2", mediumMessageDuration);
     }
 
@@ -150,18 +190,15 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator ReincarnationTutorial()
     {
-        while(_tutorialScreens.ShowingScreen())
-        {
-            yield return new WaitForSeconds(1f);
-        }
         if(!reincarnationTutorialDone)
         {
+            reincarnationTutorialDone = true;
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(1f);
+
             _tutorialScreens.ShowScreenWithTimeout("ReincarnationTutorial", longMessageDuration);
             yield return new WaitForSeconds(longMessageDuration);
-            reincarnationTutorialDone = true;
             _tutorialScreens.ShowScreenWithTimeout("DashTutorial", longMessageDuration);
         }
-        
     }
 
     private void OnFirstArenaEnter()

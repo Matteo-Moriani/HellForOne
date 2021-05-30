@@ -35,7 +35,7 @@ public class TutorialScreensBehaviour : MonoBehaviour
         CanvasGroup screenToShow = FindScreen(screenName);
         UiUtils.FadeIn(this, screenToShow, fadeDurations);
         _currentScreen = screenToShow;
-        _showingScreen = true;
+        StartCoroutine(ShowScreenAfterFade(true, fadeDurations));
     }
 
     public void ShowScreenWithTimeout(string screenName, float duration)
@@ -46,7 +46,7 @@ public class TutorialScreensBehaviour : MonoBehaviour
         CanvasGroup screenToShow = FindScreen(screenName);
         UiUtils.FadeIn(this, screenToShow, fadeDurations);
         _currentScreen = screenToShow;
-        _showingScreen = true;
+        StartCoroutine(ShowScreenAfterFade(true, fadeDurations));
 
         StartCoroutine(HideScreenWithDelay(screenName, duration));
     }
@@ -56,7 +56,7 @@ public class TutorialScreensBehaviour : MonoBehaviour
         if(screen == _currentScreen.gameObject.name)
         {
             UiUtils.FadeOut(this, _currentScreen, fadeDurations);
-            _showingScreen = false;
+            StartCoroutine(ShowScreenAfterFade(false, fadeDurations));
         }
 
         // resume - to do after pause refactor
@@ -69,14 +69,14 @@ public class TutorialScreensBehaviour : MonoBehaviour
         if(screen == _currentScreen.gameObject.name)
         {
             UiUtils.FadeOut(this, _currentScreen, fadeDurations);
-            _showingScreen = false;
+            StartCoroutine(ShowScreenAfterFade(false, fadeDurations));
         }
     }
 
     public void HideCurrentScreen()
     {
         UiUtils.FadeOut(this, _currentScreen, fadeDurations);
-        _showingScreen = false;
+        StartCoroutine(ShowScreenAfterFade(false, fadeDurations));
 
         // resume - to do after pause refactor
     }
@@ -96,5 +96,11 @@ public class TutorialScreensBehaviour : MonoBehaviour
     public bool ShowingScreen()
     {
         return _showingScreen;
+    }
+
+    private IEnumerator ShowScreenAfterFade(bool b, float fadeDuration)
+    {
+        yield return new WaitForSeconds(fadeDuration);
+        _showingScreen = b;
     }
 }

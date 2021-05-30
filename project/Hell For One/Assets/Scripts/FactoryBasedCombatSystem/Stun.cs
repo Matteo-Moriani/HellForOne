@@ -53,7 +53,7 @@ namespace FactoryBasedCombatSystem
             OnStopStun?.Invoke();
             OnUnblockEvent?.Invoke(actionBlocks);
             
-            Debug.Log("Stop stun " + transform.root.name);
+            //Debug.Log("Stop stun " + transform.root.name);
         }
 
         private void OnBlockedHitReceived(Attack arg1, CombatSystem arg2, Vector3 arg3)
