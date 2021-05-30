@@ -120,13 +120,15 @@ namespace FactoryBasedCombatSystem
             _toActivate = new Tuple<Attack, int>(attack,id);
             
             OnStartAttack?.Invoke(attack);
-            if(transform.CompareTag("Demon"))
+
+            if(transform.root.CompareTag("Demon"))
                 OnBlockEvent?.Invoke(actionBlocks);
         }
 
         private void OnAttackAnimationStopMoving()
         {
-            OnBlockEvent?.Invoke(actionBlocks);
+            if(!transform.root.CompareTag("Demon"))
+                OnBlockEvent?.Invoke(actionBlocks);
         }
 
         private void StopAttack(Attack attack,int id)

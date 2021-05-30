@@ -27,8 +27,8 @@ namespace FactoryBasedCombatSystem
 
         private void OnDisable()
         {
-            _combatSystem.OnBlockedHitReceived += OnBlockedHitReceived;
-            _combatSystem.OnDamageHitReceived += OnDamageHitReceived;
+            _combatSystem.OnBlockedHitReceived -= OnBlockedHitReceived;
+            _combatSystem.OnDamageHitReceived -= OnDamageHitReceived;
         }
 
         private void StartStun(float stunTime)
