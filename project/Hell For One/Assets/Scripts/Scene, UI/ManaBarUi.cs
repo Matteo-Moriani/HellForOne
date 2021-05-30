@@ -1,6 +1,7 @@
 ﻿using ManaSystem;
 using UnityEngine;
 using UnityEngine.UI;
+using ArenaSystem;
 
 public class ManaBarUi : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class ManaBarUi : MonoBehaviour
 
     private ParticleSystem leftManaBarPS;
     private ParticleSystem rightManaBarPS;
+
+    private bool InBattle = false;
     
     #region Unity methods
 
@@ -35,6 +38,9 @@ public class ManaBarUi : MonoBehaviour
         ImpMana.OnManaPoolChanged += OnManaPoolChanged;
         ImpMana.OnSegmentCharged += OnSegmentCharged;
         ImpMana.OnSegmentSpent += OnSegmentSpent;
+
+        ArenaManager.OnGlobalStartBattle += OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle += OnGlobalEndBattle;
     }
 
     private void OnDisable()
@@ -42,6 +48,9 @@ public class ManaBarUi : MonoBehaviour
         ImpMana.OnManaPoolChanged -= OnManaPoolChanged;
         ImpMana.OnSegmentCharged -= OnSegmentCharged;
         ImpMana.OnSegmentSpent -= OnSegmentSpent;
+
+        ArenaManager.OnGlobalStartBattle -= OnGlobalStartBattle;
+        ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
     }
 
     private void Start()
@@ -54,25 +63,44 @@ public class ManaBarUi : MonoBehaviour
 
     #region External events handlers
 
+    private void OnGlobalStartBattle(ArenaManager arenaManager)
+    {
+        InBattle = true;
+    }
+
+    private void OnGlobalEndBattle( ArenaManager arenaManager )
+    {
+        InBattle = false;
+
+        leftManaBarPS.Stop();
+        rightManaBarPS.Stop();
+    }
+
     private void OnSegmentCharged(int segmentsCharged)
     {
         if(segmentsCharged == 0)
             return;
         else if(segmentsCharged == 1)
         {
-            _currentBar = _rightManaBarIn;
-            _leftManaBarIn.color = _fullSegmentColor;
-            _rightManaBarIn.color = _defaultColor;
+            if ( InBattle )
+            {
+                _currentBar = _rightManaBarIn;
+                _leftManaBarIn.color = _fullSegmentColor;
+                _rightManaBarIn.color = _defaultColor;
 
-            leftManaBarPS.Play();
+                leftManaBarPS.Play();
+            }
         }
         else
         {
-            _currentBar = null;
-            _leftManaBarIn.color = _fullSegmentColor;
-            _rightManaBarIn.color = _fullSegmentColor;
+            if ( InBattle )
+            {
+                _currentBar = null;
+                _leftManaBarIn.color = _fullSegmentColor;
+                _rightManaBarIn.color = _fullSegmentColor;
 
-            rightManaBarPS.Play();
+                rightManaBarPS.Play();
+            }
         }
     }
 

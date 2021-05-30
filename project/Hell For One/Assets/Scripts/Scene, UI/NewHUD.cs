@@ -35,7 +35,7 @@ public class NewHUD : MonoBehaviour
 
     private Image UpOn, DownOn, RightOn, LeftOn;
     private bool LTButtonDown = false;
-    public Color grey;
+    //public Color grey;
 
     /*
      * 0 = Melee
@@ -283,8 +283,8 @@ public class NewHUD : MonoBehaviour
 
                 var tempColor1 = color;
                 // To keep the down slice of HUD grey of LT is held down
-                if ( LTButtonDown )
-                    tempColor1 = grey;
+                //if ( LTButtonDown )
+                //    tempColor1 = grey;
 
                 tempColor1.a = alfa;
                 DownOn.color = tempColor1;
