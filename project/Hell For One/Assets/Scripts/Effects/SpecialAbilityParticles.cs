@@ -16,13 +16,27 @@ public class SpecialAbilityParticles : MonoBehaviour
         //_audioSource = GetComponent<AudioSource>();
     }
 
+    void Start()
+    {
+        if (_groupAbilities == null)
+            _groupAbilities = transform.root.GetComponentInChildren<GroupAbilities>();
+    }
+
+    void GetGroupAbilities()
+    {
+        if ( _groupAbilities == null )
+            _groupAbilities = transform.root.GetComponentInChildren<GroupAbilities>();
+    }
+
     private void OnEnable()
     {
+        GetGroupAbilities();
         _groupAbilities.OnStartGroupAbility += OnStartGroupAbility;
     }
 
     private void OnDisable()
     {
+        GetGroupAbilities();
         _groupAbilities.OnStartGroupAbility -= OnStartGroupAbility;
     }
 

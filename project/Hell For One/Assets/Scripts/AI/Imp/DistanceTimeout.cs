@@ -31,7 +31,7 @@ public class DistanceTimeout : MonoBehaviour
         ArenaManager.OnGlobalEndBattle -= OnGlobalEndBattle;
     }
 
-    public void OnGlobalStartBattle(ArenaManager arenaManager)
+    public void OnGlobalStartBattle( ArenaManager arenaManager )
     {
         StopCoroutine( timerCoroutine );
     }
@@ -54,7 +54,7 @@ public class DistanceTimeout : MonoBehaviour
             yield return new WaitForSeconds( timeoutTimer );
 
             // Adding new imps if there are
-            foreach ( GameObject imp in GameObject.FindGameObjectsWithTag("Demon") )
+            foreach ( GameObject imp in GameObject.FindGameObjectsWithTag( "Demon" ) )
             {
                 if ( !otherImpsPosition.Contains( imp ) )
                 {
@@ -63,18 +63,23 @@ public class DistanceTimeout : MonoBehaviour
             }
 
             // Removing dead imps if there are
-            foreach ( GameObject imp in otherImpsPosition )
-            {
-                if ( imp == null )
-                    otherImpsPosition.Remove( imp );
-            }
+            //foreach ( GameObject imp in otherImpsPosition )
+            //{
+            //    if ( imp == null )
+            //        otherImpsPosition.Remove( imp );
+            //}
 
             Vector3 hordeMeanPosition = Vector3.zero;
 
             // Calculating the mean position of all horde
             foreach ( GameObject imp in otherImpsPosition )
             {
-                hordeMeanPosition += imp.transform.position;
+                if ( imp != null )
+                {
+                    // Player's layer
+                    if ( imp.layer != 13 )
+                        hordeMeanPosition += imp.transform.position;
+                }
             }
 
             hordeMeanPosition /= otherImpsPosition.Count;
