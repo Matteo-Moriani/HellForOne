@@ -56,18 +56,18 @@ public class DistanceTimeout : MonoBehaviour
             // Adding new imps if there are
             foreach ( GameObject imp in GameObject.FindGameObjectsWithTag( "Demon" ) )
             {
-                if ( !otherImpsPosition.Contains( imp ) )
+                if ( !otherImpsPosition.Contains( imp ) && imp != gameObject )
                 {
                     otherImpsPosition.Add( imp );
                 }
             }
 
             // Removing dead imps if there are
-            //foreach ( GameObject imp in otherImpsPosition )
-            //{
-            //    if ( imp == null )
-            //        otherImpsPosition.Remove( imp );
-            //}
+            for ( int i = 0; i < otherImpsPosition.Count; i++ )
+            {
+                if ( otherImpsPosition[ i ] == null )
+                    otherImpsPosition.Remove( otherImpsPosition[ i ] );
+            }
 
             Vector3 hordeMeanPosition = Vector3.zero;
 
