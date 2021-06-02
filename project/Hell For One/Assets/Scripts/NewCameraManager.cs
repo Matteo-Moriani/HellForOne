@@ -23,6 +23,9 @@ public class NewCameraManager : MonoBehaviour
     private float arenaCameraTimer;
     private float callToArmsCameraTimer;
     private bool arenaCameraON = false;
+
+    // Starts true
+    private bool battleEnded = true;
     private Transform callToArmsTarget;
 
     CinemachineFreeLook _cinemachineFreeLook;
@@ -214,6 +217,8 @@ public class NewCameraManager : MonoBehaviour
 
         arenaCamera.LookAt = _currentBoss;
 
+        battleEnded = false;
+
         // _cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
     }
 
@@ -222,8 +227,19 @@ public class NewCameraManager : MonoBehaviour
         lockedCamera.gameObject.SetActive( false );
         _cinemachineFreeLook.gameObject.SetActive( true );
 
+        battleEnded = true;
+
         // _cinemachineVirtualCameraLock.LookAt = _currentLeader;
         // _cinemachineFreeLook.m_RecenterToTargetHeading.m_enabled = true;
+    }
+
+    private void CheckBattleEnded()
+    {
+        // Check if boss died before camera effect ended
+        if ( battleEnded )
+            _cinemachineFreeLook.gameObject.SetActive( true );
+        else
+            lockedCamera.gameObject.SetActive( true );
     }
 
     private void Update()
@@ -246,7 +262,8 @@ public class NewCameraManager : MonoBehaviour
             {
                 //callToArmsCamera.gameObject.SetActive( false );
                 arenaCamera.gameObject.SetActive( false );
-                lockedCamera.gameObject.SetActive( true );
+
+                CheckBattleEnded();
             }           
         }
 
@@ -262,7 +279,7 @@ public class NewCameraManager : MonoBehaviour
 
                 if ( !arenaCameraON )
                 {
-                    lockedCamera.gameObject.SetActive( true );
+                    CheckBattleEnded();
                 }
             }
             // Transition to ArenaCamera
@@ -281,7 +298,8 @@ public class NewCameraManager : MonoBehaviour
                     {
                         arenaCameraON = false;
                         arenaCamera.gameObject.SetActive( false );
-                        lockedCamera.gameObject.SetActive( true );
+
+                        CheckBattleEnded();
                     }
                 }
             }
