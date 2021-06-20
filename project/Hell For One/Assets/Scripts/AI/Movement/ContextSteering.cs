@@ -21,7 +21,7 @@ namespace AI.Movement
         
         [SerializeField] private ContextMap.Resolution steeringResolution = ContextMap.Resolution.Medium;
         [SerializeField] private float linearSpeed = 5f;
-        [SerializeField] private float angularSpeed = 5f;
+        [SerializeField] private float angularSpeed = 4f;
         [SerializeField] [Range(0f,1f)] private float newDirectionWeight = 0.25f;
         [SerializeField] private float linearTolerance = 0.8f;
         [SerializeField] private bool debug = false;
@@ -46,6 +46,7 @@ namespace AI.Movement
         private bool _onStopMovingRaised;
 
         private float linearSpeedBeforeStun;
+        private float angularSpeedBeforeStun;
 
         private Stun bossStun;
         
@@ -94,13 +95,18 @@ namespace AI.Movement
         {
             if (bossStun != null )
             {
-                
+                bossStun.OnStartStun += OnStartStun;
+                bossStun.OnStopStun += OnStopStun;
             }
         }
 
         private void OnDisable()
         {
-            
+            if ( bossStun != null )
+            {
+                bossStun.OnStartStun -= OnStartStun;
+                bossStun.OnStopStun -= OnStopStun;
+            }
         }
 
         private void FixedUpdate()
@@ -197,6 +203,20 @@ namespace AI.Movement
         #endregion
 
         #region Event handlers
+
+        private void OnStartStun()
+        {
+            linearSpeedBeforeStun = linearSpeed;
+            angularSpeedBeforeStun = angularSpeed;
+
+            _currentLinearSpeed = linearSpeed = angularSpeed = 0;
+        }
+
+        private void OnStopStun()
+        {
+            linearSpeed = _currentLinearSpeed = linearSpeedBeforeStun;
+            angularSpeed = angularSpeedBeforeStun;
+        }
         
         #endregion
 
