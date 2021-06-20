@@ -24,6 +24,11 @@ public class GamepadMessage : MonoBehaviour
 
         HideMessage();
 
+        foreach ( var item in Input.GetJoystickNames() )
+        {
+            Debug.Log( item );
+        }
+
         if(Input.GetJoystickNames()[0] == "")
         {
             startingWithoutController = true;
