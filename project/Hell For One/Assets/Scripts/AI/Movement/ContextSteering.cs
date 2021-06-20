@@ -44,6 +44,10 @@ namespace AI.Movement
 
         private bool _onStartMovingRaised;
         private bool _onStopMovingRaised;
+
+        private float linearSpeedBeforeStun;
+
+        private Stun bossStun;
         
         #endregion
 
@@ -81,6 +85,22 @@ namespace AI.Movement
             _lastFrameDirection = transform.forward;
 
             _currentLinearSpeed = linearSpeed;
+
+            if ( gameObject.CompareTag( "Boss" ) )
+                bossStun = gameObject.GetComponentInChildren<Stun>();
+        }
+
+        private void OnEnable()
+        {
+            if (bossStun != null )
+            {
+                
+            }
+        }
+
+        private void OnDisable()
+        {
+            
         }
 
         private void FixedUpdate()
