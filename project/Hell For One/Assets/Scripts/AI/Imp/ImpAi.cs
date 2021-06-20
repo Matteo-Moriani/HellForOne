@@ -30,6 +30,7 @@ namespace AI.Imp
             get => _currentTargetData;
             private set => _currentTargetData = value;
         }
+        public Tactic TacticInstance { get => _tacticInstance; set => _tacticInstance = value; }
 
         #endregion
 
@@ -51,26 +52,26 @@ namespace AI.Imp
 
                 StopCurrentTactic();
 
-                _tacticInstance = tactic.GetTactic();
+                TacticInstance = tactic.GetTactic();
                 
                 foreach (ITacticsObserver tacticsObserver in _observers)
                 {
-                    tacticsObserver.StartTactic(_tacticInstance);
+                    tacticsObserver.StartTactic(TacticInstance);
                 }
             }
             
-            _tacticInstance.ExecuteTactic(this);
+            TacticInstance.ExecuteTactic(this);
         }
         
         private void StopCurrentTactic()
         {
-            if(_tacticInstance == null) return;
+            if(TacticInstance == null) return;
             
-            _tacticInstance.TerminateTactic(this);
+            TacticInstance.TerminateTactic(this);
 
             foreach (ITacticsObserver tacticsObserver in _observers)
             {
-                tacticsObserver.EndTactic(_tacticInstance);
+                tacticsObserver.EndTactic(TacticInstance);
             }
         }
 
@@ -92,7 +93,7 @@ namespace AI.Imp
             
             _currentTargetData = null;
             _activeTactic = null;
-            _tacticInstance = null;
+            TacticInstance = null;
         }
 
         public void OnZeroHp() => StopCurrentTactic();
