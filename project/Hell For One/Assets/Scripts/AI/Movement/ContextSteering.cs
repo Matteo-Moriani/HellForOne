@@ -38,9 +38,9 @@ namespace AI.Movement
         private readonly ActionLock _movementLock = new ActionLock();
         
         private Rigidbody _rigidbody;
-        private CombatSystem _combatSystem;
 
-        private float _currentLinearSpeed;
+        [SerializeField] private float _currentLinearSpeed;
+        [SerializeField] private float _currentAngularSpeed;
 
         private bool _onStartMovingRaised;
         private bool _onStopMovingRaised;
@@ -81,11 +81,11 @@ namespace AI.Movement
         {
             _delegates = GetComponents<ContextSteeringBehaviour>();
             _rigidbody = GetComponent<Rigidbody>();
-            _combatSystem = GetComponentInChildren<CombatSystem>();
             
             _lastFrameDirection = transform.forward;
 
             _currentLinearSpeed = linearSpeed;
+            _currentAngularSpeed = angularSpeed;
 
             if ( gameObject.CompareTag( "Boss" ) )
                 bossStun = gameObject.GetComponentInChildren<Stun>();
@@ -128,9 +128,9 @@ namespace AI.Movement
             float dot = Vector3.Dot(slerpDirection, transform.forward);
 
             if(finalDirection.magnitude > 0)
-                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(slerpDirection),Time.fixedDeltaTime*angularSpeed));
+                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(slerpDirection),Time.fixedDeltaTime * _currentAngularSpeed));
             else if (_targetData != null && _targetData.Target != null)
-                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(_targetData.GetDirectionToTarget(transform)),Time.fixedDeltaTime * angularSpeed));
+                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(_targetData.GetDirectionToTarget(transform)),Time.fixedDeltaTime * _currentAngularSpeed));
             
             _rigidbody.velocity = dot >= linearTolerance && finalDirection.magnitude > 0f
                 ? slerpDirection * _currentLinearSpeed
@@ -230,12 +230,19 @@ namespace AI.Movement
             {
                 _rigidbody.velocity = Vector3.zero;
                 _rigidbody.angularVelocity = Vector3.zero;
+                _currentLinearSpeed = 0f;
+                _currentAngularSpeed = 0f;
             }
             
             _movementLock.AddLock();
         }
 
-        public void Unblock() => _movementLock.RemoveLock();
+        public void Unblock()
+        {
+            _movementLock.RemoveLock();
+            _currentLinearSpeed = linearSpeed;
+            _currentAngularSpeed = angularSpeed;
+        }
 
         public UnitActionsBlockManager.UnitAction GetAction() => UnitActionsBlockManager.UnitAction.Move;
 

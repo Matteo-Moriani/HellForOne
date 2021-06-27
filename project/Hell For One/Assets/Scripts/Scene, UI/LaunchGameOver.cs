@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class LaunchGameOver : MonoBehaviour
 {
-
-    ImpDeath impDeath;
+    public GameObject gameOverScreen;
 
     private void OnEnable()
     {
@@ -28,11 +27,10 @@ public class LaunchGameOver : MonoBehaviour
         {
             imps = GameObject.FindGameObjectsWithTag( "Demon" );
 
-            if ( imps.Length < 1 )
+            if ( imps.Length <= 1 )
             {
-                GameObject.Find( "GameOverScreen" ).SetActive( true );
+                gameOverScreen.SetActive( true );
             }
-
         }
 
         // Se invece si è reincarnato almeno una volta
@@ -41,9 +39,9 @@ public class LaunchGameOver : MonoBehaviour
         {
             imps = GameObject.FindGameObjectsWithTag( "Demon" );
 
-            if ( imps.Length == 1 )
+            if ( imps.Length <= 2 )
             {
-                GameObject.Find( "GameOverScreen" ).SetActive( true );
+                gameOverScreen.SetActive( true );
             }
         }
     }

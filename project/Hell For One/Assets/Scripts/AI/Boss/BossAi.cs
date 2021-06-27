@@ -5,6 +5,7 @@ using System.Linq;
 using AggroSystem;
 using Ai.MonoBT;
 using AI.Movement;
+using Animations;
 using ArenaSystem;
 using CRBT;
 using FactoryBasedCombatSystem.Interfaces;
@@ -65,6 +66,7 @@ namespace AI.Boss
         private bool _inCombat;
 
         private float _currentTolerance;
+        private AnimationEventsHooks _animationEventsHooks;
 
         #endregion
 
@@ -82,6 +84,7 @@ namespace AI.Boss
             _contextSeek = GetComponent<ContextSeek>();
             _bossCombatBehaviour = GetComponent<BossCombatBehaviour>();
             _arenaBoss = GetComponent<ArenaBoss>();
+            _animationEventsHooks = GetComponent<AnimationEventsHooks>();
 
             _attackInstances = new BossAttack[attackFactories.Length];
 
@@ -95,6 +98,8 @@ namespace AI.Boss
         {
             _bossCombatBehaviour.OnStartBossAttack += OnStartBossAttack;
             _bossCombatBehaviour.OnStopBossAttack += OnStopBossAttack;
+            _animationEventsHooks.OnChargeAnimationStart += OnChargeAnimationStart;
+            _animationEventsHooks.OnAttackAnimationEnd += OnAttackAnimationEnd;
 
             _arenaBoss.Arena.OnStartBattle += OnStartBattle;
         }
@@ -103,8 +108,20 @@ namespace AI.Boss
         {
             _bossCombatBehaviour.OnStartBossAttack -= OnStartBossAttack;
             _bossCombatBehaviour.OnStopBossAttack -= OnStopBossAttack;
+            _animationEventsHooks.OnChargeAnimationStart -= OnChargeAnimationStart;
+            _animationEventsHooks.OnAttackAnimationEnd -= OnAttackAnimationEnd;
 
             _arenaBoss.Arena.OnStartBattle += OnStartBattle;
+        }
+
+        private void OnChargeAnimationStart()
+        {
+            _contextSteering.Block();
+        }
+
+        private void OnAttackAnimationEnd()
+        {
+            _contextSteering.Unblock();
         }
 
         private void Start()

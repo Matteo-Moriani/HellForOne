@@ -39,7 +39,7 @@ namespace FactoryBasedCombatSystem
         public bool TryBlock()
         {
             // questa cosa orribile e' perche' a volte contro igni gli imp non facevano lo StartTactic e la block chance rimaneva zero
-            if(_blockChance == 0f && !gameObject.CompareTag("Player"))
+            if(_blockChance == 0f && !transform.root.CompareTag("Player"))
                 _blockChance = transform.root.gameObject.GetComponent<ImpAi>().TacticInstance.GetData().TacticBlockChance;
 
             float random = Random.Range(0f, 100f);
