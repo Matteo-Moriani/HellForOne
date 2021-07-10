@@ -13,7 +13,7 @@ public class LaunchGameOver : MonoBehaviour
     public GameObject videoPlayer;
     public GameObject videoClipScreen;
     public AudioClip gameOverAudioClip;
-    public GameObject gameOverText;
+    public GameObject gameOverImage;
 
     private void OnEnable()
     {
@@ -25,6 +25,20 @@ public class LaunchGameOver : MonoBehaviour
         ImpDeath.OnImpDeath -= OnImpDeath;
     }
 
+    public IEnumerator SpriteFade( Image gameOverImage, float endValue, float duration )
+    {
+        float elapsedTime = 0;
+        float startValue = gameOverImage.color.a;
+        while ( elapsedTime < duration )
+        {
+            elapsedTime += Time.deltaTime;
+            float newAlpha = Mathf.Lerp( startValue , endValue , elapsedTime / duration );
+            gameOverImage.color = new Color( gameOverImage.color.r , gameOverImage.color.g , gameOverImage.color.b , newAlpha );
+            Debug.Log( newAlpha );
+            yield return null;
+        }
+    }
+
     public void PlayGameOverClip()
     {
         musicPlayer.GetComponent<AudioSource>().clip = gameOverAudioClip;
@@ -34,7 +48,10 @@ public class LaunchGameOver : MonoBehaviour
 
         videoPlayer.GetComponent<VideoPlayer>().Play();
 
-        gameOverText.SetActive( true );
+        gameOverImage.GetComponent<Image>().enabled = true;
+
+        IEnumerator gameOverCR = SpriteFade( gameOverImage.GetComponent<Image>() , 255 , 3 );
+        StartCoroutine( gameOverCR );
 
         //m_sharedMaterial.SetFloat( ShaderUtilities.ID_FaceColor , 0.1f );
     }
