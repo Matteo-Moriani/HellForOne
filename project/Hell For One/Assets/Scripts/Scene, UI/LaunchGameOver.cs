@@ -34,7 +34,7 @@ public class LaunchGameOver : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float newAlpha = Mathf.Lerp( startValue , endValue , elapsedTime / duration );
             gameOverImage.color = new Color( gameOverImage.color.r , gameOverImage.color.g , gameOverImage.color.b , newAlpha );
-            Debug.Log( newAlpha );
+
             yield return null;
         }
     }
@@ -50,7 +50,8 @@ public class LaunchGameOver : MonoBehaviour
 
         gameOverImage.GetComponent<Image>().enabled = true;
 
-        IEnumerator gameOverCR = SpriteFade( gameOverImage.GetComponent<Image>() , 255 , 3 );
+        // Unity expects colors value in range [0, 1]
+        IEnumerator gameOverCR = SpriteFade( gameOverImage.GetComponent<Image>() , 1 , 0.7f );
         StartCoroutine( gameOverCR );
 
         //m_sharedMaterial.SetFloat( ShaderUtilities.ID_FaceColor , 0.1f );
