@@ -961,6 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d397fb2cf31bb4c94637f85577957a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _manaRechargeRate: 0.01
 --- !u!114 &5799785534760466562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,6 +1028,8 @@ MonoBehaviour:
   newDirectionWeight: 0.1
   linearTolerance: 0.8
   debug: 0
+  _currentLinearSpeed: 0
+  _currentAngularSpeed: 0
 --- !u!114 &2333959233136938784
 MonoBehaviour:
   m_ObjectHideFlags: 0
