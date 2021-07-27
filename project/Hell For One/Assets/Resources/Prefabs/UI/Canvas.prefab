@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 1482272433}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.02, y: 1.2, z: 1}
   m_Children: []
   m_Father: {fileID: 6977553493515905930}
   m_RootOrder: 0
@@ -113,7 +113,7 @@ RectTransform:
   m_GameObject: {fileID: 2135262925}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.02, y: 1.2, z: 1}
   m_Children: []
   m_Father: {fileID: 6977553493515905930}
   m_RootOrder: 1
@@ -560,7 +560,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 0}
   videoClipScreen: {fileID: 0}
   gameOverAudioClip: {fileID: 0}
-  gameOverText: {fileID: 0}
+  gameOverImage: {fileID: 0}
 --- !u!1001 &904151280212960093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1434,7 +1434,7 @@ PrefabInstance:
     - target: {fileID: 4093306765509366009, guid: da4e381575f7ec645905aaa327e9472e,
         type: 3}
       propertyPath: m_fontSize
-      value: 58.6
+      value: 61.3
       objectReference: {fileID: 0}
     - target: {fileID: 4473026933789444560, guid: da4e381575f7ec645905aaa327e9472e,
         type: 3}
