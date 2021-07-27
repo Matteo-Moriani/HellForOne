@@ -59,6 +59,16 @@ public class LaunchGameOver : MonoBehaviour
         //m_sharedMaterial.SetFloat( ShaderUtilities.ID_FaceColor , 0.1f );
     }
 
+    public void KillAllCoroutines()
+    {
+        MonoBehaviour[] scripts = FindObjectsOfType<MonoBehaviour>();
+
+        foreach ( var item in scripts )
+        {
+            item.StopAllCoroutines();
+        }
+    }
+
     public void OnImpDeath( Transform transform )
     {
         GameObject[] imps;
@@ -71,6 +81,8 @@ public class LaunchGameOver : MonoBehaviour
 
             if ( imps.Length <= 1 )
             {
+                KillAllCoroutines();
+
                 SceneManager.LoadScene( 1 );
 
                 //PlayGameOverClip();
@@ -87,6 +99,8 @@ public class LaunchGameOver : MonoBehaviour
 
             if ( imps.Length <= 2 )
             {
+                KillAllCoroutines();
+
                 SceneManager.LoadScene( 1 );
 
                 //PlayGameOverClip();
