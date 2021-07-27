@@ -44,9 +44,10 @@ public class LaunchGameOver : MonoBehaviour
         musicPlayer.GetComponent<AudioSource>().clip = gameOverAudioClip;
         musicPlayer.GetComponent<AudioSource>().Play();
 
+        videoPlayer.GetComponent<VideoPlayer>().Play();
         videoClipScreen.GetComponent<RawImage>().enabled = true;
 
-        videoPlayer.GetComponent<VideoPlayer>().Play();
+        //videoPlayer.GetComponent<VideoPlayer>().Play();
 
         gameOverImage.GetComponent<Image>().enabled = true;
 
