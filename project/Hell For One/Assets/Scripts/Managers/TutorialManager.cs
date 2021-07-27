@@ -162,16 +162,14 @@ public class TutorialManager : MonoBehaviour
         if(_tutorialScreens.ShowingScreen())
         {
             while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
-            yield return new WaitForSeconds(minDistanceBetweenTutorials);
         }
 
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
-        yield return new WaitForSeconds(mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration + 1f);
 
         if(_tutorialScreens.ShowingScreen())
         {
             while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
-            yield return new WaitForSeconds(minDistanceBetweenTutorials);
         }
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial2", mediumMessageDuration);
     }

@@ -75,7 +75,7 @@ namespace TacticsSystem
 
                 timer += Time.deltaTime;
 
-                if( timer <= -15 / 11 * _recruitingImps.Count + 25) continue;
+                if( timer <= 1/Mathf.Sqrt(_recruitingImps.Count) * 15) continue;
 
                 timer = 0f;
 
