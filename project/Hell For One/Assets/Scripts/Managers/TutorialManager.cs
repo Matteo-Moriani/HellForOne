@@ -114,7 +114,7 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        _tutorialScreens.ShowScreenWithTimeout("RangedTutorial", mediumMessageDuration);
+        _tutorialScreens.ShowScreenWithTimeout("RangedTutorial", longMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
         //CheckBetweenTutorials();
@@ -166,11 +166,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
-        yield return new WaitForSeconds(mediumMessageDuration);
 
-
-        //CheckBetweenTutorials();
-        yield return new WaitForSeconds(minDistanceBetweenTutorials);
         if(_tutorialScreens.ShowingScreen())
         {
             while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
