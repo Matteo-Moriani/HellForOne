@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class LaunchGameOver : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class LaunchGameOver : MonoBehaviour
         ImpDeath.OnImpDeath -= OnImpDeath;
     }
 
-    public IEnumerator SpriteFade( Image gameOverImage, float endValue, float duration )
+    public IEnumerator SpriteFade( Image gameOverImage , float endValue , float duration )
     {
         float elapsedTime = 0;
         float startValue = gameOverImage.color.a;
@@ -70,9 +71,11 @@ public class LaunchGameOver : MonoBehaviour
 
             if ( imps.Length <= 1 )
             {
-                PlayGameOverClip();
+                SceneManager.LoadScene( 1 );
 
-                gameOverScreen.SetActive( true );
+                //PlayGameOverClip();
+
+                //gameOverScreen.SetActive( true );
             }
         }
 
@@ -84,10 +87,58 @@ public class LaunchGameOver : MonoBehaviour
 
             if ( imps.Length <= 2 )
             {
-                PlayGameOverClip();
+                SceneManager.LoadScene( 1 );
 
-                gameOverScreen.SetActive( true );
+                //PlayGameOverClip();
+
+                //gameOverScreen.SetActive( true );
             }
+        }
+    }
+
+    private IEnumerator GameOverWin()
+    {
+        // do stuff here, show win screen, etc.
+
+        // just a simple time delay as an example
+        yield return new WaitForSeconds( 2.5f );
+
+        // wait for player to press space
+        yield return waitForKeyPress( KeyCode.Space ); // wait for this function to return
+
+        Debug.Log( "Ritorna" );
+
+        // do other stuff after key press
+        SceneManager.LoadScene( 0 );
+    }
+
+    private IEnumerator waitForKeyPress( KeyCode key )
+    {
+        bool done = false;
+        while ( !done ) // essentially a "while true", but with a bool to break out naturally
+        {
+            if ( Input.GetButtonDown( "XBoxA" ) )
+            {
+                done = true; // breaks the loop
+            }
+            yield return null; // wait until next frame, then continue execution from here (loop continues)
+        }
+
+        // now this function returns
+    }
+
+    public void Start()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (scene.name == "GameOverScene" )
+        {
+
+            PlayGameOverClip();
+
+            gameOverScreen.SetActive( true );
+
+            StartCoroutine( GameOverWin() );
         }
     }
 }
