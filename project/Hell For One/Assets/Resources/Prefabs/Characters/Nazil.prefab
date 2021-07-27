@@ -830,7 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00bd2d4b9d2b4e02913a531f1adf81e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHp: 600
+  startingHp: 400
   deathActionBlocks: 000000000200000006000000
   _currentHp: 0
 --- !u!95 &3329590975238268677
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a107091d658c30b408b993489a514ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 3
+  attackCooldown: 4
 --- !u!114 &3775555733103775608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,8 +1061,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ecc8b4bfe3de1479efcd56a9cef0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fsmResolution: 2
-  behaviourTreeResolution: 0.3
+  fsmResolution: 2.5
+  behaviourTreeResolution: 0.5
   attackFactories:
   - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
   - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
