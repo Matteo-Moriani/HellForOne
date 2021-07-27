@@ -115,31 +115,34 @@ public class LaunchGameOver : MonoBehaviour
         // do stuff here, show win screen, etc.
 
         // just a simple time delay as an example
-        yield return new WaitForSeconds( 2.5f );
+        yield return new WaitForSeconds( 3.5f );
 
-        // wait for player to press space
-        yield return waitForKeyPress( KeyCode.Space ); // wait for this function to return
+        GameObject gameOverText = GameObject.Find( "GameOverText" );
+        gameOverText.GetComponent<TextMeshProUGUI>().enabled = true;
 
-        Debug.Log( "Ritorna" );
+        //// wait for player to press space
+        //yield return waitForKeyPress( KeyCode.Space ); // wait for this function to return
 
-        // do other stuff after key press
-        SceneManager.LoadScene( 0 );
+        //Debug.Log( "Ritorna" );
+
+        //// do other stuff after key press
+        //SceneManager.LoadScene( 0 );
     }
 
-    private IEnumerator waitForKeyPress( KeyCode key )
-    {
-        bool done = false;
-        while ( !done ) // essentially a "while true", but with a bool to break out naturally
-        {
-            if ( Input.GetButtonDown( "XBoxA" ) )
-            {
-                done = true; // breaks the loop
-            }
-            yield return null; // wait until next frame, then continue execution from here (loop continues)
-        }
+    //private IEnumerator waitForKeyPress( KeyCode key )
+    //{
+    //    bool done = false;
+    //    while ( !done ) // essentially a "while true", but with a bool to break out naturally
+    //    {
+    //        if ( Input.GetButtonDown( "XBoxA" ) )
+    //        {
+    //            done = true; // breaks the loop
+    //        }
+    //        yield return null; // wait until next frame, then continue execution from here (loop continues)
+    //    }
 
-        // now this function returns
-    }
+    //    // now this function returns
+    //}
 
     public void Start()
     {
