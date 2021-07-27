@@ -84,7 +84,7 @@ namespace ArenaSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if(!other.CompareTag("Player") && LayerMask.NameToLayer("Player") != other.gameObject.layer) return;
+            if(LayerMask.NameToLayer("Player") != other.gameObject.layer) return;
             
             foreach (IArenaObserver observer in other.GetComponentsInChildren<IArenaObserver>())
                 _observersState.Add(observer,false);

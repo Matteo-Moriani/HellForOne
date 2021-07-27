@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using ActionsBlockSystem;
 using ArenaSystem;
 using FactoryBasedCombatSystem;
-using FactoryBasedCombatSystem.Interfaces;
 using FactoryBasedCombatSystem.ScriptableObjects.Attacks;
-using GroupAbilitiesSystem;
-using GroupAbilitiesSystem.ScriptableObjects;
 using ReincarnationSystem;
 using UnityEngine;
 
@@ -19,7 +15,7 @@ namespace ManaSystem
 
         private static int _maxSegments = 2;
         private static float _singleSegmentPool = 100f;
-        private static float _manaRechargeRate = 2f;
+        [SerializeField] private float _manaRechargeRate = 0f;
 
         private static float _currentManaPool = 0f;
         private static int _currentChargedSegments;
