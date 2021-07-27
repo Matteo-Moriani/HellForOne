@@ -166,6 +166,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
+        yield return new WaitForSeconds(mediumMessageDuration);
 
         if(_tutorialScreens.ShowingScreen())
         {
