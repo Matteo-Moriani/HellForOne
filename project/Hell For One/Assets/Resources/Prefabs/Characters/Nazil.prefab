@@ -987,7 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b26190b98c407cb25c10c9a921f1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stoppingDistance: 1.5
+  stoppingDistance: 1.4
   interestLoseRateo: 0.11
   debug: 0
 --- !u!114 &5692087650184848165
@@ -1008,6 +1008,8 @@ MonoBehaviour:
   newDirectionWeight: 0.1
   linearTolerance: 0.8
   debug: 1
+  _currentLinearSpeed: 0
+  _currentAngularSpeed: 0
 --- !u!114 &5133916121839084895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,7 +1062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fsmResolution: 2
-  behaviourTreeResolution: 0.2
+  behaviourTreeResolution: 0.3
   attackFactories:
   - {fileID: 11400000, guid: 1f5def9bba19371408488406d5b12b9a, type: 2}
   - {fileID: 11400000, guid: 8fae1d26717c1364f86c32d242554aaa, type: 2}
@@ -1623,31 +1625,6 @@ PrefabInstance:
       propertyPath: NoiseModule.strength.scalar
       value: 4.92
       objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_VertexStreams.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_VertexStreams.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_VertexStreams.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_VertexStreams.Array.data[3]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6581334647376018324, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
-        type: 3}
-      propertyPath: m_VertexStreams.Array.data[4]
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 528963594596999106, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
         type: 3}
       propertyPath: m_audioClip
@@ -1895,20 +1872,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
-      propertyPath: actionBlocks.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
       propertyPath: unitType
       value: 
       objectReference: {fileID: 11400000, guid: 1fdff8fc9f20a4040a89e8563e6e8b95,
         type: 2}
-    - target: {fileID: 8346818928052594762, guid: 1cfd2a5868823d647a04295e19d8b3f1,
-        type: 3}
-      propertyPath: actionBlocks.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2397167102560252004, guid: 1cfd2a5868823d647a04295e19d8b3f1,
         type: 3}
       propertyPath: actionBlocks.Array.size
