@@ -19,7 +19,7 @@ public class ActiveBattle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!alreadyTriggered && other.gameObject.CompareTag("Player"))
+        if (!alreadyTriggered && LayerMask.NameToLayer("Player") != other.gameObject.layer)
         {
             foreach(GameObject wall in invisibleWalls)
             {

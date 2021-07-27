@@ -14,7 +14,7 @@ namespace FactoryBasedCombatSystem
 
         [SerializeField, Range(0f, 99f)] private float startingBlockChance;
         
-        private float _blockChance;
+        [SerializeField] private float _blockChance;
         private ITacticsObserver _tacticsObserverImplementation;
 
         #endregion
@@ -39,7 +39,7 @@ namespace FactoryBasedCombatSystem
         public bool TryBlock()
         {
             // questa cosa orribile e' perche' a volte contro igni gli imp non facevano lo StartTactic e la block chance rimaneva zero
-            if(_blockChance == 0f && !transform.root.CompareTag("Player"))
+            if(_blockChance == 0f && transform.root.gameObject.layer != LayerMask.NameToLayer("Player"))
                 _blockChance = transform.root.gameObject.GetComponent<ImpAi>().TacticInstance.GetData().TacticBlockChance;
 
             float random = Random.Range(0f, 100f);
