@@ -230,9 +230,19 @@ public class TutorialManager : MonoBehaviour
         }
         else if (inSecondBattle && segments == 2 && !callToArmsTutorialDone)
         {
-            _tutorialScreens.ShowScreenWithTimeout("CallToArmsTutorial", longMessageDuration);
-            callToArmsTutorialDone = true;
+            StartCoroutine(CallToArmsCR());
         }
+    }
+
+    private IEnumerator CallToArmsCR()
+    {
+        if(_tutorialScreens.ShowingScreen())
+        {
+            while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
+            yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        }
+        _tutorialScreens.ShowScreenWithTimeout("CallToArmsTutorial", longMessageDuration);
+        callToArmsTutorialDone = true;
     }
 
     private void OnLeaderDeath(ReincarnableBehaviour r)
