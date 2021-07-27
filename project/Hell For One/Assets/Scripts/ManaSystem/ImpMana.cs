@@ -15,7 +15,7 @@ namespace ManaSystem
 
         private static int _maxSegments = 2;
         private static float _singleSegmentPool = 100f;
-        [SerializeField] private float _manaRechargeRate = 0f;
+        [SerializeField] private float _manaRechargeRate = 0;
 
         private static float _currentManaPool = 0f;
         private static int _currentChargedSegments;
