@@ -94,8 +94,8 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator FirstTutorial()
     {
-        yield return new WaitForSeconds(2f);
-        _tutorialScreens.ShowScreenWithTimeout("Intro", longMessageDuration);
+        yield return new WaitForSeconds(3f);
+        _tutorialScreens.ShowScreenWithTimeout("Intro", longMessageDuration + 2f);
     }
 
     // TODO - trovare un modo per mettere metodi interni alle coroutine con gli yield return
@@ -125,7 +125,7 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitForSeconds(minDistanceBetweenTutorials);
         }
 
-        _tutorialScreens.ShowScreenWithTimeout("CounterTutorial", mediumMessageDuration);
+        _tutorialScreens.ShowScreenWithTimeout("CounterTutorial", longMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
         //CheckBetweenTutorials();
@@ -136,7 +136,7 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitForSeconds(minDistanceBetweenTutorials);
         }
 
-        _tutorialScreens.ShowScreenWithTimeout("RecruitTutorial", mediumMessageDuration);
+        _tutorialScreens.ShowScreenWithTimeout("RecruitTutorial", longMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration);
 
         //CheckBetweenTutorials();
@@ -158,13 +158,14 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator SecondBattleTutorials()
     {
         //CheckBetweenTutorials();
-        yield return new WaitForSeconds(minDistanceBetweenTutorials);
+        // il tempo che di solito ci mette il boss a esordire con l'attacco globale
+        yield return new WaitForSeconds(8f);
         if(_tutorialScreens.ShowingScreen())
         {
             while(_tutorialScreens.ShowingScreen()) yield return new WaitForSeconds(checkScreenAvailableTime);
         }
 
-        _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", mediumMessageDuration);
+        _tutorialScreens.ShowScreenWithTimeout("MassOrderTutorial", longMessageDuration);
         yield return new WaitForSeconds(mediumMessageDuration + 1f);
 
         if(_tutorialScreens.ShowingScreen())

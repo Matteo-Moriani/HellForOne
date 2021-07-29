@@ -11,6 +11,7 @@ public class DistanceTimeout : MonoBehaviour
     private float maxDistance = 10f;
     private List<GameObject> otherImpsPosition;
     private Coroutine timerCoroutine;
+    private bool inBattle = false;
 
     void Start()
     {
@@ -34,11 +35,13 @@ public class DistanceTimeout : MonoBehaviour
     public void OnGlobalStartBattle( ArenaManager arenaManager )
     {
         StopCoroutine( timerCoroutine );
+        inBattle = true;
     }
 
     public void OnGlobalEndBattle( ArenaManager arenaManager )
     {
         StartTimer();
+        inBattle = false;
     }
 
     // Only outside battle
@@ -49,7 +52,7 @@ public class DistanceTimeout : MonoBehaviour
 
     public IEnumerator TeleportToGroup()
     {
-        while ( true )
+        while ( !inBattle )
         {
             yield return new WaitForSeconds( timeoutTimer );
 
@@ -87,8 +90,11 @@ public class DistanceTimeout : MonoBehaviour
             if ( (gameObject.GetComponent<GroupFinder>().Group.transform.position - transform.position).magnitude > maxDistance )
             {
                 // Player's layer
-                if ( gameObject.layer != LayerMask.NameToLayer( "Player" ) )
+                if ( gameObject.layer != LayerMask.NameToLayer( "Player" ) && inBattle)
+                {
                     transform.position = hordeMeanPosition;
+                    //Debug.Log(gameObject.name + " teleported");
+                }
             }
         }
     }

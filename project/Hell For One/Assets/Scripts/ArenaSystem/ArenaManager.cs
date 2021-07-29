@@ -114,6 +114,7 @@ namespace ArenaSystem
             
             OnStartBattle?.Invoke();
             OnGlobalStartBattle?.Invoke(this);
+            //Debug.Log("on start battle invoked");
         }
         
         private void OnBossDeath()
