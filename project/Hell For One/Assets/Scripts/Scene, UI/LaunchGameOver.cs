@@ -53,7 +53,7 @@ public class LaunchGameOver : MonoBehaviour
         gameOverImage.GetComponent<Image>().enabled = true;
 
         // Unity expects colors value in range [0, 1]
-        IEnumerator gameOverCR = SpriteFade( gameOverImage.GetComponent<Image>() , 1 , 0.7f );
+        IEnumerator gameOverCR = SpriteFade( gameOverImage.GetComponent<Image>() , 1 , 1f );
         StartCoroutine( gameOverCR );
 
         //m_sharedMaterial.SetFloat( ShaderUtilities.ID_FaceColor , 0.1f );
@@ -110,7 +110,7 @@ public class LaunchGameOver : MonoBehaviour
         }
     }
 
-    private IEnumerator GameOverWin()
+    private IEnumerator GameOver()
     {
         // do stuff here, show win screen, etc.
 
@@ -155,7 +155,7 @@ public class LaunchGameOver : MonoBehaviour
 
             gameOverScreen.SetActive( true );
 
-            StartCoroutine( GameOverWin() );
+            StartCoroutine( GameOver() );
         }
     }
 }

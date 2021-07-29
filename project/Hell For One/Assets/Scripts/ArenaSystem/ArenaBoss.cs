@@ -9,6 +9,7 @@ namespace ArenaSystem
         [SerializeField] private ArenaManager arenaManager;
         
         public event Action OnBossDeath;
+        public event Action OnIgniImoragDeath;
 
         public ArenaManager Arena
         {
@@ -16,6 +17,10 @@ namespace ArenaSystem
             private set => arenaManager = value;
         }
 
-        void IHitPointsObserver.OnZeroHp() => OnBossDeath?.Invoke();
+        void IHitPointsObserver.OnZeroHp()
+        {
+            OnBossDeath?.Invoke();
+            OnIgniImoragDeath?.Invoke();
+        }
     }
 }

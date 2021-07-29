@@ -413,6 +413,7 @@ GameObject:
   - component: {fileID: 57504282664265641}
   - component: {fileID: 1947912368}
   - component: {fileID: 1404936842}
+  - component: {fileID: 6513739863730105943}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -553,6 +554,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28da3e11868235349851c3f571962495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverScreen: {fileID: 0}
+  musicPlayer: {fileID: 0}
+  videoPlayer: {fileID: 0}
+  videoClipScreen: {fileID: 0}
+  gameOverAudioClip: {fileID: 0}
+  gameOverImage: {fileID: 0}
+--- !u!114 &6513739863730105943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6977553493515905933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbfa213df6cacb4fa8f8e4a286375ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 0}
