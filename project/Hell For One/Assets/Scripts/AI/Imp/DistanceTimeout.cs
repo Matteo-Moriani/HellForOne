@@ -34,7 +34,8 @@ public class DistanceTimeout : MonoBehaviour
 
     public void OnGlobalStartBattle( ArenaManager arenaManager )
     {
-        StopCoroutine( timerCoroutine );
+        if(timerCoroutine != null)
+            StopCoroutine( timerCoroutine );
         inBattle = true;
     }
 

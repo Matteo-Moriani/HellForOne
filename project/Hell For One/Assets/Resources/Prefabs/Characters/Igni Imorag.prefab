@@ -4538,14 +4538,14 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4846744016905953543}
+  - {fileID: 7538858882278380309}
   - {fileID: 8020804602139777356}
   - {fileID: 1318650425002199007}
   - {fileID: 1318650425002198949}
   - {fileID: 3450937750676446525}
   - {fileID: 8805696549257519823}
   - {fileID: 7809448106474260961}
-  - {fileID: 8663019630203763213}
+  - {fileID: 2423097828737319701}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4774,9 +4774,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f9cd1316cf5c33d4fa9aa97dae5aab87, type: 2}
   targetChangingRateo: 8
   maxFacingTolerance: 0.99
-  minFacingTolerance: 0.85
+  minFacingTolerance: 0.5
   adaptiveFacingTolerance: 1
-  facingToleranceDecreasingRateo: 0.01
+  facingToleranceDecreasingRateo: 0.02
 --- !u!114 &1531230353625145436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8491,7 +8491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cfd2a5868823d647a04295e19d8b3f1, type: 3}
---- !u!4 &4846744016905953543 stripped
+--- !u!4 &7538858882278380309 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3160524411156427702, guid: 1cfd2a5868823d647a04295e19d8b3f1,
     type: 3}
@@ -9756,7 +9756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 757d2894e0edb2a4f8d5a1d9baad3d02, type: 3}
---- !u!4 &8663019630203763213 stripped
+--- !u!4 &2423097828737319701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6456377183885535474, guid: 757d2894e0edb2a4f8d5a1d9baad3d02,
     type: 3}
