@@ -52,10 +52,20 @@ public class LaunchWin : MonoBehaviour
     //    }
     //}
 
+    public IEnumerator PopText()
+    {
+        yield return new WaitForSeconds( 8f );
+
+        GameObject gameOverText = GameObject.Find( "WinText" );
+        gameOverText.GetComponent<TextMeshProUGUI>().enabled = true;
+    }
+
     public void PlayWinClip()
     {
         musicPlayer.GetComponent<AudioSource>().clip = winAudioClip;
         musicPlayer.GetComponent<AudioSource>().Play();
+
+        StartCoroutine( PopText() );
 
         videoPlayer.GetComponent<VideoPlayer>().Play();
         videoClipScreen.GetComponent<RawImage>().enabled = true;

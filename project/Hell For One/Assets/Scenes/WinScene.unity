@@ -447,12 +447,12 @@ GameObject:
   - component: {fileID: 1101630668}
   - component: {fileID: 1101630667}
   m_Layer: 5
-  m_Name: GameOverText
+  m_Name: WinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1101630666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101630665}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -490,7 +490,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Please close and restart the game to try again
+  m_text: 'You defeated your enemies... for now
+
+    Thanks for playing!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f7d15165915fb4bae31223ad2dc8eb, type: 2}
   m_sharedMaterial: {fileID: 21440918482654474, guid: 16f7d15165915fb4bae31223ad2dc8eb,
@@ -536,7 +538,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 37
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -560,13 +562,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0.000014421848}
   m_textInfo:
     textComponent: {fileID: 1101630667}
-    characterCount: 0
+    characterCount: 56
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 0
+    spaceCount: 8
+    wordCount: 9
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 3
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -641,7 +643,7 @@ PrefabInstance:
     - target: {fileID: 8388361945549326504, guid: dffd9fe02539bd149a5943517f2b9b92,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8388361945549326504, guid: dffd9fe02539bd149a5943517f2b9b92,
         type: 3}
@@ -808,39 +810,6 @@ PrefabInstance:
       objectReference: {fileID: 1351299673}
     - target: {fileID: 1404936842, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 309107822399840307, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1482272433, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2135262925, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 786829739606522577, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5933375459835499270, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4626229041722619156, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6977553495555698760, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2791035952027755675, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
@@ -1213,6 +1182,39 @@ PrefabInstance:
       propertyPath: winAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 0a2451b598a805d4eb3e4c2884859075, type: 3}
+    - target: {fileID: 309107822399840307, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482272433, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135262925, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 786829739606522577, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5933375459835499270, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626229041722619156, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977553495555698760, guid: 3a44432c2c9bf3d4ab8016d8b131debb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a44432c2c9bf3d4ab8016d8b131debb, type: 3}
 --- !u!1 &1351299671 stripped
